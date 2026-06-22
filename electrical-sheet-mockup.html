@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>ELECTRICAL LOAD PANEL & SINGLE LINE DIAGRAM — DB-L1 / MDB-01 (ตัวอย่าง)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { --blue:#1e3a8a; --blue2:#1d4ed8; --red:#b91c1c; --green:#15803d; --ink:#0f172a; --line:#94a3b8; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background:#475569; font-family:'Sarabun','Tahoma',sans-serif; color:var(--ink); padding:16px; }
+  .sheet { width:1480px; margin:0 auto; background:#fff; border:2px solid var(--ink); padding:10px 12px; }
+  .hdr { background:var(--blue); color:#fff; text-align:center; font-weight:700; font-size:18px; padding:6px; letter-spacing:.5px; }
+  .cols { display:flex; gap:10px; margin-top:8px; }
+  .left { width:56%; } .right { width:44%; }
+  h2 { font-size:13px; color:#fff; background:var(--blue2); padding:4px 8px; }
+  .info { display:grid; grid-template-columns:repeat(3,1fr); gap:1px 14px; font-size:11px; border:1px solid var(--line); padding:5px 8px; }
+  .info b { color:var(--blue); }
+  table { border-collapse:collapse; width:100%; font-size:11px; margin-top:4px; }
+  th,td { border:1px solid var(--line); padding:2px 4px; }
+  th { background:#dbeafe; color:var(--blue); font-size:10.5px; }
+  td.c{text-align:center} td.r{text-align:right}
+  .ph-R{color:var(--red);font-weight:700} .ph-S{color:#b45309;font-weight:700} .ph-T{color:var(--blue2);font-weight:700}
+  tr.tot td { background:#eff6ff; font-weight:700; }
+  tr.tot2 td { background:#fefce8; font-weight:700; }
+  .note { font-size:10.5px; color:#334155; margin-top:4px; line-height:1.5; }
+  .bottom { display:flex; gap:10px; margin-top:10px; }
+  .blk { flex:1; border:1px solid var(--line); font-size:11px; }
+  .blk h3 { font-size:12px; background:var(--blue2); color:#fff; padding:3px 8px; font-weight:700; }
+  .blk .bd { padding:6px 8px; line-height:1.55; }
+  .blk.chk h3 { background:#b45309; }
+  .blk code { background:#f1f5f9; padding:0 4px; font-family:inherit; }
+  .ok { color:var(--green); font-weight:700; }
+  svg text { font-family:'Sarabun','Tahoma',sans-serif; }
+  .mini td,.mini th{padding:1px 4px;text-align:center}
+  @media print { body{background:#fff;padding:0} .sheet{border:none;width:100%} @page{size:A3 landscape;margin:8mm} }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="hdr">ELECTRICAL LOAD PANEL &amp; SINGLE LINE DIAGRAM — ตัวอย่าง DB-L1 / MDB-01 · 3Φ 4W 400/230V 50Hz</div>
+  <div class="cols">
+    <div class="left">
+      <h2>1) Load Panel (Panel Schedule) : DB-L1</h2>
+      <div class="info">
+        <span><b>Panel Name :</b> DB-L1</span><span><b>Location :</b> ชั้น 1</span><span><b>Feeder From :</b> MDB-01</span>
+        <span><b>System :</b> 3Φ 4W 400/230V 50Hz</span><span><b>Main Breaker :</b> MCCB 3P 40AT, Icu 25kA</span><span><b>Enclosure :</b> IP43 · Wall mounted</span>
+      </div>
+      <table>
+        <tr><th>CCT<br>No.</th><th>Description</th><th>Load<br>(VA)</th><th>Phase</th><th>Current<br>(A)</th><th>Breaker</th><th>Cable (sq.mm)</th><th>Conduit</th><th>Remark</th></tr>
+        <tr><td class="c">1</td><td>Lighting 1F</td><td class="r">500</td><td class="c ph-S">S</td><td class="r">2.2</td><td>MCB 1P 16A *</td><td>2×2.5 + G2.5 *</td><td class="c">1/2"</td><td>Lighting</td></tr>
+        <tr><td class="c">2</td><td>Lighting 2F</td><td class="r">500</td><td class="c ph-T">T</td><td class="r">2.2</td><td>MCB 1P 16A *</td><td>2×2.5 + G2.5 *</td><td class="c">1/2"</td><td>Lighting</td></tr>
+        <tr><td class="c">3</td><td>Receptacle 1F</td><td class="r">1,800</td><td class="c ph-R">R</td><td class="r">7.8</td><td>MCB 1P 20A</td><td>2×2.5 + G2.5</td><td class="c">3/4"</td><td>Plug</td></tr>
+        <tr><td class="c">4</td><td>Receptacle 2F</td><td class="r">1,800</td><td class="c ph-T">T</td><td class="r">7.8</td><td>MCB 1P 20A</td><td>2×2.5 + G2.5</td><td class="c">3/4"</td><td>Plug</td></tr>
+        <tr><td class="c">5</td><td>Air Conditioner 1 (12,000 BTU)</td><td class="r">1,500</td><td class="c ph-S">S</td><td class="r">6.5</td><td>MCB 1P 16A</td><td>2×2.5 + G2.5</td><td class="c">3/4"</td><td>Dedicated · ตรวจ Nameplate</td></tr>
+        <tr><td class="c">6</td><td>Air Conditioner 2 (12,000 BTU)</td><td class="r">1,500</td><td class="c ph-T">T</td><td class="r">6.5</td><td>MCB 1P 16A</td><td>2×2.5 + G2.5</td><td class="c">3/4"</td><td>Dedicated · ตรวจ Nameplate</td></tr>
+        <tr><td class="c">7</td><td>Water Heater 1 (4,500W · PF1)</td><td class="r">4,500</td><td class="c ph-R">R</td><td class="r">19.6</td><td>RCBO 1P 32A 30mA</td><td>2×6 + G4</td><td class="c">1"</td><td>Wet Area · Dedicated</td></tr>
+        <tr><td class="c">8</td><td>Water Heater 2 (4,500W · PF1)</td><td class="r">4,500</td><td class="c ph-S">S</td><td class="r">19.6</td><td>RCBO 1P 32A 30mA</td><td>2×6 + G4</td><td class="c">1"</td><td>Wet Area · Dedicated</td></tr>
+        <tr><td class="c">9</td><td>Pump</td><td class="r">1,200</td><td class="c ph-T">T</td><td class="r">5.2</td><td>MCB 1P 16A</td><td>2×2.5 + G2.5</td><td class="c">3/4"</td><td>Motor · Dedicated</td></tr>
+        <tr><td class="c">10</td><td>Kitchen Hood / Kitchen Plug</td><td class="r">1,000</td><td class="c ph-T">T</td><td class="r">4.3</td><td>MCB 1P 16A</td><td>2×2.5 + G2.5</td><td class="c">3/4"</td><td>Kitchen (ใกล้น้ำ → RCBO 30mA)</td></tr>
+        <tr><td class="c">11</td><td>Spare</td><td class="r">—</td><td class="c ph-R">R</td><td class="r">—</td><td>MCB 1P 16A</td><td>2×2.5 + G2.5</td><td class="c">3/4"</td><td>Spare</td></tr>
+        <tr><td class="c">12</td><td>Spare</td><td class="r">—</td><td class="c ph-S">S</td><td class="r">—</td><td>MCB 1P 16A</td><td>2×2.5 + G2.5</td><td class="c">3/4"</td><td>Spare</td></tr>
+        <tr class="tot"><td colspan="2" class="r">รวมโหลดต่อเฟส (VA)</td><td class="r">18,800</td><td colspan="6"><span class="ph-R">R = 6,300</span> · <span class="ph-S">S = 6,500</span> · <span class="ph-T">T = 6,000</span> &nbsp;(unbalance ≈ 3.7% — สมดุลดี)</td></tr>
+        <tr class="tot"><td colspan="2" class="r">รวมโหลดต่อเฟส (A)</td><td class="r">—</td><td colspan="6"><span class="ph-R">R = 27.4 A</span> · <span class="ph-S">S = 28.3 A</span> · <span class="ph-T">T = 26.1 A</span></td></tr>
+        <tr class="tot2"><td colspan="2" class="r">Connected Load รวม</td><td class="r">18,800</td><td colspan="6">= 18.8 kVA → กระแสรวม 3 เฟส = 18,800 / (√3 × 400) = <b>27.1 A</b></td></tr>
+        <tr class="tot2"><td colspan="2" class="r">Demand Load (DF 0.70 สมมุติ)</td><td class="r">13,160</td><td colspan="6">= 13.2 kVA → 19.0 A · Main DB-L1: 27.1 × 1.25 = 33.9 → <b>MCCB 3P 40AT</b> · Feeder <b>4×10 + G6 sq.mm</b> IN 1-1/4"</td></tr>
+      </table>
+      <div class="note">* สเปกทั่วไปบางเล่มใช้แสงสว่าง MCB 10A + สาย 1.5 sq.mm — แบบนี้ใช้ <b>16A + 2.5 sq.mm</b> ตามขั้นต่ำหน้างานที่กำหนด และ วสท. กำหนดสายวงจรย่อย ≥ 2.5 sq.mm ·
+      กระแสรายวงจร 1 เฟสคิดจาก I = VA / 230 · PF สมมุติ 0.85–1.00 (ระบุที่โหลด) · <b>ขนาดสายต้องตรวจซ้ำตามระยะจริง วิธีเดินสาย และ Voltage Drop (แสงสว่าง ≤3% · กำลัง ≤5%)</b> — ต้องตรวจสอบตามมาตรฐาน วสท. และข้อมูลอุปกรณ์จริงอีกครั้ง</div>
+    </div>
+    <div class="right">
+      <h2>2) Single Line Diagram (SLD) : MDB-01</h2>
+      <svg viewBox="0 0 620 700" style="width:100%;border:1px solid var(--line)">
+        <text x="120" y="22" font-size="13" font-weight="700">PEA SUPPLY</text>
+        <text x="120" y="36" font-size="11">3 Phase 4 Wire 400/230V 50Hz</text>
+        <line x1="100" y1="28" x2="100" y2="52" stroke="#0f172a" stroke-width="1.6"/>
+        <rect x="86" y="52" width="28" height="24" fill="none" stroke="#0f172a" stroke-width="1.6"/>
+        <text x="100" y="68" font-size="10" text-anchor="middle" font-weight="700">kWh</text>
+        <text x="120" y="62" font-size="11" font-weight="700">kWh METER 30(100)A</text>
+        <line x1="100" y1="76" x2="100" y2="106" stroke="#0f172a" stroke-width="1.6"/>
+        <text x="120" y="92" font-size="10.5" fill="#92400e">ตัวนำประธาน 4×25 + G10 sq.mm NYY</text>
+        <line x1="100" y1="128" x2="112" y2="106" stroke="#0f172a" stroke-width="1.8"/>
+        <line x1="96" y1="106" x2="104" y2="106" stroke="#0f172a" stroke-width="1.6"/>
+        <text x="120" y="116" font-size="11" font-weight="700">MAIN BREAKER MCCB 3P 63AT</text>
+        <text x="120" y="129" font-size="10.5">Icu 25kA</text>
+        <line x1="100" y1="128" x2="100" y2="158" stroke="#0f172a" stroke-width="1.6"/>
+        <rect x="396" y="20" width="210" height="86" fill="#f0fdf4" stroke="#15803d" stroke-dasharray="5 3"/>
+        <text x="406" y="38" font-size="11" font-weight="700" fill="#14532d">CONNECTED LOAD รวม MDB-01</text>
+        <text x="406" y="53" font-size="11" fill="#14532d">41.8 kVA → กระแส 3 เฟส = 60.3 A</text>
+        <text x="406" y="72" font-size="11" font-weight="700" fill="#14532d">DEMAND LOAD (DF 0.70 สมมุติ)</text>
+        <text x="406" y="87" font-size="11" fill="#14532d">29.3 kVA → 42.3 A ≤ Main 63AT ✓</text>
+        <rect x="30" y="158" width="560" height="78" fill="none" stroke="#475569" stroke-dasharray="6 3"/>
+        <text x="36" y="173" font-size="12" font-weight="700" fill="#1e3a8a">MDB-01 · BUSBAR 100A · 3Φ4W 400/230V 50Hz</text>
+        <line x1="48" y1="196" x2="572" y2="196" stroke="#b91c1c" stroke-width="2.4"/>
+        <line x1="48" y1="200" x2="572" y2="200" stroke="#b91c1c" stroke-width="1.2"/>
+        <line x1="62" y1="200" x2="62" y2="212" stroke="#0f172a" stroke-width="1.4"/>
+        <rect x="50" y="212" width="24" height="16" fill="none" stroke="#0f172a" stroke-width="1.4"/>
+        <text x="62" y="224" font-size="9.5" text-anchor="middle" font-weight="700">SPD</text>
+        <g font-size="10">
+          <g transform="translate(120,0)">
+            <line x1="0" y1="200" x2="0" y2="216" stroke="#0f172a" stroke-width="1.5"/><line x1="0" y1="238" x2="11" y2="216" stroke="#0f172a" stroke-width="1.7"/>
+            <text x="14" y="222" font-weight="700">MCCB 3P 40AT</text><text x="14" y="234">Icu 25kA</text>
+            <line x1="0" y1="238" x2="0" y2="318" stroke="#0f172a" stroke-width="1.5"/>
+            <text x="-5" y="290" transform="rotate(-90 -5 290)" fill="#92400e">4×10 + G6 · 1-1/4"</text>
+            <path d="M0 318 l-4 -8 h8 z" fill="#0f172a"/>
+            <rect x="-42" y="318" width="84" height="50" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+            <text x="0" y="334" text-anchor="middle" font-weight="700" font-size="12" fill="#1e3a8a">DB-L1</text>
+            <text x="0" y="348" text-anchor="middle">18.8 kVA</text><text x="0" y="361" text-anchor="middle">27.1 A</text>
+          </g>
+          <g transform="translate(225,0)">
+            <line x1="0" y1="200" x2="0" y2="216" stroke="#0f172a" stroke-width="1.5"/><line x1="0" y1="238" x2="11" y2="216" stroke="#0f172a" stroke-width="1.7"/>
+            <text x="14" y="222" font-weight="700">MCCB 3P 20AT</text><text x="14" y="234">Icu 25kA</text>
+            <line x1="0" y1="238" x2="0" y2="318" stroke="#0f172a" stroke-width="1.5"/>
+            <text x="-5" y="290" transform="rotate(-90 -5 290)" fill="#92400e">4×4 + G4 · 1"</text>
+            <path d="M0 318 l-4 -8 h8 z" fill="#0f172a"/>
+            <rect x="-42" y="318" width="84" height="50" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+            <text x="0" y="334" text-anchor="middle" font-weight="700" font-size="12" fill="#1e3a8a">DB-L2</text>
+            <text x="0" y="348" text-anchor="middle">8.0 kVA</text><text x="0" y="361" text-anchor="middle">11.5 A</text>
+          </g>
+          <g transform="translate(330,0)">
+            <line x1="0" y1="200" x2="0" y2="216" stroke="#0f172a" stroke-width="1.5"/><line x1="0" y1="238" x2="11" y2="216" stroke="#0f172a" stroke-width="1.7"/>
+            <text x="14" y="222" font-weight="700">MCCB 3P 25AT</text><text x="14" y="234">Icu 25kA</text>
+            <line x1="0" y1="238" x2="0" y2="318" stroke="#0f172a" stroke-width="1.5"/>
+            <text x="-5" y="290" transform="rotate(-90 -5 290)" fill="#92400e">4×6 + G6 · 1"</text>
+            <path d="M0 318 l-4 -8 h8 z" fill="#0f172a"/>
+            <rect x="-42" y="318" width="84" height="50" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+            <text x="0" y="334" text-anchor="middle" font-weight="700" font-size="12" fill="#1e3a8a">AC PANEL</text>
+            <text x="0" y="348" text-anchor="middle">12.0 kVA</text><text x="0" y="361" text-anchor="middle">17.3 A</text>
+          </g>
+          <g transform="translate(435,0)">
+            <line x1="0" y1="200" x2="0" y2="216" stroke="#0f172a" stroke-width="1.5"/><line x1="0" y1="238" x2="11" y2="216" stroke="#0f172a" stroke-width="1.7"/>
+            <text x="14" y="222" font-weight="700">MCCB 3P 16AT</text><text x="14" y="234">Icu 25kA</text>
+            <line x1="0" y1="238" x2="0" y2="318" stroke="#0f172a" stroke-width="1.5"/>
+            <text x="-5" y="290" transform="rotate(-90 -5 290)" fill="#92400e">4×2.5 + G2.5 · 3/4"</text>
+            <path d="M0 318 l-4 -8 h8 z" fill="#0f172a"/>
+            <rect x="-42" y="318" width="84" height="50" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+            <text x="0" y="334" text-anchor="middle" font-weight="700" font-size="12" fill="#1e3a8a">PUMP PANEL</text>
+            <text x="0" y="348" text-anchor="middle">3.0 kVA</text><text x="0" y="361" text-anchor="middle">4.3 A</text>
+          </g>
+          <g transform="translate(536,0)">
+            <line x1="0" y1="200" x2="0" y2="216" stroke="#0f172a" stroke-width="1.5"/><line x1="0" y1="238" x2="11" y2="216" stroke="#0f172a" stroke-width="1.7"/>
+            <text x="14" y="222" font-weight="700">MCCB 3P 32AT</text>
+            <line x1="0" y1="238" x2="0" y2="318" stroke="#0f172a" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <rect x="-38" y="318" width="76" height="50" fill="none" stroke="#1e3a8a" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="0" y="346" text-anchor="middle" font-weight="700" font-size="12" fill="#1e3a8a">SPARE</text>
+          </g>
+        </g>
+        <g stroke="#15803d" fill="#14532d">
+          <line x1="100" y1="236" x2="100" y2="420" stroke-width="1.6" stroke-dasharray="7 4"/>
+          <line x1="100" y1="420" x2="430" y2="420" stroke-width="1.6" stroke-dasharray="7 4"/>
+          <rect x="60" y="430" width="120" height="14" fill="#dcfce7" stroke-width="1.4"/>
+          <text x="120" y="441" font-size="10.5" text-anchor="middle" stroke="none" font-weight="700">MAIN EARTH BAR (MEB)</text>
+          <line x1="120" y1="444" x2="120" y2="470" stroke-width="1.6"/>
+          <line x1="104" y1="470" x2="136" y2="470" stroke-width="2"/>
+          <line x1="109" y1="475" x2="131" y2="475" stroke-width="1.7"/>
+          <line x1="114" y1="480" x2="126" y2="480" stroke-width="1.4"/>
+          <text x="146" y="466" font-size="10.5" stroke="none">สายต่อหลักดิน 10 sq.mm (ทองแดง)</text>
+          <text x="146" y="480" font-size="10.5" stroke="none" font-weight="700">GROUND ROD Ø 5/8" × 2.40 m · R ≤ 5 Ω</text>
+        </g>
+        <text x="310" y="530" font-size="14" font-weight="700" text-anchor="middle" text-decoration="underline">SINGLE LINE DIAGRAM : MDB-01</text>
+        <g font-size="10.5">
+          <text x="40" y="566" font-weight="700" fill="#1e3a8a">สัญลักษณ์ (Symbol)</text>
+          <line x1="40" y1="580" x2="64" y2="580" stroke="#b91c1c" stroke-width="2.2"/><text x="70" y="584">Busbar</text>
+          <line x1="130" y1="586" x2="141" y2="566" stroke="#0f172a" stroke-width="1.7"/><text x="148" y="584">MCCB / MCB (เบรกเกอร์)</text>
+          <rect x="290" y="570" width="20" height="14" fill="none" stroke="#0f172a" stroke-width="1.3"/><text x="296" y="581" font-size="8.5" font-weight="700">kWh</text><text x="316" y="584">มิเตอร์การไฟฟ้า</text>
+          <line x1="420" y1="580" x2="448" y2="580" stroke="#15803d" stroke-width="1.6" stroke-dasharray="6 3"/><text x="454" y="584">Earth Conductor</text>
+          <text x="40" y="606" font-weight="700">RCBO 30mA</text><text x="118" y="606">= เบรกเกอร์กันดูด (ตัดไฟรั่ว 30mA ใน 0.04s)</text>
+          <text x="40" y="624" font-weight="700">SPD</text><text x="118" y="624">= Surge Protective Device (กันฟ้าผ่า/แรงดันเกิน)</text>
+          <g transform="translate(440,598)"><line x1="0" y1="0" x2="0" y2="12" stroke="#15803d" stroke-width="1.6"/><line x1="-10" y1="12" x2="10" y2="12" stroke="#15803d" stroke-width="2"/><line x1="-6" y1="16" x2="6" y2="16" stroke="#15803d" stroke-width="1.6"/><line x1="-3" y1="20" x2="3" y2="20" stroke="#15803d" stroke-width="1.3"/><text x="16" y="14">Ground Rod</text></g>
+        </g>
+        <text x="40" y="660" font-size="10.5" fill="#475569">หมายเหตุ: Load ตู้อื่น (DB-L2 / AC / PUMP) เป็นค่าตัวอย่าง — ใช้งานจริงให้คำนวณจาก Load Schedule ของตู้นั้น · Icu เลือกตามกระแสลัดวงจร ณ จุดติดตั้ง</text>
+      </svg>
+    </div>
+  </div>
+  <div class="bottom">
+    <div class="blk"><h3>การคำนวณกระแส</h3><div class="bd">
+      <b>1 เฟส 230V:</b> VA = W / PF → I = VA / 230<br>ตัวอย่าง: น้ำอุ่น 4,500W (PF=1) → I = 4,500/230 = <b>19.6 A</b><br>
+      <b>3 เฟส 400V:</b> I = VA / (√3 × 400)<br>ตัวอย่าง: 18,800 VA → 18,800/692.8 = <b>27.1 A</b><br>
+      <span style="color:#b91c1c"><b>ห้าม</b>บวกค่า Amp ของเบรกเกอร์ทุกตัวเพื่อเลือกเมน — ต้องคิดจากโหลดจริง (VA) เท่านั้น</span>
+    </div></div>
+    <div class="blk"><h3>การเลือก Breaker และสายไฟ</h3><div class="bd">
+      <code>I_load ≤ I_breaker ≤ I_cable (หลัง Derating)</code>
+      <table class="mini"><tr><th>สาย (sq.mm)</th><th>2 เส้น (A)</th><th>4 เส้น (A)</th></tr>
+      <tr><td>1.5</td><td>23</td><td>18</td></tr><tr><td>2.5</td><td>30</td><td>24</td></tr><tr><td>4</td><td>41</td><td>32</td></tr><tr><td>6</td><td>54</td><td>42</td></tr><tr><td>10</td><td>73</td><td>56</td></tr><tr><td>16</td><td>98</td><td>75</td></tr></table>
+      <span style="font-size:10px">ตัวอย่างพิกัดสายทองแดง PVC 70°C เดินในท่อ (B2) — ตรวจตาราง วสท. ตามวิธีเดินจริง</span>
+    </div></div>
+    <div class="blk chk"><h3>การตรวจสอบที่สำคัญ (Checklist)</h3><div class="bd">
+      <span class="ok">✓</span> ชื่อ Panel ใน Load Panel = SLD ตรงกัน<br>
+      <span class="ok">✓</span> โหลดแต่ละวงจรไม่เกิน Breaker · Breaker ไม่ใหญ่เกินพิกัดสาย<br>
+      <span class="ok">✓</span> เมนคิดจากโหลดรวม (VA) ไม่ใช่บวก Amp เบรกเกอร์<br>
+      <span class="ok">✓</span> น้ำอุ่น/พื้นที่เปียก แยกวงจร + RCBO 30mA<br>
+      <span class="ok">✓</span> Balance Phase R/S/T ใกล้เคียงกัน (≤10%)<br>
+      <span class="ok">✓</span> Voltage Drop: แสงสว่าง ≤3% · กำลัง ≤5%<br>
+      <span class="ok">✓</span> Grounding ครบ: MEB + Ground Rod R ≤ 5Ω<br>
+      <span class="ok">✓</span> Spare ≥ 10–20% ของจำนวนวงจร
+    </div></div>
+    <div class="blk"><h3>สมมุติฐาน / ต้องตรวจสอบเพิ่ม</h3><div class="bd">
+      • PF สมมุติ 0.85–1.00 ตามชนิดโหลด · DF 0.70 เป็นค่าประมาณบ้านพักอาศัย<br>
+      • ขนาดสายตามตารางตัวอย่าง — ต้องตรวจระยะจริง วิธีเดินสาย อุณหภูมิ และ Derating<br>
+      • Icu ของเบรกเกอร์ต้องตรวจกับกระแสลัดวงจร ณ จุดติดตั้ง<br>
+      • แอร์/มอเตอร์ ตรวจกระแสสตาร์ทตาม Nameplate<br>
+      <b>ต้องตรวจสอบตามมาตรฐาน วสท. และข้อมูลอุปกรณ์จริง โดยวิศวกรไฟฟ้าผู้ได้รับใบอนุญาตก่อนใช้งาน</b>
+    </div></div>
+  </div>
+</div>
+</body>
+</html>
