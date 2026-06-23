@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Structural Analysis — Force Diagram (Plan)</title>
+<style>
+  :root{
+    --ink:#16202e; --ink2:#5a6677; --line:#c9d2dd; --line2:#e3e9f0;
+    --app:#aeb6c2; --chrome:#222b38; --chrome2:#2c3848; --accent:#3b6fd6;
+    --mono:'Roboto Mono','DejaVu Sans Mono',Consolas,monospace;
+    --sans:'Inter','Segoe UI','Sarabun',sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; height:100%; }
+  body{ font-family:var(--sans); background:var(--app); color:var(--ink); font-size:13px; }
+  /* ===== command bar (CAD-style) ===== */
+  .cmdbar{ background:var(--chrome); color:#cdd6e2; display:flex; align-items:stretch; height:46px; border-bottom:1px solid #000; }
+  .cmd-grp{ display:flex; align-items:center; gap:8px; padding:0 14px; border-right:1px solid #11161e; }
+  .cmd-grp:last-child{ border-right:none; margin-left:auto; }
+  .cmd-lab{ font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; color:#7b8aa0; text-transform:uppercase; }
+  .cmd-grp.brand{ font-weight:700; color:#fff; letter-spacing:.04em; gap:6px; }
+  .cmd-grp.brand .mk{ background:var(--accent); color:#fff; font-family:var(--mono); font-size:11px; font-weight:700; padding:2px 6px; border-radius:2px; }
+  select.cmd, .seg{ background:var(--chrome2); color:#e6ecf4; border:1px solid #161d28; border-radius:3px; font-family:var(--mono); font-size:11.5px; padding:4px 8px; cursor:pointer; }
+  .seg{ display:inline-flex; padding:0; overflow:hidden; }
+  .seg button{ background:transparent; color:#9aa8bd; border:none; border-right:1px solid #161d28; font-family:var(--mono); font-size:11px; letter-spacing:.03em; padding:5px 11px; cursor:pointer; }
+  .seg button:last-child{ border-right:none; }
+  .seg button.on{ background:var(--accent); color:#fff; }
+  .seg.lvl button.on{ background:#1f9d72; }
+  .tg{ display:flex; gap:5px; align-items:center; font-family:var(--mono); font-size:10.5px; color:#9aa8bd; cursor:pointer; }
+  .tg input{ accent-color:var(--accent); }
+  input[type=range]{ width:78px; accent-color:var(--accent); }
+  /* ===== viewport / sheet = A4 LANDSCAPE (297×210mm) ===== */
+  .viewport{ height:calc(100vh - 46px); padding:18px; overflow:auto; display:flex; justify-content:center; align-items:flex-start; }
+  .sheet{ background:#fff; position:relative; width:297mm; height:210mm; flex:none; box-shadow:0 6px 24px rgba(10,18,30,.28); }
+  .sheet-frame{ position:absolute; inset:5mm; border:1.4px solid #2a3340; pointer-events:none; }
+  .sheet-frame::after{ content:''; position:absolute; inset:1.4mm; border:0.6px solid #6b7686; }
+  svg.plan{ display:block; width:100%; height:100%; }
+  /* component caption (top-left, midas-style) */
+  .caption{ position:absolute; left:20px; top:18px; font-family:var(--mono); font-size:11px; color:#2a3340; line-height:1.55; }
+  .caption b{ color:#16202e; }
+  .caption .case{ color:#5a6677; }
+  /* legend overlay (right, midas-style continuous strip) */
+  .legend{ position:absolute; right:8mm; top:48%; transform:translateY(-50%); width:32mm; font-family:var(--mono); }
+  .legend .lg-hd{ font-size:10px; font-weight:700; color:#16202e; letter-spacing:.02em; margin-bottom:1px; }
+  .legend .lg-sub{ font-size:9px; color:#5a6677; margin-bottom:5px; }
+  .lg-band{ display:flex; align-items:stretch; position:relative; }
+  .lg-band .sw{ width:30px; flex:none; }
+  .lg-band .vtop{ position:absolute; left:34px; top:-6px; font-size:9px; color:#2a3340; }
+  .lg-band .pc{ position:absolute; left:0; top:50%; transform:translate(-3px,-50%); width:30px; text-align:right; font-size:8px; color:#fff; mix-blend-mode:difference; }
+  .lg-foot{ font-size:9px; color:#5a6677; margin-top:7px; line-height:1.5; }
+  /* scale bar (bottom-left) */
+  .scalebar{ position:absolute; left:9mm; bottom:20mm; font-family:var(--mono); font-size:9px; color:#2a3340; }
+  .scalebar .bar{ display:flex; height:6px; border:1px solid #2a3340; }
+  .scalebar .bar span{ flex:1; border-right:1px solid #2a3340; }
+  .scalebar .bar span:nth-child(odd){ background:#2a3340; }
+  .scalebar .bar span:last-child{ border-right:none; }
+  /* axis triad (top-right) */
+  .triad{ position:absolute; right:46mm; top:6mm; font-family:var(--mono); font-size:9px; color:#5a6677; }
+  /* title block (bottom-right, drawing-style) */
+  .titleblock{ position:absolute; right:6mm; bottom:6mm; border:1.1px solid #2a3340; background:#fff; font-family:var(--mono); width:84mm; }
+  .tb-row{ display:flex; border-bottom:0.6px solid #6b7686; }
+  .tb-row:last-child{ border-bottom:none; }
+  .tb-cell{ padding:2px 6px; border-right:0.6px solid #6b7686; font-size:9px; }
+  .tb-cell:last-child{ border-right:none; }
+  .tb-k{ color:#5a6677; font-size:7.5px; letter-spacing:.04em; }
+  .tb-v{ color:#16202e; font-weight:600; font-size:10px; }
+  .tb-title{ font-size:10.5px; font-weight:700; letter-spacing:.02em; }
+  /* ===== PRINT: A4 landscape เต็มหน้า (ลงรายงาน) ===== */
+  @page{ size:A4 landscape; margin:0; }
+  @media print{
+    body{ background:#fff; }
+    .cmdbar{ display:none !important; }
+    .viewport{ height:auto; padding:0; display:block; overflow:visible; }
+    .sheet{ box-shadow:none; margin:0; width:297mm; height:210mm; page-break-after:avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="cmdbar">
+  <div class="cmd-grp brand"><span class="mk">SV</span> StructVault <span class="cmd-lab" style="color:#566276">· POST-PROCESSOR</span></div>
+  <div class="cmd-grp"><span class="cmd-lab">Result</span><div class="seg" id="modeTabs"></div></div>
+  <div class="cmd-grp"><span class="cmd-lab">Storey</span><div class="seg lvl" id="lvlTabs"></div></div>
+  <div class="cmd-grp">
+    <label class="tg"><input type="checkbox" id="ckVal" checked> Values</label>
+    <label class="tg"><input type="checkbox" id="ckRibbon" checked> Diagram</label>
+    <label class="tg">Scale <input type="range" id="rbScale" min="10" max="50" value="28"></label>
+    <button class="seg" style="padding:5px 12px;color:#e6ecf4" onclick="window.print()">⎙ Print A4</button>
+  </div>
+</div>
+<div class="viewport">
+  <div class="sheet" id="sheet">
+    <svg class="plan" id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div class="sheet-frame"></div>
+    <div class="caption" id="caption"></div>
+    <div class="triad">
+      <svg width="58" height="50" viewBox="0 0 58 50">
+        <line x1="14" y1="36" x2="14" y2="8" stroke="#3b6fd6" stroke-width="1.4"/><polygon points="14,4 11,11 17,11" fill="#3b6fd6"/><text x="20" y="11" fill="#3b6fd6">Y</text>
+        <line x1="14" y1="36" x2="44" y2="44" stroke="#c0392b" stroke-width="1.4"/><polygon points="48,45 41,41 42,47" fill="#c0392b"/><text x="46" y="38" fill="#c0392b">X</text>
+        <circle cx="14" cy="36" r="2.4" fill="#16202e"/>
+      </svg>
+    </div>
+    <div class="legend" id="legend"></div>
+    <div class="scalebar" id="scalebar"></div>
+    <div class="titleblock" id="titleblock"></div>
+  </div>
+</div>
+<script src="./_mockup_moment_data.js"></script>
+<script>
+const D = window.MOMENT_DATA;
+// midas signed contour scale: −max (deep blue) → 0 (green) → +max (red)
+const STOPS = [
+  [0.00,[27,43,117]],[0.14,[44,92,222]],[0.30,[44,187,222]],[0.42,[98,207,152]],
+  [0.50,[122,201,67]],[0.62,[196,214,47]],[0.74,[240,200,36]],[0.87,[238,126,40]],[1.00,[208,44,41]],
+];
+function colorT(t){ t=Math.max(0,Math.min(1,t));
+  for(let i=1;i<STOPS.length;i++){ if(t<=STOPS[i][0]){ const[t0,c0]=STOPS[i-1],[t1,c1]=STOPS[i];
+    const u=(t-t0)/Math.max(t1-t0,1e-9); const c=c0.map((v,k)=>Math.round(v+(c1[k]-v)*u)); return `rgb(${c[0]},${c[1]},${c[2]})`; } }
+  return 'rgb(208,44,41)'; }
+const colorSigned=(v,scale)=>colorT(0.5+v/(2*Math.max(scale,1e-9)));
+let lvlIdx=0, mode='M', showVal=true, showRibbon=true, rbMax=28;
+const fmt=n=>Math.round(n).toLocaleString();
+const MODE_LABEL={ M:'Bending Moment, M⁺', V:'Shear Force, V', D:'Displacement, δz', R:'Vertical, Fz' };
+const UNIT_LABEL={ M:'kgf·m', V:'kgf', D:'mm', R:'tonf' };
+
+let lastGeom=null;
+function render(){
+  const svg=document.getElementById('svg');
+  const isReact=mode==='R';
+  const lvl=D.levels[lvlIdx];
+  // A4 landscape coordinate system (px @96dpi: 297×210mm = 1123×794)
+  const SW=1123, SH=794;
+  const totW=D.gridX[D.gridX.length-1], totH=D.gridY[D.gridY.length-1];
+  // drawing window ในชีต — เว้น legend (ขวา ~150) · title block (ล่าง ~110) · grid bubble (ซ้าย/บน)
+  const winL=52, winT=58, winR=SW-150, winB=SH-(isReact?96:108);
+  const winW=winR-winL, winH=winB-winT;
+  const S=Math.min(winW/totW, winH/totH);
+  const ox=winL+(winW-totW*S)/2, oy=winT+(winH-totH*S)/2;
+  const X=x=>ox+x*S, Y=y=>oy+y*S;
+  lastGeom={S};
+  let defs='', el='';
+  // grid — drawing style: thin solid axes + bubble heads
+  for(let i=0;i<D.gridX.length;i++){ const x=X(D.gridX[i]);
+    el+=`<line x1="${x}" y1="${Y(0)-20}" x2="${x}" y2="${Y(totH)+10}" stroke="#aeb8c6" stroke-width="0.5"/>`;
+    el+=`<circle cx="${x}" cy="${Y(0)-31}" r="11" fill="#fff" stroke="#2a3340" stroke-width="0.9"/><text x="${x}" y="${Y(0)-27.5}" text-anchor="middle" font-size="10" font-family="var(--mono)" fill="#2a3340">${D.gridXLabels[i]??''}</text>`; }
+  for(let j=0;j<D.gridY.length;j++){ const y=Y(D.gridY[j]);
+    el+=`<line x1="${X(0)-20}" y1="${y}" x2="${X(totW)+10}" y2="${y}" stroke="#aeb8c6" stroke-width="0.5"/>`;
+    el+=`<circle cx="${X(0)-32}" cy="${y}" r="11" fill="#fff" stroke="#2a3340" stroke-width="0.9"/><text x="${X(0)-32}" y="${y+3.5}" text-anchor="middle" font-size="10" font-family="var(--mono)" fill="#2a3340">${D.gridYLabels[j]??''}</text>`; }
+
+  let scale=1, unit=UNIT_LABEL[mode];
+  const NBIN=12; const bins=new Array(NBIN).fill(0); let nPeak=0;
+  const binAdd=(v,sc)=>{ const t=0.5+v/(2*Math.max(sc,1e-9)); bins[Math.max(0,Math.min(NBIN-1,Math.floor((1-t)*NBIN)))]++; };
+
+  if(mode==='D'){
+    const maxDefl=Math.max(0.01,...lvl.beams.map(b=>b.deflMm||0)); scale=maxDefl;
+    lvl.beams.forEach((b,bi)=>{
+      const dmm=b.deflMm||0, util=b.deflUtil||0;
+      bins[Math.max(0,Math.min(NBIN-1,Math.floor((1-Math.min(util/1.2,1))*NBIN)))]++; nPeak++;
+      const x1=X(b.x1),y1=Y(b.y1),x2=X(b.x2),y2=Y(b.y2);
+      const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1, nx=-dy/len,ny=dx/len;
+      const gid=`gD${lvlIdx}_${bi}`; const NS=14; let stops='';
+      for(let s=0;s<=NS;s++){ const u=s/NS; const lu=4*u*(1-u)*util; stops+=`<stop offset="${(u*100).toFixed(1)}%" stop-color="${colorT(Math.min(lu,1))}"/>`; }
+      defs+=`<linearGradient id="${gid}" gradientUnits="userSpaceOnUse" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}">${stops}</linearGradient>`;
+      const tP=dmm/maxDefl;
+      if(showRibbon&&tP>0.02){ const h=tP*rbMax; const st=16; let p=`M ${x1} ${y1}`;
+        for(let i=1;i<=st;i++){ const u=i/st, o=4*u*(1-u)*h; p+=` L ${x1+dx*u+nx*o} ${y1+dy*u+ny*o}`; }
+        el+=`<path d="${p} Z" fill="url(#${gid})" fill-opacity="0.5" stroke="url(#${gid})" stroke-width="1"/>`; }
+      el+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="url(#${gid})" stroke-width="${2.6+tP*2.2}" stroke-linecap="round"/>`;
+      if(showVal&&dmm>maxDefl*0.05){ const mx=(x1+x2)/2,my=(y1+y2)/2; let ang=Math.atan2(dy,dx)*180/Math.PI; if(ang>90||ang<-90)ang+=180;
+        const off=(showRibbon?rbMax*tP:0)+9, over=util>1;
+        el+=`<text x="${mx+nx*off}" y="${my+ny*off}" text-anchor="middle" font-size="8.5" font-family="var(--mono)" font-weight="600" fill="${over?'#b3261e':'#16202e'}" transform="rotate(${ang} ${mx+nx*off} ${my+ny*off})" paint-order="stroke" stroke="#fff" stroke-width="2.4">${dmm.toFixed(1)} (L/${b.deflDenom})</text>`; }
+    });
+  } else if(!isReact){
+    scale=Math.max(1,...lvl.beams.map(b=>mode==='M'?b.Mpos:b.Vu));
+    lvl.beams.forEach((b,bi)=>{
+      const peak=mode==='M'?b.Mpos:b.Vu;
+      if(mode==='M'){ binAdd(peak,scale); nPeak++; } else { binAdd(peak,scale); binAdd(-peak,scale); nPeak+=2; }
+      const x1=X(b.x1),y1=Y(b.y1),x2=X(b.x2),y2=Y(b.y2);
+      const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1, nx=-dy/len,ny=dx/len;
+      const gid=`g${mode}${lvlIdx}_${bi}`; const NS=14; let stops='';
+      for(let s=0;s<=NS;s++){ const u=s/NS; const v=mode==='M'?4*u*(1-u)*peak:peak*(1-2*u); stops+=`<stop offset="${(u*100).toFixed(1)}%" stop-color="${colorSigned(v,scale)}"/>`; }
+      defs+=`<linearGradient id="${gid}" gradientUnits="userSpaceOnUse" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}">${stops}</linearGradient>`;
+      const tP=peak/scale;
+      if(showRibbon&&tP>0.02){ const h=tP*rbMax;
+        if(mode==='M'){ const st=16; let p=`M ${x1} ${y1}`; for(let i=1;i<=st;i++){ const u=i/st,o=4*u*(1-u)*h; p+=` L ${x1+dx*u+nx*o} ${y1+dy*u+ny*o}`; }
+          el+=`<path d="${p} Z" fill="url(#${gid})" fill-opacity="0.5" stroke="url(#${gid})" stroke-width="1"/>`; }
+        else { el+=`<path d="M ${x1} ${y1} L ${x1+nx*h} ${y1+ny*h} L ${x2-nx*h} ${y2-ny*h} L ${x2} ${y2} Z" fill="url(#${gid})" fill-opacity="0.5" stroke="url(#${gid})" stroke-width="1"/>`; }
+      }
+      el+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="url(#${gid})" stroke-width="${2.6+tP*2.2}" stroke-linecap="round"/>`;
+      if(showVal&&peak>scale*0.04){ const mx=(x1+x2)/2,my=(y1+y2)/2; let ang=Math.atan2(dy,dx)*180/Math.PI; if(ang>90||ang<-90)ang+=180;
+        if(mode==='M'){ const off=(showRibbon?rbMax*tP:0)+9;
+          el+=`<text x="${mx+nx*off}" y="${my+ny*off}" text-anchor="middle" font-size="8.5" font-family="var(--mono)" font-weight="600" fill="#16202e" transform="rotate(${ang} ${mx+nx*off} ${my+ny*off})" paint-order="stroke" stroke="#fff" stroke-width="2.4">${fmt(peak)}</text>`; }
+        else { const o=(showRibbon?rbMax*tP:0)+9, ux=dx/len,uy=dy/len;
+          el+=`<text x="${x1+ux*13+nx*o}" y="${y1+uy*13+ny*o}" text-anchor="middle" font-size="8" font-family="var(--mono)" font-weight="600" fill="#16202e" transform="rotate(${ang} ${x1+ux*13+nx*o} ${y1+uy*13+ny*o})" paint-order="stroke" stroke="#fff" stroke-width="2.2">+${fmt(peak)}</text>`;
+          el+=`<text x="${x2-ux*13-nx*o}" y="${y2-uy*13-ny*o}" text-anchor="middle" font-size="8" font-family="var(--mono)" font-weight="600" fill="#16202e" transform="rotate(${ang} ${x2-ux*13-nx*o} ${y2-uy*13-ny*o})" paint-order="stroke" stroke="#fff" stroke-width="2.2">−${fmt(peak)}</text>`; }
+      }
+    });
+  } else {
+    scale=Math.max(1,...D.reactions.map(r=>r.Pserv));
+    for(const b of D.levels[0].beams) el+=`<line x1="${X(b.x1)}" y1="${Y(b.y1)}" x2="${X(b.x2)}" y2="${Y(b.y2)}" stroke="#d3dae3" stroke-width="1.6"/>`;
+    D.reactions.forEach((r,ri)=>{ binAdd(r.Pserv,scale); nPeak++;
+      const t=r.Pserv/scale, x=X(r.x), y=Y(r.y), ah=14+t*30, gid=`gR${ri}`;
+      defs+=`<linearGradient id="${gid}" gradientUnits="userSpaceOnUse" x1="${x}" y1="${y+ah}" x2="${x}" y2="${y}"><stop offset="0%" stop-color="${colorSigned(r.Pserv*0.3,scale)}"/><stop offset="100%" stop-color="${colorSigned(r.Pserv,scale)}"/></linearGradient>`;
+      el+=`<line x1="${x}" y1="${y+ah}" x2="${x}" y2="${y}" stroke="url(#${gid})" stroke-width="3"/>`;
+      el+=`<path d="M ${x-4.5} ${y+8} L ${x} ${y} L ${x+4.5} ${y+8} Z" fill="${colorSigned(r.Pserv,scale)}"/>`;
+      el+=`<rect x="${x-3}" y="${y-3}" width="6" height="6" fill="#16202e"/>`;
+      if(showVal) el+=`<text x="${x}" y="${y+ah+11}" text-anchor="middle" font-size="9" font-family="var(--mono)" font-weight="600" fill="#16202e" paint-order="stroke" stroke="#fff" stroke-width="2.4">${(r.Pserv/1000).toFixed(2)}</text>`;
+    });
+  }
+  svg.setAttribute('viewBox',`0 0 ${SW} ${SH}`);
+  svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+  svg.innerHTML=`<defs>${defs}</defs>`+el;
+
+  buildCaption(lvl);
+  buildLegend(scale, bins, nPeak, lvl);
+  buildScalebar();
+  buildTitleblock(lvl, unit);
+}
+
+function buildCaption(lvl){
+  const isD=mode==='D', isR=mode==='R';
+  document.getElementById('caption').innerHTML =
+    `<div><b>Component:</b> ${isR?'Reactions':'Beam Forces'}, ${MODE_LABEL[mode]}</div>`+
+    `<div class="case">Analysis Case: <b>Gravity Envelope</b></div>`+
+    `<div class="case">Load Comb: <b>${isD?'D+L (service)':isR?'D+L (service)':'1.2D + 1.6L (ultimate)'}</b></div>`+
+    `<div class="case">Storey: <b>${isR?'Foundation (±0.00)':lvl.name}</b> · Unit: <b>${UNIT_LABEL[mode]}</b></div>`;
+}
+
+function buildLegend(scale, bins, nPeak, lvl){
+  const lg=document.getElementById('legend');
+  const N=12, H=168, bh=H/N;
+  let bands='';
+  if(mode==='D'){
+    const overN=lvl.beams.filter(b=>(b.deflUtil||0)>1).length;
+    for(let i=0;i<N;i++){
+      const uTop=1.2*(1-i/N), lo=1.2*(1-(i+1)/N);
+      const inB=lvl.beams.filter(b=>{const u=b.deflUtil||0; return u>lo-1e-9&&u<=uTop+1e-9;}).length;
+      const pct=nPeak?inB/nPeak*100:0;
+      const lim=lo<1&&uTop>=1;
+      bands+=`<div class="lg-band" style="height:${bh}px"><span class="sw" style="background:${colorT(Math.min(uTop-0.6/N,1))}"></span><span class="vtop">${uTop.toFixed(2)}${lim?'  L/360':''}</span>${pct?`<span class="pc">${pct.toFixed(0)}%</span>`:''}</div>`;
+    }
+    bands+=`<div class="lg-band" style="height:0"><span class="sw"></span><span class="vtop">0.00</span></div>`;
+    lg.innerHTML=`<div class="lg-hd">DISPLACEMENT</div><div class="lg-sub">δz immediate · ${UNIT_LABEL.D}</div>`+bands+
+      `<div class="lg-foot">util = δ / (L/360)<br>over limit: <b style="color:#b3261e">${overN}</b> / ${lvl.beams.length}<br>δ = 5ML²/48EcIe · Ie≈0.35Ig<br><span style="color:#b3261e">⚠ ทันที — ระยะยาว ×~2.5</span></div>`;
+    return;
+  }
+  for(let i=0;i<N;i++){
+    const tTop=1-i/N, vTop=(tTop-0.5)*2*scale, pct=nPeak?bins[i]/nPeak*100:0;
+    bands+=`<div class="lg-band" style="height:${bh}px"><span class="sw" style="background:${colorT(tTop-0.5/N)}"></span><span class="vtop">${vTop>=0?'+':'−'}${fmt(Math.abs(vTop))}</span>${pct?`<span class="pc">${pct.toFixed(1)}%</span>`:''}</div>`;
+  }
+  bands+=`<div class="lg-band" style="height:0"><span class="sw"></span><span class="vtop">−${fmt(scale)}</span></div>`;
+  const cnt = mode==='R'? D.reactions.length+' nodes' : lvl.beams.length+' members';
+  lg.innerHTML=`<div class="lg-hd">${mode==='R'?'REACTION Fz':mode==='M'?'BENDING MOMENT':'SHEAR FORCE'}</div><div class="lg-sub">${UNIT_LABEL[mode]}</div>`+bands+
+    `<div class="lg-foot">${cnt}</div>`;
+}
+
+function buildScalebar(){
+  if(!lastGeom) return;
+  // เลือกความยาวสวย ๆ (1,2,5 ม.) ให้แท่งกว้าง ~120px
+  const targetPx=120, mPerPx=1/lastGeom.S; let len=targetPx*mPerPx;
+  const pow=Math.pow(10,Math.floor(Math.log10(len))); const cand=[1,2,5,10].map(c=>c*pow);
+  len=cand.reduce((a,b)=>Math.abs(b*lastGeom.S-targetPx)<Math.abs(a*lastGeom.S-targetPx)?b:a);
+  const px=len*lastGeom.S, seg=4;
+  let bar=''; for(let i=0;i<seg;i++) bar+=`<span></span>`;
+  document.getElementById('scalebar').innerHTML=
+    `<div style="margin-bottom:2px">SCALE BAR</div><div class="bar" style="width:${px}px">${bar}</div>`+
+    `<div style="display:flex;justify-content:space-between;width:${px}px;margin-top:1px"><span>0</span><span>${len} m</span></div>`;
+}
+
+function buildTitleblock(lvl, unit){
+  const today=D.meta.date||'—';
+  document.getElementById('titleblock').innerHTML=
+    `<div class="tb-row"><div class="tb-cell" style="flex:1"><div class="tb-k">PROJECT</div><div class="tb-v">บ้านพักอาศัย ค.ส.ล. 2 ชั้น</div></div></div>`+
+    `<div class="tb-row"><div class="tb-cell" style="flex:1"><div class="tb-k">DRAWING TITLE</div><div class="tb-v tb-title">${mode==='R'?'FOUNDATION REACTION PLAN':'STRUCTURAL FORCE DIAGRAM — '+(lvl?lvl.name:'')}</div></div></div>`+
+    `<div class="tb-row">`+
+      `<div class="tb-cell" style="flex:1.2"><div class="tb-k">COMPONENT</div><div class="tb-v">${MODE_LABEL[mode]}</div></div>`+
+      `<div class="tb-cell" style="width:74px"><div class="tb-k">UNIT</div><div class="tb-v">${unit}</div></div>`+
+    `</div>`+
+    `<div class="tb-row">`+
+      `<div class="tb-cell" style="flex:1"><div class="tb-k">CASE</div><div class="tb-v">${mode==='M'?'ULT (1.2D+1.6L)':'SER (D+L)'}</div></div>`+
+      `<div class="tb-cell" style="width:74px"><div class="tb-k">SCALE</div><div class="tb-v">NTS</div></div>`+
+      `<div class="tb-cell" style="width:84px"><div class="tb-k">SHEET</div><div class="tb-v">S-${mode==='R'?'00':String(lvlIdx+1).padStart(2,'0')}</div></div>`+
+    `</div>`;
+}
+
+// ===== controls =====
+const lvlTabs=document.getElementById('lvlTabs');
+D.levels.forEach((l,i)=>{ const b=document.createElement('button'); b.className=i===0?'on':''; b.textContent=l.name.replace('ชั้น ','L').replace('หลังคา','RF');
+  b.onclick=()=>{ lvlIdx=i; if(mode==='R')mode='M'; sync(); }; lvlTabs.appendChild(b); });
+const modeTabs=document.getElementById('modeTabs');
+[['M','M⁺'],['V','V'],['D','δz'],['R','Fz']].forEach(([m,lb])=>{ const b=document.createElement('button'); b.className=m==='M'?'on':''; b.dataset.m=m; b.textContent=lb;
+  b.onclick=()=>{ mode=m; sync(); }; modeTabs.appendChild(b); });
+function sync(){
+  [...lvlTabs.children].forEach((b,i)=>b.classList.toggle('on',i===lvlIdx&&mode!=='R'));
+  [...modeTabs.children].forEach(b=>b.classList.toggle('on',b.dataset.m===mode));
+  render();
+}
+document.getElementById('ckVal').onchange=e=>{ showVal=e.target.checked; render(); };
+document.getElementById('ckRibbon').onchange=e=>{ showRibbon=e.target.checked; render(); };
+document.getElementById('rbScale').oninput=e=>{ rbMax=Number(e.target.value); render(); };
+render();
+</script>
+</body>
+</html>
