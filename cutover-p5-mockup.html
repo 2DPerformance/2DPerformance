@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOCKUP — รื้อ P5/P6 เดิม แทรกระบบใหม่ (คง P1–P4)</title>
+<link rel="stylesheet" href="./fonts/sarabun/sarabun.css">
+<style>
+:root{--ink:#0f172a;--ink2:#475569;--line:#e2e8f0;--bg:#f8fafc;--blue:#2563eb;--green:#15803d;--warn:#b45309;--fail:#b91c1c;--mono:Consolas,monospace}
+*{box-sizing:border-box}
+body{font-family:"Sarabun","Noto Sans Thai",system-ui,sans-serif;margin:0;background:var(--bg);color:var(--ink);font-size:13.5px;line-height:1.55}
+.top{background:#0f172a;color:#fff;padding:8px 18px;display:flex;gap:10px;align-items:center;font-size:12.5px}
+.top .mk{background:#dc2626;border-radius:5px;padding:2px 7px;font-weight:800}
+.top .tag{background:#1e293b;border-radius:6px;padding:2px 10px;color:#93c5fd}
+.wrap{max-width:1280px;margin:0 auto;padding:12px 18px}
+.phases{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap}
+.ph{flex:1;min-width:150px;border:1.5px solid var(--line);border-radius:8px;padding:7px 12px;background:#fff;font-weight:700;font-size:12.5px;color:var(--ink2);display:flex;justify-content:space-between;align-items:center}
+.ph small{display:block;font-weight:400;font-size:10.5px;color:#94a3b8}
+.ph.ok{border-color:#bbf7d0}.ph.ok .tick{color:var(--green)}
+.ph.new{border-color:var(--blue);background:#eff6ff;color:var(--blue);cursor:pointer}
+.ph.newer{border-color:#c7d2fe;background:#eef2ff;color:#4338ca;cursor:pointer}
+.ph.active{outline:2.5px solid var(--blue)}
+.banner{border:1px solid #bbf7d0;background:#f0fdf4;border-radius:8px;padding:8px 14px;margin:10px 0;font-size:12.5px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:10px 0}
+.card h3{margin:0 0 8px;font-size:13.5px}
+.tag{font-size:10.5px;background:#f1f5f9;border-radius:99px;padding:2px 9px;color:var(--ink2);font-weight:400}
+.rail{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.st{border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;color:var(--ink2);cursor:pointer}
+.st.on{border-color:var(--blue);color:var(--blue);background:#eff6ff}
+.st small{display:block;font-weight:400;font-size:10px;color:#94a3b8}
+table{border-collapse:collapse;width:100%;font-size:12px;margin:6px 0}
+th,td{border-bottom:1px solid var(--line);padding:5px 9px;text-align:left}
+th{background:#f8fafc;font-size:11px;color:var(--ink2)}
+td.num{text-align:right;font-family:var(--mono);font-size:11.5px}
+.chip{font-size:10.5px;border-radius:99px;padding:1.5px 9px;font-weight:700}
+.chip.p{background:#dcfce7;color:var(--green)}.chip.w{background:#fef3c7;color:var(--warn)}.chip.f{background:#fee2e2;color:var(--fail)}
+.dec{border:1.5px solid #fde68a;background:#fffbeb;border-radius:10px;padding:10px 14px;margin:8px 0}
+.dec .opt{display:inline-block;border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;margin:4px 6px 0 0;font-size:12px;cursor:pointer}
+.dec .opt:hover{border-color:var(--blue)}
+.note{font-size:11.5px;color:var(--ink2);border-top:1px dashed var(--line);margin-top:8px;padding-top:6px}
+.lock{background:#0f172a;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-family:inherit;font-weight:800;font-size:13px;cursor:pointer}
+.ghost{background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:8px 14px;font-family:inherit;font-size:12px;cursor:pointer}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:900px){.cols{grid-template-columns:1fr}}
+.map td:first-child{color:var(--fail)}.map td:nth-child(2){color:var(--green)}
+.anno{font-size:11px;color:#7c3aed;background:#f5f3ff;border:1px dashed #c4b5fd;border-radius:6px;padding:4px 10px;margin:6px 0;display:inline-block}
+.view{display:none}.view.on{display:block}
+.mockline{font-family:var(--mono);font-size:11.5px;background:#f8fafc;border:1px solid var(--line);border-radius:6px;padding:6px 10px;margin:4px 0}
+.sheetbox{border:1.5px solid var(--ink);border-radius:4px;background:#fff;padding:10px;text-align:center;font-size:11px;color:var(--ink2)}
+</style>
+</head>
+<body>
+<div class="top"><span class="mk">2D</span> <b>2D Performance</b> · MODULE 8.1 สร้างแปลน
+  <span class="tag">MOCKUP — รื้อ P5/P6 เดิม → แทรกระบบใหม่ (P1–P4 คงเดิม 100%)</span>
+  <span style="margin-left:auto;font-size:11px;color:#94a3b8">อ่อนนุช WSD · P3 ✓ วิเคราะห์แล้ว 112 คาน</span>
+</div>
+<div class="wrap">
+
+  <!-- ===== top-nav ระดับแอป (ตามจริง) — เล่มรายการคำนวณอยู่แท็บ "4 รายงาน" ===== -->
+  <div style="display:flex;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;color:var(--ink2)">
+    <span>🏠 หน้าหลัก</span><span>① สร้างแบบ</span><span>② คำนวณ/วิเคราะห์</span>
+    <span>③ ตรวจเหล็ก 3D <span style="font-weight:400;font-size:10px;color:#94a3b8">(ปุ่ม 📸 หน้าปก — คงเดิม)</span></span>
+    <span id="nav-report" style="border:1.5px solid var(--blue);color:var(--blue);border-radius:6px;padding:2px 10px;cursor:pointer" onclick="go('p6')">④ รายงาน ← <b>P6 เล่มรายการคำนวณอยู่ที่นี่</b></span>
+  </div>
+
+  <!-- ===== แถบ phase ใน MODULE 8.1 — P1-P4 คงเดิม · P5 ออกแบบ + P6 แบบ = ใหม่ ===== -->
+  <div class="phases">
+    <div class="ph ok">P1 สร้างแปลน <span class="tick">✓</span></div>
+    <div class="ph ok">P2 กำหนดโหลด <span class="tick">✓</span></div>
+    <div class="ph ok">P3 วิเคราะห์ <span class="tick">✓</span></div>
+    <div class="ph ok">P4 มุมมอง 3D <span class="tick">✓</span></div>
+    <div class="ph new active" data-v="p5" onclick="go('p5')">P5 ออกแบบ <small>วิศวกรคุม · ใหม่</small></div>
+    <div class="ph newer" data-v="p7" onclick="go('p7')">P6 แบบ <small>แปลน + Section</small></div>
+    <div class="ph new" data-v="p6" onclick="go('p6')">→ เล่มรายการคำนวณ <small>ไปแท็บ ④ รายงาน</small></div>
+    <div class="ph newer" data-v="plan" onclick="go('plan')">🗺 แผนรื้อ <small>mapping เดิม→ใหม่</small></div>
+  </div>
+
+  <!-- ===== P5 ใหม่ ===== -->
+  <div class="view on" id="v-p5">
+    <div class="banner">
+      <div>⚡ <b>นำเข้าผลวิเคราะห์จาก P3 อัตโนมัติ</b> — run <span style="font-family:var(--mono)">a8f3c2</span> · คาน คสล. 112 · เสา 23 · พื้น 51 · หลังคา 279 · <b>ไม่ต้องอัปโหลดไฟล์อีก</b> (adapter เดิมทำงานในที่)</div>
+      <div><label style="font-size:11.5px;color:var(--ink2)"><input type="checkbox"> ใช้หน้าผลออกแบบเดิม (ชั่วคราว — จะถอดออกหลัง cutover เสถียร)</label></div>
+    </div>
+    <div class="anno">🟣 จุดเสียบจริง: PlanDesigner.jsx:23630 — สลับ &lt;Phase5DesignDashboard&gt; → &lt;RedesignP5InPlace&gt; · ข้อมูลอ่านจาก plan.results ตรง ๆ</div>
+
+    <div class="rail">
+      <div class="st on">1 ออกแบบรายตัว <small>envelope + sanity 🚩</small></div>
+      <div class="st">2 จัดกลุ่ม schedule <small>palette · DecisionCard</small></div>
+      <div class="st">3 ฐานราก <small>เข็ม · load มือ</small></div>
+      <div class="st">4 หลังคาเหล็ก <small>ASD · ปรับ section 🔧</small></div>
+      <div class="st">5 บันได <small>R/T/ชานพัก</small></div>
+    </div>
+
+    <div class="cols">
+      <div class="card">
+        <h3>Schedule หลังจัดกลุ่ม <span class="tag">เบอร์น้อย · หน้าตัดจาก Palette เท่านั้น</span></h3>
+        <table>
+          <tr><th>MARK</th><th>SECTION</th><th>ล่าง</th><th>บน</th><th>ปลอก</th><th>แอ่น t.9.5a</th><th>สถานะ</th></tr>
+          <tr><td><b>B1</b></td><td class="num">200×400</td><td class="num">3-DB16</td><td class="num">4-DB16</td><td class="num">RB9@100</td><td><span class="chip p">✓ 216&lt;400</span></td><td><span class="chip p">ผ่าน</span></td></tr>
+          <tr><td><b>B2</b></td><td class="num">200×500</td><td class="num">5-DB16</td><td class="num">6-DB16</td><td class="num">RB9@100</td><td><span class="chip p">✓ 281&lt;500</span></td><td><span class="chip p">ผ่าน</span></td></tr>
+          <tr><td><b>B3</b></td><td class="num">250×500</td><td class="num">6-DB16</td><td class="num">7-DB16</td><td class="num">RB9@150</td><td><span class="chip w">⚠ 519&gt;500</span></td><td><span class="chip p">ผ่าน (กำลัง)</span></td></tr>
+        </table>
+        <div class="note">ทุกแถว re-check รายตัวที่เหล็กกลุ่มแล้ว (กฎ 7) · ⚠ แอ่น = advisory ให้คำนวณยืนยัน ไม่ block</div>
+      </div>
+      <div class="card">
+        <h3>ตัดสินใจค้าง <span class="tag">ระบบไม่ตัดสินแทนวิศวกร</span></h3>
+        <div class="dec">
+          ⚖️ <b>B31</b> (200×400 · รับคานฝาก) — M เกินหน้าตัด palette แบบ singly
+          <br><span class="opt">① แก้ layout (เพิ่มเสา/ลดสแปน)</span><span class="opt">② เปิดหน้าตัด 250×600 ใน palette</span><span class="opt">③ ยอม doubly ที่ 200×500</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:10px">
+          <button class="lock">🔒 Lock เป็น Final Design → เปิด P6/P7</button>
+          <button class="ghost">Palette หน้าตัด…</button>
+          <span style="font-size:11px;color:var(--ink2)">แก้อะไรหลัง lock = ปลด lock อัตโนมัติ (กันรายงานค้างค่าเก่า)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== P6 เล่มรายการคำนวณ (อยู่แท็บ ④ รายงาน) ===== -->
+  <div class="view" id="v-p6">
+    <div class="anno">🟣 อยู่ MODULE 10.1 (แท็บ ④ รายงาน) — <b>คงเปลือกเล่มเดิมทั้งหมด</b>: หน้าปก + สารบัญ + ลายน้ำ/unlock + print ขาวดำ · สลับเฉพาะ "ไส้" §4–§5 ให้อ่านจากชุด lock (cell-diff P5↔รายงาน = 0 โดยโครงสร้าง)</div>
+
+    <!-- หน้าปก (คงเดิม — owner: "ผมยังอยากได้อยู่") -->
+    <div class="card" style="max-width:560px;margin:10px auto;border:2px solid var(--ink);text-align:center;padding:22px 26px">
+      <div style="font-size:9px;letter-spacing:.3em;color:var(--ink2)">STRUCTURAL CALCULATION REPORT</div>
+      <div style="font-size:22px;font-weight:800;margin:6px 0 2px">รายงานคำนวณโครงสร้าง</div>
+      <div style="font-size:11px;color:var(--ink2)">ตามมาตรฐาน ACI 318-19 / มยผ. 1311-60</div>
+      <div style="border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);margin:14px 24px;padding:12px">
+        <div style="font-size:9px;color:var(--ink2);letter-spacing:.2em">โปรเจค</div>
+        <div style="font-size:17px;font-weight:800">อ่อนนุช WSD</div>
+        <div style="font-size:11px;color:var(--ink2)">เจ้าของ: K.P&amp;B · ที่ตั้ง: อ่อนนุช</div>
+      </div>
+      <div style="border:1px dashed #94a3b8;border-radius:6px;margin:0 24px;padding:26px 10px;font-size:11px;color:var(--ink2);background:#f8fafc">
+        [ ภาพแบบจำลอง 3 มิติ — จากปุ่ม 📸 "ใช้เป็นหน้าปก" ในแท็บ ③ ตรวจเหล็ก 3D · <b>คงเดิม</b> ]
+      </div>
+      <table style="margin:14px auto 0;font-size:11px;width:88%">
+        <tr><th style="width:42%;text-align:left">วิศวกรผู้ออกแบบ</th><td style="text-align:left">— (ใบอนุญาต กว.)</td></tr>
+        <tr><th style="text-align:left">วิศวกรผู้ตรวจสอบ</th><td style="text-align:left">—</td></tr>
+        <tr><th style="text-align:left">วันที่ · มาตรฐาน</th><td style="text-align:left">12/6/2569 · ACI 318-19</td></tr>
+        <tr><th style="text-align:left">f′c / fy / fyt</th><td style="text-align:left">240 / 4,000 / 2,400 ksc</td></tr>
+      </table>
+      <div style="font-size:9px;color:#94a3b8;margin-top:10px;font-style:italic">เอกสารชุดนี้จัดทำโดยระบบ 2D Performance — หน้าปก/สารบัญ/ลายเซ็น = โครงเดิม 100%</div>
+    </div>
+    <div class="anno">📑 สารบัญเดิมคงไว้ — ไส้ §5.1–5.6 ด้านล่างคือส่วนที่สลับเป็นระบบใหม่</div>
+    <div class="card"><h3>§5.1 คาน — การ์ดต่อเบอร์ <span class="tag">Mini map · SFD/BMD จริง · ordinate · ตรวจแอ่น</span></h3>
+      <div class="mockline">Mc(singly) = R·b·d² = 2,992 kg·m · M(service) = 2,745 → 92% ✓</div>
+      <div class="mockline">SFD/BMD: ΣFy=0 ✓ · M ปลายตรง analysis ✓ · ΔM=∫V (0.00%) ✓ · jump ที่ P คานฝาก = 3,465 kg</div>
+      <div class="mockline">ตรวจแอ่น (ACI t.9.5a): ขั้นต่ำ 216 มม. vs ใช้ 400 → ✓ ข้ามการคำนวณแอ่นได้</div>
+    </div>
+    <div class="cols">
+      <div class="card"><h3>§5.2 เสา · §5.3 พื้น · §5.5 บันได</h3><div class="note" style="border:none;margin:0;padding:0">เสา (โน้ต approx D/L จนกว่า P3 ส่งรายต้น) · พื้นนำเข้าผลเดิม · บันไดพร้อมแบบแปลน+Section</div></div>
+      <div class="card"><h3>§5.6 หลังคาเหล็ก <span class="tag">section ต่อประเภท + รายการคำนวณ</span></h3>
+        <div class="mockline">§5.6.2 จันทัน: Sx_req = M×100/Fb = 102.8 cm³ · ใช้ 2×C 150×65×20×3.2 (132) = 78% ✓ 🔧</div>
+      </div>
+    </div>
+    <div class="card"><h3>§5.4 ฐานราก <span class="tag">รายการคำนวณ "แบบเดิม" คงครบ (owner ย้ำ) + เข็มจากระบบใหม่</span></h3>
+      <div class="mockline">โมเมนต์: Mu/m → As ฐาน ✓ · เฉือนทางเดียว: Vu vs φVc ✓ · เฉือนทะลุ (punching): bo · φVc 3 สูตร ✓ · dowel ≥0.005Ag ✓</div>
+      <div class="mockline" style="border-color:#fbbf24;background:#fffbeb"><b>ฐานรากคว่ำ/ยกตัว (eccentric bearing · FND-1):</b> q_max = P/A + Mx/Sx + My/Sy · q_min = P/A − … &lt; 0 = ยกขอบ ✗ · e_x, e_y · util = q_max/qa — <b>แสดงราย node เหมือนเล่มเดิม</b></div>
+      <div class="note" style="border:none;margin:0;padding:0">ไส้ §5.4 ใช้ footingReport.ts + engine เดิม (FoundationCalculator/FND-1) ทั้งชุด — ระบบใหม่ส่ง "เข็มที่วิศวกรเลือก + load มือ (ถ้ามี)" เข้าไป sync · ไม่มี check ไหนหาย</div>
+    </div>
+  </div>
+
+  <!-- ===== P7 แบบ ===== -->
+  <div class="view" id="v-p7">
+    <div class="anno">🟣 ใหม่ทั้งแท็บ — แปลนเบอร์ (คาน/พื้น/เสา/ฐานราก) + แบบ Section S-01…S-05 + RF-A…D จาก model ชุดเดียวกับรายงาน</div>
+    <div class="cols">
+      <div class="card"><h3>แปลนอ้างอิงเบอร์ ต่อชั้น</h3><div class="sheetbox" style="height:120px;display:flex;align-items:center;justify-content:center">[ แปลนคาน-พื้น ชั้น 1 — เบอร์จาก schedule เดียวกัน ]</div></div>
+      <div class="card"><h3>แบบ Section มาตรฐานเดียว</h3>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+          <div class="sheetbox">S-01 BEAM<br>หน้าตัด+ปลอก 135°</div><div class="sheetbox">S-02/03 SLAB/CANT<br>เหล็กบนพื้นยื่น</div><div class="sheetbox">S-04 COLUMN<br>ยืน+ปลอก</div>
+          <div class="sheetbox">S-05 STAIR<br>A-A + ตัดขวาง</div><div class="sheetbox">RF-A/B<br>RHS · 2C+PL</div><div class="sheetbox">RF-C/D<br>จุดต่อ · แป SCG</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== แผนรื้อ ===== -->
+  <div class="view" id="v-plan">
+    <div class="card"><h3>หลักการรื้อ: คง P1–P4 · สลับเฉพาะ "สมอง" P5/P6 · ของเก่าอ่านได้ชั่วคราว</h3>
+      <table class="map">
+        <tr><th>ของเดิม (ถอด)</th><th>ของใหม่ (แทน)</th><th>หมายเหตุ</th></tr>
+        <tr><td>Phase5DesignDashboard + Auto pipeline 7 ชั้น (beamAutoSchedule/deepen/consolidate)</td><td>RedesignP5InPlace (รายตัว→จัดกลุ่ม→ฐานราก→หลังคา→บันได) จาก src/redesign/</td><td>adapter อ่าน plan.results ในที่ — ไม่มีขั้น "อัปโหลดไฟล์"</td></tr>
+        <tr><td>ไส้ ReportPDF §4–§5 (reconcile หลายชั้น) — MODULE 10.1 แท็บ ④ รายงาน</td><td>เนื้อหาจาก P6Report (อ่านชุด lock เท่านั้น)</td><td><b>คงเปลือกเล่มเดิม: หน้าปก (+ภาพ 3D 📸) · สารบัญ · ลายน้ำ/unlock · ลายเซ็น · print</b> — สลับเฉพาะไส้</td></tr>
+        <tr><td>Phase6DesignSummary (P6 ใน Module 8.1)</td><td>"P6 แบบ" — แปลนเบอร์ + แบบ Section (S-01…RF-D)</td><td>สรุปตัวเลขย้ายไปอยู่ในเล่มที่แท็บ ④</td></tr>
+        <tr><td style="color:var(--green)">§5.4 ฐานราก (footingReport.ts + FND-1 bearingEcc)</td><td>คงเดิมทั้งชุด — รับ "เข็ม+load" จากแท็บฐานรากใหม่</td><td><b>ฐานรากคว่ำ/ยกตัว (q_max/q_min/e/uplift) ราย node คงครบ</b> · โมเมนต์/เฉือน/punching/dowel ครบ</td></tr>
+        <tr><td>sv_rd_* (หน้า redesign แยก)</td><td>เก็บใน project เดียว: plan.redesignModel</td><td>โปรเจกต์เดียว = ความจริงเดียว · หน้า redesign.html เดิมคงไว้เป็น sandbox</td></tr>
+        <tr><td>—</td><td>fingerprint runId ของ P3</td><td>วิเคราะห์ใหม่ → ปลด lock + เตือนนำเข้าซ้ำ (กัน schedule ค้างค่าเก่า)</td></tr>
+        <tr><td>ปุ่ม "Auto จัดแบบให้พร้อม P6" (force-pass)</td><td>ปุ่ม "ตรวจ + จัดกลุ่ม" (flag ไม่ force)</td><td>ตรงกฎ 10 ข้อของ owner</td></tr>
+      </table>
+    </div>
+    <div class="card"><h3>ลำดับงาน (เฟส gate — ย้อนกลับได้ทุกขั้น)</h3>
+      <table>
+        <tr><th>เฟส</th><th>งาน</th><th>เกณฑ์ผ่าน</th></tr>
+        <tr><td><b>C1</b></td><td>RedesignP5InPlace: mount ใน PlanDesigner step 5 หลัง feature flag (โปรเจกต์เก่า default = หน้าเดิม · โปรเจกต์ใหม่ = หน้าใหม่ + toggle กลับ)</td><td>เปิดงานอ่อนนุชจริง → schedule ตรง parallel page ทุก cell</td></tr>
+        <tr><td><b>C2</b></td><td>เก็บ model ใน plan.redesignModel + fingerprint P3 + ปลด lock เมื่อวิเคราะห์ใหม่</td><td>วิเคราะห์ใหม่แล้วรายงานไม่ค้างค่าเก่า (test)</td></tr>
+        <tr><td><b>C3</b></td><td>P6/P7 แทนของเดิม + Export PDF จากหน้าใหม่</td><td>พิมพ์เทียบเล่มเดิม 1 งานจริง + owner อนุมัติ</td></tr>
+        <tr><td><b>C4</b></td><td>ถอด toggle + ถอดโค้ดเดิม (เก็บ branch อ่านย้อน)</td><td>ใช้งานจริง ≥2 งานไม่มี blocker</td></tr>
+      </table>
+      <div class="note">งานคู่ขนานของ Codex (เริ่มได้ทันที ไม่ชน C1): เอนจินกันตัวหนังสือทับ/หลบเส้นใน SVG ทุก renderer · มาตรฐานพิมพ์ A4 (lineweight/สเกล/title block จริง) · DXF export แบบ Section</div>
+    </div>
+  </div>
+</div>
+<script>
+function go(v){
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
+  document.getElementById('v-'+v).classList.add('on');
+  document.querySelectorAll('.ph[data-v]').forEach(x=>x.classList.toggle('active',x.dataset.v===v));
+}
+</script>
+</body>
+</html>
