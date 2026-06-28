@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beam Continuity Mockup — เบอร์เดียวต่อเนื่องทั้งแนว</title>
+<style>
+  :root{--slate:#0f172a;--mut:#64748b;--line:#e2e8f0;--bg:#f8fafc;--em:#059669;--embg:#ecfdf5;--rose:#e11d48;--rosebg:#fff1f2;--amber:#d97706;--amberbg:#fffbeb;--sky:#0284c7;--skybg:#f0f9ff}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',Tahoma,system-ui,sans-serif;background:var(--bg);color:var(--slate);line-height:1.5;padding:24px}
+  .wrap{max-width:1100px;margin:0 auto}
+  h1{font-size:20px;margin:0 0 2px}
+  .sub{color:var(--mut);font-size:13px;margin-bottom:18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+  .card h2{font-size:15px;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+  .bar{width:4px;height:16px;border-radius:2px;display:inline-block}
+  .toggle{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .toggle button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;color:var(--slate)}
+  .toggle button.active{background:var(--slate);color:#fff;border-color:var(--slate)}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:6px 9px;text-align:center}
+  th{background:#f1f5f9;font-weight:700;color:#334155}
+  td.l{text-align:left}
+  .mark{font-weight:800;font-family:ui-monospace,monospace}
+  .topr{color:var(--rose);font-weight:700;font-family:ui-monospace,monospace}
+  .botr{color:var(--em);font-weight:700;font-family:ui-monospace,monospace}
+  .pill{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11px;font-weight:700}
+  .pill.jump{background:var(--rosebg);color:var(--rose)}
+  .pill.one{background:var(--embg);color:var(--em)}
+  .note{font-size:12px;border-radius:8px;padding:10px 12px;margin-top:10px}
+  .note.amber{background:var(--amberbg);color:#92400e;border:1px solid #fde68a}
+  .note.sky{background:var(--skybg);color:#075985;border:1px solid #bae6fd}
+  .note.em{background:var(--embg);color:#065f46;border:1px solid #a7f3d0}
+  svg{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:8px}
+  .legend{font-size:11.5px;color:var(--mut);margin-top:6px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:780px){.grid2{grid-template-columns:1fr}}
+  .small{font-size:11px;color:var(--mut)}
+  b.hl{background:#fef9c3;padding:0 3px;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🏗️ Beam Continuity Mockup — เบอร์เดียวต่อเนื่องทั้งแนว</h1>
+  <div class="sub">คานต่อเนื่องทั้งแนวควร <b>เบอร์เดียว</b> (4 span คุม 3 เหลือ 1 ไม่ควรแยก) · เปรียบเทียบก่อน/หลัง · <span class="small">mockup เท่านั้น — ยังไม่แตะโค้ดจริง</span></div>
+
+  <div class="toggle">
+    <button id="bCur" class="active" onclick="setMode('cur')">❌ ปัจจุบัน (เบอร์โดด)</button>
+    <button id="bNew" onclick="setMode('new')">✅ เสนอ: เบอร์เดียวทั้งแนว</button>
+    <button id="bBoth" onclick="setMode('both')">⇄ เทียบคู่</button>
+  </div>
+
+  <!-- ===== PLAN VIEW ===== -->
+  <div class="card">
+    <h2><span class="bar" style="background:#7c3aed"></span>📐 แนวคาน B (ต่อเนื่อง 4 ช่วง · เสา 5 ต้น) — Plan</h2>
+    <div id="planHost"></div>
+    <div class="legend">● เสา · เส้นบน = เลขคาน (mark) · <span class="topr">เหล็กบน</span> / <span class="botr">เหล็กล่าง</span> ต่อช่วง · <span class="pill jump">เบอร์โดด</span> = แนวเดียวแต่หลายเบอร์</div>
+  </div>
+
+  <!-- ===== SCHEDULE ===== -->
+  <div class="card">
+    <h2><span class="bar" style="background:#0284c7"></span>📋 Beam Schedule</h2>
+    <div id="schedHost"></div>
+  </div>
+
+  <!-- ===== worst-case derivation ===== -->
+  <div class="card" id="wcCard">
+    <h2><span class="bar" style="background:#059669"></span>🧮 การรวมเป็นเบอร์เดียว (worst-case ทั้งแนว)</h2>
+    <div id="wcHost"></div>
+  </div>
+
+  <div class="note sky">
+    <b>v1 (เสนอ) = worst-case uniform:</b> เบอร์เดียวทั้งแนว · เหล็กบน/ล่าง/ปลอก = ค่ามากสุดของทุกช่วง → ปลอดภัย (provided ≥ required ทุกช่วง ไม่ under-design) · ช่วงเบาได้เหล็กเท่าช่วงหนัก (เปลืองเล็กน้อย แต่ตรงงานจริง "เบอร์เดียว")<br>
+    <b>v2 (อนาคต ถ้าอยากประหยัดเหล็ก):</b> เบอร์เดียว แต่ schedule โชว์ profile จริง (เหล็กบนหนาที่ฐาน/เหล็กล่างหนากลางช่วง) — แม่นกว่าแต่ต้องรื้อ schedule/CAD
+  </div>
+  <div class="note amber">⚖️ แตะ <b>rebar/mark</b> → ต้อง owner อนุมัติ + structural-engineer ตรวจ (worst-case ครอบทุกช่วงจริง · ไม่พังคานต่อเนื่องที่ analysis แยกช่วง) ก่อนแก้โค้ดจริง</div>
+</div>
+
+<script>
+// ===== data: 4-span continuous beam line "แนว B" =====
+const spans = [
+  { id:'B@1-2', L:4.0, top:'3-DB16', bot:'3-DB12', stir:'RB9@200', topMm2:603, botMm2:339, stirMm:200, mark:'B5' },
+  { id:'B@2-3', L:5.0, top:'3-DB20', bot:'4-DB16', stir:'RB9@150', topMm2:942, botMm2:804, stirMm:150, mark:'B2' },
+  { id:'B@3-4', L:5.0, top:'3-DB20', bot:'4-DB16', stir:'RB9@150', topMm2:942, botMm2:804, stirMm:150, mark:'B2' },
+  { id:'B@4-5', L:3.4, top:'2-DB16', bot:'2-DB12', stir:'RB9@200', topMm2:402, botMm2:226, stirMm:200, mark:'B9' },
+];
+// worst-case across the line
+const wcTop = spans.reduce((a,s)=>s.topMm2>a.topMm2?s:a, spans[0]);
+const wcBot = spans.reduce((a,s)=>s.botMm2>a.botMm2?s:a, spans[0]);
+const wcStir = spans.reduce((a,s)=>s.stirMm<a.stirMm?s:a, spans[0]); // densest = smallest spacing
+const LINE_MARK = 'B2'; // เบอร์เดียวของแนว (เลือกจากตัวคุม)
+const wc = { mark:LINE_MARK, top:wcTop.top, bot:wcBot.bot, stir:wcStir.stir };
+
+let mode='cur';
+function setMode(m){mode=m;['cur','new','both'].forEach(x=>document.getElementById('b'+x[0].toUpperCase()+x.slice(1)).classList.toggle('active',x===m));render();}
+
+function planSVG(useNew){
+  const W=1040,H=150,padL=40,padR=40;
+  const totalL=spans.reduce((a,s)=>a+s.L,0);
+  const usable=W-padL-padR;
+  let x=padL; const xs=[padL];
+  spans.forEach(s=>{ x+=s.L/totalL*usable; xs.push(x); });
+  const beamY=78, colTop=58, colBot=120;
+  let s='';
+  // beam line
+  s+=`<line x1="${padL}" y1="${beamY}" x2="${W-padR}" y2="${beamY}" stroke="#0f172a" stroke-width="5"/>`;
+  // columns
+  xs.forEach((cx,i)=>{ s+=`<rect x="${cx-7}" y="${colTop}" width="14" height="${colBot-colTop}" fill="#cbd5e1" stroke="#475569" stroke-width="1.5"/><circle cx="${cx}" cy="${beamY}" r="4" fill="#475569"/>`;
+    s+=`<text x="${cx}" y="${colBot+14}" font-size="10" fill="#64748b" text-anchor="middle">${['1','2','3','4','5'][i]}</text>`;});
+  // per-span marks + rebar
+  spans.forEach((sp,i)=>{
+    const cx=(xs[i]+xs[i+1])/2;
+    const mk = useNew ? wc.mark : sp.mark;
+    const top = useNew ? wc.top : sp.top;
+    const bot = useNew ? wc.bot : sp.bot;
+    const isWorst = useNew && (top!==sp.top || bot!==sp.bot || (useNew?wc.stir:sp.stir)!==sp.stir);
+    const mkColor = useNew ? '#059669' : (i>0 && spans[i-1].mark!==sp.mark ? '#e11d48' : (i<spans.length-1 && spans[i+1].mark!==sp.mark ? '#e11d48':'#0f172a'));
+    s+=`<rect x="${xs[i]+6}" y="40" width="${xs[i+1]-xs[i]-12}" height="18" rx="4" fill="${useNew?'#ecfdf5':'#f8fafc'}" stroke="${mkColor}" stroke-width="1.4"/>`;
+    s+=`<text x="${cx}" y="53" font-size="12" font-weight="800" fill="${mkColor}" text-anchor="middle" font-family="ui-monospace,monospace">${mk}</text>`;
+    s+=`<text x="${cx}" y="98" font-size="10" fill="#e11d48" text-anchor="middle" font-family="ui-monospace,monospace">${top}${isWorst&&top!==sp.top?' ▲':''}</text>`;
+    s+=`<text x="${cx}" y="111" font-size="10" fill="#059669" text-anchor="middle" font-family="ui-monospace,monospace">${bot}${isWorst&&bot!==sp.bot?' ▲':''}</text>`;
+    s+=`<text x="${cx}" y="133" font-size="9" fill="#94a3b8" text-anchor="middle">L=${sp.L}m</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}">${s}</svg>`;
+}
+
+function schedTable(useNew){
+  if(useNew){
+    return `<table><thead><tr><th>Mark</th><th>ช่วงที่รวม</th><th>หน้าตัด</th><th>เหล็กบน</th><th>เหล็กล่าง</th><th>ปลอก</th><th>สถานะ</th></tr></thead><tbody>
+    <tr><td class="mark" style="color:#059669">${wc.mark}</td><td class="l">B@1-2 · 2-3 · 3-4 · 4-5 <span class="pill one">เบอร์เดียวทั้งแนว</span></td><td>200×500</td><td class="topr">${wc.top}</td><td class="botr">${wc.bot}</td><td>${wc.stir}</td><td>✓ worst-case ครอบทุกช่วง</td></tr>
+    </tbody></table><div class="small" style="margin-top:6px">4 ช่วง → <b class="hl">1 เบอร์</b> (เดิม 3 เบอร์)</div>`;
+  }
+  let rows=spans.map(sp=>`<tr><td class="mark">${sp.mark}</td><td class="l">${sp.id}</td><td>200×500</td><td class="topr">${sp.top}</td><td class="botr">${sp.bot}</td><td>${sp.stir}</td><td>—</td></tr>`).join('');
+  return `<table><thead><tr><th>Mark</th><th>ช่วง</th><th>หน้าตัด</th><th>เหล็กบน</th><th>เหล็กล่าง</th><th>ปลอก</th><th>สถานะ</th></tr></thead><tbody>${rows}</tbody></table>
+  <div class="small" style="margin-top:6px">แนวเดียว 4 ช่วง → <b class="hl" style="color:#e11d48">เบอร์โดด: B5 → B2 → B2 → B9</b> (3 เบอร์ สลับไปมา)</div>`;
+}
+
+function wcTableHTML(){
+  return `<table><thead><tr><th>รายการ</th><th>B@1-2</th><th>B@2-3</th><th>B@3-4</th><th>B@4-5</th><th>→ worst-case</th></tr></thead><tbody>
+  <tr><td class="l">เหล็กบน (mm²)</td>${spans.map(s=>`<td${s.topMm2===wcTop.topMm2?' style="background:#fef9c3;font-weight:700"':''}>${s.topMm2}</td>`).join('')}<td class="topr">${wc.top} (${wcTop.topMm2})</td></tr>
+  <tr><td class="l">เหล็กล่าง (mm²)</td>${spans.map(s=>`<td${s.botMm2===wcBot.botMm2?' style="background:#fef9c3;font-weight:700"':''}>${s.botMm2}</td>`).join('')}<td class="botr">${wc.bot} (${wcBot.botMm2})</td></tr>
+  <tr><td class="l">ปลอก (mm)</td>${spans.map(s=>`<td${s.stirMm===wcStir.stirMm?' style="background:#fef9c3;font-weight:700"':''}>@${s.stirMm}</td>`).join('')}<td>${wc.stir} (ถี่สุด)</td></tr>
+  </tbody></table><div class="note em">เบอร์ ${wc.mark} ใช้ <b>${wc.top}</b> บน + <b>${wc.bot}</b> ล่าง + <b>${wc.stir}</b> ทั้งแนว → ทุกช่วง provided ≥ required (ปลอดภัย)</div>`;
+}
+
+function render(){
+  const planHost=document.getElementById('planHost'), schedHost=document.getElementById('schedHost'), wcHost=document.getElementById('wcHost'), wcCard=document.getElementById('wcCard');
+  if(mode==='both'){
+    planHost.innerHTML=`<div class="grid2"><div><div class="small" style="margin-bottom:4px;font-weight:700;color:#e11d48">❌ ปัจจุบัน</div>${planSVG(false)}</div><div><div class="small" style="margin-bottom:4px;font-weight:700;color:#059669">✅ เสนอ</div>${planSVG(true)}</div></div>`;
+    schedHost.innerHTML=`<div class="grid2"><div><div class="small" style="margin-bottom:4px;font-weight:700;color:#e11d48">❌ ปัจจุบัน — 3 เบอร์ โดด</div>${schedTable(false)}</div><div><div class="small" style="margin-bottom:4px;font-weight:700;color:#059669">✅ เสนอ — 1 เบอร์</div>${schedTable(true)}</div></div>`;
+    wcCard.style.display='block'; wcHost.innerHTML=wcTableHTML();
+  }else{
+    const useNew=mode==='new';
+    planHost.innerHTML=planSVG(useNew);
+    schedHost.innerHTML=schedTable(useNew);
+    wcCard.style.display=useNew?'block':'none';
+    wcHost.innerHTML=wcTableHTML();
+  }
+}
+render();
+</script>
+</body>
+</html>

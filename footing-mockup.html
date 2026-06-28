@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup — รายงานฐานรากเสาเข็มเยื้องศูนย์ (กรอกในหน้าเดียว) F1–F4</title>
+<style>
+  :root{ --ink:#1e293b; --mut:#64748b; --line:#cbd5e1; --hd:#0f172a; --ok:#047857; --okbg:#ecfdf5; --warn:#b45309; --warnbg:#fffbeb; --accent:#1d4ed8; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#e2e8f0; font-family:"Cordia New","Angsana New","TH Sarabun New","Tahoma",sans-serif; color:var(--ink); font-size:15px; }
+  .bar{ position:sticky; top:0; z-index:10; background:#0f172a; color:#fff; padding:8px 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .bar b{ font-size:13px; } .bar .tag{ font-size:10px; background:#f59e0b; color:#3b2503; padding:1px 7px; border-radius:5px; font-weight:700; }
+  .bar .lg{ font-size:10.5px; color:#fde68a; } .bar .lg i{ display:inline-block;width:10px;height:10px;background:#fffbeb;border:1px dashed #f59e0b;vertical-align:-1px;margin-right:3px;border-radius:2px;}
+  .tabs{ display:flex; gap:5px; margin-left:auto; }
+  .tabs button{ font:inherit; font-size:12px; font-weight:700; padding:5px 13px; border:1px solid #334155; background:#1e293b; color:#cbd5e1; border-radius:6px; cursor:pointer; }
+  .tabs button.on{ background:#2563eb; color:#fff; border-color:#2563eb; }
+  .prn{ font:inherit;font-size:12px;font-weight:700;padding:5px 12px;border:1px solid #334155;background:#1e293b;color:#cbd5e1;border-radius:6px;cursor:pointer;}
+  .wrap{ padding:16px; display:flex; justify-content:center; }
+  .sheet{ width:760px; min-height:840px; background:#fff; border:1.5px solid var(--hd); box-shadow:0 6px 24px rgba(0,0,0,.18); position:relative; }
+  .wm{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; z-index:0; }
+  .wm span{ font-size:80px; font-weight:800; color:rgba(15,23,42,.05); transform:rotate(-22deg); letter-spacing:6px; white-space:nowrap; }
+  .fx{ background:#fffbeb; border:0; border-bottom:1px dashed #f59e0b; font:inherit; padding:1px 3px; font-variant-numeric:tabular-nums; border-radius:2px; }
+  .fx:focus{ outline:2px solid #bfdbfe; background:#fff; }
+  .fx.num{ text-align:right; }
+  .hd{ border-bottom:1.5px solid var(--hd); display:grid; grid-template-columns:1.4fr 1fr 1fr; position:relative; z-index:1; }
+  .hd .cell{ padding:3px 9px; border-right:1px solid var(--line); } .hd .cell:last-child{ border-right:0; }
+  .hd .k{ color:var(--mut); font-size:9.5px; } .hd .v{ font-weight:600; }
+  .title{ text-align:center; padding:4px; font-weight:800; background:#f1f5f9; border-bottom:1.5px solid var(--hd); position:relative; z-index:1; }
+  .title .ft{ display:inline-block; background:var(--hd); color:#fff; border-radius:5px; padding:1px 9px; margin-left:8px; }
+  .body{ display:grid; grid-template-columns:382px 1fr; position:relative; z-index:1; }
+  .plan{ border-right:1.5px solid var(--hd); padding:6px; }
+  .planhd{ font-weight:700; font-size:10.5px; color:var(--hd); margin-bottom:4px; }
+  svg{ width:100%; height:auto; background:#fcfdff; border:1px solid var(--line); border-radius:4px; }
+  #planDevBox svg,#planDimBox svg,#sectionBox svg{ max-width:368px; display:block; margin:0 auto; }
+  #enlBox td{ padding:1px 3px; } #enlBox td.l{ color:var(--mut); }
+  .leg{ display:flex; gap:9px; flex-wrap:wrap; margin-top:5px; font-size:9.5px; color:var(--mut); }
+  .sec{ border-bottom:1px solid var(--line); padding:3px 9px; } .sec:last-child{ border-bottom:0; }
+  .sh{ font-weight:700; font-size:12px; color:var(--hd); margin-bottom:1px; display:flex; align-items:center; gap:6px; }
+  .sh .n{ background:var(--hd); color:#fff; width:15px; height:15px; border-radius:3px; display:inline-flex; align-items:center; justify-content:center; font-size:9px; }
+  table{ width:100%; border-collapse:collapse; font-size:11.5px; }
+  th,td{ border:1px solid var(--line); padding:0.5px 3px; text-align:right; font-variant-numeric:tabular-nums; }
+  th{ background:#f8fafc; color:var(--mut); font-weight:600; font-size:10px; text-align:center; }
+  th.grp{ background:#eef2ff; color:#3730a3; } th.grpA{ background:#ecfdf5; color:#065f46; }
+  td.l,th.l{ text-align:left; } td.c{ text-align:center; }
+  td .fx{ width:44px; }
+  .kv{ display:grid; grid-template-columns:repeat(4,1fr); gap:2px 8px; font-size:11.5px; }
+  .kv div{ display:flex; justify-content:space-between; align-items:center; border-bottom:1px dotted #e2e8f0; }
+  .kv .kk{ color:var(--mut); } .kv .fx{ width:48px; }
+  .formula{ font-family:"Cambria Math",Georgia,serif; font-size:10px; background:#f8fafc; border:1px solid var(--line); border-radius:3px; padding:1px 6px; margin:1px 0; }
+  .pass{ color:var(--ok); font-weight:700; }
+  .concl{ border-top:1.5px solid var(--hd); background:#f8fafc; padding:6px 10px; position:relative; z-index:1; display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .chip{ font-size:10px; padding:2px 9px; border-radius:5px; font-weight:700; }
+  .chip.ok{ background:var(--okbg); color:var(--ok); border:1px solid #6ee7b7; }
+  .chip.en{ background:var(--warnbg); color:var(--warn); border:1px solid #fcd34d; }
+  .chip.bad{ background:#fef2f2; color:#dc2626; border:1px solid #fca5a5; }
+  .fail{ color:#dc2626; font-weight:700; }
+  td select{ font:inherit; font-size:10.5px; padding:0 2px; border:1px solid #f59e0b; background:#fffbeb; border-radius:3px; color:var(--ink); cursor:pointer; }
+  td select:focus{ outline:2px solid #bfdbfe; background:#fff; }
+  .note{ font-size:10px; color:var(--mut); margin-left:auto; }
+  .sig{ display:flex; gap:18px; padding:5px 10px; border-top:1px solid var(--line); font-size:10px; color:var(--mut); position:relative; z-index:1; }
+  .disc{ max-width:1090px; margin:10px auto 30px; font-size:11px; color:#475569; background:#fff7ed; border:1px solid #fed7aa; border-radius:8px; padding:8px 12px; }
+  @media print{
+    html,body{ background:#fff; }
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }   /* บังคับปริ้นสีพื้น/กล่อง/SVG */
+    .bar,.disc{ display:none !important; }
+    .pchk{ display:none !important; }            /* ซ่อน checkbox ตอนปริ้น */
+    .wrap{ padding:0; }
+    .sheet{ box-shadow:none; border:1px solid #000; zoom:0.72; }   /* ย่อให้พอดี A4 แนวตั้งหน้าเดียว/ฐาน */
+    .fx{ background:transparent !important; border-bottom:0 !important; }   /* ช่องกรอกเป็นค่าเปล่า สะอาด */
+    @page{ size:A4 portrait; margin:7mm; }
+  }
+</style>
+</head>
+<body>
+  <div class="bar">
+    <b>รายงานฐานรากเสาเข็มเยื้องศูนย์</b><span class="tag">MOCKUP</span>
+    <span class="lg"><i></i>ช่องสีเหลือง = กรอกได้ · ที่เหลือคำนวณให้สด</span>
+    <button class="prn" onclick="window.print()">🖶 พิมพ์ / บันทึก PDF</button>
+    <div class="tabs" id="tabs"></div>
+  </div>
+  <div class="wrap"><div class="sheet" id="sheet"></div></div>
+  <div class="disc" id="disc"></div>
+
+<script>
+const MAT = { fc:280, fy:4000, fs:1700, n:8.015, k:0.331, j:0.890, cover:7.5, t:60, pileSafe:26, pileSize:'30×30', edge:0.30, tol:7.5 };
+const PROJ = { name:'', loc:'', eng:'', date:'' };
+const sqrtfc=()=>Math.sqrt(MAT.fc);
+// พิกัด X,Y = หน่วย cm เทียบ "จุดศูนย์ฐาน" (ออกแบบของฐานเข็มเดียว = 0,0) · X=ตะวันออก(แกนนอน) · Y=เหนือ(แกนตั้ง)
+const STATE = {
+  F1:{ name:'F1-A2', gridH:'A', gridV:'2', P:22.0, B:0.90, L:0.90, piles:[ {id:'P201', dX:0, dY:0, aX:2, aY:6} ] },
+  F2:{ name:'F2-B3', gridH:'B', gridV:'3', P:40.0, B:1.60, L:0.70, piles:[ {id:'P202', dX:-50, dY:0, aX:-53, aY:3}, {id:'P203', dX:50, dY:0, aX:46, aY:-2} ] },
+  F3:{ name:'F3-B5', gridH:'B', gridV:'5', P:58.0, B:1.70, L:1.70, piles:[ {id:'P204', dX:-50, dY:-29, aX:-47, aY:-32}, {id:'P205', dX:50, dY:-29, aX:54, aY:-31}, {id:'P206', dX:0, dY:58, aX:-3, aY:62} ] },
+  F4:{ name:'F4-B6', gridH:'B', gridV:'6', P:48.65, B:1.60, L:1.60, piles:[ {id:'P039', dX:-50, dY:-50, aX:-47, aY:-53}, {id:'P040', dX:-50, dY:50, aX:-46, aY:46}, {id:'P041', dX:50, dY:-50, aX:58, aY:-59}, {id:'P042', dX:50, dY:50, aX:46, aY:44} ] },
+};
+let cur='F4', showDev=true, showDim=true;
+const r=(v,d=2)=>(Math.round(v*10**d)/10**d).toFixed(d);
+// convex hull (Andrew monotone chain) — คืนจุดเรียง CCW, ตัดจุด collinear
+function convexHull(pts){
+  const ps=pts.slice().sort((a,b)=>a.x-b.x||a.y-b.y);
+  if(ps.length<3) return ps;
+  const cr=(o,a,b)=>(a.x-o.x)*(b.y-o.y)-(a.y-o.y)*(b.x-o.x);
+  const lo=[]; for(const p of ps){ while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0) lo.pop(); lo.push(p); }
+  const up=[]; for(let i=ps.length-1;i>=0;i--){ const p=ps[i]; while(up.length>=2&&cr(up[up.length-2],up[up.length-1],p)<=0) up.pop(); up.push(p); }
+  lo.pop(); up.pop(); return lo.concat(up);
+}
+
+function calc(f){
+  const pl=f.piles, n=pl.length;
+  const pierX=pl.reduce((s,p)=>s+p.dX,0)/n, pierY=pl.reduce((s,p)=>s+p.dY,0)/n;   // cm (จุดศูนย์ออกแบบ)
+  const cgX=pl.reduce((s,p)=>s+p.aX,0)/n, cgY=pl.reduce((s,p)=>s+p.aY,0)/n;        // cm (จุดศูนย์เข็มจริง)
+  // เยื้องศูนย์ = ตำแหน่งแรง(ตอม่อ) − จุดศูนย์ถ่วงกลุ่มเข็ม (e = pier − CG) ตามหลักสมดุล statics
+  //   (เข็มต้นที่ "ใกล้แรง" รับมากสุด · Bowles/Das/ว.ส.ท.) — แก้จากเดิม CG−pier ที่กลับทิศ
+  const exCm=pierX-cgX, eyCm=pierY-cgY, ex=exCm/100, ey=eyCm/100;                  // ม.
+  const Mx=f.P*ey, My=f.P*ex;
+  let sX2=0,sY2=0;
+  const ap=pl.map(p=>{ const o={...p, devX:p.dX-p.aX, devY:p.dY-p.aY, Xi:(p.aX-cgX)/100, Yi:(p.aY-cgY)/100}; o.X2=o.Xi*o.Xi; o.Y2=o.Yi*o.Yi; sX2+=o.X2; sY2+=o.Y2; return o; });
+  ap.forEach(p=>{ p.Ri=f.P/n+(sY2?Mx*p.Yi/sY2:0)+(sX2?My*p.Xi/sX2:0); p.ok=p.Ri<=MAT.pileSafe; p.over=Math.abs(p.devX)>MAT.tol||Math.abs(p.devY)>MAT.tol; });
+  const Rmax=Math.max(...ap.map(p=>p.Ri));
+  // ขยายฐานเฉพาะ "ด้านที่เข็มริมเลื่อนออก" เกินเกณฑ์ (ไม่ใช่รอบด้าน) — หน่วย cm
+  const mdX=Math.max(...pl.map(p=>p.dX)), nmdX=Math.min(...pl.map(p=>p.dX)), mdY=Math.max(...pl.map(p=>p.dY)), nmdY=Math.min(...pl.map(p=>p.dY));
+  let enL=0,enR=0,enT=0,enB=0;
+  ap.forEach(p=>{ const mvX=p.aX-p.dX, mvY=p.aY-p.dY;
+    if(p.dX>=mdX-0.5 && mvX>MAT.tol) enR=Math.max(enR,mvX);     // เข็มขวาเลื่อนไปขวา → ขยายขวา
+    if(p.dX<=nmdX+0.5 && -mvX>MAT.tol) enL=Math.max(enL,-mvX);  // เข็มซ้ายเลื่อนไปซ้าย → ขยายซ้าย
+    if(p.dY>=mdY-0.5 && mvY>MAT.tol) enT=Math.max(enT,mvY);     // เข็มบนเลื่อนขึ้น → ขยายบน
+    if(p.dY<=nmdY+0.5 && -mvY>MAT.tol) enB=Math.max(enB,-mvY);  // เข็มล่างเลื่อนลง → ขยายล่าง
+  });
+  const needEnlarge=(enL+enR+enT+enB)>0;
+  const spreadX=(Math.max(...pl.map(p=>p.dX))-Math.min(...pl.map(p=>p.dX)))/100, spreadY=(Math.max(...pl.map(p=>p.dY))-Math.min(...pl.map(p=>p.dY)))/100;
+  // ฝาครอบ (pile cap) = convex hull ของกลุ่มเข็ม + ระยะหุ้ม (edge = CL เข็ม → ขอบฐาน)
+  //   เรียงฉาก (1/2/4 เข็ม) → สี่เหลี่ยมตาม B/L · สามเหลี่ยม (3 เข็ม) → คางหมู/ห้าเหลี่ยม
+  const off=MAT.edge*100, corn=[];
+  pl.forEach(p=>{ corn.push({x:p.dX-off,y:p.dY-off},{x:p.dX+off,y:p.dY-off},{x:p.dX-off,y:p.dY+off},{x:p.dX+off,y:p.dY+off}); });
+  const hull=convexHull(corn);
+  const bx0=Math.min(...hull.map(p=>p.x)),bx1=Math.max(...hull.map(p=>p.x)),by0=Math.min(...hull.map(p=>p.y)),by1=Math.max(...hull.map(p=>p.y));
+  const isRect=hull.length<=4 && hull.every(p=>(Math.abs(p.x-bx0)<0.5||Math.abs(p.x-bx1)<0.5)&&(Math.abs(p.y-by0)<0.5||Math.abs(p.y-by1)<0.5));
+  let capE,capN,capPoly;
+  if(isRect){ capE=f.B>0?f.B:(bx1-bx0)/100; capN=f.L>0?f.L:(by1-by0)/100;
+    const hw=capE*50,hh=capN*50; capPoly=[{x:pierX-hw,y:pierY-hh},{x:pierX+hw,y:pierY-hh},{x:pierX+hw,y:pierY+hh},{x:pierX-hw,y:pierY+hh}];
+  } else { capE=(bx1-bx0)/100; capN=(by1-by0)/100; capPoly=hull; }
+  const capWarn=(capE<spreadX+0.30)||(capN<spreadY+0.30);
+  const d=MAT.t-MAT.cover-0.8, widthCm=Math.max(capN,capE)*100;
+  // เหล็กรับโมเมนต์ (เลือกได้) — one-way: โมเมนต์ที่หน้าตอม่อ = Σ(แรงเข็มที่เลยหน้าวิกฤต × ระยะถึงหน้า)
+  const barArea=dia=>({12:1.131,16:2.011,20:3.142,25:4.909}[dia]||2.011);
+  const reb=f.rebar||(f.rebar={nX:null,dX:16,nY:null,dY:16});
+  const colHalf=0.20;   // ครึ่งหน้าตอม่อ ~0.40 ม. = หน้าวิกฤตของโมเมนต์
+  const momAt=(axis)=>{ const c0=(axis==='x'?pierX:pierY)/100; let pos=0,neg=0;
+    ap.forEach(p=>{ const od=((axis==='x'?p.dX:p.dY)/100)-c0, oa=((axis==='x'?p.aX:p.aY)/100)-c0;
+      const off=Math.abs(oa)>=Math.abs(od)?oa:od;   // ใช้ตำแหน่งที่ไกลจากหน้าตอม่อกว่า (ออกแบบ/จริง) = อนุรักษ์ตามจุดประสงค์เข็มเยื้อง
+      if(off>colHalf) pos+=p.Ri*(off-colHalf); else if(off<-colHalf) neg+=p.Ri*(-off-colHalf); });
+    return Math.max(pos,neg); };   // ตัน·ม. (ฝั่งที่โมเมนต์มากกว่า)
+  const layer=(axis,width,nKey,dKey)=>{
+    const w=Math.max(width,0.30);                         // กัน width=0 (B/L ยังไม่กรอก) → AsMin=0 / spc ติดลบ
+    const M=momAt(axis), AsFlex=M*1e5/(MAT.fs*MAT.j*d);   // ตัน·ม.×1000(กก.)×100(ซม.)=กก.·ซม. → As(ซม.²)
+    const AsMin=0.0018*(w*100)*MAT.t;                     // เหล็กกันร้าวขั้นต่ำ 0.0018·b·t (SD40)
+    const AsReq=Math.max(AsFlex,AsMin), govMin=AsMin>=AsFlex;
+    const dia=reb[dKey]||16, nReq=Math.max(4,Math.ceil(AsReq/barArea(dia)));
+    const nn=reb[nKey]||nReq, AsProv=nn*barArea(dia);
+    const spc=nn>1?(w*100-2*MAT.cover)/(nn-1)/100:0;
+    return {AsReq,AsFlex,AsMin,govMin,AsProv,ok:AsProv>=AsReq,n:nn,dia,spc,nReq};
+  };
+  const rbX=layer('x', capN, 'nX','dX');   // เหล็กตามแกน X(E): เรียง/กว้าง = capN
+  const rbY=layer('y', capE, 'nY','dY');   // เหล็กตามแกน Y(N): เรียง/กว้าง = capE
+  const rebar={X:rbX,Y:rbY}, As=rbX.AsReq, nBar=rbX.n, spc=rbX.spc;
+  const vbAllow=0.29*sqrtfc(), vpAllow=0.53*sqrtfc(), vBeam=Rmax*1000/(widthCm*d*1.6), vPunch=f.P*1000/(4*(40+d)*d);
+  return { n,ap,pierX,pierY,cgX,cgY,exCm,eyCm,ex,ey,Mx,My,sX2,sY2,Rmax,d,As,nBar,spc,rebar,vBeam,vbAllow,vPunch,vpAllow,overTol:needEnlarge,enL,enR,enT,enB,capN,capE,capPoly,capWarn,spreadX,spreadY,P:f.P,gridH:f.gridH,gridV:f.gridV };
+}
+
+function planSVG(c, showDev, showDim){
+  const W=440,H=404,sc=86,ox=212,oy=184, X=xc=>ox+(xc/100)*sc, Y=yc=>oy-(yc/100)*sc;
+  const pPx=c.capPoly.map(p=>({x:X(p.x),y:Y(p.y)}));
+  const cl=Math.min(...pPx.map(p=>p.x)), crt=Math.max(...pPx.map(p=>p.x)), ct=Math.min(...pPx.map(p=>p.y)), cb=Math.max(...pPx.map(p=>p.y)), cw=crt-cl, ch=cb-ct;
+  let s=`<svg viewBox="0 0 ${W} ${H}">`;
+  // เส้นศูนย์กลาง (dash-dot)
+  s+=`<line x1="${X(0)}" y1="42" x2="${X(0)}" y2="${H-58}" stroke="#64748b" stroke-width="0.8" stroke-dasharray="9 3 2 3"/>`;
+  s+=`<line x1="44" y1="${Y(0)}" x2="${W-22}" y2="${Y(0)}" stroke="#64748b" stroke-width="0.8" stroke-dasharray="9 3 2 3"/>`;
+  // เส้นประผ่าน center เสาเข็มแต่ละต้น (แนวเข็ม · ตั้ง+นอน)
+  const uX=[...new Set(c.ap.map(p=>p.dX))], uY=[...new Set(c.ap.map(p=>p.dY))];
+  uX.forEach(xv=>{ if(Math.abs(xv)>0.5) s+=`<line x1="${X(xv)}" y1="${ct-8}" x2="${X(xv)}" y2="${cb+8}" stroke="#94a3b8" stroke-width="0.6" stroke-dasharray="4 3"/>`; });
+  uY.forEach(yv=>{ if(Math.abs(yv)>0.5) s+=`<line x1="${cl-8}" y1="${Y(yv)}" x2="${crt+8}" y2="${Y(yv)}" stroke="#94a3b8" stroke-width="0.6" stroke-dasharray="4 3"/>`; });
+  // grid bubbles
+  s+=`<circle cx="${X(0)}" cy="34" r="16" fill="#fff" stroke="#475569"/><text x="${X(0)}" y="40" font-size="16" text-anchor="middle" fill="#0f172a" font-weight="700">${c.gridV}</text>`;
+  s+=`<circle cx="38" cy="${Y(0)}" r="16" fill="#fff" stroke="#475569"/><text x="38" y="${Y(0)+5}" font-size="16" text-anchor="middle" fill="#0f172a" font-weight="700">${c.gridH}</text>`;
+  // แนวขยาย (เส้นประแดง) — โชว์ในเลเยอร์ DIMENSION เมื่อเกินเกณฑ์
+  if(showDim && c.overTol){ const eL=c.enL/100*sc, eR=c.enR/100*sc, eT=c.enT/100*sc, eB=c.enB/100*sc;
+    s+=`<rect x="${cl-eL}" y="${ct-eT}" width="${cw+eL+eR}" height="${ch+eT+eB}" fill="none" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="6 3"/>`; }
+  // ฐาน (เส้นทึบน้ำเงิน)
+  s+=`<polygon points="${pPx.map(p=>`${r(p.x,1)},${r(p.y,1)}`).join(' ')}" fill="none" stroke="#1d4ed8" stroke-width="2"/>`;
+  // ตอม่อ (เขียว) กลาง
+  const cp=0.34*sc; s+=`<rect x="${X(0)-cp/2}" y="${Y(0)-cp/2}" width="${cp}" height="${cp}" fill="none" stroke="#15803d" stroke-width="1.4"/>`;
+  // เสาเข็มแต่ละต้น
+  c.ap.forEach(p=>{
+    const px=X(p.dX), py=Y(p.dY), box=showDev?25:21;
+    s+=`<rect x="${px-box/2}" y="${py-box/2}" width="${box}" height="${box}" fill="none" stroke="#9ca3af" stroke-width="1.2"/>`;
+    s+=`<text x="${px}" y="${py+3.5}" font-size="11" text-anchor="middle" fill="#9ca3af">+</text>`;
+    if(showDev){
+      // กล่องเข็มจริง (แดงประ) — เยื้องขยายให้เห็นชัด
+      const k=2.4, mx=Math.max(-16,Math.min(16,(p.aX-p.dX)*k)), my=Math.max(-16,Math.min(16,-(p.aY-p.dY)*k)), col=p.over?'#b45309':'#dc2626';
+      s+=`<rect x="${px-box/2+mx}" y="${py-box/2+my}" width="${box}" height="${box}" fill="none" stroke="${col}" stroke-width="1.1" stroke-dasharray="3 2"/>`;
+      s+=`<text x="${px+mx}" y="${py+my+3.5}" font-size="11" text-anchor="middle" fill="${col}">+</text>`;
+      s+=`<text x="${px}" y="${py+box/2+12}" font-size="13" text-anchor="middle" fill="#0f172a" font-weight="700">${p.id}</text>`;
+    }
+    if(showDim) s+=`<text x="${px}" y="${py+box/2+(showDev?22:13)}" font-size="14" text-anchor="middle" fill="#0e7490" font-weight="700">${r(p.Ri,2)}T</text>`;
+  });
+  // จุดน้ำหนักลง: ศูนย์ออกแบบ (เพชรเขียว) + จุดเยื้องใหม่ (แดง · เลเยอร์ DIMENSION)
+  if(showDim) s+=`<circle cx="${X(c.cgX)}" cy="${Y(c.cgY)}" r="3.8" fill="#dc2626"/>`;
+  s+=`<path d="M ${X(0)} ${Y(0)-5} l 5 5 l -5 5 l -5 -5 z" fill="#15803d"/>`;
+  s+=`<text x="${X(0)}" y="${Y(0)+22}" font-size="15" text-anchor="middle" fill="#0f172a" font-weight="700">${r(c.P,2)} Tons</text>`;
+  // มิติ + ป้ายขอบ L/R/T/B (เลเยอร์ DIMENSION)
+  if(showDim){
+    const eLp=c.enL/100*sc, eRp=c.enR/100*sc, eTp=c.enT/100*sc, eBp=c.enB/100*sc;   // ขอบเส้นประขยาย (px)
+    const ty=ct-eTp-(c.overTol?24:16), rx=crt+eRp+(c.overTol?58:16);
+    s+=`<line x1="${cl}" y1="${ty}" x2="${crt}" y2="${ty}" stroke="#dc2626" stroke-width="0.8"/><line x1="${cl}" y1="${ty-3}" x2="${cl}" y2="${ty+3}" stroke="#dc2626"/><line x1="${crt}" y1="${ty-3}" x2="${crt}" y2="${ty+3}" stroke="#dc2626"/>`;
+    s+=`<text x="${X(0)}" y="${ty-3}" font-size="13" text-anchor="middle" fill="#dc2626">B = ${r(c.capE,2)} m.</text>`;
+    s+=`<line x1="${rx}" y1="${ct}" x2="${rx}" y2="${cb}" stroke="#dc2626" stroke-width="0.8"/><line x1="${rx-3}" y1="${ct}" x2="${rx+3}" y2="${ct}" stroke="#dc2626"/><line x1="${rx-3}" y1="${cb}" x2="${rx+3}" y2="${cb}" stroke="#dc2626"/>`;
+    s+=`<text x="${rx+11}" y="${Y(0)}" font-size="13" fill="#dc2626" transform="rotate(90 ${rx+11} ${Y(0)})">L = ${r(c.capN,2)} m.</text>`;
+    const el=(v)=>v>0?` +${r(v,0)}ซม.`:'', cc=(v)=>v>0?'#dc2626':'#94a3b8';
+    // ป้าย L/R/T/B วางพ้นขอบเส้นประขยาย ไม่ให้เส้นประพาดทับ
+    s+=`<text x="${cl-eLp-4}" y="${Y(0)-4}" font-size="13" text-anchor="end" fill="${cc(c.enL)}" font-weight="700">L${el(c.enL)}</text><text x="${crt+eRp+4}" y="${Y(0)-4}" font-size="13" fill="${cc(c.enR)}" font-weight="700">R${el(c.enR)}</text>`;
+    s+=`<text x="${X(0)+6}" y="${ct-eTp-4}" font-size="13" fill="${cc(c.enT)}" font-weight="700">T${el(c.enT)}</text><text x="${X(0)+6}" y="${cb+eBp+14}" font-size="13" fill="${cc(c.enB)}" font-weight="700">B${el(c.enB)}</text>`;
+    // ระยะระหว่างเข็ม (c/c กลุ่มเข็ม · มิติชั้นใน สีม่วง)
+    const pxs=c.ap.map(p=>p.dX), pys=c.ap.map(p=>p.dY);
+    const pmnX=Math.min(...pxs),pmxX=Math.max(...pxs),pmnY=Math.min(...pys),pmxY=Math.max(...pys);
+    const spX=(pmxX-pmnX)/100, spY=(pmxY-pmnY)/100, PUR='#7c3aed';
+    if(spX>0){ const yy=ty+13; s+=`<line x1="${X(pmnX)}" y1="${yy}" x2="${X(pmxX)}" y2="${yy}" stroke="${PUR}" stroke-width="0.8"/><line x1="${X(pmnX)}" y1="${yy-3}" x2="${X(pmnX)}" y2="${yy+3}" stroke="${PUR}"/><line x1="${X(pmxX)}" y1="${yy-3}" x2="${X(pmxX)}" y2="${yy+3}" stroke="${PUR}"/><text x="${X(0)}" y="${yy-2}" font-size="11" text-anchor="middle" fill="${PUR}">เข็ม ${r(spX,2)} ม.</text>`; }
+    if(spY>0){ const xx=cl-13; s+=`<line x1="${xx}" y1="${Y(pmxY)}" x2="${xx}" y2="${Y(pmnY)}" stroke="${PUR}" stroke-width="0.8"/><line x1="${xx-3}" y1="${Y(pmxY)}" x2="${xx+3}" y2="${Y(pmxY)}" stroke="${PUR}"/><line x1="${xx-3}" y1="${Y(pmnY)}" x2="${xx+3}" y2="${Y(pmnY)}" stroke="${PUR}"/><text x="${xx-2}" y="${Y(0)}" font-size="11" text-anchor="middle" fill="${PUR}" transform="rotate(-90 ${xx-2} ${Y(0)})">เข็ม ${r(spY,2)} ม.</text>`; }
+  }
+  // แกน N,Y (ขึ้น) · E,X (ขวา) มุมล่างซ้าย
+  const axx=48, axy=H-30;
+  s+=`<rect x="${axx-4}" y="${axy-4}" width="8" height="8" fill="none" stroke="#1d4ed8" stroke-width="1.3"/>`;
+  s+=`<line x1="${axx}" y1="${axy}" x2="${axx}" y2="${axy-26}" stroke="#dc2626" stroke-width="1.5"/><path d="M ${axx} ${axy-26} l -3 5 h 6 z" fill="#dc2626"/><text x="${axx-3}" y="${axy-28}" font-size="13" text-anchor="end" fill="#dc2626" font-weight="700">N,Y</text>`;
+  s+=`<line x1="${axx}" y1="${axy}" x2="${axx+26}" y2="${axy}" stroke="#15803d" stroke-width="1.5"/><path d="M ${axx+26} ${axy} l -5 -3 v 6 z" fill="#15803d"/><text x="${axx+30}" y="${axy+3}" font-size="13" fill="#15803d" font-weight="700">E,X</text>`;
+  return s+`</svg>`;
+}
+
+function sectionSVG(c){
+  const W=400,H=236,sc=95, B=c.capE, t=MAT.t/100;
+  const capW=B*sc, capH=t*sc, cx=168, capTop=86, capBot=capTop+capH, capL=cx-capW/2, capR=cx+capW/2;
+  const cov=MAT.cover/100*sc, ryB=capBot-cov, ryT=capTop+cov, m=Math.min(c.nBar,9);
+  const barX=i=>capL+cov+(capW-2*cov)*(m>1?i/(m-1):0.5);
+  let s=`<svg viewBox="0 0 ${W} ${H}">`;
+  // เสาเข็ม — จำนวนตาม "ตำแหน่ง X ที่ต่างกันจริง" (F1 = ต้นเดียว)
+  const pHalf=0.15*sc, pileBot=H-44, eOff=[...new Set(c.ap.map(p=>Math.round(p.dX)))].sort((a,b)=>a-b), pX=eOff.map(o=>cx+(o/100)*sc);
+  pX.forEach(px=>{ s+=`<line x1="${px-pHalf}" y1="${capBot}" x2="${px-pHalf}" y2="${pileBot}" stroke="#9ca3af" stroke-width="1.5"/><line x1="${px+pHalf}" y1="${capBot}" x2="${px+pHalf}" y2="${pileBot}" stroke="#9ca3af" stroke-width="1.5"/>`; });
+  // เหล็กตอม่อ (ยืน + ปลอกรับรอบ)
+  const colHalf=0.13*sc, colTop=capTop-46, ladBot=ryB+2;
+  s+=`<line x1="${cx-colHalf}" y1="${colTop}" x2="${cx-colHalf}" y2="${ladBot}" stroke="#9ca3af" stroke-width="2.2"/><line x1="${cx+colHalf}" y1="${colTop}" x2="${cx+colHalf}" y2="${ladBot}" stroke="#9ca3af" stroke-width="2.2"/>`;
+  for(let yy=colTop+9; yy<ladBot; yy+=17) s+=`<line x1="${cx-colHalf}" y1="${yy}" x2="${cx+colHalf}" y2="${yy}" stroke="#9ca3af" stroke-width="1.8"/>`;
+  // ฐาน
+  s+=`<rect x="${capL}" y="${capTop}" width="${capW}" height="${capH}" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>`;
+  // แนวขยาย (เส้นประ) — เฉพาะด้านที่ขยายในแนวตัด (ซ้าย/ขวา)
+  if(c.enR>0){ const ew=c.enR/100*sc+4; s+=`<rect x="${capR}" y="${capTop}" width="${ew}" height="${capH}" fill="none" stroke="#b45309" stroke-width="1.5" stroke-dasharray="5 3"/><text x="${capR+ew/2}" y="${capBot+12}" font-size="7.5" text-anchor="middle" fill="#b45309">ขยาย R</text>`; }
+  if(c.enL>0){ const ew=c.enL/100*sc+4; s+=`<rect x="${capL-ew}" y="${capTop}" width="${ew}" height="${capH}" fill="none" stroke="#b45309" stroke-width="1.5" stroke-dasharray="5 3"/><text x="${capL-ew/2}" y="${capBot+12}" font-size="7.5" text-anchor="middle" fill="#b45309">ขยาย L</text>`; }
+  // เหล็กล่าง (เขียว) งอปลายขึ้น U
+  s+=`<path d="M ${capL+cov} ${ryT} L ${capL+cov} ${ryB} L ${capR-cov} ${ryB} L ${capR-cov} ${ryT}" fill="none" stroke="#15803d" stroke-width="2.6"/>`;
+  for(let i=0;i<m;i++) s+=`<circle cx="${barX(i)}" cy="${ryB}" r="3.4" fill="#22d3ee" stroke="#0e7490" stroke-width="1"/>`;
+  // ลูกศร n-DB16# : ตั้งฉากขึ้น แล้วหักขวาไปหาตัวอักษร · ชี้ 2 วง (เม็ด = เหล็กตามขวาง · เส้นเขียว = เหล็กตามยาว)
+  const hi=Math.min(m-1,Math.round(m*0.62)), hx=barX(hi);
+  const gap=(m>1)?(capW-2*cov)/(m-1):24, gx=hx-gap*0.5;
+  const jx=(hx+gx)/2, jY=ryB-20, kY=capTop-16, lblX=capR+30;
+  s+=`<circle cx="${hx}" cy="${ryB}" r="6.5" fill="none" stroke="#dc2626" stroke-width="1.4"/>`;
+  s+=`<circle cx="${gx}" cy="${ryB}" r="6.5" fill="none" stroke="#dc2626" stroke-width="1.4"/>`;
+  s+=`<line x1="${hx}" y1="${ryB-6.5}" x2="${jx}" y2="${jY}" stroke="#dc2626" stroke-width="1"/>`;
+  s+=`<line x1="${gx}" y1="${ryB-6.5}" x2="${jx}" y2="${jY}" stroke="#dc2626" stroke-width="1"/>`;
+  s+=`<line x1="${jx}" y1="${jY}" x2="${jx}" y2="${kY}" stroke="#dc2626" stroke-width="1"/>`;
+  s+=`<line x1="${jx}" y1="${kY}" x2="${lblX-5}" y2="${kY}" stroke="#dc2626" stroke-width="1"/><path d="M ${lblX-5} ${kY} l -6 -3 v 6 z" fill="#dc2626"/>`;
+  s+=`<text x="${lblX}" y="${kY+2}" font-size="11" fill="#dc2626" font-weight="700">ล่าง X: ${c.rebar.X.n}-DB${c.rebar.X.dia}#</text>`;
+  s+=`<text x="${lblX}" y="${kY+14}" font-size="11" fill="#0e7490" font-weight="700">ล่าง Y: ${c.rebar.Y.n}-DB${c.rebar.Y.dia}#</text>`;
+  // มิติ t (ขวา · เส้นต่อประแดง)
+  const tx=capR+(c.enR>0?c.enR/100*sc+18:16);
+  s+=`<line x1="${capR+2}" y1="${capTop}" x2="${tx+7}" y2="${capTop}" stroke="#dc2626" stroke-width="0.8" stroke-dasharray="4 2"/><line x1="${capR+2}" y1="${capBot}" x2="${tx+7}" y2="${capBot}" stroke="#dc2626" stroke-width="0.8" stroke-dasharray="4 2"/>`;
+  s+=`<line x1="${tx}" y1="${capTop}" x2="${tx}" y2="${capBot}" stroke="#dc2626" stroke-width="1"/><path d="M ${tx} ${capTop} l -3 5 h 6 z" fill="#dc2626"/><path d="M ${tx} ${capBot} l -3 -5 h 6 z" fill="#dc2626"/>`;
+  s+=`<text x="${tx+10}" y="${(capTop+capBot)/2+4}" font-size="11" fill="#0f172a">t = ${MAT.t} cm.</text>`;
+  // ป้ายเข็ม
+  s+=`<text x="${cx}" y="${H-6}" font-size="10" text-anchor="middle" fill="#0f172a">S-Pile ${MAT.pileSize}  ·  SAFE LOAD = ${MAT.pileSafe} T/Pile</text>`;
+  return s+`</svg>`;
+}
+
+function reacBody(c){
+  return c.ap.map(p=>`<tr><td class="l">${p.id||''}</td><td>${r(p.Xi,3)}</td><td>${r(p.Yi,3)}</td><td>${r(p.X2,3)}</td><td>${r(p.Y2,3)}</td><td>${r(p.Ri,2)}</td><td class="c"><span class="${p.ok?'pass':''}" style="${p.ok?'':'color:#b45309;font-weight:700'}">${p.ok?'PASS':'>SAFE'}</span></td></tr>`).join('')
+   +`<tr style="font-weight:700;background:#f8fafc"><td class="l">Σ</td><td></td><td></td><td>${r(c.sX2,3)}</td><td>${r(c.sY2,3)}</td><td>R<sub>max</sub>=${r(c.Rmax)}</td><td class="c">${c.Rmax<=MAT.pileSafe?'<span class="pass">PASS</span>':'<span class="fail">&gt;SAFE</span>'}</td></tr>`;
+}
+function matNum(k){ return `<input class="fx num" data-mat="${k}" value="${MAT[k]}" inputmode="decimal" style="width:44px">`; }
+
+function render(){
+  const f=STATE[cur], c=calc(f);
+  const pileRows=f.piles.map((p,i)=>`<tr data-i="${i}">
+     <td class="c"><input class="fx" data-pk="id" value="${p.id}" style="width:52px;text-align:center"></td>
+     <td><input class="fx num" data-pk="dX" value="${p.dX}" inputmode="decimal"></td>
+     <td><input class="fx num" data-pk="dY" value="${p.dY}" inputmode="decimal"></td>
+     <td><input class="fx num" data-pk="aX" value="${p.aX}" inputmode="decimal"></td>
+     <td><input class="fx num" data-pk="aY" value="${p.aY}" inputmode="decimal"></td>
+     <td class="dvX"></td><td class="dvY"></td><td class="c rsl"></td></tr>`).join('');
+  document.getElementById('sheet').innerHTML=`
+  <div class="wm"><span>ตัวอย่าง · ไม่ใช่แบบก่อสร้าง</span></div>
+  <div class="hd">
+    <div class="cell"><div class="k">Project</div><input class="fx" data-pj="name" value="${PROJ.name}" placeholder="[ ชื่อโครงการ ]" style="width:96%">
+      <div class="k" style="margin-top:2px">Location</div><input class="fx" data-pj="loc" value="${PROJ.loc}" placeholder="[ สถานที่ ]" style="width:96%;font-size:10px"></div>
+    <div class="cell"><div class="k">ฐาน / ตอม่อ</div><input class="fx" data-fn="1" value="${f.name}" style="width:90%;font-weight:600">
+      <div class="k" style="margin-top:2px">เยื้องศูนย์ e (คำนวณ)</div><div class="v" style="font-size:10px" id="hdCG"></div></div>
+    <div class="cell"><div class="k">ผู้ออกแบบ</div><input class="fx" data-pj="eng" value="${PROJ.eng}" placeholder="[ ชื่อ · เลขทะเบียน ]" style="width:96%">
+      <div class="k" style="margin-top:2px">Date</div><input class="fx" data-pj="date" value="${PROJ.date}" placeholder="[ วันที่ ]" style="width:96%;font-size:10px"></div>
+  </div>
+  <div class="title">รายการคำนวณฐานรากเสาเข็มเยื้องศูนย์ <span class="ft">${cur}</span></div>
+  <div class="body">
+    <div class="plan">
+      <div class="pchk" style="display:flex;gap:10px;font-size:9.5px;justify-content:center;margin-bottom:2px"><label style="cursor:pointer"><input type="checkbox" id="ckDev" ${showDev?'checked':''}> ผังเยื้องเข็ม</label><label style="cursor:pointer"><input type="checkbox" id="ckDim" ${showDim?'checked':''}> ผังมิติ/แรงเข็ม</label></div>
+      <div id="planDevBox"></div>
+      <div id="planDimBox"></div>
+      <div class="leg" style="justify-content:center"><span>▢ ออกแบบ</span><span style="color:#1d4ed8">■ จริง</span><span style="color:#b45309">■ เกิน</span><span style="color:#dc2626">+ CG</span><span id="legEn"></span></div>
+      <div style="display:flex;gap:4px;align-items:center;margin-top:4px;font-size:10px;flex-wrap:wrap;border:1px dashed #f59e0b;background:#fffbeb;border-radius:5px;padding:3px 5px"><b>📐 ฐาน:</b> B<input class="fx num" data-fdim="B" value="${f.B}" inputmode="decimal" style="width:40px">×L<input class="fx num" data-fdim="L" value="${f.L}" inputmode="decimal" style="width:40px">×t<input class="fx num" data-mat="t" value="${MAT.t}" inputmode="decimal" style="width:34px"><span id="dimWarn" style="color:#b45309;font-weight:700;font-size:9px"></span></div>
+      <div class="sec" style="border-top:1px solid var(--line);margin-top:4px;padding:4px"><div class="sh" style="font-size:10px"><span class="n">▣</span>ระยะขยายฐานต่อด้าน (ซม.)</div><div id="enlBox"></div></div>
+      <div class="sec" style="padding:4px"><div class="sh" style="font-size:10px"><span class="n">P</span>ค่าออกแบบ / วัสดุ</div>
+        <div class="kv" style="grid-template-columns:repeat(2,1fr)">
+          <div><span class="kk">f'c</span>${matNum('fc')}</div><div><span class="kk">fy</span>${matNum('fy')}</div>
+          <div><span class="kk">fs</span>${matNum('fs')}</div><div><span class="kk">cover</span>${matNum('cover')}</div>
+          <div><span class="kk">n=Es/Ec</span><b>${MAT.n}</b></div><div><span class="kk">k</span><b>${MAT.k}</b></div>
+          <div><span class="kk">j</span><b>${MAT.j}</b></div><div><span class="kk">เกณฑ์ซม.</span>${matNum('tol')}</div>
+        </div>
+      </div>
+      <div class="sec" style="padding:4px"><div class="sh" style="font-size:10px"><span class="n">§</span>รูปตัดฐาน</div><div id="sectionBox"></div></div>
+    </div>
+    <div>
+      <div class="sec">
+        <div class="sh"><span class="n">1</span>ข้อมูลฐานราก</div>
+        <div class="kv">
+          <div><span class="kk">PILE</span><input class="fx" data-mat="pileSize" value="${MAT.pileSize}" style="width:50px;text-align:right"></div>
+          <div><span class="kk">SAFE(T)</span>${matNum('pileSafe')}</div>
+          <div><span class="kk">n เข็ม</span><b>${c.n}</b></div>
+          <div><span class="kk">AXIAL P(T)</span><input class="fx num" data-fp="1" value="${f.P}" inputmode="decimal" style="width:48px"></div>
+          <div><span class="kk">GRID</span><b>${f.gridH}/${f.gridV}</b></div>
+          <div><span class="kk">edge(ม.)</span>${matNum('edge')}</div>
+        </div>
+      </div>
+      <div class="sec">
+        <div class="sh"><span class="n">2</span>พิกัดเข็ม + ตรวจการเยื้อง (≤ <span id="tolLbl">${MAT.tol}</span> ซม.) — <span style="color:#b45309;font-weight:400">กรอก X,Y เทียบจุดศูนย์ฐาน (ซม.)</span></div>
+        <table><thead>
+          <tr><th rowspan="2" class="l">PILE</th><th class="grp" colspan="2">ออกแบบ (ซม.)</th><th class="grpA" colspan="2">จริง/สำรวจ (ซม.)</th><th colspan="2">เยื้อง(ซม.)</th><th rowspan="2">ผล</th></tr>
+          <tr><th class="grp">X</th><th class="grp">Y</th><th class="grpA">X</th><th class="grpA">Y</th><th>X</th><th>Y</th></tr>
+        </thead><tbody id="pbody">${pileRows}</tbody></table>
+        <div style="font-size:9.5px;color:#64748b;margin-top:2px">X = แกนนอน (ตะวันออก) · Y = แกนตั้ง (เหนือ) · ฐานเข็มเดียว ออกแบบ = 0,0</div>
+      </div>
+      <div class="sec"><div class="sh"><span class="n">3</span>จุดศูนย์ถ่วงกลุ่มเข็ม → เยื้องศูนย์</div>
+        <div class="formula" id="s3">—</div></div>
+      <div class="sec"><div class="sh"><span class="n">4</span>แรงปฏิกิริยาในเข็ม</div>
+        <div class="formula" id="s4f">—</div>
+        <table><thead><tr><th class="l">PILE</th><th>Xi(ม.)</th><th>Yi(ม.)</th><th>Xi²</th><th>Yi²</th><th>Ri(T)</th><th>≤<span class="safeLbl">${MAT.pileSafe}</span></th></tr></thead><tbody id="s4body"></tbody></table></div>
+      <div class="sec"><div class="sh"><span class="n">5</span>ตรวจเหล็กเสริมล่าง (เลือกเหล็กรับโมเมนต์ได้)</div>
+        <table><thead><tr><th class="l">ชั้น</th><th>As ต้องการ<br>(ซม.²)</th><th>As ที่ใส่<br>(ซม.²)</th><th>ผล</th><th>เลือกเหล็ก (NO. × DB)</th><th>ระยะ @</th></tr></thead><tbody id="s5"></tbody></table>
+        <div style="font-size:9px;color:#64748b;margin-top:2px">d = <span id="s5d"></span> ซม. · ปรับจำนวนเส้น (NO.) และขนาด (DB) ได้ · ผล = As ที่ใส่ ≥ As ต้องการ · โมเมนต์ one-way ที่หน้าตอม่อ (สมมติตอม่อ 0.40×0.40 ม.) · As ขั้นต่ำ 0.0018·b·t (เหล็กกันร้าว)</div></div>
+      <div class="sec"><div class="sh"><span class="n">6</span>แรงเฉือน (คาน + เจาะทะลุ)</div>
+        <table><thead><tr><th class="l">รายการ</th><th>v</th><th>v_allow</th><th>ผล</th></tr></thead><tbody id="s6"></tbody></table></div>
+    </div>
+  </div>
+  <div class="concl"><b>สรุปผลการออกแบบ :</b><span id="conclChips"></span><span class="note" id="conclNote"></span></div>
+  <div class="sig"><span>SIGNAL : <span id="sigEng"></span></span><span>DATE : <span id="sigDate"></span></span><span style="margin-left:auto;color:#b45309;font-weight:700">ตัวอย่าง (mockup) — ห้ามใช้ก่อสร้าง</span></div>`;
+  bind(); recompute();
+}
+
+function bind(){
+  document.querySelectorAll('#pbody tr').forEach(tr=>{ const i=+tr.dataset.i;
+    tr.querySelectorAll('input[data-pk]').forEach(inp=>inp.addEventListener('input',e=>{
+      const k=e.target.dataset.pk; if(k==='id') STATE[cur].piles[i].id=e.target.value; else STATE[cur].piles[i][k]=parseFloat(e.target.value)||0; recompute();
+    })); });
+  document.querySelectorAll('input[data-mat]').forEach(inp=>inp.addEventListener('input',e=>{ const k=e.target.dataset.mat; MAT[k]= (k==='pileSize')? e.target.value : (parseFloat(e.target.value)||0); recompute(); }));
+  document.querySelectorAll('input[data-fdim]').forEach(inp=>inp.addEventListener('input',e=>{ STATE[cur][e.target.dataset.fdim]=parseFloat(e.target.value)||0; recompute(); }));
+  document.querySelectorAll('input[data-pj]').forEach(inp=>inp.addEventListener('input',e=>{ PROJ[e.target.dataset.pj]=e.target.value; recompute(); }));
+  const fn=document.querySelector('input[data-fn]'); fn&&fn.addEventListener('input',e=>STATE[cur].name=e.target.value);
+  const fp=document.querySelector('input[data-fp]'); fp&&fp.addEventListener('input',e=>{ STATE[cur].P=parseFloat(e.target.value)||0; recompute(); });
+  const ckd=document.getElementById('ckDev'); ckd&&ckd.addEventListener('change',e=>{ showDev=e.target.checked; recompute(); });
+  const ckm=document.getElementById('ckDim'); ckm&&ckm.addEventListener('change',e=>{ showDim=e.target.checked; recompute(); });
+  const s5=document.getElementById('s5'); s5&&s5.addEventListener('change',e=>{ const t=e.target; if(t.dataset&&t.dataset.rb){ const f=STATE[cur]; if(!f.rebar) f.rebar={nX:null,dX:16,nY:null,dY:16}; f.rebar[t.dataset.rb]=parseInt(t.value,10); recompute(); } });
+}
+function rebarRows(c){
+  const noOpts=[]; for(let i=4;i<=24;i++) noOpts.push(i);
+  const opt=(vals,cv)=>vals.map(v=>`<option value="${v}"${v===cv?' selected':''}>${v}</option>`).join('');
+  const row=(o,ax,lab)=>{
+    const clr=o.spc*100-o.dia/10, tight=o.n>1&&clr<2.5;   // clear ระหว่างเหล็ก < 2.5 ซม. = แน่น/ซ้อน
+    return `<tr><td class="l">${lab}</td>`
+    +`<td>${r(o.AsReq)}${o.govMin?'<br><span style="font-size:9px;color:#64748b">(As ขั้นต่ำ)</span>':''}</td>`
+    +`<td class="${o.ok?'pass':'fail'}">${r(o.AsProv)}</td>`
+    +`<td class="c">${o.ok?'<span class="pass">✔ ผ่าน</span>':'<span class="fail">✗ ไม่ผ่าน</span>'}</td>`
+    +`<td class="c"><select data-rb="n${ax}">${opt(noOpts,o.n)}</select> × DB<select data-rb="d${ax}">${opt([12,16,20,25],o.dia)}</select></td>`
+    +`<td>${o.n>1?`DB${o.dia} @ ${r(o.spc,3)} ม.${tight?' <span class="fail">⚠แน่น</span>':''}`:'—'}</td></tr>`;
+  };
+  return row(c.rebar.X,'X','X — แกน E (ตามยาว)')+row(c.rebar.Y,'Y','Y — แกน N (ตามขวาง)');
+}
+function recompute(){
+  const f=STATE[cur], c=calc(f);
+  document.getElementById('hdCG').innerHTML=`X = ${r(c.exCm,2)} ซม. · Y = ${r(c.eyCm,2)} ซม.`;
+  document.getElementById('tolLbl').textContent=MAT.tol;
+  document.querySelectorAll('.safeLbl').forEach(e=>e.textContent=MAT.pileSafe);
+  document.querySelectorAll('#pbody tr').forEach(tr=>{ const p=c.ap[+tr.dataset.i];
+    const oX=Math.abs(p.devX)>MAT.tol,oY=Math.abs(p.devY)>MAT.tol;
+    const dx=tr.querySelector('.dvX'),dy=tr.querySelector('.dvY'),rs=tr.querySelector('.rsl');
+    dx.textContent=r(p.devX,2); dx.style.color=oX?'#b45309':''; dx.style.fontWeight=oX?'700':'';
+    dy.textContent=r(p.devY,2); dy.style.color=oY?'#b45309':''; dy.style.fontWeight=oY?'700':'';
+    rs.innerHTML=(oX||oY)?'<span style="color:#b45309;font-weight:700">เกิน</span>':'<span class="pass">PASS</span>';
+  });
+  document.getElementById('s3').innerHTML=`e<sub>x</sub> = X<sub>ตอม่อ</sub> − X<sub>CG</sub> = <b>${r(c.exCm,2)}</b> ซม. , e<sub>y</sub> = Y<sub>ตอม่อ</sub> − Y<sub>CG</sub> = <b>${r(c.eyCm,2)}</b> ซม. <span style="color:#64748b">(e = ตำแหน่งแรง − จุดศูนย์เข็ม)</span>`;
+  document.getElementById('s4f').innerHTML=`R<sub>i</sub> = P/n + M<sub>x</sub>·Y<sub>i</sub>/ΣY<sub>i</sub>² + M<sub>y</sub>·X<sub>i</sub>/ΣX<sub>i</sub>² ; M<sub>x</sub>=P·e<sub>y</sub>=${r(c.Mx)} , M<sub>y</sub>=P·e<sub>x</sub>=${r(c.My)} T·m`;
+  document.getElementById('s4body').innerHTML=reacBody(c);
+  document.getElementById('s5').innerHTML=rebarRows(c);
+  const s5d=document.getElementById('s5d'); if(s5d) s5d.textContent=r(c.d,1);
+  const pileOK=c.Rmax<=MAT.pileSafe, beamOK=c.vBeam<=c.vbAllow, punchOK=c.vPunch<=c.vpAllow;
+  const pf=ok=>ok?'<span class="pass">ผ่าน</span>':'<span class="fail">ไม่ผ่าน</span>';
+  document.getElementById('s6').innerHTML=`<tr><td class="l">เฉือนคาน</td><td>${r(c.vBeam)}</td><td>0.29√f'c=${r(c.vbAllow)}</td><td class="c">${pf(beamOK)}</td></tr><tr><td class="l">เจาะทะลุ</td><td>${r(c.vPunch)}</td><td>0.53√f'c=${r(c.vpAllow)}</td><td class="c">${pf(punchOK)}</td></tr>`;
+  const enStr=[c.enT>0?`บน+${r(c.enT,0)}`:'',c.enB>0?`ล่าง+${r(c.enB,0)}`:'',c.enL>0?`ซ้าย+${r(c.enL,0)}`:'',c.enR>0?`ขวา+${r(c.enR,0)}`:''].filter(Boolean).join(' · ');
+  const rbOK=c.rebar.X.ok&&c.rebar.Y.ok;
+  const chip=(lab,ok)=>`<span class="chip ${ok?'ok':'bad'}">${lab} : ${ok?'ผ่าน':'ไม่ผ่าน'}</span>`;
+  document.getElementById('conclChips').innerHTML=chip('กำลังเข็ม',pileOK)+chip('เหล็กเสริม',rbOK)+chip('เฉือนคาน',beamOK)+chip('เจาะทะลุ',punchOK)+`<span class="chip ${c.overTol?'en':'ok'}">ขอบฐาน : ${c.overTol?'ขยาย '+enStr+' ซม.':'ผ่าน'}</span>`;
+  document.getElementById('conclNote').textContent='หมายเหตุ : '+(c.overTol?'ขยายฐานเฉพาะด้านที่จำเป็น — '+enStr+' ซม.':'ไม่ต้องแก้ไขฐานราก');
+  document.getElementById('planDevBox').innerHTML = showDev ? '<div style="font-size:9px;font-weight:700;color:#1d4ed8;text-align:center;margin:2px 0">ผังการเยื้องของเข็ม</div>'+planSVG(c,true,false) : '';
+  document.getElementById('planDimBox').innerHTML = showDim ? '<div style="font-size:9px;font-weight:700;color:#dc2626;text-align:center;margin:4px 0 2px">ผังมิติ + แรงในเข็ม</div>'+planSVG(c,false,true) : '';
+  const totAdd=c.enL+c.enR+c.enT+c.enB, totW=c.capE+(c.enL+c.enR)/100, totH=c.capN+(c.enT+c.enB)/100;
+  document.getElementById('enlBox').innerHTML = `<table style="font-size:9px"><tr><td class="l">บน (+)</td><td>${r(c.enT,0)}</td><td class="l">ขวา (+)</td><td>${r(c.enR,0)}</td></tr><tr><td class="l">ล่าง (−)</td><td>${r(c.enB,0)}</td><td class="l">ซ้าย (−)</td><td>${r(c.enL,0)}</td></tr><tr style="font-weight:700;background:#fff7ed"><td class="l">รวมขยาย</td><td>${r(totAdd,0)} ซม.</td><td class="l">ฐานหลังขยาย</td><td>${r(totW,2)}×${r(totH,2)} ม.</td></tr></table>`;
+  const sb=document.getElementById('sectionBox'); if(sb) sb.innerHTML=sectionSVG(c);
+  const dw=document.getElementById('dimWarn'); if(dw) dw.textContent=c.capWarn?'⚠ ฐานเล็กกว่าระยะหุ้มเข็มขั้นต่ำ':'';
+  document.getElementById('legEn').innerHTML=c.overTol?'<span style="color:#b45309">▭ แนวขยาย = <b>เส้นประ</b> (แก้หลังพบเยื้องศูนย์)</span>':'<span style="color:#047857">✓ ไม่ต้องขยายฐาน</span>';
+  document.getElementById('sigEng').textContent=PROJ.eng||'[ ผู้ออกแบบ · เลขทะเบียน ]';
+  document.getElementById('sigDate').textContent=PROJ.date||'[ วันที่ ]';
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.k===cur));
+}
+const tabs=document.getElementById('tabs');
+Object.keys(STATE).forEach(k=>{ const b=document.createElement('button'); b.textContent=k; b.dataset.k=k; b.onclick=()=>{ cur=k; render(); }; tabs.appendChild(b); });
+document.getElementById('disc').innerHTML='⚠️ <b>ตัวอย่าง (mockup)</b> — พิกัดเป็น <b>X,Y หน่วย cm เทียบจุดศูนย์ฐาน</b> (ออกแบบเข็มเดียว = 0,0 · จริงคือค่าที่เยื้องไป เช่น 2,6) · กรอกในช่องสีเหลือง ทุกอย่างคำนวณสด · เลขจากสูตรในแบบ PE แต่ <b>ยังไม่ผ่านการตรวจเพื่อใช้งานจริง</b>';
+render();
+</script>
+</body>
+</html>
