@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https:; connect-src 'self' https://structvault-source.vercel.app https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://apis.google.com https://*.firebaseapp.com http://localhost:* http://127.0.0.1:*; worker-src 'self' blob:; child-src 'self' blob:; frame-src 'self' blob: https://*.firebaseapp.com https://accounts.google.com https://apis.google.com; media-src 'self' data: blob:; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="google-site-verification" content="F_b5iW1p_U8qgKP8bPWwoDp91aPU2T-ufBa8Yk_eR_I" />
+    <link rel="icon" type="image/png" sizes="320x320" href="/favicon-2d.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon-2d.png" />
+    <link rel="shortcut icon" type="image/png" href="/favicon-2d.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="โปรแกรมคำนวณและออกแบบโครงสร้างคอนกรีตเสริมเหล็ก (ค.ส.ล.) ครบวงจร ลองใช้ฟรี — วิเคราะห์โครงสร้าง ออกแบบคาน เสา ฐานราก พื้น หลังคา เขียนแบบโครงสร้าง และออกรายการคำนวณ ตามมาตรฐาน มยผ. (WSD/SDM)"
+    />
+    <meta
+      name="keywords"
+      content="โปรแกรมคำนวณโครงสร้าง, โปรแกรมออกแบบโครงสร้าง, เขียนแบบโครงสร้าง, คำนวณโครงสร้าง, ออกแบบโครงสร้าง, โปรแกรมเขียนแบบโครงสร้าง, โปรแกรมออกแบบคาน, ออกแบบคาน, ออกแบบเสา, ออกแบบฐานราก, ออกแบบพื้น, คอนกรีตเสริมเหล็ก, ค.ส.ล., WSD, SDM, มยผ. 1301, วิเคราะห์โครงสร้าง, รายการคำนวณ, ประเมินอาคารเดิม, structural design software, 2D Performance"
+    />
+    <link rel="canonical" href="https://2d-performance.com/" />
+    <meta name="theme-color" content="#111827" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="2D Performance" />
+    <meta property="og:title" content="โปรแกรมคำนวณ-ออกแบบ-เขียนแบบโครงสร้าง ค.ส.ล. (มยผ. WSD/SDM) — 2D Performance" />
+    <meta
+      property="og:description"
+      content="โปรแกรมคำนวณและออกแบบโครงสร้าง ค.ส.ล. ครบวงจร ลองใช้ฟรี: วิเคราะห์ ออกแบบคาน เสา ฐานราก พื้น หลังคา · เขียนแบบ + รายการคำนวณ ตาม มยผ. (WSD/SDM) · ประเมินอาคารเดิม · งานไฟฟ้า/สุขาภิบาล"
+    />
+    <meta property="og:url" content="https://2d-performance.com/" />
+    <meta property="og:image" content="https://2d-performance.com/og-image.png" />
+    <meta property="og:image:secure_url" content="https://2d-performance.com/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="th_TH" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="โปรแกรมคำนวณ-ออกแบบ-เขียนแบบโครงสร้าง ค.ส.ล. (มยผ. WSD/SDM) — 2D Performance" />
+    <meta
+      name="twitter:description"
+      content="โปรแกรมคำนวณและออกแบบโครงสร้าง ค.ส.ล. ครบวงจร ลองใช้ฟรี: วิเคราะห์ ออกแบบคาน เสา ฐานราก พื้น หลังคา · เขียนแบบ + รายการคำนวณ ตาม มยผ. (WSD/SDM) · ประเมินอาคารเดิม"
+    />
+    <meta name="twitter:image" content="https://2d-performance.com/og-image.png" />
+    <title>โปรแกรมคำนวณโครงสร้าง · ออกแบบ-เขียนแบบโครงสร้าง ค.ส.ล. (มยผ. WSD/SDM) | 2D Performance</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "2D Performance",
+        "alternateName": "StructVault",
+        "url": "https://2d-performance.com/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web browser, Windows",
+        "inLanguage": "th",
+        "image": "https://2d-performance.com/og-image.png",
+        "description": "โปรแกรมคำนวณ ออกแบบ และเขียนแบบโครงสร้างคอนกรีตเสริมเหล็ก (ค.ส.ล.) ครบวงจร ตามมาตรฐาน มยผ. (WSD/SDM)",
+        "keywords": "โปรแกรมคำนวณโครงสร้าง, โปรแกรมออกแบบโครงสร้าง, เขียนแบบโครงสร้าง, คำนวณโครงสร้าง, ออกแบบโครงสร้าง, ค.ส.ล., มยผ. 1301, WSD, SDM",
+        "featureList": [
+          "สร้างแปลนและกำหนดโหลด",
+          "วิเคราะห์โครงสร้าง",
+          "ออกแบบคาน เสา ฐานราก พื้น หลังคา",
+          "จัดกลุ่มเหล็กและตรวจสอบ",
+          "ออกรายการคำนวณและแบบ",
+          "ประเมินกำลังอาคารเดิม (as-built)",
+          "งานระบบไฟฟ้าและสุขาภิบาล"
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "2D Performance คืออะไร?", "acceptedAnswer": { "@type": "Answer", "text": "โปรแกรม/เว็บแอปคำนวณและออกแบบโครงสร้างคอนกรีตเสริมเหล็ก (ค.ส.ล.) ครบวงจร — วางแปลน วิเคราะห์ ออกแบบ และออกรายการคำนวณกับแบบ ในที่เดียว สำหรับวิศวกรโยธา" } },
+          { "@type": "Question", "name": "ใช้งานฟรีไหม?", "acceptedAnswer": { "@type": "Answer", "text": "ลองใช้ฟรีได้เลย เปิดบนเว็บแล้วเริ่มออกแบบได้ทันที ไม่ต้องสมัครก่อน" } },
+          { "@type": "Question", "name": "ออกแบบอะไรได้บ้าง?", "acceptedAnswer": { "@type": "Answer", "text": "คาน เสา ฐานราก พื้น และหลังคา จัดกลุ่มเหล็ก ประเมินกำลังอาคารเดิม (as-built) รวมถึงงานระบบไฟฟ้าและสุขาภิบาล" } },
+          { "@type": "Question", "name": "รองรับมาตรฐานอะไร?", "acceptedAnswer": { "@type": "Answer", "text": "ออกแบบตามมาตรฐาน มยผ. 1301 ทั้งวิธีหน่วยแรงใช้งาน (WSD) และวิธีกำลัง (SDM) อ้างอิง ACI 318" } },
+          { "@type": "Question", "name": "ได้เอกสารอะไรกลับไป?", "acceptedAnswer": { "@type": "Answer", "text": "รายการคำนวณและแบบในเล่ม ดาวน์โหลดเป็น PDF พร้อมใช้ส่งงานจริง" } },
+          { "@type": "Question", "name": "ต้องติดตั้งโปรแกรมไหม?", "acceptedAnswer": { "@type": "Answer", "text": "ใช้บนเว็บได้เลยไม่ต้องลงอะไร หรือดาวน์โหลดตัวติดตั้งสำหรับ Windows เพื่อทำงานออฟไลน์ก็ได้" } }
+        ]
+      }
+    </script>
+    <script defer src="/assets/roof-purlin-inject.js"></script>
+    <script type="module" crossorigin src="/assets/main-DhCdMHHr.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/react-vendor-DJatD0n7.js">
+    <link rel="modulepreload" crossorigin href="/assets/index-owqjWN7o.js">
+    <link rel="stylesheet" crossorigin href="/assets/main-B_ie8PD7.css">
+  </head>
+  <body>
+    <noscript>
+      <div style="max-width:820px;margin:40px auto;padding:24px;font-family:'Sarabun',sans-serif;line-height:1.7">
+        <h1>โปรแกรมคำนวณและออกแบบโครงสร้าง ค.ส.ล. — 2D Performance</h1>
+        <p><strong>2D Performance</strong> คือโปรแกรม/เว็บแอป<strong>คำนวณโครงสร้าง</strong> <strong>ออกแบบโครงสร้าง</strong> และ<strong>เขียนแบบโครงสร้าง</strong>คอนกรีตเสริมเหล็ก (ค.ส.ล.) ครบวงจรในที่เดียว ลองใช้ฟรี</p>
+        <p>ความสามารถ: สร้างแปลน กำหนดน้ำหนักบรรทุก วิเคราะห์โครงสร้าง ออกแบบคาน เสา ฐานราก พื้น และหลังคา จัดกลุ่มเหล็กเสริม ออกรายการคำนวณและแบบก่อสร้าง ตามมาตรฐาน มยผ. 1301 (วิธีหน่วยแรงใช้งาน WSD และวิธีกำลัง SDM) รวมถึงประเมินกำลังอาคารเดิม (as-built) และงานระบบไฟฟ้า/สุขาภิบาล</p>
+        <p>เหมาะสำหรับวิศวกรโยธา ผู้ออกแบบโครงสร้าง และนักศึกษาวิศวกรรม — กรุณาเปิดใช้งาน JavaScript เพื่อเริ่มใช้งาน</p>
+      </div>
+    </noscript>
+    <div id="root"></div>
+  </body>
+</html>
+ 
