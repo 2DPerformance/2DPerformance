@@ -1,0 +1,1688 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>P4 Original Polish Mockup - 2D Performance</title>
+  <link rel="stylesheet" href="fonts/sarabun/sarabun.css" />
+  <style>
+    :root {
+      --bg: oklch(96.8% 0.008 247);
+      --surface: oklch(99% 0.006 247);
+      --panel: oklch(97.5% 0.01 247);
+      --panel-2: oklch(94.7% 0.014 247);
+      --line: oklch(84% 0.022 247);
+      --line-strong: oklch(72% 0.035 247);
+      --ink: oklch(23% 0.035 247);
+      --text: oklch(34% 0.035 247);
+      --muted: oklch(53% 0.034 247);
+      --blue: oklch(52% 0.16 258);
+      --blue-soft: oklch(95% 0.028 258);
+      --green: oklch(53% 0.13 157);
+      --green-soft: oklch(95% 0.035 157);
+      --amber: oklch(62% 0.13 72);
+      --amber-soft: oklch(96% 0.045 72);
+      --red: oklch(55% 0.18 29);
+      --red-soft: oklch(95.5% 0.035 29);
+      --violet: oklch(55% 0.16 292);
+      --violet-soft: oklch(95% 0.03 292);
+      --shadow: 0 1px 2px oklch(24% 0.03 247 / 0.08);
+      --radius: 8px;
+      --mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Sarabun", "IBM Plex Sans Thai", "Segoe UI", system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .mock-app {
+      min-height: 100vh;
+      padding: 12px 12px 28px;
+    }
+
+    .p4-wrap {
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    .topline {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      min-height: 56px;
+      padding: 11px 14px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .title-stack {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .phase-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex: 0 0 auto;
+    }
+
+    .title-stack strong {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .title-stack span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      min-height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .btn.locked {
+      background: var(--green-soft);
+      border-color: oklch(78% 0.07 157);
+      color: var(--green);
+    }
+
+    .btn.primary {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: oklch(98% 0.006 247);
+    }
+
+    .step-rail {
+      display: flex;
+      gap: 6px;
+      padding: 12px 0 8px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .step {
+      min-width: 124px;
+      max-width: 190px;
+      flex: 1 0 auto;
+      display: grid;
+      gap: 2px;
+      appearance: none;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface);
+      color: var(--muted);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .step b {
+      color: var(--ink);
+      font-size: 12px;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .step span {
+      font-size: 10.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .step.active {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+      box-shadow: inset 0 0 0 1px oklch(75% 0.08 258);
+    }
+
+    .step.next {
+      background: var(--violet-soft);
+      border-color: oklch(78% 0.08 292);
+    }
+
+    .step.next.active {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+      box-shadow: inset 0 0 0 1px oklch(75% 0.08 258);
+    }
+
+    .step:focus-visible,
+    .btn:focus-visible,
+    .filter input:focus-visible {
+      outline: 2px solid oklch(70% 0.12 258);
+      outline-offset: 2px;
+    }
+
+    .step-panel {
+      display: none;
+    }
+
+    .step-panel.active {
+      display: block;
+    }
+
+    .summary-card,
+    .level-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .summary-card {
+      padding: 13px 14px;
+      margin-bottom: 12px;
+    }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .split-grid > .level-card {
+      margin-top: 0;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 10px 0 0;
+    }
+
+    .mini-card {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--panel);
+      padding: 10px;
+    }
+
+    .mini-card small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-top: 3px;
+      color: var(--ink);
+      font-size: 17px;
+      font-family: var(--mono);
+      line-height: 1.15;
+    }
+
+    .mini-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--text);
+      font-size: 11.5px;
+      line-height: 1.35;
+    }
+
+    .summary-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 9px;
+    }
+
+    .summary-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.28;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 5px;
+      border: 1px solid oklch(82% 0.06 258);
+      background: var(--blue-soft);
+      color: var(--blue);
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .checks {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 25px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      padding: 3px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .chip::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      flex: 0 0 auto;
+    }
+
+    .chip.pass {
+      color: var(--green);
+      background: var(--green-soft);
+      border-color: oklch(78% 0.07 157);
+    }
+
+    .chip.warn {
+      color: var(--amber);
+      background: var(--amber-soft);
+      border-color: oklch(80% 0.08 72);
+    }
+
+    .chip.fail {
+      color: var(--red);
+      background: var(--red-soft);
+      border-color: oklch(78% 0.08 29);
+    }
+
+    .filter {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+      user-select: none;
+    }
+
+    .filter input {
+      width: 14px;
+      height: 14px;
+    }
+
+    .note {
+      display: flex;
+      gap: 8px;
+      align-items: start;
+      background: var(--panel);
+      border: 1px dashed var(--line-strong);
+      border-radius: 7px;
+      padding: 9px 11px;
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .note b {
+      color: var(--blue);
+    }
+
+    .level-card {
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .level-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px 9px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .level-title {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .level-title small,
+    .level-meta {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .level-body {
+      padding: 12px 14px 14px;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1120px;
+      border-collapse: separate;
+      border-spacing: 0;
+      color: var(--ink);
+      font-size: 12.5px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    table.compact {
+      min-width: 760px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 7px 9px;
+      text-align: left;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: var(--panel-2);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    td.num,
+    th.num {
+      text-align: right;
+      font-family: var(--mono);
+    }
+
+    td.section,
+    td.suggest {
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    tbody tr.data-row:hover td {
+      background: oklch(97.7% 0.014 247);
+    }
+
+    tbody tr.issue-row td {
+      padding: 0 9px 8px 9px;
+      color: var(--text);
+      font-size: 11.5px;
+      line-height: 1.45;
+      white-space: normal;
+    }
+
+    .beam-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .point-load {
+      display: inline-grid;
+      place-items: center;
+      width: 15px;
+      height: 15px;
+      border-radius: 4px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 10px;
+      font-family: var(--mono);
+      font-weight: 800;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      border: 1px solid transparent;
+    }
+
+    .status.pass {
+      color: var(--green);
+      background: var(--green-soft);
+      border-color: oklch(78% 0.07 157);
+    }
+
+    .status.warn {
+      color: var(--amber);
+      background: var(--amber-soft);
+      border-color: oklch(80% 0.08 72);
+    }
+
+    .status.fail {
+      color: var(--red);
+      background: var(--red-soft);
+      border-color: oklch(78% 0.08 29);
+    }
+
+    .issue {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: 14px;
+      color: var(--text);
+    }
+
+    .issue i {
+      width: 14px;
+      height: 14px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 4px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-style: normal;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .issue.warn i {
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    .sticky-action {
+      display: flex;
+      justify-content: flex-end;
+      padding: 12px 0 0;
+    }
+
+    .workflow-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .workflow-row {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface);
+      padding: 9px 10px;
+    }
+
+    .workflow-row b {
+      color: var(--ink);
+      font-size: 12px;
+    }
+
+    .workflow-row span {
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .sheet-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .sheet-card {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .sheet-thumb {
+      height: 96px;
+      display: grid;
+      place-items: center;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .sheet-card div:last-child {
+      padding: 9px 10px;
+    }
+
+    .sheet-card b {
+      display: block;
+      color: var(--ink);
+      font-size: 12px;
+    }
+
+    .sheet-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 11.5px;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 760px) {
+      .mock-app {
+        padding: 8px 8px 24px;
+      }
+
+      .topline,
+      .summary-head,
+      .level-head {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .topline {
+        display: grid;
+      }
+
+      .toolbar-actions {
+        justify-content: start;
+      }
+
+      .step {
+        min-width: 148px;
+      }
+
+      .split-grid,
+      .mini-grid,
+      .sheet-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="mock-app">
+    <div class="p4-wrap">
+      <section class="topline" aria-label="P4 toolbar">
+        <div class="title-stack">
+          <span class="phase-dot" aria-hidden="true"></span>
+          <strong>P4 ผลออกแบบ, ระบบใหม่ (วิศวกรคุม)</strong>
+          <span>SDM · aci_318_19 · นำเข้าจัดโมเดลจาก P3: คาน 58 ตัว, ข้าม 24</span>
+        </div>
+        <div class="toolbar-actions">
+          <button class="btn locked">Lock แล้ว, รายงาน/แบบพร้อม</button>
+          <button class="btn">ปลดล็อกเพื่อแก้</button>
+        </div>
+      </section>
+
+      <nav class="step-rail" aria-label="P4 workflow" role="tablist">
+        <button class="step active" type="button" data-step="1" role="tab" aria-selected="true"><b>1 ออกแบบรายตัว</b><span>envelope + sanity</span></button>
+        <button class="step" type="button" data-step="2" role="tab" aria-selected="false"><b>2 จัดกลุ่ม</b><span>schedule palette</span></button>
+        <button class="step" type="button" data-step="3" role="tab" aria-selected="false"><b>3 ฐานราก</b><span>เข็ม · load มือ</span></button>
+        <button class="step" type="button" data-step="4" role="tab" aria-selected="false"><b>4 หลังคาเหล็ก</b><span>ASD · section</span></button>
+        <button class="step" type="button" data-step="5" role="tab" aria-selected="false"><b>5 บันได</b><span>R/T/ชานพัก</span></button>
+        <button class="step" type="button" data-step="6" role="tab" aria-selected="false"><b>6 แบบ Section</b><span>S-01...RF-D</span></button>
+        <button class="step next" type="button" data-step="7" role="tab" aria-selected="false"><b>7 เล่มรายงาน</b><span>ฉบับเต็มอยู่แท็บ P6</span></button>
+      </nav>
+
+      <section class="step-panel active" data-panel="1" role="tabpanel" aria-label="ขั้น 1 ออกแบบรายตัว">
+      <section class="summary-card">
+        <div class="summary-head">
+          <div class="summary-title">
+            <h1>P4 · ออกแบบรายตัว</h1>
+            <span class="tag">กฎ 4: รู้แรงจริงต่อตัว ก่อนจัดกลุ่ม</span>
+          </div>
+          <label class="filter">
+            <input type="checkbox" />
+            เฉพาะที่มีประเด็น
+          </label>
+        </div>
+
+        <div class="checks" aria-label="P4 summary">
+          <span class="chip pass">ผ่าน 58</span>
+          <span class="chip warn">มีประเด็น 0</span>
+          <span class="chip fail">หน้าตัดไม่พอ 0</span>
+        </div>
+
+        <div class="note" style="margin-top: 10px;">
+          <b>ค่าในตาราง</b>
+          <span>= Mu (factored) จาก envelope ของ combo จริง, “เสนอ” คือหน้าตัดเล็กสุดใน palette ที่พอแบบ singly, doubly เป็นทางเลือกให้วิศวกรเลือกใน P5 ระบบไม่ตัดสินแทน</span>
+        </div>
+      </section>
+
+      <section class="level-card">
+        <div class="level-head">
+          <div class="level-title">
+            <h2>ชั้น 1</h2>
+            <small>26 ตัว</small>
+          </div>
+          <div class="level-meta">เรียงตาม mark, คง column เดิมจาก P4</div>
+        </div>
+        <div class="table-scroll">
+          <table aria-label="P4 individual beam design table">
+            <thead>
+              <tr>
+                <th>คาน</th>
+                <th>หน้าตัด</th>
+                <th class="num">L (ม.)</th>
+                <th class="num">w svc (kg/m)</th>
+                <th class="num">M+</th>
+                <th class="num">M-ซ้าย</th>
+                <th class="num">M-ขวา</th>
+                <th class="num">V</th>
+                <th class="num">As ล่าง (mm2)</th>
+                <th class="num">As บน (mm2)</th>
+                <th>เสนอ</th>
+                <th>สถานะ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="data-row">
+                <td><span class="beam-label">B5 <span class="point-load">P</span></span></td>
+                <td class="section">200x500</td>
+                <td class="num">5.10</td>
+                <td class="num">701</td>
+                <td class="num">7,735</td>
+                <td class="num">1,427</td>
+                <td class="num">1,427</td>
+                <td class="num">4,868</td>
+                <td class="num">536</td>
+                <td class="num">327</td>
+                <td class="suggest">200x400</td>
+                <td><span class="status pass">ผ่าน</span></td>
+              </tr>
+              <tr class="issue-row">
+                <td colspan="12">
+                  <span class="issue"><i>i</i>M* สูงกว่า wL2/8 มาก, มี point load จากคานฝาก ควรวางคานจริงให้เข้าแรง</span>
+                  <span class="issue"><i>i</i>มี point load จากคานฝาก, การแยก D:L เป็นสัดส่วนประมาณ</span>
+                </td>
+              </tr>
+
+              <tr class="data-row">
+                <td><span class="beam-label">B3 <span class="point-load">P</span></span></td>
+                <td class="section">200x400</td>
+                <td class="num">5.10</td>
+                <td class="num">1,155</td>
+                <td class="num">9,189</td>
+                <td class="num">2,424</td>
+                <td class="num">2,424</td>
+                <td class="num">6,208</td>
+                <td class="num">815</td>
+                <td class="num">256</td>
+                <td class="suggest">คงเดิม</td>
+                <td><span class="status pass">ผ่าน</span></td>
+              </tr>
+
+              <tr class="data-row">
+                <td><span class="beam-label">B5 <span class="point-load">P</span></span></td>
+                <td class="section">200x500</td>
+                <td class="num">5.10</td>
+                <td class="num">1,802</td>
+                <td class="num">6,346</td>
+                <td class="num">3,781</td>
+                <td class="num">5,812</td>
+                <td class="num">6,838</td>
+                <td class="num">440</td>
+                <td class="num">403</td>
+                <td class="suggest">200x400</td>
+                <td><span class="status pass">ผ่าน</span></td>
+              </tr>
+              <tr class="issue-row">
+                <td colspan="12">
+                  <span class="issue"><i>i</i>มี point load จากคานฝาก, การแยก D:L เป็นสัดส่วนประมาณ</span>
+                </td>
+              </tr>
+
+              <tr class="data-row">
+                <td><span class="beam-label">B3</span></td>
+                <td class="section">200x400</td>
+                <td class="num">3.70</td>
+                <td class="num">868</td>
+                <td class="num">109</td>
+                <td class="num">5,813</td>
+                <td class="num">954</td>
+                <td class="num">3,635</td>
+                <td class="num">256</td>
+                <td class="num">516</td>
+                <td class="suggest">คงเดิม</td>
+                <td><span class="status pass">ผ่าน</span></td>
+              </tr>
+
+              <tr class="data-row">
+                <td><span class="beam-label">B5 <span class="point-load">P</span></span></td>
+                <td class="section">200x500</td>
+                <td class="num">5.10</td>
+                <td class="num">1,233</td>
+                <td class="num">6,436</td>
+                <td class="num">2,572</td>
+                <td class="num">6,321</td>
+                <td class="num">6,750</td>
+                <td class="num">446</td>
+                <td class="num">438</td>
+                <td class="suggest">200x400</td>
+                <td><span class="status pass">ผ่าน</span></td>
+              </tr>
+              <tr class="issue-row">
+                <td colspan="12">
+                  <span class="issue"><i>i</i>M* สูงกว่า wL2/8 มาก, มี point load จากคานฝาก ควรวางคานจริงให้เข้าแรง</span>
+                  <span class="issue"><i>i</i>มี point load จากคานฝาก, การแยก D:L เป็นสัดส่วนประมาณ</span>
+                </td>
+              </tr>
+
+              <tr class="data-row">
+                <td><span class="beam-label">B3</span></td>
+                <td class="section">200x400</td>
+                <td class="num">3.70</td>
+                <td class="num">1,205</td>
+                <td class="num">484</td>
+                <td class="num">6,323</td>
+                <td class="num">1,365</td>
+                <td class="num">4,661</td>
+                <td class="num">256</td>
+                <td class="num">561</td>
+                <td class="suggest">คงเดิม</td>
+                <td><span class="status pass">ผ่าน</span></td>
+              </tr>
+
+              <tr class="data-row">
+                <td><span class="beam-label">B3 <span class="point-load">P</span></span></td>
+                <td class="section">200x400</td>
+                <td class="num">5.10</td>
+                <td class="num">372</td>
+                <td class="num">4,879</td>
+                <td class="num">848</td>
+                <td class="num">4,196</td>
+                <td class="num">3,856</td>
+                <td class="num">433</td>
+                <td class="num">372</td>
+                <td class="suggest">คงเดิม</td>
+                <td><span class="status pass">ผ่าน</span></td>
+              </tr>
+              <tr class="issue-row">
+                <td colspan="12">
+                  <span class="issue"><i>i</i>M* สูงกว่า wL2/8 มาก, มี point load จากคานฝาก ควรวางคานจริงให้เข้าแรง</span>
+                  <span class="issue"><i>i</i>มี point load จากคานฝาก, การแยก D:L เป็นสัดส่วนประมาณ</span>
+                </td>
+              </tr>
+
+              <tr class="data-row">
+                <td><span class="beam-label">B3</span></td>
+                <td class="section">200x400</td>
+                <td class="num">3.70</td>
+                <td class="num">1,061</td>
+                <td class="num">899</td>
+                <td class="num">3,592</td>
+                <td class="num">1,176</td>
+                <td class="num">3,513</td>
+                <td class="num">256</td>
+                <td class="num">319</td>
+                <td class="suggest">คงเดิม</td>
+                <td><span class="status pass">ผ่าน</span></td>
+              </tr>
+
+              <tr class="data-row">
+                <td><span class="beam-label">B3 <span class="point-load">P</span></span></td>
+                <td class="section">200x400</td>
+                <td class="num">3.20</td>
+                <td class="num">946</td>
+                <td class="num">1,668</td>
+                <td class="num">767</td>
+                <td class="num">1,384</td>
+                <td class="num">2,408</td>
+                <td class="num">256</td>
+                <td class="num">256</td>
+                <td class="suggest">คงเดิม</td>
+                <td><span class="status pass">ผ่าน</span></td>
+              </tr>
+              <tr class="issue-row">
+                <td colspan="12">
+                  <span class="issue"><i>i</i>มี point load จากคานฝาก, การแยก D:L เป็นสัดส่วนประมาณ</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="sticky-action">
+        <button class="btn primary">ไป P5 จัดกลุ่ม</button>
+      </div>
+      </section>
+
+      <section class="step-panel" data-panel="2" role="tabpanel" aria-label="ขั้น 2 จัดกลุ่ม">
+        <section class="summary-card">
+          <div class="summary-head">
+            <div class="summary-title">
+              <h1>P5 · จัดกลุ่มคาน</h1>
+              <span class="tag">schedule palette จากผล P4</span>
+            </div>
+            <label class="filter">
+              <input type="checkbox" checked />
+              รวมเฉพาะที่ lock แล้ว
+            </label>
+          </div>
+          <div class="checks" aria-label="P5 grouping summary">
+            <span class="chip pass">กลุ่มคาน 8</span>
+            <span class="chip pass">ใช้งานได้ 58 ตัว</span>
+            <span class="chip warn">ต้องตัดสินใจ 0</span>
+          </div>
+          <div class="note" style="margin-top: 10px;">
+            <b>หลักการ</b>
+            <span>ให้วิศวกรเลือกกลุ่มจากหน้าตัดและเหล็กที่อ่านง่ายก่อนส่งไปแบบ schedule, ระบบเสนอจากผลรายตัวแต่ไม่ลดความปลอดภัยอัตโนมัติ</span>
+          </div>
+        </section>
+
+        <div class="split-grid">
+          <section class="level-card">
+            <div class="level-head">
+              <div class="level-title">
+                <h2>Beam schedule palette</h2>
+                <small>สรุปกลุ่มหลัก</small>
+              </div>
+              <div class="level-meta">พร้อมส่งต่อ Section</div>
+            </div>
+            <div class="table-scroll">
+              <table class="compact" aria-label="P5 beam grouping table">
+                <thead>
+                  <tr>
+                    <th>กลุ่ม</th>
+                    <th>หน้าตัด</th>
+                    <th class="num">จำนวน</th>
+                    <th>เหล็กล่าง</th>
+                    <th>เหล็กบน</th>
+                    <th>ปลอก</th>
+                    <th>ใช้กับ</th>
+                    <th>สถานะ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="data-row">
+                    <td><span class="beam-label">BG-01</span></td>
+                    <td class="section">200x400</td>
+                    <td class="num">18</td>
+                    <td class="section">2-DB16</td>
+                    <td class="section">2-DB12</td>
+                    <td class="section">RB6@150</td>
+                    <td>คานทั่วไปชั้น 1</td>
+                    <td><span class="status pass">พร้อม</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td><span class="beam-label">BG-02</span></td>
+                    <td class="section">200x500</td>
+                    <td class="num">14</td>
+                    <td class="section">3-DB16</td>
+                    <td class="section">2-DB16</td>
+                    <td class="section">RB6@125</td>
+                    <td>คานรับ point load</td>
+                    <td><span class="status pass">พร้อม</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td><span class="beam-label">BG-03</span></td>
+                    <td class="section">250x500</td>
+                    <td class="num">8</td>
+                    <td class="section">3-DB20</td>
+                    <td class="section">2-DB16</td>
+                    <td class="section">RB9@125</td>
+                    <td>คานช่วงยาว</td>
+                    <td><span class="status pass">พร้อม</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td><span class="beam-label">BG-04</span></td>
+                    <td class="section">150x300</td>
+                    <td class="num">11</td>
+                    <td class="section">2-DB12</td>
+                    <td class="section">2-DB12</td>
+                    <td class="section">RB6@150</td>
+                    <td>คานรองพื้น</td>
+                    <td><span class="status pass">พร้อม</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td><span class="beam-label">BG-05</span></td>
+                    <td class="section">200x600</td>
+                    <td class="num">7</td>
+                    <td class="section">4-DB20</td>
+                    <td class="section">3-DB16</td>
+                    <td class="section">RB9@100</td>
+                    <td>คาน transfer ย่อย</td>
+                    <td><span class="status warn">ตรวจแบบ</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="level-card">
+            <div class="level-head">
+              <div class="level-title">
+                <h2>Decision queue</h2>
+                <small>คุมสิ่งที่ต้องอนุมัติ</small>
+              </div>
+            </div>
+            <div class="level-body">
+              <div class="workflow-list">
+                <div class="workflow-row">
+                  <b>Palette</b>
+                  <span>ล็อกหน้าตัดมาตรฐานไว้ 5 ขนาด ลดแบบซ้ำและยังตามผล P4 ได้ครบ</span>
+                  <span class="status pass">ผ่าน</span>
+                </div>
+                <div class="workflow-row">
+                  <b>Point load</b>
+                  <span>กลุ่มที่มีคานฝากยังแสดงป้าย P ต่อเนื่องจาก P4 เพื่อกันอ่าน schedule ผิด</span>
+                  <span class="status pass">ครบ</span>
+                </div>
+                <div class="workflow-row">
+                  <b>Doubly</b>
+                  <span>เก็บเป็นตัวเลือกเฉพาะรายการที่วิศวกร lock, ยังไม่บังคับใช้กับทั้งกลุ่ม</span>
+                  <span class="status warn">รอเลือก</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="sticky-action">
+          <button class="btn primary">ไป P6 แบบ Section</button>
+        </div>
+      </section>
+
+      <section class="step-panel" data-panel="3" role="tabpanel" aria-label="ขั้น 3 ฐานราก">
+        <section class="summary-card">
+          <div class="summary-head">
+            <div class="summary-title">
+              <h1>ฐานราก · เสาเข็มและ load มือ</h1>
+              <span class="tag">เก็บ F1-F4 แบบเดิม</span>
+            </div>
+            <label class="filter">
+              <input type="checkbox" />
+              เฉพาะฐานที่ต้องกรอก
+            </label>
+          </div>
+          <div class="checks" aria-label="Foundation summary">
+            <span class="chip pass">ผ่าน 12</span>
+            <span class="chip warn">รอ load มือ 2</span>
+            <span class="chip pass">F3 คงระยะเดิม</span>
+          </div>
+          <div class="mini-grid" aria-label="Foundation type cards">
+            <div class="mini-card">
+              <small>F1 isolated</small>
+              <strong>1.50x1.50</strong>
+              <span>เสาเดี่ยว, pile 4, status ผ่าน</span>
+            </div>
+            <div class="mini-card">
+              <small>F2 combined</small>
+              <strong>1.80x2.20</strong>
+              <span>เสาริม, eccentricity ตรวจแล้ว</span>
+            </div>
+            <div class="mini-card">
+              <small>F3 plan fixed</small>
+              <strong>2.40x2.80</strong>
+              <span>ฐานที่ owner fix ระยะไว้, ห้ามย้าย layout</span>
+            </div>
+            <div class="mini-card">
+              <small>F4 tie beam</small>
+              <strong>TB-01</strong>
+              <span>รอ sync คานคอดินจาก P5</span>
+            </div>
+          </div>
+        </section>
+
+        <div class="split-grid">
+          <section class="level-card">
+            <div class="level-head">
+              <div class="level-title">
+                <h2>Foundation schedule</h2>
+                <small>load service</small>
+              </div>
+              <div class="level-meta">ยังเป็น mockup, ไม่คำนวณแทน engine</div>
+            </div>
+            <div class="table-scroll">
+              <table class="compact" aria-label="Foundation table">
+                <thead>
+                  <tr>
+                    <th>ฐาน</th>
+                    <th>เสา</th>
+                    <th class="num">P svc (t)</th>
+                    <th class="num">Mx</th>
+                    <th class="num">My</th>
+                    <th>Pile</th>
+                    <th>Cap</th>
+                    <th>สถานะ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="data-row">
+                    <td><span class="beam-label">F1</span></td>
+                    <td>C1-C4</td>
+                    <td class="num">42.8</td>
+                    <td class="num">1.2</td>
+                    <td class="num">0.8</td>
+                    <td class="section">4-22cm</td>
+                    <td class="section">1.50x1.50x0.45</td>
+                    <td><span class="status pass">ผ่าน</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td><span class="beam-label">F2</span></td>
+                    <td>C5-C6</td>
+                    <td class="num">63.5</td>
+                    <td class="num">3.4</td>
+                    <td class="num">2.9</td>
+                    <td class="section">6-22cm</td>
+                    <td class="section">1.80x2.20x0.55</td>
+                    <td><span class="status pass">ผ่าน</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td><span class="beam-label">F3</span></td>
+                    <td>C7-C8</td>
+                    <td class="num">88.2</td>
+                    <td class="num">4.1</td>
+                    <td class="num">4.7</td>
+                    <td class="section">8-22cm</td>
+                    <td class="section">2.40x2.80x0.60</td>
+                    <td><span class="status pass">คงแปลน</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td><span class="beam-label">F4</span></td>
+                    <td>C9</td>
+                    <td class="num">-</td>
+                    <td class="num">-</td>
+                    <td class="num">-</td>
+                    <td class="section">manual</td>
+                    <td class="section">รอกรอก</td>
+                    <td><span class="status warn">รอ load</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="level-card">
+            <div class="level-head">
+              <div class="level-title">
+                <h2>Foundation notes</h2>
+                <small>สิ่งที่ต้องคุม</small>
+              </div>
+            </div>
+            <div class="level-body">
+              <div class="workflow-list">
+                <div class="workflow-row">
+                  <b>F3</b>
+                  <span>คงระยะฐานและแปลนตามที่ fix แล้ว, mockup นี้ปรับเฉพาะ panel และตาราง</span>
+                  <span class="status pass">ล็อก</span>
+                </div>
+                <div class="workflow-row">
+                  <b>Manual load</b>
+                  <span>แสดงรายการที่ยังต้องกรอกแบบไม่กลืนไปกับรายการผ่าน</span>
+                  <span class="status warn">2 จุด</span>
+                </div>
+                <div class="workflow-row">
+                  <b>Report</b>
+                  <span>source เดียวกับตารางนี้จะถูกอ้างในเล่มรายงาน ไม่แยกข้อมูลซ้ำ</span>
+                  <span class="status pass">พร้อม</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="sticky-action">
+          <button class="btn primary">ตรวจฐานรากแล้ว ไปหลังคา</button>
+        </div>
+      </section>
+
+      <section class="step-panel" data-panel="4" role="tabpanel" aria-label="ขั้น 4 หลังคาเหล็ก">
+        <section class="summary-card">
+          <div class="summary-head">
+            <div class="summary-title">
+              <h1>หลังคาเหล็ก · ASD section</h1>
+              <span class="tag">คุม member และ utilization</span>
+            </div>
+            <label class="filter">
+              <input type="checkbox" checked />
+              แสดงเฉพาะที่มีผลออกแบบ
+            </label>
+          </div>
+          <div class="checks" aria-label="Steel roof summary">
+            <span class="chip pass">ผ่าน 14</span>
+            <span class="chip warn">ปรับ section 2</span>
+            <span class="chip pass">RF-D พร้อม</span>
+          </div>
+          <div class="note" style="margin-top: 10px;">
+            <b>UX ที่ปรับ</b>
+            <span>ให้ roof member อ่านเป็นรายการเดียวกับ workflow P4 แต่ยังคงชื่อ section เดิมและผล ASD เพื่อไม่หลุดจากหน้าจอปัจจุบัน</span>
+          </div>
+        </section>
+
+        <div class="split-grid">
+          <section class="level-card">
+            <div class="level-head">
+              <div class="level-title">
+                <h2>Roof member check</h2>
+                <small>ASD utilization</small>
+              </div>
+              <div class="level-meta">เรียงตาม sheet RF-D</div>
+            </div>
+            <div class="table-scroll">
+              <table class="compact" aria-label="Steel roof table">
+                <thead>
+                  <tr>
+                    <th>ชิ้นส่วน</th>
+                    <th class="num">Span</th>
+                    <th>Load case</th>
+                    <th>Section เดิม</th>
+                    <th>Section แนะนำ</th>
+                    <th class="num">Util.</th>
+                    <th>สถานะ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="data-row">
+                    <td><span class="beam-label">Rafter R1</span></td>
+                    <td class="num">4.20</td>
+                    <td>DL+LLr+W</td>
+                    <td class="section">C100x50x20x2.3</td>
+                    <td class="section">คงเดิม</td>
+                    <td class="num">0.74</td>
+                    <td><span class="status pass">ผ่าน</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td><span class="beam-label">Purlin P1</span></td>
+                    <td class="num">1.20</td>
+                    <td>DL+LLr</td>
+                    <td class="section">C75x45x15x2.3</td>
+                    <td class="section">C100x50x20x2.3</td>
+                    <td class="num">1.08</td>
+                    <td><span class="status warn">ปรับ</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td><span class="beam-label">Beam RB1</span></td>
+                    <td class="num">5.40</td>
+                    <td>DL+W uplift</td>
+                    <td class="section">H-150x75</td>
+                    <td class="section">H-150x100</td>
+                    <td class="num">1.03</td>
+                    <td><span class="status warn">ปรับ</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td><span class="beam-label">Brace BR1</span></td>
+                    <td class="num">3.10</td>
+                    <td>Wind</td>
+                    <td class="section">RB12</td>
+                    <td class="section">คงเดิม</td>
+                    <td class="num">0.58</td>
+                    <td><span class="status pass">ผ่าน</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="level-card">
+            <div class="level-head">
+              <div class="level-title">
+                <h2>Roof output</h2>
+                <small>แบบและรายงาน</small>
+              </div>
+            </div>
+            <div class="level-body">
+              <div class="workflow-list">
+                <div class="workflow-row">
+                  <b>RF-A</b>
+                  <span>ผังหลังคาพร้อม mark member และ direction ของ purlin</span>
+                  <span class="status pass">พร้อม</span>
+                </div>
+                <div class="workflow-row">
+                  <b>RF-D</b>
+                  <span>รายละเอียด joint และ section ที่ถูกปรับจาก check table</span>
+                  <span class="status warn">2 จุด</span>
+                </div>
+                <div class="workflow-row">
+                  <b>BOQ</b>
+                  <span>นับจำนวนจาก mark ที่ lock แล้ว ลดรายการซ้ำในรายงาน</span>
+                  <span class="status pass">sync</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="sticky-action">
+          <button class="btn primary">ยืนยัน roof section</button>
+        </div>
+      </section>
+
+      <section class="step-panel" data-panel="5" role="tabpanel" aria-label="ขั้น 5 บันได">
+        <section class="summary-card">
+          <div class="summary-head">
+            <div class="summary-title">
+              <h1>บันได · R/T/ชานพัก</h1>
+              <span class="tag">แยกจากคานเพื่ออ่านง่าย</span>
+            </div>
+            <label class="filter">
+              <input type="checkbox" />
+              เฉพาะบันไดที่ไม่ผ่าน
+            </label>
+          </div>
+          <div class="checks" aria-label="Stair summary">
+            <span class="chip pass">เที่ยวบันได 2</span>
+            <span class="chip pass">ผ่าน 2</span>
+            <span class="chip warn">รอแก้ 0</span>
+          </div>
+          <div class="mini-grid" aria-label="Stair metrics">
+            <div class="mini-card">
+              <small>Riser</small>
+              <strong>0.175</strong>
+              <span>เมตร, อยู่ในช่วงใช้งานทั่วไป</span>
+            </div>
+            <div class="mini-card">
+              <small>Tread</small>
+              <strong>0.280</strong>
+              <span>เมตร, ตรวจ relation กับ R แล้ว</span>
+            </div>
+            <div class="mini-card">
+              <small>Width</small>
+              <strong>1.20</strong>
+              <span>เมตร, ใช้ร่วมทั้ง ST-01</span>
+            </div>
+            <div class="mini-card">
+              <small>Landing</small>
+              <strong>1.35</strong>
+              <span>เมตร, พร้อมส่งออก section</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="level-card">
+          <div class="level-head">
+            <div class="level-title">
+              <h2>Stair schedule</h2>
+              <small>ST-01</small>
+            </div>
+            <div class="level-meta">คุมมิติและเหล็กในตารางเดียว</div>
+          </div>
+          <div class="table-scroll">
+            <table class="compact" aria-label="Stair design table">
+              <thead>
+                <tr>
+                  <th>รหัส</th>
+                  <th class="num">R</th>
+                  <th class="num">T</th>
+                  <th class="num">กว้าง</th>
+                  <th>ชานพัก</th>
+                  <th>เหล็กหลัก</th>
+                  <th>เหล็กแจก</th>
+                  <th>สถานะ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="data-row">
+                  <td><span class="beam-label">ST-01A</span></td>
+                  <td class="num">0.175</td>
+                  <td class="num">0.280</td>
+                  <td class="num">1.20</td>
+                  <td class="section">1.35x1.20</td>
+                  <td class="section">DB12@150</td>
+                  <td class="section">RB6@200</td>
+                  <td><span class="status pass">ผ่าน</span></td>
+                </tr>
+                <tr class="data-row">
+                  <td><span class="beam-label">ST-01B</span></td>
+                  <td class="num">0.175</td>
+                  <td class="num">0.280</td>
+                  <td class="num">1.20</td>
+                  <td class="section">1.35x1.20</td>
+                  <td class="section">DB12@150</td>
+                  <td class="section">RB6@200</td>
+                  <td><span class="status pass">ผ่าน</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="sticky-action">
+          <button class="btn primary">ส่งบันไดเข้าแบบ Section</button>
+        </div>
+      </section>
+
+      <section class="step-panel" data-panel="6" role="tabpanel" aria-label="ขั้น 6 แบบ Section">
+        <section class="summary-card">
+          <div class="summary-head">
+            <div class="summary-title">
+              <h1>แบบ Section · S-01...RF-D</h1>
+              <span class="tag">drawing package ก่อนรายงาน</span>
+            </div>
+            <label class="filter">
+              <input type="checkbox" checked />
+              แสดงเฉพาะแผ่นพร้อมออกแบบ
+            </label>
+          </div>
+          <div class="checks" aria-label="Section drawing summary">
+            <span class="chip pass">6 แผ่น</span>
+            <span class="chip pass">sync จาก P5</span>
+            <span class="chip warn">รอ review 1</span>
+          </div>
+          <div class="note" style="margin-top: 10px;">
+            <b>รูปแบบ</b>
+            <span>ใช้ card แผ่นแบบสั้น ๆ เพื่อให้เห็น package ทั้งหมด แต่รายละเอียดจริงยังอยู่ใน drawing view เดิม ไม่สร้าง layout ใหม่ทับงานเดิม</span>
+          </div>
+        </section>
+
+        <section class="level-card">
+          <div class="level-head">
+            <div class="level-title">
+              <h2>Drawing sheets</h2>
+              <small>section package</small>
+            </div>
+            <div class="level-meta">เลือกแผ่นเพื่อ preview ต่อได้</div>
+          </div>
+          <div class="level-body">
+            <div class="sheet-grid" aria-label="Drawing sheet cards">
+              <div class="sheet-card">
+                <div class="sheet-thumb">S-01</div>
+                <div><b>คานและ slab section</b><span>จาก BG-01 ถึง BG-05</span></div>
+              </div>
+              <div class="sheet-card">
+                <div class="sheet-thumb">S-02</div>
+                <div><b>เสาและ joint</b><span>mark ตาม grid P3</span></div>
+              </div>
+              <div class="sheet-card">
+                <div class="sheet-thumb">FDN-01</div>
+                <div><b>ฐานราก F1-F4</b><span>คงระยะ F3 ตามแปลน</span></div>
+              </div>
+              <div class="sheet-card">
+                <div class="sheet-thumb">RF-D</div>
+                <div><b>หลังคาเหล็ก</b><span>section ที่ปรับจาก ASD</span></div>
+              </div>
+              <div class="sheet-card">
+                <div class="sheet-thumb">ST-01</div>
+                <div><b>บันได</b><span>R/T และชานพัก</span></div>
+              </div>
+              <div class="sheet-card">
+                <div class="sheet-thumb">N-01</div>
+                <div><b>หมายเหตุแบบ</b><span>วัสดุ, cover, development</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="level-card">
+          <div class="level-head">
+            <div class="level-title">
+              <h2>Sheet readiness</h2>
+              <small>ตรวจสถานะก่อน export</small>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="compact" aria-label="Drawing readiness table">
+              <thead>
+                <tr>
+                  <th>Sheet</th>
+                  <th>เนื้อหา</th>
+                  <th>Source</th>
+                  <th>ผู้ตรวจ</th>
+                  <th>สถานะ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="data-row">
+                  <td class="section">S-01</td>
+                  <td>คานและหน้าตัดหลัก</td>
+                  <td>P4/P5</td>
+                  <td>AI + Owner</td>
+                  <td><span class="status pass">พร้อม</span></td>
+                </tr>
+                <tr class="data-row">
+                  <td class="section">FDN-01</td>
+                  <td>ฐานราก</td>
+                  <td>P4 foundation</td>
+                  <td>Owner</td>
+                  <td><span class="status warn">review</span></td>
+                </tr>
+                <tr class="data-row">
+                  <td class="section">RF-D</td>
+                  <td>หลังคาเหล็ก</td>
+                  <td>ASD roof</td>
+                  <td>AI + Owner</td>
+                  <td><span class="status pass">พร้อม</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="sticky-action">
+          <button class="btn primary">ไปเล่มรายงาน</button>
+        </div>
+      </section>
+
+      <section class="step-panel" data-panel="7" role="tabpanel" aria-label="ขั้น 7 เล่มรายงาน">
+        <section class="summary-card">
+          <div class="summary-head">
+            <div class="summary-title">
+              <h1>เล่มรายงาน · ฉบับเต็มอยู่แท็บ P6</h1>
+              <span class="tag">summary สำหรับ P4 workflow</span>
+            </div>
+            <label class="filter">
+              <input type="checkbox" checked />
+              รวมเฉพาะหัวข้อพร้อม export
+            </label>
+          </div>
+          <div class="checks" aria-label="Report summary">
+            <span class="chip pass">Lock แล้ว</span>
+            <span class="chip pass">พร้อม PDF</span>
+            <span class="chip warn">รอ PE sign-off</span>
+          </div>
+          <div class="note" style="margin-top: 10px;">
+            <b>ขอบเขต</b>
+            <span>หน้านี้เป็น dashboard ของ P4 เท่านั้น, รายงานละเอียดและลายน้ำยังให้ P6/P8 เป็น source หลักตามระบบเดิม</span>
+          </div>
+        </section>
+
+        <div class="split-grid">
+          <section class="level-card">
+            <div class="level-head">
+              <div class="level-title">
+                <h2>Report package</h2>
+                <small>หัวข้อที่จะส่งออก</small>
+              </div>
+              <div class="level-meta">คุม source เดียวกับหน้าออกแบบ</div>
+            </div>
+            <div class="table-scroll">
+              <table class="compact" aria-label="Report package table">
+                <thead>
+                  <tr>
+                    <th>หัวข้อ</th>
+                    <th>Source</th>
+                    <th>รวมใน PDF</th>
+                    <th>หมายเหตุ</th>
+                    <th>สถานะ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="data-row">
+                    <td>สรุปอาคารและมาตรฐาน</td>
+                    <td>Project setup</td>
+                    <td>ใช่</td>
+                    <td>ACI 318-19, SDM</td>
+                    <td><span class="status pass">พร้อม</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td>คานรายตัวและจัดกลุ่ม</td>
+                    <td>P4/P5</td>
+                    <td>ใช่</td>
+                    <td>อ้าง group mark</td>
+                    <td><span class="status pass">พร้อม</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td>ฐานราก</td>
+                    <td>P4 foundation</td>
+                    <td>ใช่</td>
+                    <td>F3 คงระยะเดิม</td>
+                    <td><span class="status warn">review</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td>หลังคาและบันได</td>
+                    <td>P4 roof/stair</td>
+                    <td>ใช่</td>
+                    <td>RF-D, ST-01</td>
+                    <td><span class="status pass">พร้อม</span></td>
+                  </tr>
+                  <tr class="data-row">
+                    <td>แบบ Section</td>
+                    <td>P6 drawings</td>
+                    <td>แนบ</td>
+                    <td>S-01...N-01</td>
+                    <td><span class="status pass">พร้อม</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="level-card">
+            <div class="level-head">
+              <div class="level-title">
+                <h2>Export checklist</h2>
+                <small>ก่อนส่งให้ลูกค้า</small>
+              </div>
+            </div>
+            <div class="level-body">
+              <div class="workflow-list">
+                <div class="workflow-row">
+                  <b>Lock</b>
+                  <span>ผล P4/P5 ถูก lock แล้ว, ป้องกันรายงานไม่ตรงกับตาราง</span>
+                  <span class="status pass">ครบ</span>
+                </div>
+                <div class="workflow-row">
+                  <b>Watermark</b>
+                  <span>คุมตาม sign-off ของวิศวกรในรายงานหลัก</span>
+                  <span class="status warn">รอเซ็น</span>
+                </div>
+                <div class="workflow-row">
+                  <b>Archive</b>
+                  <span>พร้อมเก็บ snapshot version เพื่อ trace กลับได้เมื่อแก้แบบ</span>
+                  <span class="status pass">พร้อม</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="sticky-action">
+          <button class="btn primary">เปิดรายงานเต็ม</button>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script>
+    const stepTabs = Array.from(document.querySelectorAll("[data-step]"));
+    const stepPanels = Array.from(document.querySelectorAll("[data-panel]"));
+
+    function activateStep(step) {
+      stepTabs.forEach((tab) => {
+        const isActive = tab.dataset.step === step;
+        tab.classList.toggle("active", isActive);
+        tab.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+
+      stepPanels.forEach((panel) => {
+        panel.classList.toggle("active", panel.dataset.panel === step);
+      });
+    }
+
+    stepTabs.forEach((tab) => {
+      tab.addEventListener("click", () => activateStep(tab.dataset.step));
+      tab.addEventListener("keydown", (event) => {
+        const keys = ["ArrowLeft", "ArrowRight", "Home", "End"];
+        if (!keys.includes(event.key)) return;
+
+        event.preventDefault();
+        const currentIndex = stepTabs.indexOf(tab);
+        let nextIndex = currentIndex;
+
+        if (event.key === "ArrowLeft") nextIndex = Math.max(0, currentIndex - 1);
+        if (event.key === "ArrowRight") nextIndex = Math.min(stepTabs.length - 1, currentIndex + 1);
+        if (event.key === "Home") nextIndex = 0;
+        if (event.key === "End") nextIndex = stepTabs.length - 1;
+
+        stepTabs[nextIndex].focus();
+        activateStep(stepTabs[nextIndex].dataset.step);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1029 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Footing Redesign Mockup - 2D Performance</title>
+  <link rel="stylesheet" href="/fonts/sarabun/sarabun.css" />
+  <style>
+    :root {
+      --bg: oklch(96.8% 0.008 247);
+      --surface: oklch(99% 0.006 247);
+      --panel: oklch(97.5% 0.01 247);
+      --panel-2: oklch(94.6% 0.014 247);
+      --line: oklch(83.5% 0.022 247);
+      --line-strong: oklch(68% 0.035 247);
+      --ink: oklch(23% 0.035 247);
+      --text: oklch(34% 0.035 247);
+      --muted: oklch(51% 0.035 247);
+      --brand: oklch(55% 0.22 29);
+      --brand-soft: oklch(95.5% 0.032 29);
+      --blue: oklch(52% 0.16 258);
+      --blue-soft: oklch(95% 0.028 258);
+      --green: oklch(53% 0.13 157);
+      --green-soft: oklch(95% 0.035 157);
+      --amber: oklch(62% 0.13 72);
+      --amber-soft: oklch(96% 0.045 72);
+      --red: oklch(55% 0.19 29);
+      --red-soft: oklch(95.5% 0.035 29);
+      --shadow: 0 1px 2px oklch(24% 0.03 247 / 0.08);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Sarabun", "IBM Plex Sans Thai", "Segoe UI", system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px),
+        var(--bg);
+      background-size: 32px 32px;
+      background-blend-mode: soft-light;
+      color: var(--ink);
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      min-height: 34px;
+      padding: 7px 11px;
+      cursor: default;
+    }
+
+    button.primary {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: oklch(98% 0.006 247);
+      font-weight: 700;
+    }
+
+    button.ghost {
+      background: transparent;
+    }
+
+    button.active {
+      background: var(--blue-soft);
+      border-color: var(--blue);
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 14px;
+      min-height: 58px;
+      padding: 10px 18px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 210px;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--brand);
+      color: oklch(98% 0.006 247);
+      font-weight: 800;
+      font-size: 13px;
+      box-shadow: inset 0 -1px 0 oklch(32% 0.08 29 / 0.25);
+    }
+
+    .brand small,
+    .meta small,
+    .field label,
+    .section-label,
+    .table th,
+    .metric-label {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      line-height: 1.25;
+    }
+
+    .brand strong,
+    .title strong {
+      display: block;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .title {
+      min-width: 0;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .title strong {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--text);
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .pill.brand {
+      min-width: auto;
+      background: var(--brand-soft);
+      border-color: oklch(77% 0.06 29);
+      color: var(--brand);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .foundation-tabs {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 18px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      overflow-x: auto;
+    }
+
+    .foundation-tabs button {
+      min-width: 54px;
+      padding-inline: 13px;
+      font-weight: 800;
+    }
+
+    .foundation-tabs .meta {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .status-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(160px, 1fr));
+      gap: 8px;
+      padding: 12px 18px 0;
+    }
+
+    .status-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      min-height: 72px;
+      display: grid;
+      gap: 3px;
+    }
+
+    .status-card strong {
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .status-card small {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .state {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 2px 8px;
+      border: 1px solid var(--line);
+    }
+
+    .state::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .state.pass {
+      color: var(--green);
+      background: var(--green-soft);
+      border-color: oklch(76% 0.07 157);
+    }
+
+    .state.warn {
+      color: var(--amber);
+      background: var(--amber-soft);
+      border-color: oklch(80% 0.08 72);
+    }
+
+    .state.fail {
+      color: var(--red);
+      background: var(--red-soft);
+      border-color: oklch(76% 0.08 29);
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 312px minmax(520px, 1fr) 360px;
+      gap: 12px;
+      padding: 12px 18px 20px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      min-width: 0;
+    }
+
+    .panel-head {
+      min-height: 44px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 8px 8px 0 0;
+    }
+
+    .panel-head h2,
+    .panel-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .panel-head small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .panel-body {
+      padding: 12px;
+    }
+
+    .section-label {
+      margin: 14px 0 8px;
+      color: var(--ink);
+    }
+
+    .section-label:first-child {
+      margin-top: 0;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field {
+      display: grid;
+      gap: 4px;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: oklch(99% 0.005 90);
+      color: var(--ink);
+      padding: 7px 9px;
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .input-with-unit {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: stretch;
+    }
+
+    .input-with-unit input {
+      border-radius: 6px 0 0 6px;
+    }
+
+    .input-with-unit span {
+      display: grid;
+      place-items: center;
+      min-width: 42px;
+      padding: 0 8px;
+      border: 1px solid var(--line);
+      border-inline-start: 0;
+      border-radius: 0 6px 6px 0;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .tool-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .draw-area {
+      padding: 12px;
+    }
+
+    .canvas {
+      position: relative;
+      min-height: 440px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px),
+        oklch(99% 0.006 247);
+      background-size: 28px 28px;
+    }
+
+    .plan-svg {
+      display: block;
+      width: min(660px, 100%);
+      height: auto;
+      margin: 18px auto 8px;
+    }
+
+    .canvas-caption {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      padding: 0 12px 12px;
+    }
+
+    .mini-metric {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: 6px;
+      padding: 8px;
+      min-width: 0;
+    }
+
+    .metric-label {
+      margin-bottom: 2px;
+    }
+
+    .mini-metric strong {
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .section-panel {
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .section-panel svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: oklch(98.8% 0.006 247);
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .result-tile {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      padding: 9px;
+      min-width: 0;
+    }
+
+    .result-tile strong {
+      display: block;
+      margin-top: 2px;
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .result-tile small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 7px 8px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      vertical-align: middle;
+    }
+
+    .data-table th {
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      position: sticky;
+      top: 0;
+    }
+
+    .data-table td:first-child,
+    .data-table th:first-child {
+      text-align: left;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .check-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .check-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      padding: 8px;
+    }
+
+    .check-row strong {
+      display: block;
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .check-row small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .mode-rail {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .note-band {
+      margin-top: 12px;
+      border: 1px solid oklch(78% 0.08 72);
+      background: var(--amber-soft);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      color: oklch(37% 0.07 72);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .number {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-variant-numeric: tabular-nums;
+    }
+
+    @media (max-width: 1260px) {
+      .status-strip {
+        grid-template-columns: repeat(3, minmax(160px, 1fr));
+      }
+
+      .workspace {
+        grid-template-columns: 312px minmax(520px, 1fr);
+      }
+
+      .results {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .topbar {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .brand {
+        min-width: 0;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+
+      .foundation-tabs .meta {
+        display: none;
+      }
+
+      .status-strip,
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .workspace {
+        padding-inline: 12px;
+      }
+
+      .status-strip {
+        padding-inline: 12px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .topbar,
+      .foundation-tabs {
+        padding-inline: 12px;
+      }
+
+      .title-row,
+      .actions,
+      .mode-rail,
+      .tool-row {
+        align-items: stretch;
+      }
+
+      .title-row,
+      .field-row,
+      .result-grid,
+      .canvas-caption {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .canvas {
+        min-height: 360px;
+      }
+
+      .data-table th,
+      .data-table td {
+        padding: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand" aria-label="2D Performance">
+        <div class="brand-mark">2D</div>
+        <div>
+          <small>STRUCTURAL TOOLKIT</small>
+          <strong>2D Performance</strong>
+        </div>
+      </div>
+
+      <div class="title">
+        <div class="title-row">
+          <strong>ฐานรากเสาเข็มเยื้องศูนย์</strong>
+          <span class="pill brand">ว.ส.ท. WSD</span>
+          <span class="pill">Project: บ้านตัวอย่าง</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="ghost">บันทึกอัตโนมัติ</button>
+        <button>พิมพ์ / PDF</button>
+        <button class="primary">คำนวณซ้ำ</button>
+      </div>
+    </header>
+
+    <nav class="foundation-tabs" aria-label="Foundation tabs">
+      <button>F1</button>
+      <button>F2</button>
+      <button>F3</button>
+      <button class="active">F4</button>
+      <button>F5</button>
+      <div class="meta">
+        <small>Revision</small>
+        <strong>R02</strong>
+        <span class="pill">แก้ล่าสุด 03 ก.ค. 2569</span>
+      </div>
+    </nav>
+
+    <section class="status-strip" aria-label="Summary status">
+      <article class="status-card">
+        <span class="state pass">ผ่าน</span>
+        <strong>กำลังเข็ม</strong>
+        <small>Rmax 32.4 T จาก safe 35.0 T</small>
+      </article>
+      <article class="status-card">
+        <span class="state pass">ผ่าน</span>
+        <strong>เหล็กเสริม</strong>
+        <small>X: DB16 @ 0.17 m, Y: DB16 @ 0.18 m</small>
+      </article>
+      <article class="status-card">
+        <span class="state pass">ผ่าน</span>
+        <strong>เฉือนคาน</strong>
+        <small>v = 4.22 ksc, vallow = 5.18 ksc</small>
+      </article>
+      <article class="status-card">
+        <span class="state pass">ผ่าน</span>
+        <strong>เจาะทะลุ</strong>
+        <small>v = 7.91 ksc, vallow = 9.47 ksc</small>
+      </article>
+      <article class="status-card">
+        <span class="state warn">ต้องขยาย</span>
+        <strong>ขอบฐาน</strong>
+        <small>เพิ่มด้านขวา 12 ซม. เพื่อ cover เข็ม</small>
+      </article>
+    </section>
+
+    <section class="workspace">
+      <aside class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>ข้อมูลออกแบบ</h2>
+            <small>F4, ฐาน 4 เข็ม</small>
+          </div>
+          <span class="pill">Live</span>
+        </div>
+        <div class="panel-body">
+          <div class="section-label">PROJECT</div>
+          <div class="form-grid">
+            <div class="field">
+              <label>ชื่อโครงการ</label>
+              <input value="บ้านตัวอย่าง 2 ชั้น" />
+            </div>
+            <div class="field">
+              <label>ผู้ออกแบบ</label>
+              <input value="นายวิศวกร ตัวอย่าง ภย.00000" />
+            </div>
+          </div>
+
+          <div class="section-label">FOUNDATION</div>
+          <div class="form-grid">
+            <div class="field-row">
+              <div class="field">
+                <label>กว้าง B</label>
+                <div class="input-with-unit"><input value="1.80" /><span>m</span></div>
+              </div>
+              <div class="field">
+                <label>ยาว L</label>
+                <div class="input-with-unit"><input value="2.10" /><span>m</span></div>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>หนา t</label>
+                <div class="input-with-unit"><input value="0.55" /><span>m</span></div>
+              </div>
+              <div class="field">
+                <label>Cover</label>
+                <div class="input-with-unit"><input value="7.5" /><span>cm</span></div>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Column X</label>
+                <div class="input-with-unit"><input value="8.00" /><span>cm</span></div>
+              </div>
+              <div class="field">
+                <label>Column Y</label>
+                <div class="input-with-unit"><input value="-5.50" /><span>cm</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-label">PILE GROUP</div>
+          <div class="form-grid">
+            <div class="field-row">
+              <div class="field">
+                <label>จำนวนเข็ม</label>
+                <select><option>4 เข็ม</option></select>
+              </div>
+              <div class="field">
+                <label>Safe load</label>
+                <div class="input-with-unit"><input value="35.0" /><span>T</span></div>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>ระยะ grid X</label>
+                <div class="input-with-unit"><input value="1.20" /><span>m</span></div>
+              </div>
+              <div class="field">
+                <label>ระยะ grid Y</label>
+                <div class="input-with-unit"><input value="1.20" /><span>m</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-label">MATERIAL</div>
+          <div class="form-grid">
+            <div class="field-row">
+              <div class="field">
+                <label>f'c</label>
+                <div class="input-with-unit"><input value="240" /><span>ksc</span></div>
+              </div>
+              <div class="field">
+                <label>fy</label>
+                <div class="input-with-unit"><input value="4000" /><span>ksc</span></div>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>fs</label>
+                <div class="input-with-unit"><input value="1700" /><span>ksc</span></div>
+              </div>
+              <div class="field">
+                <label>n = Es/Ec</label>
+                <input value="9" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>ผังฐานและแรงในเข็ม</h2>
+            <small>แสดงตำแหน่งออกแบบ, survey, CG และแรงปฏิกิริยา</small>
+          </div>
+          <div class="mode-rail">
+            <button class="active">ผังเยื้อง</button>
+            <button>มิติ / แรง</button>
+            <button>รูปตัด</button>
+          </div>
+        </div>
+        <div class="draw-area">
+          <div class="tool-row">
+            <span class="pill">Scale 1:50</span>
+            <span class="pill">X,Y หน่วย cm</span>
+            <span class="pill">CG: 2.4 cm, -1.2 cm</span>
+          </div>
+          <div class="canvas">
+            <svg class="plan-svg" viewBox="0 0 680 430" role="img" aria-label="Mockup footing plan drawing">
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="oklch(52% 0.16 258)" />
+                </marker>
+              </defs>
+              <rect x="118" y="64" width="444" height="292" rx="10" fill="oklch(96% 0.015 247)" stroke="oklch(68% 0.035 247)" stroke-width="2" />
+              <rect x="145" y="91" width="390" height="238" rx="7" fill="transparent" stroke="oklch(62% 0.13 72)" stroke-dasharray="8 7" stroke-width="2" />
+              <line x1="340" y1="42" x2="340" y2="378" stroke="oklch(68% 0.035 247)" stroke-dasharray="4 6" />
+              <line x1="88" y1="210" x2="592" y2="210" stroke="oklch(68% 0.035 247)" stroke-dasharray="4 6" />
+              <rect x="302" y="181" width="76" height="58" rx="5" fill="oklch(99% 0.006 247)" stroke="oklch(23% 0.035 247)" stroke-width="2" />
+              <text x="340" y="216" text-anchor="middle" font-size="16" font-weight="800" fill="oklch(23% 0.035 247)">COL</text>
+
+              <g fill="oklch(96% 0.035 157)" stroke="oklch(53% 0.13 157)" stroke-width="3">
+                <circle cx="212" cy="132" r="31" />
+                <circle cx="468" cy="132" r="31" />
+                <circle cx="212" cy="288" r="31" />
+                <circle cx="468" cy="288" r="31" />
+              </g>
+              <g fill="oklch(23% 0.035 247)" font-size="14" font-weight="800" text-anchor="middle">
+                <text x="212" y="137">P1</text>
+                <text x="468" y="137">P2</text>
+                <text x="212" y="293">P3</text>
+                <text x="468" y="293">P4</text>
+              </g>
+
+              <g stroke="oklch(52% 0.16 258)" stroke-width="3" fill="none" marker-end="url(#arrow)">
+                <line x1="276" y1="70" x2="196" y2="118" />
+                <line x1="404" y1="70" x2="484" y2="118" />
+                <line x1="276" y1="350" x2="196" y2="302" />
+                <line x1="404" y1="350" x2="484" y2="302" />
+              </g>
+
+              <g>
+                <circle cx="340" cy="210" r="6" fill="oklch(55% 0.19 29)" />
+                <line x1="340" y1="210" x2="364" y2="198" stroke="oklch(55% 0.19 29)" stroke-width="3" />
+                <circle cx="364" cy="198" r="6" fill="oklch(55% 0.19 29)" />
+                <text x="376" y="192" font-size="13" font-weight="800" fill="oklch(55% 0.19 29)">CG จริง</text>
+              </g>
+
+              <g fill="oklch(34% 0.035 247)" font-size="13" font-weight="700">
+                <text x="120" y="48">B = 1.80 m</text>
+                <text x="570" y="214" transform="rotate(90 570 214)">L = 2.10 m</text>
+                <text x="116" y="386">ขยายด้านขวา 12 ซม.</text>
+                <text x="390" y="398">Moment from eccentricity: Mx 7.7 Tm, My 11.2 Tm</text>
+              </g>
+            </svg>
+            <div class="canvas-caption">
+              <div class="mini-metric">
+                <span class="metric-label">eX</span>
+                <strong class="number">8.00 cm</strong>
+              </div>
+              <div class="mini-metric">
+                <span class="metric-label">eY</span>
+                <strong class="number">-5.50 cm</strong>
+              </div>
+              <div class="mini-metric">
+                <span class="metric-label">Rmax</span>
+                <strong class="number">32.4 T</strong>
+              </div>
+              <div class="mini-metric">
+                <span class="metric-label">Base after extend</span>
+                <strong class="number">1.92 x 2.10 m</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-panel">
+            <svg viewBox="0 0 820 220" role="img" aria-label="Mockup footing section drawing">
+              <rect x="62" y="78" width="690" height="74" rx="5" fill="oklch(96% 0.015 247)" stroke="oklch(68% 0.035 247)" stroke-width="2" />
+              <rect x="362" y="36" width="96" height="42" fill="oklch(99% 0.006 247)" stroke="oklch(23% 0.035 247)" stroke-width="2" />
+              <line x1="98" y1="133" x2="712" y2="133" stroke="oklch(55% 0.19 29)" stroke-width="5" />
+              <g fill="oklch(53% 0.13 157)" stroke="oklch(31% 0.08 157)" stroke-width="2">
+                <circle cx="174" cy="166" r="18" />
+                <circle cx="646" cy="166" r="18" />
+              </g>
+              <line x1="62" y1="178" x2="752" y2="178" stroke="oklch(68% 0.035 247)" stroke-width="1" />
+              <line x1="62" y1="188" x2="62" y2="168" stroke="oklch(68% 0.035 247)" />
+              <line x1="752" y1="188" x2="752" y2="168" stroke="oklch(68% 0.035 247)" />
+              <text x="407" y="203" text-anchor="middle" fill="oklch(34% 0.035 247)" font-size="14" font-weight="800">L = 2.10 m, t = 0.55 m, cover = 7.5 cm</text>
+              <text x="88" y="64" fill="oklch(34% 0.035 247)" font-size="13" font-weight="700">รูปตัดฐานราก</text>
+              <text x="506" y="121" fill="oklch(55% 0.19 29)" font-size="13" font-weight="800">DB16 @ 0.17 m</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel results">
+        <div class="panel-head">
+          <div>
+            <h2>ผลคำนวณ</h2>
+            <small>ค่าที่ต้องตัดสินใจ</small>
+          </div>
+          <span class="state warn">Review</span>
+        </div>
+        <div class="panel-body">
+          <div class="result-grid">
+            <div class="result-tile">
+              <small>Axial P</small>
+              <strong class="number">112.0 T</strong>
+            </div>
+            <div class="result-tile">
+              <small>ΣX² / ΣY²</small>
+              <strong class="number">2.88 / 2.88</strong>
+            </div>
+            <div class="result-tile">
+              <small>As X req</small>
+              <strong class="number">11.84 cm²</strong>
+            </div>
+            <div class="result-tile">
+              <small>As Y req</small>
+              <strong class="number">10.76 cm²</strong>
+            </div>
+          </div>
+
+          <div class="section-label">PILE REACTION</div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Pile</th>
+                <th>Xi</th>
+                <th>Yi</th>
+                <th>Ri(T)</th>
+                <th>ผล</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>P1</td><td>-0.60</td><td>0.60</td><td>24.8</td><td><span class="state pass">ผ่าน</span></td></tr>
+              <tr><td>P2</td><td>0.60</td><td>0.60</td><td>32.4</td><td><span class="state pass">ผ่าน</span></td></tr>
+              <tr><td>P3</td><td>-0.60</td><td>-0.60</td><td>23.5</td><td><span class="state pass">ผ่าน</span></td></tr>
+              <tr><td>P4</td><td>0.60</td><td>-0.60</td><td>31.3</td><td><span class="state pass">ผ่าน</span></td></tr>
+            </tbody>
+          </table>
+
+          <div class="section-label">REBAR AND SHEAR</div>
+          <div class="check-list">
+            <div class="check-row">
+              <div>
+                <strong>เหล็กแกน X</strong>
+                <small>As prov 12.06 cm² ≥ As req 11.84 cm²</small>
+              </div>
+              <span class="state pass">ผ่าน</span>
+            </div>
+            <div class="check-row">
+              <div>
+                <strong>เหล็กแกน Y</strong>
+                <small>As prov 11.28 cm² ≥ As req 10.76 cm²</small>
+              </div>
+              <span class="state pass">ผ่าน</span>
+            </div>
+            <div class="check-row">
+              <div>
+                <strong>เฉือนคาน</strong>
+                <small>utilization 81%</small>
+              </div>
+              <span class="state pass">ผ่าน</span>
+            </div>
+            <div class="check-row">
+              <div>
+                <strong>ขอบฐาน</strong>
+                <small>survey pile P2 เกินระยะหุ้มด้านขวา</small>
+              </div>
+              <span class="state warn">แก้แบบ</span>
+            </div>
+          </div>
+
+          <div class="note-band">
+            สรุปสำหรับแบบ: ใช้ฐาน F4 ขนาดหลังขยาย 1.92 x 2.10 x 0.55 m, เหล็กล่างสองทิศ DB16, ตรวจแรงเข็มและเฉือนผ่าน, ให้ขยายขอบด้านขวา 12 ซม. ก่อนออกแบบรายงาน
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>
