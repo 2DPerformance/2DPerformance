@@ -1,0 +1,1236 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Column Stack Summary Mockup</title>
+  <style>
+    :root {
+      --bg: oklch(0.972 0.006 247);
+      --surface: oklch(0.996 0.004 247);
+      --panel: oklch(0.955 0.008 247);
+      --ink: oklch(0.205 0.018 247);
+      --text: oklch(0.315 0.028 247);
+      --muted: oklch(0.49 0.034 247);
+      --line: oklch(0.835 0.023 247);
+      --blue: oklch(0.52 0.16 259);
+      --green: oklch(0.55 0.14 158);
+      --amber: oklch(0.62 0.15 74);
+      --red: oklch(0.56 0.19 28);
+      --violet: oklch(0.54 0.18 296);
+      --teal: oklch(0.53 0.12 188);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, oklch(0.9 0.013 247 / .42) 1px, transparent 1px),
+        linear-gradient(0deg, oklch(0.9 0.013 247 / .42) 1px, transparent 1px),
+        var(--bg);
+      background-size: 28px 28px;
+      color: var(--text);
+      font-family: "IBM Plex Sans Thai", "Segoe UI", system-ui, sans-serif;
+      font-size: 13px;
+      line-height: 1.45;
+      letter-spacing: 0;
+    }
+
+    .shell {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 18px 22px 42px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: 0 1px 2px oklch(0.25 0.02 247 / .07);
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 2px 0 0;
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .header-note {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .segmented {
+      display: flex;
+      gap: 6px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: oklch(0.965 0.008 247);
+      white-space: nowrap;
+    }
+
+    .segmented span {
+      padding: 6px 10px;
+      border-radius: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .segmented .active {
+      background: var(--ink);
+      color: var(--surface);
+    }
+
+    .contract-strip {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .contract-item {
+      min-height: 58px;
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: oklch(0.99 0.004 247);
+    }
+
+    .contract-item b {
+      display: block;
+      color: var(--ink);
+      font-size: 12px;
+    }
+
+    .contract-item span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .status-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .stat {
+      min-height: 76px;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: 0 1px 2px oklch(0.25 0.02 247 / .05);
+    }
+
+    .stat b {
+      display: block;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .drawing-sheet {
+      margin-top: 12px;
+      border: 1px solid oklch(0.72 0.018 247);
+      border-radius: 8px;
+      background: oklch(0.998 0.002 247);
+      overflow: hidden;
+      box-shadow: 0 1px 2px oklch(0.25 0.02 247 / .06);
+    }
+
+    .sheet-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 14px;
+      border-bottom: 1px solid oklch(0.78 0.019 247);
+      background: oklch(0.977 0.006 247);
+    }
+
+    .sheet-title {
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .sheet-meta {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .schedule-matrix {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 12px;
+      color: oklch(0.18 0.015 247);
+    }
+
+    .schedule-matrix th,
+    .schedule-matrix td {
+      border: 1px solid oklch(0.73 0.017 247);
+      background: oklch(0.998 0.002 247);
+    }
+
+    .schedule-matrix th {
+      padding: 0;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .schedule-matrix .symbol-head {
+      width: 138px;
+      height: 68px;
+      position: relative;
+      background:
+        linear-gradient(to top right, transparent 49.5%, oklch(0.62 0.015 247) 50%, transparent 50.5%),
+        oklch(0.998 0.002 247);
+    }
+
+    .symbol-head .fl {
+      position: absolute;
+      left: 12px;
+      bottom: 14px;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .symbol-head .symbol {
+      position: absolute;
+      right: 16px;
+      top: 14px;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .schedule-matrix .mark-head {
+      height: 68px;
+      color: var(--ink);
+      font-size: 23px;
+      font-weight: 500;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .floor-label {
+      width: 138px;
+      min-height: 120px;
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 900;
+      text-align: center;
+      vertical-align: middle;
+      background: oklch(0.995 0.002 247);
+    }
+
+    .section-label {
+      height: 30px;
+      padding: 4px 8px;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 800;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .member-cell {
+      height: 132px;
+      padding: 10px 12px 6px;
+      vertical-align: bottom;
+    }
+
+    .blank-member {
+      height: 132px;
+      position: relative;
+    }
+
+    .blank-member::after {
+      content: "";
+      position: absolute;
+      left: 30%;
+      right: 30%;
+      top: 50%;
+      height: 1px;
+      background: oklch(0.65 0.016 247);
+    }
+
+    .symbol-content {
+      min-height: 82px;
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .symbol-content.center {
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+
+    .rebar-callout {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .tie-table {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      border-top: 1px solid oklch(0.73 0.017 247);
+      font-size: 12px;
+    }
+
+    .tie-table div {
+      min-height: 24px;
+      padding: 3px 6px;
+      border-bottom: 1px solid oklch(0.78 0.016 247);
+    }
+
+    .tie-table div:nth-child(odd) {
+      color: var(--ink);
+      text-align: center;
+      background: oklch(0.988 0.004 247);
+      border-right: 1px solid oklch(0.78 0.016 247);
+      font-weight: 800;
+    }
+
+    .tie-table div:nth-last-child(-n+2) {
+      border-bottom: 0;
+    }
+
+    .section-size {
+      height: 30px;
+      padding: 4px 8px;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .col-section {
+      width: 58px;
+      height: 58px;
+      border: 1px solid oklch(0.62 0.018 247);
+      background: oklch(0.99 0.002 247);
+      position: relative;
+      box-shadow: inset 0 0 0 5px oklch(0.92 0.012 247);
+    }
+
+    .col-section.small {
+      width: 48px;
+      height: 48px;
+    }
+
+    .col-section.large {
+      width: 66px;
+      height: 66px;
+    }
+
+    .col-section .dot {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: oklch(0.18 0.015 247);
+    }
+
+    .dot.d1 { left: 7px; top: 7px; }
+    .dot.d2 { right: 7px; top: 7px; }
+    .dot.d3 { left: 7px; bottom: 7px; }
+    .dot.d4 { right: 7px; bottom: 7px; }
+    .dot.d5 { left: calc(50% - 2.5px); top: 7px; }
+    .dot.d6 { left: calc(50% - 2.5px); bottom: 7px; }
+    .dot.d7 { left: 7px; top: calc(50% - 2.5px); }
+    .dot.d8 { right: 7px; top: calc(50% - 2.5px); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      overflow: hidden;
+      box-shadow: 0 1px 2px oklch(0.25 0.02 247 / .05);
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      background: oklch(0.981 0.007 247);
+    }
+
+    .panel-title {
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .panel-sub {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 24px;
+      padding: 4px 8px;
+      border-radius: 5px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .pill.pass {
+      border-color: oklch(0.79 0.09 158);
+      background: oklch(0.97 0.03 158);
+      color: oklch(0.36 0.13 158);
+    }
+
+    .pill.warn {
+      border-color: oklch(0.82 0.11 74);
+      background: oklch(0.98 0.04 74);
+      color: oklch(0.45 0.13 74);
+    }
+
+    .content {
+      padding: 16px;
+    }
+
+    .stack-cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stack-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px oklch(1 0 0 / .38);
+    }
+
+    .stack-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      background: oklch(0.968 0.01 247);
+    }
+
+    .stack-card h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .stack-meta {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .levels {
+      display: grid;
+      gap: 8px;
+      padding: 13px 12px;
+      position: relative;
+    }
+
+    .level-row {
+      display: grid;
+      grid-template-columns: 70px 14px 1fr;
+      gap: 8px;
+      align-items: center;
+      position: relative;
+    }
+
+    .level-row::before {
+      content: "";
+      grid-column: 2;
+      grid-row: 1;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 2px solid var(--teal);
+      background: var(--surface);
+      justify-self: center;
+      z-index: 1;
+    }
+
+    .level-row.change-node::before {
+      border-color: var(--amber);
+      background: oklch(0.98 0.04 74);
+    }
+
+    .level-row:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 76px;
+      top: 28px;
+      bottom: -18px;
+      width: 1px;
+      background: oklch(0.77 0.028 247);
+    }
+
+    .level-label {
+      grid-column: 1;
+      grid-row: 1;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .segment {
+      grid-column: 3;
+      grid-row: 1;
+      min-height: 50px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: oklch(0.987 0.005 247);
+      position: relative;
+    }
+
+    .segment.same {
+      border-color: oklch(0.76 0.08 188);
+      background: oklch(0.965 0.027 188);
+    }
+
+    .segment.change {
+      border-color: oklch(0.82 0.11 74);
+      background: oklch(0.98 0.04 74);
+    }
+
+    .segment b {
+      display: block;
+      color: var(--ink);
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .segment .spec {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 3px;
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .segment .spec span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 20px;
+      padding: 2px 6px;
+      border: 1px solid oklch(0.84 0.025 247);
+      border-radius: 5px;
+      background: oklch(0.995 0.003 247);
+      color: var(--text);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 11px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th {
+      padding: 8px 8px;
+      background: var(--panel);
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      text-align: left;
+    }
+
+    td {
+      padding: 9px 8px;
+      border-bottom: 1px solid oklch(0.902 0.014 247);
+      vertical-align: top;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: oklch(0.985 0.004 247);
+    }
+
+    tbody tr:last-child td { border-bottom: 0; }
+
+    .mono {
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: 11px;
+    }
+
+    .strong { color: var(--ink); font-weight: 900; }
+    .rebar { color: oklch(0.36 0.14 158); font-weight: 900; }
+    .tie { color: oklch(0.44 0.13 259); font-weight: 900; }
+    .warn-text { color: oklch(0.45 0.13 74); font-weight: 900; }
+
+    .report {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .report-page {
+      margin: 14px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: oklch(0.997 0.003 247);
+      box-shadow: 0 1px 2px oklch(0.25 0.02 247 / .06);
+    }
+
+    .report h2 {
+      margin: 0 0 8px;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .elevation {
+      width: 100%;
+      min-height: 360px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(to right, transparent 0 49%, oklch(0.83 0.022 247) 49% 51%, transparent 51% 100%),
+        repeating-linear-gradient(to bottom, transparent 0 55px, oklch(0.91 0.015 247) 55px 56px),
+        oklch(0.99 0.004 247);
+      padding: 14px 10px;
+    }
+
+    .elev-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 72px;
+      align-items: center;
+      min-height: 70px;
+    }
+
+    .elev-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-align: right;
+      padding-right: 8px;
+    }
+
+    .elev-seg {
+      justify-self: center;
+      width: 178px;
+      padding: 8px 10px;
+      border: 2px solid var(--teal);
+      border-radius: 6px;
+      background: oklch(0.972 0.026 188);
+      text-align: center;
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .elev-seg.changed {
+      border-color: var(--amber);
+      background: oklch(0.98 0.04 74);
+    }
+
+    .elev-seg small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .section-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .section-box {
+      min-height: 114px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: oklch(0.985 0.006 247);
+      padding: 10px;
+      text-align: center;
+    }
+
+    .section-sketch {
+      width: 72px;
+      height: 72px;
+      margin: 2px auto 7px;
+      border: 3px solid var(--ink);
+      background: var(--surface);
+      position: relative;
+    }
+
+    .bar-dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 1px solid oklch(0.25 0.09 158);
+    }
+
+    .b1 { left: 7px; top: 7px; }
+    .b2 { right: 7px; top: 7px; }
+    .b3 { left: 7px; bottom: 7px; }
+    .b4 { right: 7px; bottom: 7px; }
+    .b5 { left: 31px; top: 7px; }
+    .b6 { left: 31px; bottom: 7px; }
+
+    .caption {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+      .grid, .calc-grid { grid-template-columns: 1fr; }
+      .status-row, .stack-cards, .section-strip, .contract-strip { grid-template-columns: 1fr; }
+      .topbar { align-items: stretch; flex-direction: column; }
+      .segmented { overflow-x: auto; }
+      .drawing-sheet { overflow-x: auto; }
+      .schedule-matrix { min-width: 860px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">P5 Column Design Stack Mockup</div>
+        <h1>สรุปแบบเสาแนวดิ่ง จากตอม่อถึงชั้นหลังคา</h1>
+        <div class="header-note">Mockup สำหรับรวม schedule เสา, เหล็กยืน, ปลอก, ระยะทาบ และ trace ไปหน้ารายการคำนวณ</div>
+      </div>
+      <nav class="segmented" aria-label="mockup mode">
+        <span class="active">Stack Summary</span>
+        <span>P5 Table</span>
+        <span>Report Section</span>
+      </nav>
+    </header>
+
+    <section class="drawing-sheet" aria-label="column schedule drawing sheet">
+      <div class="sheet-head">
+        <div>
+          <div class="sheet-title">Column Reinforcement Schedule</div>
+          <div class="sheet-meta">Drawing-style summary สำหรับนำไปใช้ใน P5 และรายงานคำนวณ</div>
+        </div>
+        <span class="pill">Mockup: C0 / C1 / C2</span>
+      </div>
+      <table class="schedule-matrix">
+        <thead>
+          <tr>
+            <th class="symbol-head">
+              <span class="fl">FL.</span>
+              <span class="symbol">SYMBOL</span>
+            </th>
+            <th class="mark-head">C0</th>
+            <th class="mark-head">C1</th>
+            <th class="mark-head">C2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="floor-label">หลังคา<br><span class="caption">ชั้น 2</span></td>
+            <td class="member-cell">
+              <div class="blank-member" aria-label="not used"></div>
+            </td>
+            <td class="member-cell">
+              <div class="symbol-content">
+                <div class="col-section">
+                  <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span><span class="dot d5"></span><span class="dot d6"></span>
+                </div>
+                <div class="rebar-callout">6-DB16</div>
+              </div>
+              <div class="tie-table">
+                <div>S0</div><div>1-ป RB6@0.20</div>
+                <div>S1</div><div>1-ป RB6@0.20</div>
+              </div>
+            </td>
+            <td class="member-cell">
+              <div class="symbol-content">
+                <div class="col-section">
+                  <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span><span class="dot d5"></span><span class="dot d6"></span>
+                </div>
+                <div class="rebar-callout">6-DB16</div>
+              </div>
+              <div class="tie-table">
+                <div>S0</div><div>1-ป RB6@0.20</div>
+                <div>S1</div><div>1-ป RB6@0.20</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="section-label">SECTION ( B x T )</td>
+            <td class="section-size">-</td>
+            <td class="section-size">0.25 x 0.25</td>
+            <td class="section-size">0.25 x 0.25</td>
+          </tr>
+
+          <tr>
+            <td class="floor-label">ชั้น 1</td>
+            <td class="member-cell">
+              <div class="blank-member" aria-label="not used"></div>
+            </td>
+            <td class="member-cell">
+              <div class="symbol-content">
+                <div class="col-section">
+                  <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span><span class="dot d5"></span><span class="dot d6"></span>
+                </div>
+                <div class="rebar-callout">6-DB16</div>
+              </div>
+              <div class="tie-table">
+                <div>S0</div><div>1-ป RB6@0.20</div>
+                <div>S1</div><div>1-ป RB6@0.20</div>
+              </div>
+            </td>
+            <td class="member-cell">
+              <div class="symbol-content">
+                <div class="col-section">
+                  <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span><span class="dot d5"></span><span class="dot d6"></span>
+                </div>
+                <div class="rebar-callout">6-DB16</div>
+              </div>
+              <div class="tie-table">
+                <div>S0</div><div>1-ป RB6@0.20</div>
+                <div>S1</div><div>1-ป RB6@0.20</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="section-label">SECTION ( B x T )</td>
+            <td class="section-size">-</td>
+            <td class="section-size">0.25 x 0.25</td>
+            <td class="section-size">0.25 x 0.25</td>
+          </tr>
+
+          <tr>
+            <td class="floor-label">ตอม่อ</td>
+            <td class="member-cell">
+              <div class="symbol-content">
+                <div class="col-section small">
+                  <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span>
+                </div>
+                <div class="rebar-callout">4-DB12</div>
+              </div>
+              <div class="tie-table">
+                <div>S0</div><div>1-ป RB6@0.15</div>
+                <div>S1</div><div>1-ป RB6@0.15</div>
+              </div>
+            </td>
+            <td class="member-cell">
+              <div class="symbol-content">
+                <div class="col-section large">
+                  <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span><span class="dot d5"></span><span class="dot d6"></span>
+                </div>
+                <div class="rebar-callout">6-DB16</div>
+              </div>
+              <div class="tie-table">
+                <div>S0</div><div>1-ป RB6@0.20</div>
+                <div>S1</div><div>1-ป RB6@0.20</div>
+              </div>
+            </td>
+            <td class="member-cell">
+              <div class="symbol-content">
+                <div class="col-section large">
+                  <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span><span class="dot d5"></span><span class="dot d6"></span><span class="dot d7"></span><span class="dot d8"></span>
+                </div>
+                <div class="rebar-callout">8-DB16</div>
+              </div>
+              <div class="tie-table">
+                <div>S0</div><div>1-ป RB6@0.20</div>
+                <div>S1</div><div>1-ป RB6@0.20</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="section-label">SECTION ( B x T )</td>
+            <td class="section-size">0.20 x 0.20</td>
+            <td class="section-size">0.30 x 0.30</td>
+            <td class="section-size">0.30 x 0.30</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="contract-strip" aria-label="implementation contract">
+      <div class="contract-item">
+        <b>Single Source</b>
+        <span>อ่านจาก column schedule + level segment เดียวกับ P5/P6</span>
+      </div>
+      <div class="contract-item">
+        <b>P5 Use</b>
+        <span>วางใต้ Column Schedule เป็นแท็บ Stack หรือ summary band</span>
+      </div>
+      <div class="contract-item">
+        <b>Report Use</b>
+        <span>พิมพ์ elevation, section และตาราง Pu/As ตาม stack เดียวกัน</span>
+      </div>
+      <div class="contract-item">
+        <b>Guardrail</b>
+        <span>เปลี่ยน display/summary เท่านั้น ไม่เปลี่ยนสูตรคำนวณเสา</span>
+      </div>
+    </section>
+
+    <section class="status-row" aria-label="summary status">
+      <div class="stat"><b>23</b><span>แนวเสา RC ที่ตรวจจากตอม่อขึ้นบน</span></div>
+      <div class="stat"><b>4</b><span>Column marks หลังจัดกลุ่ม</span></div>
+      <div class="stat"><b>C2 @ F2</b><span>governing stack จาก Pu/As สูงสุด</span></div>
+      <div class="stat"><b>0 fail</b><span>รายการพร้อมส่ง P5/P6/report</span></div>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Column Stack Cards</div>
+            <div class="panel-sub">หนึ่ง card ต่อแนวเสา แสดงว่าช่วงไหนใช้เหล็กเหมือนกันหรือมีจุดเปลี่ยนเหล็ก</div>
+          </div>
+          <span class="pill pass">ผ่าน stack check</span>
+        </div>
+        <div class="content">
+          <div class="stack-cards">
+            <article class="stack-card">
+              <div class="stack-card-head">
+                <div>
+                  <h2>Stack A2 · Mark C1</h2>
+                  <div class="stack-meta">ตอม่อถึงหลังคา ใช้ spec เดียว</div>
+                </div>
+                <span class="pill pass">PASS</span>
+              </div>
+              <div class="levels">
+                <div class="level-row">
+                  <div class="level-label">หลังคา</div>
+                  <div class="segment same"><b>C1 · 200×200</b><div class="spec"><span>เหล็กยืน 4-DB16</span><span>ปลอก RB9@150</span></div></div>
+                </div>
+                <div class="level-row">
+                  <div class="level-label">ชั้น 2</div>
+                  <div class="segment same"><b>C1 · 200×200</b><div class="spec"><span>เหล็กยืน 4-DB16</span><span>ปลอก RB9@150</span></div></div>
+                </div>
+                <div class="level-row">
+                  <div class="level-label">ชั้น 1</div>
+                  <div class="segment same"><b>C1 · 200×200</b><div class="spec"><span>เหล็กยืน 4-DB16</span><span>ปลอก RB9@150</span></div></div>
+                </div>
+                <div class="level-row">
+                  <div class="level-label">ตอม่อ</div>
+                  <div class="segment same"><b>PC1 · 200×200</b><div class="spec"><span>เหล็กยืน 4-DB16</span><span>ปลอก RB9@150</span></div></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="stack-card">
+              <div class="stack-card-head">
+                <div>
+                  <h2>Stack F2 · Mark C2</h2>
+                  <div class="stack-meta">เปลี่ยนเหล็กเหนือชั้น 2</div>
+                </div>
+                <span class="pill warn">ต้องระบุ splice</span>
+              </div>
+              <div class="levels">
+                <div class="level-row">
+                  <div class="level-label">หลังคา</div>
+                  <div class="segment same"><b>C1 · 200×200</b><div class="spec"><span>เหล็กยืน 4-DB16</span><span>ปลอก RB9@150</span></div></div>
+                </div>
+                <div class="level-row change-node">
+                  <div class="level-label">ชั้น 2</div>
+                  <div class="segment change"><b>C2 · 200×200</b><div class="spec"><span>เหล็กยืน 4-DB20</span><span>ปลอก RB9@100</span></div></div>
+                </div>
+                <div class="level-row change-node">
+                  <div class="level-label">ชั้น 1</div>
+                  <div class="segment change"><b>C2 · 200×200</b><div class="spec"><span>เหล็กยืน 4-DB20</span><span>ปลอก RB9@100</span></div></div>
+                </div>
+                <div class="level-row change-node">
+                  <div class="level-label">ตอม่อ</div>
+                  <div class="segment change"><b>PC2 · 200×200</b><div class="spec"><span>starter 4-DB20</span><span>ปลอก RB9@100</span></div></div>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="legend">
+            <span class="pill">C = เสาเหนือพื้น</span>
+            <span class="pill">PC = ตอม่อหรือช่วงฐานราก</span>
+            <span class="pill warn">เปลี่ยนเหล็ก = ต้องมี note lap/splice</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">P5 Column Stack Schedule</div>
+            <div class="panel-sub">ตารางที่ควรอยู่ใน P5 ใต้ Column Schedule หรือแท็บย่อย Stack</div>
+          </div>
+          <span class="pill">Source: _columnAutoSchedule</span>
+        </div>
+        <div class="content" style="padding:0">
+          <table>
+            <thead>
+              <tr>
+                <th>Stack</th>
+                <th>ช่วงระดับ</th>
+                <th>Mark</th>
+                <th>Section</th>
+                <th>เหล็กยืน</th>
+                <th>ปลอก</th>
+                <th>คุมด้วย</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="strong">A2</td>
+                <td>ตอม่อ ถึง หลังคา</td>
+                <td>PC1 / C1</td>
+                <td class="mono">200×200</td>
+                <td class="rebar">4-DB16</td>
+                <td class="tie">RB9@150</td>
+                <td>Pu 25.12t · As req 4.00cm²</td>
+                <td><span class="pill pass">PASS</span></td>
+              </tr>
+              <tr>
+                <td class="strong">F2</td>
+                <td>ตอม่อ ถึง ชั้น 2</td>
+                <td>PC2 / C2</td>
+                <td class="mono">200×200</td>
+                <td class="rebar">4-DB20</td>
+                <td class="tie">RB9@100</td>
+                <td>Pu 55.47t · As req 7.84cm²</td>
+                <td><span class="pill warn">SPLICE NOTE</span></td>
+              </tr>
+              <tr>
+                <td class="strong">F2</td>
+                <td>ชั้น 2 ถึง หลังคา</td>
+                <td>C1</td>
+                <td class="mono">200×200</td>
+                <td class="rebar">4-DB16</td>
+                <td class="tie">RB9@150</td>
+                <td>Pu 18.28t · As req min</td>
+                <td><span class="pill pass">PASS</span></td>
+              </tr>
+              <tr>
+                <td class="strong">H3</td>
+                <td>ตอม่อ ถึง หลังคา</td>
+                <td>PC3 / C3</td>
+                <td class="mono">250×250</td>
+                <td class="rebar">6-DB20</td>
+                <td class="tie">RB9@100</td>
+                <td>Pu 71.20t · As req 11.60cm²</td>
+                <td><span class="pill pass">PASS</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="report">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">Report Mockup</div>
+          <div class="panel-sub">ตัวอย่าง layout ที่รายการคำนวณควรใช้จาก schedule เดียวกับ P5</div>
+        </div>
+        <span class="pill pass">P5 = Report</span>
+      </div>
+      <div class="report-page">
+        <h2>5.2 สรุปและรายการคำนวณเสาแนวดิ่ง</h2>
+        <table>
+          <tbody>
+            <tr>
+              <td class="strong" style="width:170px">Construction Stack</td>
+              <td>Stack F2 · Grid 2 / B ถึงหลังคา · ใช้กับ C6, C8, C13</td>
+            </tr>
+            <tr>
+              <td class="strong">สรุปเหล็กที่ใช้</td>
+              <td><span class="rebar">ตอม่อถึงชั้น 2: 4-DB20, RB9@100</span> · <span class="rebar">ชั้น 2 ถึงหลังคา: 4-DB16, RB9@150</span></td>
+            </tr>
+            <tr>
+              <td class="strong">จุดเปลี่ยนเหล็ก</td>
+              <td><span class="warn-text">เปลี่ยนจาก 4-DB20 เป็น 4-DB16 เหนือระดับคานชั้น 2, ระบุระยะทาบและตำแหน่งหยุดเหล็กในแบบ</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="calc-grid">
+          <div>
+            <div class="elevation" aria-label="column elevation stack">
+              <div class="elev-row">
+                <div class="elev-label">หลังคา<br>+7.55</div>
+                <div class="elev-seg">C1<br><small>4-DB16 · RB9@150</small></div>
+                <div></div>
+              </div>
+              <div class="elev-row">
+                <div class="elev-label">ชั้น 2<br>+4.30</div>
+                <div class="elev-seg changed">C2<br><small>4-DB20 · RB9@100</small></div>
+                <div class="caption">splice</div>
+              </div>
+              <div class="elev-row">
+                <div class="elev-label">ชั้น 1<br>+0.50</div>
+                <div class="elev-seg changed">C2<br><small>4-DB20 · RB9@100</small></div>
+                <div></div>
+              </div>
+              <div class="elev-row">
+                <div class="elev-label">ตอม่อ<br>-0.50</div>
+                <div class="elev-seg changed">PC2<br><small>starter 4-DB20</small></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>ช่วงคำนวณ</th>
+                  <th>Pu</th>
+                  <th>As req</th>
+                  <th>As prov</th>
+                  <th>Util</th>
+                  <th>ผล</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="strong">PC2 ตอม่อ</td>
+                  <td>55.47t</td>
+                  <td>7.84cm²</td>
+                  <td class="rebar">12.56cm²</td>
+                  <td>62%</td>
+                  <td><span class="pill pass">PASS</span></td>
+                </tr>
+                <tr>
+                  <td class="strong">C2 ชั้น 1</td>
+                  <td>55.47t</td>
+                  <td>7.84cm²</td>
+                  <td class="rebar">12.56cm²</td>
+                  <td>62%</td>
+                  <td><span class="pill pass">PASS</span></td>
+                </tr>
+                <tr>
+                  <td class="strong">C2 ชั้น 2</td>
+                  <td>40.91t</td>
+                  <td>6.12cm²</td>
+                  <td class="rebar">12.56cm²</td>
+                  <td>49%</td>
+                  <td><span class="pill pass">PASS</span></td>
+                </tr>
+                <tr>
+                  <td class="strong">C1 ใต้หลังคา</td>
+                  <td>18.28t</td>
+                  <td>4.00cm²</td>
+                  <td class="rebar">8.04cm²</td>
+                  <td>50%</td>
+                  <td><span class="pill pass">PASS</span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="section-strip">
+              <div class="section-box">
+                <div class="section-sketch">
+                  <span class="bar-dot b1"></span><span class="bar-dot b2"></span><span class="bar-dot b3"></span><span class="bar-dot b4"></span>
+                </div>
+                <div class="strong">C1 / PC1</div>
+                <div class="caption">200×200 · 4-DB16 · RB9@150</div>
+              </div>
+              <div class="section-box">
+                <div class="section-sketch">
+                  <span class="bar-dot b1"></span><span class="bar-dot b2"></span><span class="bar-dot b3"></span><span class="bar-dot b4"></span>
+                </div>
+                <div class="strong">C2 / PC2</div>
+                <div class="caption">200×200 · 4-DB20 · RB9@100</div>
+              </div>
+              <div class="section-box">
+                <div class="section-sketch">
+                  <span class="bar-dot b1"></span><span class="bar-dot b2"></span><span class="bar-dot b3"></span><span class="bar-dot b4"></span><span class="bar-dot b5"></span><span class="bar-dot b6"></span>
+                </div>
+                <div class="strong">C3 / PC3</div>
+                <div class="caption">250×250 · 6-DB20 · RB9@100</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
