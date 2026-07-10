@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>§3.5 โปรไฟล์เหล็กตามแนวแกน - A4 Report Mockup</title>
+<style>
+  :root{
+    --ink:oklch(24% .026 258);
+    --text:oklch(34% .028 255);
+    --mut:oklch(51% .035 254);
+    --faint:oklch(67% .033 252);
+    --line:oklch(88% .024 252);
+    --line-dark:oklch(78% .035 252);
+    --canvas:oklch(96% .012 250);
+    --paper:oklch(99% .004 250);
+    --panel:oklch(97.5% .011 250);
+    --main:oklch(26% .032 255);
+    --top:oklch(52% .145 158);
+    --bot:oklch(63% .145 68);
+    --stir:oklch(56% .205 28);
+    --grid:oklch(54% .18 258);
+    --column:oklch(70% .026 252);
+    --column-fill:oklch(91% .018 250);
+    --section-fill:oklch(97% .012 250);
+    --mono:ui-monospace,"SF Mono","Consolas",monospace;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--canvas);color:var(--ink)}
+  .preview-shell{
+    min-height:100%;padding:18px 12px 36px;
+    font-family:"Sarabun","IBM Plex Sans Thai","Tahoma","Segoe UI",system-ui,sans-serif;
+  }
+  .preview-bar{
+    width:794px;max-width:calc(100% - 24px);margin:0 auto 12px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    color:var(--mut);font-size:11px;line-height:1.25;
+  }
+  .preview-label{display:flex;align-items:center;gap:7px;font-weight:800}
+  .preview-label::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--top)}
+  .preview-meta{font-family:var(--mono);font-size:10px;color:var(--faint);white-space:nowrap}
+
+  .a4-page{
+    width:794px;max-width:calc(100% - 24px);min-height:1123px;margin:0 auto;
+    background:var(--paper);padding:46px 46px 52px;
+    box-shadow:0 1px 3px oklch(25% .02 250 / .12);
+  }
+  .report-kicker{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    border-bottom:1px solid var(--line);padding-bottom:10px;
+    color:var(--faint);font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+  }
+  .report-kicker b{color:var(--grid);font-family:inherit;font-weight:800}
+  .report-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;padding:17px 0 14px}
+  .report-heading h1{font-size:18px;line-height:1.25;letter-spacing:0;margin:0;font-weight:850}
+  .report-heading p{max-width:49ch;margin:5px 0 0;color:var(--mut);font-size:10.6px;line-height:1.45}
+  .report-meta{display:grid;grid-template-columns:repeat(2,auto);gap:8px 18px;align-content:start;margin:2px 0 0}
+  .report-meta div{min-width:76px}
+  .report-meta span{display:block;color:var(--faint);font-size:8.5px;line-height:1.2;letter-spacing:.06em;text-transform:uppercase;font-weight:800}
+  .report-meta b{display:block;color:var(--ink);font-size:10.5px;line-height:1.25;margin-top:2px;font-weight:800;font-variant-numeric:tabular-nums}
+
+  .legend{
+    display:flex;flex-wrap:wrap;align-items:center;gap:7px 13px;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:8px 0;font-size:9.6px;color:var(--text);
+  }
+  .legend-title{font-size:8.4px;color:var(--faint);letter-spacing:.06em;text-transform:uppercase;font-weight:850;margin-right:2px}
+  .legend-item{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+  .legend-rule{width:18px;border-top:2px solid var(--main);border-radius:2px}
+  .legend-rule.top{border-top-color:var(--top);border-top-width:3px}
+  .legend-rule.bot{border-top-color:var(--bot);border-top-width:3px}
+  .legend-rule.stir{border-top-color:var(--stir);border-top-width:1px}
+  .legend-node{width:12px;height:12px;border:1.5px solid var(--grid);border-radius:50%;background:var(--paper)}
+
+  .profiles{margin-top:4px}
+  .profile{padding:15px 0 17px;border-bottom:1px solid var(--line);break-inside:avoid;page-break-inside:avoid}
+  .profile-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:6px}
+  .profile-title{display:flex;align-items:baseline;gap:8px;min-width:0;flex-wrap:wrap}
+  .profile-title b{font-size:12px;line-height:1.25;font-weight:850}
+  .axis-mark{font-family:var(--mono);font-size:9.5px;color:var(--grid);font-weight:800}
+  .profile-sub{font-size:9.4px;color:var(--mut);white-space:nowrap}
+  .drawing-wrap{overflow-x:auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .profile-svg{display:block;width:100%;min-width:660px;height:auto;background:var(--paper)}
+  .profile-svg text{font-family:"Sarabun","Tahoma",sans-serif}
+  .profile-svg .mono{font-family:var(--mono)}
+
+  .trace-title{margin:9px 0 4px;color:var(--faint);font-size:8.4px;font-weight:850;letter-spacing:.06em;text-transform:uppercase}
+  .trace-wrap{overflow-x:auto}
+  .trace-table{width:100%;min-width:620px;border-collapse:collapse;font-size:9px;line-height:1.25}
+  .trace-table th,.trace-table td{padding:4px 5px;border-top:1px solid var(--line);text-align:left;vertical-align:middle}
+  .trace-table th{color:var(--faint);font-size:8px;letter-spacing:.05em;text-transform:uppercase;font-weight:850;background:var(--panel)}
+  .trace-table td{color:var(--text)}
+  .trace-table td:first-child{font-family:var(--mono);font-weight:850;color:var(--ink)}
+  .trace-table .num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+  .trace-table .top-text{color:var(--top);font-weight:800}
+  .trace-table .bot-text{color:var(--bot);font-weight:800}
+
+  .sections{display:flex;align-items:flex-start;gap:12px;margin-top:10px;overflow-x:auto;padding-bottom:2px}
+  .section-caption{flex:0 0 84px;color:var(--faint);font-size:8.4px;line-height:1.35;font-weight:850;letter-spacing:.06em;text-transform:uppercase;padding-top:5px}
+  .specimen{display:grid;grid-template-columns:44px auto;gap:5px;align-items:center;min-width:92px}
+  .specimen svg{display:block}
+  .specimen b{display:block;font-family:var(--mono);font-size:9px;line-height:1.1}
+  .specimen span{display:block;color:var(--mut);font-family:var(--mono);font-size:8px;line-height:1.35;white-space:nowrap}
+  .page-footer{display:flex;justify-content:space-between;gap:12px;margin-top:20px;padding-top:8px;border-top:1px solid var(--line);color:var(--faint);font-size:8.5px;line-height:1.35}
+  .page-footer b{color:var(--mut);font-weight:800}
+
+  @media(max-width:640px){
+    .preview-shell{padding:12px 0 24px}
+    .preview-bar,.a4-page{max-width:100%}
+    .preview-bar{align-items:flex-start;flex-direction:column;gap:4px}
+    .a4-page{padding:28px 18px 38px}
+    .report-heading{grid-template-columns:1fr;gap:10px}
+    .report-meta{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 12px}
+    .report-meta div{min-width:0}
+    .profile-head{align-items:flex-start;flex-direction:column;gap:2px}
+    .profile-sub{white-space:normal}
+  }
+
+  @page{size:A4;margin:0}
+  @media print{
+    body{background:var(--paper)}
+    .preview-shell{padding:0}
+    .preview-bar{display:none}
+    .a4-page{width:210mm;max-width:none;min-height:297mm;margin:0;padding:12mm 12mm 14mm;box-shadow:none}
+    .profile-svg{min-width:0}
+    .drawing-wrap,.trace-wrap,.sections{overflow:visible}
+  }
+</style>
+</head>
+<body>
+<main class="preview-shell">
+  <div class="preview-bar" aria-label="สถานะ mockup">
+    <div class="preview-label">Mockup เฉพาะหน้ารายงาน</div>
+    <div class="preview-meta">A4 portrait · 210 × 297 mm</div>
+  </div>
+
+  <article class="a4-page">
+    <header>
+      <div class="report-kicker">
+        <span>Structural calculation report</span>
+        <b>Section 3.5</b>
+      </div>
+      <div class="report-heading">
+        <div>
+          <h1>3.5 โปรไฟล์เหล็กตามแนวแกน</h1>
+          <p>แสดงลำดับคานต่อเนื่อง, จุดรองรับ, เหล็กพิเศษ และหน้าตัดอ้างอิง เพื่อ trace กลับไปยัง beam schedule ได้ในหน้าเดียว</p>
+        </div>
+        <div class="report-meta" aria-label="ข้อมูลรายงาน">
+          <div><span>Project</span><b>Sample A</b></div>
+          <div><span>Storey</span><b>ชั้น 1 - 2</b></div>
+          <div><span>Source</span><b>Schedule</b></div>
+          <div><span>Status</span><b>Draft</b></div>
+        </div>
+      </div>
+      <div class="legend" id="legend"></div>
+    </header>
+
+    <section id="profiles" class="profiles" aria-label="โปรไฟล์คานตามแนวแกน"></section>
+
+    <footer class="page-footer">
+      <span><b>NOTE:</b> เหล็กพิเศษเป็น schematic เพื่อ trace schedule เท่านั้น, ให้ยืนยันระยะตัดและรายละเอียดโดยวิศวกรผู้ออกแบบ</span>
+      <span>3.5 / 12</span>
+    </footer>
+  </article>
+</main>
+
+<script>
+(function(){
+  var C={
+    main:'oklch(26% .032 255)',top:'oklch(52% .145 158)',bot:'oklch(63% .145 68)',stir:'oklch(56% .205 28)',
+    grid:'oklch(54% .18 258)',column:'oklch(70% .026 252)',columnFill:'oklch(91% .018 250)',
+    fill:'oklch(99% .004 250)',ink:'oklch(24% .026 258)',mut:'oklch(51% .035 254)',faint:'oklch(67% .033 252)',line:'oklch(88% .024 252)',section:'oklch(97% .012 250)'
+  };
+
+  var PROFILES=[
+    {
+      figure:'รูปที่ 1',title:'ชั้น 2 · คานต่อเนื่อง 4 ช่วง',axis:'C1 → C5',total:'L grid 16.00 ม.',
+      nodes:['C1','C2','C3','C4','C5'],
+      spans:[
+        {mark:'B1',sec:'20×50',L:4.00,top:'2-DB16',bot:'2-DB16',stir:'RB9@10/15',extra:'+2-DB16'},
+        {mark:'B2',sec:'20×50',L:4.00,top:'2-DB16',bot:'2-DB16',stir:'RB9@10/15',extra:'+2-DB16'},
+        {mark:'B3',sec:'20×50',L:4.00,top:'2-DB16',bot:'2-DB16',stir:'RB9@10/15',extra:'+1-DB16'},
+        {mark:'B4',sec:'20×60',L:4.00,top:'2-DB16',bot:'2-DB16',stir:'RB9@10/15',extra:'+1-DB16'}
+      ]
+    },
+    {
+      figure:'รูปที่ 2',title:'ชั้น 1 · คานต่อเนื่อง 2 ช่วง',axis:'E1 → E3',total:'L grid 8.00 ม.',
+      nodes:['E1','E2','E3'],
+      spans:[
+        {mark:'B5',sec:'20×50',L:4.00,top:'2-DB16',bot:'2-DB16',stir:'RB9@10/15',extra:''},
+        {mark:'B6',sec:'20×50',L:4.00,top:'2-DB16',bot:'2-DB16',stir:'RB9@10/15',extra:'+1-DB16'}
+      ]
+    }
+  ];
+
+  function esc(value){return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function totalL(profile){return profile.spans.reduce(function(sum,span){return sum+span.L;},0)||1;}
+  function supports(profile,pad,plot){
+    var total=totalL(profile),acc=0,points=[pad];
+    profile.spans.forEach(function(span){acc+=span.L;points.push(pad+(acc/total)*plot);});
+    return points;
+  }
+  function depth(sec){return sec.indexOf('60')>-1?54:42;}
+
+  function legendHTML(){
+    return [
+      '<span class="legend-title">Legend</span>',
+      '<span class="legend-item"><i class="legend-rule"></i>เหล็กหลักต่อเนื่อง</span>',
+      '<span class="legend-item"><i class="legend-rule top"></i>เหล็กบนพิเศษที่หัวเสา</span>',
+      '<span class="legend-item"><i class="legend-rule bot"></i>เหล็กล่างพิเศษกลางช่วง</span>',
+      '<span class="legend-item"><i class="legend-rule stir"></i>ปลอกถี่หัวเสา / ห่างกลาง</span>',
+      '<span class="legend-item"><i class="legend-node"></i>Grid / เสารองรับ</span>'
+    ].join('');
+  }
+
+  function drawProfile(profile){
+    var W=720,H=205,pad=36,plot=W-pad*2,pts=supports(profile,pad,plot),beamY=84,colY=53,colH=102,dimY=181,s=[];
+    s.push('<svg class="profile-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(profile.figure)+' '+esc(profile.title)+'">');
+    profile.nodes.forEach(function(node,index){
+      var x=pts[index];
+      s.push('<line x1="'+x+'" y1="40" x2="'+x+'" y2="'+(colY+colH)+'" stroke="'+C.grid+'" stroke-width=".6" stroke-dasharray="2 3" opacity=".55"/>');
+      s.push('<rect x="'+(x-8)+'" y="'+colY+'" width="16" height="'+colH+'" fill="'+C.columnFill+'" stroke="'+C.column+'" stroke-width="1"/>');
+      s.push('<circle cx="'+x+'" cy="25" r="10" fill="'+C.fill+'" stroke="'+C.grid+'" stroke-width="1.3"/>');
+      s.push('<text x="'+x+'" y="28.3" text-anchor="middle" font-size="8" font-weight="850" fill="'+C.grid+'">'+esc(node)+'</text>');
+    });
+    profile.spans.forEach(function(span,index){
+      var x0=pts[index],x1=pts[index+1],width=x1-x0,d=depth(span.sec),bottom=beamY+d,mid=(x0+x1)/2,zone=width*.25;
+      s.push('<rect x="'+x0+'" y="'+beamY+'" width="'+width+'" height="'+d+'" fill="'+C.fill+'" stroke="'+C.main+'" stroke-width="1.3"/>');
+      for(var x=x0+7;x<x1-5;){
+        var near=(x-x0<zone)||(x1-x<zone);
+        s.push('<line x1="'+x+'" y1="'+(beamY+4)+'" x2="'+x+'" y2="'+(bottom-4)+'" stroke="'+C.stir+'" stroke-width=".7" opacity=".55"/>');
+        x+=near?9:18;
+      }
+      s.push('<line x1="'+(x0+3)+'" y1="'+(beamY+6)+'" x2="'+(x1-3)+'" y2="'+(beamY+6)+'" stroke="'+C.main+'" stroke-width="2" stroke-linecap="round"/>');
+      s.push('<line x1="'+(x0+3)+'" y1="'+(bottom-6)+'" x2="'+(x1-3)+'" y2="'+(bottom-6)+'" stroke="'+C.main+'" stroke-width="2" stroke-linecap="round"/>');
+      if(span.extra){
+        s.push('<line x1="'+(x0+width*.22)+'" y1="'+(bottom-10)+'" x2="'+(x1-width*.22)+'" y2="'+(bottom-10)+'" stroke="'+C.bot+'" stroke-width="2.4" stroke-linecap="round"/>');
+      }
+      s.push('<text x="'+mid+'" y="'+(beamY+d/2-1)+'" text-anchor="middle" font-size="10.5" font-weight="850" fill="'+C.ink+'">'+esc(span.mark)+'</text>');
+      s.push('<text x="'+mid+'" y="'+(beamY+d/2+11)+'" text-anchor="middle" font-size="7.8" fill="'+C.mut+'" class="mono">'+esc(span.sec)+'</text>');
+      s.push('<line x1="'+x0+'" y1="'+dimY+'" x2="'+x1+'" y2="'+dimY+'" stroke="'+C.faint+'" stroke-width=".8"/>');
+      s.push('<line x1="'+x0+'" y1="'+(dimY-3)+'" x2="'+x0+'" y2="'+(dimY+3)+'" stroke="'+C.faint+'" stroke-width=".8"/>');
+      s.push('<line x1="'+x1+'" y1="'+(dimY-3)+'" x2="'+x1+'" y2="'+(dimY+3)+'" stroke="'+C.faint+'" stroke-width=".8"/>');
+      s.push('<text x="'+mid+'" y="'+(dimY+13)+'" text-anchor="middle" font-size="8" fill="'+C.mut+'" class="mono">'+span.L.toFixed(2)+' ม.</text>');
+    });
+    profile.nodes.forEach(function(node,index){
+      var x=pts[index],left=index?pts[index]-pts[index-1]:0,right=index<profile.spans.length?pts[index+1]-pts[index]:0;
+      if(left||right){
+        s.push('<line x1="'+(x-left*.24)+'" y1="'+(beamY+2)+'" x2="'+(x+right*.24)+'" y2="'+(beamY+2)+'" stroke="'+C.top+'" stroke-width="2.7" stroke-linecap="round"/>');
+      }
+    });
+    s.push('<text x="'+pad+'" y="'+(beamY-8)+'" font-size="8" font-weight="850" fill="'+C.top+'">▲ เหล็กบนพิเศษที่หัวเสา</text>');
+    if(profile.spans.some(function(span){return span.extra;})){
+      s.push('<text x="'+(W-pad)+'" y="'+(beamY+depth('20×60')+16)+'" text-anchor="end" font-size="8" font-weight="850" fill="'+C.bot+'">▼ เหล็กล่างพิเศษกลางช่วง</text>');
+    }
+    s.push('</svg>');
+    return s.join('');
+  }
+
+  function traceTable(profile){
+    var rows=profile.spans.map(function(span){
+      return '<tr><td>'+esc(span.mark)+'</td><td class="num">'+esc(span.sec)+'</td><td class="num">'+span.L.toFixed(2)+'</td><td>'+esc(span.top)+'</td><td>'+esc(span.bot)+(span.extra?' <span class="bot-text">'+esc(span.extra)+'</span>':'')+'</td><td class="num">'+esc(span.stir)+'</td></tr>';
+    }).join('');
+    return '<div class="trace-title">Span trace · beam schedule</div><div class="trace-wrap"><table class="trace-table"><thead><tr><th>Mark</th><th class="num">Section</th><th class="num">L (m)</th><th>Top</th><th>Bottom</th><th class="num">Stirrup</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  }
+
+  function sectionSVG(sec,hasExtra){
+    var h=sec.indexOf('60')>-1?38:32,bottom=8+h,dots=[];
+    function dot(x,y,color){dots.push('<circle cx="'+x+'" cy="'+y+'" r="1.7" fill="'+color+'"/>');}
+    dot(11,13,C.main);dot(33,13,C.main);dot(11,bottom-5,C.main);dot(33,bottom-5,C.main);
+    if(hasExtra){dot(22,bottom-5,C.bot);}
+    return '<svg viewBox="0 0 44 '+(h+16)+'" width="44" height="'+(h+16)+'"><rect x="6" y="8" width="32" height="'+h+'" rx="1.5" fill="'+C.section+'" stroke="'+C.main+'" stroke-width="1"/><rect x="9" y="11" width="26" height="'+(h-6)+'" rx="1" fill="none" stroke="'+C.stir+'" stroke-width=".6" opacity=".82"/>'+dots.join('')+'</svg>';
+  }
+
+  function specimenStrip(profile){
+    var items=profile.spans.map(function(span){
+      return '<div class="specimen">'+sectionSVG(span.sec,!!span.extra)+'<div><b>'+esc(span.mark)+'</b><span>'+esc(span.sec)+'</span><span>บน '+esc(span.top)+'</span><span>ล่าง '+esc(span.bot)+(span.extra?' '+esc(span.extra):'')+'</span></div></div>';
+    }).join('');
+    return '<div class="sections"><div class="section-caption">หน้าตัดคาน<br>อ้างอิง</div>'+items+'</div>';
+  }
+
+  function profileHTML(profile){
+    return '<article class="profile"><div class="profile-head"><div class="profile-title"><b>'+esc(profile.figure)+' · '+esc(profile.title)+'</b><span class="axis-mark">'+esc(profile.axis)+'</span></div><span class="profile-sub">'+esc(profile.total)+' · source: beam schedule</span></div>'+drawProfile(profile)+traceTable(profile)+specimenStrip(profile)+'</article>';
+  }
+
+  document.getElementById('legend').innerHTML=legendHTML();
+  document.getElementById('profiles').innerHTML=PROFILES.map(profileHTML).join('');
+})();
+</script>
+</body>
+</html>

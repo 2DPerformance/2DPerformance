@@ -1,0 +1,1156 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>อาคารส่วนต่อเติม · 3D-first CAD · Module 8.3 (mockup)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%237C3AED'/%3E%3Ctext x='16' y='23' font-size='16' font-family='sans-serif' font-weight='bold' text-anchor='middle' fill='white'%3E3D%3C/text%3E%3C/svg%3E">
+<!-- Three.js vendored locally (NO runtime CDN) — paths relative to this file's dir.
+     Served at /vendor/three/* (dev) and …/<base>/vendor/three/* (prod, base=./).
+     ⚠ ES modules need http(s) — open via dev server or deployed URL, not file:// -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/three.module.js",
+    "three/addons/": "./vendor/three/addons/"
+  }
+}
+</script>
+<style>
+  :root{
+    --bg:#EEF2F6; --panel:#FFFFFF; --line:#E2E8F0; --line2:#CBD5E1;
+    --ink:#0F172A; --ink2:#334155; --muted:#64748B; --faint:#94A3B8; --ink-bg:#111827;
+    --brand:#7C3AED; --brand-bg:#F5F3FF; --brand-line:#DDD6FE;
+    --blue:#2563EB; --blue-bg:#EFF6FF;
+    --ok:#047857; --ok-bg:#ECFDF5; --ok-line:#A7F3D0;
+    --warn:#B45309; --warn-bg:#FFFBEB; --warn-line:#FDE68A;
+    --bad:#BE123C; --bad-bg:#FFF1F2; --bad-line:#FECDD3;
+    --radius:10px; --shadow:0 1px 2px rgba(15,23,42,.05);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--ink);overflow:hidden;
+    font-family:"Inter","Segoe UI",system-ui,-apple-system,"Noto Sans Thai","Sarabun",sans-serif;font-size:13px;line-height:1.45;-webkit-font-smoothing:antialiased}
+  .mono{font-family:ui-monospace,"JetBrains Mono",Consolas,monospace}
+  .row{display:flex;align-items:center}.gap-2{gap:8px}.gap-3{gap:12px}
+  svg.ico{width:16px;height:16px;flex:none}svg.ico-sm{width:14px;height:14px;flex:none}svg.ico-lg{width:20px;height:20px;flex:none}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:1px;border-radius:6px}
+  button{font-family:inherit}
+
+  .wrap{height:100vh;display:flex;flex-direction:column;padding:10px;gap:10px;overflow-x:auto}
+  header.appbar{display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--panel);
+    border:1px solid var(--line);border-radius:var(--radius);padding:9px 16px;box-shadow:var(--shadow);flex:none;min-width:1180px}
+  .brandmark{width:40px;height:40px;border-radius:9px;background:var(--brand);display:flex;align-items:center;justify-content:center;color:#fff}
+  .proj-name{font-size:15.5px;font-weight:800;letter-spacing:-.01em}
+  .proj-sub{font-size:11px;color:var(--muted);font-weight:600;margin-top:1px}
+  .typetabs{display:flex;gap:6px;background:#F1F5F9;border:1px solid var(--line);border-radius:9px;padding:4px}
+  .typetab{display:flex;align-items:center;gap:6px;border:1px solid transparent;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap}
+  .typetab.is-active{background:var(--brand);border-color:var(--brand);color:#fff}
+  .btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 13px;font-size:12.5px;font-weight:700;color:var(--ink2);cursor:pointer}
+  .btn:hover{background:#F8FAFC}
+  .btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}.btn-primary:hover{background:#6D28D9}
+  .btn:active{transform:translateY(1px)}
+  .savestat{font-size:11px;font-weight:700;color:var(--muted);display:inline-flex;align-items:center;gap:5px;white-space:nowrap;min-width:96px;justify-content:flex-end}
+  .savestat.saved{color:var(--ok)} .savestat.saving{color:var(--warn)}
+
+  main.builder{flex:1;display:grid;grid-template-columns:366px 1fr 322px;gap:10px;min-height:0;min-width:1180px}
+  .col{min-height:0;display:flex;flex-direction:column;gap:10px;overflow:auto;padding-right:2px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+  .card-pad{padding:13px}
+  .eyebrow{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+  .h-title{font-size:13px;font-weight:800}
+  .divline{height:1px;background:var(--line);margin:11px -13px}
+
+  .steps{display:flex;flex-direction:column;gap:4px}
+  .step{display:flex;align-items:center;gap:10px;border:1px solid transparent;border-radius:8px;padding:8px 9px;cursor:pointer;color:var(--ink2)}
+  .step:hover{background:#F8FAFC;border-color:var(--line)}
+  .step .num{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line2);background:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--muted);flex:none}
+  .step .lbl{font-size:12.5px;font-weight:700}
+  .step.is-current{background:var(--brand);border-color:var(--brand);color:#fff}
+  .step.is-current .num{background:#fff;color:var(--brand);border-color:#fff}
+  .step.is-done .num{background:var(--ok);border-color:var(--ok);color:#fff}
+  .progress{height:4px;border-radius:3px;background:#E2E8F0;overflow:hidden;margin-top:11px}
+  .progress>i{display:block;height:100%;background:var(--brand);transition:width .3s ease}
+
+  .ctx{display:none}
+  .ctx.is-active{display:block;animation:fade .26s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+  .ctx-step{font-size:10.5px;font-weight:800;color:var(--brand);letter-spacing:.04em;text-transform:uppercase}
+  .ctx-title{font-size:16px;font-weight:800;letter-spacing:-.01em;margin:2px 0 0}
+  .ctx-desc{font-size:12px;color:var(--muted);margin:5px 0 0;line-height:1.5}
+
+  .kv{display:grid;grid-template-columns:118px 1fr;gap:5px 8px;font-size:12px;align-items:center}
+  .kv dt{color:var(--muted)}.kv dd{margin:0;font-weight:600}
+  .field{margin-bottom:10px}
+  .field label{display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;color:var(--ink2);margin-bottom:5px}
+  .field label b{color:var(--brand);font-variant-numeric:tabular-nums}
+  .inp,.sel{width:100%;border:1px solid var(--line2);border-radius:7px;padding:7px 9px;font-size:12.5px;font-weight:600;color:var(--ink);background:#fff;font-family:inherit}
+  input[type=range]{width:100%;accent-color:var(--brand);cursor:pointer}
+  input[type=checkbox]{accent-color:var(--brand)}
+  .reliab{display:flex;gap:6px;margin-top:6px}
+  .reliab button{flex:1;border:1px solid var(--line);background:#fff;border-radius:7px;padding:7px 4px;font-size:11px;font-weight:800;color:var(--muted);cursor:pointer;line-height:1.2}
+  .reliab button small{display:block;font-size:9px;font-weight:600;color:var(--faint);margin-top:2px}
+  .reliab button.on[data-r="verified"]{background:var(--ok-bg);border-color:var(--ok-line);color:var(--ok)}
+  .reliab button.on[data-r="estimated"]{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn)}
+  .reliab button.on[data-r="unknown"]{background:var(--bad-bg);border-color:var(--bad-line);color:var(--bad)}
+  .checks{display:flex;flex-direction:column;gap:6px}
+  .checks label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;cursor:pointer}
+  .blrow{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:8px;padding:8px 10px;cursor:pointer;margin-bottom:6px}
+  .blrow:hover{background:#F8FAFC}
+  .blrow.on{border-color:var(--brand);background:var(--brand-bg)}
+  .blrow .bid{font-weight:800}.blrow .bmeta{font-size:10.5px;color:var(--muted)}
+  .toggle{display:flex;gap:6px;margin-top:6px}
+  .toggle button{flex:1;border:1px solid var(--line);background:#fff;border-radius:7px;padding:7px 6px;font-size:11px;font-weight:800;color:var(--muted);cursor:pointer}
+  .toggle button.on{background:var(--brand-bg);border-color:var(--brand-line);color:var(--brand)}
+
+  .pill{display:inline-flex;align-items:center;gap:5px;border:1px solid;border-radius:7px;padding:3px 8px;font-size:10.5px;font-weight:800;white-space:nowrap}
+  .pill svg{width:12px;height:12px}
+  .pill--pass{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-line)}
+  .pill--review{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-line)}
+  .pill--fail{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-line)}
+  .pill--info{background:var(--brand-bg);color:var(--brand);border-color:var(--brand-line)}
+  .pill--ghost{background:#F1F5F9;color:var(--muted);border-color:var(--line)}
+
+  .note{display:flex;gap:8px;border:1px solid;border-radius:8px;padding:9px 11px;font-size:11.5px;font-weight:600;line-height:1.5}
+  .note svg{flex:none;margin-top:1px}
+  .note--warn{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn)}
+  .note--info{background:var(--blue-bg);border-color:#BFDBFE;color:#1D4ED8}
+  .note--ok{background:var(--ok-bg);border-color:var(--ok-line);color:var(--ok)}
+  .note--muted{background:#F8FAFC;border-color:var(--line);color:var(--muted)}
+
+  .subcard{border:1px solid var(--line);border-radius:9px;background:#fff;padding:11px}
+  .subcard.soft{background:#F8FAFC}
+  .dc{display:flex;align-items:center;gap:9px;margin-top:7px}
+  .dc .nm{font-size:11px;font-weight:700;color:var(--muted);width:74px}
+  .dc .track{flex:1;height:7px;border-radius:5px;background:#E2E8F0;overflow:hidden}
+  .dc .fill{height:100%}.dc .fill.ok{background:var(--ok)}.dc .fill.warn{background:var(--warn)}.dc .fill.bad{background:var(--bad)}
+  .dc .val{font-size:11.5px;font-weight:800;width:38px;text-align:right;font-variant-numeric:tabular-nums}
+  .dc .val.ok{color:var(--ok)}.dc .val.warn{color:var(--warn)}.dc .val.bad{color:var(--bad)}
+  table.calc{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:7px}
+  table.calc td{padding:3px 0;border-bottom:1px dashed var(--line)}
+  table.calc td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+  table.calc tr:last-child td{border-bottom:none}
+
+  .nextbar{display:flex;justify-content:space-between;gap:8px;margin-top:12px;border-top:1px solid var(--line);padding-top:11px}
+  .nextbar .btn{flex:1;justify-content:center}
+
+  .matrix{border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .matrix .mrow{display:flex;align-items:center;justify-content:space-between;padding:8px 11px;border-bottom:1px solid var(--line);font-size:12px;font-weight:600}
+  .matrix .mrow:last-child{border-bottom:none}
+  .matrix .mrow .sub{font-size:10px;color:var(--faint);font-weight:600}
+  .matrix .mrow.final{background:#F8FAFC;font-weight:800;font-size:13px}
+  .react{border:1px solid var(--line);border-radius:8px;background:#F8FAFC;padding:11px}
+  .react .rrow{display:flex;justify-content:space-between;padding:4px 0}
+  .react .rrow .num{font-weight:800;font-variant-numeric:tabular-nums}
+  .ns{display:flex;flex-direction:column;gap:5px}
+  .ns code{border:1px solid var(--line);background:#F8FAFC;border-radius:6px;padding:6px 8px;font-size:10.5px;color:var(--ink2)}
+  .caption{font-size:10px;color:var(--faint);font-weight:600}
+
+  .stage-wrap{height:100%;display:flex;flex-direction:column}
+  .stage{flex:1;position:relative;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:linear-gradient(180deg,#eef2f6,#dde3ea);box-shadow:var(--shadow)}
+  .stage canvas{display:block;width:100%;height:100%;touch-action:none}
+  .ov{position:absolute;z-index:3}
+  .ov-badge{left:60px;top:12px;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:9px;padding:7px 12px}
+  .ov-badge .s{width:24px;height:24px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+  .ov-badge .t{font-size:12.5px;font-weight:800}
+  .ov-views{right:12px;top:12px;display:flex;gap:5px}
+  .vbtn{border:1px solid var(--line);background:rgba(255,255,255,.92);border-radius:7px;padding:6px 9px;font-size:11px;font-weight:700;color:var(--ink2);cursor:pointer}
+  .vbtn:hover{background:#fff}.vbtn.on{background:var(--ink-bg);color:#fff;border-color:var(--ink-bg)}
+  /* CAD left tool palette */
+  .cadbar{left:12px;top:12px;display:flex;flex-direction:column;gap:5px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:9px;padding:5px}
+  .cadtool{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid transparent;border-radius:7px;background:transparent;color:var(--ink2);cursor:pointer}
+  .cadtool:hover{background:#F1F5F9}
+  .cadtool.on{background:var(--ink-bg);color:#fff}
+  .cadsep{height:1px;background:var(--line);margin:2px 3px}
+  .ov-hint{left:60px;bottom:12px;background:rgba(255,255,255,.85);border:1px solid var(--line);border-radius:7px;padding:5px 10px;font-size:11px;color:var(--muted);font-weight:600;max-width:48%}
+  .ov-readout{right:12px;bottom:60px;background:rgba(17,24,39,.85);color:#fff;border-radius:7px;padding:5px 9px;font-size:11px;font-weight:700;font-family:ui-monospace,monospace}
+  .ov-legend{right:12px;bottom:96px;width:150px;background:rgba(255,255,255,.93);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+  .ov-legend .eyebrow{margin-bottom:5px}
+  .legbar{height:9px;border-radius:5px;background:linear-gradient(90deg,#2563eb,#06b6d4,#22c55e,#facc15,#ef4444)}
+  .legtx{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);font-weight:700;margin-top:4px}
+  .ov-load{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 32px;color:var(--muted);font-weight:700;font-size:13px;background:rgba(238,242,246,.72);z-index:4}
+  .spin{width:26px;height:26px;border-radius:50%;border:3px solid var(--line2);border-top-color:var(--brand);animation:spin .8s linear infinite;margin-bottom:11px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  /* printable calculation report */
+  #printReport{display:none}
+  @media print{
+    .wrap{display:none!important}
+    #printReport{display:block!important;padding:6mm 4mm;color:#000;font-size:11.5px;line-height:1.5}
+    #printReport h1{font-size:17px;margin:0 0 2px} #printReport h2{font-size:13px;margin:14px 0 4px;border-bottom:1px solid #000;padding-bottom:2px}
+    #printReport .meta{font-size:11px;color:#333;margin-bottom:6px}
+    #printReport table{width:100%;border-collapse:collapse;margin:4px 0}
+    #printReport th,#printReport td{border:1px solid #888;padding:4px 6px;text-align:left;vertical-align:top}
+    #printReport th{background:#eee}
+    #printReport td.r{text-align:right;font-variant-numeric:tabular-nums}
+    #printReport .verdict-pass{color:#047857;font-weight:bold} #printReport .verdict-fail{color:#be123c;font-weight:bold} #printReport .verdict-review{color:#b45309;font-weight:bold}
+    #printReport .disc{margin-top:10px;border:1px solid #b45309;background:#fffbeb;padding:7px 9px;font-size:10.5px}
+    #printReport .sig{margin-top:26px;display:flex;justify-content:space-between;font-size:11px}
+    #printReport .sig div{border-top:1px solid #000;padding-top:4px;width:44%;text-align:center}
+    @page{margin:12mm}
+  }
+  .toolbar{right:12px;bottom:12px;display:flex;flex-wrap:wrap;gap:5px;align-items:center;justify-content:flex-end;max-width:72%}
+  .tbtn{border:1px solid var(--line);background:rgba(255,255,255,.92);border-radius:7px;padding:6px 9px;font-size:11px;font-weight:700;color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+  .tbtn:hover{background:#fff}.tbtn.on{background:var(--ink-bg);color:#fff;border-color:var(--ink-bg)}
+  .tbtn[disabled]{opacity:.4;cursor:not-allowed}
+  .tsel{border:1px solid var(--line);background:rgba(255,255,255,.92);border-radius:7px;padding:6px 7px;font-size:11px;font-weight:700;color:var(--ink2);font-family:inherit}
+  .tsep{width:1px;height:20px;background:var(--line2);margin:0 2px}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+  <symbol id="i-anchor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><path d="M12 22V8M5 12H2a10 10 0 0 0 20 0h-3"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-twist" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M5 6c4 2 10 2 14 0M5 18c4-2 10-2 14 0M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.8 10A10 10 0 1 1 17 3.3"/><path d="m9 11 3 3L22 4"/></symbol>
+  <symbol id="i-check-s" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.7 18-9-15.6a2 2 0 0 0-3.4 0L.3 18a2 2 0 0 0 1.7 3h18a2 2 0 0 0 1.7-3Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-ruler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3 8.7 2.7a1 1 0 0 0-1.4 0L2.7 7.3a1 1 0 0 0 0 1.4l12.6 12.6a1 1 0 0 0 1.4 0l4.6-4.6a1 1 0 0 0 0-1.4Z"/><path d="m14.5 12.5-2 2M11.5 9.5l-2 2M8.5 6.5l-2 2"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 3 7.07 17 2.51-7.39L20 10.07Z"/></symbol>
+  <symbol id="i-orbit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M3 12a9 3 0 0 0 18 0 9 3 0 0 0-18 0Z" transform="rotate(60 12 12)"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8M18 8a2 2 0 0 1 4 0v6a8 8 0 0 1-8 8h-2a8 8 0 0 1-7-4l-2.5-4a2 2 0 0 1 3.5-2L8 14"/></symbol>
+  <symbol id="i-fit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></symbol>
+</svg>
+
+<div class="wrap">
+
+  <header class="appbar">
+    <div class="row gap-3">
+      <div class="brandmark"><svg class="ico-lg"><use href="#i-home"/></svg></div>
+      <div>
+        <div class="proj-name">โครงการ อาคารสำนักงาน</div>
+        <div class="proj-sub">รหัสโครงการ: OFF-2405-017 · งานต่อเติม (3D-first CAD) · Module 8.3</div>
+      </div>
+    </div>
+    <div class="row gap-3">
+      <div class="typetabs">
+        <div class="typetab">🆕 อาคารใหม่</div>
+        <div class="typetab">🏚️ ประเมินอาคารเดิม</div>
+        <div class="typetab is-active">🏗️ อาคารส่วนต่อเติม</div>
+      </div>
+      <span id="saveStatus" class="savestat">● บันทึกอัตโนมัติ</span>
+      <button id="btnSave" class="btn"><svg class="ico"><use href="#i-save"/></svg> บันทึก</button>
+      <button id="btnExportJson" class="btn" title="ดาวน์โหลดไฟล์งาน .json" style="padding:8px 10px">⤓ JSON</button>
+      <button id="btnImportJson" class="btn" title="นำเข้าไฟล์งาน .json" style="padding:8px 11px">⤒</button>
+      <input id="fileImport" type="file" accept="application/json,.json" style="display:none">
+      <button id="btnReset" class="btn" title="เริ่มใหม่ (ค่าเริ่มต้น)" style="padding:8px 11px"><svg class="ico"><use href="#i-reset"/></svg></button>
+    </div>
+  </header>
+
+  <main class="builder">
+
+    <!-- LEFT -->
+    <div class="col">
+      <div class="card card-pad">
+        <div class="eyebrow">Workflow · สร้างใน 3D</div>
+        <div class="h-title" style="margin:3px 0 11px">ขั้นตอนการทำงาน</div>
+        <div class="steps" id="steps">
+          <div class="step is-current" data-step="1"><span class="num">1</span><svg class="ico"><use href="#i-file"/></svg><span class="lbl">ตรวจ + ทดสอบอาคารเดิม</span></div>
+          <div class="step" data-step="2"><span class="num">2</span><svg class="ico"><use href="#i-layers"/></svg><span class="lbl">เลือก Host Beam</span></div>
+          <div class="step" data-step="3"><span class="num">3</span><svg class="ico"><use href="#i-home"/></svg><span class="lbl">สร้างหลังคา (เหล็กกล่อง)</span></div>
+          <div class="step" data-step="4"><span class="num">4</span><svg class="ico"><use href="#i-anchor"/></svg><span class="lbl">ใส่ Load</span></div>
+          <div class="step" data-step="5"><span class="num">5</span><svg class="ico"><use href="#i-activity"/></svg><span class="lbl">วิเคราะห์แรง</span></div>
+          <div class="step" data-step="6"><span class="num">6</span><svg class="ico"><use href="#i-anchor"/></svg><span class="lbl">เพลท / พุกเคมี / เชื่อม</span></div>
+          <div class="step" data-step="7"><span class="num">7</span><svg class="ico"><use href="#i-twist"/></svg><span class="lbl">ตรวจคานเดิม + แรงบิด</span></div>
+          <div class="step" data-step="8"><span class="num">8</span><svg class="ico"><use href="#i-box"/></svg><span class="lbl">รายงาน / Deformed</span></div>
+        </div>
+        <div class="progress"><i id="progBar" style="width:12.5%"></i></div>
+        <div class="caption" style="margin-top:6px">คีย์ลัด: ← → เปลี่ยนขั้น · 1–8 ข้าม · R รีเซ็ตมุม · D deformed · W โครงลวด</div>
+      </div>
+
+      <div class="card card-pad">
+        <!-- CTX 1 -->
+        <div class="ctx is-active" data-ctx="1">
+          <div class="ctx-step">ขั้นที่ 1 / 8</div>
+          <h2 class="ctx-title">ตรวจ + ทดสอบอาคารเดิม</h2>
+          <p class="ctx-desc">งานต่อเติมต้องเริ่มจาก "กำลังจริง" ของของเดิม — โดยเฉพาะกำลังคอนกรีต เพราะใช้ตรวจ <b>แรงบิด</b> ที่ขั้น 7</p>
+          <div class="checks" style="margin:12px 0 10px">
+            <label><input type="checkbox" checked> แบบ As-built + สำรวจขนาด</label>
+            <label><input type="checkbox" id="c-rebar"> สแกนเหล็กเสริม (rebar scan)</label>
+          </div>
+          <div class="field"><label>วิธีทดสอบกำลังคอนกรีตเดิม</label>
+            <select class="sel" id="c-method">
+              <option value="none">ยังไม่ทดสอบ (ใช้ค่าออกแบบ — ไม่ยืนยัน)</option>
+              <option value="rebound">Rebound hammer (ผิว)</option>
+              <option value="core">เจาะ Core test (แม่นยำสุด)</option>
+            </select>
+          </div>
+          <div class="field" id="c-fc-wrap" style="display:none"><label>f′c ที่วัดได้ <b id="c-fc-v">18 MPa</b></label><input type="range" id="c-fc" min="12" max="28" step="1" value="18"><div class="caption" style="margin-top:3px">ออกแบบเดิม = 21 MPa · ใช้ค่าที่วัดได้ (มัก &lt; ออกแบบ) แบบ conservative</div></div>
+          <div class="eyebrow">ระดับความเชื่อมั่นรวม</div>
+          <div class="reliab" id="reliabBtns">
+            <button data-r="unknown">UNKNOWN<small>ไม่มีข้อมูล</small></button>
+            <button data-r="estimated" class="on">ESTIMATED<small>จากแบบ</small></button>
+            <button data-r="verified">VERIFIED<small>สแกน+ทดสอบ</small></button>
+          </div>
+          <div id="gateExplain" class="note note--warn" style="margin-top:11px"></div>
+        </div>
+
+        <!-- CTX 2 -->
+        <div class="ctx" data-ctx="2">
+          <div class="ctx-step">ขั้นที่ 2 / 8</div>
+          <h2 class="ctx-title">เลือก Host Beam</h2>
+          <p class="ctx-desc">คลิกคานเดิมในโมเดล 3D (เรืองแสงม่วง) หรือเลือกจากรายการ — หลังคาจะย้ายไปอยู่บนคานที่เลือก</p>
+          <div id="beamList" style="margin:11px 0 4px">
+            <div class="blrow on" data-id="EX-B1"><span><span class="bid">EX-B1</span> <span class="bmeta">Grid 1–2 / B · 6.00 m</span></span><span class="pill pill--info">host</span></div>
+            <div class="blrow" data-id="EX-B2"><span><span class="bid">EX-B2</span> <span class="bmeta">Grid 2–3 / B · 4.00 m</span></span><span class="pill pill--ghost">เลือก</span></div>
+          </div>
+          <div class="subcard" style="margin-top:8px">
+            <div class="row" style="justify-content:space-between"><span class="eyebrow">คานที่เลือก</span><span class="pill pill--info" id="selBeamPill">EX-B1</span></div>
+            <dl class="kv" style="margin-top:9px">
+              <dt>หน้าตัด</dt><dd id="bi-sec">200 × 400 mm</dd>
+              <dt>เหล็ก บน/ล่าง</dt><dd id="bi-rebar">2-DB16 / 2-DB16</dd>
+              <dt>ปลอก</dt><dd id="bi-stir">RB6 @ 150 (ไม่ใช่ closed hoop)</dd>
+              <dt>ช่วง</dt><dd id="bi-span">6.00 m</dd>
+            </dl>
+          </div>
+          <div class="note note--muted" style="margin-top:10px"><svg class="ico-sm"><use href="#i-info"/></svg><div>ปลอก RB6@150 ไม่ได้ออกแบบเป็น closed hoop รับ torsion → ขั้น 7 จะ <b>ไม่เครดิต</b>ปลอกนี้ในการรับแรงบิด (conservative)</div></div>
+        </div>
+
+        <!-- CTX 3 -->
+        <div class="ctx" data-ctx="3">
+          <div class="ctx-step">ขั้นที่ 3 / 8</div>
+          <h2 class="ctx-title">สร้างหลังคาต่อเติม</h2>
+          <p class="ctx-desc">เลือกเหล็กกล่องที่หาซื้อได้ตามตลาด แล้วปรับรูปทรง — โมเดล 3D อัปเดตทันที</p>
+          <div style="margin-top:12px">
+            <div class="field"><label>เหล็กกล่องโครงหลังคา (เลือกจากตลาด)</label>
+              <select class="sel" id="r-box"></select>
+              <div class="caption" id="r-box-meta" style="margin-top:3px"></div>
+            </div>
+            <div class="field"><label>ระยะยื่น (span) <b id="r-span-v">4.0 m</b></label><input type="range" id="r-span" min="2" max="6" step="0.5" value="4"></div>
+            <div class="field"><label>ความชัน <b id="r-slope-v">10°</b></label><input type="range" id="r-slope" min="3" max="25" step="1" value="10"></div>
+            <div class="field"><label>ระยะห่างโครง <b id="r-sp-v">3.0 m</b></label><input type="range" id="r-sp" min="1.5" max="3" step="0.5" value="3"></div>
+          </div>
+          <div class="subcard" style="margin-top:10px">
+            <div class="row" style="justify-content:space-between"><span class="eyebrow">ตรวจเหล็กกล่อง (member · SS400)</span><span class="pill pill--pass" id="mb-verdict">PASS</span></div>
+            <div class="dc"><span class="nm">ดัด Mu/φMn</span><div class="track"><div class="fill ok" id="mb-bend-f" style="width:23%"></div></div><span class="val ok" id="mb-bend-v">0.23</span></div>
+            <div class="dc"><span class="nm">แอ่น δ/(L/180)</span><div class="track"><div class="fill ok" id="mb-def-f" style="width:28%"></div></div><span class="val ok" id="mb-def-v">0.28</span></div>
+            <div class="caption" id="mb-info" style="margin-top:5px"></div>
+          </div>
+          <div class="note note--info"><svg class="ico-sm"><use href="#i-info"/></svg><div>หน้าตัดเล็ก/span ยาว → ดัด·แอ่น D/C ขึ้น (เกิน 1 = แดง) · ใช้ measure tool (แถบซ้าย) วัดระยะแบบ CAD</div></div>
+        </div>
+
+        <!-- CTX 4 -->
+        <div class="ctx" data-ctx="4">
+          <div class="ctx-step">ขั้นที่ 4 / 8</div>
+          <h2 class="ctx-title">ใส่ Load</h2>
+          <p class="ctx-desc">ติ๊กเพื่อแสดงลูกศรน้ำหนักบนหลังคาใน 3D — แรงลมยก (W↑) คุมแรงดึงที่พุกเคมี</p>
+          <div class="checks" style="margin:12px 0">
+            <label><input type="checkbox" id="ld-dl" checked> <span style="display:inline-flex;width:11px;height:11px;border-radius:3px;background:#475569"></span> Dead 0.42 kN/m</label>
+            <label><input type="checkbox" id="ld-ll"> <span style="display:inline-flex;width:11px;height:11px;border-radius:3px;background:#2563EB"></span> Live 0.30 kN/m</label>
+            <label><input type="checkbox" id="ld-w"> <span style="display:inline-flex;width:11px;height:11px;border-radius:3px;background:#DC2626"></span> Wind uplift 0.18 kN/m ↑</label>
+          </div>
+          <div class="subcard soft"><div class="eyebrow">ชุดผสมที่คุม</div>
+            <div style="margin-top:7px;font-size:12px;font-weight:700">COMB2 · 1.2D+1.6L <span class="pill pill--info">โมเมนต์</span></div>
+            <div style="margin-top:6px;font-size:12px;font-weight:700">COMB4 · 0.9D−W↑ <span class="pill pill--review">แรงดึงพุก</span></div>
+          </div>
+        </div>
+
+        <!-- CTX 5 -->
+        <div class="ctx" data-ctx="5">
+          <div class="ctx-step">ขั้นที่ 5 / 8</div>
+          <h2 class="ctx-title">วิเคราะห์แรง</h2>
+          <p class="ctx-desc">แรงปฏิกิริยาถ่ายเข้าจุดยึดบนคานเดิม (ลูกศรใน 3D)</p>
+          <div class="subcard" style="margin-top:11px">
+            <div class="eyebrow">Reaction ที่จุดยึด (COMB2)</div>
+            <dl class="kv" style="margin-top:8px"><dt>Fx</dt><dd>4.21 kN →</dd><dt>Fy</dt><dd>−12.75 kN ↓</dd><dt>Mz</dt><dd>−18.62 kN·m ↻</dd></dl>
+          </div>
+          <div class="subcard soft" style="margin-top:10px">
+            <div class="eyebrow">แรงดึงพุก (COMB4 uplift)</div>
+            <dl class="kv" style="margin-top:8px"><dt>Tu / ตัว</dt><dd>6.84 kN</dd><dt>Vu / ตัว</dt><dd>2.10 kN</dd></dl>
+          </div>
+        </div>
+
+        <!-- CTX 6 -->
+        <div class="ctx" data-ctx="6">
+          <div class="ctx-step">ขั้นที่ 6 / 8</div>
+          <h2 class="ctx-title">เพลท / พุกเคมี / เชื่อม</h2>
+          <p class="ctx-desc">เลือกแผ่นเพลทและพุกเคมีจากตลาด · จุดยึดเยื้องศูนย์ทำให้เกิดแรงบิด — เลือก "ยึดเข้าศูนย์" เพื่อลด</p>
+          <div class="field" style="margin-top:11px"><label>แผ่นเพลท (เหล็กตลาด)</label><select class="sel" id="p-plate"></select></div>
+          <div class="field"><label>พุกเคมี (chemical anchor)</label><select class="sel" id="p-anchor"></select></div>
+          <div class="field"><label>จำนวนพุก</label>
+            <div class="toggle" id="p-count"><button data-n="4" class="on">4 ตัว</button><button data-n="6">6 ตัว</button></div>
+          </div>
+          <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="field"><label>ขนาดรอยเชื่อม (fillet)</label>
+              <select class="sel" id="p-weld"><option value="4">4 mm</option><option value="5">5 mm</option><option value="6" selected>6 mm</option><option value="8">8 mm</option><option value="10">10 mm</option></select></div>
+            <div class="field"><label>ลวดเชื่อม</label>
+              <select class="sel" id="p-elec"><option value="480" selected>E70 (480)</option><option value="415">E60 (415)</option></select></div>
+          </div>
+          <div class="field"><label>รูปแบบจุดยึด (คุมแรงบิด)</label>
+            <div class="toggle" id="p-center"><button data-c="0" class="on">เยื้องศูนย์ (e≈0.30 m)</button><button data-c="1">ยึดเข้าศูนย์ bracket (e≈0.07 m)</button></div>
+          </div>
+          <div class="subcard" style="margin-top:6px">
+            <div class="row" style="justify-content:space-between"><span class="eyebrow">ผลตรวจจุดต่อ (utilization)</span><span class="caption">สีบนโมเดล 3D = ค่านี้</span></div>
+            <div class="dc"><span class="nm">เพลท bending</span><div class="track"><div class="fill ok" id="c-plate-f" style="width:62%"></div></div><span class="val ok" id="c-plate-v">0.62</span></div>
+            <div class="dc"><span class="nm">พุก breakout</span><div class="track"><div class="fill warn" id="c-anchor-f" style="width:78%"></div></div><span class="val warn" id="c-anchor-v">0.78</span></div>
+            <div class="dc"><span class="nm">รอยเชื่อม</span><div class="track"><div class="fill ok" id="c-weld-f" style="width:41%"></div></div><span class="val ok" id="c-weld-v">0.41</span></div>
+          </div>
+          <div class="subcard soft" style="margin-top:8px">
+            <div class="eyebrow">พุกแต่ละตัว (per-anchor · IDEA-style)</div>
+            <div id="c-anchor-svg" style="margin-top:6px;display:flex;justify-content:center"></div>
+          </div>
+          <div class="subcard soft" style="margin-top:8px">
+            <div class="eyebrow">คำนวณรอยเชื่อม (fillet weld-group · AISC line method)</div>
+            <table class="calc" id="c-weld-table"></table>
+          </div>
+          <div class="caption" style="margin-top:8px">อ้างอิง: ACI 318-19 Ch.17 (พุก) · AISC J2 (เชื่อม φ0.75·0.6·FEXX) · ค่าตัวอย่าง conservative</div>
+        </div>
+
+        <!-- CTX 7 -->
+        <div class="ctx" data-ctx="7">
+          <div class="ctx-step">ขั้นที่ 7 / 8</div>
+          <h2 class="ctx-title">ตรวจคานเดิม + แรงบิด (Torsion)</h2>
+          <p class="ctx-desc">ตรวจว่าคานเดิมรับ <b>แรงบิด</b>ที่เพิ่มจากจุดยึดเยื้องศูนย์ได้ไหม — เกณฑ์ conservative สูง</p>
+          <div class="subcard" style="margin-top:11px">
+            <div class="row" style="justify-content:space-between"><span class="eyebrow">แรงบิด (ACI 318-19 §22.7)</span><span class="pill pill--review" id="torVerdict">REVIEW</span></div>
+            <table class="calc" id="torTable"></table>
+            <div class="dc"><span class="nm">Tu / φTcr</span><div class="track"><div class="fill ok" id="torFill" style="width:68%"></div></div><span class="val ok" id="torDC">0.68</span></div>
+          </div>
+          <div class="subcard soft" style="margin-top:9px">
+            <div class="eyebrow">ดัด + เฉือน (อ้างอิง)</div>
+            <div class="dc"><span class="nm">D/C ดัด</span><div class="track"><div class="fill ok" style="width:80%"></div></div><span class="val ok">0.80</span></div>
+            <div class="dc"><span class="nm">D/C เฉือน</span><div class="track"><div class="fill ok" style="width:64%"></div></div><span class="val ok">0.64</span></div>
+          </div>
+          <div id="beamVerdictBox" class="note note--warn" style="margin-top:10px"></div>
+        </div>
+
+        <!-- CTX 8 -->
+        <div class="ctx" data-ctx="8">
+          <div class="ctx-step">ขั้นที่ 8 / 8</div>
+          <h2 class="ctx-title">รายงาน / Deformed</h2>
+          <p class="ctx-desc">โมเดลแสดง contour การเสียรูป · ตรวจ runId ทุกโมดูลก่อน export</p>
+          <div class="subcard" style="margin-top:11px">
+            <div class="row" style="justify-content:space-between"><span class="eyebrow">สรุปผลออกแบบ</span><span id="sumVerdict" class="pill pill--review">REVIEW</span></div>
+            <ul style="margin:8px 0 0;padding-left:18px;font-size:11.5px;color:var(--ink2);line-height:1.7">
+              <li>เหล็กกล่อง / เพลท / พุกเคมี / เชื่อม — ผ่าน (D/C ≤ 0.78)</li>
+              <li id="sumBeam">คานเดิม + แรงบิด — รอตรวจ</li>
+              <li>ควบคุมโดย: แรงบิดคานเดิม + กำลังคอนกรีตที่ทดสอบ + พุก breakout</li>
+            </ul>
+            <div class="note note--muted" style="margin-top:9px"><svg class="ico-sm"><use href="#i-alert"/></svg><div>สูตรแรงบิด/พุก เป็น <b>ค่าตัวอย่าง conservative</b> — ต้องวิศวกรผู้รับผิดชอบตรวจ + ลงนามก่อนก่อสร้าง</div></div>
+          </div>
+          <div class="ns" style="margin-top:10px">
+            <code class="mono">asBuiltExtensionCalculationReport</code>
+            <code class="mono">extensionConnectionCalculationReport</code>
+            <code class="mono">extensionExistingBeamCheckReport</code>
+          </div>
+          <div id="exportGate" class="note note--ok" style="margin-top:10px"></div>
+          <button id="btnExport" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:10px"><svg class="ico"><use href="#i-file"/></svg> สร้างรายการคำนวณ (พิมพ์/PDF)</button>
+          <div class="caption" style="margin-top:6px">เปิดหน้าต่างพิมพ์ของเบราว์เซอร์ → เลือก "Save as PDF" ได้</div>
+        </div>
+
+        <div class="nextbar">
+          <button class="btn" id="btnBack"><svg class="ico"><use href="#i-back"/></svg> ย้อนกลับ</button>
+          <button class="btn btn-primary" id="btnNext">ถัดไป <svg class="ico"><use href="#i-chev"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="stage-wrap">
+      <div class="stage" id="stage">
+        <canvas id="cv"></canvas>
+        <div class="ov cadbar" id="cadbar">
+          <button class="cadtool on" data-tool="orbit" title="หมุน (Orbit)"><svg class="ico"><use href="#i-orbit"/></svg></button>
+          <button class="cadtool" data-tool="pan" title="เลื่อน (Pan)"><svg class="ico"><use href="#i-hand"/></svg></button>
+          <button class="cadtool" data-tool="select" title="เลือก (Select)"><svg class="ico"><use href="#i-cursor"/></svg></button>
+          <button class="cadtool" data-tool="measure" title="วัดระยะ (Measure)"><svg class="ico"><use href="#i-ruler"/></svg></button>
+          <div class="cadsep"></div>
+          <button class="cadtool" id="cad-fit" title="พอดีจอ (Fit)"><svg class="ico"><use href="#i-fit"/></svg></button>
+        </div>
+        <div class="ov ov-badge"><span class="s" id="badgeNum">1</span><span class="t" id="badgeText">ตรวจ + ทดสอบอาคารเดิม</span></div>
+        <div class="ov ov-views">
+          <button class="vbtn on" data-view="iso">3D</button>
+          <button class="vbtn" data-view="top">บน</button>
+          <button class="vbtn" data-view="front">หน้า</button>
+          <button class="vbtn" data-view="side">ข้าง</button>
+        </div>
+        <div class="ov ov-hint" id="hint">ลากหมุน · scroll ซูม · คลิกขวาเลื่อน</div>
+        <div class="ov ov-readout" id="readout">x — · z —</div>
+        <div class="ov ov-legend" id="legend" hidden>
+          <div class="eyebrow">การเสียรูป (mm)</div><div class="legbar"></div>
+          <div class="legtx"><span>0</span><span id="legMax">8.0</span></div>
+        </div>
+        <div class="ov ov-legend" id="connLegend" hidden>
+          <div class="eyebrow">Utilization จุดต่อ</div>
+          <div style="height:9px;border-radius:5px;background:linear-gradient(90deg,#16a34a,#84cc16,#f59e0b,#ef4444)"></div>
+          <div class="legtx"><span>0%</span><span>100%</span></div>
+        </div>
+        <div class="ov toolbar">
+          <button class="tbtn" id="b-rotate">↻ หมุน</button>
+          <button class="tbtn on" id="b-dim"><svg class="ico-sm"><use href="#i-ruler"/></svg> มิติ</button>
+          <button class="tbtn" id="b-wire">โครงลวด</button>
+          <button class="tbtn on" id="b-roof">หลังคา</button>
+          <span class="tsep"></span>
+          <button class="tbtn" id="b-orig" disabled>Original</button>
+          <button class="tbtn" id="b-deform" disabled>Deformed</button>
+          <select class="tsel" id="b-scale" disabled><option value="1">×1</option><option value="20">×20</option><option value="50" selected>×50</option><option value="100">×100</option></select>
+          <select class="tsel" id="b-combo" disabled><option>COMB2</option><option>COMB4 ↑</option></select>
+        </div>
+        <div class="ov-load" id="loadOv"><div class="spin"></div><div>กำลังโหลดเครื่องมือ 3D (Three.js)…</div></div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col">
+      <div class="card card-pad">
+        <div class="eyebrow">Status</div>
+        <div class="h-title" style="margin:3px 0 11px">ผลการตรวจสอบ / สรุปผล</div>
+        <div class="matrix">
+          <div class="mrow"><span>เหล็กกล่องหลังคา</span><span class="pill pill--pass"><svg><use href="#i-check-s"/></svg>PASS</span></div>
+          <div class="mrow"><span>เพลท <span class="sub" id="m-plate-s">D/C 0.62</span></span><span class="pill pill--pass" id="m-plate-p"><svg><use href="#i-check-s"/></svg>PASS</span></div>
+          <div class="mrow"><span>พุกเคมี <span class="sub" id="m-anchor-s">D/C 0.78</span></span><span class="pill pill--pass" id="m-anchor-p"><svg><use href="#i-check-s"/></svg>PASS</span></div>
+          <div class="mrow"><span>รอยเชื่อม <span class="sub" id="m-weld-s">D/C 0.41</span></span><span class="pill pill--pass" id="m-weld-p"><svg><use href="#i-check-s"/></svg>PASS</span></div>
+          <div class="mrow"><span>แรงบิดคานเดิม <span class="sub" id="torSub">Tu/φTcr</span></span><span id="torPill" class="pill pill--review"><svg><use href="#i-info"/></svg>REVIEW</span></div>
+          <div class="mrow"><span>คานเดิม (รวม) <span class="sub" id="ebSub">รอยืนยัน</span></span><span id="ebPill" class="pill pill--review"><svg><use href="#i-info"/></svg>CONDITIONAL</span></div>
+          <div class="mrow final"><span>Final Status</span><span id="finalPill" class="pill pill--review"><svg><use href="#i-info"/></svg>REVIEW</span></div>
+        </div>
+        <div id="finalBanner" class="note note--warn" style="margin-top:11px"></div>
+      </div>
+
+      <div class="card card-pad">
+        <div class="eyebrow">Reaction</div>
+        <div class="h-title" style="margin:3px 0 9px">แรงปฏิกิริยาที่คานเดิม</div>
+        <div class="react">
+          <div class="rrow"><b>Fx</b><span class="num">4.21 kN →</span></div>
+          <div class="rrow"><b>Fy</b><span class="num">−12.75 kN ↓</span></div>
+          <div class="rrow"><b>Mz</b><span class="num">−18.62 kN·m ↻</span></div>
+        </div>
+      </div>
+
+      <div class="note note--warn"><svg class="ico-sm"><use href="#i-alert"/></svg><div><b>พรีวิวแนวคิด</b> — ค่าทั้งหมด (D/C, แรงบิด, กำลัง) เป็นข้อมูลตัวอย่าง ยังไม่ผ่าน engine จริง · สูตรแรงบิด/พุกต้องวิศวกรตรวจ + อนุมัติก่อนใช้</div></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== UI logic (classic — offline-safe) ===== -->
+<script>
+  // ----- market catalogs -----
+  const BOX = [
+    {id:'50x50x2.3',   b:50, h:50,  t:2.3, w:3.34},
+    {id:'75x75x2.3',   b:75, h:75,  t:2.3, w:5.14},
+    {id:'75x75x3.2',   b:75, h:75,  t:3.2, w:7.01},
+    {id:'100x50x3.2',  b:100,h:50,  t:3.2, w:7.01},
+    {id:'100x100x2.3', b:100,h:100, t:2.3, w:6.95},
+    {id:'100x100x3.2', b:100,h:100, t:3.2, w:9.52},
+    {id:'100x100x4.5', b:100,h:100, t:4.5, w:13.1},
+    {id:'125x125x3.2', b:125,h:125, t:3.2, w:12.0},
+    {id:'150x100x3.2', b:150,h:100, t:3.2, w:12.0},
+    {id:'150x150x4.5', b:150,h:150, t:4.5, w:20.1},
+  ];
+  const PLATE = [
+    {id:'150x150x9',  w:150, t:9},
+    {id:'200x200x12', w:200, t:12},
+    {id:'250x250x12', w:250, t:12},
+    {id:'200x200x16', w:200, t:16},
+    {id:'250x250x20', w:250, t:20},
+  ];
+  const ANCHOR = [
+    {id:'M12 (hef 110)', d:12, hef:110},
+    {id:'M16 (hef 125)', d:16, hef:125},
+    {id:'M16 (hef 190)', d:16, hef:190},
+    {id:'M20 (hef 170)', d:20, hef:170},
+  ];
+
+  const S = {
+    step:1, reliability:'estimated', selectedBeam:'EX-B1',
+    roof:{ span:4, slope:10, spacing:3, boxIdx:5, boxB:100, boxH:100 },
+    concrete:{ method:'none', tested:false, fcTest:18 },
+    conn:{ plateIdx:1, anchorIdx:1, anchorCount:4, centered:false, plateW:200, plateT:12, anchorD:16, anchorHef:125, weldSize:6, electrode:480, util:{plate:0.62,anchor:0.78,weld:0.41} },
+    loads:{ dl:true, ll:false, wind:false },
+    deform:{ on:false, scale:50, combo:'COMB2' },
+    wire:false, roofSheet:true, dim:true, autoRotate:false, view:'iso', tool:'orbit'
+  };
+  const $ = id => document.getElementById(id);
+  const stepEls = [...document.querySelectorAll('#steps .step')];
+  const ctxEls = [...document.querySelectorAll('.ctx')];
+  const STEP_NAMES = ['','ตรวจ + ทดสอบอาคารเดิม','เลือก Host Beam','สร้างหลังคา (เหล็กกล่อง)','ใส่ Load','วิเคราะห์แรง','เพลท / พุกเคมี / เชื่อม','ตรวจคานเดิม + แรงบิด','รายงาน / Deformed'];
+  const HINTS = ['','ของเดิมจากการสำรวจ — ทดสอบกำลังคอนกรีตทางซ้าย (ใช้ที่ขั้น 7)',
+    'คลิกคานที่เรืองแสงม่วงเพื่อเลือก Host Beam','เลือกเหล็กกล่อง + ปรับ span/ความชัน ทางซ้าย',
+    'ติ๊ก Dead/Live/Wind เพื่อแสดงลูกศรน้ำหนัก','ลูกศรแดง/น้ำเงิน = reaction ที่จุดยึด',
+    'เลือกเพลท/พุกเคมี · สลับ "ยึดเข้าศูนย์" เพื่อลดแรงบิด','คานเดิมระบายสีตาม D/C แรงบิด',
+    'contour การเสียรูป — กด Deformed ด้านล่างขวา'];
+  const BEAMINFO = {
+    'EX-B1':{sec:'200 × 400 mm', rebar:'2-DB16 / 2-DB16', stir:'RB6 @ 150 (ไม่ใช่ closed hoop)', span:'6.00 m'},
+    'EX-B2':{sec:'200 × 400 mm', rebar:'2-DB16 / 3-DB16', stir:'RB6 @ 150 (ไม่ใช่ closed hoop)', span:'4.00 m'}
+  };
+
+  // ----- populate catalog selects -----
+  $('r-box').innerHTML = BOX.map((x,i)=>`<option value="${i}"${i===S.roof.boxIdx?' selected':''}>□ ${x.id.replace(/x/g,'×')} mm · ${x.w} kg/m</option>`).join('');
+  $('p-plate').innerHTML = PLATE.map((x,i)=>`<option value="${i}"${i===S.conn.plateIdx?' selected':''}>PL ${x.w}×${x.w}×${x.t} mm</option>`).join('');
+  $('p-anchor').innerHTML = ANCHOR.map((x,i)=>`<option value="${i}"${i===S.conn.anchorIdx?' selected':''}>พุกเคมี ${x.id}</option>`).join('');
+  function syncRoofBox(){ const x=BOX[S.roof.boxIdx]; S.roof.boxB=x.b; S.roof.boxH=x.h; $('r-box-meta').textContent=`หน้าตัด ${x.b}×${x.h}×${x.t} mm · ${x.w} kg/m`; }
+  function syncConn(){ const p=PLATE[S.conn.plateIdx], a=ANCHOR[S.conn.anchorIdx]; S.conn.plateW=p.w; S.conn.plateT=p.t; S.conn.anchorD=a.d; S.conn.anchorHef=a.hef; }
+  syncRoofBox(); syncConn();
+
+  // ----- connection checks (weld-group AISC line method + responsive plate/anchor) -----
+  function connCalc(){
+    const bx=BOX[S.roof.boxIdx], a=S.conn.weldSize, FEXX=S.conn.electrode, phi=0.75;
+    const Aw=2*(bx.b+bx.h), Sx=bx.b*bx.h + bx.h*bx.h/3, throat=0.707*a;   // line-weld props (mm, mm²)
+    const V=Math.sqrt(4.21*4.21+12.75*12.75)*1e3, Mw=5.0e6;               // N, N·mm (rafter end V + partial-fixity M)
+    const fv=V/(throat*Aw), fb=Mw/(throat*Sx), fr=Math.sqrt(fv*fv+fb*fb); // N/mm²
+    const cap=phi*0.6*FEXX, weldDC=fr/cap;
+    const plateDC = 0.62*Math.pow(12/S.conn.plateT,2);                    // bending ∝ 1/t²
+    const anchorDC= 0.78*(4/S.conn.anchorCount)*Math.pow(125/S.conn.anchorHef,1.5)*(16/S.conn.anchorD);
+    return {a,throat,Aw,Sx,fv,fb,fr,cap,weldDC,plateDC,anchorDC};
+  }
+  function renderConn(){
+    const c=connCalc();
+    S.conn.util={plate:c.plateDC, anchor:c.anchorDC, weld:c.weldDC};
+    const cls=dc=> dc>1?'bad':dc>0.9?'warn':'ok';
+    const set=(f,v,dc)=>{ const fe=$(f),ve=$(v); if(fe){fe.style.width=Math.min(100,dc*100).toFixed(0)+'%'; fe.className='fill '+cls(dc);} if(ve){ve.textContent=dc.toFixed(2); ve.className='val '+cls(dc);} };
+    set('c-plate-f','c-plate-v',c.plateDC); set('c-anchor-f','c-anchor-v',c.anchorDC); set('c-weld-f','c-weld-v',c.weldDC);
+    const wt=$('c-weld-table'); if(wt) wt.innerHTML =
+      `<tr><td>fillet a / throat 0.707a</td><td>${c.a} / ${c.throat.toFixed(1)} mm</td></tr>`+
+      `<tr><td>Lw (รอบกล่อง) · FEXX</td><td>${c.Aw} mm · ${S.conn.electrode} MPa</td></tr>`+
+      `<tr><td>fr = √(fv²+fb²)</td><td>${c.fr.toFixed(0)} N/mm²</td></tr>`+
+      `<tr><td>φRn = φ·0.6·FEXX</td><td>${c.cap.toFixed(0)} N/mm²</td></tr>`+
+      `<tr><td>D/C รอยเชื่อม</td><td>${c.weldDC.toFixed(2)} ${c.weldDC>1?'✕':'✓'}</td></tr>`;
+    const m=(s,p,dc)=>{ const cl=dc>1?'fail':dc>0.9?'review':'pass', ic=dc>1?'#i-alert':'#i-check-s'; const se=$(s),pe=$(p); if(se)se.textContent='D/C '+dc.toFixed(2); if(pe){pe.className='pill pill--'+cl; pe.innerHTML='<svg><use href="'+ic+'"/></svg>'+(dc>1?'FAIL':dc>0.9?'REVIEW':'PASS');} };
+    m('m-plate-s','m-plate-p',c.plateDC); m('m-anchor-s','m-anchor-p',c.anchorDC); m('m-weld-s','m-weld-p',c.weldDC);
+    const ae=$('c-anchor-svg'); if(ae) ae.innerHTML=anchorSvg(c.anchorDC);
+  }
+  function utilHex(dc){ dc=Math.max(0,dc); if(dc<=0.6)return'#16a34a'; if(dc<=0.85)return'#84cc16'; if(dc<=1.0)return'#f59e0b'; if(dc<=1.15)return'#ef4444'; return'#b91c1c'; }
+  function anchorSvg(dc){ const n=S.conn.anchorCount, rows=n/2, fac=rows===3?[1.0,0.72,0.55]:[1.0,0.6]; let d='';
+    for(let r=0;r<rows;r++) for(let c2=0;c2<2;c2++){ const u=dc*fac[r], x=46+c2*40, y=20+r*22; d+=`<circle cx="${x}" cy="${y}" r="9" fill="${utilHex(u)}" stroke="#334155"/><text x="${x}" y="${y+3}" text-anchor="middle" font-size="8.5" font-weight="800" fill="#fff">${u.toFixed(2)}</text>`; }
+    const H=20+rows*22+14; return `<svg viewBox="0 0 132 ${H}" style="width:100%;max-width:158px"><rect x="24" y="8" width="84" height="${rows*22+6}" rx="4" fill="#f1f5f9" stroke="#94a3b8"/>${d}<text x="66" y="${H-3}" text-anchor="middle" font-size="8" fill="#64748b">แถวบน = แรงดึงมากสุด</text></svg>`; }
+  function memberCalc(){ const bx=BOX[S.roof.boxIdx], Fy=245, E=200000, phi=0.9, b=bx.b, h=bx.h, t=bx.t;
+    const Ix=(b*Math.pow(h,3)-(b-2*t)*Math.pow(h-2*t,3))/12, Sx=Ix/(h/2), L=S.roof.span*1000;
+    const wu=1.2*0.42+1.6*0.30, ws=0.42+0.30, Mu=wu*Math.pow(S.roof.span,2)/8, phiMn=phi*Fy*Sx/1e6, bendDC=Mu/phiMn;
+    const delta=5*ws*Math.pow(L,4)/(384*E*Ix), allow=L/180, defDC=delta/allow, dc=Math.max(bendDC,defDC);
+    return {Ix,Sx,Mu,phiMn,bendDC,delta,allow,defDC,dc,verdict:dc>1?'FAIL':dc>0.9?'REVIEW':'PASS'}; }
+  function renderMember(){ const mc=memberCalc(), cls=d=>d>1?'bad':d>0.9?'warn':'ok';
+    const set=(f,v,d)=>{const fe=$(f),ve=$(v); if(fe){fe.style.width=Math.min(100,d*100).toFixed(0)+'%';fe.className='fill '+cls(d);} if(ve){ve.textContent=d.toFixed(2);ve.className='val '+cls(d);}};
+    set('mb-bend-f','mb-bend-v',mc.bendDC); set('mb-def-f','mb-def-v',mc.defDC);
+    const ve=$('mb-verdict'); if(ve){ const k=mc.verdict==='FAIL'?'fail':mc.verdict==='REVIEW'?'review':'pass'; ve.className='pill pill--'+k; ve.innerHTML='<svg><use href="'+(mc.verdict==='FAIL'?'#i-alert':'#i-check-s')+'"/></svg>'+mc.verdict; }
+    const inf=$('mb-info'); if(inf) inf.textContent=`Sx=${(mc.Sx/1000).toFixed(1)} cm³ · Mu=${mc.Mu.toFixed(2)}/φMn=${mc.phiMn.toFixed(2)} kN·m · δ=${mc.delta.toFixed(1)}/${mc.allow.toFixed(1)} mm`; }
+  function buildReport(){
+    const mc=memberCalc(), c=connCalc(), eb=existingBeam(), t=eb.t, fin=deriveFinal(eb.s);
+    const bx=BOX[S.roof.boxIdx], an=ANCHOR[S.conn.anchorIdx], pl=PLATE[S.conn.plateIdx];
+    const vc=v=> v==='PASS'?'verdict-pass':v==='FAIL'?'verdict-fail':'verdict-review';
+    const vt=v=> v==='PASS'?'ผ่าน':v==='FAIL'?'ไม่ผ่าน':v==='NOT_VERIFIED'?'ยังไม่ยืนยัน':'มีเงื่อนไข';
+    const dcv=dc=> dc.toFixed(2)+' — '+(dc>1?'ไม่ผ่าน':'ผ่าน');
+    let dstr='—'; try{ dstr=new Date().toLocaleDateString('th-TH'); }catch(e){}
+    $('printReport').innerHTML =
+      `<h1>รายการคำนวณ — งานต่อเติมหลังคา (จุดต่อ + คานเดิม)</h1>`+
+      `<div class="meta">โครงการ อาคารสำนักงาน · รหัส OFF-2405-017 · Module 8.3 · runId ext-2406-017 · วันที่ ${dstr}</div>`+
+      `<h2>1. เหล็กกล่องโครงหลังคา (SS400, Fy=245 MPa)</h2><table>`+
+      `<tr><th>รายการ</th><th>ค่า</th><th>D/C</th></tr>`+
+      `<tr><td>หน้าตัด □${bx.b}×${bx.h}×${bx.t} (${bx.w} kg/m) · span ${S.roof.span.toFixed(2)} m</td><td>Sx=${(mc.Sx/1000).toFixed(1)} cm³</td><td class="r">—</td></tr>`+
+      `<tr><td>ดัด: Mu / φMn</td><td>${mc.Mu.toFixed(2)} / ${mc.phiMn.toFixed(2)} kN·m</td><td class="r ${vc(mc.bendDC>1?'FAIL':'PASS')}">${dcv(mc.bendDC)}</td></tr>`+
+      `<tr><td>แอ่นตัว: δ / (L/180)</td><td>${mc.delta.toFixed(1)} / ${mc.allow.toFixed(1)} mm</td><td class="r ${vc(mc.defDC>1?'FAIL':'PASS')}">${dcv(mc.defDC)}</td></tr></table>`+
+      `<h2>2. จุดต่อ — เพลท / พุกเคมี / รอยเชื่อม</h2><table>`+
+      `<tr><th>องค์ประกอบ</th><th>รายละเอียด</th><th>D/C</th></tr>`+
+      `<tr><td>เพลท (bending)</td><td>PL ${pl.w}×${pl.w}×${pl.t} mm</td><td class="r ${vc(c.plateDC>1?'FAIL':'PASS')}">${dcv(c.plateDC)}</td></tr>`+
+      `<tr><td>พุกเคมี (breakout · ACI 318 Ch.17)</td><td>${S.conn.anchorCount} × ${an.id}</td><td class="r ${vc(c.anchorDC>1?'FAIL':'PASS')}">${dcv(c.anchorDC)}</td></tr>`+
+      `<tr><td>รอยเชื่อม fillet (AISC line · fr ${c.fr.toFixed(0)} ≤ φRn ${c.cap.toFixed(0)} N/mm²)</td><td>a=${c.a} mm · E${S.conn.electrode===480?'70':'60'}</td><td class="r ${vc(c.weldDC>1?'FAIL':'PASS')}">${dcv(c.weldDC)}</td></tr></table>`+
+      `<h2>3. ตรวจแรงบิดคานเดิม (ACI 318-19 §22.7 · conservative — ไม่เครดิตปลอกเดิม)</h2><table>`+
+      `<tr><th>รายการ</th><th>ค่า</th></tr>`+
+      `<tr><td>f′c (${S.concrete.tested?'ทดสอบ '+S.concrete.method:'ไม่ทดสอบ — ใช้ค่าออกแบบ'})</td><td class="r">${t.fc.toFixed(0)} MPa</td></tr>`+
+      `<tr><td>Tcr = 0.33√f′c·Acp²/pcp · φTcr</td><td class="r">${t.Tcr.toFixed(2)} · ${t.phiTcr.toFixed(2)} kN·m</td></tr>`+
+      `<tr><td>เกณฑ์ไม่คิดแรงบิด (φ) · Tu = Fy·e (e=${t.e.toFixed(2)} m)</td><td class="r">${t.phiTth.toFixed(2)} · ${t.Tu.toFixed(2)} kN·m</td></tr>`+
+      `<tr><td>D/C = Tu / φTcr</td><td class="r ${vc(t.verdict)}">${t.dc.toFixed(2)} — ${vt(t.verdict)}</td></tr></table>`+
+      `<h2>4. สรุปคานเดิม (รวม) + สถานะสุดท้าย</h2><table>`+
+      `<tr><td>คานเดิม (แรงบิด + ความเชื่อมั่นข้อมูล f′c/เหล็ก)</td><td class="r ${vc(eb.s==='PASS'?'PASS':eb.s==='FAIL'?'FAIL':'REVIEW')}">${vt(eb.s)}</td></tr>`+
+      `<tr><td><b>สถานะสุดท้าย (Final Status)</b></td><td class="r ${vc(fin==='PASS'?'PASS':fin==='FAIL'?'FAIL':'REVIEW')}"><b>${vt(fin)}</b></td></tr></table>`+
+      `<div class="disc"><b>คำเตือน:</b> รายการนี้เป็น <b>ค่าตัวอย่าง conservative จากเครื่องมือพรีวิว</b> — สูตรแรงบิด / พุก / รอยเชื่อม ยังไม่ผ่าน engine ผลิตจริง ต้องให้วิศวกรผู้รับผิดชอบ (ใบอนุญาต) ตรวจสอบและลงนามก่อนนำไปก่อสร้างจริง</div>`+
+      `<div class="sig"><div>ผู้คำนวณ / วันที่</div><div>วิศวกรผู้รับผิดชอบ (ตรวจ + ลงนาม) / วันที่</div></div>`;
+    window.print();
+  }
+
+  // ----- torsion (conservative ACI 318-19 §22.7) -----
+  function torsion(){
+    const b=200, h=400, lambda=1, phi=0.75;
+    const fc = S.concrete.tested ? S.concrete.fcTest : 21;       // design if not tested
+    const Acp=b*h, pcp=2*(b+h), k=Acp*Acp/pcp;                   // mm^3
+    const Tcr   = 0.33*lambda*Math.sqrt(fc)*k/1e6;               // kN·m  (cracking torque)
+    const phiTcr= phi*Tcr;
+    const phiTth= phi*0.083*lambda*Math.sqrt(fc)*k/1e6;          // neglect-threshold (φ·0.25·Tcr)
+    const e = S.conn.centered ? 0.07 : 0.30;                     // eccentricity (m)
+    const Tu = 12.75*e;                                          // kN·m  Fy·e (conservative)
+    const dc = Tu/phiTcr;
+    let verdict;
+    if(Tu>phiTcr) verdict='FAIL';                                // cracks; beam not torsion-detailed
+    else if(Tu>phiTth) verdict='REVIEW';                         // not negligible; no closed hoops
+    else verdict='PASS';                                         // torsion negligible
+    return {fc,b,h,Acp,pcp,Tcr,phiTcr,phiTth,e,Tu,dc,verdict};
+  }
+  function existingBeam(){
+    const t=torsion();
+    let s;
+    if(t.verdict==='FAIL') s='FAIL';
+    else if(!S.concrete.tested || S.reliability==='unknown') s='NOT_VERIFIED';
+    else if(S.reliability==='estimated') s='CONDITIONAL';
+    else if(t.verdict==='REVIEW') s='CONDITIONAL';
+    else s='PASS';
+    return {s,t};
+  }
+
+  function syncDeformTools(){
+    const en=S.step>=5;
+    ['b-orig','b-deform','b-scale','b-combo'].forEach(id=>$(id).disabled=!en);
+    $('b-orig').classList.toggle('on', en && !S.deform.on);
+    $('b-deform').classList.toggle('on', en && S.deform.on);
+    $('legend').hidden = !(en && S.deform.on);
+  }
+  function setStep(n){
+    n=Math.max(1,Math.min(8,n)); S.step=n;
+    stepEls.forEach(el=>{ const s=+el.dataset.step; el.classList.toggle('is-current',s===n); el.classList.toggle('is-done',s<n); });
+    ctxEls.forEach(c=> c.classList.toggle('is-active', +c.dataset.ctx===n));
+    $('badgeNum').textContent=n; $('badgeText').textContent=STEP_NAMES[n]; $('hint').textContent=HINTS[n];
+    $('progBar').style.width=(n/8*100)+'%';
+    $('connLegend').hidden = n!==6;
+    $('btnBack').style.visibility=n===1?'hidden':'visible';
+    $('btnNext').innerHTML = n===8 ? '<svg class="ico"><use href="#i-check"/></svg> เสร็จสิ้น' : 'ถัดไป <svg class="ico"><use href="#i-chev"/></svg>';
+    if(n===8 && !S.deform.on) S.deform.on=true;
+    syncDeformTools(); push(); if(window.EXT3D && window.EXT3D.ready) window.EXT3D.focusStep(n);
+  }
+  function push(){ renderMember(); renderConn(); scheduleSave(); if(window.EXT3D && window.EXT3D.ready) window.EXT3D.update(S); }
+
+  stepEls.forEach(el=> el.addEventListener('click', ()=> setStep(+el.dataset.step)));
+  $('btnNext').addEventListener('click', ()=> setStep(S.step+1));
+  $('btnBack').addEventListener('click', ()=> setStep(S.step-1));
+
+  // view + CAD tools
+  document.querySelectorAll('.ov-views .vbtn').forEach(b=> b.addEventListener('click', ()=>{
+    document.querySelectorAll('.ov-views .vbtn').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    S.view=b.dataset.view; if(window.EXT3D && window.EXT3D.ready) window.EXT3D.setView(S.view);
+  }));
+  document.querySelectorAll('#cadbar .cadtool[data-tool]').forEach(b=> b.addEventListener('click', ()=>{
+    document.querySelectorAll('#cadbar .cadtool[data-tool]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    S.tool=b.dataset.tool; if(window.EXT3D && window.EXT3D.ready) window.EXT3D.setTool(S.tool);
+  }));
+  $('cad-fit').addEventListener('click', ()=>{ if(window.EXT3D && window.EXT3D.ready) window.EXT3D.setView(S.view); });
+
+  // roof params
+  $('r-box').addEventListener('change', e=>{ S.roof.boxIdx=+e.target.value; syncRoofBox(); push(); });
+  $('r-span').addEventListener('input', e=>{ S.roof.span=+e.target.value; $('r-span-v').textContent=S.roof.span.toFixed(1)+' m'; push(); });
+  $('r-slope').addEventListener('input', e=>{ S.roof.slope=+e.target.value; $('r-slope-v').textContent=S.roof.slope+'°'; push(); });
+  $('r-sp').addEventListener('input', e=>{ S.roof.spacing=+e.target.value; $('r-sp-v').textContent=S.roof.spacing.toFixed(1)+' m'; push(); });
+  // loads
+  $('ld-dl').addEventListener('change', e=>{ S.loads.dl=e.target.checked; push(); });
+  $('ld-ll').addEventListener('change', e=>{ S.loads.ll=e.target.checked; push(); });
+  $('ld-w').addEventListener('change', e=>{ S.loads.wind=e.target.checked; push(); });
+  // connection
+  $('p-plate').addEventListener('change', e=>{ S.conn.plateIdx=+e.target.value; syncConn(); push(); });
+  $('p-anchor').addEventListener('change', e=>{ S.conn.anchorIdx=+e.target.value; syncConn(); push(); });
+  $('p-weld').addEventListener('change', e=>{ S.conn.weldSize=+e.target.value; push(); });
+  $('p-elec').addEventListener('change', e=>{ S.conn.electrode=+e.target.value; push(); });
+  $('btnExport').addEventListener('click', buildReport);
+  document.querySelectorAll('#p-count button').forEach(b=> b.addEventListener('click', ()=>{
+    document.querySelectorAll('#p-count button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    S.conn.anchorCount=+b.dataset.n; push();
+  }));
+  document.querySelectorAll('#p-center button').forEach(b=> b.addEventListener('click', ()=>{
+    document.querySelectorAll('#p-center button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    S.conn.centered = b.dataset.c==='1'; push(); updateGate();
+  }));
+  // concrete test
+  $('c-method').addEventListener('change', e=>{ S.concrete.method=e.target.value; S.concrete.tested = e.target.value!=='none';
+    $('c-fc-wrap').style.display = S.concrete.tested?'block':'none'; updateGate(); push(); });
+  $('c-fc').addEventListener('input', e=>{ S.concrete.fcTest=+e.target.value; $('c-fc-v').textContent=S.concrete.fcTest+' MPa'; updateGate(); push(); });
+  // toolbar
+  $('b-rotate').addEventListener('click', e=>{ S.autoRotate=!S.autoRotate; e.currentTarget.classList.toggle('on',S.autoRotate); push(); });
+  $('b-dim').addEventListener('click', e=>{ S.dim=!S.dim; e.currentTarget.classList.toggle('on',S.dim); push(); });
+  $('b-wire').addEventListener('click', e=>{ S.wire=!S.wire; e.currentTarget.classList.toggle('on',S.wire); push(); });
+  $('b-roof').addEventListener('click', e=>{ S.roofSheet=!S.roofSheet; e.currentTarget.classList.toggle('on',S.roofSheet); push(); });
+  $('b-orig').addEventListener('click', ()=>{ if(S.step<5)return; S.deform.on=false; syncDeformTools(); push(); });
+  $('b-deform').addEventListener('click', ()=>{ if(S.step<5)return; S.deform.on=true; syncDeformTools(); push(); });
+  $('b-scale').addEventListener('change', e=>{ S.deform.scale=+e.target.value; push(); });
+  $('b-combo').addEventListener('change', e=>{ S.deform.combo=e.target.selectedIndex===1?'COMB4':'COMB2'; $('legMax').textContent=S.deform.combo==='COMB4'?'5.0 ↑':'8.0'; push(); });
+
+  function selectBeam(id){ if(!BEAMINFO[id])return; S.selectedBeam=id; const i=BEAMINFO[id];
+    $('selBeamPill').textContent=id; $('bi-sec').textContent=i.sec; $('bi-rebar').textContent=i.rebar; $('bi-stir').textContent=i.stir; $('bi-span').textContent=i.span;
+    document.querySelectorAll('#beamList .blrow').forEach(r=>{ const on=r.dataset.id===id; r.classList.toggle('on',on); r.querySelector('.pill').className='pill '+(on?'pill--info':'pill--ghost'); r.querySelector('.pill').textContent=on?'host':'เลือก'; });
+    push(); }
+  window.onBeamSelect=selectBeam;
+  document.querySelectorAll('#beamList .blrow').forEach(r=> r.addEventListener('click', ()=> selectBeam(r.dataset.id)));
+  window.onReadout = (x,z)=>{ $('readout').textContent = (x==null)?'x — · z —':`x ${x.toFixed(2)} · z ${z.toFixed(2)} m`; };
+
+  window.addEventListener('keydown', e=>{
+    const t=e.target.tagName; if(t==='INPUT'||t==='SELECT'||t==='TEXTAREA') return;
+    if(e.key==='ArrowRight'||e.key==='n') setStep(S.step+1);
+    else if(e.key==='ArrowLeft'||e.key==='p') setStep(S.step-1);
+    else if(e.key>='1'&&e.key<='8') setStep(+e.key);
+    else if(e.key==='r'||e.key==='R'){ if(window.EXT3D&&window.EXT3D.ready) window.EXT3D.setView(S.view); }
+    else if(e.key==='w'||e.key==='W') $('b-wire').click();
+    else if(e.key==='d'||e.key==='D'){ if(S.step>=5) $('b-deform').click(); }
+    else return; e.preventDefault();
+  });
+
+  // ----- status + torsion render -----
+  const PILL={PASS:{c:'pill--pass',i:'#i-check-s',t:'PASS'},CONDITIONAL:{c:'pill--review',i:'#i-info',t:'CONDITIONAL'},NOT_VERIFIED:{c:'pill--review',i:'#i-info',t:'NOT VERIFIED'},FAIL:{c:'pill--fail',i:'#i-alert',t:'FAIL'},REVIEW:{c:'pill--review',i:'#i-info',t:'REVIEW'}};
+  function setPill(el,key){ const p=PILL[key]; if(!el||!p)return; el.className='pill '+p.c; el.innerHTML='<svg><use href="'+p.i+'"/></svg>'+p.t; }
+  const deriveFinal=e=> e==='FAIL'?'FAIL': e==='CONDITIONAL'?'CONDITIONAL': e!=='PASS'?'NOT_VERIFIED':'PASS';
+  function dcClass(v){ return v>1?'bad':v>0.85?'warn':'ok'; }
+
+  function updateGate(){
+    document.querySelectorAll('#reliabBtns button').forEach(b=> b.classList.toggle('on', b.dataset.r===S.reliability));
+    const eb=existingBeam(), t=eb.t, fin=deriveFinal(eb.s);
+
+    // torsion table + pill
+    $('torTable').innerHTML =
+      `<tr><td>f′c (${S.concrete.tested?'ทดสอบ '+S.concrete.method:'ไม่ทดสอบ'})</td><td>${t.fc.toFixed(0)} MPa</td></tr>`+
+      `<tr><td>Acp = b·h</td><td>${t.Acp.toLocaleString()} mm²</td></tr>`+
+      `<tr><td>pcp = 2(b+h)</td><td>${t.pcp.toLocaleString()} mm</td></tr>`+
+      `<tr><td>Tcr = 0.33√f′c·Acp²/pcp</td><td>${t.Tcr.toFixed(2)} kN·m</td></tr>`+
+      `<tr><td>φTcr (φ=0.75)</td><td>${t.phiTcr.toFixed(2)} kN·m</td></tr>`+
+      `<tr><td>φ·เกณฑ์ไม่คิดแรงบิด</td><td>${t.phiTth.toFixed(2)} kN·m</td></tr>`+
+      `<tr><td>Tu = Fy·e (e=${t.e.toFixed(2)} m)</td><td>${t.Tu.toFixed(2)} kN·m</td></tr>`;
+    setPill($('torVerdict'), t.verdict);
+    $('torDC').textContent=t.dc.toFixed(2); $('torDC').className='val '+dcClass(t.dc);
+    $('torFill').style.width=Math.min(100,t.dc*100).toFixed(0)+'%'; $('torFill').className='fill '+dcClass(t.dc);
+    setPill($('torPill'), t.verdict); $('torSub').textContent=`Tu ${t.Tu.toFixed(1)} / φTcr ${t.phiTcr.toFixed(1)}`;
+
+    // existing beam + final
+    setPill($('ebPill'), eb.s); setPill($('finalPill'), fin); setPill($('sumVerdict'), fin);
+    $('ebSub').textContent = eb.s==='PASS'?'ผ่านครบ': eb.s==='FAIL'?'แรงบิดเกิน':'รอยืนยัน/แก้ไข';
+
+    // narratives
+    const gate = !S.concrete.tested
+      ? '<svg class="ico"><use href="#i-alert"/></svg><div>ยังไม่ทดสอบกำลังคอนกรีต → ตรวจแรงบิดอย่างมั่นใจไม่ได้ · สถานะ <b>NOT VERIFIED</b></div>'
+      : S.reliability==='verified'
+        ? '<svg class="ico"><use href="#i-check-s"/></svg><div>ทดสอบแล้ว + VERIFIED → ปลดล็อกให้ผ่านได้ <b>ถ้าแรงบิดผ่าน</b> (ดูขั้น 7)</div>'
+        : S.reliability==='unknown'
+          ? '<svg class="ico"><use href="#i-alert"/></svg><div>UNKNOWN → ไม่มีข้อมูลพอ · <b>NOT VERIFIED</b></div>'
+          : '<svg class="ico"><use href="#i-info"/></svg><div>ESTIMATED → ยัง <b>CONDITIONAL</b> จนกว่ายืนยัน VERIFIED</div>';
+    $('gateExplain').className='note '+(S.reliability==='verified'&&S.concrete.tested?'note--ok':'note--warn'); $('gateExplain').innerHTML=gate;
+
+    let bv;
+    if(t.verdict==='FAIL') bv={c:'note--warn', h:`Tu ${t.Tu.toFixed(2)} > φTcr ${t.phiTcr.toFixed(2)} kN·m → คานเดิม<b>แตกร้าวจากแรงบิด</b> และไม่มีปลอก closed-hoop รับ → <b>ไม่ผ่าน</b> · ต้องยึดเข้าศูนย์ (ขั้น 6) / เสริมเหล็กรับแรงบิด / ลดระยะยื่น`};
+    else if(t.verdict==='REVIEW') bv={c:'note--warn', h:`Tu ${t.Tu.toFixed(2)} kN·m เกินเกณฑ์ "ไม่ต้องคิดแรงบิด" (${t.phiTth.toFixed(2)}) แต่ยังต่ำกว่า φTcr ${t.phiTcr.toFixed(2)} — <b>conservative: ไม่เครดิตปลอก RB6 เดิม</b> → ต้อง "ยึดเข้าศูนย์" (ขั้น 6) หรือเสริม closed-hoop ก่อนสรุปผ่าน`};
+    else bv={c:'note--ok', h:`Tu ${t.Tu.toFixed(2)} ≤ เกณฑ์ ${t.phiTth.toFixed(2)} kN·m → <b>แรงบิดไม่มีนัยสำคัญ</b> คานเดิมรับได้โดยไม่ต้องเสริม` + (S.reliability!=='verified'||!S.concrete.tested?' · แต่ยังต้องทดสอบ+VERIFIED ก่อนสรุป':'')};
+    $('beamVerdictBox').className='note '+bv.c; $('beamVerdictBox').innerHTML='<svg class="ico"><use href="#i-twist"/></svg><div>'+bv.h+'</div>';
+
+    $('sumBeam').textContent = `คานเดิม + แรงบิด — ${PILL[eb.s].t} (Tu/φTcr=${t.dc.toFixed(2)})`;
+    const exp = fin==='PASS' ? {c:'note--ok',h:'พร้อม export รายงานฉบับสมบูรณ์ (runId ตรงกันทุกโมดูล)'}
+      : fin==='FAIL' ? {c:'note--warn',h:'แรงบิดไม่ผ่าน — แก้แบบก่อน (ห้าม export ว่าผ่าน)'}
+      : {c:'note--warn',h:'export ได้แต่ระบุสถานะ '+PILL[fin].t+' + เงื่อนไขที่ต้องแก้/ยืนยัน'};
+    $('exportGate').className='note '+exp.c; $('exportGate').innerHTML='<svg class="ico-sm"><use href="#i-info"/></svg><div>'+exp.h+'</div>';
+  }
+  document.querySelectorAll('#reliabBtns button').forEach(b=> b.addEventListener('click', ()=>{ S.reliability=b.dataset.r; updateGate(); push(); }));
+
+  // ----- persistence: localStorage autosave + .json export/import + reset -----
+  const SKEY='sv_ext3d_demo_v1'; let saveTimer=null, restoring=false;
+  function serializable(){ const c={...S.conn}; delete c.util; return { v:1, reliability:S.reliability, selectedBeam:S.selectedBeam, roof:{...S.roof}, concrete:{...S.concrete}, conn:c, loads:{...S.loads}, deform:{...S.deform}, wire:S.wire, roofSheet:S.roofSheet, dim:S.dim }; }
+  function setSaveStatus(k){ const el=$('saveStatus'); if(!el)return;
+    if(k==='saving'){el.className='savestat saving';el.textContent='● กำลังบันทึก…';}
+    else if(k==='saved'){el.className='savestat saved';el.textContent='✓ บันทึกแล้ว';}
+    else if(k==='error'){el.className='savestat';el.textContent='⚠ บันทึกไม่ได้';}
+    else {el.className='savestat';el.textContent='● บันทึกอัตโนมัติ';} }
+  function saveState(){ try{ localStorage.setItem(SKEY, JSON.stringify(serializable())); setSaveStatus('saved'); }catch(e){ setSaveStatus('error'); } }
+  function scheduleSave(){ if(restoring)return; setSaveStatus('saving'); clearTimeout(saveTimer); saveTimer=setTimeout(saveState,700); }
+  function loadState(){ try{ const raw=localStorage.getItem(SKEY); if(!raw)return false; const o=JSON.parse(raw); if(!o||o.v!==1)return false;
+    const mg=(t,s)=>{ if(s&&typeof s==='object') for(const k in s) if(k in t && s[k]!=null) t[k]=s[k]; };
+    if(o.reliability)S.reliability=o.reliability; if(o.selectedBeam&&BEAMINFO[o.selectedBeam])S.selectedBeam=o.selectedBeam;
+    mg(S.roof,o.roof); mg(S.concrete,o.concrete); mg(S.conn,o.conn); mg(S.loads,o.loads); mg(S.deform,o.deform);
+    if(typeof o.wire==='boolean')S.wire=o.wire; if(typeof o.roofSheet==='boolean')S.roofSheet=o.roofSheet; if(typeof o.dim==='boolean')S.dim=o.dim;
+    S.roof.boxIdx=Math.max(0,Math.min(BOX.length-1,S.roof.boxIdx|0)); S.conn.plateIdx=Math.max(0,Math.min(PLATE.length-1,S.conn.plateIdx|0)); S.conn.anchorIdx=Math.max(0,Math.min(ANCHOR.length-1,S.conn.anchorIdx|0));
+    return true; }catch(e){ return false; } }
+  function applyStateToUI(){ restoring=true; syncRoofBox(); syncConn();
+    $('c-method').value=S.concrete.method; $('c-fc-wrap').style.display=S.concrete.tested?'block':'none'; $('c-fc').value=S.concrete.fcTest; $('c-fc-v').textContent=S.concrete.fcTest+' MPa';
+    $('r-box').value=S.roof.boxIdx; $('r-span').value=S.roof.span; $('r-span-v').textContent=S.roof.span.toFixed(1)+' m'; $('r-slope').value=S.roof.slope; $('r-slope-v').textContent=S.roof.slope+'°'; $('r-sp').value=S.roof.spacing; $('r-sp-v').textContent=S.roof.spacing.toFixed(1)+' m';
+    $('ld-dl').checked=S.loads.dl; $('ld-ll').checked=S.loads.ll; $('ld-w').checked=S.loads.wind;
+    $('p-plate').value=S.conn.plateIdx; $('p-anchor').value=S.conn.anchorIdx; $('p-weld').value=S.conn.weldSize; $('p-elec').value=S.conn.electrode;
+    document.querySelectorAll('#p-count button').forEach(x=>x.classList.toggle('on', +x.dataset.n===S.conn.anchorCount));
+    document.querySelectorAll('#p-center button').forEach(x=>x.classList.toggle('on', (x.dataset.c==='1')===S.conn.centered));
+    $('b-dim').classList.toggle('on',S.dim); $('b-wire').classList.toggle('on',S.wire); $('b-roof').classList.toggle('on',S.roofSheet);
+    selectBeam(S.selectedBeam); updateGate(); restoring=false; }
+  $('btnSave').addEventListener('click', saveState);
+  $('btnReset').addEventListener('click', ()=>{ if(!confirm('เริ่มใหม่ด้วยค่าเริ่มต้น? งานปัจจุบันจะถูกล้าง')) return; localStorage.removeItem(SKEY); location.reload(); });
+  $('btnExportJson').addEventListener('click', ()=>{ const blob=new Blob([JSON.stringify(serializable(),null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='extension-design.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); });
+  $('btnImportJson').addEventListener('click', ()=> $('fileImport').click());
+  $('fileImport').addEventListener('change', e=>{ const f=e.target.files&&e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>{ try{ const o=JSON.parse(r.result); if(!o||o.v!==1) throw 0; localStorage.setItem(SKEY, JSON.stringify(o)); location.reload(); }catch(err){ alert('ไฟล์งานไม่ถูกต้อง (.json จากเครื่องมือนี้เท่านั้น)'); } }; r.readAsText(f); });
+  window.addEventListener('beforeunload', saveState);
+
+  window.addEventListener('load', ()=> setTimeout(()=>{ if(!window.__v3dReady){ const l=$('loadOv'); if(l) l.innerHTML='⚠ โหลด 3D engine ไม่ได้ — ต้องเชื่อมต่ออินเทอร์เน็ต/เสิร์ฟผ่าน http เพื่อโหลด Three.js · ส่วนควบคุม/สถานะอื่นยังทำงานปกติ'; } }, 5500));
+
+  const __restored = loadState();
+  applyStateToUI();
+  setStep(1);
+  setSaveStatus(__restored ? 'saved' : 'idle');
+</script>
+
+<!-- ===== 3D scene (module — Three.js, vendored) ===== -->
+<script type="module">
+  import * as THREE from 'three';
+  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+  const cv=document.getElementById('cv'), stage=document.getElementById('stage'), loadOv=document.getElementById('loadOv');
+  const legMax=document.getElementById('legMax');
+  let renderer, scene, perspCam, orthoCam, activeCam, controls, raycaster, pointer, ground;
+  let gStatic, gRoof, gConn, gDims, gLoads, gReact, gLabels, gMeasure;
+  const beamMeshes={};
+  let inited=false, firstRender=false, S=null, roofSig='', loadSig='', reactSig='', hoverId=null, measurePts=[];
+  const cam={ active:false, pos:new THREE.Vector3(), tgt:new THREE.Vector3() };
+
+  const YTOP=4.40;
+  const BEAMS={ 'EX-B1':{z0:0,z1:6}, 'EX-B2':{z0:6,z1:10} };
+
+  const M = {
+    concrete: new THREE.MeshStandardMaterial({color:0xc7ccd4,roughness:.95,metalness:0}),
+    concrete2:new THREE.MeshStandardMaterial({color:0xb9bfc9,roughness:.95,metalness:0}),
+    footing:  new THREE.MeshStandardMaterial({color:0xaab0ba,roughness:1,metalness:0}),
+    wall:     new THREE.MeshStandardMaterial({color:0xd9dde4,roughness:1,metalness:0}),
+    steel:    new THREE.MeshStandardMaterial({color:0x4a5563,roughness:.5,metalness:.62}),
+    plate:    new THREE.MeshStandardMaterial({color:0x6b7280,roughness:.45,metalness:.72,emissive:0x000000}),
+    gusset:   new THREE.MeshStandardMaterial({color:0x7b8290,roughness:.5,metalness:.6,side:THREE.DoubleSide}),
+    bolt:     new THREE.MeshStandardMaterial({color:0x2a2e35,roughness:.4,metalness:.9}),
+    gutter:   new THREE.MeshStandardMaterial({color:0x94a3b8,roughness:.5,metalness:.5}),
+    roof:     new THREE.MeshStandardMaterial({color:0x7ea3c9,roughness:.35,metalness:.35,transparent:true,opacity:.5,side:THREE.DoubleSide}),
+    dim:      new THREE.MeshBasicMaterial({color:0x475569}),
+    measure:  new THREE.MeshBasicMaterial({color:0x7C3AED}),
+  };
+  const beamMat=()=>new THREE.MeshStandardMaterial({color:0xc7ccd4,roughness:.9,metalness:0,emissive:0x000000});
+  function jet(t){ t=Math.max(0,Math.min(1,t)); const s=[[0,0x2563eb],[.25,0x06b6d4],[.5,0x22c55e],[.75,0xfacc15],[1,0xef4444]];
+    for(let i=1;i<s.length;i++){ if(t<=s[i][0]){ const f=(t-s[i-1][0])/((s[i][0]-s[i-1][0])||1); return new THREE.Color(s[i-1][1]).lerp(new THREE.Color(s[i][1]),f); } } return new THREE.Color(0xef4444); }
+  const jetMat=t=>new THREE.MeshStandardMaterial({color:jet(t),roughness:.55,metalness:.25});
+  function utilColor(dc){ dc=Math.max(0,Math.min(1.2,dc)); const s=[[0,0x16a34a],[.6,0x84cc16],[.85,0xf59e0b],[1,0xef4444],[1.2,0xb91c1c]];
+    for(let i=1;i<s.length;i++){ if(dc<=s[i][0]){ const f=(dc-s[i-1][0])/((s[i][0]-s[i-1][0])||1); return new THREE.Color(s[i-1][1]).lerp(new THREE.Color(s[i][1]),f);} } return new THREE.Color(0xb91c1c); }
+
+  const _zv=new THREE.Vector3(0,0,1);
+  function strut(p0,p1,sz,mat){ const dir=new THREE.Vector3().subVectors(p1,p0); const len=dir.length()||1e-3;
+    const m=new THREE.Mesh(new THREE.BoxGeometry(sz,sz,len),mat); m.castShadow=true; m.receiveShadow=true;
+    m.position.copy(p0).addScaledVector(dir,.5); m.quaternion.setFromUnitVectors(_zv,dir.clone().normalize()); return m; }
+  function box(w,h,d,mat,x,y,z){ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat); m.castShadow=true; m.receiveShadow=true; m.position.set(x,y,z); return m; }
+  function roundRect(c,x,y,w,h,r){ c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); }
+  function label(text,color){ color=color||'#0f172a'; const c=document.createElement('canvas'),x=c.getContext('2d'),fs=42;
+    x.font='bold '+fs+'px Inter,sans-serif'; const w=Math.ceil(x.measureText(text).width)+34; c.width=w; c.height=fs+22;
+    x.font='bold '+fs+'px Inter,sans-serif'; x.fillStyle='rgba(255,255,255,.92)'; roundRect(x,1,1,w-2,c.height-2,13); x.fill();
+    x.strokeStyle='rgba(148,163,184,.55)'; x.lineWidth=2; x.stroke(); x.fillStyle=color; x.textBaseline='middle'; x.fillText(text,17,c.height/2+1);
+    const tex=new THREE.CanvasTexture(c); tex.anisotropy=4; const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,depthTest:false,transparent:true}));
+    const k=0.0038; sp.scale.set(w*k,c.height*k,1); sp.renderOrder=999; return sp; }
+
+  const deflShape=s=>s*s*(3-s)/2;
+  const comboCfg=()=> (S.deform.combo==='COMB4')?{dir:1,mm:5}:{dir:-1,mm:8};
+  function defAmt(){ if(!S.deform.on) return 0; const c=comboCfg(); return c.dir*(c.mm/1000)*S.deform.scale; }
+  const beam=()=>BEAMS[S.selectedBeam];
+  const spanX=()=>S.roof.span, HOSTX=0.10;
+  const eaveY=()=>YTOP - spanX()*Math.tan(S.roof.slope*Math.PI/180);
+  const railX=s=>THREE.MathUtils.lerp(HOSTX,spanX(),s);
+  const railY=s=>THREE.MathUtils.lerp(YTOP,eaveY(),s)+defAmt()*deflShape(s);
+  function bays(){ const b=beam(),o=[]; for(let z=b.z0;z<=b.z1+1e-6;z+=S.roof.spacing) o.push(+z.toFixed(3)); if(o[o.length-1]<b.z1-1e-6) o.push(b.z1); return o; }
+  const zc=()=>{ const b=beam(); return (b.z0+b.z1)/2; };
+  const boxSz=()=> Math.max(0.04, Math.min(0.2, (S.roof.boxH||100)/1000));
+
+  function buildStatic(){
+    gStatic=new THREE.Group();
+    ground=new THREE.Mesh(new THREE.PlaneGeometry(90,90),new THREE.MeshStandardMaterial({color:0xe7ebf0,roughness:1})); ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; gStatic.add(ground);
+    const grid=new THREE.GridHelper(90,90,0xc2cbd6,0xdde3ea); grid.position.y=.002; gStatic.add(grid);
+    for(const z of [0,6,10]){ gStatic.add(box(.30,YTOP,.30,M.concrete2,0,YTOP/2,z)); gStatic.add(box(.7,.3,.7,M.footing,0,.15,z)); }
+    const b1=box(.20,.40,6.0,beamMat(),0,YTOP-.20,3); b1.userData.id='EX-B1'; beamMeshes['EX-B1']=b1; gStatic.add(b1);
+    const b2=box(.20,.40,4.0,beamMat(),0,YTOP-.20,8); b2.userData.id='EX-B2'; beamMeshes['EX-B2']=b2; gStatic.add(b2);
+    gStatic.add(box(3.0,.15,10.4,M.concrete,-1.5,YTOP+.075,5));
+    gStatic.add(box(.12,YTOP+.4,10.4,M.wall,-3.0,(YTOP+.4)/2,5));
+    scene.add(gStatic);
+  }
+
+  function buildRoof(){
+    if(gRoof){ scene.remove(gRoof); gRoof.traverse(o=>o.geometry&&o.geometry.dispose()); }
+    gRoof=new THREE.Group(); gConn=new THREE.Group();
+    const N=10, BZ=bays(), b=beam(), sz=boxSz(), psz=Math.max(.04,sz*0.6);
+    for(const z of BZ){ for(let i=0;i<N;i++){ const s0=i/N,s1=(i+1)/N;
+      gRoof.add(strut(new THREE.Vector3(railX(s0),railY(s0),z), new THREE.Vector3(railX(s1),railY(s1),z), sz, S.deform.on?jetMat(deflShape((s0+s1)/2)):M.steel)); } }
+    for(const s of [0.12,0.32,0.52,0.72,0.92]){ const x=railX(s),y=railY(s)+sz*0.7;
+      gRoof.add(strut(new THREE.Vector3(x,y,b.z0-.05), new THREE.Vector3(x,y,b.z1+.05), psz, S.deform.on?jetMat(deflShape(s)):M.steel)); }
+    const ey=railY(1); gRoof.add(strut(new THREE.Vector3(spanX(),ey,b.z0-.05), new THREE.Vector3(spanX(),ey,b.z1+.05), sz, S.deform.on?jetMat(1):M.steel));
+    gRoof.add(box(.12,.10,b.z1-b.z0+.1,M.gutter,spanX()+.02,ey-.10,(b.z0+b.z1)/2));
+    // connection per bay: plate + gusset + chemical anchors (+ centering bracket)
+    const pw=(S.conn.plateW||200)/1000, pt=(S.conn.plateT||12)/1000, ad=(S.conn.anchorD||16)/1000, alen=(S.conn.anchorHef||125)/1000;
+    const rows = S.conn.anchorCount===6 ? [-0.10,0,0.10] : [-0.09,0.09];
+    for(const z of BZ){
+      const pl=box(pt,Math.max(.22,pw),.18,M.plate.clone(),HOSTX+pt/2+0.004,YTOP-.06,z); pl.userData.uk='plate'; gConn.add(pl);
+      const gus=new THREE.Mesh(new THREE.BufferGeometry(),M.gusset);
+      const vy=YTOP-.04, gp=[HOSTX+.022,vy,z-.07, HOSTX+.022,vy-.22,z-.07, HOSTX+.42,vy-.02,z-.07], gp2=gp.slice(); for(let i=2;i<gp2.length;i+=3) gp2[i]=z+.07;
+      gus.geometry.setAttribute('position',new THREE.Float32BufferAttribute(gp.concat(gp2),3)); gus.geometry.setIndex([0,1,2,3,4,5]); gus.geometry.computeVertexNormals(); gus.castShadow=true; gConn.add(gus);
+      for(const wy of [YTOP+sz*0.42, YTOP-sz*0.42]){   // fillet weld beads (top/bottom of rafter end)
+        const wb=box(.028,.028,Math.max(.18,sz+.08),new THREE.MeshStandardMaterial({color:0xb45309,roughness:.6,metalness:.3}),HOSTX+pt+.016,wy,z); wb.userData.uk='weld'; gConn.add(wb);
+      }
+      for(const dy of rows) for(const dz of [-0.06,0.06]){
+        const bm=M.bolt.clone();
+        const sh=new THREE.Mesh(new THREE.CylinderGeometry(ad/2,ad/2,alen,10),bm); sh.rotation.z=Math.PI/2; sh.position.set(HOSTX-alen/2+0.02,YTOP-.06+dy,z+dz); sh.castShadow=true; sh.userData.uk='anchor'; gConn.add(sh);
+        const hd=new THREE.Mesh(new THREE.CylinderGeometry(ad*0.9,ad*0.9,.02,6),bm); hd.rotation.z=Math.PI/2; hd.position.set(HOSTX+pt+.02,YTOP-.06+dy,z+dz); hd.userData.uk='anchor'; gConn.add(hd);
+      }
+      if(S.conn.centered){ // centering bracket (brings load toward beam axis → less torsion)
+        const br=new THREE.Mesh(new THREE.BufferGeometry(),new THREE.MeshStandardMaterial({color:0x16a34a,roughness:.5,metalness:.5,side:THREE.DoubleSide}));
+        const by=YTOP-.20, bp=[HOSTX+pt,by+.12,z-.05, HOSTX+pt,by-.12,z-.05, HOSTX-.10,by,z-.05], bp2=bp.slice(); for(let i=2;i<bp2.length;i+=3) bp2[i]=z+.05;
+        br.geometry.setAttribute('position',new THREE.Float32BufferAttribute(bp.concat(bp2),3)); br.geometry.setIndex([0,1,2,3,4,5]); br.geometry.computeVertexNormals(); gConn.add(br);
+      }
+    }
+    gRoof.add(gConn);
+    const nx=26,nz=16,pos=[],idx=[];
+    for(let j=0;j<=nz;j++) for(let i=0;i<=nx;i++){ const s=i/nx; pos.push(railX(s),railY(s)+.095,THREE.MathUtils.lerp(b.z0-.05,b.z1+.05,j/nz)); }
+    for(let j=0;j<nz;j++) for(let i=0;i<nx;i++){ const a=j*(nx+1)+i,bb=a+1,c=a+(nx+1),d=c+1; idx.push(a,c,bb,bb,c,d); }
+    const sg=new THREE.BufferGeometry(); sg.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); sg.setIndex(idx); sg.computeVertexNormals();
+    const sheet=new THREE.Mesh(sg,M.roof); sheet.name='sheet'; sheet.castShadow=true; gRoof.add(sheet);
+    applyWire(); scene.add(gRoof); buildDims();
+  }
+  function applyWire(){ if(gRoof) gRoof.traverse(o=>{ if(o.material&&'wireframe'in o.material&&o.name!=='sheet'&&o.material!==M.roof) o.material.wireframe=S.wire; }); }
+
+  function dim(p0,p1,txt,mat){ mat=mat||M.dim; const g=new THREE.Group(); g.add(strut(p0,p1,.02,mat));
+    for(const p of [p0,p1]){ const t=new THREE.Mesh(new THREE.SphereGeometry(.04,8,8),mat); t.position.copy(p); g.add(t); }
+    const lb=label(txt, mat===M.measure?'#7C3AED':'#0f172a'); lb.position.copy(new THREE.Vector3().addVectors(p0,p1).multiplyScalar(.5)); g.add(lb); return g; }
+  function buildDims(){
+    if(gDims){ scene.remove(gDims); gDims.traverse(o=>o.geometry&&o.geometry.dispose()); }
+    gDims=new THREE.Group(); const b=beam(), zf=b.z1+.55, ey=YTOP-spanX()*Math.tan(S.roof.slope*Math.PI/180);
+    gDims.add(dim(new THREE.Vector3(HOSTX,ey,zf), new THREE.Vector3(spanX(),ey,zf), spanX().toFixed(2)+' m'));
+    gDims.add(dim(new THREE.Vector3(spanX(),0,zf), new THREE.Vector3(spanX(),ey,zf), ey.toFixed(2)+' m'));
+    gDims.add(dim(new THREE.Vector3(-.5,0,b.z0-.5), new THREE.Vector3(-.5,YTOP,b.z0-.5), YTOP.toFixed(2)+' m'));
+    const sl=label(S.roof.slope+'°','#7C3AED'); sl.position.set(HOSTX+.55,YTOP+.05,b.z0); gDims.add(sl);
+    scene.add(gDims);
+  }
+  function buildLoads(){
+    if(gLoads){ scene.remove(gLoads); gLoads.traverse(o=>o.geometry&&o.geometry.dispose()); }
+    gLoads=new THREE.Group(); const BZ=bays(); const zs=[BZ[0],BZ[Math.floor(BZ.length/2)],BZ[BZ.length-1]];
+    function arrows(color,up,len){ const dir=new THREE.Vector3(0,up?1:-1,0);
+      for(const z of zs) for(const s of [0.25,0.55,0.85]){ const x=railX(s),y=railY(s)+(up?0.18:0.9);
+        gLoads.add(new THREE.ArrowHelper(dir,new THREE.Vector3(x,y,z),len,color,len*.34,len*.2)); } }
+    if(S.loads.dl) arrows(0x475569,false,0.7);
+    if(S.loads.ll) arrows(0x2563EB,false,0.55);
+    if(S.loads.wind) arrows(0xDC2626,true,0.6);
+    scene.add(gLoads);
+  }
+  function buildReact(){
+    if(gReact){ scene.remove(gReact); gReact.traverse(o=>o.geometry&&o.geometry.dispose()); }
+    gReact=new THREE.Group(); const z=zc(), o=new THREE.Vector3(HOSTX+.05,YTOP-.1,z);
+    gReact.add(new THREE.ArrowHelper(new THREE.Vector3(1,0,0),o,1.0,0xDC2626,.3,.18));
+    gReact.add(new THREE.ArrowHelper(new THREE.Vector3(0,-1,0),o.clone().add(new THREE.Vector3(0,.1,0)),1.0,0x2563EB,.3,.18));
+    const tor=new THREE.Mesh(new THREE.TorusGeometry(.3,.03,8,24,Math.PI*1.5),new THREE.MeshStandardMaterial({color:0x7C3AED,metalness:.3,roughness:.5})); tor.position.copy(o); tor.rotation.y=Math.PI/2; gReact.add(tor);
+    const fy=label('Fy 12.75 kN','#1D4ED8'); fy.position.set(HOSTX+.2,YTOP-1.05,z); gReact.add(fy);
+    const mz=label('Mz 18.62 kN·m','#7C3AED'); mz.position.set(HOSTX+.6,YTOP+.4,z); gReact.add(mz);
+    scene.add(gReact);
+  }
+  function buildLabels(){
+    gLabels=new THREE.Group();
+    const a=label('คานเดิม','#0f172a'); a.name='beam'; gLabels.add(a);
+    const r=label('หลังคาเหล็กกล่อง','#7C3AED'); r.name='roof'; gLabels.add(r);
+    const c=label('เพลท + พุกเคมี','#B91C1C'); c.name='conn'; gLabels.add(c);
+    scene.add(gLabels);
+  }
+  function placeLabels(){ if(!gLabels)return; const b=beam();
+    const a=gLabels.getObjectByName('beam'); if(a) a.position.set(0,YTOP+.4,zc());
+    const r=gLabels.getObjectByName('roof'); if(r) r.position.set(railX(.5),railY(.5)+.55,zc());
+    const c=gLabels.getObjectByName('conn'); if(c) c.position.set(HOSTX+.85,YTOP+.2,b.z0); }
+  function paintBeams(){
+    for(const id in beamMeshes){ const m=beamMeshes[id], sel=id===S.selectedBeam; let col=0xc7ccd4, emi=0x000000;
+      if(S.step===7 && sel) col=jet(0.2).getHex();
+      if((S.step===2||S.tool==='select')){ if(sel) emi=0x4c1d95; else if(id===hoverId) emi=0x3730a3; }
+      m.material.color.setHex(col); m.material.emissive.setHex(emi); }
+  }
+
+  function update(state){
+    S=state; if(!inited) return;
+    const rs=JSON.stringify([S.selectedBeam,S.roof,S.conn,S.deform,S.wire]); if(rs!==roofSig){ roofSig=rs; buildRoof(); }
+    const ls=JSON.stringify([S.selectedBeam,S.loads,S.roof]); if(ls!==loadSig){ loadSig=ls; buildLoads(); }
+    if(S.selectedBeam!==reactSig){ reactSig=S.selectedBeam; buildReact(); }
+    gRoof.visible=S.step>=3; const sheet=gRoof.getObjectByName('sheet'); if(sheet) sheet.visible=S.roofSheet;
+    gDims.visible=S.dim && S.step>=3 && !S.deform.on;
+    gLoads.visible=S.step>=4 && S.step<=5;
+    gReact.visible=S.step>=5;
+    const NEU={plate:0x6b7280,anchor:0x2a2e35,weld:0xb45309}, U=(S.conn&&S.conn.util)||{};
+    gConn.children.forEach(o=>{ const uk=o.userData.uk; if(!uk||!o.material||!o.material.color) return;
+      if(S.step===6){ o.material.color.copy(utilColor(U[uk]!=null?U[uk]:0.5)); } else { o.material.color.setHex(NEU[uk]); }
+      if(o.material.emissive) o.material.emissive.setHex(0x000000); });
+    paintBeams(); placeLabels();
+    gLabels.getObjectByName('beam').visible=(S.step===2||S.step===7);
+    gLabels.getObjectByName('roof').visible=(S.step>=3 && S.step!==6);
+    gLabels.getObjectByName('conn').visible=(S.step===6);
+  }
+
+  // ----- cameras / views (CAD: ortho for top/front/side) -----
+  function VIEWS(v){ switch(v){
+    case 'top':   return [[1.2,18,5],[1.2,0,5]];
+    case 'front': return [[2,3.9,20],[2,3.6,5]];
+    case 'side':  return [[20,3.9,5],[0.4,3.6,5]];
+    default:      return [[12,8,17],[0.5,3,5]]; } }
+  function goalFor(n){ const c=zc(), b=beam(); switch(n){
+    case 1: return [[12,8,17],[0.5,3,5]];
+    case 2: return [[7,5.2,c+5.5],[0,3.6,c]];
+    case 3: return [[9,6.5,c+6.5],[2,3.4,c]];
+    case 4: return [[9,7.6,c+6.5],[2,3.7,c]];
+    case 5: return [[6,5,c+5],[0.2,3.6,c]];
+    case 6: { const zf=b.z0+(b.z1-b.z0)*0.16; return [[1.8,4.7,zf+2.0],[0.12,4.12,zf]]; }
+    case 7: return [[6.5,5,c+5],[0,3.6,c]];
+    case 8: return [[12.5,7.5,c+8.5],[2,3.2,c]];
+    default: return [[12,8,17],[0.5,3,5]]; } }
+  function setOrthoFrustum(){ const w=stage.clientWidth||800,h=stage.clientHeight||600,a=w/h,d=7.5; orthoCam.left=-d*a; orthoCam.right=d*a; orthoCam.top=d; orthoCam.bottom=-d; orthoCam.near=-100; orthoCam.far=300; orthoCam.updateProjectionMatrix(); }
+  function flyTo(g){ cam.pos.set(...g[0]); cam.tgt.set(...g[1]); cam.active=true; }
+  function setActive(camObj){ if(activeCam===camObj)return; activeCam=camObj; controls.object=camObj; }
+  function setView(v){ if(v==='iso'){ setActive(perspCam); } else { setOrthoFrustum(); setActive(orthoCam); } flyTo(VIEWS(v)); }
+  function focusStep(n){ if(activeCam!==perspCam){ setActive(perspCam); document.querySelectorAll('.ov-views .vbtn').forEach(x=>x.classList.toggle('on',x.dataset.view==='iso')); } flyTo(goalFor(n)); }
+
+  // ----- CAD tools -----
+  function setTool(t){
+    if(!controls) return;
+    if(t==='pan') controls.mouseButtons={LEFT:THREE.MOUSE.PAN,MIDDLE:THREE.MOUSE.DOLLY,RIGHT:THREE.MOUSE.ROTATE};
+    else if(t==='measure'||t==='select') controls.mouseButtons={LEFT:null,MIDDLE:THREE.MOUSE.DOLLY,RIGHT:THREE.MOUSE.ROTATE};
+    else controls.mouseButtons={LEFT:THREE.MOUSE.ROTATE,MIDDLE:THREE.MOUSE.DOLLY,RIGHT:THREE.MOUSE.PAN};
+    cv.style.cursor = t==='measure'?'crosshair': t==='pan'?'grab':'default';
+    if(t!=='measure'){ measurePts=[]; clearMeasure(); }
+  }
+  function clearMeasure(){ if(gMeasure){ scene.remove(gMeasure); gMeasure.traverse(o=>o.geometry&&o.geometry.dispose()); gMeasure=null; } }
+  function pickPoint(e){ const r=cv.getBoundingClientRect(); pointer.x=((e.clientX-r.left)/r.width)*2-1; pointer.y=-((e.clientY-r.top)/r.height)*2+1;
+    raycaster.setFromCamera(pointer,activeCam);
+    const hit=raycaster.intersectObjects([...Object.values(beamMeshes), gRoof, ground].filter(Boolean),true);
+    return hit.length?hit[0].point:null; }
+
+  function init(){
+    renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+    renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05; renderer.outputColorSpace=THREE.SRGBColorSpace;
+    scene=new THREE.Scene(); scene.background=new THREE.Color(0xeef2f6); scene.fog=new THREE.Fog(0xeef2f6,40,72);
+    perspCam=new THREE.PerspectiveCamera(45,16/9,.1,400); perspCam.position.set(12,8,17);
+    orthoCam=new THREE.OrthographicCamera(-10,10,7,-7,-100,300); orthoCam.position.set(12,8,17);
+    activeCam=perspCam;
+    controls=new OrbitControls(perspCam,renderer.domElement); controls.enableDamping=true; controls.dampingFactor=.08;
+    controls.target.set(0.5,3,5); controls.maxPolarAngle=1.5; controls.minDistance=2.2; controls.maxDistance=70; controls.autoRotateSpeed=1.0;
+    controls.addEventListener('start',()=>cam.active=false);
+    scene.add(new THREE.HemisphereLight(0xffffff,0x97a0ab,.7)); scene.add(new THREE.AmbientLight(0xffffff,.18));
+    const dir=new THREE.DirectionalLight(0xffffff,2.3); dir.position.set(9,16,10); dir.castShadow=true; dir.shadow.mapSize.set(2048,2048);
+    const sc=dir.shadow.camera,d=18; sc.left=-d;sc.right=d;sc.top=d;sc.bottom=-d;sc.near=1;sc.far=70; dir.shadow.bias=-4e-4; scene.add(dir);
+    raycaster=new THREE.Raycaster(); pointer=new THREE.Vector2();
+    buildStatic(); buildLabels();
+    if(S){ buildRoof(); buildLoads(); buildReact(); roofSig=JSON.stringify([S.selectedBeam,S.roof,S.conn,S.deform,S.wire]); loadSig=JSON.stringify([S.selectedBeam,S.loads,S.roof]); reactSig=S.selectedBeam; }
+    resize(); new ResizeObserver(()=>resize()).observe(stage);
+    cv.addEventListener('pointermove',onMove); cv.addEventListener('pointerdown',onDown);
+    inited=true; window.EXT3D.ready=true; if(S){ update(S); focusStep(S.step); } loop();
+  }
+  function onMove(e){
+    const p=pickPoint(e);
+    if(p && window.onReadout) window.onReadout(p.x,p.z); else if(window.onReadout) window.onReadout(null);
+    if(S && (S.step===2 || S.tool==='select')){ const r=cv.getBoundingClientRect(); pointer.x=((e.clientX-r.left)/r.width)*2-1; pointer.y=-((e.clientY-r.top)/r.height)*2+1;
+      raycaster.setFromCamera(pointer,activeCam); const h=raycaster.intersectObjects(Object.values(beamMeshes),false); const id=h.length?h[0].object.userData.id:null;
+      if(id!==hoverId){ hoverId=id; paintBeams(); cv.style.cursor=id?'pointer':(S.tool==='measure'?'crosshair':'default'); } }
+  }
+  function onDown(e){
+    if(e.button!==0) return;
+    if(S && S.tool==='measure'){ const p=pickPoint(e); if(!p)return; measurePts.push(p);
+      if(measurePts.length===2){ clearMeasure(); gMeasure=new THREE.Group(); gMeasure.add(dim(measurePts[0],measurePts[1],measurePts[0].distanceTo(measurePts[1]).toFixed(2)+' m',M.measure)); scene.add(gMeasure); measurePts=[]; }
+      return; }
+    if(S && (S.tool==='select' || S.step===2)){ const r=cv.getBoundingClientRect(); pointer.x=((e.clientX-r.left)/r.width)*2-1; pointer.y=-((e.clientY-r.top)/r.height)*2+1;
+      raycaster.setFromCamera(pointer,activeCam); const h=raycaster.intersectObjects(Object.values(beamMeshes),false);
+      if(h.length && window.onBeamSelect) window.onBeamSelect(h[0].object.userData.id); }
+  }
+  function resize(){ const w=stage.clientWidth||800,h=stage.clientHeight||600; perspCam.aspect=w/h; perspCam.updateProjectionMatrix(); setOrthoFrustum(); renderer.setSize(w,h,false); }
+  function loop(){ requestAnimationFrame(loop); if(!inited) return;
+    controls.autoRotate=!!(S&&S.autoRotate);
+    if(cam.active){ activeCam.position.lerp(cam.pos,.08); controls.target.lerp(cam.tgt,.08); if(activeCam.position.distanceTo(cam.pos)<.06) cam.active=false; }
+    controls.update(); renderer.render(scene,activeCam);
+    if(!firstRender){ firstRender=true; loadOv.hidden=true; window.__v3dReady=true; } }
+
+  window.EXT3D={ ready:false, update, focusStep, setView, setTool };
+  init();
+</script>
+<div id="printReport"></div>
+</body>
+</html>
