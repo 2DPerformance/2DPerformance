@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>CAD → 3D เดโม | Built-in Studio · 2D Performance</title>
+<style>
+/* ===== เดโม pipeline: แปลน 2D (จำลองไฟล์ DXF) → ตรวจแบบ → โมเดล 3D → วัสดุ → BOQ สด ===== */
+:root{
+  --accent:#c9342a; --accent-d:#a02620; --accent-bg:#fdf1f0;
+  --ink:#1e2630; --text:#3d4754; --muted:#6b7684; --muted2:#95a0ad;
+  --line:#dde3ea; --line-strong:#c3ccd6; --bg:#f4f6f9; --card:#fff; --panel:#eceff4;
+  --teal:#0e7f66; --teal-bg:#e7f5f0; --amber:#8a6116; --amber-bg:#faf3e2;
+  --mono:'Consolas','Courier New',monospace; font-size:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sarabun','Prompt',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hwrap{max-width:1360px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.logo{width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,var(--accent),var(--accent-d));color:#fff;display:grid;place-items:center;font-family:'Prompt';font-weight:700;font-size:12px}
+.htitle b{font-family:'Prompt';font-size:14px;display:block;line-height:1.15}
+.htitle small{font-size:10.5px;color:var(--muted)}
+.pipe{display:flex;gap:4px;align-items:center;margin-left:auto;flex-wrap:wrap}
+.pstep{font-family:'Prompt';font-weight:700;font-size:10.5px;padding:4px 9px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+.pstep.done{background:var(--teal-bg);color:var(--teal);border-color:#bfe3d7}
+.pstep.here{background:var(--accent-bg);color:var(--accent-d);border-color:#eec4c0}
+.parr{color:var(--muted2);font-size:11px}
+main{max-width:1360px;margin:0 auto;padding:12px 16px 36px;display:grid;grid-template-columns:minmax(340px,44fr) minmax(400px,56fr);gap:12px}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:9px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+.card h2{font-family:'Prompt';font-size:12.5px;font-weight:700;padding:9px 12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.card h2 .r{margin-left:auto;font-weight:600;font-size:11px;color:var(--muted)}
+.svgpad{padding:8px}
+svg{display:block;width:100%;height:auto;touch-action:none}
+#plan .room{cursor:pointer}
+#plan .wall{cursor:pointer}
+.legend{display:flex;gap:10px;flex-wrap:wrap;padding:0 12px 10px;font-size:11px;color:var(--muted)}
+.legend b{color:var(--text);font-weight:600}
+.toolbar{display:flex;gap:6px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tbtn{font-family:'Prompt';font-weight:700;font-size:11.5px;border:1px solid var(--line-strong);background:#fff;color:var(--text);border-radius:6px;padding:5px 10px;cursor:pointer}
+.tbtn.on{background:var(--accent-bg);color:var(--accent-d);border-color:#eec4c0}
+.tsep{width:1px;height:18px;background:var(--line)}
+.tlab{font-size:11.5px;color:var(--muted)}
+input[type=range]{accent-color:var(--accent);width:120px}
+.props{padding:10px 12px;display:flex;flex-direction:column;gap:8px;font-size:12.5px}
+.props .row{display:grid;grid-template-columns:120px 1fr;gap:8px;align-items:center}
+.props label{color:var(--text);font-weight:600;font-size:12px}
+.props input[type=number]{width:100%;border:1px solid var(--line-strong);border-radius:6px;padding:5px 7px;font-family:var(--mono);font-size:12.5px}
+.props .none{color:var(--muted2);font-size:12px}
+.vlist{padding:8px 12px;display:flex;flex-direction:column;gap:4px;font-size:12px}
+.vlist .vi{display:flex;gap:7px;align-items:baseline}
+.vlist .ok{color:var(--teal);font-weight:700}
+.vlist .wa{color:var(--amber);font-weight:700}
+.boq{width:100%;border-collapse:collapse;font-size:12.3px}
+.boq th{font-family:'Prompt';font-size:10.5px;color:var(--muted);text-align:left;background:var(--panel);padding:6px 10px;border-bottom:1px solid var(--line)}
+.boq td{padding:5px 10px;border-bottom:1px solid var(--line)}
+.boq td.n{font-family:var(--mono);text-align:right;white-space:nowrap}
+.boq tr.hl td{background:var(--accent-bg)}
+.note{padding:9px 12px;font-size:11px;color:var(--muted2);line-height:1.5;border-top:1px solid var(--line)}
+.linkbar{padding:8px 12px;border-top:1px solid var(--line);display:flex;gap:14px;font-size:12px}
+.linkbar a{color:var(--accent-d);font-weight:700;font-family:'Prompt';text-decoration:none}
+.linkbar a:hover{text-decoration:underline}
+.warn{margin:10px 16px 0;max-width:1360px;background:var(--amber-bg);border:1px solid #e8d9ae;border-radius:7px;padding:7px 11px;font-size:11.5px;color:var(--amber)}
+@media(max-width:980px){main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="hwrap">
+  <div class="logo">2D</div>
+  <div class="htitle"><b>CAD → 3D เดโม (แปลนตัวอย่างจำลองไฟล์ DXF)</b><small>แก้ที่แปลนจุดเดียว → โมเดล 3D · พื้นที่ · BOQ อัปเดตพร้อมกัน — Single Source of Truth</small></div>
+  <div class="pipe">
+    <span class="pstep done">1 นำเข้า DXF ✓</span><span class="parr">→</span>
+    <span class="pstep done">2 ตรวจแบบ 17/18 ✓</span><span class="parr">→</span>
+    <span class="pstep here">3 โมเดล 3D</span><span class="parr">→</span>
+    <span class="pstep done">4 วัสดุ ✓</span><span class="parr">→</span>
+    <span class="pstep here">5 BOQ สด</span><span class="parr">→</span>
+    <span class="pstep" id="ps6">6 RENDER</span>
+  </div>
+</div></header>
+<div class="warn">⚠ <b>เดโมแนวระบบ</b> — แปลนถูกฝังไว้แทนการอ่านไฟล์จริง (เวอร์ชันจริง: upload DXF ของคุณ → ตรวจ 18 ข้อ → ขึ้นโมเดล) · ตัวเลขยังไม่ใช้งานจริง</div>
+<main>
+  <!-- ===== ซ้าย: แปลน 2D + ตรวจแบบ + BOQ ===== -->
+  <div class="col">
+    <section class="card">
+      <h2>แปลน 2D <span style="font-family:var(--mono);font-weight:400;font-size:11px;color:var(--muted2)">บ้านตัวอย่าง 8.0 × 6.0 m</span><span class="r">คลิกผนังเพื่อแก้ · คลิกห้องเพื่อเปลี่ยนวัสดุพื้น</span></h2>
+      <div class="svgpad"><svg id="plan" viewBox="0 0 560 440"></svg></div>
+      <div class="legend"><span><b>▬</b> ผนัง 100mm</span><span><b>◜</b> ประตู</span><span><b>═</b> หน้าต่าง</span><span><b>▩</b> ตู้บิ้วอิน BI-WR-001</span></div>
+    </section>
+    <section class="card">
+      <h2>ตรวจแบบอัตโนมัติ (ตัวอย่างผล 18 ข้อ)</h2>
+      <div class="vlist">
+        <div class="vi"><span class="ok">✓</span><span>หน่วยไฟล์ = mm ตรง Project Unit · Origin/Scale ปกติ</span></div>
+        <div class="vi"><span class="ok">✓</span><span>Layer ครบตามมาตรฐาน (A-WALL, A-DOOR, A-WINDOW, A-ROOM, A-BUILTIN)</span></div>
+        <div class="vi"><span class="ok">✓</span><span>ผนังปิดครบทุกเส้น · ห้อง 2 ห้องมีขอบเขตปิด · ประตู/หน้าต่างอยู่บนแนวผนังทุกบาน</span></div>
+        <div class="vi"><span class="ok">✓</span><span>Object ID ไม่ซ้ำ (W-01…W-05, D-01…D-02, WD-01…WD-03, BI-WR-001)</span></div>
+        <div class="vi"><span class="wa">⚠</span><span>หน้าต่าง WD-03 ไม่มีค่า Sill Height → ใช้ default 900 <b>(ผู้ใช้ยืนยัน Override แล้ว)</b></span></div>
+      </div>
+    </section>
+    <section class="card">
+      <h2>BOQ สด (ถอดจากโมเดลกลาง)</h2>
+      <table class="boq" id="boq"></table>
+      <div class="note">แก้ความสูงผนัง / เปลี่ยนวัสดุพื้น / แก้ผนัง แล้วดูตารางนี้ + โมเดล 3D เปลี่ยนตาม — ไม่มีการกรอกซ้ำ · เวอร์ชันจริง: หักช่องเปิด ผูก waste factor ราคา และ highlight object เมื่อคลิกแถว</div>
+      <div class="linkbar"><a href="builtin-studio-mockup.html">▶ รายละเอียดตู้ BI-WR-001 ใน Built-in Studio (ชิ้นส่วน/Hardware/แผ่น)</a></div>
+    </section>
+  </div>
+
+  <!-- ===== ขวา: 3D ===== -->
+  <div class="col">
+    <section class="card">
+      <div class="toolbar">
+        <span class="tlab">ลากเพื่อหมุน · ล้อเมาส์ซูม</span>
+        <span class="tsep"></span>
+        <button class="tbtn" id="btnSpin">⟳ หมุน 360°</button>
+        <span class="tsep"></span>
+        <button class="tbtn on" id="btnDay">☀ กลางวัน</button>
+        <button class="tbtn" id="btnNight">🌙 กลางคืน</button>
+        <span class="tsep"></span>
+        <button class="tbtn" id="btnCeil">แสดงฝ้า</button>
+        <span class="tsep"></span>
+        <span class="tlab">สูงผนังทั้งหลัง</span>
+        <input type="range" id="gH" min="2400" max="3200" step="50" value="2800">
+        <span class="tlab" id="gHv" style="font-family:var(--mono)">2800</span>
+      </div>
+      <div class="svgpad"><svg id="v3d" viewBox="0 0 760 560" style="background:linear-gradient(180deg,#dfe9f3,#f4f6f9);border-radius:7px"></svg></div>
+    </section>
+    <section class="card">
+      <div class="toolbar">
+        <span class="tlab" style="font-family:'Prompt';font-weight:700;color:var(--ink)">RENDER ภาพ</span>
+        <span class="tsep"></span>
+        <span class="tlab">มุมกล้อง</span>
+        <button class="tbtn on" data-cam="bird">มุมสูง</button>
+        <button class="tbtn" data-cam="living">ห้องนั่งเล่น</button>
+        <button class="tbtn" data-cam="bedroom">ห้องนอน</button>
+        <span class="tsep"></span>
+        <select id="res" style="border:1px solid var(--line-strong);border-radius:6px;padding:4px 6px;font-size:12px">
+          <option value="1280">HD 1280×720</option>
+          <option value="1920" selected>FHD 1920×1080</option>
+          <option value="3840">4K 3840×2160</option>
+        </select>
+        <button class="tbtn" id="btnRender" style="background:var(--accent);color:#fff;border-color:var(--accent-d)">⚡ RENDER</button>
+      </div>
+      <div class="toolbar" style="border-top:0">
+        <button class="tbtn" id="btnBook" style="background:#4b463a;color:#f4f2ea;border-color:#38342b">📕 สร้างเล่มนำเสนอ PDF</button>
+        <span class="tlab">10 หน้า สไตล์เล่ม Design Development ส่งลูกค้า — ปก · สารบัญ · แปลน · ภาพ 3 มุม (มีแปลนจิ๋วบอกตำแหน่งกล้อง) · สรุป BOQ</span>
+      </div>
+      <div id="rprog" style="display:none;padding:8px 12px;font-size:12px;color:var(--muted)">
+        <div style="height:6px;background:var(--panel);border-radius:99px;overflow:hidden;margin-bottom:5px"><div id="rbar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#e2897f);transition:width .1s"></div></div>
+        <span id="rtxt">เตรียม scene…</span>
+      </div>
+      <div id="gallery" style="display:none;padding:10px 12px;display:none;flex-direction:column;gap:10px"></div>
+      <div class="note">ปุ่ม RENDER = จำลองผลของชั้น "Render คุณภาพสูง" ในระบบจริง (Blender Cycles บนเครื่องคุณผ่าน EXE — แสง IES / GI เต็มรูป) · เดโมนี้ render ด้วย engine ภายในหน้า: perspective + แสงแดด + เงา + วัสดุพื้น + โหมดกลางคืนเปิดดาวน์ไลท์ · ได้ไฟล์ PNG ดาวน์โหลดได้จริง · ภาพใช้แปลน + วัสดุชุดเดียวกับ BOQ (แก้แปลนแล้ว render ใหม่ → ภาพเปลี่ยนตาม)</div>
+    </section>
+    <section class="card">
+      <h2>คุณสมบัติ (เลือกจากแปลน)</h2>
+      <div class="props" id="props"><span class="none">— คลิกผนังหรือห้องในแปลน 2D —</span></div>
+      <div class="note">นี่คือหัวใจของระบบ: <b>โมเดลกลางชุดเดียว</b> → แปลน 2D · โมเดล 3D · ปริมาณ BOQ อ่านจากข้อมูลก้อนเดียวกัน แก้ที่ไหนก็ตรงกันทุกมุมมอง · เวอร์ชันจริงเพิ่ม: อ่าน DXF จริง · วัสดุ PBR + preview สมจริง · Shop Drawing/DXF ส่งออก · Render ผ่าน Blender บน EXE</div>
+    </section>
+  </div>
+</main>
+
+<script>
+/* ================= โมเดลกลาง (single source) ================= */
+const M = {
+  walls: [
+    { id:'W-01', x1:0,    y1:0,    x2:8000, y2:0,    t:100, h:2800, openings:[
+        { id:'D-01', type:'door',   at:1500, w:900,  head:2000 },
+        { id:'WD-01',type:'window', at:5600, w:1500, sill:900, head:2100 } ] },
+    { id:'W-02', x1:8000, y1:0,    x2:8000, y2:6000, t:100, h:2800, openings:[
+        { id:'WD-02',type:'window', at:2200, w:1500, sill:900, head:2100 } ] },
+    { id:'W-03', x1:8000, y1:6000, x2:0,    y2:6000, t:100, h:2800, openings:[
+        { id:'WD-03',type:'window', at:5300, w:2000, sill:900, head:2100 } ] },
+    { id:'W-04', x1:0,    y1:6000, x2:0,    y2:0,    t:100, h:2800, openings:[] },
+    { id:'W-05', x1:4500, y1:0,    x2:4500, y2:6000, t:100, h:2800, openings:[
+        { id:'D-02', type:'door',   at:2400, w:900,  head:2000 } ] },
+  ],
+  rooms: [
+    { id:'R-01', name:'LIVING',  x:0,    y:0, w:4500, d:6000, mat:0 },
+    { id:'R-02', name:'BEDROOM', x:4500, y:0, w:3500, d:6000, mat:1 },
+  ],
+  cabinet: { id:'BI-WR-001', x:7350, y:1300, w:600, d:2400, h:2200 }, // ตู้เสื้อผ้าชิดผนังตะวันออก
+  furn: [ // เฟอร์นิเจอร์ (กล่อง masses สำหรับ 3D/render + outline บนแปลน)
+    { id:'RUG-L',  x:800,  y:2400, w:2800, d:2800, h:14,   c:'#d8d2c4', plan:false },
+    { id:'SOFA',   x:620,  y:2700, w:900,  d:2200, h:430,  c:'#8b8378' },
+    { id:'SOFA-B', x:620,  y:2700, w:180,  d:2200, h:880,  c:'#7d766b', plan:false },
+    { id:'CTABLE', x:2000, y:3300, w:600,  d:1000, h:400,  c:'#7a5f3e' },
+    { id:'TVCON',  x:4150, y:1600, w:300,  d:2000, h:450,  c:'#6e5335' },
+    { id:'TVPANEL',x:4425, y:2000, w:25,   d:1200, h:1000, c:'#1c1c20', z0:900, plan:false },
+    { id:'FEATW',  x:4440, y:1400, w:12,   d:2400, h:2600, c:'#9b7b52', plan:false },
+    { id:'DTABLE', x:2900, y:900,  w:1000, d:800,  h:750,  c:'#8a6a44' },
+    { id:'CHAIR1', x:3050, y:520,  w:420,  d:340,  h:450,  c:'#5f584c' },
+    { id:'CHAIR2', x:3520, y:520,  w:420,  d:340,  h:450,  c:'#5f584c' },
+    { id:'RUG-B',  x:5000, y:2750, w:2200, d:1400, h:12,   c:'#cfc6b4', plan:false },
+    { id:'BED',    x:5300, y:640,  w:1800, d:1960, h:430,  c:'#e8e2d6' },
+    { id:'BED-H',  x:5300, y:560,  w:1800, d:90,   h:1050, c:'#7a5f46', plan:false },
+    { id:'NS-L',   x:5020, y:660,  w:260,  d:300,  h:440,  c:'#6e5335' },
+    { id:'NS-R',   x:7130, y:660,  w:260,  d:300,  h:440,  c:'#6e5335' },
+  ],
+};
+const MATS = [
+  { name:'กระเบื้อง 600×1200 (TILE-001)', c:'#e9e5dd', c3d:'#ddd7cb' },
+  { name:'พื้นไม้ลามิเนต (LAM-204)',      c:'#e3cba4', c3d:'#d9b988' },
+  { name:'SPC ลายหินอ่อน (SPC-011)',      c:'#eceff1', c3d:'#e2e7ea' },
+];
+let sel = null;            // {kind:'wall'|'room', id}
+let view = { th: -0.62, ph: 0.58, zoom: 1, night:false, ceil:false };
+
+/* ================= เรขาคณิตผนัง (ใช้ร่วม 2D/3D/BOQ) ================= */
+function wallLen(w){ return Math.hypot(w.x2-w.x1, w.y2-w.y1); }
+function wallDir(w){ const L=wallLen(w); return [(w.x2-w.x1)/L,(w.y2-w.y1)/L]; }
+function pieces(w){ // แบ่งผนังตามช่องเปิด → ชิ้น 3D {a,b,z0,z1}
+  const L=wallLen(w), out=[]; let cur=0;
+  const ops=[...w.openings].sort((a,b)=>a.at-b.at);
+  for(const o of ops){
+    if(o.at>cur) out.push({a:cur,b:o.at,z0:0,z1:w.h});
+    out.push({a:o.at,b:o.at+o.w,z0:o.head,z1:w.h});                    // ทับหลัง
+    if(o.type==='window') out.push({a:o.at,b:o.at+o.w,z0:0,z1:o.sill}); // ใต้หน้าต่าง
+    cur=o.at+o.w;
+  }
+  if(cur<L) out.push({a:cur,b:L,z0:0,z1:w.h});
+  return out;
+}
+function pieceBox(w,p){ // ชิ้นผนัง → กล่อง 3D (จุด 4 มุมฐาน)
+  const [dx,dy]=wallDir(w), nx=-dy, ny=dx, ht=w.t/2;
+  const ax=w.x1+dx*p.a, ay=w.y1+dy*p.a, bx=w.x1+dx*p.b, by=w.y1+dy*p.b;
+  return { pts:[[ax+nx*ht,ay+ny*ht],[bx+nx*ht,by+ny*ht],[bx-nx*ht,by-ny*ht],[ax-nx*ht,ay-ny*ht]], z0:p.z0, z1:p.z1 };
+}
+
+/* ================= 2D แปลน ================= */
+const P2 = { sc:560/9200, ox:600, oy:700 }; // world 8000×6000 + ขอบ
+function px(x){ return (x+P2.ox)*P2.sc; } function py(y){ return (y+P2.oy)*P2.sc; }
+function drawPlan(){
+  const svg=document.getElementById('plan'); let el='';
+  for(const r of M.rooms){ // ห้อง (คลิกเปลี่ยนวัสดุ)
+    const hl = sel&&sel.kind==='room'&&sel.id===r.id;
+    el+=`<rect class="room" data-room="${r.id}" x="${px(r.x)}" y="${py(r.y)}" width="${r.w*P2.sc}" height="${r.d*P2.sc}" fill="${MATS[r.mat].c}" stroke="${hl?'#c9342a':'none'}" stroke-width="2" stroke-dasharray="${hl?'5 3':'none'}"/>`;
+    el+=`<text x="${px(r.x+r.w/2)}" y="${py(r.y+r.d/2)-8}" text-anchor="middle" font-family="Prompt" font-weight="700" font-size="13" fill="#8a94a1" pointer-events="none">${r.name}</text>`;
+    el+=`<text x="${px(r.x+r.w/2)}" y="${py(r.y+r.d/2)+9}" text-anchor="middle" font-size="10" fill="#a7b0bb" pointer-events="none">${MATS[r.mat].name}</text>`;
+  }
+  for(const f of M.furn){ if(f.plan===false) continue; // เฟอร์นิเจอร์ (outline บาง)
+    el+=`<rect x="${px(f.x)}" y="${py(f.y)}" width="${f.w*P2.sc}" height="${f.d*P2.sc}" fill="rgba(150,132,100,.16)" stroke="#8a8272" stroke-width="1"/>`; }
+  const cb=M.cabinet; // ตู้
+  el+=`<rect x="${px(cb.x)}" y="${py(cb.y)}" width="${cb.w*P2.sc}" height="${cb.d*P2.sc}" fill="#c99e66" stroke="#8a5a2b" stroke-width="1.2"/>
+       <text x="${px(cb.x-160)}" y="${py(cb.y+cb.d/2)}" text-anchor="middle" font-size="9.5" font-family="Consolas" fill="#8a5a2b" transform="rotate(-90 ${px(cb.x-160)} ${py(cb.y+cb.d/2)})">BI-WR-001</text>`;
+  for(const w of M.walls){ // ผนังเป็นชิ้น (เว้นช่องเปิด)
+    const hl = sel&&sel.kind==='wall'&&sel.id===w.id;
+    for(const p of pieces(w)){ if(p.z0>0) continue; // 2D แสดงเฉพาะชิ้นถึงพื้น
+      const [dx,dy]=wallDir(w);
+      el+=`<line class="wall" data-wall="${w.id}" x1="${px(w.x1+dx*p.a)}" y1="${py(w.y1+dy*p.a)}" x2="${px(w.x1+dx*p.b)}" y2="${py(w.y1+dy*p.b)}" stroke="${hl?'#c9342a':'#2b3542'}" stroke-width="${Math.max(3,w.t*P2.sc)}"/>`;
+    }
+    for(const o of w.openings){ // สัญลักษณ์ช่องเปิด
+      const [dx,dy]=wallDir(w), ax=w.x1+dx*o.at, ay=w.y1+dy*o.at, bx=ax+dx*o.w, by=ay+dy*o.w;
+      if(o.type==='window'){
+        el+=`<line x1="${px(ax)}" y1="${py(ay)}" x2="${px(bx)}" y2="${py(by)}" stroke="#5b8fc9" stroke-width="3"/>`;
+      } else {
+        const nx=-dy,ny=dx;
+        el+=`<line x1="${px(ax)}" y1="${py(ay)}" x2="${px(ax+nx*o.w)}" y2="${py(ay+ny*o.w)}" stroke="#c9342a" stroke-width="1.4"/>
+             <path d="M ${px(ax+nx*o.w)} ${py(ay+ny*o.w)} A ${o.w*P2.sc} ${o.w*P2.sc} 0 0 ${ (nx*(by-ay)-ny*(bx-ax))>0?1:0 } ${px(bx)} ${py(by)}" fill="none" stroke="#c9342a" stroke-width="1" stroke-dasharray="3 2"/>`;
+      }
+      el+=`<text x="${px((ax+bx)/2)}" y="${py((ay+by)/2)-6}" text-anchor="middle" font-size="8.5" font-family="Consolas" fill="#6b7684">${o.id}</text>`;
+    }
+    const mx=(w.x1+w.x2)/2, my=(w.y1+w.y2)/2;
+    el+=`<text x="${px(mx)+ (w.x1===w.x2? -12:0)}" y="${py(my)+(w.y1===w.y2? 14:3)}" text-anchor="middle" font-size="8.5" font-family="Consolas" fill="#95a0ad" pointer-events="none">${w.id}</text>`;
+  }
+  // เส้นบอกระยะรวม
+  el+=`<line x1="${px(0)}" y1="${py(6600)}" x2="${px(8000)}" y2="${py(6600)}" stroke="#c9342a" stroke-width="1"/>
+       <text x="${px(4000)}" y="${py(6600)-4}" text-anchor="middle" font-size="10" font-family="Consolas" fill="#c9342a">8,000</text>
+       <line x1="${px(-500)}" y1="${py(0)}" x2="${px(-500)}" y2="${py(6000)}" stroke="#c9342a" stroke-width="1"/>
+       <text x="${px(-500)-5}" y="${py(3000)}" text-anchor="middle" font-size="10" font-family="Consolas" fill="#c9342a" transform="rotate(-90 ${px(-500)-5} ${py(3000)})">6,000</text>`;
+  svg.innerHTML=el;
+}
+
+/* ================= 3D — ฉาย axonometric + painter's sort (ไม่ใช้ lib) ================= */
+function drawn3D(){
+  const svg=document.getElementById('v3d');
+  const {th,ph,zoom,night}=view;
+  const ct=Math.cos(th), st=Math.sin(th), cp=Math.cos(ph), sp=Math.sin(ph);
+  const cx=4000, cy=3000; // หมุนรอบกลางบ้าน
+  // proj คืนพิกัดดิบ (ยังไม่ scale/offset) — auto-fit คำนวณตอน emit เพื่อให้เข้ากรอบทุกมุมหมุน
+  const proj=(x,y,z)=>{ const X=(x-cx)*ct-(y-cy)*st, Y=(x-cx)*st+(y-cy)*ct;
+    return { rx:X, ry:(Y*cp - z*sp) }; };
+  // depth ที่ใช้จริง: ยิ่ง Y มาก = ไกล · z ช่วยเรียงฝ้า/พื้น
+  const depth=(x,y,z)=>{ const Y=(x-cx)*st+(y-cy)*ct; return Y*cp + z*sp*0.3; };
+  const faces=[];
+  const shade=(base,k)=>{ // ปรับความสว่างสี hex
+    const n=parseInt(base.slice(1),16), r=(n>>16)&255,g=(n>>8)&255,b=n&255;
+    const f=night? k*0.45+0.12 : k;
+    return `rgb(${Math.round(r*f)},${Math.round(g*f)},${Math.round(b*f)})`;
+  };
+  function quad(p1,p2,p3,p4,color,k,extraDepth=0,stroke){
+    const pts=[p1,p2,p3,p4].map(p=>proj(p[0],p[1],p[2]));
+    const d=(depth(p1[0],p1[1],p1[2])+depth(p3[0],p3[1],p3[2]))/2 + extraDepth;
+    faces.push({d, type:'poly', pts, fill:shade(color,k), stroke:stroke||(night?'#2a3340':'#9aa4af')});
+  }
+  function box(bp, color){ // bp = {pts:[4 มุมฐาน], z0,z1}
+    const P=bp.pts, z0=bp.z0, z1=bp.z1;
+    for(let i=0;i<4;i++){ const a=P[i], b=P[(i+1)%4]; // ผนัง 4 ด้าน
+      // ความสว่างตามทิศ (fake normal)
+      const nx=b[1]-a[1], ny=-(b[0]-a[0]); const nl=Math.hypot(nx,ny)||1;
+      const lig=0.72+0.28*((nx/nl)*0.6+(ny/nl)*(-0.8));
+      quad([a[0],a[1],z0],[b[0],b[1],z0],[b[0],b[1],z1],[a[0],a[1],z1],color,Math.max(.45,Math.min(1,lig)));
+    }
+    quad([P[0][0],P[0][1],z1],[P[1][0],P[1][1],z1],[P[2][0],P[2][1],z1],[P[3][0],P[3][1],z1],color,1.0); // หน้าบน
+  }
+  // พื้นห้อง (วัสดุจริงของห้อง) — extraDepth บวกมาก = วาดก่อน = อยู่หลังสุด (เฟอร์นิเจอร์วางทับได้)
+  for(const r of M.rooms){
+    const c=MATS[r.mat].c3d;
+    quad([r.x,r.y,0],[r.x+r.w,r.y,0],[r.x+r.w,r.y+r.d,0],[r.x,r.y+r.d,0],c,1.0,1e7,night?'#2a3340':'#b9c1c9');
+  }
+  // ผนังเป็นชิ้น (เว้นช่องเปิดจริง) — dollhouse: ตัดผนังครึ่งที่อยู่ใกล้กล้อง เพื่อมองทะลุเข้าห้อง
+  for(const w of M.walls){
+    const hl = sel&&sel.kind==='wall'&&sel.id===w.id;
+    const [dx,dy]=wallDir(w);
+    for(const p of pieces(w)){
+      const mid=(p.a+p.b)/2, mx=w.x1+dx*mid, my=w.y1+dy*mid;
+      const Yc=(mx-cx)*st+(my-cy)*ct;              // ความลึกของชิ้นผนัง (ยิ่งน้อย = ยิ่งใกล้กล้อง)
+      if(Yc < -150 && !hl) continue;               // ครึ่งใกล้ = ตัดออก (ยกเว้นผนังที่เลือกอยู่)
+      box(pieceBox(w,p), hl?'#e2897f':'#efe9df');
+    }
+  }
+  // ตู้บิ้วอิน + เฟอร์นิเจอร์
+  const cb=M.cabinet;
+  box({pts:[[cb.x,cb.y],[cb.x+cb.w,cb.y],[cb.x+cb.w,cb.y+cb.d],[cb.x,cb.y+cb.d]],z0:0,z1:cb.h},'#c99e66');
+  for(const f of M.furn) box({pts:[[f.x,f.y],[f.x+f.w,f.y],[f.x+f.w,f.y+f.d],[f.x,f.y+f.d]],z0:f.z0||0,z1:(f.z0||0)+f.h}, f.c);
+  // เส้นแบ่งบานตู้ (แนบหน้าตู้)
+  for(let i=1;i<4;i++){ const yy=cb.y+cb.d*i/4;
+    const a=proj(cb.x,yy,60), b=proj(cb.x,yy,cb.h-60);
+    faces.push({d:depth(cb.x,yy,cb.h/2)-1, type:'line', a, b, stroke:'#8a5a2b'});
+  }
+  // ฝ้า (ปิด/เปิด)
+  if(view.ceil){ for(const r of M.rooms){ const z=Math.min(...M.walls.map(w=>w.h))-150;
+    quad([r.x,r.y,z],[r.x+r.w,r.y,z],[r.x+r.w,r.y+r.d,z],[r.x,r.y+r.d,z],'#f6f3ee',0.96,-1e7);
+  }}
+  faces.sort((a,b)=>b.d-a.d);
+  // ---- auto-fit เข้ากรอบ (คงที่ไม่ยืด-หดตอนหมุน — คำนวณจากทรงกระบอกครอบอาคาร) ----
+  const VW=760, VH=560, MARG=58;
+  const R=0.5*Math.hypot(8000,6000)+300;                 // รัศมีครอบแปลน (คงที่เมื่อหมุนรอบแกนตั้ง)
+  const Htop=Math.max(...M.walls.map(w=>w.h))+250;
+  const ryMax=R*cp, ryMin=-R*cp-Htop*sp;                  // ขอบตั้ง (ขึ้นกับ ph เท่านั้น)
+  const sc=Math.min((VW-2*MARG)/(2*R),(VH-2*MARG)/(ryMax-ryMin))*zoom;
+  const ox=VW/2, oy=VH/2-(ryMax+ryMin)/2*sc;
+  const S=p=>(p.rx*sc+ox).toFixed(1)+','+(p.ry*sc+oy).toFixed(1);
+  const emit=f=> f.type==='line'
+    ? `<line x1="${(f.a.rx*sc+ox).toFixed(1)}" y1="${(f.a.ry*sc+oy).toFixed(1)}" x2="${(f.b.rx*sc+ox).toFixed(1)}" y2="${(f.b.ry*sc+oy).toFixed(1)}" stroke="${f.stroke}" stroke-width="0.8"/>`
+    : `<polygon points="${f.pts.map(S).join(' ')}" fill="${f.fill}" stroke="${f.stroke}" stroke-width="0.6"/>`;
+  const ground=[proj(-800,-800,0),proj(8800,-800,0),proj(8800,6800,0),proj(-800,6800,0)];
+  svg.innerHTML=`<polygon points="${ground.map(S).join(' ')}" fill="${night?'#141a22':'#e5ebf1'}"/>`+faces.map(emit).join('');
+}
+
+/* ================= BOQ (ถอดจากโมเดลเดียวกัน) ================= */
+function computeBoqRows(){
+  let wallGross=0, openA=0, doorN=0, winN=0;
+  for(const w of M.walls){ wallGross += wallLen(w)*w.h/1e6;
+    for(const o of w.openings){ openA += o.w*((o.head)-(o.sill||0))/1e6; o.type==='door'?doorN++:winN++; } }
+  const wallNet=(wallGross-openA);
+  return [
+    ['งานผนัง',`ผนังก่ออิฉาบเรียบ หนา 100 (หักช่องเปิด ${openA.toFixed(1)} m²)`, wallNet.toFixed(1),'m²','wall'],
+    ['งานสี',`ทาสีผนัง 2 หน้า + ฝ้า`, (wallNet*2 + M.rooms.reduce((a,r)=>a+r.w*r.d/1e6,0)).toFixed(1),'m²','paint'],
+    ...M.rooms.map(r=>[`งานพื้น`,`${r.name}: ${MATS[r.mat].name}`,(r.w*r.d/1e6).toFixed(1),'m²','room:'+r.id]),
+    ['งานประตู','ประตูบานเปิด 900×2000',String(doorN),'ชุด','door'],
+    ['งานหน้าต่าง','หน้าต่าง (ตาม schedule)',String(winN),'ชุด','win'],
+    ['งาน Built-in','BI-WR-001 ตู้เสื้อผ้า 2.4 m (→ Built-in Studio)','1','ใบ','cab'],
+  ];
+}
+function boq(){
+  const rows=computeBoqRows();
+  document.getElementById('boq').innerHTML =
+    `<tr><th>หมวด</th><th>รายการ</th><th style="text-align:right">ปริมาณ</th><th>หน่วย</th></tr>`+
+    rows.map(r=>`<tr${sel&&('room:'+sel.id)===r[4]?' class="hl"':''}><td class="t">${r[0]}</td><td>${r[1]}</td><td class="n">${r[2]}</td><td>${r[3]}</td></tr>`).join('');
+}
+
+/* ================= properties panel ================= */
+function props(){
+  const el=document.getElementById('props');
+  if(!sel){ el.innerHTML='<span class="none">— คลิกผนังหรือห้องในแปลน 2D —</span>'; return; }
+  if(sel.kind==='wall'){
+    const w=M.walls.find(x=>x.id===sel.id);
+    el.innerHTML=`<div class="row"><label>Object</label><b style="font-family:var(--mono)">${w.id} · WALL_BRICK_100</b></div>
+      <div class="row"><label>ยาว</label><span style="font-family:var(--mono)">${Math.round(wallLen(w)).toLocaleString()} mm · ช่องเปิด ${w.openings.length} จุด</span></div>
+      <div class="row"><label>สูง (mm)</label><input type="number" id="pH" value="${w.h}" step="50" min="2200" max="3400"></div>
+      <div class="row"><label>หนา (mm)</label><input type="number" id="pT" value="${w.t}" step="10" min="60" max="300"></div>`;
+    document.getElementById('pH').addEventListener('input',e=>{const v=+e.target.value;if(v>=2200&&v<=3400){w.h=v;refresh();}});
+    document.getElementById('pT').addEventListener('input',e=>{const v=+e.target.value;if(v>=60&&v<=300){w.t=v;refresh();}});
+  } else {
+    const r=M.rooms.find(x=>x.id===sel.id);
+    el.innerHTML=`<div class="row"><label>ห้อง</label><b style="font-family:var(--mono)">${r.id} · ${r.name}</b></div>
+      <div class="row"><label>พื้นที่</label><span style="font-family:var(--mono)">${(r.w*r.d/1e6).toFixed(1)} m²</span></div>
+      <div class="row"><label>วัสดุพื้น</label><span>${MATS[r.mat].name} <button class="tbtn" id="pMat" style="margin-left:6px">เปลี่ยน ↺</button></span></div>`;
+    document.getElementById('pMat').addEventListener('click',()=>{r.mat=(r.mat+1)%MATS.length;refresh();});
+  }
+}
+
+/* ================= events ================= */
+function refresh(){ drawPlan(); drawn3D(); boq(); }
+document.getElementById('plan').addEventListener('click',e=>{
+  const w=e.target.closest('[data-wall]'), r=e.target.closest('[data-room]');
+  sel = w? {kind:'wall',id:w.dataset.wall} : r? {kind:'room',id:r.dataset.room} : null;
+  refresh(); props();
+});
+const v3=document.getElementById('v3d'); let drag=null, spin=null;
+function stopSpin(){ if(spin){clearInterval(spin);spin=null;document.getElementById('btnSpin').classList.remove('on');} }
+document.getElementById('btnSpin').addEventListener('click',e=>{
+  if(spin){ stopSpin(); return; }
+  e.target.classList.add('on');
+  spin=setInterval(()=>{ view.th+=0.03; drawn3D(); },40);  // setInterval หมุนได้แม้ tab ไม่โฟกัส (rAF ถูก throttle)
+});
+v3.addEventListener('pointerdown',e=>{stopSpin();drag={x:e.clientX,y:e.clientY,th:view.th,ph:view.ph};try{v3.setPointerCapture(e.pointerId);}catch(_){}});
+v3.addEventListener('pointermove',e=>{ if(!drag)return;
+  view.th=drag.th+(e.clientX-drag.x)*0.008; view.ph=Math.max(0.12,Math.min(1.2,drag.ph+(e.clientY-drag.y)*0.005)); drawn3D(); });
+v3.addEventListener('pointerup',()=>drag=null);
+v3.addEventListener('wheel',e=>{e.preventDefault();view.zoom=Math.max(.5,Math.min(2.2,view.zoom*(e.deltaY<0?1.08:0.92)));drawn3D();},{passive:false});
+document.getElementById('btnDay').addEventListener('click',()=>{view.night=false;segNight();drawn3D();});
+document.getElementById('btnNight').addEventListener('click',()=>{view.night=true;segNight();drawn3D();});
+function segNight(){document.getElementById('btnDay').classList.toggle('on',!view.night);document.getElementById('btnNight').classList.toggle('on',view.night);
+  document.getElementById('v3d').style.background=view.night?'linear-gradient(180deg,#0e1520,#1c2634)':'linear-gradient(180deg,#dfe9f3,#f4f6f9)';}
+document.getElementById('btnCeil').addEventListener('click',e=>{view.ceil=!view.ceil;e.target.classList.toggle('on',view.ceil);drawn3D();});
+document.getElementById('gH').addEventListener('input',e=>{const v=+e.target.value;document.getElementById('gHv').textContent=v;
+  for(const w of M.walls) w.h=v; refresh(); if(sel&&sel.kind==='wall')props(); });
+
+refresh();
+
+/* ================= RENDER engine — perspective + แสงแดด/เงา + วัสดุ + กลางคืน (จำลองชั้น HQ render) ================= */
+const CAMS = {
+  bird:    { eye:[-2600,-3800,5400], look:[4200,3200,200],  fov:52, ceil:false, interior:false, label:'มุมสูง' },
+  living:  { eye:[850,700,1550],     look:[4200,4400,900],  fov:66, ceil:true,  interior:true,  label:'ห้องนั่งเล่น' },
+  bedroom: { eye:[4750,5400,1500],   look:[7500,1500,1150], fov:66, ceil:true,  interior:true,  label:'ห้องนอน' },
+};
+let camSel = 'bird';
+const Vx = {
+  sub:(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],
+  cross:(a,b)=>[a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]],
+  dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],
+  norm:a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return [a[0]/l,a[1]/l,a[2]/l];},
+};
+const SUN = Vx.norm([-0.42,0.30,-0.855]);   // แดดบ่ายเฉียงจากทิศตะวันออกเฉียงใต้
+const LIGHTS = [[1500,1500],[3000,1500],[1500,3000],[3000,3000],[1500,4500],[3000,4500],
+                [5600,1700],[7000,1700],[5600,3100],[7000,3100],[5600,4500],[7000,4500]];
+
+function hull(pts){ // convex hull 2D (เงา)
+  pts=[...pts].sort((a,b)=>a[0]-b[0]||a[1]-b[1]);
+  const x=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);
+  const lo=[],up=[];
+  for(const p of pts){ while(lo.length>=2&&x(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop(); lo.push(p);}
+  for(const p of pts.reverse()){ while(up.length>=2&&x(up[up.length-2],up[up.length-1],p)<=0)up.pop(); up.push(p);}
+  return lo.slice(0,-1).concat(up.slice(0,-1));
+}
+function sceneFaces(night, withCeil){
+  const F=[];
+  const outward=(pts,ref)=>{ let n=Vx.norm(Vx.cross(Vx.sub(pts[1],pts[0]),Vx.sub(pts[2],pts[0])));
+    const c=[0,1,2].map(i=>pts.reduce((s,p)=>s+p[i],0)/pts.length);
+    if(Vx.dot(n,Vx.sub(c,ref))<0) n=[-n[0],-n[1],-n[2]]; return n; };
+  const boxFaces=(bp,color)=>{
+    const P=bp.pts,z0=bp.z0,z1=bp.z1;
+    const cen=[(P[0][0]+P[2][0])/2,(P[0][1]+P[2][1])/2,(z0+z1)/2];
+    for(let i=0;i<4;i++){ const a=P[i],b=P[(i+1)%4];
+      const pts=[[a[0],a[1],z0],[b[0],b[1],z0],[b[0],b[1],z1],[a[0],a[1],z1]];
+      F.push({pts,color,kind:'solid',n:outward(pts,cen)}); }
+    const top=[[P[0][0],P[0][1],z1],[P[1][0],P[1][1],z1],[P[2][0],P[2][1],z1],[P[3][0],P[3][1],z1]];
+    F.push({pts:top,color,kind:'solid',n:[0,0,1]});
+  };
+  for(const r of M.rooms)
+    F.push({pts:[[r.x,r.y,0],[r.x+r.w,r.y,0],[r.x+r.w,r.y+r.d,0],[r.x,r.y+r.d,0]],color:MATS[r.mat].c3d,kind:'floor',n:[0,0,1],room:r});
+  for(const w of M.walls){
+    for(const p of pieces(w)){ const bp=pieceBox(w,p); boxFaces(bp,'#efe9df');
+      if(!night){ // เงาแดดบนพื้น: hull ของฐาน + ยอดที่ฉายตามแดด
+        const proj=[...bp.pts.map(q=>[q[0],q[1]]),...bp.pts.map(q=>{const t=bp.z1/(-SUN[2]);return[q[0]+SUN[0]*t,q[1]+SUN[1]*t];})];
+        F.push({pts:hull(proj).map(q=>[q[0],q[1],0.5]),color:'#000',kind:'shadow',n:[0,0,1]});
+      }
+    }
+    for(const o of w.openings){ if(o.type!=='window')continue; // กระจก
+      const [dx,dy]=wallDir(w), ax=w.x1+dx*o.at, ay=w.y1+dy*o.at, bx=ax+dx*o.w, by=ay+dy*o.w;
+      F.push({pts:[[ax,ay,o.sill],[bx,by,o.sill],[bx,by,o.head],[ax,ay,o.head]],kind:'glass',n:[0,0,0]});
+    }
+  }
+  const cb=M.cabinet;
+  boxFaces({pts:[[cb.x,cb.y],[cb.x+cb.w,cb.y],[cb.x+cb.w,cb.y+cb.d],[cb.x,cb.y+cb.d]],z0:0,z1:cb.h},'#c99e66');
+  for(const f of M.furn) boxFaces({pts:[[f.x,f.y],[f.x+f.w,f.y],[f.x+f.w,f.y+f.d],[f.x,f.y+f.d]],z0:f.z0||0,z1:(f.z0||0)+f.h}, f.c);
+  if(!night){ const proj=[[cb.x,cb.y],[cb.x+cb.w,cb.y],[cb.x+cb.w,cb.y+cb.d],[cb.x,cb.y+cb.d]].flatMap(q=>[q,[q[0]+SUN[0]*(cb.h/(-SUN[2])),q[1]+SUN[1]*(cb.h/(-SUN[2]))]]);
+    F.push({pts:hull(proj).map(q=>[q[0],q[1],0.5]),color:'#000',kind:'shadow',n:[0,0,1]}); }
+  if(withCeil){ const z=Math.min(...M.walls.map(w=>w.h))-150;
+    for(const r of M.rooms) F.push({pts:[[r.x,r.y,z],[r.x+r.w,r.y,z],[r.x+r.w,r.y+r.d,z],[r.x,r.y+r.d,z]],color:'#f5f1ea',kind:'solid',n:[0,0,-1]});
+  }
+  return F;
+}
+function renderScene(canvas, camKey, night){
+  const cam=CAMS[camKey], W=canvas.width, H=canvas.height, ctx=canvas.getContext('2d');
+  const fwd=Vx.norm(Vx.sub(cam.look,cam.eye)), right=Vx.norm(Vx.cross(fwd,[0,0,1])), up=Vx.cross(right,fwd);
+  const f=(H/2)/Math.tan(cam.fov*Math.PI/360), NEAR=150;
+  const toCam=p=>{const d=Vx.sub(p,cam.eye);return[Vx.dot(d,right),Vx.dot(d,up),Vx.dot(d,fwd)];};
+  const toScr=c=>[W/2+f*c[0]/c[2], H/2-f*c[1]/c[2]];
+  const clipNear=pts=>{ const out=[]; // Sutherland–Hodgman กับระนาบ z=NEAR
+    for(let i=0;i<pts.length;i++){ const a=pts[i],b=pts[(i+1)%pts.length],ain=a[2]>NEAR,bin=b[2]>NEAR;
+      if(ain)out.push(a);
+      if(ain!==bin){const t=(NEAR-a[2])/(b[2]-a[2]);out.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,NEAR]);} }
+    return out; };
+  const hex=c=>{const n=parseInt(c.slice(1),16);return[(n>>16)&255,(n>>8)&255,n&255];};
+  // ---- ท้องฟ้า ----
+  const sky=ctx.createLinearGradient(0,0,0,H);
+  if(night){sky.addColorStop(0,'#0a1322');sky.addColorStop(1,'#1d2a3d');}
+  else{sky.addColorStop(0,'#9ec3e8');sky.addColorStop(.75,'#e8f0f7');sky.addColorStop(1,'#dfe6ea');}
+  ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+  if(night){ ctx.fillStyle='#f2ead2';ctx.beginPath();ctx.arc(W*0.82,H*0.16,W*0.018,0,7);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.8)';for(let i=0;i<60;i++){const sx=(i*97.3)%W,sy=((i*61.7)%(H*0.5));ctx.fillRect(sx,sy,1.3,1.3);} }
+  else { const g=ctx.createRadialGradient(W*0.78,H*0.12,0,W*0.78,H*0.12,W*0.16);
+    g.addColorStop(0,'rgba(255,250,225,.95)');g.addColorStop(1,'rgba(255,250,225,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H); }
+  // ---- faces ----
+  const faces=sceneFaces(night, cam.ceil).map(fc=>{
+    const cpts=fc.pts.map(toCam); const c=[0,1,2].map(i=>cpts.reduce((s,p)=>s+p[i],0)/cpts.length);
+    return {...fc,cpts,dist:Math.hypot(c[0],c[1],c[2])};
+  }).filter(fc=>fc.cpts.some(p=>p[2]>NEAR));
+  faces.sort((a,b)=>b.dist-a.dist + (a.kind==='shadow'?-0.5:0) - (b.kind==='shadow'?-0.5:0));
+  const lw=Math.max(1,W/1280);
+  for(const fc of faces){
+    if(fc.kind==='solid'&&Vx.dot(fc.n,Vx.sub(cam.eye,fc.pts[0]))<=0) continue; // backface
+    const cp=clipNear(fc.cpts); if(cp.length<3)continue;
+    const scr=cp.map(toScr);
+    ctx.beginPath();ctx.moveTo(scr[0][0],scr[0][1]);for(let i=1;i<scr.length;i++)ctx.lineTo(scr[i][0],scr[i][1]);ctx.closePath();
+    if(fc.kind==='shadow'){ if(!night){ctx.fillStyle='rgba(20,26,34,.10)';ctx.fill();} continue; }
+    if(fc.kind==='glass'){
+      ctx.fillStyle = night ? (cam.interior?'rgba(30,45,70,.55)':'rgba(255,198,112,.85)') : 'rgba(165,200,230,.55)';
+      ctx.fill(); ctx.strokeStyle=night?'#3a4657':'#8fa8bf'; ctx.lineWidth=lw; ctx.stroke(); continue;
+    }
+    const [r,g,b]=hex(fc.color);
+    let k = night ? 0.30+0.34*Math.max(0,fc.n[2]) : 0.63+0.37*Math.max(0,Vx.dot(fc.n,[-SUN[0],-SUN[1],-SUN[2]]));
+    const warm = night ? [1.0,0.86,0.66] : [1,1,1];
+    ctx.fillStyle=`rgb(${Math.round(r*k*warm[0])},${Math.round(g*k*warm[1])},${Math.round(b*k*warm[2])})`;
+    ctx.fill(); ctx.strokeStyle=night?'rgba(10,14,20,.45)':'rgba(90,100,110,.35)'; ctx.lineWidth=lw*0.7; ctx.stroke();
+    if(fc.kind==='floor'){ // ลายวัสดุพื้น (clip ในผืนพื้น)
+      ctx.save();ctx.clip();
+      ctx.strokeStyle=night?'rgba(0,0,0,.30)':'rgba(60,55,45,.16)';ctx.lineWidth=lw*0.8;
+      const r0=fc.room, mat=r0.mat, gx=(mat===1)?100000:600, gy=(mat===1)?190:(mat===2?1200:600);
+      for(let x=r0.x+gx;x<r0.x+r0.w;x+=gx){ const a=toCam([x,r0.y,0]),b=toCam([x,r0.y+r0.d,0]); const cl=clipNear([a,b,b]); if(cl.length>=2){const s1=toScr(cl[0]),s2=toScr(cl[1]);ctx.beginPath();ctx.moveTo(s1[0],s1[1]);ctx.lineTo(s2[0],s2[1]);ctx.stroke();} }
+      for(let y=r0.y+gy;y<r0.y+r0.d;y+=gy){ const a=toCam([r0.x,y,0]),b=toCam([r0.x+r0.w,y,0]); const cl=clipNear([a,b,b]); if(cl.length>=2){const s1=toScr(cl[0]),s2=toScr(cl[1]);ctx.beginPath();ctx.moveTo(s1[0],s1[1]);ctx.lineTo(s2[0],s2[1]);ctx.stroke();} }
+      ctx.restore();
+    }
+  }
+  // ---- ดาวน์ไลท์ตอนกลางคืน ----
+  if(night){
+    const zc=Math.min(...M.walls.map(w=>w.h))-150;
+    for(const [lx,ly] of LIGHTS){
+      const cFloor=toCam([lx,ly,0]); if(cFloor[2]<=NEAR)continue;
+      const s=toScr(cFloor); const edge=toCam([lx+900,ly,0]); if(edge[2]<=NEAR)continue;
+      const rad=Math.abs(toScr(edge)[0]-s[0]); if(rad<2||rad>W)continue;
+      const g=ctx.createRadialGradient(s[0],s[1],0,s[0],s[1],rad);
+      g.addColorStop(0,'rgba(255,214,140,.50)');g.addColorStop(1,'rgba(255,214,140,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(s[0],s[1],rad,0,7);ctx.fill();
+      if(cam.interior){ const cc=toCam([lx,ly,zc]); if(cc[2]>NEAR){const sc=toScr(cc);
+        ctx.fillStyle='rgba(255,240,200,.95)';ctx.beginPath();ctx.arc(sc[0],sc[1],Math.max(2,rad*0.06),0,7);ctx.fill();} }
+    }
+  }
+  // ---- vignette + ลายเซ็นภาพ ----
+  const vg=ctx.createRadialGradient(W/2,H/2,H*0.45,W/2,H/2,H*0.95);
+  vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,night?'rgba(0,0,0,.42)':'rgba(30,38,48,.18)');
+  ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
+  ctx.font=`${Math.round(H/72)}px Consolas`;ctx.fillStyle=night?'rgba(255,255,255,.55)':'rgba(30,38,48,.55)';
+  ctx.fillText(`2D PERFORMANCE STUDIO · ${cam.label} · ${night?'NIGHT':'DAY'} · ${W}×${H} · DEMO RENDER (ไม่ใช้ตัดสินงานจริง)`, W*0.012, H-H*0.018);
+}
+/* ---- คิว render จำลอง + แกลเลอรี ---- */
+document.querySelectorAll('[data-cam]').forEach(b=>b.addEventListener('click',()=>{
+  camSel=b.dataset.cam; document.querySelectorAll('[data-cam]').forEach(x=>x.classList.toggle('on',x===b));}));
+document.getElementById('btnRender').addEventListener('click',()=>{
+  const Wpx=parseInt(document.getElementById('res').value), Hpx=Math.round(Wpx*9/16);
+  const off=document.createElement('canvas'); off.width=Wpx; off.height=Hpx;
+  const prog=document.getElementById('rprog'), bar=document.getElementById('rbar'), txt=document.getElementById('rtxt');
+  prog.style.display='block'; bar.style.width='0%';
+  const steps=[['เตรียม scene จากโมเดลกลาง…',18],['คำนวณแสง'+(view.night?' (ดาวน์ไลท์ 12 จุด)':'แดด + เงา')+'…',52],['ลายวัสดุพื้น + กระจก…',78],['ประกอบภาพ '+Wpx+'×'+Hpx+'…',96]];
+  let i=0;
+  const tick=()=>{ if(i<steps.length){ txt.textContent=steps[i][0]; bar.style.width=steps[i][1]+'%'; i++; setTimeout(tick,document.hidden?0:260); return; }
+    renderScene(off, camSel, view.night);
+    bar.style.width='100%'; txt.textContent='เสร็จ ✓';
+    const url=off.toDataURL('image/png');
+    const gal=document.getElementById('gallery'); gal.style.display='flex';
+    const item=document.createElement('div');
+    item.innerHTML=`<img src="${url}" style="width:100%;border:1px solid var(--line);border-radius:7px;display:block">
+      <div style="display:flex;gap:10px;align-items:center;margin-top:5px;font-size:11.5px;color:var(--muted)">
+        <span>${CAMS[camSel].label} · ${view.night?'กลางคืน':'กลางวัน'} · ${Wpx}×${Hpx}</span>
+        <a download="render-2dp-${camSel}-${Wpx}.png" href="${url}" style="margin-left:auto;font-family:'Prompt';font-weight:700;color:var(--accent-d)">⬇ ดาวน์โหลด PNG</a>
+      </div>`;
+    gal.prepend(item); while(gal.children.length>3) gal.lastChild.remove();
+    document.getElementById('ps6').className='pstep done'; document.getElementById('ps6').textContent='6 RENDER ✓';
+    setTimeout(()=>{prog.style.display='none';},700);
+  };
+  tick();
+});
+
+/* ================= เล่มนำเสนอ PDF — โครงเล่ม Design Development 10 หน้า + PDF writer เขียนเอง ================= */
+const BOOK={ project:'DEMO RESIDENCE', sub:'RENOVATE & INTERIOR DESIGN', company:'2D PERFORMANCE STUDIO', date:'20260710' };
+const BK={ div:'#cfccc0', page:'#e9e6dd', cream:'#f4f2ea', ink:'#4b463a', ink2:'#77705f', line:'rgba(75,70,58,.35)' };
+const LS=(x,v)=>{ try{x.letterSpacing=v}catch(e){} };
+function bkHeader(x){ x.textAlign='center'; x.fillStyle=BK.ink; LS(x,'6px');
+  x.font='700 25px "Segoe UI",Arial'; x.fillText(BOOK.project,960,54);
+  LS(x,'3px'); x.font='400 15px "Segoe UI",Arial'; x.fillStyle=BK.ink2; x.fillText(BOOK.sub,960,80);
+  x.strokeStyle=BK.line; x.lineWidth=1; x.beginPath(); x.moveTo(60,98); x.lineTo(1860,98); x.stroke(); LS(x,'0px'); }
+function bkFooter(x){ x.strokeStyle=BK.line; x.lineWidth=1; x.beginPath(); x.moveTo(60,1006); x.lineTo(1860,1006); x.stroke();
+  x.fillStyle=BK.ink2; x.font='400 15px "Segoe UI",Arial'; LS(x,'2px');
+  x.textAlign='left'; x.fillText(BOOK.date,60,1042); x.textAlign='center'; x.fillText(BOOK.company,960,1042);
+  x.textAlign='right'; x.fillText(BOOK.sub,1860,1042); LS(x,'0px'); x.textAlign='left'; }
+function bkPage(x,bg){ x.fillStyle=bg||BK.page; x.fillRect(0,0,1920,1080); bkHeader(x); bkFooter(x); }
+function bkLogo(x,cx,cy,s,color){ x.save(); x.translate(cx,cy); x.scale(s,s); x.fillStyle=color;
+  x.beginPath(); x.moveTo(-62,60); x.lineTo(-62,-8); x.lineTo(-22,-62); x.lineTo(-22,60); x.closePath(); x.fill();
+  x.beginPath(); x.moveTo(-8,60); x.lineTo(-8,-48); x.lineTo(28,-8); x.lineTo(28,60); x.closePath(); x.fill();
+  x.beginPath(); x.moveTo(42,60); x.lineTo(42,4); x.lineTo(66,30); x.lineTo(66,60); x.closePath(); x.fill(); x.restore(); }
+function bkPlanDraw(x,ox,oy,sc,opts={}){ // แปลนบน canvas (mini=locator)
+  const X=v=>ox+v*sc, Y=v=>oy+v*sc;
+  for(const r of M.rooms){ x.fillStyle=opts.mini?'#e2ded2':MATS[r.mat].c; x.fillRect(X(r.x),Y(r.y),r.w*sc,r.d*sc); }
+  if(!opts.mini) for(const f of M.furn){ if(f.plan===false) continue;
+    x.fillStyle='rgba(150,132,100,.16)'; x.fillRect(X(f.x),Y(f.y),f.w*sc,f.d*sc);
+    x.strokeStyle='#8a8272'; x.lineWidth=1; x.strokeRect(X(f.x),Y(f.y),f.w*sc,f.d*sc); }
+  const cb=M.cabinet; x.fillStyle='#c9a06a'; x.fillRect(X(cb.x),Y(cb.y),cb.w*sc,cb.d*sc);
+  x.lineCap='butt';
+  for(const w of M.walls){ x.strokeStyle='#3a352b'; x.lineWidth=Math.max(opts.mini?1.6:3,w.t*sc);
+    for(const p of pieces(w)){ if(p.z0>0)continue; const [dx,dy]=wallDir(w);
+      x.beginPath(); x.moveTo(X(w.x1+dx*p.a),Y(w.y1+dy*p.a)); x.lineTo(X(w.x1+dx*p.b),Y(w.y1+dy*p.b)); x.stroke(); } }
+  for(const w of M.walls) for(const o of w.openings){ const [dx,dy]=wallDir(w);
+    const ax=w.x1+dx*o.at, ay=w.y1+dy*o.at, bx=ax+dx*o.w, by=ay+dy*o.w;
+    if(o.type==='window'){ x.strokeStyle='#5b8fc9'; x.lineWidth=opts.mini?2:4;
+      x.beginPath(); x.moveTo(X(ax),Y(ay)); x.lineTo(X(bx),Y(by)); x.stroke(); }
+    else if(!opts.mini){ const nx=-dy,ny=dx; x.strokeStyle='#a02620'; x.lineWidth=1.6;
+      x.beginPath(); x.moveTo(X(ax),Y(ay)); x.lineTo(X(ax+nx*o.w),Y(ay+ny*o.w)); x.stroke();
+      const a1=Math.atan2(ny,nx), a2=Math.atan2(dy,dx), ccw=(nx*dy-ny*dx)>0;
+      x.beginPath(); x.arc(X(ax),Y(ay),o.w*sc,a1,a2,ccw); x.stroke(); } }
+  if(!opts.mini){ x.textAlign='center'; LS(x,'3px');
+    for(const r of M.rooms){ x.fillStyle=BK.ink; x.font='700 30px "Segoe UI",Arial';
+      x.fillText(r.name,X(r.x+r.w/2),Y(r.y+r.d/2));
+      x.fillStyle=BK.ink2; x.font='400 21px "Segoe UI",Arial';
+      x.fillText((r.w/1000).toFixed(1)+' × '+(r.d/1000).toFixed(1)+' m',X(r.x+r.w/2),Y(r.y+r.d/2)+34); }
+    LS(x,'0px');
+    x.strokeStyle='#a02620'; x.lineWidth=1.2; // dimension รวม
+    x.beginPath(); x.moveTo(X(0),Y(6520)); x.lineTo(X(8000),Y(6520)); x.stroke();
+    x.beginPath(); x.moveTo(X(-460),Y(0)); x.lineTo(X(-460),Y(6000)); x.stroke();
+    x.fillStyle='#a02620'; x.font='400 20px Consolas'; x.fillText('8,000',X(4000),Y(6520)-8);
+    x.save(); x.translate(X(-460)-10,Y(3000)); x.rotate(-Math.PI/2); x.fillText('6,000',0,0); x.restore();
+    x.textAlign='left'; }
+  if(opts.cam){ const c=CAMS[opts.cam];
+    const ex=Math.max(-600,Math.min(8600,c.eye[0])), ey=Math.max(-600,Math.min(6600,c.eye[1]));
+    const ang=Math.atan2(c.look[1]-ey,c.look[0]-ex);
+    x.fillStyle='rgba(201,52,42,.30)'; x.beginPath(); x.moveTo(X(ex),Y(ey));
+    x.arc(X(ex),Y(ey),2100*sc,ang-0.40,ang+0.40); x.closePath(); x.fill();
+    x.fillStyle='#c9342a'; x.beginPath(); x.arc(X(ex),Y(ey),Math.max(4,150*sc),0,7); x.fill(); } }
+/* ---- หน้าแต่ละแบบ ---- */
+function pgCover(x){ bkPage(x,BK.div);
+  bkLogo(x,960,360,1.35,'#ffffff');
+  x.textAlign='center'; x.fillStyle='#fff'; LS(x,'10px'); x.font='800 76px "Segoe UI",Arial';
+  x.fillText('2D STUDIO',960,540); LS(x,'14px'); x.font='400 19px "Segoe UI",Arial';
+  x.fillText('D E S I G N   P L A T F O R M',960,578); LS(x,'6px');
+  x.fillStyle=BK.ink; x.font='700 42px "Segoe UI",Arial'; x.fillText('DESIGN DEVELOPMENT',960,700); LS(x,'0px'); x.textAlign='left'; }
+function pgToc(x){ bkPage(x);
+  x.textAlign='center'; x.fillStyle=BK.ink; LS(x,'4px'); x.font='700 40px "Segoe UI",Arial';
+  x.fillText('TABLE OF',960,300); x.fillText('CONTENTS',960,352); LS(x,'1px');
+  const card=(cx,bg,fg,t1,t2)=>{ x.fillStyle=bg;
+    x.beginPath(); x.roundRect(cx-190,430,380,300,30); x.fill();
+    x.fillStyle=fg; x.font='700 34px "Segoe UI",Arial'; x.fillText(t1,cx,560);
+    x.font='italic 400 23px Georgia'; x.fillStyle=fg==='#4b463a'?BK.ink2:'#5e594d'; x.fillText(t2,cx,608); };
+  card(700,'#f7f5ee','#4b463a','FUNCTION & SPACE','Planning Design');
+  card(1220,'#b9b4a5','#443f34','INTERIOR','Design Direction');
+  LS(x,'0px'); x.textAlign='left'; }
+function pgDivider(x,title,sub,serif){ bkPage(x,BK.div);
+  x.textAlign='center'; x.fillStyle=BK.ink;
+  LS(x,serif?'9px':'5px'); x.font=serif?'400 66px Georgia':'700 46px "Segoe UI",Arial';
+  x.fillText(title,960,540); LS(x,'2px');
+  x.font='italic 400 26px Georgia'; x.fillStyle=BK.ink2; x.fillText(sub,960,588);
+  LS(x,'0px'); x.textAlign='left'; }
+function pgPlan(x){ bkPage(x);
+  x.save(); x.shadowColor='rgba(60,55,45,.18)'; x.shadowBlur=26; x.shadowOffsetY=8;
+  x.fillStyle='#f9f7f1'; x.fillRect(330,140,1260,830); x.restore();
+  bkPlanDraw(x,468,232,0.108,{});
+  x.textAlign='center'; x.fillStyle=BK.ink2; x.font='400 17px "Segoe UI",Arial'; LS(x,'2px');
+  x.fillText('Option 1',960,946); LS(x,'0px'); x.textAlign='left'; }
+function pgRender(x,camKey,night,caption,done){
+  bkPage(x);
+  const off=document.createElement('canvas'); off.width=1600; off.height=900;
+  renderScene(off,camKey,night);
+  x.save(); x.shadowColor='rgba(60,55,45,.20)'; x.shadowBlur=24; x.shadowOffsetY=7;
+  x.fillStyle='#ffffff'; x.fillRect(212,140,1496,866); x.restore();
+  x.drawImage(off,236,164,1448,814);
+  // แปลนจิ๋วบอกตำแหน่งกล้อง (มุมขวาบน)
+  x.fillStyle='#f9f7f1'; x.strokeStyle=BK.line; x.lineWidth=1;
+  x.fillRect(1666,14,236,168); x.strokeRect(1666,14,236,168);
+  bkPlanDraw(x,1700,44,0.0225,{mini:true,cam:camKey});
+  x.textAlign='center'; x.fillStyle=BK.ink2; x.font='400 17px "Segoe UI",Arial'; LS(x,'2px');
+  x.fillText(caption,960,986); LS(x,'0px'); x.textAlign='left'; }
+function pgBoq(x){ bkPage(x);
+  x.textAlign='center'; x.fillStyle=BK.ink; LS(x,'4px'); x.font='700 36px "Segoe UI",Arial';
+  x.fillText('BUDGET SUMMARY · BOQ',960,190); LS(x,'0px');
+  const rows=computeBoqRows(); const x0=260,x1=1660,y0=250,rh=76;
+  x.fillStyle='#dedacb'; x.fillRect(x0,y0,x1-x0,60);
+  x.fillStyle=BK.ink; x.font='700 22px "Segoe UI","Leelawadee UI",sans-serif'; x.textAlign='left';
+  x.fillText('หมวดงาน',x0+24,y0+40); x.fillText('รายการ',x0+280,y0+40);
+  x.textAlign='right'; x.fillText('ปริมาณ',x1-150,y0+40); x.fillText('หน่วย',x1-30,y0+40);
+  x.font='400 22px "Segoe UI","Leelawadee UI",sans-serif';
+  rows.forEach((r,i)=>{ const yy=y0+60+i*rh;
+    if(i%2===1){ x.fillStyle='rgba(255,255,255,.5)'; x.fillRect(x0,yy,x1-x0,rh); }
+    x.fillStyle=BK.ink; x.textAlign='left';
+    x.font='700 22px "Segoe UI","Leelawadee UI",sans-serif'; x.fillText(r[0],x0+24,yy+47);
+    x.font='400 21px "Segoe UI","Leelawadee UI",sans-serif'; x.fillStyle=BK.ink2;
+    x.fillText(String(r[1]).slice(0,58),x0+280,yy+47);
+    x.fillStyle=BK.ink; x.textAlign='right'; x.font='400 23px Consolas';
+    x.fillText(r[2],x1-150,yy+47); x.font='400 21px "Segoe UI","Leelawadee UI",sans-serif'; x.fillText(r[3],x1-30,yy+47);
+    x.strokeStyle=BK.line; x.beginPath(); x.moveTo(x0,yy+rh); x.lineTo(x1,yy+rh); x.stroke(); });
+  x.textAlign='center'; x.fillStyle=BK.ink2; x.font='italic 400 19px Georgia';
+  x.fillText('Quantities are derived from the central model — regenerate this book in one click after any design change.',960,y0+60+rows.length*rh+56);
+  x.textAlign='left'; }
+function pgBack(x){ bkPage(x,'#edeae1');
+  x.save(); x.globalAlpha=0.13; bkLogo(x,960,470,1.5,'#4b463a');
+  x.textAlign='center'; x.fillStyle='#4b463a'; LS(x,'10px'); x.font='800 78px "Segoe UI",Arial';
+  x.fillText('2D STUDIO',960,660); x.restore(); LS(x,'0px'); x.textAlign='left'; }
+/* ---- PDF writer (embed JPEG ต่อหน้า · ไม่ใช้ lib) ---- */
+function jpegBytes(c){ const s=atob(c.toDataURL('image/jpeg',0.9).split(',')[1]);
+  const u=new Uint8Array(s.length); for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i); return u; }
+function buildPdf(imgs){
+  const enc=new TextEncoder(); const parts=[]; let pos=0; const off=[];
+  const put=b=>{ if(typeof b==='string')b=enc.encode(b); parts.push(b); pos+=b.length; };
+  const obj=(n,body)=>{ off[n]=pos; put(n+' 0 obj\n'+body+'\nendobj\n'); };
+  put('%PDF-1.4\n'); put(new Uint8Array([0x25,0xE2,0xE3,0xCF,0xD3,0x0A]));
+  const n=imgs.length, kids=[]; for(let i=0;i<n;i++)kids.push((3+i*3)+' 0 R');
+  obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2,'<< /Type /Pages /Kids ['+kids.join(' ')+'] /Count '+n+' >>');
+  imgs.forEach((im,i)=>{ const pg=3+i*3, ct=4+i*3, xo=5+i*3;
+    obj(pg,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /XObject << /Im '+xo+' 0 R >> /ProcSet [/PDF /ImageC] >> /Contents '+ct+' 0 R >>');
+    const cs='q 960 0 0 540 0 0 cm /Im Do Q';
+    obj(ct,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
+    off[xo]=pos;
+    put(xo+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n');
+    put(im.bytes); put('\nendstream\nendobj\n'); });
+  const xref=pos, cnt=3+n*3;
+  let t='xref\n0 '+cnt+'\n0000000000 65535 f \n';
+  for(let i=1;i<cnt;i++) t+=String(off[i]).padStart(10,'0')+' 00000 n \n';
+  put(t+'trailer\n<< /Size '+cnt+' /Root 1 0 R >>\nstartxref\n'+xref+'\n%%EOF');
+  const out=new Uint8Array(pos); let p=0; for(const b of parts){ out.set(b,p); p+=b.length; }
+  return out; }
+/* ---- ปุ่มสร้างเล่ม ---- */
+document.getElementById('btnBook').addEventListener('click', async ()=>{
+  const prog=document.getElementById('rprog'), bar=document.getElementById('rbar'), txt=document.getElementById('rtxt');
+  prog.style.display='block'; bar.style.width='0%';
+  const PAGES=[
+    ['ปก', pgCover],
+    ['สารบัญ', pgToc],
+    ['Section: FUNCTION & SPACE', c=>pgDivider(c,'FUNCTION & SPACE : Option 1','Planning Design',false)],
+    ['หน้าแปลน', pgPlan],
+    ['Section: INTERIOR', c=>pgDivider(c,'INTERIOR','Design Direction',true)],
+    ['Render ห้องนั่งเล่น (กลางวัน)', c=>pgRender(c,'living',false,'Option 1 — Living & Dining')],
+    ['Render ห้องนอน (กลางวัน)', c=>pgRender(c,'bedroom',false,'Option 1 — Master Bedroom')],
+    ['Render ห้องนอน (กลางคืน)', c=>pgRender(c,'bedroom',true,'Option 2 — Master Bedroom · Night Mood')],
+    ['สรุป BOQ', pgBoq],
+    ['ปกหลัง', pgBack],
+  ];
+  const canv=[];
+  // หมายเหตุ: ห้ามพึ่ง setTimeout เมื่อแท็บถูกซ่อน (เบราว์เซอร์ throttle timer จนงานค้าง) — ข้าม delay ถ้า hidden
+  const breathe=()=>document.hidden?Promise.resolve():new Promise(r=>setTimeout(r,40));
+  for(let i=0;i<PAGES.length;i++){
+    txt.textContent='หน้า '+(i+1)+'/10 — '+PAGES[i][0]+'…'; bar.style.width=Math.round((i+1)/PAGES.length*88)+'%';
+    await breathe();
+    const c=document.createElement('canvas'); c.width=1920; c.height=1080;
+    PAGES[i][1](c.getContext('2d')); canv.push(c);
+  }
+  txt.textContent='ประกอบไฟล์ PDF…'; bar.style.width='96%'; await breathe();
+  const bytes=buildPdf(canv.map(c=>({bytes:jpegBytes(c),w:1920,h:1080})));
+  window.__pdfMeta={size:bytes.length, head:String.fromCharCode(...bytes.slice(0,8)), tail:String.fromCharCode(...bytes.slice(-6))};
+  const url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+  const gal=document.getElementById('gallery'); gal.style.display='flex';
+  const item=document.createElement('div');
+  item.innerHTML=`<img src="${canv[0].toDataURL('image/jpeg',0.75)}" style="width:100%;border:1px solid var(--line);border-radius:7px;display:block">
+    <div style="display:flex;gap:10px;align-items:center;margin-top:5px;font-size:11.5px;color:var(--muted)">
+      <span>เล่มนำเสนอ Design Development · 10 หน้า · ${(bytes.length/1048576).toFixed(1)} MB</span>
+      <a download="DESIGN-DEVELOPMENT_DEMO_2DP.pdf" href="${url}" style="margin-left:auto;font-family:'Prompt';font-weight:700;color:var(--accent-d)">⬇ ดาวน์โหลด PDF</a>
+    </div>`;
+  gal.prepend(item); while(gal.children.length>3) gal.lastChild.remove();
+  document.getElementById('ps6').className='pstep done'; document.getElementById('ps6').textContent='6 RENDER ✓';
+  bar.style.width='100%'; txt.textContent='เล่มเสร็จ ✓'; setTimeout(()=>{prog.style.display='none';},800);
+});
+</script>
+</body>
+</html>

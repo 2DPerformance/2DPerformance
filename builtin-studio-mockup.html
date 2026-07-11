@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Built-in Studio — เวอร์ชันทดลอง | 2D Performance</title>
+<style>
+/* ===== Built-in Studio mockup — ตู้ parametric → ชิ้นส่วน/hardware/แผ่น (advisory เท่านั้น) ===== */
+:root{
+  --accent:#c9342a; --accent-d:#a02620; --accent-bg:#fdf1f0;
+  --ink:#1e2630; --text:#3d4754; --muted:#6b7684; --muted2:#95a0ad;
+  --line:#dde3ea; --line-strong:#c3ccd6; --bg:#f4f6f9; --card:#ffffff; --panel:#eceff4;
+  --teal:#0e7f66; --teal-bg:#e7f5f0; --amber:#8a6116; --amber-bg:#faf3e2;
+  --mono:'Consolas','Courier New',monospace;
+  font-size:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sarabun','Prompt',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;
+  background-image:linear-gradient(rgba(15,23,42,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(15,23,42,.03) 1px,transparent 1px);
+  background-size:32px 32px}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hwrap{max-width:1280px;margin:0 auto;padding:9px 18px;display:flex;align-items:center;gap:12px}
+.logo{width:32px;height:32px;border-radius:7px;background:linear-gradient(135deg,var(--accent),var(--accent-d));color:#fff;display:grid;place-items:center;font-family:'Prompt';font-weight:700;font-size:13px}
+.htitle b{font-family:'Prompt';font-size:15px;display:block;line-height:1.2}
+.htitle small{font-size:11px;color:var(--muted)}
+.beta{margin-left:auto;background:var(--amber-bg);color:var(--amber);font-family:'Prompt';font-weight:700;font-size:11px;padding:4px 10px;border-radius:999px;border:1px solid #e8d9ae}
+main{max-width:1280px;margin:0 auto;padding:14px 18px 40px;display:grid;grid-template-columns:340px 1fr;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:9px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+.card h2{font-family:'Prompt';font-size:13px;font-weight:700;padding:10px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.card h2 .n{width:19px;height:19px;border-radius:6px;background:var(--accent-bg);color:var(--accent-d);display:grid;place-items:center;font-size:11px}
+.fbody{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.frow{display:grid;grid-template-columns:118px 1fr;align-items:center;gap:8px}
+.frow label{font-size:12.5px;color:var(--text);font-weight:600}
+.frow .u{color:var(--muted2);font-size:11px;margin-left:4px;font-weight:400}
+input[type=number],select{width:100%;border:1px solid var(--line-strong);border-radius:6px;padding:6px 8px;font-family:var(--mono);font-size:13px;color:var(--ink);background:#fff}
+input[type=number]:focus,select:focus{outline:2px solid #f3c1bd;border-color:var(--accent)}
+select{font-family:'Sarabun',sans-serif}
+.seg{display:flex;border:1px solid var(--line-strong);border-radius:6px;overflow:hidden}
+.seg button{flex:1;border:0;background:#fff;padding:6px 4px;font-family:'Prompt';font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--accent-bg);color:var(--accent-d)}
+.hint{font-size:11px;color:var(--muted2);line-height:1.4}
+.warnbox{margin:0 14px 12px;background:var(--amber-bg);border:1px solid #e8d9ae;border-radius:7px;padding:8px 10px;font-size:11.5px;color:var(--amber);line-height:1.5}
+.vwrap{display:flex;flex-direction:column;gap:14px;min-width:0}
+.preview{padding:14px;display:grid;grid-template-columns:1fr 220px;gap:10px;align-items:start}
+.preview svg{width:100%;height:auto;display:block;background:#fff}
+.svgbox{border:1px solid var(--line);border-radius:7px;overflow:hidden;position:relative}
+.svgbox .cap{position:absolute;top:6px;left:9px;font-family:'Prompt';font-size:10.5px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 14px 14px}
+.stat{border:1px solid var(--line);border-radius:7px;padding:8px 10px;background:linear-gradient(180deg,#fff,#fafbfd)}
+.stat b{font-family:'Prompt';font-size:17px;display:block;color:var(--ink)}
+.stat span{font-size:11px;color:var(--muted)}
+.tabs{display:flex;gap:2px;padding:0 14px;border-bottom:1px solid var(--line)}
+.tabs button{border:0;background:none;padding:9px 13px;font-family:'Prompt';font-weight:700;font-size:12.5px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent}
+.tabs button.on{color:var(--accent-d);border-color:var(--accent)}
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.tbl th{font-family:'Prompt';font-weight:700;font-size:11px;color:var(--muted);text-align:left;padding:7px 9px;background:var(--panel);border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:6px 9px;border-bottom:1px solid var(--line);font-family:var(--mono);white-space:nowrap}
+.tbl td.t{font-family:'Sarabun',sans-serif}
+.tbl tr:hover td{background:var(--accent-bg)}
+.tblwrap{overflow-x:auto;padding-bottom:6px}
+.badge{display:inline-block;font-family:'Prompt';font-size:10px;font-weight:700;border-radius:999px;padding:2px 7px;background:var(--teal-bg);color:var(--teal)}
+.foot{padding:10px 14px;font-size:11px;color:var(--muted2);border-top:1px solid var(--line);line-height:1.5}
+@media(max-width:920px){main{grid-template-columns:1fr}.preview{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header><div class="hwrap">
+  <div class="logo">2D</div>
+  <div class="htitle"><b>Built-in Studio</b><small>งานออกแบบบิ้วอิน · ตู้ parametric → ชิ้นส่วน · Hardware · จำนวนแผ่น</small></div>
+  <a href="builtin-cad3d-mockup.html" style="margin-left:auto;font-family:'Prompt';font-weight:700;font-size:12px;color:var(--accent-d);text-decoration:none">◀ เดโม แปลน 2D → 3D</a>
+  <span class="beta" style="margin-left:0">เวอร์ชันทดลอง (mockup) — ตัวเลขยังไม่ใช้ผลิตจริง</span>
+</div></header>
+<main>
+  <!-- ===== ฟอร์มพารามิเตอร์ ===== -->
+  <section class="card" id="form">
+    <h2><span class="n">1</span>พารามิเตอร์ตู้</h2>
+    <div class="fbody">
+      <div class="frow"><label>ประเภทตู้</label>
+        <select id="ctype">
+          <option value="tv_cabinet">ตู้ TV (ลึก 450)</option>
+          <option value="wardrobe" selected>ตู้เสื้อผ้า (ลึก 600)</option>
+          <option value="kitchen_lower">ตู้ครัวล่าง (ลึก 600)</option>
+          <option value="shoe_cabinet">ตู้รองเท้า (ลึก 350)</option>
+          <option value="wall_unit">ตู้ลอย (ลึก 350)</option>
+        </select></div>
+      <div class="frow"><label>กว้าง W <span class="u">mm</span></label><input type="number" id="W" value="3000" step="50" min="300" max="7200"></div>
+      <div class="frow"><label>สูง H <span class="u">mm</span></label><input type="number" id="H" value="2600" step="50" min="300" max="3200"></div>
+      <div class="frow"><label>ลึก D <span class="u">mm (รวมบาน)</span></label><input type="number" id="D" value="600" step="10" min="200" max="800"></div>
+      <div class="frow"><label>จำนวนบาน</label><input type="number" id="doors" value="6" step="1" min="0" max="14"></div>
+      <div class="frow"><label>ชั้นปรับระดับ/กล่อง</label><input type="number" id="shelves" value="2" step="1" min="0" max="8"></div>
+      <div class="frow"><label>มือจับ</label>
+        <div class="seg" id="handleSeg">
+          <button data-v="concealed" class="on">เซาะร่อง</button><button data-v="bar">ด้ามจับ</button>
+        </div></div>
+      <div class="frow"><label>ฐานตู้ (kick)</label>
+        <div class="seg" id="kickSeg">
+          <button data-v="100" class="on">100 mm</button><button data-v="0">ไม่มี (ตู้ลอย)</button>
+        </div></div>
+      <div class="hint">กฎการผลิต default ตามสเปก §9: แผ่นตัว 18mm · แผ่นหลัง 6mm (เซาะร่อง) · ช่องไฟบาน 2mm · ระหว่างบาน 3mm · ตู้กว้างเกิน 1,200 แบ่ง module อัตโนมัติ (ข้างประกบคู่ 18+18)</div>
+    </div>
+    <div class="warnbox">⚠ <b>Mockup เพื่อดูแนวระบบเท่านั้น</b> — สูตร/convention การประกอบ (G.3) ยังรอ owner ฟันธง · ห้ามใช้ตัวเลขสั่งตัดจริง (Site Verify)</div>
+  </section>
+
+  <!-- ===== ผลลัพธ์ ===== -->
+  <div class="vwrap">
+    <section class="card">
+      <h2><span class="n">2</span>รูปด้าน (สร้างจากพารามิเตอร์สด)</h2>
+      <div class="preview">
+        <div class="svgbox"><span class="cap">FRONT ELEVATION</span><svg id="front" viewBox="0 0 800 480"></svg></div>
+        <div class="svgbox"><span class="cap">SIDE SECTION</span><svg id="side" viewBox="0 0 220 480"></svg></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="stModules">–</b><span>module (กล่อง)</span></div>
+        <div class="stat"><b id="stParts">–</b><span>ชิ้นส่วนทั้งหมด</span></div>
+        <div class="stat"><b id="stSheets">–</b><span>แผ่น 18mm (ประมาณ)</span></div>
+        <div class="stat"><b id="stEdge">–</b><span>ขอบ PVC (เมตร)</span></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="tabs">
+        <button class="on" data-tab="parts">รายการชิ้นส่วน (Cutting List)</button>
+        <button data-tab="hw">Hardware</button>
+        <button data-tab="sheets">สรุปแผ่น</button>
+      </div>
+      <div class="tblwrap"><table class="tbl" id="tbl"></table></div>
+      <div class="foot">โมเดลกลางชุดเดียว → รูปด้าน / Cutting List / Hardware / จำนวนแผ่น อัปเดตพร้อมกันเมื่อแก้ค่า — หลักการ Single Source of Truth ของระบบเต็ม (ดู SPEC_BUILTIN_INTERIOR_PLATFORM.md หมวด G/K) · เวอร์ชันจริงเพิ่ม: ลิ้นชัก · preset โรงงาน · cut layout ต่อแผ่น · DXF/PDF/Excel export · BOQ</div>
+    </section>
+  </div>
+</main>
+
+<script>
+/* ===== rule set default ตามสเปก §9 (advisory) ===== */
+const R = { panelT:18, backT:6, grooveDepth:10, backInset:10, doorGap:2, gapBetweenDoors:3,
+            shelfSideClear:2, shelfFrontSetback:6, doorClearance:2, maxModuleW:1200, kerfNote:3.5 };
+const TYPE_D = { tv_cabinet:450, wardrobe:600, kitchen_lower:600, shoe_cabinet:350, wall_unit:350 };
+const TYPE_H = { tv_cabinet:2200, wardrobe:2600, kitchen_lower:850, shoe_cabinet:1200, wall_unit:700 };
+
+let state = { type:'wardrobe', W:3000, H:2600, D:600, doors:6, shelves:2, handle:'concealed', kick:100 };
+let tab = 'parts';
+
+/* ===== derive parts — สูตรย่อจาก G.4 (side-full · groove back · module split) ===== */
+function derive(s){
+  const nMod = Math.max(1, Math.ceil(s.W / R.maxModuleW));
+  const modW = s.W / nMod;
+  const carcH = s.H - s.kick;
+  const D_c = s.doors > 0 ? s.D - R.panelT - R.doorClearance : s.D;
+  const parts = [], hw = [];
+  const doorsPerMod = [];
+  let rem = s.doors;
+  for (let i=0;i<nMod;i++){ const d = Math.round(rem/(nMod-i)); doorsPerMod.push(d); rem -= d; }
+
+  for (let m=0;m<nMod;m++){
+    const W_b = modW, W_int = W_b - 2*R.panelT, H_int = carcH - 2*R.panelT;
+    const tag = nMod>1 ? `M${m+1}-` : '';
+    parts.push(p(`${tag}SIDE-L`,'แผ่นข้างซ้าย', carcH, D_c, R.panelT, 1,'V','F'));
+    parts.push(p(`${tag}SIDE-R`,'แผ่นข้างขวา', carcH, D_c, R.panelT, 1,'V','F'));
+    parts.push(p(`${tag}TOP`,'แผ่นบน', W_int, D_c, R.panelT, 1,'–','F'));
+    parts.push(p(`${tag}BOT`,'แผ่นล่าง', W_int, D_c, R.panelT, 1,'–','F'));
+    parts.push(p(`${tag}BACK`,'แผ่นหลัง (ร่อง)', W_int + 2*R.grooveDepth, H_int + 2*R.grooveDepth, R.backT, 1,'–','–'));
+    const shelfD = D_c - R.backInset - R.backT - R.shelfFrontSetback;
+    if (s.shelves>0) parts.push(p(`${tag}SHELF`,'ชั้นปรับระดับ', W_int - 2*R.shelfSideClear, shelfD, R.panelT, s.shelves,'–','F'));
+    const n = doorsPerMod[m];
+    if (n>0){
+      const doorW = (W_b - (n-1)*R.gapBetweenDoors - 2*R.doorGap) / n;
+      const doorH = carcH - 2*R.doorGap;
+      parts.push(p(`${tag}DOOR`,'หน้าบาน', doorH, doorW, R.panelT, n,'V','TBLR'));
+      const hpd = doorH<900?2: doorH<=1600?3: doorH<=2000?4:5;
+      hw.push(h('HINGE','บานพับ soft-close', hpd*n, `${hpd} ตัว/บาน (สูงบาน ${fm(doorH)})`));
+      if (s.handle==='bar') hw.push(h('HANDLE','ด้ามจับ', n, '1 ตัว/บาน'));
+    }
+    if (s.shelves>0) hw.push(h('PIN','หมุดรับชั้น', 4*s.shelves, '4 ตัว/ชั้น'));
+  }
+  if (s.kick>0) parts.push(p('KICK','ฐานตู้ (kickboard)', s.W, s.kick, R.panelT, 1,'–','F'));
+  if (s.kick>0) hw.push(h('LEG','ขาปรับระดับ', Math.max(4, nMod*2+2), 'ทุก 600mm'));
+
+  /* รวม hardware ซ้ำชนิด */
+  const hwMap = {};
+  for (const x of hw){ const k=x.code; if(hwMap[k]){hwMap[k].qty+=x.qty;} else hwMap[k]={...x}; }
+
+  /* พื้นที่ + แผ่น + ขอบ */
+  let a18=0, a6=0, edge=0;
+  for (const q of parts){
+    const area = q.L*q.W*q.qty/1e6; // ตร.มม.→ไม่ใช่ ตอนนี้ mm²→m² = /1e6
+    if (q.T===R.panelT) a18+=area; else a6+=area;
+    // ขอบ PVC: หน้าบานติด 4 ด้าน (TBLR) · ชิ้นตัวถังติดเฉพาะขอบหน้า (F) = ด้านยาวของชิ้น
+    edge += (q.band==='TBLR' ? 2*(q.L+q.W) : q.band==='F' ? q.L : 0) * q.qty;
+  }
+  const SHEET = 1.220*2.440;
+  const sheets18 = Math.ceil(a18*1.15/SHEET), sheets6 = Math.ceil(a6*1.10/SHEET);
+  return { nMod, modW, carcH, D_c, parts, hw:Object.values(hwMap), a18, a6, sheets18, sheets6, edge:edge/1000, doorsPerMod };
+}
+function p(code,name,L,W,T,qty,grain,band){ return {code,name,L:Math.round(L*2)/2,W:Math.round(W*2)/2,T,qty,grain,band}; }
+function h(code,name,qty,note){ return {code,name,qty,note}; }
+function fm(v){ return Math.round(v).toLocaleString('th-TH'); }
+
+/* ===== SVG รูปด้าน ===== */
+function drawFront(s,d){
+  const svg=document.getElementById('front'); const PAD=60;
+  const sc=Math.min((800-2*PAD)/s.W,(480-2*PAD)/s.H);
+  const w=s.W*sc,hh=s.H*sc,x0=(800-w)/2,y0=(480-hh)/2;
+  let el='';
+  const carcH=d.carcH*sc, kick=s.kick*sc;
+  el+=`<rect x="${x0}" y="${y0}" width="${w}" height="${carcH}" fill="#faf7f2" stroke="#8a5a2b" stroke-width="1.5"/>`;
+  if(s.kick>0) el+=`<rect x="${x0+6}" y="${y0+carcH}" width="${w-12}" height="${kick}" fill="#efe9e0" stroke="#b9a68c" stroke-width="1"/>`;
+  let dx=x0;
+  for(let m=0;m<d.nMod;m++){
+    const mw=d.modW*sc;
+    if(m>0) el+=`<line x1="${dx}" y1="${y0}" x2="${dx}" y2="${y0+carcH}" stroke="#b9a68c" stroke-width="2"/>`;
+    const n=d.doorsPerMod[m];
+    if(n>0){ const g=R.gapBetweenDoors*sc, e=R.doorGap*sc, dw=(mw-(n-1)*g-2*e)/n;
+      for(let i=0;i<n;i++){ const px=dx+e+i*(dw+g);
+        el+=`<rect x="${px}" y="${y0+e}" width="${dw}" height="${carcH-2*e}" fill="#f3ece2" stroke="#8a5a2b" stroke-width="1"/>`;
+        const hx = i%2===0 ? px+dw-7 : px+7;
+        el+=`<line x1="${hx}" y1="${y0+carcH*0.42}" x2="${hx}" y2="${y0+carcH*0.58}" stroke="#8a5a2b" stroke-width="2" stroke-linecap="round"/>`; }
+    } else {
+      const W_int=(d.modW-36)*sc, ix=dx+18*R.panelT/R.panelT*sc*0+ (mw-W_int)/2;
+      for(let sh=1;sh<=s.shelves;sh++){ const sy=y0+carcH*sh/(s.shelves+1);
+        el+=`<line x1="${dx+18*sc}" y1="${sy}" x2="${dx+mw-18*sc}" y2="${sy}" stroke="#c9b8a0" stroke-width="1.5"/>`; }
+    }
+    dx+=mw;
+  }
+  /* เส้นบอกระยะ */
+  el+=dim(x0,y0+hh+26,x0+w,y0+hh+26,`W = ${fm(s.W)}`);
+  el+=dimV(x0-26,y0,y0+hh,`H = ${fm(s.H)}`);
+  svg.innerHTML=el;
+}
+function drawSide(s,d){
+  const svg=document.getElementById('side'); const PAD=50;
+  const sc=Math.min((220-2*PAD)/s.D,(480-2*PAD)/s.H);
+  const w=s.D*sc,hh=s.H*sc,x0=(220-w)/2,y0=(480-hh)/2;
+  const carcH=d.carcH*sc,kick=s.kick*sc,doorT=R.panelT*sc;
+  let el=`<rect x="${x0}" y="${y0}" width="${w-(s.doors>0?doorT+R.doorClearance*sc:0)}" height="${carcH}" fill="#faf7f2" stroke="#8a5a2b" stroke-width="1.5"/>`;
+  if(s.doors>0) el+=`<rect x="${x0+w-doorT}" y="${y0}" width="${doorT}" height="${carcH}" fill="#f3ece2" stroke="#8a5a2b" stroke-width="1"/>`;
+  if(s.kick>0) el+=`<rect x="${x0+8}" y="${y0+carcH}" width="${w-16-(s.doors>0?doorT:0)}" height="${kick}" fill="#efe9e0" stroke="#b9a68c"/>`;
+  for(let sh=1;sh<=s.shelves;sh++){ const sy=y0+carcH*sh/(s.shelves+1);
+    el+=`<line x1="${x0+3}" y1="${sy}" x2="${x0+w-(s.doors>0?doorT+4:3)}" y2="${sy}" stroke="#c9b8a0" stroke-width="1.5"/>`;}
+  el+=dim(x0,y0+hh+26,x0+w,y0+hh+26,`D = ${fm(s.D)}`);
+  svg.innerHTML=el;
+}
+function dim(x1,y,x2,y2,label){
+  return `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="#c9342a" stroke-width="1"/>
+  <line x1="${x1}" y1="${y-4}" x2="${x1}" y2="${y+4}" stroke="#c9342a"/><line x1="${x2}" y1="${y-4}" x2="${x2}" y2="${y+4}" stroke="#c9342a"/>
+  <text x="${(x1+x2)/2}" y="${y-5}" text-anchor="middle" font-size="12" font-family="Consolas" fill="#c9342a">${label}</text>`;
+}
+function dimV(x,y1,y2,label){
+  return `<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="#c9342a" stroke-width="1"/>
+  <line x1="${x-4}" y1="${y1}" x2="${x+4}" y2="${y1}" stroke="#c9342a"/><line x1="${x-4}" y1="${y2}" x2="${x+4}" y2="${y2}" stroke="#c9342a"/>
+  <text x="${x-7}" y="${(y1+y2)/2}" text-anchor="middle" font-size="12" font-family="Consolas" fill="#c9342a" transform="rotate(-90 ${x-7} ${(y1+y2)/2})">${label}</text>`;
+}
+
+/* ===== ตาราง ===== */
+function renderTable(d){
+  const t=document.getElementById('tbl');
+  if(tab==='parts'){
+    let rows=d.parts.map(q=>`<tr><td>${q.code}</td><td class="t">${q.name}</td><td>${fm(q.L)}</td><td>${fm(q.W)}</td><td>${q.T}</td><td>${q.qty}</td><td>${q.grain}</td><td>${q.band}</td></tr>`).join('');
+    t.innerHTML=`<tr><th>รหัส</th><th>ชิ้นส่วน</th><th>ยาว (mm)</th><th>กว้าง (mm)</th><th>หนา</th><th>จำนวน</th><th>ลายไม้</th><th>ขอบ</th></tr>${rows}`;
+  } else if(tab==='hw'){
+    let rows=d.hw.map(q=>`<tr><td>${q.code}</td><td class="t">${q.name}</td><td>${q.qty}</td><td class="t">${q.note}</td></tr>`).join('');
+    t.innerHTML=`<tr><th>รหัส</th><th>รายการ</th><th>จำนวน</th><th>กติกานับ</th></tr>${rows}`;
+  } else {
+    t.innerHTML=`<tr><th>วัสดุ</th><th>พื้นที่ชิ้นรวม (m²)</th><th>เผื่อตัด</th><th>แผ่น 1220×2440</th></tr>
+    <tr><td class="t">แผ่นตัว 18mm (MDF/PB)</td><td>${d.a18.toFixed(2)}</td><td>+15%</td><td><b>${d.sheets18}</b> แผ่น</td></tr>
+    <tr><td class="t">แผ่นหลัง 6mm</td><td>${d.a6.toFixed(2)}</td><td>+10%</td><td><b>${d.sheets6}</b> แผ่น</td></tr>
+    <tr><td class="t" colspan="4" style="font-family:'Sarabun';color:var(--muted);font-size:11.5px">ประมาณจากพื้นที่รวม (ยังไม่ jig-saw จริง) — เวอร์ชันจริงใช้ cut optimization (guillotine + kerf ${R.kerfNote}mm + ลายไม้) แล้วรายงาน % ใช้แผ่นตรง ๆ</td></tr>`;
+  }
+}
+
+/* ===== อัปเดตทั้งหน้า ===== */
+function update(){
+  const d=derive(state);
+  drawFront(state,d); drawSide(state,d); renderTable(d);
+  document.getElementById('stModules').textContent=d.nMod;
+  document.getElementById('stParts').textContent=d.parts.reduce((a,q)=>a+q.qty,0);
+  document.getElementById('stSheets').textContent=d.sheets18;
+  document.getElementById('stEdge').textContent=d.edge.toFixed(1);
+}
+
+/* ===== events ===== */
+for(const id of ['W','H','D','doors','shelves']){
+  document.getElementById(id).addEventListener('input',e=>{ const v=parseFloat(e.target.value); if(isFinite(v)){ state[id==='doors'?'doors':id==='shelves'?'shelves':id]=v; update(); } });
+}
+document.getElementById('ctype').addEventListener('change',e=>{
+  state.type=e.target.value;
+  state.D=TYPE_D[state.type]; document.getElementById('D').value=state.D;
+  state.H=TYPE_H[state.type]; document.getElementById('H').value=state.H;
+  if(state.type==='wall_unit'){ state.kick=0; setSeg('kickSeg','0'); } else { state.kick=100; setSeg('kickSeg','100'); }
+  update();
+});
+function setSeg(id,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.classList.toggle('on',b.dataset.v===val)); }
+document.getElementById('handleSeg').addEventListener('click',e=>{ if(e.target.dataset.v){ state.handle=e.target.dataset.v; setSeg('handleSeg',state.handle); update(); }});
+document.getElementById('kickSeg').addEventListener('click',e=>{ if(e.target.dataset.v!==undefined && e.target.dataset.v!==''){ state.kick=parseInt(e.target.dataset.v); setSeg('kickSeg',e.target.dataset.v); update(); }});
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{ tab=b.dataset.tab; document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b)); renderTable(derive(state)); }));
+
+update();
+</script>
+</body>
+</html>

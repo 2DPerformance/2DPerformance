@@ -1,0 +1,1302 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>P2 Loads Polish Mockup - 2D Performance</title>
+  <link rel="stylesheet" href="fonts/sarabun/sarabun.css" />
+  <style>
+    :root {
+      --bg: oklch(96.8% 0.008 247);
+      --surface: oklch(99% 0.006 247);
+      --panel: oklch(97.3% 0.012 247);
+      --panel-2: oklch(94.7% 0.014 247);
+      --line: oklch(84% 0.022 247);
+      --line-strong: oklch(72% 0.035 247);
+      --ink: oklch(23% 0.035 247);
+      --text: oklch(34% 0.035 247);
+      --muted: oklch(53% 0.034 247);
+      --blue: oklch(52% 0.16 258);
+      --blue-soft: oklch(95% 0.028 258);
+      --green: oklch(53% 0.13 157);
+      --green-soft: oklch(95% 0.035 157);
+      --amber: oklch(62% 0.13 72);
+      --amber-soft: oklch(96% 0.045 72);
+      --red: oklch(55% 0.18 29);
+      --red-soft: oklch(95.5% 0.035 29);
+      --teal: oklch(54% 0.115 203);
+      --teal-soft: oklch(95% 0.03 203);
+      --violet: oklch(55% 0.16 292);
+      --violet-soft: oklch(95% 0.03 292);
+      --radius: 8px;
+      --shadow: 0 1px 2px oklch(24% 0.03 247 / 0.08);
+      --mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Sarabun", "IBM Plex Sans Thai", "Segoe UI", system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .mock-app {
+      min-height: 100vh;
+      padding: 8px;
+    }
+
+    .wrap {
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    .topline,
+    .module-bar,
+    .level-bar,
+    .load-board,
+    .canvas-panel,
+    .inspector {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .topline {
+      min-height: 40px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 10px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .logo {
+      width: 25px;
+      height: 25px;
+      display: grid;
+      place-items: center;
+      border-radius: 6px;
+      background: var(--red);
+      color: oklch(98% 0.006 247);
+      font-size: 11px;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .project-title {
+      min-width: 0;
+      display: grid;
+      gap: 1px;
+    }
+
+    .project-title b {
+      color: var(--ink);
+      font-size: 12.5px;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .project-title span {
+      color: var(--muted);
+      font-size: 10.5px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      min-height: 26px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 3px 8px;
+      font-size: 10.5px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .btn.primary {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: oklch(98% 0.006 247);
+    }
+
+    .btn.warn {
+      background: var(--amber-soft);
+      border-color: oklch(80% 0.08 72);
+      color: var(--amber);
+    }
+
+    .btn.danger {
+      background: var(--red-soft);
+      border-color: oklch(78% 0.08 29);
+      color: var(--red);
+    }
+
+    .btn:focus-visible,
+    .step:focus-visible,
+    .chip-button:focus-visible,
+    .plan-object:focus-visible {
+      outline: 2px solid oklch(70% 0.12 258);
+      outline-offset: 2px;
+    }
+
+    .module-bar {
+      margin-top: 6px;
+      padding: 6px 8px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .module-name {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 5px;
+      border: 1px solid oklch(82% 0.06 258);
+      background: var(--blue-soft);
+      color: var(--blue);
+      padding: 1px 6px;
+      font-size: 10px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .step-rail {
+      display: flex;
+      gap: 5px;
+      margin-top: 6px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .step {
+      appearance: none;
+      min-width: 132px;
+      max-width: 210px;
+      flex: 1 0 auto;
+      display: grid;
+      gap: 2px;
+      padding: 6px 8px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface);
+      color: var(--muted);
+      text-align: left;
+    }
+
+    .step b {
+      color: var(--ink);
+      font-size: 11.5px;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .step span {
+      font-size: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .step.done {
+      background: var(--green-soft);
+      border-color: oklch(78% 0.07 157);
+    }
+
+    .step.active {
+      background: var(--amber-soft);
+      border-color: var(--amber);
+      box-shadow: inset 0 0 0 1px oklch(79% 0.09 72);
+    }
+
+    .level-bar {
+      margin-top: 6px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .level-label {
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .chip-button {
+      min-height: 25px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      padding: 3px 8px;
+      font-size: 10.5px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .chip-button.active {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: oklch(98% 0.006 247);
+    }
+
+    .chip-button.action {
+      background: var(--blue-soft);
+      border-color: oklch(78% 0.07 258);
+      color: var(--blue);
+    }
+
+    .load-board {
+      margin-top: 6px;
+      padding: 7px;
+    }
+
+    .board-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    h1 {
+      font-size: 13.5px;
+      font-weight: 900;
+    }
+
+    h2 {
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    h3 {
+      font-size: 11.5px;
+      font-weight: 900;
+    }
+
+    .board-sub {
+      color: var(--muted);
+      display: none;
+    }
+
+    .status-row {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      padding: 2px 7px;
+      font-size: 10.5px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .status.pass {
+      color: var(--green);
+      background: var(--green-soft);
+      border-color: oklch(78% 0.07 157);
+    }
+
+    .status.warn {
+      color: var(--amber);
+      background: var(--amber-soft);
+      border-color: oklch(80% 0.08 72);
+    }
+
+    .status.info {
+      color: var(--blue);
+      background: var(--blue-soft);
+      border-color: oklch(78% 0.07 258);
+    }
+
+    .board-grid {
+      display: grid;
+      grid-template-columns: 170px 150px minmax(250px, 1fr) 230px;
+      gap: 7px;
+      padding-top: 7px;
+      align-items: stretch;
+    }
+
+    .load-cell {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--panel);
+      padding: 7px;
+    }
+
+    .cell-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+
+    .cell-title small {
+      color: var(--muted);
+      font-size: 9.8px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 72px;
+      gap: 6px;
+      align-items: end;
+      margin-bottom: 5px;
+    }
+
+    label {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+
+    .input {
+      width: 100%;
+      min-height: 26px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--ink);
+      padding: 3px 7px;
+      font-size: 11.5px;
+      font-family: var(--mono);
+      text-align: right;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 9.8px;
+      line-height: 1.25;
+    }
+
+    .stat-stack {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px;
+    }
+
+    .stat-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      padding: 4px 6px;
+      min-height: 26px;
+    }
+
+    .stat-line span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .stat-line b {
+      color: var(--ink);
+      font-size: 11px;
+      font-family: var(--mono);
+    }
+
+    .stat-line.strong {
+      background: var(--amber-soft);
+      border-color: oklch(80% 0.08 72);
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 5px;
+    }
+
+    .preset {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 5px 6px;
+      text-align: left;
+    }
+
+    .preset b {
+      display: block;
+      color: var(--ink);
+      font-size: 11px;
+      line-height: 1.2;
+    }
+
+    .preset span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 9.5px;
+      font-family: var(--mono);
+    }
+
+    .preset.active {
+      background: var(--teal-soft);
+      border-color: oklch(76% 0.07 203);
+      box-shadow: inset 0 0 0 1px oklch(76% 0.07 203);
+    }
+
+    .height-row {
+      display: grid;
+      grid-template-columns: auto 68px auto repeat(5, minmax(0, 1fr));
+      gap: 4px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .height-row span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .height-pill {
+      min-height: 24px;
+      border-radius: 5px;
+      border: 1px solid oklch(76% 0.07 203);
+      background: var(--surface);
+      color: var(--teal);
+      padding: 2px 5px;
+      font-size: 9.8px;
+      font-weight: 900;
+    }
+
+    .height-pill.active {
+      background: var(--teal);
+      color: oklch(98% 0.006 247);
+    }
+
+    .equip-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 5px;
+    }
+
+    .equip {
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      padding: 5px 6px;
+      text-align: left;
+    }
+
+    .equip b {
+      color: var(--ink);
+      font-size: 10.5px;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .equip span {
+      display: block;
+      color: var(--muted);
+      font-size: 9px;
+      font-family: var(--mono);
+      margin-top: 2px;
+    }
+
+    .equip.active {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+      box-shadow: inset 0 0 0 1px oklch(76% 0.07 258);
+    }
+
+    .work-area {
+      margin-top: 7px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .canvas-panel {
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 8px 10px 7px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .head-copy {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .head-copy span {
+      color: var(--muted);
+      font-size: 10.5px;
+    }
+
+    .legend {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .legend i {
+      width: 12px;
+      height: 8px;
+      border-radius: 2px;
+      display: inline-block;
+      margin-right: 3px;
+      border: 1px solid var(--line-strong);
+      vertical-align: -1px;
+    }
+
+    .legend .slab-key {
+      background: oklch(97.3% 0.025 83);
+    }
+
+    .legend .selected-key {
+      background: var(--violet-soft);
+      border-color: var(--violet);
+    }
+
+    .legend .beam-key {
+      background: oklch(47% 0.11 203);
+      border-color: oklch(47% 0.11 203);
+    }
+
+    .canvas-shell {
+      overflow: auto;
+      background: oklch(98.8% 0.006 247);
+      min-height: 640px;
+    }
+
+    .plan-svg {
+      display: block;
+      min-width: 920px;
+      width: 100%;
+      height: auto;
+      padding: 14px;
+      background: oklch(99% 0.004 247);
+    }
+
+    .sheet-frame {
+      fill: oklch(99.3% 0.005 247);
+      stroke: oklch(87% 0.018 247);
+      stroke-width: 1;
+    }
+
+    .grid-line {
+      stroke: oklch(84% 0.018 247);
+      stroke-width: 1;
+      stroke-dasharray: 4 7;
+    }
+
+    .slab-fill {
+      fill: oklch(96.8% 0.034 83);
+      stroke: oklch(82% 0.055 83);
+      stroke-width: 1;
+    }
+
+    .slab-fill.ps {
+      fill: oklch(97.4% 0.026 83);
+    }
+
+    .slab-fill.selected {
+      fill: oklch(96% 0.035 292);
+      stroke: oklch(55% 0.16 292);
+      stroke-width: 1.6;
+    }
+
+    .beam {
+      stroke: oklch(47% 0.11 203);
+      stroke-width: 5.5;
+      stroke-linecap: square;
+    }
+
+    .beam-soft {
+      stroke: oklch(72% 0.055 203);
+      stroke-width: 3;
+      stroke-linecap: square;
+    }
+
+    .column {
+      fill: oklch(98.5% 0.006 247);
+      stroke: oklch(28% 0.04 247);
+      stroke-width: 1.2;
+    }
+
+    .dim {
+      fill: oklch(98.6% 0.006 247);
+      stroke: oklch(47% 0.11 203);
+      stroke-width: 1;
+      rx: 2;
+    }
+
+    .dim-text,
+    .axis-text {
+      fill: oklch(42% 0.11 203);
+      font-size: 9.5px;
+      font-weight: 900;
+      font-family: var(--mono);
+    }
+
+    .axis-label {
+      fill: oklch(42% 0.04 247);
+      font-size: 12px;
+      font-weight: 900;
+      font-family: var(--mono);
+    }
+
+    .slab-tag {
+      fill: oklch(99% 0.006 247);
+      stroke: oklch(67% 0.12 72);
+      stroke-width: 1;
+      rx: 4;
+    }
+
+    .slab-tag.selected {
+      stroke: oklch(55% 0.16 292);
+      stroke-width: 1.4;
+    }
+
+    .slab-name {
+      fill: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .slab-load {
+      fill: var(--text);
+      font-size: 9.5px;
+      font-weight: 800;
+    }
+
+    .equip-marker {
+      fill: oklch(97% 0.025 258);
+      stroke: oklch(52% 0.16 258);
+      stroke-width: 1.2;
+    }
+
+    .equip-text {
+      fill: var(--blue);
+      font-size: 9.5px;
+      font-weight: 900;
+    }
+
+    .inspector {
+      overflow: hidden;
+    }
+
+    .inspector-body {
+      padding: 8px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .object-card {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--panel);
+      padding: 8px;
+    }
+
+    .object-title {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .object-title b {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.2;
+    }
+
+    .object-title span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 2px;
+    }
+
+    .load-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 10.5px;
+      color: var(--ink);
+    }
+
+    .load-table th,
+    .load-table td {
+      border-bottom: 1px solid var(--line);
+      padding: 3px 0;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .load-table th {
+      color: var(--muted);
+      font-weight: 800;
+      width: 42%;
+    }
+
+    .load-table td {
+      text-align: right;
+      font-family: var(--mono);
+      font-weight: 800;
+    }
+
+    .trace-list {
+      display: grid;
+      gap: 5px;
+    }
+
+    .trace-row {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr) auto;
+      gap: 6px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      padding: 5px 6px;
+    }
+
+    .trace-row b {
+      color: var(--ink);
+      font-size: 10.5px;
+    }
+
+    .trace-row span {
+      color: var(--text);
+      font-size: 10.2px;
+      line-height: 1.3;
+    }
+
+    .trace-row code {
+      color: var(--muted);
+      font-size: 9.6px;
+      font-family: var(--mono);
+      white-space: nowrap;
+    }
+
+    .mini-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+
+    .note {
+      border: 1px dashed var(--line-strong);
+      border-radius: 7px;
+      background: var(--panel);
+      color: var(--text);
+      padding: 7px 8px;
+      font-size: 10.5px;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 860px) {
+      .board-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .work-area {
+        grid-template-columns: 1fr;
+      }
+
+      .canvas-shell {
+        min-height: 430px;
+      }
+
+      .inspector {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .mock-app {
+        padding: 8px;
+      }
+
+      .topline,
+      .module-bar {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+
+      .board-head,
+      .panel-head {
+        align-items: start;
+      }
+
+      .preset-grid,
+      .equip-grid,
+      .mini-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .height-row {
+        grid-template-columns: 1fr 82px 32px;
+      }
+
+      .height-pill {
+        min-height: 31px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="mock-app">
+    <div class="wrap">
+      <section class="topline" aria-label="Project header">
+        <div class="brand">
+          <div class="logo">2D</div>
+          <div class="project-title">
+            <b>แบบก่อสร้างตลาด 2 ชั้น คุณ ปั่น · Trust 02</b>
+            <span>2D Performance v1.0.20 · อาคารใหม่ · P2 กำหนดโหลด</span>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn">Undo</button>
+          <button class="btn">Redo</button>
+          <button class="btn">Grid+Levels</button>
+          <button class="btn primary">บันทึก</button>
+          <button class="btn">โหลด</button>
+          <button class="btn danger">ล้าง</button>
+        </div>
+      </section>
+
+      <section class="module-bar" aria-label="Module title">
+        <div class="module-name">
+          <span class="tag">MODULE 8.1</span>
+          <span>สร้างแปลน</span>
+          <span class="tag">BETA</span>
+        </div>
+        <div class="status-row">
+          <span class="status pass">พร้อมไป P3</span>
+          <span class="status warn">ชั้น 1 มี load override</span>
+          <span class="status info">อัปเดตจากแปลนล่าสุด</span>
+        </div>
+      </section>
+
+      <nav class="step-rail" aria-label="New building workflow">
+        <button class="step done" type="button"><b>P1 สร้างแปลน</b><span>เสา, คาน, พื้น</span></button>
+        <button class="step active" type="button" aria-current="step"><b>P2 กำหนดโหลด</b><span>DL, LL, wall, equipment</span></button>
+        <button class="step" type="button"><b>P3 วิเคราะห์</b><span>tributary + reactions</span></button>
+        <button class="step" type="button"><b>P4 ผลออกแบบ</b><span>รายตัว</span></button>
+        <button class="step" type="button"><b>P5 ตรวจ 3D ครั้งสุดท้าย</b><span>model sanity</span></button>
+        <button class="step" type="button"><b>P6 รายงาน</b><span>calculation package</span></button>
+        <button class="step" type="button"><b>P7 ตรวจเหล็ก 3D</b><span>rebar view</span></button>
+      </nav>
+
+      <section class="level-bar" aria-label="Level selector">
+        <span class="level-label">LEVEL:</span>
+        <button class="chip-button" type="button">ฐานราก @-1.00</button>
+        <button class="chip-button active" type="button">ชั้น 1 @0.00</button>
+        <button class="chip-button" type="button">ชั้น 2 @3.40</button>
+        <button class="chip-button" type="button">หลังคา @6.40</button>
+        <button class="chip-button action" type="button">Copy ชั้นนี้</button>
+      </section>
+
+      <section class="load-board" aria-label="P2 load console">
+        <div class="board-head">
+          <div>
+            <h1>P2 · Load console ชั้น 1</h1>
+            <div class="board-sub">กำหนด default load, ผนัง, และอุปกรณ์ โดยยังผูกกับแปลนเดิมและค่าที่ P3 ใช้จริง</div>
+          </div>
+          <div class="status-row">
+            <span class="status pass">คานมีผนัง 23/26</span>
+            <span class="status pass">พื้นกำหนดเอง 13/13</span>
+            <span class="status warn">รวมผนัง 14.68 ตัน</span>
+          </div>
+        </div>
+
+        <div class="board-grid">
+          <section class="load-cell">
+            <div class="cell-title">
+              <h2>โหลดเริ่มต้น</h2>
+              <small>Default slab</small>
+            </div>
+            <div class="field-row">
+              <div>
+                <label for="default-ll">LL (kg/m²)</label>
+                <div class="hint">ใช้เมื่อพื้นไม่ได้ override เอง</div>
+              </div>
+              <input id="default-ll" class="input" type="text" value="150" />
+            </div>
+            <table class="load-table" aria-label="Default load table">
+              <tr><th>DL จาก self-weight</th><td>γ · t</td></tr>
+              <tr><th>SDL default</th><td>135</td></tr>
+              <tr><th>พื้นใช้ค่า default</th><td>3/13</td></tr>
+            </table>
+          </section>
+
+          <section class="load-cell">
+            <div class="cell-title">
+              <h2>สรุปชั้น</h2>
+              <small>Live count</small>
+            </div>
+            <div class="stat-stack">
+              <div class="stat-line"><span>คานมีผนัง</span><b>23/26</b></div>
+              <div class="stat-line"><span>พื้นกำหนดเอง</span><b>13/13</b></div>
+              <div class="stat-line"><span>อุปกรณ์</span><b>2 จุด</b></div>
+              <div class="stat-line strong"><span>รวมผนัง</span><b>14.68 t</b></div>
+            </div>
+          </section>
+
+          <section class="load-cell">
+            <div class="cell-title">
+              <h2>ตั้งโหลดผนังทั้งหมด</h2>
+              <small>Batch wall load</small>
+            </div>
+            <div class="height-row" aria-label="Wall height preset">
+              <span>H</span>
+              <input class="input" type="text" value="3.00" />
+              <span>ม.</span>
+              <button class="height-pill" type="button">2.5</button>
+              <button class="height-pill" type="button">2.7</button>
+              <button class="height-pill active" type="button">3.0</button>
+              <button class="height-pill" type="button">3.2</button>
+              <button class="height-pill" type="button">auto</button>
+            </div>
+            <div class="preset-grid">
+              <button class="preset" type="button"><b>ไม่มี</b><span>0 kg/m</span></button>
+              <button class="preset active" type="button"><b>ผนังครึ่ง</b><span>150 kg/m</span></button>
+              <button class="preset" type="button"><b>อิฐมวลเบา</b><span>300 kg/m</span></button>
+              <button class="preset" type="button"><b>อิฐมอญ</b><span>660 kg/m</span></button>
+            </div>
+          </section>
+
+          <section class="load-cell">
+            <div class="cell-title">
+              <h2>อุปกรณ์และถังน้ำ</h2>
+              <small>Point area load</small>
+            </div>
+            <div class="equip-grid">
+              <button class="equip active" type="button"><b>ถังน้ำ 1,000L</b><span>1.0t · 1x1m</span></button>
+              <button class="equip" type="button"><b>ถังน้ำ 2,000L</b><span>2.0t · 1.3x1.3m</span></button>
+              <button class="equip" type="button"><b>AC คอยล์ร้อน 18K</b><span>80kg · 0.85x0.35m</span></button>
+              <button class="equip" type="button"><b>Solar inverter</b><span>35kg · 0.5x0.4m</span></button>
+            </div>
+            <div class="hint" style="margin-top: 7px;">ในชั้นนี้: 2 จุด, รวม 1,080 kg</div>
+          </section>
+        </div>
+      </section>
+
+      <div class="work-area">
+        <section class="canvas-panel" aria-label="Plan load canvas">
+          <div class="panel-head">
+            <div class="head-copy">
+              <h2>คลิก พื้น หรือ คาน เพื่อกำหนดโหลด</h2>
+              <span>ชั้น 1 · แสดง LL, SDL, wall line load และอุปกรณ์บนแปลนเดียว</span>
+            </div>
+            <div class="legend">
+              <span><i class="slab-key"></i>พื้น</span>
+              <span><i class="selected-key"></i>เลือกอยู่</span>
+              <span><i class="beam-key"></i>คานมีผนัง</span>
+            </div>
+          </div>
+
+          <div class="canvas-shell">
+            <svg class="plan-svg" viewBox="50 45 760 445" role="img" aria-label="P2 load plan mockup">
+              <rect class="sheet-frame" x="60" y="55" width="735" height="420" rx="4" />
+              <line class="grid-line" x1="95" y1="60" x2="95" y2="475" />
+              <line class="grid-line" x1="245" y1="60" x2="245" y2="475" />
+              <line class="grid-line" x1="355" y1="60" x2="355" y2="475" />
+              <line class="grid-line" x1="475" y1="60" x2="475" y2="475" />
+              <line class="grid-line" x1="600" y1="60" x2="600" y2="475" />
+              <line class="grid-line" x1="745" y1="60" x2="745" y2="475" />
+              <line class="grid-line" x1="70" y1="90" x2="780" y2="90" />
+              <line class="grid-line" x1="70" y1="210" x2="780" y2="210" />
+              <line class="grid-line" x1="70" y1="335" x2="780" y2="335" />
+              <line class="grid-line" x1="70" y1="460" x2="780" y2="460" />
+
+              <rect class="slab-fill ps selected" x="95" y="90" width="150" height="120" />
+              <rect class="slab-fill" x="245" y="90" width="110" height="120" />
+              <rect class="slab-fill" x="355" y="90" width="120" height="120" />
+              <rect class="slab-fill ps" x="475" y="90" width="125" height="245" />
+              <rect class="slab-fill" x="600" y="90" width="145" height="120" />
+              <rect class="slab-fill" x="95" y="210" width="150" height="125" />
+              <rect class="slab-fill ps" x="245" y="210" width="110" height="125" />
+              <rect class="slab-fill" x="355" y="210" width="120" height="125" />
+              <rect class="slab-fill" x="600" y="210" width="145" height="125" />
+              <rect class="slab-fill ps" x="95" y="335" width="150" height="125" />
+              <rect class="slab-fill" x="245" y="335" width="110" height="125" />
+              <rect class="slab-fill ps" x="355" y="335" width="120" height="125" />
+
+              <line class="beam" x1="95" y1="90" x2="745" y2="90" />
+              <line class="beam" x1="95" y1="210" x2="745" y2="210" />
+              <line class="beam" x1="95" y1="335" x2="745" y2="335" />
+              <line class="beam" x1="95" y1="460" x2="475" y2="460" />
+              <line class="beam" x1="95" y1="90" x2="95" y2="460" />
+              <line class="beam" x1="245" y1="90" x2="245" y2="460" />
+              <line class="beam" x1="355" y1="90" x2="355" y2="460" />
+              <line class="beam" x1="475" y1="90" x2="475" y2="460" />
+              <line class="beam" x1="600" y1="90" x2="600" y2="335" />
+              <line class="beam" x1="745" y1="90" x2="745" y2="335" />
+              <line class="beam" x1="600" y1="150" x2="745" y2="150" />
+              <line class="beam-soft" x1="95" y1="335" x2="245" y2="460" />
+
+              <g>
+                <rect class="dim" x="160" y="84" width="34" height="13" /><text class="dim-text" x="177" y="94" text-anchor="middle">180</text>
+                <rect class="dim" x="284" y="84" width="34" height="13" /><text class="dim-text" x="301" y="94" text-anchor="middle">180</text>
+                <rect class="dim" x="402" y="84" width="34" height="13" /><text class="dim-text" x="419" y="94" text-anchor="middle">180</text>
+                <rect class="dim" x="529" y="84" width="34" height="13" /><text class="dim-text" x="546" y="94" text-anchor="middle">180</text>
+                <rect class="dim" x="665" y="84" width="34" height="13" /><text class="dim-text" x="682" y="94" text-anchor="middle">180</text>
+                <rect class="dim" x="89" y="144" width="13" height="34" /><text class="dim-text" x="96" y="165" text-anchor="middle" transform="rotate(-90 96 165)">180</text>
+                <rect class="dim" x="89" y="268" width="13" height="34" /><text class="dim-text" x="96" y="289" text-anchor="middle" transform="rotate(-90 96 289)">180</text>
+                <rect class="dim" x="89" y="393" width="13" height="34" /><text class="dim-text" x="96" y="414" text-anchor="middle" transform="rotate(-90 96 414)">180</text>
+              </g>
+
+              <g>
+                <rect class="slab-tag selected" x="145" y="124" width="60" height="41" />
+                <text class="slab-name" x="175" y="142" text-anchor="middle">PS3</text>
+                <text class="slab-load" x="175" y="157" text-anchor="middle">LL 150</text>
+                <text class="slab-load" x="175" y="170" text-anchor="middle">SDL 135</text>
+
+                <rect class="slab-tag" x="273" y="126" width="54" height="36" />
+                <text class="slab-name" x="300" y="143" text-anchor="middle">S4</text>
+                <text class="slab-load" x="300" y="158" text-anchor="middle">150/135</text>
+
+                <rect class="slab-tag" x="389" y="126" width="54" height="36" />
+                <text class="slab-name" x="416" y="143" text-anchor="middle">S5</text>
+                <text class="slab-load" x="416" y="158" text-anchor="middle">150/135</text>
+
+                <rect class="slab-tag" x="515" y="198" width="66" height="41" />
+                <text class="slab-name" x="548" y="216" text-anchor="middle">PS1</text>
+                <text class="slab-load" x="548" y="231" text-anchor="middle">LL 150</text>
+                <text class="slab-load" x="548" y="244" text-anchor="middle">SDL 135</text>
+
+                <rect class="slab-tag" x="650" y="118" width="62" height="36" />
+                <text class="slab-name" x="681" y="135" text-anchor="middle">S2</text>
+                <text class="slab-load" x="681" y="150" text-anchor="middle">150/135</text>
+
+                <rect class="slab-tag" x="696" y="168" width="42" height="34" />
+                <text class="slab-name" x="717" y="186" text-anchor="middle">S1</text>
+              </g>
+
+              <g>
+                <circle class="equip-marker" cx="640" cy="255" r="14" />
+                <text class="equip-text" x="640" y="259" text-anchor="middle">T1</text>
+                <circle class="equip-marker" cx="300" cy="278" r="12" />
+                <text class="equip-text" x="300" y="282" text-anchor="middle">AC</text>
+              </g>
+
+              <g>
+                <text class="axis-label" x="95" y="67" text-anchor="middle">5</text>
+                <text class="axis-label" x="245" y="67" text-anchor="middle">2</text>
+                <text class="axis-label" x="355" y="67" text-anchor="middle">3.1</text>
+                <text class="axis-label" x="475" y="67" text-anchor="middle">3</text>
+                <text class="axis-label" x="600" y="67" text-anchor="middle">2</text>
+                <text class="axis-label" x="745" y="67" text-anchor="middle">1</text>
+                <text class="axis-label" x="80" y="94" text-anchor="end">A</text>
+                <text class="axis-label" x="80" y="215" text-anchor="end">B</text>
+                <text class="axis-label" x="80" y="465" text-anchor="end">C</text>
+              </g>
+
+              <g>
+                <rect class="column" x="89" y="84" width="12" height="12" />
+                <rect class="column" x="239" y="84" width="12" height="12" />
+                <rect class="column" x="349" y="84" width="12" height="12" />
+                <rect class="column" x="469" y="84" width="12" height="12" />
+                <rect class="column" x="594" y="84" width="12" height="12" />
+                <rect class="column" x="739" y="84" width="12" height="12" />
+                <rect class="column" x="89" y="204" width="12" height="12" />
+                <rect class="column" x="239" y="204" width="12" height="12" />
+                <rect class="column" x="349" y="204" width="12" height="12" />
+                <rect class="column" x="469" y="204" width="12" height="12" />
+                <rect class="column" x="594" y="204" width="12" height="12" />
+                <rect class="column" x="739" y="204" width="12" height="12" />
+                <rect class="column" x="89" y="329" width="12" height="12" />
+                <rect class="column" x="239" y="329" width="12" height="12" />
+                <rect class="column" x="469" y="329" width="12" height="12" />
+                <rect class="column" x="594" y="329" width="12" height="12" />
+                <rect class="column" x="739" y="329" width="12" height="12" />
+                <rect class="column" x="89" y="454" width="12" height="12" />
+                <rect class="column" x="239" y="454" width="12" height="12" />
+                <rect class="column" x="469" y="454" width="12" height="12" />
+              </g>
+            </svg>
+          </div>
+        </section>
+
+        <aside class="inspector" aria-label="Selected load inspector">
+          <div class="panel-head">
+            <div class="head-copy">
+              <h2>Selected: PS3</h2>
+              <span>พื้น post-tensioned slab · ชั้น 1</span>
+            </div>
+            <span class="status warn">override</span>
+          </div>
+          <div class="inspector-body">
+            <section class="object-card">
+              <div class="object-title">
+                <div>
+                  <b>PS3 load basis</b>
+                  <span>ค่าที่จะส่งต่อ P3 วิเคราะห์</span>
+                </div>
+                <span class="tag">13.50 m²</span>
+              </div>
+              <table class="load-table" aria-label="Selected slab loads">
+                <tr><th>LL</th><td>150 kg/m²</td></tr>
+                <tr><th>SDL</th><td>135 kg/m²</td></tr>
+                <tr><th>Self weight</th><td>γ · t</td></tr>
+                <tr><th>Wall edge</th><td>180 kg/m</td></tr>
+              </table>
+            </section>
+
+            <section class="object-card">
+              <div class="cell-title">
+                <h3>Load trace</h3>
+                <small>source</small>
+              </div>
+              <div class="trace-list">
+                <div class="trace-row">
+                  <b>Default</b>
+                  <span>LL เริ่มต้นชั้น 1</span>
+                  <code>150</code>
+                </div>
+                <div class="trace-row">
+                  <b>Slab</b>
+                  <span>PS3 override SDL</span>
+                  <code>135</code>
+                </div>
+                <div class="trace-row">
+                  <b>Beam</b>
+                  <span>ผนังครึ่งสูง 3.00 ม.</span>
+                  <code>180 kg/m</code>
+                </div>
+                <div class="trace-row">
+                  <b>Equip</b>
+                  <span>ไม่มีอุปกรณ์บนพื้นนี้</span>
+                  <code>0 kg</code>
+                </div>
+              </div>
+            </section>
+
+            <section class="object-card">
+              <div class="cell-title">
+                <h3>Apply scope</h3>
+                <small>ชั้น 1</small>
+              </div>
+              <div class="mini-actions">
+                <button class="btn primary" type="button">ใช้กับ PS</button>
+                <button class="btn" type="button">ใช้กับ S</button>
+                <button class="btn warn" type="button">Reset PS3</button>
+                <button class="btn" type="button">ดูใน P3</button>
+              </div>
+            </section>
+
+            <div class="note">
+              Summary: P2 หน้านี้จัดกลุ่ม input ที่กระจัดกระจายให้เห็น source ของ load ในจุดเดียว และยังคงแปลนเดิมเป็นพื้นที่หลักของงาน
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

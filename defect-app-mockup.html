@@ -1,0 +1,630 @@
+<title>Defect Inspection: App Mockup</title>
+<style>
+  :root{
+    --stone50:oklch(97.5% .008 72); --surface:oklch(99% .004 72); --ink:oklch(24% .022 55); --ink2:oklch(32% .022 55);
+    --mut:oklch(52% .026 55); --faint:oklch(68% .022 55); --line:oklch(90% .014 72); --line2:oklch(82% .02 72);
+    --brand:oklch(55% .17 45); --brandSoft:oklch(96% .025 52); --brandLine:oklch(83% .075 52);
+    --pass:oklch(48% .14 145); --passBg:oklch(96% .035 145); --passLn:oklch(82% .08 145);
+    --fail:oklch(56% .2 28); --failBg:oklch(96% .035 28); --failLn:oklch(84% .075 28);
+    --wip:oklch(55% .13 72); --wipBg:oklch(96% .035 82); --wipLn:oklch(84% .075 82);
+    --info:oklch(49% .17 255); --infoBg:oklch(96% .025 255);
+    --overlay:oklch(18% .018 55 / .82);
+    --mono:ui-monospace,"SF Mono","Consolas",monospace;
+  }
+  *{box-sizing:border-box}
+  .app{font-family:"Sarabun","IBM Plex Sans Thai","Tahoma","Segoe UI",system-ui,sans-serif;
+    color:var(--ink); background:var(--stone50); min-height:100%; line-height:1.5}
+  .app .mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
+
+  /* ===== top bar ===== */
+  .topbar{position:sticky; top:0; z-index:20; background:var(--surface); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:14px; padding:11px 20px; flex-wrap:wrap}
+  .brand{display:flex; align-items:center; gap:9px}
+  .logo{width:30px;height:30px;border-radius:7px;background:var(--ink);display:grid;place-items:center;flex:0 0 auto}
+  .logo svg{width:17px;height:17px}
+  .brand .nm{line-height:1.1}
+  .brand .nm b{font-size:14px;font-weight:800;letter-spacing:.02em}
+  .brand .nm small{display:block;font-size:9.5px;letter-spacing:.22em;color:var(--mut);text-transform:uppercase}
+  /* white-label: โลโก้ + ชื่อบริษัท ผู้ใช้ใส่เอง */
+  .logo-slot{width:30px;height:30px;border-radius:7px;display:grid;place-items:center;cursor:pointer;flex:0 0 auto;overflow:hidden;background-size:cover;background-position:center}
+  .logo-slot.empty{border:1.5px dashed var(--line2);color:var(--faint);font-size:8px;font-weight:800;text-align:center;line-height:1.05;background:var(--stone50)}
+  .logo-slot.empty:hover{border-color:var(--brand);color:var(--brand);background:var(--brandSoft)}
+  .doc .dhd .logo-slot{width:44px;height:44px;font-size:9px}
+  .brand-name{outline:none;border-bottom:1px dashed transparent;cursor:text;min-width:60px;display:inline-block}
+  .brand-name:hover,.brand-name:focus{border-bottom-color:var(--line2)}
+  .brand-name:empty:before{content:attr(data-ph);color:var(--faint);font-weight:600;text-transform:none;letter-spacing:normal}
+  .proj{display:flex;align-items:center;gap:8px;background:var(--stone50);border:1px solid var(--line2);
+    border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700}
+  .proj .dot{width:7px;height:7px;border-radius:50%;background:var(--brand)}
+  .chip{font-size:11px;font-weight:700;color:var(--mut);background:var(--stone50);border:1px solid var(--line);border-radius:6px;padding:3px 8px}
+  .topbar .sp{margin-left:auto}
+  .btn{font:inherit;font-size:12.5px;font-weight:700;border-radius:7px;padding:8px 14px;cursor:pointer;border:1px solid var(--line2);background:var(--surface);color:var(--ink2);white-space:nowrap}
+  .btn.primary{background:var(--brand);border-color:var(--brand);color:var(--surface)}
+  .btn.sm{padding:6px 11px;font-size:12px}
+
+  /* ===== tabs ===== */
+  .tabs{display:flex;gap:2px;padding:0 16px;background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:53px;z-index:19;overflow-x:auto}
+  .tabs button{font:inherit;font-size:13px;font-weight:700;border:0;background:transparent;color:var(--mut);
+    padding:12px 15px;cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:7px}
+  .tabs button.on{color:var(--ink);border-bottom-color:var(--brand)}
+  .tabs .cnt{font-size:11px;background:var(--stone50);border:1px solid var(--line);border-radius:999px;padding:0 7px;font-weight:800;color:var(--mut)}
+  .tabs button.on .cnt{background:var(--brandSoft);border-color:var(--brandLine);color:var(--brand)}
+
+  .wrap{max-width:1480px;margin:0 auto;padding:16px 20px 28px}
+  .view{display:none} .view.on{display:block}
+
+  /* ===== KPI ===== */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+  @media(max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:13px 15px;position:relative;overflow:hidden}
+  .kpi .rail{position:absolute;left:0;top:0;bottom:0;width:4px}
+  .kpi .n{font-size:26px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+  .kpi .l{font-size:12px;color:var(--mut);margin-top:4px;font-weight:600}
+  .kpi .l b{color:var(--ink)}
+
+  /* ===== defect table ===== */
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .panel-hd{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .panel-hd h2{font-size:15px;font-weight:800;margin:0}
+  .panel-hd .sub{font-size:12px;color:var(--mut)}
+  .tbl-scroll{overflow-x:auto}
+  table.dl{border-collapse:collapse;width:100%;min-width:900px;font-size:12.5px}
+  table.dl th,table.dl td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  table.dl thead th{background:var(--stone50);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);font-weight:800;white-space:nowrap;position:sticky;top:0}
+  table.dl td.c{text-align:center} table.dl td.no{text-align:center;font-family:var(--mono);color:var(--mut);font-weight:700}
+  table.dl tbody tr:hover{background:var(--stone50)}
+  .loc{font-weight:700} .desc{color:var(--ink2);max-width:230px}
+  .resp{display:inline-flex;align-items:center;gap:6px;font-size:12px}
+  .ava{width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--surface);display:grid;place-items:center;font-size:9.5px;font-weight:800}
+  .dt{font-family:var(--mono);font-size:11.5px;color:var(--ink2);white-space:nowrap}
+  .dt small{color:var(--faint)}
+
+  .ph{display:flex;gap:8px;align-items:center}
+  .ph .box{width:164px;height:96px;border-radius:7px;border:1px solid var(--line2);display:grid;place-items:center;position:relative;overflow:hidden;box-shadow:0 1px 3px oklch(24% .022 55 / .09)}
+  .ph .box.b{background:var(--failBg)} .ph .box.a{background:var(--passBg)}
+  .ph .box.empty{background:var(--stone50);border-style:dashed}
+  .ph .box span{position:absolute;bottom:3px;left:0;right:0;text-align:center;font-size:10.5px;font-weight:800;color:var(--overlay)}
+  .ph .box svg{width:32px;height:32px;opacity:.5;margin-bottom:15px}
+  .ph{cursor:pointer;align-items:center;border-radius:8px;padding:2px} .ph:hover{background:var(--stone50)}
+  .ph .chev{color:var(--faint);font-size:11px;margin-left:1px}
+  /* photo dropdown popover */
+  #photoDD{position:fixed;z-index:60;width:300px;background:var(--surface);border:1px solid var(--line2);border-radius:8px;box-shadow:0 16px 40px oklch(24% .022 55 / .2);display:none;overflow:hidden}
+  #photoDD .dd-hd{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:800;padding:10px 13px;border-bottom:1px solid var(--line);background:var(--stone50)}
+  #photoDD .dd-hd .x{margin-left:auto;color:var(--faint);cursor:pointer;font-weight:700}
+  #photoDD .dd-body{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px}
+  #photoDD .slot .sl-t{font-size:11px;font-weight:800;margin-bottom:5px}
+  #photoDD .slot.b .sl-t{color:var(--fail)} #photoDD .slot.a .sl-t{color:var(--pass)}
+  #photoDD .pv{height:82px;border-radius:8px;display:grid;place-items:center;border:1px solid var(--line2);cursor:pointer;background-size:cover;background-position:center;transition:outline .1s}
+  #photoDD .pv.drop{outline:2px dashed var(--brand);outline-offset:-3px;background-color:var(--brandSoft) !important;border-color:var(--brand)}
+  #photoDD .pv.drop em{color:var(--brand) !important}
+  #photoDD .slot.b .pv.has{background:var(--failBg)} #photoDD .slot.a .pv.has{background:var(--passBg)}
+  #photoDD .pv.empty{flex-direction:column;background:var(--stone50)}
+  #photoDD .pv svg{width:22px;height:22px;opacity:.45} #photoDD .pv em{font-size:9.5px;color:var(--faint);font-style:normal;margin-top:4px}
+  #photoDD .sl-btn{display:flex;gap:5px;margin-top:6px} #photoDD .sl-btn .btn{flex:1;padding:5px 4px;font-size:11px}
+  #photoDD .dd-ft{font-size:10.5px;color:var(--faint);padding:0 13px 11px;text-align:center}
+  #photoDD .pv{position:relative;background-size:cover;background-position:center}
+  #photoDD .mkbadge{position:absolute;right:4px;bottom:4px;background:var(--fail);color:var(--surface);font-size:9px;font-weight:800;border-radius:5px;padding:1px 5px;pointer-events:none}
+  .pv .marks,.box .marks{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  /* table thumbnail with real image */
+  .ph .box.has{background-size:cover;background-position:center;border-style:solid}
+  .ph .box.has span{color:var(--surface);text-shadow:0 1px 2px oklch(12% .01 55 / .7)}
+  /* annotation editor modal */
+  #annot{position:fixed;inset:0;z-index:80;background:var(--overlay);display:none;padding:18px}
+  #annot.open{display:grid;place-items:center}
+  #annot .box{background:var(--surface);border-radius:8px;max-width:640px;width:100%;overflow:hidden;box-shadow:0 24px 64px oklch(12% .01 55 / .45)}
+  #annot .abar{display:flex;align-items:center;gap:6px;padding:10px 13px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  #annot .abar .tt{font-size:13px;font-weight:800}
+  #annot .tools{display:flex;gap:4px;margin-left:8px}
+  #annot .tool{font:inherit;font-size:12px;font-weight:700;border:1px solid var(--line2);background:var(--surface);border-radius:7px;padding:6px 11px;cursor:pointer;color:var(--ink2)}
+  #annot .tools .tool.on{background:var(--fail);border-color:var(--fail);color:var(--surface)}
+  #annot .abar .sp{margin-left:auto}
+  #annot .tool.aDone{background:var(--pass);border-color:var(--pass);color:var(--surface)}
+  #annot .stage{background:oklch(16% .012 55);display:grid;place-items:center;padding:10px;max-height:64vh}
+  #annot .frame{position:relative;line-height:0}
+  #annot .frame img{display:block;max-width:100%;max-height:60vh;-webkit-user-drag:none;user-select:none}
+  #annot svg.draw{position:absolute;left:0;top:0;width:100%;height:100%;cursor:crosshair;touch-action:none}
+  #annot .aft{padding:9px 14px;font-size:11.5px;color:var(--mut);border-top:1px solid var(--line)}
+  #annot .aft b{color:var(--ink2)}
+
+  .st{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;border-radius:999px;padding:3px 10px;border:1px solid;white-space:nowrap}
+  .st.pass{color:var(--pass);background:var(--passBg);border-color:var(--passLn)}
+  .st.fail{color:var(--fail);background:var(--failBg);border-color:var(--failLn)}
+  .st.wip{color:var(--wip);background:var(--wipBg);border-color:var(--wipLn)}
+  .st .d{width:6px;height:6px;border-radius:50%;background:currentColor}
+  /* สถานะ = กล่องสี่เหลี่ยมติ๊กกดได้ (owner) */
+  .stbox{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;font-weight:800;white-space:nowrap;user-select:none}
+  .stbox .ck{width:24px;height:24px;border-radius:7px;border:1.8px solid;display:grid;place-items:center;font-size:14px;font-weight:900;flex:0 0 auto;transition:box-shadow .1s}
+  .stbox.pass{color:var(--pass)} .stbox.pass .ck{border-color:var(--pass);background:var(--passBg)}
+  .stbox.fail{color:var(--fail)} .stbox.fail .ck{border-color:var(--fail);background:var(--failBg)}
+  .stbox.wip{color:var(--wip)} .stbox.wip .ck{border-color:var(--wip);background:var(--wipBg)}
+  .stbox:hover .ck{box-shadow:0 0 0 3px oklch(24% .022 55 / .07)}
+  /* สถานะ = 3 กรอบแยก แตะติ๊กเองบน iPad (owner) */
+  .stseg{display:inline-flex;gap:5px}
+  .stseg .seg{font:inherit;width:36px;height:36px;border-radius:7px;border:1.6px solid var(--line2);background:var(--surface);color:var(--faint);font-size:16px;font-weight:900;cursor:pointer;display:grid;place-items:center;-webkit-tap-highlight-color:transparent;transition:transform .05s,box-shadow .1s}
+  .stseg .seg:active{transform:scale(.92)}
+  .stseg .seg:hover{box-shadow:0 0 0 3px oklch(24% .022 55 / .06)}
+  .stseg .seg.fail.on{background:var(--failBg);border-color:var(--fail);color:var(--fail)}
+  .stseg .seg.wip.on{background:var(--wipBg);border-color:var(--wip);color:var(--wip)}
+  .stseg .seg.pass.on{background:var(--passBg);border-color:var(--pass);color:var(--pass)}
+  .stlab{font-size:11px;font-weight:800;margin-top:4px}
+  .stlab.pass{color:var(--pass)} .stlab.fail{color:var(--fail)} .stlab.wip{color:var(--wip)}
+  .rowadd{padding:11px 16px;border-top:1px dashed var(--line2);background:var(--stone50)}
+
+  /* ===== photo-first defect workspace ===== */
+  .defect-head{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap}
+  .defect-title h1{font-size:18px;line-height:1.25;letter-spacing:0;margin:0;font-weight:850}
+  .defect-title p{font-size:12px;color:var(--mut);margin:3px 0 0}
+  .defect-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .summary-bar{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:8px;background:var(--surface);margin-bottom:12px;overflow:hidden}
+  .summary-item{display:flex;align-items:center;gap:8px;padding:9px 13px;border-inline-end:1px solid var(--line);min-width:128px}
+  .summary-item:last-child{border-inline-end:0}
+  .summary-item .n{font-family:var(--mono);font-size:18px;font-weight:850;line-height:1}
+  .summary-item .l{font-size:10.5px;color:var(--mut);line-height:1.25}
+  .summary-item .l b{display:block;color:var(--ink);font-size:11.5px}
+  .summary-progress{margin-left:auto;min-width:230px;display:grid;align-content:center;gap:5px;padding:9px 13px;background:var(--stone50)}
+  .summary-progress .row{display:flex;justify-content:space-between;gap:12px;font-size:10.5px;color:var(--mut)}
+  .summary-progress b{color:var(--ink);font-family:var(--mono)}
+  .progress-track{height:5px;background:var(--line);border-radius:999px;overflow:hidden}
+  .progress-track span{display:block;width:33%;height:100%;background:var(--pass)}
+
+  .defect-layout{display:grid;grid-template-columns:286px minmax(0,1fr);gap:12px;align-items:start}
+  .defect-queue,.photo-focus,.photo-gallery{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .queue-head,.focus-head,.gallery-head{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--line)}
+  .queue-head b,.gallery-head b{font-size:12.5px}
+  .queue-head span,.gallery-head span{font-size:10.5px;color:var(--mut)}
+  .queue-list{max-height:660px;overflow-y:auto}
+  .queue-item{font:inherit;width:100%;border:0;border-bottom:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px;display:grid;grid-template-columns:68px minmax(0,1fr);gap:9px;text-align:left;cursor:pointer}
+  .queue-item:last-child{border-bottom:0}
+  .queue-item:hover{background:var(--stone50)}
+  .queue-item.on{background:var(--brandSoft);box-shadow:inset 0 0 0 2px var(--brand)}
+  .queue-thumb{width:68px;height:62px;border-radius:6px;overflow:hidden;background:var(--stone50);border:1px solid var(--line);position:relative}
+  .queue-thumb img{width:100%;height:100%;display:block;object-fit:cover}
+  .queue-thumb .no-photo{height:100%;display:grid;place-items:center;color:var(--faint);font-size:18px}
+  .queue-copy{min-width:0}
+  .queue-top{display:flex;align-items:center;gap:6px;justify-content:space-between}
+  .queue-top b{font-family:var(--mono);font-size:10.5px}
+  .queue-location{font-size:11px;font-weight:800;color:var(--ink2)}
+  .queue-desc{font-size:10.5px;color:var(--mut);line-height:1.35;margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .status-mini{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:850;white-space:nowrap}
+  .status-mini::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .status-mini.pass{color:var(--pass)} .status-mini.fail{color:var(--fail)} .status-mini.wip{color:var(--wip)}
+
+  .photo-focus{min-width:0}
+  .focus-head{align-items:flex-start;padding:12px 14px}
+  .focus-id{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .focus-id .num{font-family:var(--mono);font-size:11px;color:var(--brand);font-weight:850}
+  .focus-id h2{font-size:15px;line-height:1.3;margin:0;font-weight:850}
+  .focus-desc{font-size:12px;color:var(--mut);margin:4px 0 0;max-width:70ch}
+  .focus-status{text-align:right;min-width:130px}
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px 12px 12px}
+  .photo-card{margin:0;border:1px solid var(--line2);border-radius:7px;overflow:hidden;background:var(--stone50);min-width:0}
+  .photo-card figcaption{height:34px;display:flex;align-items:center;gap:7px;padding:0 10px;background:var(--surface);border-bottom:1px solid var(--line);font-size:11px;font-weight:850}
+  .photo-card figcaption small{font-size:9.5px;color:var(--mut);font-weight:600;margin-left:auto}
+  .photo-card.before figcaption{color:var(--fail)}
+  .photo-card.after figcaption{color:var(--pass)}
+  .photo-stage{position:relative;aspect-ratio:4/3;min-height:280px;background:var(--stone50);overflow:hidden}
+  .photo-stage img{width:100%;height:100%;display:block;object-fit:cover}
+  .photo-stage .marks{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .photo-tools{position:absolute;inset:9px 9px auto auto;display:flex;gap:5px}
+  .photo-tool{font:inherit;border:1px solid oklch(100% 0 0 / .45);background:var(--overlay);color:var(--surface);border-radius:6px;padding:6px 8px;font-size:10.5px;font-weight:800;cursor:pointer}
+  .photo-tool:hover{background:var(--ink)}
+  .sample-ring{position:absolute;width:24%;height:25%;border:4px solid var(--fail);border-radius:50%;left:50%;top:43%;transform:rotate(-9deg);box-shadow:0 0 0 2px oklch(99% .004 72 / .75)}
+  .sample-ring::after{content:"จุด Defect";position:absolute;left:78%;top:-22px;background:var(--fail);color:var(--surface);font-size:9px;font-weight:850;border-radius:4px;padding:3px 6px;white-space:nowrap}
+  .photo-empty{height:100%;display:grid;place-items:center;text-align:center;border:1px dashed var(--line2);margin:10px;border-radius:6px;color:var(--mut);background:var(--surface)}
+  .photo-empty b{display:block;font-size:12px;color:var(--ink);margin-bottom:3px}
+  .photo-empty span{font-size:10.5px}
+  .photo-empty button{margin-top:9px}
+
+  .focus-meta{display:grid;grid-template-columns:1.4fr repeat(3,minmax(120px,.7fr));border-top:1px solid var(--line)}
+  .meta-cell{padding:9px 12px;border-inline-end:1px solid var(--line);min-width:0}
+  .meta-cell:last-child{border-inline-end:0}
+  .meta-cell span{display:block;font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:850}
+  .meta-cell b{display:block;font-size:11px;color:var(--ink2);margin-top:2px;line-height:1.35;font-weight:750;overflow-wrap:anywhere}
+  .focus-note{display:flex;align-items:center;gap:8px;padding:9px 12px;border-top:1px solid var(--line);background:var(--stone50);font-size:11px;color:var(--mut)}
+  .focus-note b{color:var(--ink)}
+  .focus-note .sp{margin-left:auto}
+
+  .photo-gallery{margin-top:12px}
+  .gallery-list{display:grid;grid-template-columns:repeat(6,minmax(140px,1fr));gap:8px;padding:9px 10px 11px;overflow-x:auto}
+  .gallery-item{font:inherit;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:4px;cursor:pointer;text-align:left;min-width:140px;color:var(--ink)}
+  .gallery-item:hover,.gallery-item.on{border-color:var(--brand);box-shadow:0 0 0 2px var(--brandSoft)}
+  .gallery-item img,.gallery-item .empty-thumb{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:4px;background:var(--stone50)}
+  .gallery-item .empty-thumb{display:grid;place-items:center;color:var(--faint);font-size:18px}
+  .gallery-item b{display:block;font-family:var(--mono);font-size:9.5px;margin:5px 3px 1px}
+  .gallery-item span{display:block;font-size:9.5px;color:var(--mut);margin:0 3px 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  #photoLightbox{position:fixed;inset:0;z-index:90;background:var(--overlay);display:none;padding:18px}
+  #photoLightbox.open{display:grid;grid-template-rows:auto minmax(0,1fr)}
+  #photoLightbox .light-head{display:flex;align-items:center;gap:10px;color:var(--surface);padding:0 0 10px;font-size:12px;font-weight:800}
+  #photoLightbox .light-head .sp{margin-left:auto}
+  #photoLightbox .light-head button{border:1px solid oklch(100% 0 0 / .4);background:transparent;color:var(--surface);border-radius:6px;padding:6px 10px;cursor:pointer}
+  #photoLightbox .light-stage{display:grid;place-items:center;min-height:0}
+  #photoLightbox img{display:block;max-width:100%;max-height:100%;object-fit:contain}
+
+  @media(max-width:980px){
+    .summary-bar{flex-wrap:wrap}
+    .summary-progress{width:100%;margin-left:0}
+    .defect-layout{grid-template-columns:240px minmax(0,1fr)}
+    .compare-grid{grid-template-columns:1fr}
+    .focus-meta{grid-template-columns:1fr 1fr}
+    .meta-cell:nth-child(2){border-inline-end:0}
+    .meta-cell:nth-child(n+3){border-top:1px solid var(--line)}
+  }
+  @media(max-width:720px){
+    .wrap{padding:12px}
+    .defect-layout{grid-template-columns:1fr}
+    .queue-list{display:flex;max-height:none;overflow-x:auto;overflow-y:hidden;padding:7px;gap:7px}
+    .queue-item{min-width:238px;border:1px solid var(--line);border-radius:6px;padding:7px}
+    .photo-stage{min-height:240px}
+    .summary-item{flex:1 0 46%;border-bottom:1px solid var(--line)}
+    .summary-item:nth-child(even){border-inline-end:0}
+    .focus-head{flex-direction:column}
+    .focus-status{text-align:left}
+    .gallery-list{grid-template-columns:repeat(6,150px)}
+  }
+
+  /* ===== handover doc ===== */
+  .doc{background:var(--surface);border:1px solid var(--line);border-radius:8px;max-width:840px;margin:0 auto;padding:34px 40px}
+  .doc .dhd{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:16px;margin-bottom:20px}
+  .doc .dhd .lg{display:inline-flex;align-items:center;gap:8px;margin-bottom:8px}
+  .doc .dhd h1{font-size:22px;font-weight:800;margin:6px 0 3px}
+  .doc .dhd p{font-size:12.5px;color:var(--mut);margin:0}
+  .sec-t{font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--brand);text-transform:uppercase;margin:20px 0 9px;display:flex;align-items:center;gap:8px}
+  .sec-t::after{content:"";flex:1;height:1px;background:var(--line)}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px 26px}
+  @media(max-width:640px){.fgrid{grid-template-columns:1fr}}
+  .fld{display:flex;align-items:baseline;gap:8px;font-size:13px}
+  .fld .k{color:var(--mut);white-space:nowrap} .fld .v{flex:1;border-bottom:1px dotted var(--line2);font-weight:700;min-height:20px;padding-bottom:1px}
+  .stmt{font-size:12.5px;color:var(--ink2);background:var(--stone50);border:1px solid var(--brandLine);border-radius:8px;padding:11px 14px}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:9px 26px;font-size:13px}
+  @media(max-width:640px){.checks{grid-template-columns:1fr}}
+  .ck{display:flex;align-items:center;gap:9px}
+  .ck .bx{width:17px;height:17px;border:1.5px solid var(--line2);border-radius:4px;display:grid;place-items:center;flex:0 0 auto}
+  .ck.on .bx{background:var(--pass);border-color:var(--pass);color:var(--surface)}
+  .sigs{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
+  @media(max-width:640px){.sigs{grid-template-columns:1fr}}
+  .sig{text-align:center} .sig .r{font-weight:800;font-size:12.5px;margin-bottom:26px}
+  .sig .ln{border-top:1px solid var(--ink);padding-top:5px;font-size:11.5px;color:var(--mut)}
+  .fine{font-size:11px;color:var(--faint);margin-top:16px;line-height:1.6}
+
+  /* ===== checklist matrix ===== */
+  .mx-scroll{overflow-x:auto}
+  table.mx{border-collapse:collapse;font-size:12px;min-width:760px}
+  table.mx th,table.mx td{border:1px solid var(--line);padding:6px 8px;text-align:center}
+  table.mx thead th{background:var(--stone50);font-size:10.5px;font-weight:800;color:var(--mut);white-space:nowrap}
+  table.mx th.item{text-align:left;min-width:230px;position:sticky;left:0;background:var(--surface);z-index:2}
+  table.mx thead th.item{background:var(--stone50)}
+  table.mx td.item{text-align:left;font-weight:600;position:sticky;left:0;background:var(--surface)}
+  table.mx tbody tr:hover td{background:var(--stone50)} table.mx tbody tr:hover td.item{background:var(--line)}
+  .mk{font-weight:900;font-size:13px} .mk.p{color:var(--pass)} .mk.f{color:var(--fail)} .mk.n{color:var(--faint)}
+  .hint{font-size:11.5px;color:var(--faint);margin-top:8px;text-align:center}
+  .note-b{font-size:11.5px;color:var(--mut);margin:6px 2px 0}
+</style>
+
+<div class="app">
+  <!-- top bar -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="nm"><b>Defect Inspection</b><small>ระบบตรวจเก็บงาน · ใบรับมอบ</small></div>
+    </div>
+    <div class="proj"><span class="dot"></span>บ้านคุณหญิง–คุณแดง</div>
+    <span class="chip mono">เอกสาร K.Ying-004</span>
+    <span class="chip mono">อัพเดท 04/07/69</span>
+    <span class="sp"></span>
+    <button class="btn sm">⭳ ส่งออก Excel</button>
+    <button class="btn primary sm">🖶 พิมพ์ใบรับมอบ</button>
+  </div>
+
+  <!-- tabs -->
+  <div class="tabs">
+    <button class="on" onclick="tab('defect',this)">🔧 รายการ Defect <span class="cnt" id="tabCount">6</span></button>
+    <button onclick="tab('hand',this)">📝 ใบรับมอบงาน</button>
+    <button onclick="tab('check',this)">✔ เช็คลิสต์ตรวจงาน <span class="cnt">12×14</span></button>
+  </div>
+
+  <div class="wrap">
+    <!-- ===================== DEFECT ===================== -->
+    <div class="view on" id="v-defect">
+      <div class="defect-head">
+        <div class="defect-title">
+          <h1>รายการ Defect</h1>
+          <p>บ้านคุณหญิง–คุณแดง · งานบิ้วอิน · เอกสาร K.Ying-004</p>
+        </div>
+        <div class="defect-actions">
+          <button class="btn sm">ตัวกรอง</button>
+          <button class="btn sm">เรียงตามสถานะ</button>
+          <button class="btn primary sm" onclick="return false">＋ เพิ่ม Defect</button>
+        </div>
+      </div>
+
+      <div class="summary-bar" aria-label="สรุปสถานะ Defect">
+        <div class="summary-item"><div class="n" id="kpiTotal">6</div><div class="l"><b>ทั้งหมด</b>รายการ</div></div>
+        <div class="summary-item"><div class="n" id="kpiPass" style="color:var(--pass)">2</div><div class="l"><b>ผ่าน</b>แก้เสร็จ</div></div>
+        <div class="summary-item"><div class="n" id="kpiFail" style="color:var(--fail)">2</div><div class="l"><b>ไม่ผ่าน</b>ต้องแก้</div></div>
+        <div class="summary-item"><div class="n" id="kpiWip" style="color:var(--wip)">2</div><div class="l"><b>กำลังแก้</b>รอตรวจซ้ำ</div></div>
+        <div class="summary-progress">
+          <div class="row"><span>ความคืบหน้าการแก้ไข</span><b id="kpiPct">33%</b></div>
+          <div class="progress-track"><span id="kpiBar"></span></div>
+        </div>
+      </div>
+
+      <div class="defect-layout">
+        <aside class="defect-queue" aria-label="คิวรายการ Defect">
+          <div class="queue-head"><b>คิวตรวจงาน</b><span>6 รายการ</span></div>
+          <div class="queue-list" id="defectQueue"></div>
+        </aside>
+
+        <section class="photo-focus" id="defectFocus" aria-live="polite"></section>
+      </div>
+
+      <section class="photo-gallery" aria-label="ภาพรวมรายการ Defect">
+        <div class="gallery-head"><b>ภาพรวมหน้างาน</b><span>Before / After ตามรายการ</span></div>
+        <div class="gallery-list" id="photoGallery"></div>
+      </section>
+    </div>
+
+    <!-- ===================== HANDOVER ===================== -->
+    <div class="view" id="v-hand">
+      <div class="doc">
+        <div class="dhd">
+          <div class="lg"><div class="logo-slot empty" data-role="logo" title="คลิกใส่โลโก้บริษัท">＋ โลโก้</div><b class="brand-name" contenteditable="true" data-ph="[ ชื่อบริษัท / ผู้รับจ้าง ]" style="font-size:15px;letter-spacing:.03em"></b></div>
+          <h1>ใบรับมอบงานเก็บ Defect</h1>
+          <p>สำหรับลูกค้าเซ็นรับมอบหลังดำเนินการแก้ไข / เก็บงาน Defect แล้วเสร็จ</p>
+        </div>
+
+        <div class="sec-t">ข้อมูลโครงการ</div>
+        <div class="fgrid">
+          <div class="fld"><span class="k">โครงการ / งาน</span><span class="v">บ้านคุณหญิง–คุณแดง (บิ้วอิน)</span></div>
+          <div class="fld"><span class="k">สถานที่</span><span class="v">ท่าบ่อ หนองคาย</span></div>
+          <div class="fld"><span class="k">เจ้าของงาน / ลูกค้า</span><span class="v">คุณหญิง–คุณแดง</span></div>
+          <div class="fld"><span class="k">ผู้ติดต่อ</span><span class="v">ไม่ระบุ</span></div>
+          <div class="fld"><span class="k">ผู้รับจ้าง / บริษัท</span><span class="v" style="color:var(--faint);font-weight:600">[ ชื่อบริษัทของคุณ ]</span></div>
+          <div class="fld"><span class="k">โทร.</span><span class="v mono">ไม่ระบุ</span></div>
+          <div class="fld"><span class="k">วันที่เข้าดำเนินการ</span><span class="v mono">20 / 06 / 2569</span></div>
+          <div class="fld"><span class="k">วันที่ส่งมอบ</span><span class="v mono">__ / __ / ____</span></div>
+        </div>
+
+        <div class="sec-t">ข้อความรับมอบงาน</div>
+        <div class="stmt">ข้าพเจ้าได้รับมอบงานเก็บ Defect ตามรายการที่ตกลง / เอกสารแนบแล้ว และได้ตรวจสอบงานเบื้องต้น ณ วันที่ลงนามในเอกสารฉบับนี้</div>
+
+        <div class="sec-t">สถานะการส่งมอบ / เอกสารแนบ</div>
+        <div class="checks">
+          <div class="ck on"><span class="bx">✓</span> รับมอบงานเรียบร้อย</div>
+          <div class="ck"><span class="bx"></span> รับมอบโดยมีหมายเหตุเพิ่มเติม</div>
+          <div class="ck on"><span class="bx">✓</span> รายการ Defect จำนวน <b class="mono" style="margin:0 3px">12</b> รายการ</div>
+          <div class="ck on"><span class="bx">✓</span> รูปถ่ายก่อน–หลัง / เอกสารประกอบ</div>
+        </div>
+
+        <div class="sec-t">หมายเหตุเพิ่มเติม / รายการคงค้าง</div>
+        <div style="border:1px solid var(--line);border-radius:8px;height:96px;background:var(--surface);"></div>
+
+        <div class="sigs">
+          <div class="sig"><div class="r">ผู้ส่งมอบงาน</div><div class="ln">ลงชื่อ ______________<br>วันที่ __/__/____</div></div>
+          <div class="sig"><div class="r">ผู้รับมอบงาน / ลูกค้า</div><div class="ln">ลงชื่อ ______________<br>วันที่ __/__/____</div></div>
+          <div class="sig"><div class="r">ผู้ตรวจงาน / พยาน</div><div class="ln">ลงชื่อ ______________<br>วันที่ __/__/____</div></div>
+        </div>
+        <div class="fine"><b>หมายเหตุ:</b> เอกสารฉบับนี้ใช้เป็นหลักฐานการรับมอบงานเก็บ Defect ตามรายการแนบเท่านั้น หากมีงานเพิ่มเติมนอกเหนือจากรายการเดิม ให้จัดทำบันทึกหรือรายการเพิ่มเติมแยกต่างหาก</div>
+      </div>
+      <div class="note-b" style="text-align:center;margin-top:12px">↑ หน้าปกดึงข้อมูลโครงการ + จำนวน Defect + สถานะอัตโนมัติจากแท็บอื่น · กด "พิมพ์ใบรับมอบ" ออก PDF เต็ม A4 เซ็นได้</div>
+    </div>
+
+    <!-- ===================== CHECKLIST ===================== -->
+    <div class="view" id="v-check">
+      <div class="panel">
+        <div class="panel-hd"><h2>เช็คลิสต์ตรวจงานบิ้วอิน</h2><span class="sub">12 หัวข้อ × ชิ้นงาน BF-1..14 · ผ่าน ✓ / ไม่ผ่าน ✗ / ไม่เกี่ยว –</span></div>
+        <div class="mx-scroll" style="padding:14px 16px"><table class="mx" id="mx"></table></div>
+        <div class="hint">คลิกช่องเพื่อสลับ ✓ / ✗ / – · ช่อง ✗ สร้างรายการ Defect ให้อัตโนมัติ (ผูกกับแท็บ "รายการ Defect")</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var camSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>';
+  function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
+  function ava(n){return '<span class="ava">'+n+'</span>';}
+  function ph(d,idx){
+    function box(kind){ var img=d[keyU(kind)], marks=d[keyM(kind)]||[], lbl=kind==='b'?'ก่อน':'หลัง';
+      if(img) return '<div class="box '+kind+' has" style="background-image:url('+img+')">'+miniOverlay(marks)+'<span>'+lbl+'</span></div>';
+      var flag=kind==='b'?d.b:d.a;
+      return flag ? '<div class="box '+kind+'">'+camSvg+'<span>'+lbl+'</span></div>' : '<div class="box empty">'+camSvg+'<span>'+lbl+'</span></div>';
+    }
+    return '<div class="ph" onclick="openPhotoDD('+idx+',this)" title="คลิกดู / อัพโหลด / วงตำแหน่ง">'+box('b')+box('a')+'<span class="chev">▾</span></div>';
+  }
+  var STOPTS=[['fail','✕','ไม่ผ่าน'],['wip','◐','กำลังแก้ไข'],['pass','✓','ผ่าน']];
+  function st(cur,idx){
+    var boxes=STOPTS.map(function(o){ var on=o[0]===cur?' on':''; return '<button type="button" class="seg '+o[0]+on+'" onclick="setStatus('+idx+',\''+o[0]+'\')" title="'+o[2]+'" aria-label="'+o[2]+'">'+o[1]+'</button>'; }).join('');
+    var lab=(STOPTS.filter(function(o){return o[0]===cur;})[0]||STOPTS[0])[2];
+    return '<div class="stseg">'+boxes+'</div><div class="stlab '+cur+'">'+lab+'</div>';
+  }
+  window.setStatus=function(i,s){ DEFECTS[i].s=s; renderDefects(); };
+  function renderKPIs(){
+    var t=DEFECTS.length, p=DEFECTS.filter(function(d){return d.s==='pass';}).length,
+        f=DEFECTS.filter(function(d){return d.s==='fail';}).length, w=DEFECTS.filter(function(d){return d.s==='wip';}).length;
+    var pct=t?Math.round(p/t*100):0;
+    var set=function(id,v){var el=document.getElementById(id); if(el)el.textContent=v;};
+    set('kpiTotal',t); set('kpiPass',p); set('kpiFail',f); set('kpiWip',w);
+    set('kpiPct',pct+'%'); set('tabCount',t);
+    var bar=document.getElementById('kpiBar'); if(bar)bar.style.width=pct+'%';
+  }
+  function dt(a,b){return '<span class="dt">'+a+' <small>→</small> '+b+'</span>';}
+
+  var DEFECTS=[
+    {no:1,loc:'ทางเข้า',desc:'บานตู้รองเท้าปิดไม่สนิท · ช่องไฟ (Gap) บานไม่เท่ากัน',b:1,a:1,plan:['20/06','25/06'],done:'25/06',s:'pass',resp:['อ','ช่างเอ'],rm:'ปรับบานพับ Soft-close แล้ว',photoB:'https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?auto=format&fit=crop&w=1200&q=82',photoA:'https://images.unsplash.com/photo-1556912167-f556f1f39fdf?auto=format&fit=crop&w=1200&q=82'},
+    {no:2,loc:'ครัว',desc:'ลามิเนตบานล่างมีรอยขีดข่วน (สเปควัสดุ)',b:1,a:0,plan:['21/06','26/06'],done:'ยังไม่เสร็จ',s:'fail',resp:['บ','ช่างบี'],rm:'รอเปลี่ยนบานใหม่',photoB:'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=82'},
+    {no:3,loc:'ห้องนอน 1',desc:'ตู้เสื้อผ้าเอียง ไม่ได้ฉาก (ใช้ระดับน้ำวัด)',b:1,a:0,plan:['21/06','27/06'],done:'กำลังแก้',s:'wip',resp:['อ','ช่างเอ'],rm:'ปรับขาตู้ + ยึดผนัง',photoB:'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=82'},
+    {no:4,loc:'ห้องน้ำ',desc:'จุดต่อท่อน้ำทิ้งในตู้อ่างล้างหน้ารั่วซึม',b:1,a:0,plan:['22/06','26/06'],done:'ยังไม่เสร็จ',s:'fail',resp:['ซ','ช่างซี'],rm:'ตรวจข้อต่อ + ซีล',photoB:'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=82'},
+    {no:5,loc:'ห้องนั่งเล่น',desc:'ขอบ PVC ตู้ TV เก็บไม่เรียบ (การเก็บขอบ)',b:1,a:1,plan:['22/06','27/06'],done:'27/06',s:'pass',resp:['บ','ช่างบี'],rm:'รีดขอบใหม่',photoB:'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=82',photoA:'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=82'},
+    {no:6,loc:'ห้องนอน 2',desc:'ตำแหน่งปลั๊กหัวเตียงไม่ตรงแบบ',b:0,a:0,plan:['23/06','รอนัด'],done:'รอช่างไฟ',s:'wip',resp:['อ','ช่างเอ'],rm:'รอช่างไฟเข้าหน้างาน',photoB:'https://images.unsplash.com/photo-1615874694520-474822394e73?auto=format&fit=crop&w=1200&q=82'},
+  ];
+  var selectedDefect=0;
+  var STATUS_LABEL={pass:'ผ่าน',fail:'ไม่ผ่าน',wip:'กำลังแก้ไข'};
+
+  function photoOf(d,kind){return d[keyU(kind)]||d[kind==='b'?'photoB':'photoA']||'';}
+  function photoFigure(d,idx,kind){
+    var img=photoOf(d,kind), marks=d[keyM(kind)]||[], before=kind==='b', label=before?'ก่อนแก้ไข (Before)':'หลังแก้ไข (After)';
+    var stage='';
+    if(img){
+      var sample=(before&&!marks.length&&!d[keyU(kind)])?'<span class="sample-ring" aria-hidden="true"></span>':'';
+      stage='<div class="photo-stage" onclick="openLightbox('+idx+',\''+kind+'\')"><img src="'+esc(img)+'" alt="'+esc(label+' · '+d.loc)+'">'+sample+miniOverlay(marks)+'<div class="photo-tools"><button type="button" class="photo-tool" onclick="event.stopPropagation();openLightbox('+idx+',\''+kind+'\')">⛶ ดูเต็ม</button><button type="button" class="photo-tool" onclick="event.stopPropagation();openPhotoDD('+idx+',this)">✎ จัดการรูป</button></div></div>';
+    }else{
+      stage='<div class="photo-stage"><div class="photo-empty"><div>'+camSvg+'<b>ยังไม่มีรูปหลังแก้ไข</b><span>รอช่างแนบรูปเพื่อปิดรายการ</span><br><button type="button" class="btn sm" onclick="openPhotoDD('+idx+',this)">＋ เพิ่มรูป</button></div></div></div>';
+    }
+    return '<figure class="photo-card '+(before?'before':'after')+'"><figcaption>'+(before?'●':'✓')+' '+label+'<small>'+(img?'1 รูป':'รอรูป')+'</small></figcaption>'+stage+'</figure>';
+  }
+
+  function renderQueue(){
+    document.getElementById('defectQueue').innerHTML=DEFECTS.map(function(d,idx){
+      var img=photoOf(d,'b');
+      var thumb=img?'<img src="'+esc(img)+'" alt="">':'<span class="no-photo">＋</span>';
+      return '<button type="button" class="queue-item '+(idx===selectedDefect?'on':'')+'" onclick="selectDefect('+idx+')"><span class="queue-thumb">'+thumb+'</span><span class="queue-copy"><span class="queue-top"><b>DF-'+String(d.no).padStart(2,'0')+'</b><span class="status-mini '+d.s+'">'+STATUS_LABEL[d.s]+'</span></span><span class="queue-location">'+esc(d.loc)+'</span><span class="queue-desc">'+esc(d.desc)+'</span></span></button>';
+    }).join('');
+  }
+
+  function renderFocus(){
+    var d=DEFECTS[selectedDefect];
+    document.getElementById('defectFocus').innerHTML='<div class="focus-head"><div><div class="focus-id"><span class="num">DF-'+String(d.no).padStart(2,'0')+'</span><h2>'+esc(d.loc)+'</h2></div><p class="focus-desc">'+esc(d.desc)+'</p></div><div class="focus-status">'+st(d.s,selectedDefect)+'</div></div><div class="compare-grid">'+photoFigure(d,selectedDefect,'b')+photoFigure(d,selectedDefect,'a')+'</div><div class="focus-meta"><div class="meta-cell"><span>วิธีแก้ / หมายเหตุ</span><b>'+esc(d.rm)+'</b></div><div class="meta-cell"><span>แผนงาน</span><b class="mono">'+esc(d.plan[0])+' → '+esc(d.plan[1])+'</b></div><div class="meta-cell"><span>เสร็จจริง</span><b>'+esc(d.done)+'</b></div><div class="meta-cell"><span>ผู้รับผิดชอบ</span><b>'+esc(d.resp[1])+'</b></div></div><div class="focus-note"><b>หลักฐาน:</b><span>Before '+(photoOf(d,'b')?'1':'0')+' รูป · After '+(photoOf(d,'a')?'1':'0')+' รูป</span><span class="sp"></span><button type="button" class="btn sm" onclick="openPhotoDD('+selectedDefect+',this)">จัดการรูปและมาร์กตำแหน่ง</button></div>';
+  }
+
+  function renderGallery(){
+    document.getElementById('photoGallery').innerHTML=DEFECTS.map(function(d,idx){
+      var img=photoOf(d,'b');
+      var visual=img?'<img src="'+esc(img)+'" alt="">':'<span class="empty-thumb">＋</span>';
+      return '<button type="button" class="gallery-item '+(idx===selectedDefect?'on':'')+'" onclick="selectDefect('+idx+')">'+visual+'<b>DF-'+String(d.no).padStart(2,'0')+' · '+esc(d.loc)+'</b><span>'+esc(d.desc)+'</span></button>';
+    }).join('');
+  }
+
+  window.selectDefect=function(i){selectedDefect=i;renderDefects();};
+  function renderDefects(){
+    renderQueue();renderFocus();renderGallery();renderKPIs();
+  }
+
+  var ITEMS=['ขนาด: กว้าง-ยาว-สูง ตรงแบบ','ระยะภายใน: ความสูงชั้นวาง','สเปควัสดุ: รหัสสี/ลายไม้','จำนวน: หน้าบาน/ลิ้นชัก/อุปกรณ์','ความได้ฉาก: ตู้ไม่เอียง','รอยต่อผนัง: ช่องว่างตู้-ผนัง','ช่องไฟ (Gap): ระยะบานประตู','การเปิด-ปิด: Soft-close ลื่น','รอยตำหนิ: ไม่มีขีดข่วน/บุบ','การเก็บขอบ: ขอบ PVC/ไม้เรียบ','ตำแหน่งปลั๊ก/ท่อ: ตรงแบบ','การรั่วซึม: ข้อต่อท่อในตู้'];
+  var PIECES=['BF-1','BF-2','BF-3','BF-4','BF-5','BF-6','BF-7','BF-8'];
+  // sample marks (deterministic, ไม่สุ่ม): p ผ่าน · f ไม่ผ่าน · n ไม่เกี่ยว
+  function markFor(i,j){var v=(i*3+j*5)%9; return v===2?'f':(v===7?'n':'p');}
+  function renderMatrix(){
+    var h='<thead><tr><th class="item">รายการตรวจสอบ</th>';
+    PIECES.forEach(function(p){h+='<th>'+p+'</th>';}); h+='</tr></thead><tbody>';
+    ITEMS.forEach(function(it,i){
+      h+='<tr><td class="item">'+(i+1)+'. '+it+'</td>';
+      PIECES.forEach(function(p,j){var m=markFor(i,j);
+        var sym=m==='p'?'✓':(m==='f'?'✗':'–'); h+='<td><span class="mk '+m+'">'+sym+'</span></td>';});
+      h+='</tr>';
+    });
+    document.getElementById('mx').innerHTML=h+'</tbody>';
+  }
+
+  window.tab=function(id,btn){
+    document.querySelectorAll('.tabs button').forEach(function(b){b.classList.remove('on');}); btn.classList.add('on');
+    document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on');});
+    document.getElementById('v-'+id).classList.add('on');
+  };
+  // ===== photo dropdown + annotation (วงตำแหน่ง Defect) =====
+  function keyU(k){return 'img'+k.toUpperCase();}  function keyM(k){return 'marks'+k.toUpperCase();}
+  var curD=null;  // defect ที่เปิด dropdown อยู่ (เก็บ imgB/imgA/marksB/marksA)
+
+  // มาร์กเป็นพิกัด normalized 0..1 → วาดได้ทุกขนาด
+  function marksSvg(marks, W, H, r){
+    return marks.map(function(m){
+      if(m.t==='d') return '<circle cx="'+m.x*W+'" cy="'+m.y*H+'" r="'+(r||8)+'" fill="var(--fail)" stroke="var(--surface)" stroke-width="'+((r||8)/4)+'"/>';
+      if(m.t==='a') return '<line x1="'+m.x1*W+'" y1="'+m.y1*H+'" x2="'+m.x2*W+'" y2="'+m.y2*H+'" stroke="var(--fail)" stroke-width="'+((r||8)/2)+'" marker-end="url(#ah)"/>';
+      var cx=(m.x1+m.x2)/2*W, cy=(m.y1+m.y2)/2*H, rx=Math.abs(m.x2-m.x1)/2*W, ry=Math.abs(m.y2-m.y1)/2*H;
+      return '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="none" stroke="var(--fail)" stroke-width="'+((r||8)/2)+'"/>';
+    }).join('');
+  }
+  var AH='<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="var(--fail)"/></marker></defs>';
+  function miniOverlay(marks){ if(!marks||!marks.length)return ''; return '<svg class="marks" viewBox="0 0 100 100" preserveAspectRatio="none">'+AH+marksSvg(marks,100,100,4)+'</svg>'; }
+
+  function slotHTML(d,kind){
+    var lbl=kind==='b'?'ก่อนแก้ไข (Before)':'หลังแก้ไข (After)';
+    var img=photoOf(d,kind), marks=d[keyM(kind)]||[];
+    var pv = img
+      ? '<div class="pv has" data-k="'+kind+'" style="background-image:url('+img+')">'+miniOverlay(marks)+(marks.length?'<span class="mkbadge">✎ '+marks.length+'</span>':'')+'</div>'
+      : '<div class="pv empty" data-k="'+kind+'">'+camSvg+'<em>ลากรูปมาวาง<br>หรือคลิก</em></div>';
+    var btns = img
+      ? '<button class="btn sm upbtn">⭳ เปลี่ยน</button><button class="btn sm mkbtn">✎ วงตำแหน่ง</button>'
+      : '<button class="btn sm upbtn">⭳ อัพโหลด</button><button class="btn sm">📷 ถ่าย</button>';
+    return '<div class="slot '+kind+'"><div class="sl-t">'+lbl+'</div>'+pv+'<div class="sl-btn">'+btns+'</div></div>';
+  }
+
+  var photoDD=document.createElement('div'); photoDD.id='photoDD';
+  photoDD.innerHTML='<div class="dd-hd"><span class="tt"></span><span class="x" onclick="closePhotoDD()">✕</span></div><div class="dd-body"></div><div class="dd-ft">ลากรูปมาวาง / คลิกเลือก / ถ่าย · แล้วกด "✎ วงตำแหน่ง" มาร์กจุด Defect</div>';
+  document.querySelector('.app').appendChild(photoDD);
+  var fileInput=document.createElement('input'); fileInput.type='file'; fileInput.accept='image/*'; fileInput.style.display='none';
+  document.querySelector('.app').appendChild(fileInput);
+
+  var lightbox=document.createElement('div'); lightbox.id='photoLightbox';
+  lightbox.innerHTML='<div class="light-head"><span class="tt"></span><span class="sp"></span><button type="button" onclick="closeLightbox()">ปิด ✕</button></div><div class="light-stage"><img alt="ภาพ Defect ขนาดใหญ่"></div>';
+  document.querySelector('.app').appendChild(lightbox);
+  window.openLightbox=function(i,kind){var d=DEFECTS[i],src=photoOf(d,kind);if(!src)return;lightbox.querySelector('.tt').textContent='DF-'+String(d.no).padStart(2,'0')+' · '+d.loc+' · '+(kind==='b'?'Before':'After');lightbox.querySelector('img').src=src;lightbox.classList.add('open');};
+  window.closeLightbox=function(){lightbox.classList.remove('open');lightbox.querySelector('img').removeAttribute('src');};
+  lightbox.onclick=function(e){if(e.target===lightbox||e.target.classList.contains('light-stage'))closeLightbox();};
+
+  function renderDD(){ if(!curD)return; photoDD.querySelector('.dd-body').innerHTML=slotHTML(curD,'b')+slotHTML(curD,'a'); bindSlots(); }
+  function pickTo(kind){ fileInput.onchange=function(){ var f=fileInput.files&&fileInput.files[0]; fileInput.value=''; if(!f||!/^image\//.test(f.type))return; var rd=new FileReader(); rd.onload=function(){ curD[keyU(kind)]=rd.result; curD[keyM(kind)]=[]; renderDD(); renderDefects(); }; rd.readAsDataURL(f); }; fileInput.click(); }
+  function dropTo(files,kind){ var f=files&&files[0]; if(!f||!/^image\//.test(f.type))return; var rd=new FileReader(); rd.onload=function(){ curD[keyU(kind)]=rd.result; curD[keyM(kind)]=curD[keyM(kind)]||[]; renderDD(); renderDefects(); }; rd.readAsDataURL(f); }
+  function bindSlots(){
+    photoDD.querySelectorAll('.slot').forEach(function(sl){
+      var kind=sl.classList.contains('b')?'b':'a', pv=sl.querySelector('.pv'), has=!!curD[keyU(kind)];
+      pv.ondragover=function(e){e.preventDefault();pv.classList.add('drop');};
+      pv.ondragleave=function(){pv.classList.remove('drop');};
+      pv.ondrop=function(e){e.preventDefault();pv.classList.remove('drop');dropTo(e.dataTransfer.files,kind);};
+      pv.onclick=function(){ if(curD[keyU(kind)]) openAnnot(kind); else pickTo(kind); };
+      var up=sl.querySelector('.upbtn'); if(up) up.onclick=function(){pickTo(kind);return false;};
+      var mk=sl.querySelector('.mkbtn'); if(mk) mk.onclick=function(){openAnnot(kind);return false;};
+    });
+  }
+  window.openPhotoDD=function(i,anchor){
+    curD=DEFECTS[i];
+    photoDD.querySelector('.tt').textContent='รูปประกอบ · Defect #'+curD.no+': '+curD.loc;
+    renderDD(); photoDD.style.display='block';
+    var r=anchor.getBoundingClientRect(), w=photoDD.offsetWidth;
+    photoDD.style.left=Math.max(12,Math.min(r.left, window.innerWidth-w-12))+'px';
+    var top=r.bottom+6; if(top+240>window.innerHeight) top=Math.max(12,r.top-246); photoDD.style.top=top+'px';
+    setTimeout(function(){document.addEventListener('click',outside);document.addEventListener('keydown',handleEsc);},0);
+  };
+  window.closePhotoDD=function(){photoDD.style.display='none';document.removeEventListener('click',outside);document.removeEventListener('keydown',handleEsc);};
+  function outside(e){ if(annot.classList.contains('open'))return; if(!photoDD.contains(e.target) && !(e.target.closest && e.target.closest('.ph'))) closePhotoDD(); }
+  function handleEsc(e){ if(e.key==='Escape'){ if(annot.classList.contains('open'))closeAnnot(); else if(lightbox.classList.contains('open'))closeLightbox(); else closePhotoDD(); } }
+
+  // ---- annotation editor (ลูกศร · จุด · วงกลม แดง) ----
+  var annot=document.createElement('div'); annot.id='annot';
+  annot.innerHTML='<div class="box"><div class="abar"><span class="tt">✎ วงตำแหน่ง Defect</span><div class="tools"><button class="tool on" data-t="c">◯ วงกลม</button><button class="tool" data-t="a">↗ ลูกศร</button><button class="tool" data-t="d">● จุด</button></div><span class="sp"></span><button class="tool" id="aUndo">↶ ลบล่าสุด</button><button class="tool" id="aClear">ล้าง</button><button class="tool aDone" id="aDone">✓ เสร็จ</button></div><div class="stage"><div class="frame"><img alt=""><svg class="draw"></svg></div></div><div class="aft">🔴 แดง · <b>ลาก</b> = วงกลม/ลูกศร · <b>คลิก</b> = จุด · มาร์กติดไปกับรูปในเอกสาร + ใบรับมอบ</div></div>';
+  document.querySelector('.app').appendChild(annot);
+  var aImg=annot.querySelector('img'), aSvg=annot.querySelector('svg.draw');
+  var A={kind:null,marks:[],tool:'c'}, aStart=null, aTemp=null;
+  annot.querySelectorAll('.tools .tool').forEach(function(b){ b.onclick=function(){ A.tool=b.dataset.t; annot.querySelectorAll('.tools .tool').forEach(function(x){x.classList.toggle('on',x===b);}); }; });
+  annot.querySelector('#aUndo').onclick=function(){ A.marks.pop(); drawA(); };
+  annot.querySelector('#aClear').onclick=function(){ A.marks=[]; drawA(); };
+  annot.querySelector('#aDone').onclick=function(){ if(curD)curD[keyM(A.kind)]=A.marks.slice(); closeAnnot(); renderDD(); renderDefects(); };
+  function openAnnot(kind){ if(!curD||!photoOf(curD,kind))return; A.kind=kind; A.marks=(curD[keyM(kind)]||[]).slice(); A.tool='c';
+    annot.querySelectorAll('.tools .tool').forEach(function(x){x.classList.toggle('on',x.dataset.t==='c');});
+    aImg.src=photoOf(curD,kind); annot.classList.add('open');
+    if(aImg.complete&&aImg.naturalWidth) drawA(); else aImg.onload=function(){drawA();};
+  }
+  function closeAnnot(){ annot.classList.remove('open'); }
+  function ptA(e){ var r=aSvg.getBoundingClientRect(); return {x:(e.clientX-r.left)/r.width, y:(e.clientY-r.top)/r.height}; }
+  function drawA(extra){ var r=aSvg.getBoundingClientRect(), W=r.width, H=r.height; aSvg.setAttribute('width',W); aSvg.setAttribute('height',H);
+    aSvg.innerHTML=AH+marksSvg(A.marks.concat(extra?[extra]:[]), W, H, 9); }
+  aSvg.onpointerdown=function(e){ e.preventDefault(); try{aSvg.setPointerCapture(e.pointerId);}catch(x){} var n=ptA(e);
+    if(A.tool==='d'){ A.marks.push({t:'d',x:n.x,y:n.y}); drawA(); aStart=null; return; }
+    aStart=n; aTemp={t:A.tool,x1:n.x,y1:n.y,x2:n.x,y2:n.y}; };
+  aSvg.onpointermove=function(e){ if(!aStart)return; var n=ptA(e); aTemp.x2=n.x; aTemp.y2=n.y; drawA(aTemp); };
+  aSvg.onpointerup=function(e){ if(!aStart)return; var n=ptA(e); aTemp.x2=n.x; aTemp.y2=n.y;
+    if(Math.hypot(aTemp.x2-aTemp.x1, aTemp.y2-aTemp.y1)>0.02) A.marks.push(aTemp); aTemp=null; aStart=null; drawA(); };
+
+  // ===== white-label brand: อัพโหลดโลโก้ + พิมพ์ชื่อบริษัทเอง (sync แถบบน ↔ ใบรับมอบ) =====
+  function setBrandLogo(url){ document.querySelectorAll('.logo-slot[data-role=logo]').forEach(function(s){ s.classList.remove('empty'); s.innerHTML=''; s.style.backgroundImage='url('+url+')'; }); }
+  document.querySelectorAll('.logo-slot[data-role=logo]').forEach(function(s){
+    s.onclick=function(){ var inp=document.createElement('input'); inp.type='file'; inp.accept='image/*';
+      inp.onchange=function(){ var f=inp.files&&inp.files[0]; if(!f||!/^image\//.test(f.type))return; var rd=new FileReader(); rd.onload=function(){setBrandLogo(rd.result);}; rd.readAsDataURL(f); }; inp.click(); };
+  });
+  document.querySelectorAll('.brand-name').forEach(function(el){
+    el.oninput=function(){ var v=el.textContent; document.querySelectorAll('.brand-name').forEach(function(o){ if(o!==el) o.textContent=v; }); };
+  });
+
+  renderDefects(); renderMatrix();
+})();
+</script>
