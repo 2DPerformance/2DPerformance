@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Built-in BOQ — Marketplace Card Mockup</title>
+  <style>
+    :root {
+      --ink: oklch(24% .025 58);
+      --muted: oklch(52% .02 58);
+      --line: oklch(88% .018 68);
+      --paper: oklch(99% .006 78);
+      --canvas: oklch(96.5% .012 78);
+      --panel: oklch(94% .02 76);
+      --wood: oklch(57% .095 63);
+      --wood-deep: oklch(38% .075 55);
+      --wood-soft: oklch(91% .045 72);
+      --blue: oklch(52% .16 255);
+      --blue-soft: oklch(95% .025 255);
+      --green: oklch(50% .13 150);
+      --green-soft: oklch(95% .03 150);
+      --amber: oklch(60% .14 75);
+      --amber-soft: oklch(95% .04 78);
+      --red: oklch(51% .18 28);
+      --shadow: 0 18px 55px oklch(30% .04 55 / .12);
+      font-family: "IBM Plex Sans Thai", "Leelawadee UI", "Sarabun", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: var(--ink); background: var(--canvas); }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    [hidden] { display: none !important; }
+    .app { min-height: 100vh; }
+    .topbar {
+      height: 58px; display: flex; align-items: center; gap: 14px; padding: 0 24px;
+      background: var(--paper); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10;
+    }
+    .logo { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 6px; background: var(--ink); color: var(--paper); font-weight: 850; font-size: 12px; }
+    .brand { line-height: 1.1; }
+    .brand b { display: block; font-size: 14px; }
+    .brand small { color: var(--muted); font-size: 10px; letter-spacing: .07em; }
+    .crumb { margin-left: 20px; padding-left: 20px; border-left: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .top-actions { margin-left: auto; display: flex; gap: 8px; }
+    .btn { border: 1px solid var(--line); background: var(--paper); border-radius: 6px; padding: 8px 12px; cursor: pointer; font-weight: 700; font-size: 12px; }
+    .btn:hover { border-color: oklch(70% .035 65); background: oklch(98% .012 76); }
+    .btn:focus-visible, .project-card:focus-visible, .dropzone:focus-visible { outline: 3px solid oklch(65% .14 255 / .3); outline-offset: 2px; }
+    .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .btn.wood { background: var(--wood-deep); color: var(--paper); border-color: var(--wood-deep); }
+    .btn.large { padding: 11px 16px; font-size: 13px; }
+    .shell { max-width: 1220px; margin: 0 auto; padding: 28px 24px 44px; }
+    .page-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 20px; }
+    .eyebrow { color: var(--wood-deep); font-weight: 800; letter-spacing: .09em; font-size: 10px; }
+    h1 { margin: 5px 0 0; font-size: 24px; line-height: 1.2; }
+    .page-head p { margin: 0; max-width: 56ch; color: var(--muted); font-size: 12px; line-height: 1.6; }
+
+    /* Marketplace card */
+    .market-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px; align-items: stretch; }
+    .project-card {
+      appearance: none; width: 100%; padding: 0; text-align: left; overflow: hidden; cursor: pointer;
+      border: 1px solid oklch(82% .025 65); border-radius: 10px; background: var(--paper); box-shadow: var(--shadow);
+      display: grid; grid-template-columns: minmax(360px, 1.3fr) minmax(300px, 1fr); min-height: 410px;
+    }
+    .card-visual { position: relative; overflow: hidden; background: oklch(92% .03 72); min-height: 410px; }
+    .card-visual::before { content: ""; position: absolute; inset: 0; opacity: .42; background-image: linear-gradient(oklch(66% .03 65 / .24) 1px, transparent 1px), linear-gradient(90deg, oklch(66% .03 65 / .24) 1px, transparent 1px); background-size: 24px 24px; }
+    .pdf-stack { position: absolute; left: 34px; top: 28px; width: 250px; height: 326px; transform: rotate(-2deg); }
+    .pdf-sheet { position: absolute; inset: 0; border: 1px solid oklch(73% .03 65); background: var(--paper); box-shadow: 0 8px 20px oklch(35% .04 60 / .11); }
+    .pdf-sheet.back { transform: translate(13px, 10px) rotate(4deg); background: oklch(97% .012 70); }
+    .pdf-sheet.front { padding: 18px; }
+    .sheet-head { display: flex; justify-content: space-between; font-size: 8px; color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+    .wardrobe { position: absolute; left: 28px; right: 28px; top: 66px; height: 184px; border: 2px solid var(--wood-deep); display: grid; grid-template-columns: 1fr 1fr 1fr; }
+    .wardrobe > span { position: relative; border-right: 1px solid var(--wood); background: linear-gradient(90deg, transparent 49%, oklch(74% .05 65 / .35) 50%, transparent 51%); }
+    .wardrobe > span:last-child { border-right: 0; }
+    .wardrobe > span::after { content: ""; position: absolute; right: 8px; top: 48%; width: 2px; height: 24px; border-radius: 4px; background: var(--wood-deep); }
+    .dim-h, .dim-v { position: absolute; color: var(--red); font: 8px ui-monospace, monospace; }
+    .dim-h { left: 28px; right: 28px; top: 268px; border-top: 1px solid var(--red); text-align: center; padding-top: 4px; }
+    .dim-v { top: 66px; bottom: 71px; left: 14px; border-left: 1px solid var(--red); writing-mode: vertical-rl; text-align: center; padding-left: 3px; }
+    .sheet-notes { position: absolute; bottom: 18px; left: 18px; right: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+    .sheet-notes i { display: block; height: 20px; border: 1px solid var(--line); background: var(--canvas); }
+    .takeoff-float { position: absolute; right: 24px; top: 62px; width: 244px; background: var(--ink); color: var(--paper); border-radius: 8px; box-shadow: 0 20px 45px oklch(25% .03 55 / .25); overflow: hidden; transform: rotate(1deg); }
+    .takeoff-head { display: flex; justify-content: space-between; padding: 11px 12px; border-bottom: 1px solid oklch(40% .02 60); font-size: 10px; }
+    .takeoff-head b { font-size: 11px; }
+    .takeoff-row { display: grid; grid-template-columns: 1fr auto; padding: 9px 12px; border-bottom: 1px solid oklch(37% .02 60); font-size: 9px; }
+    .takeoff-row strong { font: 700 10px ui-monospace, monospace; color: oklch(88% .08 77); }
+    .confidence { position: absolute; right: 30px; bottom: 34px; width: 222px; padding: 11px 12px; border: 1px solid oklch(76% .04 150); background: var(--green-soft); border-radius: 7px; }
+    .confidence b { font-size: 11px; display: flex; justify-content: space-between; }
+    .meter { height: 5px; margin-top: 7px; border-radius: 9px; background: oklch(87% .02 150); overflow: hidden; }
+    .meter::after { content: ""; display: block; width: var(--ready, 91%); height: 100%; background: var(--green); }
+    .card-copy { padding: 28px 28px 24px; display: flex; flex-direction: column; }
+    .kicker { color: var(--wood-deep); font-weight: 850; letter-spacing: .08em; font-size: 10px; }
+    .card-copy h2 { margin: 10px 0 8px; font-size: 26px; line-height: 1.24; }
+    .card-copy > p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    .feature-list { display: grid; gap: 9px; margin: 20px 0; }
+    .feature { display: grid; grid-template-columns: 22px 1fr; gap: 8px; align-items: start; font-size: 12px; }
+    .feature i { width: 20px; height: 20px; border-radius: 5px; display: grid; place-items: center; background: var(--wood-soft); color: var(--wood-deep); font-style: normal; font-weight: 900; }
+    .card-foot { margin-top: auto; padding-top: 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); }
+    .beta { color: var(--muted); font-size: 10px; }
+    .side-note { border: 1px solid var(--line); border-radius: 9px; background: var(--paper); padding: 20px; }
+    .side-note h3 { margin: 0 0 14px; font-size: 14px; }
+    .scope { display: grid; gap: 0; border-top: 1px solid var(--line); }
+    .scope div { padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .scope b { display: block; font-size: 11px; }
+    .scope span { color: var(--muted); font-size: 10px; line-height: 1.5; }
+    .honesty { margin-top: 16px; padding: 12px; background: var(--amber-soft); border: 1px solid oklch(80% .06 75); border-radius: 6px; font-size: 10px; line-height: 1.6; }
+
+    /* Upload screen */
+    .workflow { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 18px; min-height: 680px; }
+    .rail, .workarea { border: 1px solid var(--line); background: var(--paper); border-radius: 9px; }
+    .rail { padding: 18px; }
+    .back { border: 0; background: transparent; cursor: pointer; padding: 0 0 18px; color: var(--muted); font-size: 11px; }
+    .rail h2 { margin: 0; font-size: 17px; }
+    .rail p { color: var(--muted); font-size: 10px; line-height: 1.55; }
+    .steps { margin-top: 22px; display: grid; gap: 8px; }
+    .step { display: grid; grid-template-columns: 28px 1fr; gap: 9px; align-items: center; padding: 10px; border-radius: 6px; color: var(--muted); font-size: 11px; }
+    .step span { width: 26px; height: 26px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font: 700 10px ui-monospace, monospace; }
+    .step.active { color: var(--ink); background: var(--wood-soft); font-weight: 800; }
+    .step.active span { color: var(--paper); background: var(--wood-deep); border-color: var(--wood-deep); }
+    .workarea { padding: 30px; }
+    .work-head { display: flex; justify-content: space-between; gap: 20px; align-items: start; }
+    .work-head h1 { font-size: 22px; }
+    .work-head p { color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .mock-label { padding: 6px 8px; border: 1px solid var(--line); border-radius: 5px; color: var(--muted); font-size: 9px; white-space: nowrap; }
+    .dropzone { margin-top: 24px; min-height: 310px; display: grid; place-items: center; text-align: center; padding: 30px; border: 1px dashed oklch(68% .06 65); border-radius: 8px; background: oklch(98% .01 75); cursor: pointer; }
+    .dropzone.drag { background: var(--wood-soft); border-color: var(--wood-deep); }
+    .drop-icon { width: 58px; height: 70px; margin: 0 auto 14px; display: grid; place-items: center; border: 2px solid var(--wood-deep); color: var(--wood-deep); border-radius: 4px; font-weight: 850; font-size: 12px; position: relative; }
+    .drop-icon::before { content: "PDF"; }
+    .dropzone h3 { margin: 0; font-size: 17px; }
+    .dropzone p { margin: 8px auto 16px; max-width: 52ch; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .drop-hints { margin-top: 14px; display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+    .drop-hints span { padding: 5px 7px; background: var(--panel); border-radius: 4px; font-size: 9px; color: var(--muted); }
+    .input-file { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+    .supported { margin-top: 20px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .supported div { padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--canvas); }
+    .supported b { display: block; font-size: 10px; }
+    .supported span { color: var(--muted); font-size: 9px; }
+
+    /* Results */
+    .result-shell { max-width: 1720px; margin: 0 auto; padding: 18px; }
+    .result-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .result-top h1 { font-size: 17px; margin: 0; }
+    .result-top .file { color: var(--muted); font-size: 10px; }
+    .result-top .actions { margin-left: auto; display: flex; gap: 7px; }
+    .result-grid { display: grid; grid-template-columns: 210px minmax(560px, 1fr) 410px; gap: 12px; height: calc(100vh - 106px); min-height: 650px; }
+    .pane { overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+    .pane-title { height: 46px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; border-bottom: 1px solid var(--line); font-size: 11px; font-weight: 800; }
+    .tree { padding: 8px; overflow: auto; height: calc(100% - 46px); }
+    .tree-group { padding: 9px 8px 5px; color: var(--muted); font-size: 9px; font-weight: 800; letter-spacing: .05em; }
+    .tree-item { display: grid; grid-template-columns: 28px 1fr auto; gap: 8px; align-items: center; padding: 9px 8px; border-radius: 5px; font-size: 10px; }
+    .tree-item.active { background: var(--wood-soft); color: var(--wood-deep); font-weight: 800; }
+    .tree-item .num { color: var(--muted); font: 9px ui-monospace, monospace; }
+    .tree-item .qty { font: 800 9px ui-monospace, monospace; }
+    .drawing { position: relative; height: calc(100% - 46px); background-color: oklch(94% .012 245); background-image: linear-gradient(oklch(80% .015 245 / .25) 1px, transparent 1px), linear-gradient(90deg, oklch(80% .015 245 / .25) 1px, transparent 1px); background-size: 24px 24px; display: grid; place-items: center; overflow: hidden; }
+    .drawing-sheet { width: 78%; aspect-ratio: 1 / 1.414; max-height: 88%; padding: 22px; background: var(--paper); border: 1px solid oklch(80% .018 70); box-shadow: 0 12px 30px oklch(25% .02 55 / .13); position: relative; }
+    .drawing-title { display: flex; justify-content: space-between; font: 8px ui-monospace, monospace; border-bottom: 1px solid var(--line); padding-bottom: 7px; }
+    .elevation { position: absolute; left: 15%; right: 15%; top: 19%; height: 54%; border: 2px solid var(--ink); display: grid; grid-template-columns: 1.1fr .9fr 1fr; }
+    .elevation > div { border-right: 1px solid var(--ink); position: relative; }
+    .elevation > div:last-child { border-right: 0; }
+    .elevation .shelves { background: repeating-linear-gradient(to bottom, transparent 0 23%, oklch(55% .02 60) 24% 24.7%, transparent 25% 50%); }
+    .elevation .doors::after { content: ""; position: absolute; inset: 3%; border: 1px solid oklch(48% .03 60); }
+    .elevation .drawers { background: repeating-linear-gradient(to bottom, transparent 0 24%, oklch(55% .02 60) 24.5% 25.3%); }
+    .mark { position: absolute; border: 3px solid oklch(63% .16 76 / .8); background: oklch(75% .13 75 / .16); }
+    .mark.a { left: 14%; top: 18%; width: 73%; height: 56%; }
+    .mark.b { right: 18%; top: 41%; width: 21%; height: 28%; border-color: oklch(60% .16 255 / .8); background: oklch(70% .12 255 / .15); }
+    .callout { position: absolute; padding: 5px 7px; border-radius: 4px; background: var(--ink); color: var(--paper); font: 8px ui-monospace, monospace; }
+    .callout.c1 { left: 12%; top: 12%; }
+    .callout.c2 { right: 10%; top: 36%; background: var(--blue); }
+    .titleblock { position: absolute; right: 4%; bottom: 3%; width: 42%; height: 13%; border: 1px solid var(--ink); display: grid; grid-template-columns: 2fr 1fr; font: 6px ui-monospace, monospace; }
+    .titleblock div { padding: 4px; border-right: 1px solid var(--ink); }
+    .inspector { height: calc(100% - 46px); overflow: auto; }
+    .section { padding: 14px; border-bottom: 1px solid var(--line); }
+    .section h3 { margin: 0 0 10px; font-size: 11px; }
+    .hero-result { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 12px; }
+    .hero-result b { font-size: 19px; }
+    .hero-result span { color: var(--muted); font-size: 9px; }
+    .status { display: inline-flex; align-items: center; gap: 5px; padding: 5px 7px; border-radius: 4px; font-size: 9px; font-weight: 850; }
+    .status.good { color: var(--green); background: var(--green-soft); }
+    .status.review { color: oklch(48% .13 70); background: var(--amber-soft); }
+    .kv { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; font-size: 9px; }
+    .kv span { color: var(--muted); }
+    .kv b { font: 700 9px ui-monospace, monospace; }
+    .material-table { width: 100%; border-collapse: collapse; font-size: 9px; }
+    .material-table th, .material-table td { padding: 7px 4px; border-bottom: 1px solid var(--line); text-align: left; }
+    .material-table th { color: var(--muted); font-weight: 700; }
+    .material-table td:last-child { text-align: right; font-family: ui-monospace, monospace; font-weight: 800; }
+    .spec-stack { display: grid; gap: 7px; }
+    .spec-card { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+    .spec-card-head { display: grid; grid-template-columns: 9px 1fr auto; gap: 8px; align-items: center; padding: 8px; background: var(--canvas); }
+    .swatch { width: 9px; height: 28px; border-radius: 2px; border: 1px solid oklch(70% .03 65); }
+    .swatch.hmr { background: oklch(66% .08 151); }
+    .swatch.mdf { background: oklch(66% .08 63); }
+    .swatch.back { background: oklch(88% .015 80); }
+    .spec-card-head b { display: block; font-size: 10px; }
+    .spec-card-head small { color: var(--muted); font-size: 8px; }
+    .spec-card-head strong { font: 800 10px ui-monospace, monospace; }
+    .build-up { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+    .build-up div { padding: 7px 8px; border-right: 1px solid var(--line); }
+    .build-up div:last-child { border-right: 0; }
+    .build-up span { display: block; color: var(--muted); font-size: 7px; text-transform: uppercase; letter-spacing: .04em; }
+    .build-up b { display: block; margin-top: 2px; font-size: 8px; line-height: 1.35; }
+    .yield-box { margin-top: 8px; padding: 9px; border: 1px solid var(--line); border-radius: 5px; background: var(--canvas); }
+    .yield-box b { display: block; margin-bottom: 6px; font-size: 9px; }
+    .yield-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+    .yield-grid div { padding: 6px; background: var(--paper); border: 1px solid var(--line); border-radius: 4px; }
+    .yield-grid span { display: block; color: var(--muted); font-size: 7px; }
+    .yield-grid strong { font: 800 9px ui-monospace, monospace; }
+    .review-note { display: grid; grid-template-columns: 20px 1fr; gap: 7px; padding: 9px; border: 1px solid oklch(80% .06 75); border-radius: 5px; background: var(--amber-soft); font-size: 9px; line-height: 1.5; }
+    .source { margin-top: 8px; padding: 8px; border-radius: 5px; background: var(--blue-soft); color: var(--blue); font-size: 9px; font-weight: 800; }
+    .drawing.source-page { display: flex; align-items: center; padding: 12px; overflow: auto; background: oklch(91% .012 245); }
+    .pdf-evidence { position: relative; width: 100%; margin: auto; background: var(--paper); box-shadow: 0 12px 30px oklch(25% .02 55 / .15); }
+    .pdf-evidence img { display: block; width: 100%; height: auto; }
+    .evidence-box { position: absolute; border: 3px solid var(--blue); background: oklch(64% .16 255 / .14); box-shadow: 0 0 0 2px oklch(99% .006 78 / .9); }
+    .evidence-box::before { content: attr(data-label); position: absolute; left: -3px; top: -22px; padding: 4px 6px; border-radius: 4px 4px 4px 0; background: var(--blue); color: var(--paper); font: 800 8px ui-monospace, monospace; white-space: nowrap; }
+    .evidence-box.geometry { left: 69.9%; top: 66.4%; width: 7.1%; height: 12.6%; }
+    .evidence-box.spec { left: 70.7%; top: 12.4%; width: 9.1%; height: 20.7%; border-color: var(--amber); background: oklch(72% .14 75 / .14); }
+    .evidence-box.spec::before { background: var(--amber); }
+    .trace-tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); background: var(--canvas); }
+    .trace-tabs button { appearance: none; padding: 9px 4px; border: 0; border-right: 1px solid var(--line); background: transparent; text-align: center; color: var(--muted); font: 800 8px inherit; cursor: pointer; }
+    .trace-tabs button:last-child { border-right: 0; }
+    .trace-tabs button:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+    .trace-tabs .active { color: var(--blue); background: var(--blue-soft); }
+    .evidence-id { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 10px; font: 800 8px ui-monospace, monospace; color: var(--muted); }
+    .trace-chain { display: grid; gap: 0; }
+    .trace-step { position: relative; display: grid; grid-template-columns: 24px 1fr; gap: 8px; min-height: 47px; }
+    .trace-step:not(:last-child)::after { content: ""; position: absolute; left: 11px; top: 24px; bottom: 0; width: 1px; background: var(--line); }
+    .trace-step i { width: 23px; height: 23px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--paper); color: var(--blue); font: 800 8px ui-monospace, monospace; font-style: normal; z-index: 1; }
+    .trace-step b { display: block; font-size: 9px; }
+    .trace-step span { display: block; margin-top: 2px; color: var(--muted); font-size: 8px; line-height: 1.4; overflow-wrap: anywhere; }
+    .quote { padding: 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--canvas); font-size: 9px; line-height: 1.55; }
+    .quote b { color: var(--blue); }
+    .calc-block { border: 1px solid var(--line); border-radius: 5px; overflow: hidden; }
+    .calc-row { display: grid; grid-template-columns: 1.1fr 1.35fr auto; gap: 8px; padding: 8px; border-bottom: 1px solid var(--line); align-items: center; font-size: 8px; }
+    .calc-row:last-child { border-bottom: 0; }
+    .calc-row span { color: var(--muted); }
+    .calc-row code { font: 700 8px ui-monospace, monospace; color: var(--ink); }
+    .calc-row strong { font: 850 9px ui-monospace, monospace; text-align: right; }
+    .confidence-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .confidence-cell { padding: 8px; border: 1px solid var(--line); border-radius: 5px; }
+    .confidence-cell span { display: block; color: var(--muted); font-size: 7px; }
+    .confidence-cell b { display: block; margin-top: 2px; font: 850 10px ui-monospace, monospace; }
+    .confidence-cell.good b { color: var(--green); }
+    .confidence-cell.review b { color: var(--amber); }
+    .audit-list { display: grid; gap: 7px; }
+    .audit-row { display: grid; grid-template-columns: 42px 1fr; gap: 8px; font-size: 8px; line-height: 1.45; }
+    .audit-row time { color: var(--muted); font: 8px ui-monospace, monospace; }
+    .audit-row b { display: block; }
+    .audit-row span { color: var(--muted); }
+    .evidence-scroll { height: calc(100% - 46px); overflow: auto; padding: 12px; background: oklch(91% .012 245); scroll-behavior: smooth; }
+    .evidence-stage { margin-bottom: 14px; overflow: hidden; border: 1px solid var(--line); border-radius: 7px; background: var(--paper); }
+    .evidence-stage:last-child { margin-bottom: 0; }
+    .stage-head { min-height: 50px; display: grid; grid-template-columns: 30px 1fr auto; gap: 9px; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    .stage-no { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: var(--ink); color: var(--paper); font: 850 10px ui-monospace, monospace; }
+    .stage-head b { display: block; font-size: 10px; }
+    .stage-head span { display: block; margin-top: 2px; color: var(--muted); font-size: 8px; }
+    .stage-chip { padding: 5px 7px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font: 800 8px ui-monospace, monospace; white-space: nowrap; }
+    .stage-body { position: relative; background: oklch(88% .012 245); }
+    .stage-body.full-page { padding: 12px; }
+    .stage-body.full-page img { display: block; width: 100%; height: auto; box-shadow: 0 7px 20px oklch(25% .02 55 / .13); }
+    .stage-body.full-page .evidence-box.geometry { left: 70.6%; top: 67.6%; width: 6.6%; height: 12%; }
+    .stage-body.full-page .evidence-box.spec { left: 71.3%; top: 13.4%; width: 8.5%; height: 19.5%; }
+    .stage-footer { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 9px 10px; border-top: 1px solid var(--line); font-size: 8px; line-height: 1.45; }
+    .stage-footer b { display: block; }
+    .stage-footer span { color: var(--muted); }
+    .stage-value { align-self: center; padding: 6px 8px; border-radius: 4px; background: var(--blue-soft); color: var(--blue); font: 850 9px ui-monospace, monospace; white-space: nowrap; }
+    .evidence-crop { position: relative; height: 330px; background-image: url('builtin-evidence-bf18-page08.png'); background-repeat: no-repeat; background-color: var(--paper); }
+    .crop-count { background-size: 300% auto; background-position: 87% 92%; }
+    .crop-dimension { background-size: 380% auto; background-position: 82% 96%; }
+    .crop-specification { background-size: 330% auto; background-position: 89% 8%; }
+    .crop-focus { position: absolute; border: 3px solid var(--blue); background: oklch(64% .16 255 / .12); box-shadow: 0 0 0 2px oklch(99% .006 78 / .92); }
+    .crop-focus::before { content: attr(data-label); position: absolute; left: -3px; top: -22px; padding: 4px 6px; border-radius: 4px 4px 4px 0; background: var(--blue); color: var(--paper); font: 850 8px ui-monospace, monospace; white-space: nowrap; }
+    .crop-count .crop-focus { left: 31%; top: 4%; width: 23%; height: 27%; }
+    .crop-dimension .crop-focus.dim-w { left: 29%; top: 36%; width: 31%; height: 8%; }
+    .crop-dimension .crop-focus.dim-h { left: 22%; top: 1%; width: 14%; height: 15%; }
+    .crop-specification .crop-focus { left: 43%; top: 10%; width: 36%; height: 74%; border-color: var(--amber); background: oklch(72% .14 75 / .12); }
+    .crop-specification .crop-focus::before { background: var(--amber); }
+    .source-proof { display: inline-flex; align-items: center; gap: 5px; margin-top: 4px; color: var(--green); font-weight: 850; }
+    @media (max-width: 900px) {
+      .market-grid, .workflow { grid-template-columns: 1fr; }
+      .project-card { grid-template-columns: 1fr; }
+      .card-visual { min-height: 370px; }
+      .result-grid { grid-template-columns: 1fr; height: auto; }
+      .pane { min-height: 420px; }
+      .supported { grid-template-columns: 1fr 1fr; }
+      .evidence-crop { height: 270px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="logo">2D</div>
+      <div class="brand"><b>นายช่างใหญ่ Civil Apps</b><small>PROFESSIONAL TOOLS</small></div>
+      <div class="crumb" id="crumb">App Marketplace / งานเฟอร์นิเจอร์</div>
+      <div class="top-actions"><button class="btn" id="viewCard">ดูการ์ด</button><button class="btn" id="viewUpload">หน้าอัปโหลด</button><button class="btn primary" id="viewResult">ดูผลลัพธ์</button></div>
+    </header>
+
+    <main id="marketView" class="shell">
+      <div class="page-head">
+        <div><div class="eyebrow">INTERIOR PRODUCTION</div><h1>งานเฟอร์นิเจอร์และบิ้วอิน</h1></div>
+        <p>Mockup การ์ดแอปใหม่สำหรับผู้รับเหมา โรงงานเฟอร์นิเจอร์ และ QS ที่ต้องถอดวัสดุจากแบบ PDF เพื่อเสนอราคาและเตรียมผลิต</p>
+      </div>
+      <div class="market-grid">
+        <button class="project-card" id="openApp" type="button" aria-label="เปิดแอป ถอด BOQ งานบิ้วอินจาก PDF">
+          <div class="card-visual" aria-hidden="true">
+            <div class="pdf-stack"><div class="pdf-sheet back"></div><div class="pdf-sheet front"><div class="sheet-head"><b>WARDROBE ELEVATION</b><span>A-401 · 1:20</span></div><div class="wardrobe"><span></span><span></span><span></span></div><div class="dim-v">H 2,650</div><div class="dim-h">W 3,200 mm</div><div class="sheet-notes"><i></i><i></i><i></i></div></div></div>
+            <div class="takeoff-float"><div class="takeoff-head"><b>BF-12 · MATERIAL CHECK</b><span>3 หน้า</span></div><div class="takeoff-row"><span>HMR 18 mm · Laminate LM-06</span><strong>พบ</strong></div><div class="takeoff-row"><span>HMR 20 mm · Drawer Interior</span><strong>รอยืนยัน</strong></div><div class="takeoff-row"><span>ST-01 · GL-02 · AL-01</span><strong>3 กลุ่ม</strong></div><div class="takeoff-row"><span>LED 4000K + Aluminium Profile</span><strong>พบ Detail</strong></div></div>
+            <div class="confidence"><b><span>ข้อมูลพร้อมออก BOQ</span><span>68%</span></b><div class="meter" style="--ready:68%"></div></div>
+          </div>
+          <div class="card-copy">
+            <div class="kicker">PDF TO BUILT-IN BOQ</div>
+            <h2>ถอด BOQ<br>งานบิ้วอิน</h2>
+            <p>โยนแบบ PDF แล้วแยกตู้ ชิ้นส่วน วัสดุปิดผิว Hardware และค่าแรงติดตั้ง พร้อมย้อนดูตำแหน่งในแบบได้</p>
+            <div class="feature-list">
+              <div class="feature"><i>1</i><span>จำแนกตู้ครัว ตู้เสื้อผ้า ตู้ทีวี เคาน์เตอร์ และผนังกรุ</span></div>
+              <div class="feature"><i>2</i><span>แยกแกน HMR/MDF/Plywood/PB, ความหนา, ผิวหน้า A/B, ปิดขอบ และ Cutting loss</span></div>
+              <div class="feature"><i>3</i><span>แยกรายการที่แบบไม่ชัด เพื่อให้ยืนยันก่อนออก Excel หรือใบเสนอราคา</span></div>
+            </div>
+            <div class="card-foot"><span class="beta">CONCEPT MOCKUP · ยังไม่คำนวณจริง</span><span class="btn wood large">โยน PDF เพื่อเริ่ม →</span></div>
+          </div>
+        </button>
+        <aside class="side-note">
+          <h3>สิ่งที่การ์ดนี้ต้องสื่อ</h3>
+          <div class="scope">
+            <div><b>เป็นงานเฟอร์โดยเฉพาะ</b><span>ภาพตู้ รูปด้าน Cutting list และ Hardware ต้องเห็นตั้งแต่ Thumbnail</span></div>
+            <div><b>ไม่ได้เดาเมื่อแบบขาด</b><span>แสดงระดับความมั่นใจ และแยกจุดรอยืนยัน เช่น ผิววัสดุหรือรุ่น Hardware</span></div>
+            <div><b>วัสดุถึงระดับสั่งซื้อ</b><span>แยกชนิดแกน ความหนา ผิวสองด้าน รหัสลาย ขนาดแผ่น พื้นที่สุทธิ และจำนวนหลังเผื่อสูญเสีย</span></div>
+            <div><b>ตรวจย้อนกลับได้</b><span>ทุกรายการผูกกลับไปยังหน้า PDF และตำแหน่งชิ้นงาน</span></div>
+          </div>
+          <div class="honesty"><b>ถ้อยคำแนะนำ</b><br>ใช้ “ถอดครบ ตรวจย้อนกลับได้” แทน “แม่นยำสูงสุด” จนกว่าจะมีชุดทดสอบเทียบ QS และกติกาการผลิตของแต่ละโรงงาน</div>
+        </aside>
+      </div>
+    </main>
+
+    <main id="uploadView" class="shell" hidden>
+      <div class="workflow">
+        <aside class="rail"><button class="back" data-go="market">← กลับ Marketplace</button><div class="eyebrow">BUILT-IN BOQ</div><h2>เริ่มโปรเจกต์ใหม่</h2><p>แบบและข้อมูลทั้งหมดใน mockup นี้อยู่บนเครื่อง ยังไม่มีการอัปโหลดจริง</p><div class="steps"><div class="step active"><span>01</span><b>เพิ่มแบบ PDF</b></div><div class="step"><span>02</span><b>ตรวจข้อมูลแบบ</b></div><div class="step"><span>03</span><b>ทบทวนรายการ</b></div><div class="step"><span>04</span><b>ออก BOQ</b></div></div></aside>
+        <section class="workarea">
+          <div class="work-head"><div><div class="eyebrow">STEP 01</div><h1>เพิ่มแบบเฟอร์นิเจอร์บิ้วอิน</h1><p>ใช้แบบรูปด้าน รูปตัด Detail และ Material Schedule ในชุดเดียวกันเพื่อให้ถอดรายการได้ครบขึ้น</p></div><span class="mock-label">MOCKUP ONLY</span></div>
+          <label class="dropzone" id="dropzone" tabindex="0"><input class="input-file" id="pdfInput" type="file" accept="application/pdf"><div><div class="drop-icon"></div><h3>วางไฟล์ PDF ที่นี่</h3><p>ระบบจะค้นหา Furniture Code, ขนาด, วัสดุปิดผิว, รายละเอียดชิ้นส่วน และ Hardware จากทุกหน้า</p><span class="btn wood large">เลือกไฟล์ PDF</span><div class="drop-hints"><span>แบบรูปด้าน</span><span>Section / Detail</span><span>Material Schedule</span><span>Hardware Spec</span></div></div></label>
+          <div class="supported"><div><b>แกนวัสดุและเกรด</b><span>HMR, MDF, PB, Plywood, Moisture zone</span></div><div><b>ความหนาและขนาดแผ่น</b><span>6/9/12/15/18/25 mm · 1220×2440</span></div><div><b>ผิวหน้า A/B และขอบ</b><span>Melamine, HPL, Veneer, PU, Acrylic, PVC 1/2 mm</span></div><div><b>Hardware รายรุ่น</b><span>Hinge angle, Runner length/load, Handle, Lift</span></div></div>
+        </section>
+      </div>
+    </main>
+
+    <main id="resultView" class="result-shell" hidden>
+      <div class="result-top"><button class="btn" data-go="upload">← แบบ PDF</button><div><h1>K.TY Nantawan 71 · BF-18 Walk-in Closet</h1><div class="file">20250808_BF15-BF23_K.TY NANTAWAN 71.pdf · 23 หน้า · Trace mode</div></div><div class="actions"><button class="btn">หลักฐาน 6 จุด</button><button class="btn">รายการรอยืนยัน 3</button><button class="btn primary">ส่งออก BOQ + Evidence</button></div></div>
+      <div class="result-grid">
+        <section class="pane"><div class="pane-title"><span>ชิ้นงานและหลักฐาน</span><span>BF-15 ถึง BF-23</span></div><div class="tree"><div class="tree-group">MASTER BEDROOM</div><div class="tree-item"><span class="num">BF-15</span><span>เตียง + หัวเตียง + ตู้ข้าง</span><span class="qty">หน้า 2-3</span></div><div class="tree-item"><span class="num">BF-16</span><span>ชั้นวาง / Wall feature</span><span class="qty">หน้า 4-5</span></div><div class="tree-item"><span class="num">BF-17</span><span>Vanity + ตู้เก็บของ</span><span class="qty">หน้า 6-7</span></div><div class="tree-group">WALK-IN CLOSET</div><div class="tree-item active"><span class="num">BF-18</span><span>หน้าบานลิ้นชัก HMR 20 mm</span><span class="qty">2 ชิ้น</span></div><div class="tree-item"><span class="num">BF-18</span><span>ชั้นภายใน + ราง LED</span><span class="qty">5 แนว</span></div><div class="tree-item"><span class="num">BF-18</span><span>ภายในตู้ Laminate LM-02</span><span class="qty">รอถอด</span></div><div class="tree-group">BEDROOM 2 / 3</div><div class="tree-item"><span class="num">BF-19</span><span>Wardrobe + Dressing</span><span class="qty">หน้า 9-12</span></div><div class="tree-item"><span class="num">BF-20</span><span>Bed + Cabinet</span><span class="qty">หน้า 13-17</span></div><div class="tree-item"><span class="num">BF-21</span><span>Wardrobe + Vanity</span><span class="qty">หน้า 18</span></div><div class="tree-item"><span class="num">BF-22</span><span>Bed + Side table</span><span class="qty">หน้า 19-22</span></div><div class="tree-item"><span class="num">BF-23</span><span>Vanity + Mirror</span><span class="qty">หน้า 23</span></div></div></section>
+        <section class="pane"><div class="pane-title"><span>Evidence Board · ภาพจริงจาก PDF หน้า 8/23</span><span>ลำดับ 1-4 · ID3.2-07</span></div><div class="evidence-scroll"><article class="evidence-stage"><div class="stage-head"><div class="stage-no">1</div><div><b>ยืนยันเอกสารและตำแหน่งบนหน้าจริง</b><span>เปิดหน้า PDF ทั้งหน้าเพื่อเห็น Drawing No., Revision, Plan, Section และ Detail ในบริบทเดียวกัน</span></div><span class="stage-chip">FULL PAGE · 1:1 SOURCE</span></div><div class="stage-body full-page"><img src="builtin-evidence-bf18-page08.png" alt="PDF ต้นฉบับหน้า 8 แบบ BF-18 ทั้งหน้า"><div class="evidence-box geometry" data-label="ตำแหน่ง Section 2"></div><div class="evidence-box spec" data-label="ตำแหน่ง Detail 18.3"></div></div><div class="stage-footer"><div><b>Source: PDF หน้า 8/23 · Drawing ID3.2-07 · Printed 8/8/2568</b><span>ภาพ Raster จาก PDF ต้นฉบับ 2978 × 2105 px, ไม่วาดใหม่, ไม่ปรับข้อความหรือเส้นแบบ</span><span class="source-proof">✓ Fingerprint: SHA-256 8F72CEFD…F18DE</span></div><div class="stage-value">SOURCE LOCKED</div></div></article><article class="evidence-stage"><div class="stage-head"><div class="stage-no">2</div><div><b>นับจำนวนจาก Section 2</b><span>Crop จากหน้าเดียวกันเพื่อให้เห็นช่องลิ้นชักที่เขียนว่า SLIDE ชัดเจน</span></div><span class="stage-chip">CROP · QUANTITY</span></div><div class="stage-body evidence-crop crop-count"><div class="crop-focus" data-label="พบช่อง SLIDE 2 ช่อง"></div></div><div class="stage-footer"><div><b>Source region: x 69.9-77.0%, y 66.4-79.0%</b><span>กติกา: นับเฉพาะช่องที่มีป้าย SLIDE ใน Section 2, ไม่รวมหน้าบานตู้ด้านล่าง</span></div><div class="stage-value">QTY = 2 pcs</div></div></article><article class="evidence-stage"><div class="stage-head"><div class="stage-no">3</div><div><b>อ่านมิติจาก Dimension chain</b><span>Width 600 มม. จากมิติแนวนอน และ Height 225 มม. ต่อช่องจากมิติแนวตั้ง</span></div><span class="stage-chip">CROP · DIMENSIONS</span></div><div class="stage-body evidence-crop crop-dimension"><div class="crop-focus dim-w" data-label="W = 600 mm"></div><div class="crop-focus dim-h" data-label="H = 225 mm / ช่อง"></div></div><div class="stage-footer"><div><b>Source: Section 2 · Scale 1:25 · Dimension text</b><span>อ่านค่าตัวเลขที่กำหนดในแบบเท่านั้น, ไม่วัดระยะจากสเกลภาพ</span></div><div class="stage-value">600 × 225 mm</div></div></article><article class="evidence-stage"><div class="stage-head"><div class="stage-no">4</div><div><b>อ่านวัสดุและ Hardware จาก Detail 18.3</b><span>Callout ระบุ HMR 20 มม., Laminate LM-02, มือจับเพ่ด้านบน และรางรับข้าง Soft-close Hafele</span></div><span class="stage-chip">CROP · SPECIFICATION</span></div><div class="stage-body evidence-crop crop-specification"><div class="crop-focus" data-label="ข้อความวัสดุ + Hardware ต้นฉบับ"></div></div><div class="stage-footer"><div><b>Source region: x 70.7-79.8%, y 12.4-33.1% · Detail 18.3 · Scale 1:30</b><span>ส่งเข้า Material parser: Core=HMR, T=20, Finish=LM-02, Handle=เพ่ด้านบน, Runner=Side-mount Soft-close, Brand=Hafele</span></div><div class="stage-value">SPEC LINKED</div></div></article></div></section>
+        <aside class="pane"><div class="pane-title"><span>หลักฐานการถอด · BF-18</span><span class="status review">! ตรวจสอบ 1 สมมติฐาน</span></div><div class="trace-tabs"><button data-trace-target="trace-summary">สรุป</button><button class="active" data-trace-target="trace-evidence">หลักฐาน</button><button data-trace-target="trace-formula">สูตรถอด</button><button data-trace-target="trace-audit">Audit</button></div><div class="inspector"><div class="section" id="trace-summary"><div class="evidence-id"><span>EVD-BF18-DRW-FRONT-001</span><span>REV 8/8/2568</span></div><h3>หน้าบานลิ้นชัก HMR 20 mm · LM-02</h3><div class="kv"><span>ผลถอด</span><b>600 × 225 × 20 mm</b><span>จำนวน</span><b>2 ชิ้น</b><span>พื้นที่แผ่นสุทธิ</span><b>0.270 m²</b><span>Hardware ที่เกี่ยวข้อง</span><b>รางรับข้าง 2 คู่</b></div></div><div class="section" id="trace-evidence"><h3>สายหลักฐานจากไฟล์ถึงปริมาณ</h3><div class="trace-chain"><div class="trace-step"><i>1</i><div><b>เอกสารต้นทาง</b><span>20250808_BF15-BF23_K.TY NANTAWAN 71.pdf · SHA-256 8F72CEFD…F18DE</span></div></div><div class="trace-step"><i>2</i><div><b>หน้าและเลขแบบ</b><span>หน้า 8/23 · Drawing ID3.2-07 · Printed 8/8/2568</span></div></div><div class="trace-step"><i>3</i><div><b>ตำแหน่ง A: Geometry</b><span>Section 2 · Scale 1:25 · กรอบ x 69.9-77.0%, y 66.4-79.0%</span></div></div><div class="trace-step"><i>4</i><div><b>ตำแหน่ง B: Specification</b><span>Detail 18.3 · Scale 1:30 · กรอบ x 70.7-79.8%, y 12.4-33.1%</span></div></div><div class="trace-step"><i>5</i><div><b>กติกาการถอด</b><span>นับคำว่า SLIDE 2 ช่อง, อ่าน Width 600 และ Height 225 จาก Dimension chain, อ่าน Thickness 20 จาก Callout</span></div></div></div></div><div class="section"><h3>ข้อความที่อ่านจาก Detail 18.3</h3><div class="quote"><b>SRC-BF18-18.3</b><br>“หน้าบานโครงลิ้นชัก กรุไม้อัดกันชื้น HMR หนา 20 มม. ปิดผิวด้วยลามิเนต รหัส LM-02 หน้าบานทำเพ่ด้านบน”<br><br>“ภายในลิ้นชัก กรุไม้อัดกันชื้น HMR หนา 20 มม. ปิดผิวด้วยลามิเนต รหัส LM-02 ใส่รางรับข้าง soft close ยี่ห้อ HAFELE”</div></div><div class="section" id="trace-formula"><h3>สูตรและที่มาของตัวเลข</h3><div class="calc-block"><div class="calc-row"><span>จำนวนหน้าบาน</span><code>2 ช่อง SLIDE</code><strong>2 pcs</strong></div><div class="calc-row"><span>ขนาดตัดต่อชิ้น</span><code>W600 × H225 × T20</code><strong>600×225</strong></div><div class="calc-row"><span>พื้นที่ HMR สุทธิ</span><code>2 × 0.600 × 0.225</code><strong>0.270 m²</strong></div><div class="calc-row"><span>ปิดผิว LM-02 ด้านหน้า</span><code>เท่าพื้นที่หน้าบาน</code><strong>0.270 m²</strong></div><div class="calc-row"><span>ความยาวขอบเชิงรูปทรง</span><code>2 × 2 × (0.600+0.225)</code><strong>3.300 m</strong></div><div class="calc-row"><span>รางลิ้นชัก Soft-close</span><code>1 คู่ / ลิ้นชัก × 2</code><strong>2 คู่</strong></div><div class="calc-row"><span>เผื่อตัดแผ่น</span><code>รวม Nest ทั้งโครงการก่อน</code><strong>ยังไม่บวก</strong></div></div></div><div class="section"><h3>ความมั่นใจแยกตามข้อมูล</h3><div class="confidence-grid"><div class="confidence-cell good"><span>จำนวน</span><b>96%</b></div><div class="confidence-cell good"><span>มิติ</span><b>94%</b></div><div class="confidence-cell good"><span>แกน + ความหนา</span><b>92%</b></div><div class="confidence-cell review"><span>ผิว / Edge / Hardware รุ่น</span><b>71%</b></div></div></div><div class="section"><h3>สิ่งที่ยังห้ามสรุปเอง</h3><div class="review-note"><b>!</b><span><b>ความยาวขอบ 3.300 m เป็น Geometry เท่านั้น</b><br>แบบไม่ระบุชนิดและความหนา Edge band รวมถึงไม่ระบุว่าปิดครบ 4 ด้านหรือไม่ จึงยังไม่ออกเป็นรายการสั่งซื้อ</span></div><div class="review-note" style="margin-top:7px"><b>!</b><span><b>LM-02 ระบุเพียงรหัสผิว</b><br>ต้องเชื่อม Material Schedule เพื่อได้ยี่ห้อ รุ่น สี และตรวจว่าปิด Face B ด้วยหรือไม่</span></div><div class="review-note" style="margin-top:7px"><b>!</b><span><b>Hafele ยังขาดรุ่น</b><br>แบบบอก Side-mount Soft-close แต่ไม่มีความยาวราง Load rating สี และรหัสสินค้า</span></div></div><div class="section" id="trace-audit"><h3>Audit trail</h3><div class="audit-list"><div class="audit-row"><time>10:42:11</time><div><b>PDF indexed</b><span>บันทึก fingerprint และลำดับหน้า 23 หน้า</span></div></div><div class="audit-row"><time>10:42:14</time><div><b>BF-18 detected</b><span>ผูก Plan 18, Elevation A, Section 1/2 และ Detail 18.1-18.3</span></div></div><div class="audit-row"><time>10:42:16</time><div><b>Quantity derived</b><span>สร้าง 2 ชิ้นจาก Section 2 และสูตรพื้นที่สุทธิ</span></div></div><div class="audit-row"><time>10:42:19</time><div><b>Review flag added</b><span>กัน Edge, Face B และ Hardware รุ่นออกจากรายการสั่งซื้อ</span></div></div></div></div></div></aside>
+      </div>
+    </main>
+  </div>
+  <script>
+    const views = { market: document.getElementById('marketView'), upload: document.getElementById('uploadView'), result: document.getElementById('resultView') };
+    const crumb = document.getElementById('crumb');
+    function show(name) {
+      Object.entries(views).forEach(([key, node]) => { node.hidden = key !== name; });
+      crumb.textContent = name === 'market' ? 'App Marketplace / งานเฟอร์นิเจอร์' : name === 'upload' ? 'Built-in BOQ / เพิ่มแบบ PDF' : 'Built-in BOQ / ตรวจผลการถอด';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    document.getElementById('viewCard').addEventListener('click', () => show('market'));
+    document.getElementById('viewUpload').addEventListener('click', () => show('upload'));
+    document.getElementById('viewResult').addEventListener('click', () => show('result'));
+    document.getElementById('openApp').addEventListener('click', () => show('upload'));
+    document.querySelectorAll('[data-go]').forEach(btn => btn.addEventListener('click', () => show(btn.dataset.go)));
+    const dz = document.getElementById('dropzone');
+    const input = document.getElementById('pdfInput');
+    ['dragenter', 'dragover'].forEach(type => dz.addEventListener(type, e => { e.preventDefault(); dz.classList.add('drag'); }));
+    ['dragleave', 'drop'].forEach(type => dz.addEventListener(type, e => { e.preventDefault(); dz.classList.remove('drag'); if (type === 'drop') show('result'); }));
+    input.addEventListener('change', () => { if (input.files.length) show('result'); });
+    dz.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') input.click(); });
+    document.querySelectorAll('[data-trace-target]').forEach(btn => btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.traceTarget);
+      if (!target) return;
+      document.querySelectorAll('[data-trace-target]').forEach(item => item.classList.toggle('active', item === btn));
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }));
+  </script>
+</body>
+</html>

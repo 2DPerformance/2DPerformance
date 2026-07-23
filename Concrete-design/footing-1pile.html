@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <!-- Owner-authorized migration from changkid-engapp.pages.dev, 2026-07-12 -->
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ฐานราก 1 เสาเข็ม · 1-Pile Footing — นายช่างใหญ่ Civil Apps</title>
+<meta name="description" content="ออกแบบฐานราก 1 เสาเข็ม (1-Pile Cap) — Pile capacity · Critical Section Shear · Min Reinforcement · ตามมาตรฐาน ACI 318 — นายช่างใหญ่ Civil Apps">
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="/fonts/sarabun/sarabun.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --navy:#0f1e33; --navy2:#16294a; --blue:#1B4F8C; --orange:#F58220;
+    --ink:#1f2937; --muted:#64748b; --line:#E2E8F0; --bg:#eef2f7;
+    --ok:#16794c; --okbg:#e7f6ec; --bad:#c0392b; --badbg:#fdecea;
+  }
+  html,body{height:100%}
+  body{font-family:"Sarabun",-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;min-height:100%}
+  .appbar{position:sticky;top:0;z-index:30;height:54px;display:flex;align-items:center;gap:12px;padding:0 14px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 1px 6px rgba(15,30,51,.08)}
+  .appbar .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:700;font-size:13.5px;color:var(--blue);padding:7px 11px;border:1px solid var(--line);border-radius:9px;transition:background .15s;white-space:nowrap}
+  .appbar .back:hover{background:#f1f5f9}
+  .appbar .appname{font-weight:800;font-size:15px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .appbar .brand{margin-left:auto;font-weight:800;font-size:12.5px;color:var(--orange);letter-spacing:.5px}
+  .appbar .print{background:none;border:1px solid var(--line);border-radius:9px;padding:7px 11px;font-family:inherit;font-weight:700;font-size:13px;color:var(--blue);cursor:pointer}
+  .appbar .print:hover{background:#f1f5f9}
+  .wrap{flex:1 1 auto;width:100%;max-width:1180px;margin:0 auto;padding:20px 16px 44px;display:grid;gap:18px;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 16px rgba(15,30,51,.06)}
+  .panel-head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px}
+  .panel-head .pico{width:30px;height:30px;border-radius:8px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--orange),#ff9d4d);color:#fff}
+  .panel-head h2{font-size:15.5px;font-weight:800;color:var(--ink)}
+  .panel-head .hint{font-size:12px;color:var(--muted)}
+  .panel-body{padding:16px 18px}
+  .group{margin-bottom:18px}
+  .group:last-child{margin-bottom:0}
+  .group-title{font-size:12px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+  .group-title::before{content:"";width:14px;height:3px;border-radius:2px;background:var(--orange)}
+  .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .field-grid.three{grid-template-columns:1fr 1fr 1fr}
+  .field{display:flex;flex-direction:column;gap:4px}
+  .field.full{grid-column:1 / -1}
+  .field label{font-size:12.5px;font-weight:600;color:#475569}
+  .field label .u{color:var(--muted);font-weight:500}
+  .fnote{font-size:11px;color:var(--muted);font-weight:600;line-height:1.55;margin-top:6px}
+  .fnote b{color:#475569}
+  .ctrl{display:flex;align-items:center;border:1px solid var(--line);border-radius:9px;background:#fff;overflow:hidden;transition:border-color .12s, box-shadow .12s}
+  .ctrl:focus-within{border-color:var(--orange);box-shadow:0 0 0 3px rgba(245,130,32,.13)}
+  .ctrl input, .ctrl select{flex:1 1 auto;width:100%;border:0;outline:0;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:var(--ink);padding:9px 10px}
+  .ctrl select{cursor:pointer;-webkit-appearance:none;appearance:none}
+  .ctrl.sel::after{content:"▾";color:var(--muted);font-size:11px;padding:0 10px;pointer-events:none}
+  .seg{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;position:relative}
+  .seg.three{grid-template-columns:repeat(3,1fr)}
+  .seg input{position:absolute;opacity:0;pointer-events:none}
+  .seg label{text-align:center;border:1px solid var(--line);border-radius:9px;padding:9px 4px;cursor:pointer;font-size:13px;font-weight:700;color:#475569;line-height:1.3;transition:.12s}
+  .seg label small{display:block;font-size:10.5px;font-weight:600;color:var(--muted);margin-top:2px}
+  .seg input:checked + label{border-color:var(--orange);background:#fff7f0;color:var(--orange);box-shadow:0 0 0 2px rgba(245,130,32,.14) inset}
+  .summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+  .stat{background:#f7f9fc;border:1px solid var(--line);border-radius:11px;padding:11px 13px}
+  .stat .k{font-size:11.5px;color:var(--muted);font-weight:600}
+  .stat .v{font-size:19px;font-weight:800;color:var(--ink);margin-top:2px}
+  .stat .v small{font-size:12px;font-weight:600;color:var(--muted)}
+  .checks{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+  .chk{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:999px}
+  .chk.ok{background:var(--okbg);color:var(--ok)}
+  .chk.bad{background:var(--badbg);color:var(--bad)}
+  .chk svg{width:13px;height:13px}
+  .sec-title{font-size:12px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.6px;margin:18px 0 9px;display:flex;align-items:center;gap:7px}
+  .sec-title:first-child{margin-top:0}
+  .sec-title::before{content:"";width:14px;height:3px;border-radius:2px;background:var(--orange)}
+  .diagram{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 10px 8px;margin-top:6px}
+  .diagram svg{width:100%;height:auto;display:block}
+  .diagram .cap{font-size:11px;color:var(--muted);font-weight:600;text-align:center;margin-top:4px}
+  .diag-row{display:flex;gap:12px}
+  .diag-row .diag-cell{flex:1;min-width:0}
+  .diag-cell{min-width:0}
+  .diag-h{font-size:11.5px;font-weight:800;color:var(--blue);margin-bottom:5px;text-align:center}
+  @media(max-width:560px){.diag-row{flex-direction:column}}
+  .viewer3d{position:relative;height:480px;background:#fff;border:1px solid var(--line);border-radius:12px;margin-top:8px;overflow:hidden}
+  .viewer3d canvas{width:100%;height:100%;display:block;cursor:grab}
+  .viewer3d canvas:active{cursor:grabbing}
+  .v3d-hint{position:absolute;left:11px;top:10px;color:#475569;font-size:11px;font-weight:600;background:rgba(255,255,255,.86);border:1px solid var(--line);padding:3px 9px;border-radius:7px;pointer-events:none}
+  .v3d-legend{position:absolute;right:11px;top:10px;display:flex;flex-direction:column;gap:3px;background:rgba(255,255,255,.86);border:1px solid var(--line);padding:6px 9px;border-radius:8px;pointer-events:none}
+  .v3d-legend span{display:flex;align-items:center;gap:6px;color:#475569;font-size:10.5px;font-weight:600}
+  .v3d-legend i{width:11px;height:11px;border-radius:3px}
+  .v3d-toggles{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .v3d-toggles button{display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:700;border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:#fff;color:#9aa0a8;transition:.12s}
+  .v3d-toggles button.on{background:#fff7f0;border-color:var(--orange);color:var(--ink)}
+  .v3d-toggles button i{width:10px;height:10px;border-radius:3px;opacity:.35}
+  .v3d-toggles button.on i{opacity:1}
+  .v3d-tone{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .v3d-tone>span{font-size:11.5px;font-weight:700;color:var(--muted)}
+  .v3d-tone button{cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:700;border:1px solid var(--line);border-radius:999px;padding:5px 13px;background:#fff;color:#9aa0a8;transition:.12s}
+  .v3d-tone button.on{background:#fff7f0;border-color:var(--orange);color:var(--ink)}
+  .v3d-colors label{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--ink);background:#f4f6f9;border:1px solid var(--line);border-radius:999px;padding:3px 11px 3px 4px;cursor:pointer}
+  .v3d-colors input[type=color]{width:30px;height:21px;padding:0;border:1px solid var(--line);border-radius:999px;background:none;cursor:pointer}
+  .rep-step{border:1px solid var(--line);border-radius:11px;padding:11px 13px 12px;margin-bottom:10px;background:#fff}
+  .rep-step .rh{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .rep-step .rn{flex:0 0 auto;width:21px;height:21px;border-radius:6px;background:var(--blue);color:#fff;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .rep-step .rt{font-size:13px;font-weight:800;color:var(--ink)}
+  .rep-dd{display:grid;grid-template-columns:1fr 1fr;gap:1px 18px;padding-left:29px}
+  .rep-dd div{display:flex;justify-content:space-between;gap:8px;font-size:12px;padding:3px 0;border-bottom:1px dotted var(--line)}
+  .rep-dd span{color:var(--muted)}
+  .rep-dd b{color:var(--ink);font-weight:700;text-align:right}
+  .rep-f{padding:5px 0 5px 29px;font-variant-numeric:tabular-nums}
+  .rep-f .ef{font-size:12.5px;color:#1f2937;font-weight:700;line-height:1.6}
+  .rep-f .ef b{color:var(--blue);font-weight:800}
+  .rep-f .ex{font-size:12.5px;color:#475569;line-height:1.6;padding-left:13px}
+  .rep-f .eref{font-size:11px;color:var(--muted);padding-left:13px;margin-top:1px}
+  .rep-chk{font-size:12px;color:#334155;font-weight:600;padding:5px 0 5px 29px;margin-top:2px;display:flex;align-items:center;gap:7px}
+  .rep-vd{display:inline-block;font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;margin-left:auto;white-space:nowrap}
+  .rep-vd.inl{margin-left:0;flex:0 0 auto}
+  .rep-vd.ok{background:var(--okbg);color:var(--ok)}
+  .rep-vd.bad{background:var(--badbg);color:var(--bad)}
+  .rep-final{border-radius:11px;padding:13px 15px;font-size:13.5px;font-weight:800;text-align:center;margin-top:6px}
+  .rep-final.ok{background:var(--okbg);color:var(--ok)}
+  .rep-final.bad{background:var(--badbg);color:var(--bad)}
+  .callout{margin-top:12px;background:#fff7f0;border:1px solid #f5d6b8;border-radius:10px;padding:11px 13px;font-size:12.5px;color:#8a5018;line-height:1.55;font-weight:600}
+  .callout b{color:var(--orange)}
+  /* D-region (deep-block) warning banner — orange, prominent */
+  .banner-warn{margin-bottom:12px;background:linear-gradient(135deg,#fff4e6,#ffe9cc);border:2px solid var(--orange);border-left:6px solid var(--orange);border-radius:10px;padding:12px 15px;font-size:13px;color:#7a3d05;line-height:1.55;font-weight:600;display:flex;gap:11px;align-items:flex-start}
+  .banner-warn .bw-ico{flex:0 0 auto;width:28px;height:28px;border-radius:8px;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800}
+  .banner-warn b{color:#a8400a}
+  /* Tie-beam permanent note (cyan/info style) */
+  .banner-info{margin-bottom:12px;background:linear-gradient(135deg,#e8f2ff,#d6e6ff);border:1px solid #93b8e6;border-left:5px solid var(--blue);border-radius:10px;padding:11px 14px;font-size:12.5px;color:#1a3a66;line-height:1.55;font-weight:600;display:flex;gap:11px;align-items:flex-start}
+  .banner-info .bi-ico{flex:0 0 auto;width:26px;height:26px;border-radius:7px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800}
+  .banner-info b{color:#0d2647}
+  /* Utilization bars */
+  .util-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+  @media(max-width:520px){.util-row{grid-template-columns:1fr}}
+  .util-bar{background:#f7f9fc;border:1px solid var(--line);border-radius:11px;padding:9px 12px 11px}
+  .util-bar .ulbl{display:flex;justify-content:space-between;align-items:baseline;font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:5px}
+  .util-bar .ulbl b{font-size:13.5px;font-weight:800}
+  .util-bar .ubar{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden;position:relative}
+  .util-bar .ufill{height:100%;border-radius:999px;transition:width .25s, background .25s}
+  .util-bar .ufill.green{background:linear-gradient(90deg,#16794c,#2bb673)}
+  .util-bar .ufill.yellow{background:linear-gradient(90deg,#e8a317,#f9c533)}
+  .util-bar .ufill.red{background:linear-gradient(90deg,#c0392b,#e74c3c)}
+  .util-bar .ufill.over{background:repeating-linear-gradient(45deg,#c0392b 0 8px,#8b2818 8px 16px)}
+  .util-bar .uval{margin-top:3px;font-size:10.5px;color:#475569;font-weight:600;display:flex;justify-content:space-between}
+  .util-bar .uval span.over{color:var(--bad);font-weight:800}
+  /* Empty/error state */
+  .nodata{background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px 16px;color:#991b1b;font-size:13px;font-weight:700;text-align:center}
+  /* Focus visible (a11y) */
+  :focus-visible{outline:2px solid var(--orange);outline-offset:2px;border-radius:4px}
+  .ctrl:focus-within input,.ctrl:focus-within select{outline:none}
+  .seg label:focus-within{outline:2px solid var(--orange);outline-offset:2px}
+  .note{font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  footer{background:var(--navy);color:#9fb0c8;text-align:center;padding:18px;font-size:12px;line-height:1.6}
+  footer strong{color:#fff}
+  @media print{
+    .appbar,footer,.callout{display:none}
+    .v3d-hint,#v3dTone,#v3dColors,#v3dSize,#v3dToggles{display:none}
+    .viewer3d{height:340px}
+    body{background:#fff}
+    .wrap{display:block;max-width:none;padding:0}
+    .panel{box-shadow:none;border-color:#ccc;margin-bottom:14px}
+  }
+  @media(max-width:520px){
+    .field-grid,.field-grid.three{grid-template-columns:1fr}
+    .summary{grid-template-columns:1fr}
+    .appbar .brand{display:none}
+  }
+</style>
+<link rel="stylesheet" href="ws-theme.css">
+<link rel="stylesheet" href="two-dp-footing.css">
+</head>
+<body>
+  <header class="appbar">
+    <a class="back" href="/" target="_top">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      นายช่างใหญ่ Civil Apps
+    </a>
+    <span class="sheet">FT-02</span>
+    <div class="ttl-wrap">
+      <span class="appname">ฐานราก 1 เสาเข็ม · 1-Pile Footing</span>
+      <span class="appsub">ACI 318 · STRENGTH DESIGN</span>
+    </div>
+    <span class="ws-status" id="wsStatus">รอคำนวณ…</span>
+    <button class="print" onclick="window.print()">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      พิมพ์ / PDF
+    </button>
+    <span class="brand">นายช่างใหญ่ Civil Apps</span>
+  </header>
+
+  <div class="wrap">
+    <section class="panel">
+      <div class="panel-head">
+        <span class="pico"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+        <div>
+          <h2>ข้อมูลออกแบบ</h2>
+          <div class="hint">กรอกข้อมูล — ผลคำนวณอัปเดตทันที</div>
+        </div>
+      </div>
+      <div class="panel-body">
+
+        <div class="group">
+          <div class="group-title">คุณสมบัติวัสดุ · Materials</div>
+          <div class="field-grid">
+            <div class="field">
+              <label for="fc">fc' คอนกรีต <span class="u">(ksc.)</span></label>
+              <div class="ctrl"><input id="fc" type="number" value="240" step="10" min="180" aria-label="กำลังอัดประลัยคอนกรีต fc'"></div>
+            </div>
+            <div class="field">
+              <label for="fy">fy เหล็กยืน <span class="u">(ksc.)</span></label>
+              <div class="ctrl"><input id="fy" type="number" value="4000" step="100" min="2400" aria-label="กำลังครากเหล็กยืน fy"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">ตัวคูณลดกำลัง · Reduction Factors</div>
+          <div class="field-grid three">
+            <div class="field">
+              <label for="phib">φb · ดัด (flexure)</label>
+              <div class="ctrl"><input id="phib" type="number" value="0.90" step="0.05" min="0.5" max="1" aria-label="ตัวคูณลดกำลังดัด φb"></div>
+            </div>
+            <div class="field">
+              <label for="phiv">φv · เฉือน (shear)</label>
+              <div class="ctrl"><input id="phiv" type="number" value="0.75" step="0.05" min="0.5" max="1" aria-label="ตัวคูณลดกำลังเฉือน φv"></div>
+            </div>
+            <div class="field">
+              <label for="b1">β₁ (Whitney)</label>
+              <div class="ctrl"><input id="b1" type="number" value="0.85" step="0.05" min="0.65" max="0.85" aria-label="ค่า beta_1"></div>
+            </div>
+          </div>
+          <div class="fnote">ACI 318-19 Table 21.2.1: <b>φb = 0.90</b> (tension-controlled flexure) · <b>φv = 0.75</b> (shear · pile cap) · <b>β₁ = 0.85</b> สำหรับ fc' ≤ 280 ksc (ค่าจะปรับอัตโนมัติเมื่อเปลี่ยน fc')</div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">เสาเข็ม · Pile</div>
+          <div class="field-grid">
+            <div class="field">
+              <label for="pileType">ประเภทเสาเข็ม <span class="u">(Pile Type)</span></label>
+              <div class="ctrl sel"><select id="pileType" aria-label="ประเภทเสาเข็ม">
+                <option value="I-22">I-22 (Safe Load 20 t)</option>
+                <option value="I-26" selected>I-26 (Safe Load 26 t)</option>
+                <option value="I-30">I-30 (Safe Load 35 t)</option>
+                <option value="I-35">I-35 (Safe Load 45 t)</option>
+                <option value="I-40">I-40 (Safe Load 60 t)</option>
+                <option value="O-30">O-30 กลม (Safe Load 30 t)</option>
+                <option value="O-35">O-35 กลม (Safe Load 40 t)</option>
+                <option value="custom">กำหนดเอง · Custom</option>
+              </select></div>
+            </div>
+            <div class="field">
+              <label for="pileSL">กำลังเสาเข็ม S.L. <span class="u">(ton/Pile)</span></label>
+              <div class="ctrl"><input id="pileSL" type="number" value="26" step="1" min="1" aria-label="กำลังเสาเข็มที่ปลอดภัย"></div>
+            </div>
+            <div class="field">
+              <label for="pileD">เส้นผ่านศูนย์กลางเสาเข็ม <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="pileD" type="number" value="26" step="1" min="10" aria-label="เส้นผ่านศูนย์กลางเสาเข็ม"></div>
+            </div>
+            <div class="field">
+              <label for="gsoil">γ<sub>soil</sub> หน่วยน้ำหนักดิน <span class="u">(kg/m³)</span></label>
+              <div class="ctrl"><input id="gsoil" type="number" value="2000" step="100" min="1000" aria-label="หน่วยน้ำหนักดิน"></div>
+            </div>
+          </div>
+          <div class="fnote">เสาเข็มรับน้ำหนักทั้งหมดของฐาน · S.L. = Safe Load (กำลังรับน้ำหนักที่ปลอดภัย ตัน/ต้น) — เลือกประเภทเพื่อตั้งค่า S.L. และ Ø อัตโนมัติ หรือเลือก "กำหนดเอง"</div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">น้ำหนักบรรทุก · Loads (Service)</div>
+          <div class="field-grid">
+            <div class="field">
+              <label for="PD">P<sub>D</sub> น้ำหนักคงที่ <span class="u">(kg.)</span></label>
+              <div class="ctrl"><input id="PD" type="number" value="9000" step="500" min="0" aria-label="น้ำหนักคงที่ P_D"></div>
+            </div>
+            <div class="field">
+              <label for="PL">P<sub>L</sub> น้ำหนักจร <span class="u">(kg.)</span></label>
+              <div class="ctrl"><input id="PL" type="number" value="14500" step="500" min="0" aria-label="น้ำหนักจร P_L"></div>
+            </div>
+            <div class="field full">
+              <label for="loadCombo">Load Combination · วิธีรวมน้ำหนัก</label>
+              <div class="ctrl sel"><select id="loadCombo" aria-label="วิธีรวมน้ำหนัก">
+                <option value="wsl" selected>ว.ส.ท. — U = 1.4 D + 1.7 L (default · ACI 318-99)</option>
+                <option value="aci">ACI 318-19 — U = 1.2 D + 1.6 L</option>
+              </select></div>
+            </div>
+            <div class="field">
+              <label for="e_ecc">e เยื้องศูนย์เสาเข็ม <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="e_ecc" type="number" value="7.5" step="0.5" min="0" aria-label="ค่าเยื้องศูนย์เสาเข็ม"></div>
+            </div>
+          </div>
+          <div class="fnote">เสาเข็มในทางปฏิบัติมีค่าเยื้องศูนย์ (construction tolerance) ที่ <b>e = 7.5 cm</b> หรือมากกว่า → เกิด <b>M<sub>u,ecc</sub> = P<sub>u</sub>·e</b> ที่หัวเสา · ต้องใช้คานคอดิน (tie beam) รับโมเมนต์นี้</div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">ขนาดเสา · Column Size</div>
+          <div class="field-grid">
+            <div class="field">
+              <label for="a1">a₁ ด้านขนาน A <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="a1" type="number" value="25" step="5" min="15" aria-label="ขนาดเสา ด้านขนาน A"></div>
+            </div>
+            <div class="field">
+              <label for="b1col">b₁ ด้านขนาน B <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="b1col" type="number" value="25" step="5" min="15" aria-label="ขนาดเสา ด้านขนาน B"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">ขนาดฐานราก · Footing Size</div>
+          <div class="field-grid three">
+            <div class="field">
+              <label for="A">A ด้านยาว <span class="u">(m.)</span></label>
+              <div class="ctrl"><input id="A" type="number" value="0.80" step="0.05" min="0.30" aria-label="ขนาดฐานด้านยาว A"></div>
+            </div>
+            <div class="field">
+              <label for="B">B ด้านกว้าง <span class="u">(m.)</span></label>
+              <div class="ctrl"><input id="B" type="number" value="0.80" step="0.05" min="0.30" aria-label="ขนาดฐานด้านกว้าง B"></div>
+            </div>
+            <div class="field">
+              <label for="T">T ความหนา <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="T" type="number" value="70" step="5" min="20" aria-label="ความหนาฐาน T"></div>
+            </div>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label for="H">H ลึกจากผิวดินถึงท้องฐาน <span class="u">(m.)</span></label>
+              <div class="ctrl"><input id="H" type="number" value="1.5" step="0.1" min="0.5" aria-label="ความลึกจากผิวดินถึงท้องฐาน H"></div>
+            </div>
+            <div class="field">
+              <label for="cov">ระยะหุ้ม <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="cov" type="number" value="7.5" step="0.5" min="2" aria-label="ระยะหุ้มเหล็ก"></div>
+            </div>
+          </div>
+          <div class="fnote">ระยะหุ้ม 7.5 cm สำหรับฐานรากเทติดดิน (ACI 318 Sec. 20.6.1.3.1) · H = depth จาก finish grade ถึงท้องฐานราก (รวม T ของฐาน) → ดินกลบหนา = H − T/100 m</div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">เหล็กเสริมล่าง · Bottom Mat Reinforcement</div>
+          <div class="field-grid three">
+            <div class="field">
+              <label for="dMain">Ø เหล็กยืน <span class="u">(mm.)</span></label>
+              <div class="ctrl sel"><select id="dMain" aria-label="ขนาดเหล็กยืน">
+                <option>10</option><option>12</option><option selected>16</option><option>20</option><option>25</option>
+              </select></div>
+            </div>
+            <div class="field">
+              <label for="nA">จำนวน·ทิศ A <span class="u">(เส้น)</span></label>
+              <div class="ctrl"><input id="nA" type="number" value="9" step="1" min="3" aria-label="จำนวนเหล็กทิศ A"></div>
+            </div>
+            <div class="field">
+              <label for="nB">จำนวน·ทิศ B <span class="u">(เส้น)</span></label>
+              <div class="ctrl"><input id="nB" type="number" value="9" step="1" min="3" aria-label="จำนวนเหล็กทิศ B"></div>
+            </div>
+          </div>
+          <div class="fnote">เหล็กล่างวางสองชั้น: <b>ทิศ A</b> = ขนานด้านยาว (วางใต้สุด) · <b>ทิศ B</b> = ขนานด้านกว้าง (วางบนเหล็กทิศ A)</div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">ระยะฝัง Dowel (เหล็กยืนเสา)</div>
+          <div class="field-grid">
+            <div class="field full">
+              <label for="ldMode">ประเภทการรับแรงของ Dowel</label>
+              <div class="ctrl sel"><select id="ldMode" aria-label="ประเภทระยะฝัง dowel">
+                <option value="comp" selected>Compression (เสารับแรงอัด · default)</option>
+                <option value="tens">Tension (เสามีโมเมนต์/ยก)</option>
+              </select></div>
+            </div>
+          </div>
+          <div class="fnote"><b>Compression</b> (default): L<sub>dc</sub> = max(0.075·fy/√fc'·d<sub>b</sub>, 0.0044·fy·d<sub>b</sub>, 20 cm) — ACI 318-19 Sec. 25.4.9 · <b>Tension</b>: L<sub>d</sub> = fy·d<sub>b</sub>/(6.7·√fc') สำหรับ DB≤19 mm หรือ /(5.4·√fc') สำหรับ DB≥22 mm (≥30 cm) — Sec. 25.4.2.3 · สำหรับเสามีโมเมนต์/ยก</div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">รูปแบบรายละเอียดเหล็ก · Detailing Pattern</div>
+          <div class="seg" id="patternSeg">
+            <input type="radio" id="pat_a" name="pat" value="A" checked>
+            <label for="pat_a">แบบ ก<small>Simple · เหล็กยืนเสา + งอ 90°</small></label>
+            <input type="radio" id="pat_c" name="pat" value="C">
+            <label for="pat_c">แบบ ข<small>กรงตะกร้อ U คว่ำ · ปลอกปิด</small></label>
+          </div>
+          <div class="fnote"><b>แบบ ก:</b> เหล็กยืนเสาลงตรง + งอ 90° ยืดถึงหลังฐาน(−cover) + hook 90° สั้นปลาย (พื้นฐาน น้ำหนักน้อย) · <b>แบบ ข = กรงตะกร้อกันฐานหลุด (ตาม skill pile-cap-rebar · ACI 318 Ch.25):</b> 3 กลุ่ม — (1) <b>ตะแกรงล่าง</b> 2 ชั้นเหลื่อม +1d_b วางหงายบนหัวเข็ม (pile cut-off อมในฐาน 25 ซม.) (2) <b>เหล็กตัว U คว่ำ (∩)</b> สานสองทาง (ชั้นในเหลื่อม +1d_b) = ท้องบน (ตะแกรงบน) + ขาผนัง ล้วงลงถึงก้นฐาน−cover + hook 90° (3) <b>ปลอกปิด</b> รัดรอบขา U + hook 135° · <b>เหล็กทุกเส้นเหลื่อม +1d_b ไม่ตัดกันในระนาบเดียว</b> · จำนวน/ขนาด/ระยะปลอก ตามการคำนวณ</div>
+          <div class="field-grid" style="margin-top:9px">
+            <div class="field">
+              <label for="dTie">ขนาดเหล็กปลอก</label>
+              <div class="ctrl sel"><select id="dTie" aria-label="ขนาดเหล็กปลอกรัดรอบ">
+                <option value="6" selected>RB6 (Ø6 mm.)</option>
+                <option value="9">RB9 (Ø9 mm.)</option>
+              </select></div>
+            </div>
+            <div class="field">
+              <label for="nHoop">จำนวนปลอกรัดรอบ <span class="u">(เส้น)</span></label>
+              <div class="ctrl"><input id="nHoop" type="number" value="0" step="1" min="0" oninput="this.dataset.userset='1'" aria-label="จำนวนปลอกรัดรอบ — เริ่มต้นตามโมเดล 3D แก้ไขได้"></div>
+            </div>
+          </div>
+          <div class="fnote">ระบบเติม <b>จำนวนปลอกเริ่มต้น</b> ให้ตรงกับโมเดล 3D · แก้ไขเองได้ (จัดระยะห่างเท่าๆ กันอัตโนมัติ) · <b>ล้างให้ว่าง/0 = กลับไปใช้ค่าเริ่มต้น</b> (แบบ ก @0.20, แบบ ข @0.10 ม.)</div>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:9px;font-size:13px;font-weight:600">
+            <input type="checkbox" id="showPC" style="width:auto;margin:0"> แสดง PC wire จากหัวเข็ม (โผล่เป็น dowel) <span class="u">(Ø4mm · ยาว ~15cm · เอียงออก)</span>
+          </label>
+          <div class="fnote">PC wire = ลวดอัดแรงในเสาเข็ม โผล่จากหัวเข็ม (pile cut-off) ขึ้นในฐานราก เพื่อยึดเข็มกับ pile cap · เอียงเยื้องออกเล็กน้อย</div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <span class="pico"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></span>
+        <div>
+          <h2>ผลการออกแบบ</h2>
+          <div class="hint">ตามวิธีกำลัง (Strength Design) — ACI 318</div>
+        </div>
+      </div>
+      <nav class="secnav" id="secnav">
+        <a href="#sec-sum" class="on">สรุปผล</a>
+        <a href="#sec-chk">ตรวจสอบ D/C</a>
+        <a href="#sec-ana">วิเคราะห์</a>
+        <a href="#sec-rep">รายงาน</a>
+        <a href="#sec-dwg">แบบ</a>
+        <a href="#sec-3d">3D</a>
+      </nav>
+      <div class="panel-body">
+
+        <div class="ws-sec" id="sec-sum"></div>
+        <!-- Status nodata if inputs incomplete -->
+        <div id="o_nodata" style="display:none"></div>
+
+        <!-- D-region (deep block) warning — shown when a/d < 1 or critOversize -->
+        <div id="o_dregion" class="banner-warn" style="display:none"></div>
+
+        <!-- Permanent tie-beam note (single-pile = no lateral stability on its own) -->
+        <div class="banner-info" role="note">
+          <span class="bi-ico" aria-hidden="true">⚓</span>
+          <div><b>หมายเหตุบังคับ:</b> ฐานเข็มเดี่ยวไม่มีเสถียรภาพด้านข้างในตัวเอง — ต้องมี <b>คานคอดิน (Tie Beam)</b> ยึดรั้งอย่างน้อย <b>2 ทิศทาง</b> ตามหลักปฏิบัติ ว.ส.ท./ACI · คานคอดินรับโมเมนต์เยื้องศูนย์จากค่า e ของเสาเข็ม</div>
+        </div>
+
+        <div class="summary" id="o_summary"></div>
+
+        <!-- Utilization bars: pile / shear / steel -->
+        <div class="util-row" id="o_util"></div>
+
+        <div class="checks" id="o_checks"></div>
+        <div class="callout" id="o_bom"></div>
+
+        <div class="callout" style="margin-top:0" id="o_method">
+          <b>หมายเหตุ:</b> ฐาน 1 เสาเข็ม (concentric) — เสาเข็มอยู่ใต้เสาพอดี → <b>ไม่มีโมเมนต์ดัดในฐาน</b> · BMD/SFD/Deflection จึงไม่จำเป็น · การออกแบบเน้น (1) กำลังเสาเข็ม (2) เฉือนวิกฤต @ d/2 รอบเสา (3) เฉือนวิกฤต @ d/2 รอบหัวเสาเข็ม (4) เหล็กเสริมขั้นต่ำ (5) ระยะฝัง dowel (6) คานคอดินรับ M<sub>u,ecc</sub></div>
+
+        <div class="sec-title" style="margin-top:14px">สรุปปริมาณวัสดุโดยประมาณ · Material Take-off</div>
+        <div id="takeoff"></div>
+
+        <div class="ws-sec" id="sec-chk"></div>
+        <div class="sec-title">ตารางตรวจสอบการออกแบบ · Design Check — D/C Ratio</div>
+        <div id="wsDash"></div>
+
+        <div class="ws-sec" id="sec-ana"></div>
+        <div class="sec-title">ภาพวิเคราะห์การออกแบบ · Section Diagram (Analytical)</div>
+        <div class="fnote" style="background:#eef3fa;border-left:3px solid #1B4F8C;padding:8px 11px;border-radius:4px;margin-bottom:6px;line-height:1.6">
+          <b style="color:#1B4F8C">วัตถุประสงค์:</b> แสดงเรขาคณิตและน้ำหนักที่ใช้คำนวณ — (ซ้าย) แผนผังหน้าตัดวิกฤตเฉือน (red dashed = d/2 รอบเสา) + เสาเข็มใต้เสา (วงกลมน้ำตาล) · (ขวา) รูปตัดแสดงความหนาฐาน T · เสาเข็มใต้ฐาน + ปฏิกิริยา P<sub>u,pile</sub> ดันขึ้น · รูปและตัวเลขทุกค่าอัปเดตอัตโนมัติตาม input
+        </div>
+        <div class="diag-row">
+          <div class="diag-cell"><div class="diag-h">แปลนวิเคราะห์ · Analytical Plan (critical d/2 perimeter)</div><div class="diagram" id="anaPlanDiag"></div></div>
+          <div class="diag-cell"><div class="diag-h">รูปตัดวิเคราะห์ · Analytical Section (Pile reaction)</div><div class="diagram" id="anaSecDiag"></div></div>
+        </div>
+
+        <div class="ws-sec" id="sec-rep"></div>
+        <div class="sec-title">วิธีคำนวณทีละขั้นตอน · Calculation Report</div>
+        <div class="rep-body" id="repBody"></div>
+
+        <div class="ws-sec" id="sec-dwg"></div>
+        <div class="sec-title">สรุปแบบ · แบบขยายฐานราก
+          <span style="float:right;font-weight:600;font-size:12px">โหมดภาพ:
+            <button type="button" id="v2modeBtn" onclick="V2mono=!V2mono; this.textContent=V2mono?'ขาว-ดำ (มาตรฐานแบบ)':'สี (อ่านง่าย)'; render();" style="cursor:pointer;border:1px solid #b9c2cf;border-radius:6px;padding:2px 10px;background:#fff">สี (อ่านง่าย)</button>
+          </span>
+        </div>
+        <div class="diag-cell"><div class="diag-h">แผนผังฐานราก · Plan View (สเกลจริง)</div><div class="diagram" id="diagPlan"></div></div>
+        <div class="diag-cell" style="margin-top:12px"><div class="diag-h">รูปตัด · Cross Section (สเกลจริง)</div><div class="diagram" id="diagSec"></div></div>
+
+        <div class="ws-sec" id="sec-3d"></div>
+        <div class="sec-title">แบบจำลอง 3 มิติ · 3D View</div>
+        <div class="viewer3d" id="v3dBox" role="region" aria-label="แบบจำลอง 3 มิติของฐานราก">
+          <canvas id="cv3d" role="img" aria-label="แบบจำลอง 3 มิติของฐานราก 1 เสาเข็ม — ลากซ้ายหมุน · ลากขวา/Shift เลื่อน · ล้อซูม" tabindex="0"></canvas>
+          <div class="v3d-hint">ลากซ้าย = หมุนอิสระ · ลากขวา / Shift+ลาก = เลื่อน · ล้อ = ซูม</div>
+          <div class="v3d-legend">
+            <span><i data-leg="conc" style="background:#c4cad2"></i>คอนกรีตฐาน</span>
+            <span><i data-leg="col" style="background:#9aa0a8"></i>เสา + เดือย</span>
+            <span><i data-leg="barA" style="background:#5b3a1a"></i>ตะแกรงล่าง</span>
+            <span><i data-leg="barB" style="background:#10a06b"></i>กรงตัว U (∩)</span>
+            <span><i data-leg="dowel" style="background:#1f57a0"></i>ปลอกรัดรอบ</span>
+            <span><i data-leg="pile" style="background:#a8770a"></i>เสาเข็ม</span>
+            <span><i style="background:#d6336c"></i>PC wire</span>
+            <span><i style="background:#b8b2a6"></i>คอนกรีตหยาบ</span>
+            <span><i style="background:#e0cfa0"></i>ทรายอัดแน่น</span>
+            <span><i data-leg="soil" style="background:#c8a576"></i>ดินกลบ</span>
+          </div>
+        </div>
+        <div class="v3d-tone" id="v3dTone">
+          <span>พื้นหลัง:</span>
+          <button data-tone="light" class="on">อ่อน</button>
+          <button data-tone="soft">จาง</button>
+          <button data-tone="dark">เข้ม</button>
+          <span style="margin-left:12px">โหมดภาพ:</span>
+          <button type="button" id="v3lineartBtn" onclick="V3.lineart=!V3.lineart; this.textContent=V3.lineart?'ลายเส้น ขาว-ดำ':'สี'; this.classList.toggle('on',V3.lineart); if(typeof render==='function')render();" title="โหมดลายเส้น ขาว-ดำ (เขียนแบบ · โชว์ความหนาจริง สไตล์ SketchUp Layout)">สี</button>
+        </div>
+        <div class="v3d-tone v3d-colors" id="v3dColors">
+          <span>สี Layer:</span>
+          <label><input type="color" class="v3color" data-mat="conc" value="#c4cad2">คอนกรีต</label>
+          <label><input type="color" class="v3color" data-mat="col" value="#9aa0a8">เสา</label>
+          <label><input type="color" class="v3color" data-mat="barA" value="#5b3a1a">ตะแกรงล่าง</label>
+          <label><input type="color" class="v3color" data-mat="barB" value="#10a06b">กรงตัว U</label>
+          <label><input type="color" class="v3color" data-mat="dowel" value="#1f57a0">ปลอกรัดรอบ</label>
+          <label><input type="color" class="v3color" data-mat="pile" value="#a8770a">เสาเข็ม</label>
+          <label><input type="color" class="v3color" data-mat="soil" value="#c8a576">ดิน</label>
+        </div>
+<!-- v3dSize toggle removed: real-size only per user feedback -->
+        <div class="v3d-toggles" id="v3dToggles">
+          <button data-layer="conc" class="on">คอนกรีตฐาน</button>
+          <button data-layer="col" class="on"><i style="background:#9aa0a8"></i>เสา</button>
+          <button data-layer="barA" class="on"><i style="background:#5b3a1a"></i>ตะแกรงล่าง</button>
+          <button data-layer="barB" class="on"><i style="background:#10a06b"></i>กรงตัว U</button>
+          <button data-layer="dowel" class="on"><i style="background:#1f57a0"></i>ปลอกรัดรอบ</button>
+          <button data-layer="pile" class="on"><i style="background:#a8770a"></i>เสาเข็ม</button>
+          <button data-layer="soil"><i style="background:#c8a576"></i>ดินกลบ</button>
+          <button data-layer="base" class="on"><i style="background:#cbb98a"></i>ชั้นรอง (หยาบ+ทราย)</button>
+          <button data-layer="grid" class="on">กริด</button>
+        </div>
+        <div style="text-align:center;color:var(--muted);font-size:11px;font-weight:600;margin-top:5px">โครงเหล็กฐานราก — แยกสีตามชุด: ตะแกรงล่าง(น้ำตาล) · กรงตัว U ∩(เขียว) · ปลอกรัดรอบ(น้ำเงิน) · เหล็กเสา-เดือย(เทา ไม่เน้น) · ขนาดเหล็กเชิงสัญลักษณ์</div>
+
+        <div class="note">
+          คำนวณตามวิธีกำลัง (Strength Design Method) มาตรฐาน ACI 318 · ตรวจสอบเงื่อนไขหลัก: (1) น้ำหนักลงเสาเข็ม ≤ S.L. (Safe Load) · (2) เหล็กเสริมขั้นต่ำ ρ<sub>min</sub> = 14/fy · (3) เฉือนวิกฤตที่ระยะ d/2 รอบเสา (Critical Section Shear, ACI 318 Sec. 15.5) · (4) ระยะฝัง L<sub>d</sub> ของ dowel · ผลลัพธ์เป็นค่าประมาณเพื่อช่วยออกแบบเบื้องต้น วิศวกรผู้ออกแบบควรตรวจสอบและรับผิดชอบผลขั้นสุดท้าย
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <footer class="statusbar">
+    <span class="sb-item">ACI 318 · STRENGTH DESIGN</span>
+    <span class="sb-item sb-combo">CONCENTRIC PILE · TIE BEAM REQ.</span>
+    <span class="sb-item sb-units">UNITS: kg · t · m · cm · ksc</span>
+    <span class="sb-item sb-live" id="wsSbStatus">รอคำนวณ…</span>
+    <span class="sb-item sb-brand">นายช่างใหญ่ Civil Apps · FOUNDATION LAB · FT-02</span>
+  </footer>
+
+<script src="three.min.js"></script>
+<script>
+/* ===== Utilities ===== */
+function num(id){var e=document.getElementById(id);return e?parseFloat(e.value):NaN}
+function intv(id){var e=document.getElementById(id);return e?parseInt(e.value,10):NaN}
+function fmt(x,n){return isFinite(x)?x.toLocaleString('en-US',{minimumFractionDigits:n,maximumFractionDigits:n}):'–'}
+function xround(x,n){if(!isFinite(x))return NaN; var f=Math.pow(10,n); return Math.sign(x)*Math.round(Math.abs(x)*f)/f}
+function barArea(dmm){return Math.PI*dmm*dmm/400} // cm²/เส้น
+function barLbl(fy){return fy>=3000?'DB':'RB'}
+
+/* ===== Jet colormap (slab-pattern) ===== */
+function jet(v){
+  v=Math.max(0,Math.min(1,v));
+  function c(z){return Math.round(Math.max(0,Math.min(1,1.5-Math.abs(z)))*255)}
+  return 'rgb('+c(4*v-3)+','+c(4*v-2)+','+c(4*v-1)+')';
+}
+
+/* ===== emitSVG — auto-fit, auto-pad-for-labels (canonical slab helper) =====
+ * Inputs in REAL coordinates (e.g. metres). Auto-fits to W×H canvas.
+ * lines: [{p:[[x,y],...], c:color, w:width, d:dasharray, tip:bool}]
+ * dots:  [{x,y, r:radius, f:fill, s:stroke}]
+ * labels:[{x,y, t:text, c:color, a:'start|middle|end', sz:fontSize, rot:deg, dy:px}]
+ * opt:   {m:margin, fs:fontsize, uniform:true → preserve aspect ratio}
+ */
+function emitSVG(W,H,lines,dots,labels,opt){
+  opt=opt||{};
+  var m=opt.m||18, fs=opt.fs||12;
+  var aP=[];
+  lines.forEach(function(o){o.p.forEach(function(p){aP.push(p)})});
+  dots.forEach(function(d){aP.push([d.x,d.y])});
+  labels.forEach(function(o){aP.push([o.x,o.y])});
+  if(!aP.length) return '<svg viewBox="0 0 '+W+' '+H+'"></svg>';
+  var x0=Math.min.apply(0,aP.map(function(p){return p[0]}));
+  var x1=Math.max.apply(0,aP.map(function(p){return p[0]}));
+  var y0=Math.min.apply(0,aP.map(function(p){return p[1]}));
+  var y1=Math.max.apply(0,aP.map(function(p){return p[1]}));
+  var gx=(x1-x0)||1, gy=(y1-y0)||1;
+  x0-=gx*0.03; x1+=gx*0.03; y0-=gy*0.04; y1+=gy*0.04;
+  var pw=W-2*m, ph=H-2*m;
+  for(var pass=0;pass<2;pass++){
+    var sx=pw/(x1-x0), sy=ph/(y1-y0);
+    labels.forEach(function(o){
+      var fz=o.sz||fs, tw=String(o.t).length*fz*0.56, th=fz*1.2;
+      if(o.rot){var tmp=tw; tw=th; th=tmp}
+      var wd=tw/sx, hd=th/sy, lx=o.x, rx=o.x;
+      if(o.a==='start') rx=o.x+wd; else if(o.a==='end') lx=o.x-wd; else {lx=o.x-wd/2; rx=o.x+wd/2}
+      if(lx<x0)x0=lx; if(rx>x1)x1=rx;
+      if(o.y-hd*0.85<y0)y0=o.y-hd*0.85; if(o.y+hd*0.4>y1)y1=o.y+hd*0.4;
+    });
+  }
+  if(opt.uniform){H=pw*(y1-y0)/(x1-x0)+2*m; ph=H-2*m}
+  var sX=pw/(x1-x0), sY=ph/(y1-y0);
+  function MX(x){return m+(x-x0)*sX}
+  function MY(y){return m+(y1-y)*sY}
+  var aTitle = opt.title || 'แผนภาพการออกแบบ · Engineering Diagram';
+  var aDesc  = opt.desc  || 'รูปวาดแสดงผลการวิเคราะห์/ออกแบบของฐานราก — สเกล/ตำแหน่ง/ป้ายอัปเดตอัตโนมัติตาม input';
+  var s='<svg viewBox="0 0 '+W+' '+H+'" font-family="Sarabun,sans-serif" role="img" aria-labelledby="svgTitle svgDesc">';
+  s+='<title id="svgTitle">'+aTitle+'</title><desc id="svgDesc">'+aDesc+'</desc>';
+  s+='<rect width="'+W+'" height="'+H+'" fill="#fff"/>';
+  lines.forEach(function(o){
+    var pts=o.p.map(function(p){return MX(p[0]).toFixed(1)+','+MY(p[1]).toFixed(1)}).join(' ');
+    s+='<polyline points="'+pts+'" fill="'+(o.fill||'none')+'"'+(o.fillOpacity?' fill-opacity="'+o.fillOpacity+'"':'')+' stroke="'+o.c+'" stroke-width="'+o.w+'"'+(o.d?' stroke-dasharray="'+o.d+'"':'')+' stroke-linecap="round" stroke-linejoin="round"/>';
+    if(o.tip){s+='<circle cx="'+MX(o.p[0][0]).toFixed(1)+'" cy="'+MY(o.p[0][1]).toFixed(1)+'" r="2.1" fill="'+o.c+'"/>'}
+  });
+  dots.forEach(function(d){
+    var rr = (d.rm!=null) ? Math.max(0.9, d.rm*sX) : (d.r||3);   // rm = รัศมีจริง (เมตร) → จุดหน้าตัดเหล็กตามขนาดจริงที่สเกลแบบ
+    s+='<circle cx="'+MX(d.x).toFixed(1)+'" cy="'+MY(d.y).toFixed(1)+'" r="'+rr.toFixed(2)+'" fill="'+d.f+'"'+(d.s?' stroke="'+d.s+'" stroke-width="0.7"':'')+'/>';
+  });
+  labels.forEach(function(o){
+    var x=MX(o.x), y=MY(o.y)+(o.dy||0);
+    var tr=o.rot?(' transform="rotate('+o.rot+' '+x.toFixed(1)+' '+y.toFixed(1)+')"'):'';
+    var stk=o.stroke?(' stroke="'+o.stroke+'" stroke-width="2.6" paint-order="stroke"'):'';
+    s+='<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" fill="'+o.c+'" font-size="'+(o.sz||fs)+'" font-weight="'+(o.fw||700)+'" text-anchor="'+(o.a||'middle')+'"'+tr+stk+'>'+o.t+'</text>';
+  });
+  return s+'</svg>';
+}
+
+/* ===== Engineering Core — 1-Pile Footing (pile cap) =====
+ *  Strength Design Method per ACI 318-19
+ *  P0 features:
+ *    • D-region (a/d) detection → STM hint
+ *    • Pile eccentricity e → Mu_ecc → tie-beam demand
+ *    • Selectable load combination (ว.ส.ท. vs ACI 318-19)
+ *    • Pile-head punching (separate from column punching)
+ *    • rho_min = max(14/fy, 0.8√fc'/fy) with governing-term indicator
+ *    • Ld dowel: compression / tension option
+ *    • Final verdict gates on all P0 + existing checks
+ */
+function compute(I){
+  var R={};
+  // β1 auto-adjust per fc'
+  R.b1_auto = I.fc<=280?0.85 : (I.fc>560?0.65 : 0.85-0.05*((I.fc-280)/70));
+  // Geometry
+  R.A_cm = I.A*100;  R.B_cm = I.B*100;
+  R.A1 = I.A*I.B;                   // footing area (m²)
+  R.h_soil = I.H - I.T/100;          // depth of soil cover above footing top (m)
+  if(R.h_soil<0) R.h_soil = 0;
+  // Self-weights (service)
+  R.Wf = I.A*I.B*(I.T/100)*2400;     // concrete (kg)
+  R.Ws = I.A*I.B*R.h_soil*I.gsoil;    // soil cover (kg)
+  R.P_service = I.PD + I.PL + R.Ws + R.Wf;
+  R.P_service_t = R.P_service/1000;
+
+  // ===== (1) PILE CAPACITY CHECK =====
+  R.Pile_load_t = R.P_service_t;     // ton/pile (for 1-pile)
+  R.Pile_SL = I.pileSL;
+  R.chkPileSL = R.Pile_load_t <= R.Pile_SL;
+  R.colMin = Math.min(I.a1, I.b1col);
+  R.pileVsCol_warn = I.pileD > R.colMin;
+
+  // ===== (2) FACTORED LOADS — selectable combination =====
+  // Load combo: 'wsl' = 1.4D + 1.7L (ว.ส.ท./ACI-99) [default]
+  //             'aci' = 1.2D + 1.6L (ACI 318-19)
+  R.loadCombo = (I.loadCombo === 'aci') ? 'aci' : 'wsl';
+  if(R.loadCombo === 'aci'){
+    R.fDL = 1.2; R.fLL = 1.6;
+    R.comboStr = '1.2 D + 1.6 L (ACI 318-19)';
+    R.comboRef = 'ACI 318-19 Sec. 5.3.1 (basic factored combinations)';
+  } else {
+    R.fDL = 1.4; R.fLL = 1.7;
+    R.comboStr = '1.4 D + 1.7 L (ว.ส.ท. / ACI 318-99)';
+    R.comboRef = 'ACI 318-99 Sec. 9.2.1 / ว.ส.ท. มาตรฐาน 1008-38';
+  }
+  R.Pu = R.fDL*(R.Ws + R.Wf + I.PD) + R.fLL*I.PL;
+  R.Pu_col = R.fDL*I.PD + R.fLL*I.PL;
+  R.PileU = R.Pu;
+
+  // ===== (3) ECCENTRICITY → Mu_ecc to tie-beam =====
+  R.e_cm = isFinite(I.e_ecc) ? Math.max(0, I.e_ecc) : 0;
+  R.Mu_ecc_kgm = R.PileU * (R.e_cm/100);     // kg·m
+  R.Mu_ecc_tm  = R.Mu_ecc_kgm/1000;           // ton·m
+  R.tieRequired = true;                       // single-pile always needs tie beams
+
+  // ===== Effective depths =====
+  R.dia_cm = I.dMain/10;
+  R.d_A = I.T - I.cov - R.dia_cm/2;
+  R.d_B = I.T - I.cov - R.dia_cm - R.dia_cm/2;
+  R.d_avg = (R.d_A + R.d_B)/2;
+
+  // Cantilever from column face (a/d for D-region check)
+  R.X_A = (I.A - I.a1/100)/2;   // m
+  R.X_B = (I.B - I.b1col/100)/2;
+  R.a_cantilever_cm = Math.max(R.X_A, R.X_B)*100;     // cm
+  R.a_over_d = R.a_cantilever_cm / R.d_avg;
+  // D-region: a/d < 1.0 (deep block per ACI 318-19 Sec. 13.4.2.3 / STM trigger)
+  R.isDRegion = (R.a_over_d < 1.0) || (R.critOversize === true);
+
+  // ===== (4) MINIMUM REINFORCEMENT =====
+  // rho_min per ACI 318-19 Sec. 9.6.1.2: max(14/fy, 0.8·√fc'/fy)
+  R.rho_min_a = 14/I.fy;
+  R.rho_min_b = 0.8*Math.sqrt(I.fc)/I.fy;
+  R.rho_min = Math.max(R.rho_min_a, R.rho_min_b);
+  R.rho_min_govern = (R.rho_min_a >= R.rho_min_b) ? '14/fy' : '0.8·√fc′/fy';
+  R.As_req_perm = R.rho_min * 100 * R.d_A;
+  R.As_req_tot_A = R.As_req_perm * I.B;
+  R.As_req_tot_B = R.rho_min * 100 * R.d_B * I.A;
+  R.Ab = barArea(I.dMain);
+  R.As_prov_A = I.nA * R.Ab;
+  R.As_prov_B = I.nB * R.Ab;
+  R.As_perm_A = R.As_prov_A / I.B;
+  R.As_perm_B = R.As_prov_B / I.A;
+  R.chkAsA = R.As_prov_A >= R.As_req_tot_A;
+  R.chkAsB = R.As_prov_B >= R.As_req_tot_B;
+  R.spA_cm = (I.B*100 - 2*I.cov - R.dia_cm) / Math.max(1, I.nA-1);
+  R.spB_cm = (I.A*100 - 2*I.cov - R.dia_cm) / Math.max(1, I.nB-1);
+  R.sp_max = Math.min(3*I.T, 45);
+  R.chkSpA = R.spA_cm <= R.sp_max;
+  R.chkSpB = R.spB_cm <= R.sp_max;
+
+  // ===== (5) CRITICAL SECTION SHEAR @ d/2 around column =====
+  R.cw_unclip = I.a1 + R.d_avg;
+  R.ch_unclip = I.b1col + R.d_avg;
+  R.cw = Math.min(R.cw_unclip, I.A*100);
+  R.ch = Math.min(R.ch_unclip, I.B*100);
+  R.critOversize = (R.cw_unclip > I.A*100) || (R.ch_unclip > I.B*100);
+  // Re-evaluate D-region after critOversize known
+  R.isDRegion = (R.a_over_d < 1.0) || R.critOversize;
+  R.b0 = 2*(R.cw + R.ch);
+  R.Vu_crit = R.PileU;
+  R.phiVc_crit = I.phiv * 1.06 * Math.sqrt(I.fc) * R.b0 * R.d_avg;
+  R.chkCritShear = R.Vu_crit <= R.phiVc_crit;
+
+  // ===== (5b) PILE-HEAD PUNCHING @ d/2 around pile (NEW — P0-5) =====
+  // Critical perimeter at d/2 outside the pile head
+  // Round pile: b0_pile = π·(pileD + d_avg)
+  // I-pile (square section, side ≈ pileD): b0_pile = 4·(pileD + d_avg) — clip not normally needed
+  var isRoundPile = (I.pileType && /^O-/.test(I.pileType));
+  R.pile_isRound = isRoundPile;
+  if(isRoundPile){
+    R.b0_pile = Math.PI * (I.pileD + R.d_avg);
+  } else {
+    R.b0_pile = 4 * (I.pileD + R.d_avg);
+  }
+  R.Vu_pile_punch = R.PileU;     // = pile reaction
+  R.phiVc_pile_punch = I.phiv * 1.06 * Math.sqrt(I.fc) * R.b0_pile * R.d_avg;
+  R.chkPilePunch = R.Vu_pile_punch <= R.phiVc_pile_punch;
+
+  // ===== (6) Development length (dowel) — Compression/Tension =====
+  R.ldMode = (I.ldMode === 'tens') ? 'tens' : 'comp';
+  if(R.ldMode === 'comp'){
+    // ACI 318-19 Sec. 25.4.9: ldc = max(0.075·fy·db/√fc', 0.0044·fy·db, 20 cm)
+    // [fy in ksc, fc' in ksc, db in cm → ldc in cm via 0.075 coefficient]
+    R.Ld_comp1 = 0.075 * I.fy * R.dia_cm / Math.sqrt(I.fc);
+    R.Ld_comp2 = 0.0044 * I.fy * R.dia_cm;
+    R.Ld_min   = 20;
+    R.Ld_req   = Math.max(R.Ld_comp1, R.Ld_comp2, R.Ld_min);
+    R.Ld_form  = 'Comp · max(0.075·fy·d<sub>b</sub>/√fc\', 0.0044·fy·d<sub>b</sub>, 20 cm)';
+  } else {
+    // ACI 318-19 Sec. 25.4.2.3 simplified (ksc): ld = fy·db/(6.7√fc') DB≤19 · fy·db/(5.4√fc') DB≥22 · ≥ 30 cm
+    // [แปลงจากสูตรเมตริก fy/(2.1λ√fc') และ fy/(1.7λ√fc') หน่วย MPa — แทนสูตรเดิม 0.06·Ab·fy/√fc' (ACI 318-63) ที่สั้นเกินจริง]
+    R.Ld_k     = (I.dMain <= 19) ? 6.7 : 5.4;
+    R.Ld_basic = I.fy * R.dia_cm / (R.Ld_k * Math.sqrt(I.fc));
+    R.Ld_min   = 30;
+    R.Ld_req   = Math.max(R.Ld_basic, R.Ld_min);
+    R.Ld_form  = 'Tens · fy·d<sub>b</sub>/('+R.Ld_k+'·√fc\') (≥ 30 cm) — ACI 318-19 Sec. 25.4.2.3';
+  }
+  R.Ld_avail = I.T - I.cov;
+  R.chkLd = R.Ld_avail >= R.Ld_req;
+  // Hook recommendation when straight is insufficient
+  R.Ld_needHook = !R.chkLd;
+  if(R.Ld_needHook){
+    // 90° hook (ldh) per ACI 318-19 Sec. 25.4.3 (ksc): ldh = 0.075·fy·db/√fc' ≥ 8db ≥ 15 cm
+    R.ldh = 0.075 * I.fy * R.dia_cm / Math.sqrt(I.fc);
+    R.ldh = Math.max(R.ldh, 8*R.dia_cm, 15);
+  } else {
+    R.ldh = null;
+  }
+
+  // ===== Stub fields (compat with diagram functions) =====
+  R.qu_design = 0;
+  R.Mu_A_perB = 0; R.Mu_B_perA = 0; R.Mu_A_tot = 0; R.Mu_B_tot = 0;
+  R.flexA = {Ru:0, rho_req:0, rho_min:R.rho_min, rho_b:0, rho_max:0, rho_use:R.rho_min, As_perm:R.As_req_perm, As_tot:R.As_req_tot_A};
+  R.flexB = {Ru:0, rho_req:0, rho_min:R.rho_min, rho_b:0, rho_max:0, rho_use:R.rho_min, As_perm:R.rho_min*100*R.d_B, As_tot:R.As_req_tot_B};
+  R.chkRhoMaxA = true; R.chkRhoMaxB = true;
+  R.Vu_oneA = 0; R.Vu_oneB = 0; R.phiVc_oneA = 1e9; R.phiVc_oneB = 1e9;
+  R.chkOneA = true; R.chkOneB = true;
+  R.Vu_punch = R.Vu_crit; R.phiVc_punch = R.phiVc_crit;
+  R.beta_c = Math.max(I.a1, I.b1col) / Math.min(I.a1, I.b1col);
+  R.alpha_s = 40;
+  R.phiVc_p1 = R.phiVc_crit; R.phiVc_p2 = R.phiVc_crit; R.phiVc_p3 = R.phiVc_crit;
+  R.chkPunch = R.chkCritShear;
+  R.Ld_avail_A = R.Ld_avail; R.Ld_avail_B = R.Ld_avail;
+  R.chkLdA = R.chkLd; R.chkLdB = R.chkLd;
+
+  // ===== Final verdict — gates on ALL P0 + existing checks =====
+  R.allCoreOK = R.chkPileSL && R.chkAsA && R.chkAsB && R.chkCritShear
+             && R.chkSpA && R.chkSpB && R.chkLd && R.chkPilePunch
+             && !R.pileVsCol_warn;
+  // If D-region, the methods used are limited — must verify via STM
+  R.allOK = R.allCoreOK && !R.isDRegion;
+  R.verdict_label = R.isDRegion
+      ? 'ตรวจสอบด้วย STM (Strut-and-Tie Model) ก่อนสรุป'
+      : (R.allCoreOK ? 'DESIGN OK · ผ่านการตรวจสอบทุกเงื่อนไข'
+                     : 'มีบางเงื่อนไขไม่ผ่าน — ปรับขนาด/ความหนา/เลือกเสาเข็มกำลังสูงขึ้น');
+
+  return R;
+}
+
+/* ===== Render orchestrator ===== */
+function render(){
+  // ----- ปลอกรัดรอบ: เติม "จำนวนเริ่มต้นตามโมเดล 3D" ลงช่องรอ (auto-follow จนกว่าผู้ใช้แก้เอง) -----
+  (function(){
+    var hp=document.getElementById('nHoop'); if(!hp) return;
+    var cur=parseInt(hp.value,10);
+    if(!(cur>0)) hp.dataset.userset='';                         // ว่าง/0 → โหมดอัตโนมัติ (เติมค่าเริ่มต้น)
+    if(hp.dataset.userset==='1') return;                        // ผู้ใช้กำหนดเอง → ไม่ทับ
+    var patNow=(document.querySelector('input[name="pat"]:checked')||{value:'A'}).value;
+    var Tn=num('T'), covN=num('cov'); if(!(Tn>0)) return;       // T, cov เป็น cm ทั้งคู่
+    var span=Math.max(0.05, (Tn-2*covN)/100), sp=(patNow==='C')?0.10:0.20;  // ช่วงวางปลอก (m) · แบบ ก 0.20 · แบบ ข(ค่า C) 0.10
+    hp.value=Math.max(3, Math.round(span/sp)+1);                // ตรงกับสูตรใน draw3D/drawSection
+  })();
+  var lcEl = document.getElementById('loadCombo');
+  var ldmEl = document.getElementById('ldMode');
+  var I = {
+    fc:num('fc'), fy:num('fy'),
+    phib:num('phib'), phiv:num('phiv'), b1:num('b1'),
+    gsoil:num('gsoil'),
+    pileType:document.getElementById('pileType')?document.getElementById('pileType').value:'I-26',
+    pileSL:num('pileSL'), pileD:num('pileD'),
+    pattern:(document.querySelector('input[name="pat"]:checked')||{value:'A'}).value,
+    PD:num('PD'), PL:num('PL'), Mx:0, My:0,
+    e_ecc:num('e_ecc'),
+    loadCombo: lcEl ? lcEl.value : 'wsl',
+    ldMode: ldmEl ? ldmEl.value : 'comp',
+    a1:num('a1'), b1col:num('b1col'),
+    A:num('A'), B:num('B'), T:num('T'), H:num('H'), cov:num('cov'),
+    dMain:intv('dMain'), nA:intv('nA'), nB:intv('nB'), nHoop:intv('nHoop'), dTie:(intv('dTie')||6),
+    showPC:!!(document.getElementById('showPC')&&document.getElementById('showPC').checked)
+  };
+
+  // ----- INPUT GUARDS (P1-9) -----
+  // Critical numeric fields must be > 0 (or finite). Non-finite or ≤0 → friendly message.
+  var critical = ['fc','fy','phib','phiv','pileSL','pileD','PD','PL',
+                  'a1','b1col','A','B','T','H','cov','dMain','nA','nB','gsoil'];
+  var missing = [];
+  critical.forEach(function(k){
+    var v = I[k];
+    if(typeof v !== 'number' || !isFinite(v) || v <= 0) missing.push(k);
+  });
+  // PL can be 0 (no live load case); allow it as long as PD > 0
+  if(missing.indexOf('PL') >= 0 && isFinite(I.PL) && I.PL >= 0){
+    missing = missing.filter(function(x){return x!=='PL'});
+  }
+  // e_ecc can be 0 (perfectly placed pile)
+  if(!isFinite(I.e_ecc) || I.e_ecc < 0) I.e_ecc = 0;
+  // n bars ≥ 3
+  if(I.nA < 3) missing.push('nA<3');
+  if(I.nB < 3) missing.push('nB<3');
+  // Footing must enclose column
+  if(isFinite(I.A) && isFinite(I.a1) && I.A < I.a1/100) missing.push('A<a1');
+  if(isFinite(I.B) && isFinite(I.b1col) && I.B < I.b1col/100) missing.push('B<b1');
+
+  var nd = document.getElementById('o_nodata');
+  if(missing.length){
+    if(nd){
+      nd.className = 'nodata';
+      nd.style.display = '';
+      nd.innerHTML = '⚠ กรุณากรอกข้อมูลให้ครบ — ตรวจสอบ: <b>'+missing.join(', ')+'</b><br>'
+                   + '<span style="font-weight:600;font-size:12px;color:#7a1818">(ค่าต้องเป็นบวกและ ≥ ค่าต่ำสุดที่กำหนด · จำนวนเหล็ก ≥ 3 · ฐานต้องครอบเสา)</span>';
+    }
+    return;
+  }
+  if(nd){ nd.style.display = 'none'; nd.innerHTML = ''; }
+
+  var R = compute(I);
+  var bL = barLbl(I.fy);
+
+  // ----- D-region banner (P0-1) -----
+  var bw = document.getElementById('o_dregion');
+  if(bw){
+    if(R.isDRegion){
+      bw.style.display = '';
+      var reasons = [];
+      if(R.a_over_d < 1.0) reasons.push('a/d = '+fmt(R.a_over_d,2)+' &lt; 1.0');
+      if(R.critOversize) reasons.push('critical perimeter > footing edge');
+      bw.innerHTML = '<span class="bw-ico" aria-hidden="true">!</span>'
+        + '<div><b>ฐานนี้มีพฤติกรรมเป็นบล็อกลึก (D-region):</b> '+reasons.join(' · ')+'<br>'
+        + 'วิธีหน้าตัด (flexure / one-way shear) <b>ใช้ได้จำกัด</b> — แนะนำตรวจสอบด้วย '
+        + '<b>Strut-and-Tie Model (STM)</b> ตาม ACI 318-19 Sec. 13.4.2.3 · Sec. 23 (Strut-and-Tie Method) ก่อนสรุปผลขั้นสุดท้าย</div>';
+    } else {
+      bw.style.display = 'none';
+    }
+  }
+
+  // ----- Summary stats -----
+  var sum='';
+  sum += '<div class="stat"><div class="k">A·B พื้นที่ฐาน</div><div class="v">'+fmt(R.A1,2)+' <small>m²</small></div></div>';
+  sum += '<div class="stat"><div class="k">P<sub>pile</sub> / S.L.</div><div class="v">'+fmt(R.Pile_load_t,2)+'/'+fmt(R.Pile_SL,0)+' <small>ton</small></div></div>';
+  sum += '<div class="stat"><div class="k">M<sub>u,ecc</sub> (→ tie beam)</div><div class="v">'+fmt(R.Mu_ecc_tm,3)+' <small>ton·m</small></div></div>';
+  document.getElementById('o_summary').innerHTML = sum;
+
+  // ----- Utilization bars (P1-10) -----
+  function utilBar(label, num_val, den_val, unit, allowLabel){
+    var ratio = (den_val>0) ? num_val/den_val : 0;
+    var pct = ratio*100;
+    var cls = 'green';
+    if(ratio >= 1.0) cls = 'over';
+    else if(ratio >= 0.85) cls = 'red';
+    else if(ratio >= 0.65) cls = 'yellow';
+    var pctClamp = Math.min(pct, 100);
+    var pctTxt = fmt(pct,0)+'%';
+    var overTxt = (ratio>1.0) ? '<span class="over">เกิน 100% — ไม่ผ่าน</span>' : (allowLabel||'OK');
+    return '<div class="util-bar">'
+      + '<div class="ulbl"><span>'+label+'</span><b class="'+(ratio>=1?'over':(ratio>=0.85?'r':''))+'">'+pctTxt+'</b></div>'
+      + '<div class="ubar"><div class="ufill '+cls+'" style="width:'+pctClamp.toFixed(1)+'%"></div></div>'
+      + '<div class="uval"><span>'+fmt(num_val,2)+' '+unit+'</span><span>'+overTxt+'</span></div>'
+      + '</div>';
+  }
+  var ub = '';
+  ub += utilBar('Pile P/S.L.',     R.Pile_load_t, R.Pile_SL,    'ton','ใต้ S.L.');
+  ub += utilBar('Critical Shear',  R.Vu_crit,     R.phiVc_crit, 'kg', 'Vu / φVc');
+  // As: use the worse direction (A or B)
+  var asReqMax = Math.max(R.As_req_tot_A, R.As_req_tot_B);
+  var asProvMin = Math.min(R.As_prov_A, R.As_prov_B);
+  ub += utilBar('A<sub>s</sub> demand', asReqMax, asProvMin, 'cm²','As,req / As,prov');
+  document.getElementById('o_util').innerHTML = ub;
+
+  // ----- Checks chips (P0-6) -----
+  var icoOK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"/></svg>';
+  var icoX='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
+  function chip(ok, lbl){return '<span class="chk '+(ok?'ok':'bad')+'" role="status">'+(ok?icoOK:icoX)+lbl+'</span>'}
+  var chks='';
+  chks += chip(R.chkPileSL, 'P<sub>pile</sub> ≤ S.L. ('+fmt(R.Pile_SL,0)+' t)');
+  chks += chip(R.chkAsA && R.chkAsB, 'A<sub>s,prov</sub> ≥ A<sub>s,min</sub>');
+  chks += chip(R.chkCritShear, 'V<sub>u</sub> ≤ φV<sub>c</sub> (รอบเสา)');
+  chks += chip(R.chkPilePunch, 'V<sub>u</sub> ≤ φV<sub>c</sub> (รอบหัวเสาเข็ม)');
+  chks += chip(R.chkSpA && R.chkSpB, 's ≤ s<sub>max</sub>');
+  chks += chip(R.chkLd, 'L<sub>d</sub> ≤ available (dowel)');
+  chks += chip(!R.pileVsCol_warn, 'Pile Ø ≤ Column min');
+  chks += chip(!R.isDRegion, R.isDRegion?'D-region · ต้องตรวจด้วย STM':'a/d ≥ 1 (B-region)');
+  document.getElementById('o_checks').innerHTML = chks;
+
+  // ----- BoM -----
+  var sA = I.nA+'-'+bL+I.dMain+' @ ~'+fmt(R.spA_cm,1)+' cm';
+  var sB = I.nB+'-'+bL+I.dMain+' @ ~'+fmt(R.spB_cm,1)+' cm';
+  var patDesc = {A:'แบบ ก (Simple)', C:'แบบ ข (กรงตะกร้อ U คว่ำ · ปลอกปิด)'}[I.pattern]||'แบบ ก';
+  var bom = 'สรุปเหล็กเสริม — <b>ทิศ A:</b> '+sA+' &nbsp;|&nbsp; <b>ทิศ B:</b> '+sB
+          + ' &nbsp;|&nbsp; <b>รายละเอียด:</b> '+patDesc
+          + ' &nbsp;|&nbsp; ฐาน <b>'+fmt(I.A,2)+'×'+fmt(I.B,2)+'×'+fmt(I.T/100,2)+' m</b>'
+          + ' &nbsp;|&nbsp; เสาเข็ม <b>'+I.pileType+' (S.L. '+fmt(I.pileSL,0)+' t)</b>'
+          + ' &nbsp;|&nbsp; Combo: <b>'+R.comboStr+'</b>';
+  document.getElementById('o_bom').innerHTML = bom;
+
+  // ===== สรุปปริมาณวัสดุโดยประมาณ · Material Take-off =====
+  (function(){
+    var el=document.getElementById('takeoff'); if(!el) return;
+    var covM=I.cov/100, hookM=12*I.dMain/1000, uw=I.dMain*I.dMain/162;
+    var LA=Math.max(0.1, I.A-2*covM+2*hookM), LB=Math.max(0.1, I.B-2*covM+2*hookM);
+    var wA=I.nA*LA*uw, wB=I.nB*LB*uw, totW=wA+wB;
+    var volC=I.A*I.B*(I.T/100);
+    function r(mk,n,bar,le,wt){
+      return '<tr><td style="text-align:left">'+mk+'</td><td>'+bar+'</td><td>'+n+'</td>'
+        +'<td>'+fmt(le,2)+'</td><td>'+fmt(n*le,1)+'</td><td>'+fmt(wt,1)+'</td></tr>';
+    }
+    var th='font-family:var(--mono,monospace);font-size:9.5px;font-weight:600;letter-spacing:.5px;color:#7FA8D9;background:#0A1628;padding:7px 9px;text-transform:uppercase';
+    var td='padding:6px 9px;border-bottom:1px solid #EEF2F7;text-align:right;font-family:var(--mono,monospace);font-size:11.5px;font-variant-numeric:tabular-nums';
+    var html='<div style="border:1px solid #DCE5F0;border-radius:12px;overflow-x:auto">'
+      +'<table style="width:100%;min-width:460px;border-collapse:collapse;font-size:12px">'
+      +'<thead><tr>'
+      +'<th style="'+th+';text-align:left">มาร์ก</th><th style="'+th+'">Ø</th><th style="'+th+'">จำนวน</th>'
+      +'<th style="'+th+'">ยาว/เส้น (m)</th><th style="'+th+'">ยาวรวม (m)</th><th style="'+th+'">น้ำหนัก (kg)</th>'
+      +'</tr></thead><tbody style="[TD]">'
+      +r('เหล็กล่าง ทิศ A', I.nA, bL+I.dMain, LA, wA)
+      +r('เหล็กล่าง ทิศ B', I.nB, bL+I.dMain, LB, wB)
+      +'</tbody>'
+      +'<tfoot><tr><td colspan="5" style="'+td+';text-align:right;font-weight:800;border-top:2px solid #DCE5F0;border-bottom:0">รวมเหล็กเสริม (ตะแกรงฐาน)</td>'
+      +'<td style="'+td+';font-weight:800;color:#F58220;border-top:2px solid #DCE5F0;border-bottom:0">'+fmt(totW,1)+'</td></tr></tfoot>'
+      +'</table></div>';
+    html=html.replace('[TD]','').replace(/<td>/g,'<td style="'+td+'">');
+    html+='<div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:#33425C">'
+      +'<span>คอนกรีต ≈ <b>'+fmt(volC,3)+' m³</b></span>'
+      +'<span>เหล็กเสริม ≈ <b>'+fmt(totW,1)+' kg</b></span>'
+      +'<span>อัตราส่วนเหล็ก ≈ <b>'+fmt(volC>0?totW/volC:0,0)+' kg/m³</b></span>'
+      +'</div>'
+      +'<div style="margin-top:6px;font-size:10.5px;color:#8a5018;line-height:1.6">⚠ <b>ประมาณการ</b> — ความยาวเหล็ก = ความกว้างฐาน − 2×ระยะหุ้ม + 2×หางงอ 12d<sub>b</sub> · น้ำหนัก = d<sub>b</sub>²/162 kg/m · '
+      +'<b>ไม่รวม</b> เหล็กเสาเดือย (dowel), ปลอกเสา, การทาบ (lap), และเศษเหลือ (waste) — ใช้ประเมินราคาเบื้องต้น ต้องยืนยันกับ shop drawing</div>';
+    el.innerHTML=html;
+  })();
+
+  renderReport(I, R, bL);
+  drawAnalyticalPlan(I, R);
+  drawAnalyticalSection(I, R);
+  drawPlan(I, R, bL);
+  drawSection(I, R, bL);
+  draw3D(I, R);
+}
+
+/* ===== Step-by-step Report ===== */
+function renderReport(I, R, bL){
+  var s='';
+
+  // Step 1 — design data
+  s += '<div class="rep-step"><div class="rh"><div class="rn">1</div><div class="rt">ข้อมูลออกแบบ · Design Data</div></div>';
+  s += '<div class="rep-dd">';
+  s += '<div><span>fc\'</span><b>'+fmt(I.fc,0)+' ksc.</b></div>';
+  s += '<div><span>fy</span><b>'+fmt(I.fy,0)+' ksc.</b></div>';
+  s += '<div><span>β₁ (Whitney)</span><b>'+fmt(I.b1,3)+' · auto '+fmt(R.b1_auto,3)+'</b></div>';
+  s += '<div><span>φb · φv</span><b>'+fmt(I.phib,2)+' · '+fmt(I.phiv,2)+'</b></div>';
+  s += '<div><span>γ<sub>soil</sub></span><b>'+fmt(I.gsoil,0)+' kg/m³</b></div>';
+  s += '<div><span>เสาเข็ม</span><b>'+I.pileType+' (Ø '+fmt(I.pileD,0)+' cm) · S.L. '+fmt(I.pileSL,0)+' t</b></div>';
+  s += '<div><span>P<sub>D</sub>, P<sub>L</sub></span><b>'+fmt(I.PD,0)+', '+fmt(I.PL,0)+' kg.</b></div>';
+  s += '<div><span>คอลัมน์ a₁×b₁</span><b>'+fmt(I.a1,0)+'×'+fmt(I.b1col,0)+' cm.</b></div>';
+  s += '<div><span>ฐาน A×B×T</span><b>'+fmt(I.A,2)+'×'+fmt(I.B,2)+' m × '+fmt(I.T,0)+' cm.</b></div>';
+  s += '<div><span>H · ระยะหุ้ม</span><b>'+fmt(I.H,2)+' m · '+fmt(I.cov,1)+' cm.</b></div>';
+  s += '<div><span>เหล็ก '+bL+I.dMain+'</span><b>A:'+I.nA+' · B:'+I.nB+' เส้น</b></div>';
+  s += '</div></div>';
+
+  // Step 2 — self-weights
+  s += '<div class="rep-step"><div class="rh"><div class="rn">2</div><div class="rt">น้ำหนักของฐาน + ดินกลบ · Self-weights</div></div>';
+  s += '<div class="rep-f">';
+  s += '<div class="ef">W<sub>f</sub> = A·B·T·γ<sub>c</sub> = '+fmt(I.A,2)+'·'+fmt(I.B,2)+'·'+fmt(I.T/100,2)+'·2400 = <b>'+fmt(R.Wf,0)+' kg.</b></div>';
+  s += '<div class="ef">W<sub>s</sub> = A·B·(H−T)·γ<sub>soil</sub> = '+fmt(I.A,2)+'·'+fmt(I.B,2)+'·'+fmt(R.h_soil,2)+'·'+fmt(I.gsoil,0)+' = <b>'+fmt(R.Ws,0)+' kg.</b></div>';
+  s += '<div class="ef">P<sub>service</sub> = P<sub>D</sub> + P<sub>L</sub> + W<sub>s</sub> + W<sub>f</sub> = <b>'+fmt(R.P_service,0)+' kg = '+fmt(R.P_service_t,2)+' ton</b></div>';
+  s += '</div></div>';
+
+  // Step 3 — Pile capacity check
+  s += '<div class="rep-step"><div class="rh"><div class="rn">3</div><div class="rt">ตรวจสอบกำลังเสาเข็ม · Pile Capacity Check</div></div>';
+  s += '<div class="rep-f">';
+  s += '<div class="ef">น้ำหนักรวมลงเสาเข็ม 1 ต้น = P<sub>service</sub> = <b>'+fmt(R.Pile_load_t,2)+' ton</b> ('+fmt(R.Pile_load_t/R.Pile_SL*100,0)+'% ของ S.L.)</div>';
+  s += '<div class="ef">กำลังเสาเข็ม (Safe Load) = <b>'+fmt(R.Pile_SL,0)+' ton/Pile</b> ('+I.pileType+')</div>';
+  s += '<div class="rep-chk">P<sub>pile</sub> ≤ S.L. <span class="rep-vd inl '+(R.chkPileSL?'ok':'bad')+'">'+(R.chkPileSL?'OK':'NOT')+'</span></div>';
+  if(R.pileVsCol_warn){
+    s += '<div class="ef" style="color:#a8770a;margin-top:5px">⚠ <b>คำเตือน Constructibility:</b> เสาเข็ม Ø '+fmt(I.pileD,0)+' cm > เสา '+fmt(R.colMin,0)+' cm — เสาเข็มใหญ่กว่าเสา · ตามมาตรฐานควรเลือกเสาที่ใหญ่กว่าหรือเท่ากับเสาเข็ม</div>';
+  }
+  s += '<div class="eref">เสาเข็ม 1 ต้นรับน้ำหนักทั้งหมดของฐาน · ตรวจให้ใช้ใต้ S.L. ของเสาเข็ม</div>';
+  s += '</div></div>';
+
+  // Step 4 — Factored loads (load combo)
+  s += '<div class="rep-step"><div class="rh"><div class="rn">4</div><div class="rt">น้ำหนักประลัย · Factored Loads — '+R.comboStr+'</div></div>';
+  s += '<div class="rep-f">';
+  s += '<div class="ef">W<sub>u</sub> = '+fmt(R.fDL,1)+'·(W<sub>s</sub>+W<sub>f</sub>+P<sub>D</sub>) + '+fmt(R.fLL,1)+'·P<sub>L</sub> '
+     + '= '+fmt(R.fDL,1)+'·('+fmt(R.Ws+R.Wf+I.PD,0)+') + '+fmt(R.fLL,1)+'·('+fmt(I.PL,0)+') = <b>'+fmt(R.Pu,0)+' kg</b></div>';
+  s += '<div class="ef">P<sub>u,pile</sub> = W<sub>u</sub> = <b>'+fmt(R.PileU,0)+' kg = '+fmt(R.PileU/1000,2)+' ton</b></div>';
+  s += '<div class="eref">อ้างอิง: '+R.comboRef+'</div>';
+  s += '</div></div>';
+
+  // Step 4b — Eccentricity → Tie beam (P0-2, P0-3)
+  s += '<div class="rep-step"><div class="rh"><div class="rn">4b</div><div class="rt">เยื้องศูนย์เสาเข็ม → คานคอดิน · Pile Eccentricity → Tie Beam</div></div>';
+  s += '<div class="rep-f">';
+  s += '<div class="ef">e (construction tolerance) = <b>'+fmt(R.e_cm,1)+' cm</b></div>';
+  s += '<div class="ef">M<sub>u,ecc</sub> = P<sub>u,pile</sub> · (e/100) = '+fmt(R.PileU,0)+' × '+fmt(R.e_cm/100,4)+' = <b>'+fmt(R.Mu_ecc_kgm,0)+' kg·m = '+fmt(R.Mu_ecc_tm,3)+' ton·m</b></div>';
+  s += '<div class="ef" style="background:#eef3fa;border-left:3px solid #1B4F8C;padding:7px 10px;border-radius:4px;margin-top:5px;color:#1a3a66"><b>⚓ ต้องมีคานคอดิน (Tie Beam):</b> ฐานเข็มเดี่ยวไม่มีเสถียรภาพด้านข้างในตัวเอง — คานคอดินอย่างน้อย <b>2 ทิศทาง</b> รับโมเมนต์ M<sub>u,ecc</sub> = <b>'+fmt(R.Mu_ecc_tm,3)+' ton·m</b> ที่หัวเสา (ตามหลักปฏิบัติ ว.ส.ท./ACI)</div>';
+  s += '<div class="eref">ที่มา: เสาเข็มในทางก่อสร้างมักเยื้องจากตำแหน่งทฤษฎี ≥ 7.5 cm — โมเมนต์เยื้องศูนย์ตกที่คานคอดิน (ไม่ใช่ที่ฐาน) เพราะคานคอดินมีสติฟเนสมากกว่ามาก</div>';
+  s += '</div></div>';
+
+  // Step 5 — Effective depths + a/d (D-region check)
+  s += '<div class="rep-step"><div class="rh"><div class="rn">5</div><div class="rt">ความลึกประสิทธิผล + อัตราส่วน a/d</div></div>';
+  s += '<div class="rep-f">';
+  s += '<div class="ef">d<sub>A</sub> = T − cov − Ø/2 = '+fmt(I.T,0)+' − '+fmt(I.cov,1)+' − '+fmt(R.dia_cm/2,2)+' = <b>'+fmt(R.d_A,2)+' cm</b></div>';
+  s += '<div class="ef">d<sub>B</sub> = T − cov − Ø − Ø/2 = <b>'+fmt(R.d_B,2)+' cm</b></div>';
+  s += '<div class="ef">d<sub>avg</sub> = <b>'+fmt(R.d_avg,2)+' cm</b></div>';
+  s += '<div class="ef" style="margin-top:6px">a (cantilever จากผิวเสา) = max(X<sub>A</sub>, X<sub>B</sub>) = max('+fmt(R.X_A*100,1)+', '+fmt(R.X_B*100,1)+') = <b>'+fmt(R.a_cantilever_cm,1)+' cm</b></div>';
+  s += '<div class="ef">a/d = '+fmt(R.a_cantilever_cm,1)+' / '+fmt(R.d_avg,2)+' = <b>'+fmt(R.a_over_d,2)+'</b></div>';
+  if(R.isDRegion){
+    s += '<div class="ef" style="color:#a8400a;background:#fff4e6;border-left:3px solid #F58220;padding:7px 10px;border-radius:4px;margin-top:5px"><b>⚠ D-region (deep block):</b> a/d &lt; 1.0'+(R.critOversize?' หรือ critical perimeter เกินขอบฐาน':'')+' — วิธีหน้าตัด (flexure/one-way shear) ใช้ได้จำกัด · <b>ต้องตรวจสอบด้วย Strut-and-Tie Model (STM)</b> ตาม ACI 318-19 Sec. 13.4.2.3 และ Sec. 23</div>';
+  } else {
+    s += '<div class="ef" style="color:#16794c">✓ B-region (a/d ≥ 1.0) — วิธีหน้าตัด (flexure/one-way shear) ใช้ได้ตามปกติ</div>';
+  }
+  s += '</div></div>';
+
+  // Step 6 — Minimum reinforcement (rho_min with governing term)
+  s += '<div class="rep-step"><div class="rh"><div class="rn">6</div><div class="rt">เหล็กเสริมขั้นต่ำ · Minimum Reinforcement (ACI 318-19 Sec. 9.6.1.2)</div></div>';
+  s += '<div class="rep-f">';
+  s += '<div class="ef">ฐาน 1 เสาเข็ม (concentric) — ไม่มีโมเมนต์ดัดในฐาน → ใช้ ρ<sub>min</sub></div>';
+  s += '<div class="ef">ρ<sub>min,a</sub> = 14/fy = 14/'+fmt(I.fy,0)+' = <b>'+fmt(R.rho_min_a,4)+'</b></div>';
+  s += '<div class="ef">ρ<sub>min,b</sub> = 0.8·√fc′/fy = 0.8·'+fmt(Math.sqrt(I.fc),2)+'/'+fmt(I.fy,0)+' = <b>'+fmt(R.rho_min_b,4)+'</b></div>';
+  s += '<div class="ef">ρ<sub>min</sub> = max(ρ<sub>min,a</sub>, ρ<sub>min,b</sub>) = <b>'+fmt(R.rho_min,4)+'</b> · governs: <b style="color:#1B4F8C">'+R.rho_min_govern+'</b></div>';
+  s += '<div class="ef">A<sub>s,min</sub> ทิศ A: ρ<sub>min</sub>·b·d (b=100cm) = <b>'+fmt(R.As_req_perm,3)+' cm²/m</b> รวม <b>'+fmt(R.As_req_tot_A,2)+' cm²</b></div>';
+  s += '<div class="ef">จัด ทิศ A: '+I.nA+'-'+bL+I.dMain+' → A<sub>s,prov</sub> = <b>'+fmt(R.As_prov_A,2)+' cm²</b></div>';
+  s += '<div class="ef">จัด ทิศ B: '+I.nB+'-'+bL+I.dMain+' → A<sub>s,prov</sub> = <b>'+fmt(R.As_prov_B,2)+' cm²</b></div>';
+  s += '<div class="rep-chk">A<sub>s,prov</sub> ≥ A<sub>s,min</sub> ทั้งสองทิศ <span class="rep-vd inl '+(R.chkAsA && R.chkAsB?'ok':'bad')+'">'+(R.chkAsA && R.chkAsB?'OK':'NOT')+'</span></div>';
+  s += '<div class="ef" style="margin-top:5px">ระยะเรียง: ทิศ A ≈ <b>'+fmt(R.spA_cm,1)+' cm</b> · ทิศ B ≈ <b>'+fmt(R.spB_cm,1)+' cm</b> · s<sub>max</sub> = min(3T, 45) = <b>'+fmt(R.sp_max,0)+' cm</b></div>';
+  s += '<div class="rep-chk">s ≤ s<sub>max</sub> <span class="rep-vd inl '+(R.chkSpA && R.chkSpB?'ok':'bad')+'">'+(R.chkSpA && R.chkSpB?'OK':'NOT')+'</span></div>';
+  s += '</div></div>';
+
+  // Step 7 — Critical Section Shear (around column)
+  s += '<div class="rep-step"><div class="rh"><div class="rn">7</div><div class="rt">เฉือนวิกฤต · Critical-Section Shear (รอบเสา · d/2)</div></div>';
+  s += '<div class="rep-f">';
+  if(R.critOversize){
+    s += '<div class="ef" style="color:#a8770a">⚠ <b>หมายเหตุ:</b> เส้นรอบรูปวิกฤตที่ระยะ d/2 ใหญ่กว่าฐาน (a₁+d = '+fmt(R.cw_unclip,2)+' cm vs A = '+fmt(I.A*100,0)+' cm) — clip ที่ขอบฐาน · ใช้ b₀ ที่ clip แล้ว · นี่เป็นอีกสัญญาณว่าเป็น D-region</div>';
+  }
+  s += '<div class="ef">เส้นรอบรูปวิกฤต (clip ที่ขอบ): '+fmt(R.cw,2)+'×'+fmt(R.ch,2)+' cm · b<sub>0</sub> = 2·('+fmt(R.cw,2)+'+'+fmt(R.ch,2)+') = <b>'+fmt(R.b0,2)+' cm</b></div>';
+  s += '<div class="ef">V<sub>u</sub> = P<sub>u,pile</sub> (factored) = <b>'+fmt(R.Vu_crit,0)+' kg</b></div>';
+  s += '<div class="ef">φV<sub>c</sub> = φv·1.06·√fc\'·b<sub>0</sub>·d = '+fmt(I.phiv,2)+'·1.06·'+fmt(Math.sqrt(I.fc),2)+'·'+fmt(R.b0,2)+'·'+fmt(R.d_avg,2)+' = <b>'+fmt(R.phiVc_crit,0)+' kg</b></div>';
+  s += '<div class="rep-chk">V<sub>u</sub> ≤ φV<sub>c</sub> <span class="rep-vd inl '+(R.chkCritShear?'ok':'bad')+'">'+(R.chkCritShear?'OK':'NOT')+'</span></div>';
+  s += '<div class="eref">ACI 318 Sec. 22.6 (two-way shear): φv·1.06·√fc\'·b<sub>0</sub>·d · φv = 0.75 (Table 21.2.1)</div>';
+  s += '</div></div>';
+
+  // Step 7b — Pile-head punching (NEW: P0-5)
+  s += '<div class="rep-step"><div class="rh"><div class="rn">7b</div><div class="rt">เฉือนวิกฤตรอบหัวเสาเข็ม · Pile-Head Punching (d/2 รอบเสาเข็ม)</div></div>';
+  s += '<div class="rep-f">';
+  s += '<div class="ef">ประเภทเสาเข็ม: <b>'+(R.pile_isRound?'กลม (O-)':'I-เหลี่ยม')+'</b> · Ø<sub>pile</sub> = '+fmt(I.pileD,0)+' cm</div>';
+  if(R.pile_isRound){
+    s += '<div class="ef">b<sub>0,pile</sub> = π·(Ø<sub>pile</sub> + d) = π·('+fmt(I.pileD,0)+' + '+fmt(R.d_avg,2)+') = <b>'+fmt(R.b0_pile,2)+' cm</b></div>';
+  } else {
+    s += '<div class="ef">b<sub>0,pile</sub> = 4·(b<sub>pile</sub> + d) = 4·('+fmt(I.pileD,0)+' + '+fmt(R.d_avg,2)+') = <b>'+fmt(R.b0_pile,2)+' cm</b></div>';
+  }
+  s += '<div class="ef">V<sub>u,pile</sub> = P<sub>u,pile</sub> = <b>'+fmt(R.Vu_pile_punch,0)+' kg</b></div>';
+  s += '<div class="ef">φV<sub>c,pile</sub> = φv·1.06·√fc\'·b<sub>0,pile</sub>·d = <b>'+fmt(R.phiVc_pile_punch,0)+' kg</b></div>';
+  s += '<div class="rep-chk">V<sub>u,pile</sub> ≤ φV<sub>c,pile</sub> <span class="rep-vd inl '+(R.chkPilePunch?'ok':'bad')+'">'+(R.chkPilePunch?'OK':'NOT')+'</span></div>';
+  s += '<div class="eref">เช็คเสริม: ปฏิกิริยาที่หัวเสาเข็ม "ดัน" ฐานจากด้านล่าง สร้าง punching cone รอบหัวเสาเข็ม — แยกจาก punching รอบเสา (ตำแหน่งและ b<sub>0</sub> ต่างกัน)</div>';
+  s += '</div></div>';
+
+  // Step 8 — Development length (dowel) with compression/tension option
+  s += '<div class="rep-step"><div class="rh"><div class="rn">8</div><div class="rt">ระยะฝังเหล็กยืน (Dowel) · '+R.Ld_form+'</div></div>';
+  s += '<div class="rep-f">';
+  if(R.ldMode === 'comp'){
+    s += '<div class="ef">L<sub>dc,1</sub> = 0.075·fy·d<sub>b</sub>/√fc\' = 0.075·'+fmt(I.fy,0)+'·'+fmt(R.dia_cm,2)+'/'+fmt(Math.sqrt(I.fc),2)+' = <b>'+fmt(R.Ld_comp1,1)+' cm</b></div>';
+    s += '<div class="ef">L<sub>dc,2</sub> = 0.0044·fy·d<sub>b</sub> = 0.0044·'+fmt(I.fy,0)+'·'+fmt(R.dia_cm,2)+' = <b>'+fmt(R.Ld_comp2,1)+' cm</b></div>';
+    s += '<div class="ef">L<sub>d,min</sub> = <b>20 cm</b> · L<sub>d,req</sub> = max(L<sub>dc,1</sub>, L<sub>dc,2</sub>, 20) = <b>'+fmt(R.Ld_req,1)+' cm</b></div>';
+  } else {
+    s += '<div class="ef">L<sub>d</sub> = fy·d<sub>b</sub>/('+R.Ld_k+'·√fc\') = '+fmt(I.fy,0)+'×'+fmt(R.dia_cm,2)+'/('+R.Ld_k+'·'+fmt(Math.sqrt(I.fc),2)+') = <b>'+fmt(R.Ld_basic?R.Ld_basic:0,1)+' cm</b> (ไม่ต่ำกว่า 30 cm) → L<sub>d,req</sub> = <b>'+fmt(R.Ld_req,1)+' cm</b> · ACI 318-19 Sec. 25.4.2.3 (DB'+(I.dMain<=19?'≤19':'≥22')+' mm)</div>';
+  }
+  s += '<div class="ef">ระยะฝังที่มี (จากผิวบนของฐาน): T − cov = '+fmt(I.T,0)+' − '+fmt(I.cov,1)+' = <b>'+fmt(R.Ld_avail,1)+' cm</b></div>';
+  s += '<div class="rep-chk">L<sub>d,avail</sub> ≥ L<sub>d,req</sub> <span class="rep-vd inl '+(R.chkLd?'ok':'bad')+'">'+(R.chkLd?'OK':'NOT')+'</span></div>';
+  if(R.Ld_needHook){
+    s += '<div class="ef" style="color:#a8400a;background:#fff4e6;border-left:3px solid #F58220;padding:7px 10px;border-radius:4px;margin-top:5px"><b>⚠ ระยะฝังไม่พอ:</b> แนะนำใช้ <b>งอขอ 90° (hooked bar)</b> · L<sub>dh</sub> = 0.075·fy·d<sub>b</sub>/√fc\' = <b>'+fmt(R.ldh,1)+' cm</b> (≥ 8d<sub>b</sub>, ≥ 15 cm) + หางงอ 12d<sub>b</sub> = '+fmt(12*R.dia_cm,1)+' cm · ACI 318-19 Sec. 25.4.3 / Sec. 25.3.1</div>';
+  }
+  s += '<div class="eref">ACI 318-19 Sec. 25.4.9 (compression development) / Sec. 25.4.2 (tension) · '+(R.ldMode==='comp'?'Compression default สำหรับ dowel เสาที่รับแรงอัด':'Tension เมื่อเสามีโมเมนต์/มีโอกาสยก')+'</div>';
+  s += '</div></div>';
+
+  // มาตรฐานอ้างอิง
+  s += '<div class="rep-step"><div class="rh"><div class="rn">Section</div><div class="rt">มาตรฐานอ้างอิง · References</div></div>'
+    +'<div class="rep-note" style="line-height:1.9">'
+    +'<b>ACI 318-19</b> — '
+    +'Sec. 13.4 (ฐานราก/แท่นเสาเข็ม · pile cap) · '
+    +'Sec. 22.6 (เฉือนทะลุ two-way รอบเสาและรอบหัวเสาเข็มที่ d/2) · '
+    +'Sec. 13.2.7.2 / Sec. 23 (Strut-and-Tie สำหรับช่วง a/d &lt; 1 · D-region) · '
+    +'Sec. 7.6.1 (เหล็กขั้นต่ำ) · Sec. 22.2.2.4 (กำลังดัด) · '
+    +'Sec. 25.4.9 (ระยะฝัง dowel รับแรงอัด) / Sec. 25.4.2.3 (รับแรงดึง) / Sec. 25.4.3 (งอ ℓ<sub>dh</sub>)'
+    +'<br><b>มยผ. 1101-64</b> · <b>กฎกระทรวง พ.ศ. 2566</b> — วิธีกำลัง · หมายเหตุ: ฐานเข็มเดี่ยวต้องมีคานคอดินยึดรั้ง'
+    +'</div></div>';
+
+  // สรุปรายละเอียดแบบก่อสร้างจริง · Construction Detail Summary
+  (function(){
+    var cd=[['ขนาดฐานราก A × B × T',fmt(I.A,2)+' × '+fmt(I.B,2)+' m × หนา '+fmt(I.T,0)+' cm'],
+      ['ความลึกฝังฐาน H',fmt(I.H,2)+' m'],
+      ['เสาเข็ม',I.pileType+' (Ø '+fmt(I.pileD,0)+' cm) × 1 ต้น · S.L. '+fmt(R.Pile_SL,0)+' t'],
+      ['ขนาดเสาตอม่อ a₁ × b₁',fmt(I.a1,0)+' × '+fmt(I.b1col,0)+' cm'],
+      ['คอนกรีต fc′',fmt(I.fc,0)+' ksc'],
+      ['เหล็กเสริม fy',fmt(I.fy,0)+' ksc ('+bL+I.dMain+')'],
+      ['เหล็กล่าง ทิศ A',I.nA+'-'+bL+I.dMain+' (@ ≈ '+fmt(R.spA_cm,1)+' cm)'],
+      ['เหล็กล่าง ทิศ B',I.nB+'-'+bL+I.dMain+' (@ ≈ '+fmt(R.spB_cm,1)+' cm)'],
+      ['ระยะหุ้ม covering',fmt(I.cov,1)+' cm'],
+      ['ระยะฝังเหล็กยืน (Dowel) L<sub>d,req</sub>',fmt(R.Ld_req,1)+' cm ('+(R.ldMode==='comp'?'รับแรงอัด':'รับแรงดึง')+') · มีจริง '+fmt(R.Ld_avail,1)+' cm'
+        +(R.Ld_needHook?' → ใช้ของอ 90° ℓ<sub>dh</sub> = '+fmt(R.ldh,1)+' cm + หางงอ 12d<sub>b</sub> = '+fmt(12*R.dia_cm,1)+' cm':'')],
+      ['คานคอดิน (Tie Beam)','อย่างน้อย 2 ทิศทาง · รับ M<sub>u,ecc</sub> = '+fmt(R.Mu_ecc_tm,3)+' ton·m']];
+    s += '<div class="rep-step"><div class="rh"><div class="rn">Section</div><div class="rt">สรุปรายละเอียดแบบก่อสร้างจริง · Construction Detail Summary</div></div>'
+      +'<div class="rep-dd">'+cd.map(function(r){return '<div><span>'+r[0]+'</span><b>'+r[1]+'</b></div>';}).join('')+'</div>'
+      +'<div class="rep-note">ระยะทาบ/งอ ให้เป็นไปตาม ACI 318-19 บทที่ 25 และแบบมาตรฐานโครงการ</div></div>';
+  })();
+
+  // Final verdict — gates on all P0 + existing
+  var allOK = R.allOK;
+  var allCoreOK = R.allCoreOK;
+  var cls = R.isDRegion ? 'bad' : (allCoreOK ? 'ok' : 'bad');
+  var msg;
+  if(R.isDRegion){
+    msg = '⚠ ' + R.verdict_label;
+  } else if(allCoreOK){
+    msg = '✓ ' + R.verdict_label;
+  } else {
+    msg = '✗ ' + R.verdict_label;
+  }
+  s += '<div class="rep-final '+cls+'">'+msg+'</div>';
+
+  document.getElementById('repBody').innerHTML = s;
+}
+
+/* ===== SVG Helper ===== */
+function svgEsc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+/* ===== Analytical Plan — SDM Plus Section Diagram (left) =====
+   ปรับตาม DRAFTING-SPEC.md: มิติหัว tick 45° + gap/overshoot (§4) · เส้นวิกฤต punching =
+   เส้นบางประเทา (ข้อมูลวิเคราะห์) · เข็ม = วงกลมเส้นบัง dash (อยู่ใต้ฐาน) · เส้นศูนย์ chain (§1) */
+function drawAnalyticalPlan(I, R){
+  var OBJ='#111', DIM='#1a1a1a', GHOST='#555', THIN='#8a8a8a';
+  var A=I.A, B=I.B;
+  var a1=I.a1/100, b1=I.b1col/100;
+  var d_m = R.d_avg/100;
+  var halfD = d_m/2;
+  var cxL=(A-a1)/2, cxR=(A+a1)/2, cyB=(B-b1)/2, cyT=(B+b1)/2;
+  var pxL=cxL-halfD, pxR=cxR+halfD, pyB=cyB-halfD, pyT=cyT+halfD;
+
+  var lines=[], dots=[], labels=[];
+
+  // ---- helper มิติ (SPEC §4): tick 45° + extension gap/overshoot ----
+  var ref=Math.max(A,B), tk=0.016*ref, DG=0.010*ref, DO=0.013*ref;
+  function tick(x,y,c){ lines.push({p:[[x-tk,y-tk],[x+tk,y+tk]], c:c||DIM, w:0.9}); }
+  function dimH(x0,x1,y,txt,yObj,c,sz){
+    c=c||DIM;
+    if(yObj!==undefined){ var sg=(y>=yObj)?1:-1;
+      lines.push({p:[[x0,yObj+sg*DG],[x0,y+sg*DO]], c:c, w:0.7});
+      lines.push({p:[[x1,yObj+sg*DG],[x1,y+sg*DO]], c:c, w:0.7});
+    }
+    lines.push({p:[[x0,y],[x1,y]], c:c, w:0.9});
+    tick(x0,y,c); tick(x1,y,c);
+    labels.push({x:(x0+x1)/2, y:y, t:txt, c:c, sz:sz||11, a:'middle', dy:-4});
+  }
+  function dimV(y0,y1,x,txt,xObj,c,sz){
+    c=c||DIM;
+    if(xObj!==undefined){ var sg=(x>=xObj)?1:-1;
+      lines.push({p:[[xObj+sg*DG,y0],[x+sg*DO,y0]], c:c, w:0.7});
+      lines.push({p:[[xObj+sg*DG,y1],[x+sg*DO,y1]], c:c, w:0.7});
+    }
+    lines.push({p:[[x,y0],[x,y1]], c:c, w:0.9});
+    tick(x,y0,c); tick(x,y1,c);
+    labels.push({x:x, y:(y0+y1)/2, t:txt, c:c, sz:sz||11, a:'middle', rot:-90, dy:-4});
+  }
+
+  // ===== เส้นศูนย์ (chain) แกนเสา = แกนเข็ม =====
+  var axOver = Math.max(0.20, A*0.20);
+  lines.push({p:[[-axOver, B/2],[A+axOver, B/2]], c:GHOST, w:0.8, d:'10 4 2 4'});
+  lines.push({p:[[A/2, -axOver],[A/2, B+axOver]], c:GHOST, w:0.8, d:'10 4 2 4'});
+
+  // ===== ขอบฐานราก (object line) =====
+  lines.push({p:[[0,0],[A,0],[A,B],[0,B],[0,0]], c:OBJ, w:1.8});
+
+  // ===== เสาตอม่อ: ขอบ 1.4 + กากบาทบาง =====
+  lines.push({p:[[cxL,cyB],[cxR,cyB],[cxR,cyT],[cxL,cyT],[cxL,cyB]], c:OBJ, w:1.4});
+  lines.push({p:[[cxL,cyT],[cxR,cyB]], c:THIN, w:0.7});
+  lines.push({p:[[cxL,cyB],[cxR,cyT]], c:THIN, w:0.7});
+
+  // ===== เสาเข็ม — อยู่ใต้ฐาน → วงกลมเส้นบัง (hidden dash) =====
+  var pileR = (I.pileD||26)/2/100;
+  var pileCirc = [];
+  for(var k=0;k<=24;k++){
+    var ang = 2*Math.PI*k/24;
+    pileCirc.push([A/2 + pileR*Math.cos(ang), B/2 + pileR*Math.sin(ang)]);
+  }
+  lines.push({p:pileCirc, c:GHOST, w:1.0, d:'7 4'});
+
+  // ===== หน้าตัดวิกฤตเฉือนทะลุ d/2 — เส้นบางประเทา (ข้อมูลวิเคราะห์) =====
+  lines.push({p:[[pxL,pyB],[pxR,pyB],[pxR,pyT],[pxL,pyT],[pxL,pyB]], c:GHOST, w:0.9, d:'5 3'});
+
+  // ===== มิติหลัก A (บน) / B (ซ้าย) =====
+  var dim = Math.max(0.18, 0.15*Math.min(A,B));
+  dimH(0, A, B+dim, 'A = '+fmt(A,2), B, DIM, 12);
+  dimV(0, B, -dim, 'B = '+fmt(B,2), 0, DIM, 12);
+
+  // ===== แถวมิติขวา: b1+d (นอก · เทา) + b1 (ใน) =====
+  var dimR = A + dim*0.62;
+  dimV(pyB, pyT, dimR, fmt(b1+d_m,3), A, GHOST, 10);
+  var dimR2 = A + dim*0.22;
+  dimV(cyB, cyT, dimR2, 'b1 = '+fmt(b1,2), undefined, DIM, 10);
+  labels.push({x:dimR2+0.03, y:(pyT+cyT)/2, t:'d/2 = '+fmt(halfD,4), c:GHOST, sz:9, a:'start', dy:-2});
+  labels.push({x:dimR2+0.03, y:(cyB+pyB)/2, t:'d/2 = '+fmt(halfD,4), c:GHOST, sz:9, a:'start', dy:-2});
+
+  // ===== แถวมิติล่าง: a1+d (เทา) + a1 =====
+  var dimB = -dim*0.62;
+  dimH(pxL, pxR, dimB, fmt(a1+d_m,3), 0, GHOST, 10);
+  var dimB2 = -dim*0.22;
+  dimH(cxL, cxR, dimB2, 'a1 = '+fmt(a1,2), undefined, DIM, 10);
+
+  // ===== ป้าย =====
+  labels.push({x:-dim*0.5, y:B+axOver+0.18, t:'Section Diagram', c:OBJ, sz:12, a:'start', fw:600, dy:-2});
+  labels.push({x:A/2, y:B+axOver+0.06, t:'Y', c:OBJ, sz:13, a:'middle', dy:-2});
+  labels.push({x:A+axOver+0.02, y:B/2, t:'X', c:OBJ, sz:13, a:'start', dy:4});
+  labels.push({x:(pxL+pxR)/2, y:pyT+0.02, t:'PUNCHING @ d/2', c:GHOST, sz:9, a:'middle', dy:-3, stroke:'#fff'});
+
+  var svg = emitSVG(420, 520, lines, dots, labels, {m:30, fs:11, uniform:true});
+  document.getElementById('anaPlanDiag').innerHTML = svg
+    + '<div class="cap">เส้นประเทา = หน้าตัดวิกฤต <b>เฉือนทะลุ (Punching)</b> ที่ระยะ d/2 จากผิวเสา (a₁+d × b₁+d) · เสากลาง a₁×b₁ (กากบาทบาง) · วงกลมเส้นประ = เสาเข็มใต้ฐาน · มิติหัว tick 45° ตามมาตรฐานเขียนแบบ</div>';
+}
+
+/* ===== Analytical Section — SDM Plus original (right side) =====
+   ปรับตาม DRAFTING-SPEC.md: มิติ tick 45° (§4) · ดินถม = ขีดสั้นเฉียง 45° ใต้เส้นระดับดิน (§7) ·
+   เข็มใต้ฐาน = ขอบวัตถุ + เส้นต่อลง dash · ลูกศรปฏิกิริยาเข็ม = เทาเข้ม เส้นบาง (ข้อมูลวิเคราะห์) */
+function drawAnalyticalSection(I, R){
+  var OBJ='#111', DIM='#1a1a1a', GHOST='#555', THIN='#8a8a8a', FRC='#444';
+  var A=I.A, T=I.T/100;
+  var a1=I.a1/100, b1=I.b1col/100;
+  var X_A = R.X_A;
+  var h_soil_sec = R.h_soil;
+  var stubAboveGrade = 0.30;
+  var stubH = h_soil_sec + stubAboveGrade;
+  var contH = 0.18;
+
+  var colLx=(A-a1)/2, colRx=(A+a1)/2;
+  var midX = (colLx+colRx)/2;
+  var yFtTop=0, yFtBot=-T;
+  var yColTop=stubH;
+  var yGrade_sec = yFtTop + h_soil_sec;
+
+  var lines=[], dots=[], labels=[];
+
+  // ---- helper มิติ (SPEC §4) ----
+  var ref=Math.max(A, stubH+T+0.5), tk=0.014*ref, DG=0.008*ref, DO=0.011*ref;
+  function tick(x,y){ lines.push({p:[[x-tk,y-tk],[x+tk,y+tk]], c:DIM, w:0.9}); }
+  function dimH(x0,x1,y,txt,yObj,sz){
+    if(yObj!==undefined){ var sg=(y>=yObj)?1:-1;
+      lines.push({p:[[x0,yObj+sg*DG],[x0,y+sg*DO]], c:DIM, w:0.7});
+      lines.push({p:[[x1,yObj+sg*DG],[x1,y+sg*DO]], c:DIM, w:0.7});
+    }
+    lines.push({p:[[x0,y],[x1,y]], c:DIM, w:0.9});
+    tick(x0,y); tick(x1,y);
+    labels.push({x:(x0+x1)/2, y:y, t:txt, c:DIM, sz:sz||10.5, a:'middle', dy:-4});
+  }
+  function dimV(y0,y1,x,txt,xObj,sz){
+    if(xObj!==undefined){ var sg=(x>=xObj)?1:-1;
+      lines.push({p:[[xObj+sg*DG,y0],[x+sg*DO,y0]], c:DIM, w:0.7});
+      lines.push({p:[[xObj+sg*DG,y1],[x+sg*DO,y1]], c:DIM, w:0.7});
+    }
+    lines.push({p:[[x,y0],[x,y1]], c:DIM, w:0.9});
+    tick(x,y0); tick(x,y1);
+    labels.push({x:x, y:(y0+y1)/2, t:txt, c:DIM, sz:sz||10.5, a:'middle', rot:-90, dy:-4});
+  }
+
+  // ===== ดินกลบ (fill เบจอ่อน — อนุโลมเฉพาะรูปตัดดิน) วาดก่อนให้อยู่หลังเส้นวัตถุ =====
+  if(h_soil_sec > 0.02){
+    lines.push({p:[[0,yGrade_sec],[colLx,yGrade_sec],[colLx,yFtTop],[0,yFtTop],[0,yGrade_sec]], c:'#d8c49a', w:0.5, fill:'#ead9b6', fillOpacity:0.35});
+    lines.push({p:[[colRx,yGrade_sec],[A,yGrade_sec],[A,yFtTop],[colRx,yFtTop],[colRx,yGrade_sec]], c:'#d8c49a', w:0.5, fill:'#ead9b6', fillOpacity:0.35});
+    // เส้นระดับดิน + ขีดสั้นเฉียง 45° ใต้เส้น (spec §7 ดินถม)
+    [[0,colLx],[colRx,A]].forEach(function(wseg){
+      lines.push({p:[[wseg[0],yGrade_sec],[wseg[1],yGrade_sec]], c:GHOST, w:0.9});
+      var n=Math.max(2,Math.round((wseg[1]-wseg[0])/(0.07*ref)));
+      for(var i2=0;i2<n;i2++){
+        var xg=wseg[0]+(wseg[1]-wseg[0])*(i2+0.5)/n;
+        lines.push({p:[[xg,yGrade_sec-0.02*ref],[xg+0.02*ref,yGrade_sec]], c:THIN, w:0.7});
+      }
+    });
+  }
+
+  // ===== ฐานราก (object line) =====
+  lines.push({p:[[0,yFtTop],[A,yFtTop],[A,yFtBot],[0,yFtBot],[0,yFtTop]], c:OBJ, w:1.8});
+
+  // ===== เสาตอม่อ + เส้นประต่อขึ้น (คอลัมน์ต่อเนื่อง) =====
+  lines.push({p:[[colLx, yColTop],[colLx, yFtTop]], c:OBJ, w:1.4});
+  lines.push({p:[[colRx, yColTop],[colRx, yFtTop]], c:OBJ, w:1.4});
+  lines.push({p:[[colLx, yColTop],[colLx, yColTop+contH]], c:GHOST, w:1.0, d:'7 4'});
+  lines.push({p:[[colRx, yColTop],[colRx, yColTop+contH]], c:GHOST, w:1.0, d:'7 4'});
+  // เส้นศูนย์ (chain) แกนเสา/แกนเข็ม
+  lines.push({p:[[midX, yColTop+contH+0.05],[midX, yFtBot-0.75]], c:GHOST, w:0.8, d:'10 4 2 4'});
+
+  // ===== เสาเข็มใต้ฐาน — ส่วนที่เห็น = ขอบวัตถุ · ต่อลงล่าง = dash =====
+  var pileD = (I.pileD||26)/100;
+  var pileH = 0.45;
+  var pxLp = A/2 - pileD/2, pxRp = A/2 + pileD/2;
+  var pyTopE = yFtBot, pyBotE = yFtBot - pileH;
+  lines.push({p:[[pxLp, pyTopE],[pxLp, pyBotE]], c:OBJ, w:1.4});
+  lines.push({p:[[pxRp, pyTopE],[pxRp, pyBotE]], c:OBJ, w:1.4});
+  lines.push({p:[[pxLp, pyBotE],[pxLp, pyBotE-0.10]], c:GHOST, w:1.0, d:'7 4'});
+  lines.push({p:[[pxRp, pyBotE],[pxRp, pyBotE-0.10]], c:GHOST, w:1.0, d:'7 4'});
+
+  // ===== ลูกศรปฏิกิริยาเข็ม (ข้อมูลวิเคราะห์ = เทาเข้ม เส้นบาง) =====
+  var qY0 = pyBotE - 0.18;
+  var qY1 = pyTopE - 0.02;
+  lines.push({p:[[A/2, qY0],[A/2, qY1]], c:FRC, w:1.2});
+  lines.push({p:[[A/2-0.022, qY1-0.05],[A/2, qY1],[A/2+0.022, qY1-0.05]], c:FRC, w:1.2});
+
+  // ===== มิติ: X (ปีกขวา) · T (ซ้าย) =====
+  var dimYx = yColTop*0.55;
+  dimH(colRx, A, dimYx, 'X = '+fmt(X_A,3), yFtTop, 10.5);
+  dimV(yFtTop, yFtBot, -0.09, 'T = '+fmt(T,2), 0, 10.5);
+
+  // ===== ป้าย =====
+  labels.push({x:A+0.04, y:yGrade_sec+0.02, t:'ระดับดินเดิม', c:GHOST, sz:9, a:'start', dy:-3});
+  labels.push({x:A/2, y:(pyTopE+pyBotE)/2, t:I.pileType, c:GHOST, sz:10.5, a:'middle', stroke:'#fff'});
+  labels.push({x:A/2-0.07, y:(qY0+qY1)/2-0.04, t:'P (service) = '+fmt(R.Pile_load_t,2)+' t', c:FRC, sz:9.5, a:'end', stroke:'#fff'});
+  labels.push({x:A/2-0.07, y:(qY0+qY1)/2+0.04, t:'Pu (factored) = '+fmt(R.PileU/1000,2)+' t', c:FRC, sz:9.5, a:'end', stroke:'#fff'});
+
+  var svg = emitSVG(420, 540, lines, dots, labels, {m:30, fs:11, uniform:true});
+  document.getElementById('anaSecDiag').innerHTML = svg
+    + '<div class="cap">เสามีเส้นประต่อขึ้น (คอลัมน์ต่อเนื่อง) · เส้นระดับดิน + ขีดเฉียง 45° = ดินกลบ · เสาเข็มใต้ฐาน '+I.pileType+' (Ø '+fmt(I.pileD,0)+' cm) = เส้นเต็ม + เส้นประต่อลง · ลูกศรเทา = ปฏิกิริยาเสาเข็ม — <b>P (service) = '+fmt(R.Pile_load_t,2)+' t</b> ใช้ตรวจ S.L. · <b>Pu (factored) = '+fmt(R.PileU/1000,2)+' t</b> ใช้ออกแบบเฉือนวิกฤต</div>';
+}
+
+/* ===== Plan View — แปลนฐานราก ตาม DRAFTING-SPEC.md =====
+ * เส้นศูนย์ chain แกนเสา/แกนเข็ม (§1) · ขอบฐาน 1.8 · เสา 1.4 + กากบาทบาง ·
+ * เข็ม = วงกลมเส้นบัง dash 1.0 (อยู่ใต้ฐาน) · เหล็กตัวแทน 1 เส้น/ทิศ = 3.0 แดง + hook tick ·
+ * callout #n + leader หัวจุด (§5 — เลข #n ตรงกับรูปตัด) · มิติหัว tick 45° + gap/overshoot (§4) ·
+ * เส้นวิกฤต/punching = เส้นบางประเทา (ข้อมูลวิเคราะห์ ไม่ใช่ตัวแบบ)
+ */
+// ===== หน้าตัดเสาเข็มตัวไอ (I-pile) มอก.396-2549 ตารางที่ 3 — พอร์ตจาก Retaining Wall Studio (iPile) =====
+// มิติหน้าตัด (มม.): K สูงปลายปีก · N สูงโคนปีก · U หนาเอว
+var IPILE={18:{K:60,N:75,U:70},22:{K:65,N:85,U:80},26:{K:65,N:85,U:90},30:{K:75,N:105,U:100},35:{K:85,N:115,U:120},40:{K:110,N:140,U:160},45:{K:120,N:160,U:170}};
+function iPileGeom(B, H){   // extrude หน้าตัดตัวไอ 12 จุด ตามแกนดิ่ง (แกน Y) — profile จริงตาม มอก.396
+  var sp=IPILE[Math.round(B*100)]||{};
+  var K=(sp.K!=null?sp.K:0.33*B*1000)/1000, N=(sp.N!=null?sp.N:0.42*B*1000)/1000, U=(sp.U!=null?sp.U:0.40*B*1000)/1000;
+  var hb=B/2, hu=U/2, xK=hb-K, xN=hb-N;
+  var pts=[[-hb,-hb],[-hb,hb],[-xK,hb],[-xN,hu],[xN,hu],[xK,hb],[hb,hb],[hb,-hb],[xK,-hb],[xN,-hu],[-xN,-hu],[-xK,-hb]];
+  var sh=new THREE.Shape(pts.map(function(p){return new THREE.Vector2(p[0],p[1]);}));
+  var g=new THREE.ExtrudeGeometry(sh,{depth:H,bevelEnabled:false});
+  g.rotateX(-Math.PI/2); g.translate(0,-H/2,0);   // แกน extrude Z→Y (ยาวเข็มแนวดิ่ง) · center ที่ 0
+  return g;
+}
+// ===== โหมด/สไตล์เขียนแบบ (DRAFTING-SPEC): สี + line-weight + ขนาดเหล็กตามจริง — สลับ ขาว-ดำ (mono) ได้ =====
+var V2mono = false;   // false = โหมดสี (แดง=เหล็กหลัก, น้ำเงิน=ปลอก) · true = ขาว-ดำ ตามมาตรฐานเขียนแบบ
+function ckStyle(){
+  var m=V2mono;
+  return {
+    OBJ:'#111', CUT:'#111', DIM:m?'#111':'#1a1a1a', GHOST:m?'#333':'#555', THIN:m?'#555':'#8a8a8a',
+    HATCH:m?'#a2a2a2':'#9aa6b6', MAIN:m?'#111':'#c00000', SEC:m?'#454545':'#1656a6', FRC:'#444',
+    // น้ำหนักเส้นเหล็กตามขนาดจริง (mm) — DB หลักหนา · RB ปลอกบางลงตามขนาด
+    barW:function(dmm){ return Math.max(0.9, Math.min(2.7, (dmm||6)*0.16)); }
+  };
+}
+function drawPlan(I, R, bL){
+  var st=ckStyle(), OBJ=st.OBJ, DIM=st.DIM, GHOST=st.GHOST, THIN=st.THIN, MAIN=st.MAIN, SEC=st.SEC;
+  var A=I.A, B=I.B;
+  var a1=I.a1/100, b1=I.b1col/100;
+  var cov=I.cov/100, dia=R.dia_cm/100;
+  var wMain=st.barW(R.dia_cm*10), wTie=st.barW(I.dTie||6), rMain=dia/2;   // น้ำหนักเส้น+รัศมีจุด ตามขนาดเหล็กจริง
+  var cxL=(A-a1)/2, cxR=(A+a1)/2, cyB=(B-b1)/2, cyT=(B+b1)/2;
+  var bm = cov + dia/2;
+  var dAm = R.d_A/100, dBm = R.d_B/100;
+  var xCritL = cxL - dAm, xCritR = cxR + dAm;
+  var yCritB = cyB - dBm, yCritT = cyT + dBm;
+  var pHA = R.d_avg/200;
+  var pxL = cxL - pHA, pxR = cxR + pHA;
+  var pyB = cyB - pHA, pyT = cyT + pHA;
+
+  var lines=[], dots=[], labels=[];
+
+  // ---- helpers (SPEC §4 มิติ tick 45° · §5 leader หัวจุด) ----
+  var ref=Math.max(A,B), tk=0.016*ref, DG=0.010*ref, DO=0.013*ref;
+  function tick(x,y){ lines.push({p:[[x-tk,y-tk],[x+tk,y+tk]], c:DIM, w:0.9}); }
+  function dimH(x0,x1,y,txt,yObj,sz){
+    if(yObj!==undefined){ var sg=(y>=yObj)?1:-1;
+      lines.push({p:[[x0,yObj+sg*DG],[x0,y+sg*DO]], c:DIM, w:0.7});
+      lines.push({p:[[x1,yObj+sg*DG],[x1,y+sg*DO]], c:DIM, w:0.7});
+    }
+    lines.push({p:[[x0,y],[x1,y]], c:DIM, w:0.9});
+    tick(x0,y); tick(x1,y);
+    labels.push({x:(x0+x1)/2, y:y, t:txt, c:DIM, sz:sz||11.5, a:'middle', dy:-4});
+  }
+  function dimV(y0,y1,x,txt,xObj,sz){
+    if(xObj!==undefined){ var sg=(x>=xObj)?1:-1;
+      lines.push({p:[[xObj+sg*DG,y0],[x+sg*DO,y0]], c:DIM, w:0.7});
+      lines.push({p:[[xObj+sg*DG,y1],[x+sg*DO,y1]], c:DIM, w:0.7});
+    }
+    lines.push({p:[[x,y0],[x,y1]], c:DIM, w:0.9});
+    tick(x,y0); tick(x,y1);
+    labels.push({x:x, y:(y0+y1)/2, t:txt, c:DIM, sz:sz||11.5, a:'middle', rot:-90, dy:-4});
+  }
+  function leader(xA,yA,xB,yB,txt,anchor,col,sz){
+    lines.push({p:[[xA,yA],[xB,yB]], c:THIN, w:0.7, tip:true});
+    labels.push({x:xB, y:yB, t:txt, c:col||'#111', sz:sz||11, a:anchor||'start', dy:-3, stroke:'#fff'});
+  }
+
+  // ===== เส้นศูนย์ (chain) แกนเสา = แกนเข็ม =====
+  var axOver = Math.max(0.15, A*0.15);
+  lines.push({p:[[-axOver, B/2],[A+axOver, B/2]], c:GHOST, w:0.8, d:'10 4 2 4'});
+  lines.push({p:[[A/2, -axOver],[A/2, B+axOver]], c:GHOST, w:0.8, d:'10 4 2 4'});
+
+  // ===== ขอบฐานราก =====
+  lines.push({p:[[0,0],[A,0],[A,B],[0,B],[0,0]], c:OBJ, w:1.8});
+
+  // ===== เสาตอม่อ: ขอบ 1.4 + กากบาทบาง =====
+  lines.push({p:[[cxL,cyB],[cxR,cyB],[cxR,cyT],[cxL,cyT],[cxL,cyB]], c:OBJ, w:1.4});
+  lines.push({p:[[cxL,cyB],[cxR,cyT]], c:THIN, w:0.7});
+  lines.push({p:[[cxL,cyT],[cxR,cyB]], c:THIN, w:0.7});
+
+  // ===== เหล็กยืนเสา (dowel) 4 มุมเสา + กรงกันฐานหลุด (ข/ค) ในแปลน — ตามแบบ F1 =====
+  var patP = I.pattern || 'A';
+  var dwIn = Math.min(0.03, (cxR-cxL)*0.15);
+  var dLx=cxL+dwIn, dRx=cxR-dwIn, dBy=cyB+dwIn, dTy=cyT-dwIn;
+  // ตะแกรงล่าง 5+5 (มีทั้งแบบ ก และ ข — ตรงกับโมเดล 3D) เส้นบางแทนแนวเหล็กเต็มฐาน
+  var gL=cov+dia/2, gR=A-cov-dia/2, gB=cov+dia/2, gT=B-cov-dia/2;
+  for(var gi=0; gi<=5; gi++){
+    var gx=gL+(gR-gL)*gi/5, gy=gB+(gT-gB)*gi/5;
+    lines.push({p:[[gx,gB],[gx,gT]], c:MAIN, w:0.85});
+    lines.push({p:[[gL,gy],[gR,gy]], c:MAIN, w:0.85});
+  }
+  // ปลอกรัดรอบ (closed hoop สี่เหลี่ยม RB) — มีทั้งแบบ ก และ ข (ตรงกับโมเดล 3D)
+  lines.push({p:[[gL,gB],[gR,gB],[gR,gT],[gL,gT],[gL,gB]], c:SEC, w:wTie});
+  if(patP==='B' || patP==='C'){   // แบบ ข: + เหล็กตัว U คว่ำ 8 จุดรอบ
+    [[gL,gB],[gR,gB],[gR,gT],[gL,gT],[(gL+gR)/2,gB],[(gL+gR)/2,gT],[gL,(gB+gT)/2],[gR,(gB+gT)/2]].forEach(function(pp){
+      dots.push({x:pp[0], y:pp[1], f:SEC, s:'#fff', rm:rMain});
+    });
+  }
+  // เหล็กยืนเสา (dowel) 4 มุมเสา — วาดทับ
+  [[dLx,dBy],[dRx,dBy],[dLx,dTy],[dRx,dTy]].forEach(function(pp){
+    dots.push({x:pp[0], y:pp[1], f:SEC, s:'#fff', rm:rMain});
+  });
+
+  // ===== เสาเข็ม — อยู่ใต้ฐาน → เส้นบัง dash · หน้าตัดตัวไอ (I-pile มอก.396) หรือ วงกลม (เข็มกลม O) =====
+  var pileD_p=(I.pileD||26)/100, isRnd=I.pileType&&I.pileType.indexOf('O-')===0, ppts=[];
+  if(isRnd){
+    for(var k=0;k<=24;k++){ var ang=2*Math.PI*k/24; ppts.push([A/2+pileD_p/2*Math.cos(ang), B/2+pileD_p/2*Math.sin(ang)]); }
+  } else {
+    var sp_=IPILE[Math.round(pileD_p*100)]||{}, K_=(sp_.K!=null?sp_.K:0.33*pileD_p*1000)/1000, N_=(sp_.N!=null?sp_.N:0.42*pileD_p*1000)/1000, U_=(sp_.U!=null?sp_.U:0.40*pileD_p*1000)/1000;
+    var hb_=pileD_p/2, hu_=U_/2, xK_=hb_-K_, xN_=hb_-N_;
+    [[-hb_,-hb_],[-hb_,hb_],[-xK_,hb_],[-xN_,hu_],[xN_,hu_],[xK_,hb_],[hb_,hb_],[hb_,-hb_],[xK_,-hb_],[xN_,-hu_],[-xN_,-hu_],[-xK_,-hb_],[-hb_,-hb_]].forEach(function(p){ ppts.push([A/2+p[0], B/2+p[1]]); });
+  }
+  lines.push({p:ppts, c:GHOST, w:1.0, d:'7 4'});
+
+  // ===== เหล็กตัวแทน 1 เส้น/ทิศ — เส้นหนัก 3.0 แดง + hook tick ปลาย =====
+  var hk = 0.02;
+  // #1 ทิศ A (แนวนอน)
+  var repYA = bm + (B - 2*bm)*0.30;
+  lines.push({p:[[bm, repYA],[A-bm, repYA]], c:MAIN, w:wMain});
+  lines.push({p:[[bm, repYA-hk],[bm, repYA+hk]], c:MAIN, w:wMain});
+  lines.push({p:[[A-bm, repYA-hk],[A-bm, repYA+hk]], c:MAIN, w:wMain});
+  // #2 ทิศ B (แนวตั้ง)
+  var repXB = bm + (A - 2*bm)*0.30;
+  lines.push({p:[[repXB, bm],[repXB, B-bm]], c:MAIN, w:wMain});
+  lines.push({p:[[repXB-hk, bm],[repXB+hk, bm]], c:MAIN, w:wMain});
+  lines.push({p:[[repXB-hk, B-bm],[repXB+hk, B-bm]], c:MAIN, w:wMain});
+
+  // ===== เส้นวิกฤต one-way @d + punching @d/2 — เส้นบางประเทา =====
+  if(xCritL > 0){lines.push({p:[[xCritL, -0.02*B],[xCritL, 1.02*B]], c:GHOST, w:0.8, d:'5 3'})}
+  if(xCritR < A){lines.push({p:[[xCritR, -0.02*B],[xCritR, 1.02*B]], c:GHOST, w:0.8, d:'5 3'})}
+  if(yCritB > 0){lines.push({p:[[-0.02*A, yCritB],[1.02*A, yCritB]], c:GHOST, w:0.8, d:'5 3'})}
+  if(yCritT < B){lines.push({p:[[-0.02*A, yCritT],[1.02*A, yCritT]], c:GHOST, w:0.8, d:'5 3'})}
+  lines.push({p:[[pxL,pyB],[pxR,pyB],[pxR,pyT],[pxL,pyT],[pxL,pyB]], c:GHOST, w:0.9, d:'3 2'});
+
+  // ===== มิติ A (บน) / B (ซ้าย) =====
+  var dimOff = Math.max(0.18, 0.12*Math.min(A,B));
+  dimH(0, A, B+dimOff, fmt(A,2), B, 12.5);
+  dimV(0, B, -dimOff, fmt(B,2), 0, 12.5);
+
+  // ===== ป้าย =====
+  labels.push({x:A+axOver+0.02, y:B/2, t:'X', c:OBJ, sz:12, a:'start', dy:4});
+  labels.push({x:A/2, y:B+axOver+0.04, t:'Y', c:OBJ, sz:12, a:'middle'});
+  // callout เหล็ก (§5): leader เอียง + จุดแตะบนเหล็ก
+  leader(bm+(A-2*bm)*0.72, repYA, bm+(A-2*bm)*0.72+0.16*ref, repYA-0.14*ref,
+         '#1 เหล็กล่าง '+I.nA+'-'+bL+I.dMain, 'start');
+  leader(repXB, bm+(B-2*bm)*0.80, repXB-0.14*ref, bm+(B-2*bm)*0.80+0.12*ref,
+         '#2 เหล็กล่าง '+I.nB+'-'+bL+I.dMain, 'end');
+  // ป้ายเส้นวิเคราะห์ (เทาเล็ก)
+  if(xCritL > 0.05){
+    labels.push({x:xCritL, y:B+0.04, t:'CRIT @ d', c:GHOST, sz:9, a:'middle', dy:-2, stroke:'#fff'});
+  }
+  labels.push({x:pxR, y:pyT+0.02, t:'PUNCHING @ d/2', c:GHOST, sz:9, a:'start', dy:-3, stroke:'#fff'});
+  // ชื่อรูป (§3) — นอกตัวรูป ด้านล่าง
+  labels.push({x:A/2, y:-axOver-0.06, t:'แปลนฐานราก · PILE CAP PLAN', c:'#111', sz:14, a:'middle', fw:800});
+
+  var svg = emitSVG(640, 580, lines, dots, labels, {m:36, fs:11, uniform:true});
+  document.getElementById('diagPlan').innerHTML = svg
+    + '<div class="cap">แปลนฐานรากตามสกิล pile-cap-rebar — เส้นศูนย์ chain = แกนเสา/แกนเข็ม · วงกลมเส้นประ = หัวเข็มใต้ฐาน · จุดน้ำเงิน 4 มุมเสา = เดือยเสา · <b>แบบ ข/ค = กรงตะกร้อ U</b>: ตะแกรง 5+5 (แดง) จากท้องตัว U + เหล็กยืนรอบ (จุดน้ำเงินริมฐาน = ขาตัว U) + <b>ปลอกปิดสี่เหลี่ยม</b> (กรอบน้ำเงิน) รัดรอบขา U — <b>ไม่มีปลอกเพชร/PC wire</b> (เฉพาะ 3 กลุ่มตามสกิล) · เส้นประเทา = เฉือนทะลุ @ d/2</div>';
+}
+
+/* ===== Section View — รูปตัดฐานราก ตาม DRAFTING-SPEC.md =====
+ * คอนกรีตถูกตัด = เส้นตัด 1.8 + hatch ANSI31 45° ระยะคงที่ (§7) ·
+ * เหล็กล่าง #1 = เส้นหนัก 3.0 แดง + ของอ 90° ขึ้นสองปลาย · เหล็กตั้งฉาก #2 = จุดทึบเรียง ·
+ * dowel เสา #3 = น้ำเงินทึบ (เห็นจริงในระนาบตัด) · เข็มฝังในฐาน = เส้นบัง dash,
+ * โผล่ใต้ฐาน = ขอบวัตถุ 1.4 + เส้นต่อลง dash · lean = เทาอ่อนทึบ · ทราย = จุดกระจาย ·
+ * ดินถม = ขีดสั้นเฉียง 45° ใต้เส้นระดับดิน · มิติ tick 45° + gap/overshoot (§4) ·
+ * callout #n + leader หัวจุด (§5 — เลขตรงกับแปลน)
+ */
+function drawSection(I, R, bL){
+  var st=ckStyle(), OBJ=st.OBJ, CUT=st.CUT, DIM=st.DIM, GHOST=st.GHOST, THIN=st.THIN, HATCH=st.HATCH,
+      MAIN=st.MAIN, SEC=st.SEC, FRC=st.FRC;
+  var A=I.A, T=I.T/100;
+  var a1=I.a1/100, cov=I.cov/100, dia=R.dia_cm/100;
+  var wMain=st.barW(R.dia_cm*10), wTie=st.barW(I.dTie||6), rMain=dia/2, rTie=(I.dTie||6)/2000;   // น้ำหนักเส้น+รัศมีจุดตัด ตามขนาดเหล็กจริง
+  var h_soil = R.h_soil;
+  var stubAboveGrade = 0.30;
+  var stubH = h_soil + stubAboveGrade;
+  var leanT = 0.05;
+  var sandT = 0.10;
+
+  var yFtTop=0, yFtBot=-T;
+  var yColTop=stubH;
+  var yGrade = yFtTop + h_soil;
+  var yLeanTop=yFtBot, yLeanBot=yLeanTop-leanT;
+  var ySandTop=yLeanBot, ySandBot=ySandTop-sandT;
+  var colLx=(A-a1)/2, colRx=(A+a1)/2;
+  var midX=(colLx+colRx)/2;
+
+  var lines=[], dots=[], labels=[];
+
+  // ---- helpers (§4 มิติ tick 45° · §5 leader หัวจุด · §7 hatch 45°) ----
+  var ref=Math.max(A, stubH+T+sandT+0.4), tk=0.014*ref, DG=0.008*ref, DO=0.011*ref;
+  function tick(x,y){ lines.push({p:[[x-tk,y-tk],[x+tk,y+tk]], c:DIM, w:0.9}); }
+  function dimV(y0,y1,x,txt,xObj,sz){
+    if(xObj!==undefined){ var sg=(x>=xObj)?1:-1;
+      lines.push({p:[[xObj+sg*DG,y0],[x+sg*DO,y0]], c:DIM, w:0.7});
+      lines.push({p:[[xObj+sg*DG,y1],[x+sg*DO,y1]], c:DIM, w:0.7});
+    }
+    lines.push({p:[[x,y0],[x,y1]], c:DIM, w:0.9});
+    tick(x,y0); tick(x,y1);
+    labels.push({x:x, y:(y0+y1)/2, t:txt, c:DIM, sz:sz||10.5, a:'middle', rot:-90, dy:-4});
+  }
+  function leader(xA,yA,xB,yB,txt,anchor,col,sz){
+    lines.push({p:[[xA,yA],[xB,yB]], c:THIN, w:0.7, tip:true});
+    labels.push({x:xB, y:yB, t:txt, c:col||'#111', sz:sz||10.5, a:anchor||'start', dy:-3, stroke:'#fff'});
+  }
+  // hatch ANSI31: เส้นเฉียง 45° ระยะคงที่บนจอ (~7px) — gen เป็น segment พิกัดโมเดล คลิปในกรอบ
+  var hsp = 7*(A+1.1)/628;
+  function hatchRect(x0,y0,x1,y1){
+    var st=hsp*Math.SQRT2;
+    for(var c=y0-x1+st; c<y1-x0; c+=st){
+      var xa=Math.max(x0, y0-c), xb=Math.min(x1, y1-c);
+      if(xb>xa) lines.push({p:[[xa,xa+c],[xb,xb+c]], c:HATCH, w:0.8});
+    }
+  }
+
+  // ===== hatch คอนกรีตถูกตัด: ฐาน + เสาตอม่อ (วาดก่อน = ชั้นหลังสุด) =====
+  hatchRect(0, yFtBot, A, yFtTop);
+  hatchRect(colLx, yFtTop, colRx, yColTop);
+
+  // ===== ดินถม: เส้นระดับดิน + ขีดสั้นเฉียง 45° ใต้เส้น (spec §7) =====
+  if(h_soil > 0.02){
+    [[0,colLx],[colRx,A]].forEach(function(wseg){
+      lines.push({p:[[wseg[0],yGrade],[wseg[1],yGrade]], c:GHOST, w:0.9});
+      var nG=Math.max(2,Math.round((wseg[1]-wseg[0])/(0.07*ref)));
+      for(var i2=0;i2<nG;i2++){
+        var xg=wseg[0]+(wseg[1]-wseg[0])*(i2+0.5)/nG;
+        lines.push({p:[[xg,yGrade-0.02*ref],[xg+0.02*ref,yGrade]], c:THIN, w:0.7});
+      }
+    });
+  }
+
+  // ===== คอนกรีตหยาบ (lean) = เทาอ่อนทึบ ไม่มีลาย · ทรายบดอัด = จุดกระจาย (spec §7) =====
+  lines.push({p:[[-0.05,yLeanTop],[A+0.05,yLeanTop],[A+0.05,yLeanBot],[-0.05,yLeanBot],[-0.05,yLeanTop]], c:THIN, w:0.7, fill:'#e7e9ec', fillOpacity:1});
+  lines.push({p:[[-0.05,ySandTop],[A+0.05,ySandTop],[A+0.05,ySandBot],[-0.05,ySandBot],[-0.05,ySandTop]], c:THIN, w:0.7});
+
+  // ===== เสาเข็ม — ฝังในฐาน = เส้นบัง dash · โผล่ใต้ฐาน = ขอบวัตถุ + ต่อลง dash =====
+  var pileD_m = (I.pileD||26)/100;
+  var pileEmbedSec = ((I.pattern||'A')==='A') ? 0.07 : Math.min(0.25, T*0.6);   // แบบ ข/ค: หัวเข็ม pile cut-off อมในฐาน 25 ซม.
+  var pileH_vis = 0.60;
+  var pxLp = A/2 - pileD_m/2, pxRp = A/2 + pileD_m/2;
+  var pyTopE = yFtBot + pileEmbedSec;
+  var pyBotE = pyTopE - pileH_vis;
+  // พื้นขาวรองส่วนโผล่ใต้ฐาน (บังลายชั้น lean/sand)
+  lines.push({p:[[pxLp,yFtBot],[pxRp,yFtBot],[pxRp,pyBotE],[pxLp,pyBotE],[pxLp,yFtBot]], c:'#fff', w:0.1, fill:'#fff', fillOpacity:1});
+  lines.push({p:[[pxLp,yFtBot],[pxLp,pyBotE]], c:OBJ, w:1.4});
+  lines.push({p:[[pxRp,yFtBot],[pxRp,pyBotE]], c:OBJ, w:1.4});
+  lines.push({p:[[pxLp,pyBotE],[pxLp,pyBotE-0.10]], c:GHOST, w:1.0, d:'7 4'});
+  lines.push({p:[[pxRp,pyBotE],[pxRp,pyBotE-0.10]], c:GHOST, w:1.0, d:'7 4'});
+  // ส่วนหัวเข็มฝังในฐาน (ถูกคอนกรีตบัง) = เส้นบัง dash
+  lines.push({p:[[pxLp,yFtBot],[pxLp,pyTopE],[pxRp,pyTopE],[pxRp,yFtBot]], c:GHOST, w:1.0, d:'7 4'});
+
+  // จุดทราย (dots วาดทับเส้นเสมอ — เว้นช่วงเสาเข็ม)
+  (function(){
+    var nSx=Math.max(6,Math.round((A+0.10)/(hsp*2.2)));
+    for(var i3=0;i3<nSx;i3++){
+      var xs=-0.05+(A+0.10)*(i3+0.5)/nSx;
+      if(xs>pxLp-0.02 && xs<pxRp+0.02) continue;
+      dots.push({x:xs, y:ySandTop-sandT*(0.30+0.40*((i3*7)%3)/2), f:'#8a8a8a', r:1.3});
+    }
+  })();
+
+  // ===== ฐานราก + เสาตอม่อ (เส้นตัด 1.8) =====
+  lines.push({p:[[0,yFtTop],[A,yFtTop],[A,yFtBot],[0,yFtBot],[0,yFtTop]], c:CUT, w:1.8});
+  lines.push({p:[[colLx,yColTop],[colLx,yFtTop]], c:CUT, w:1.8});
+  lines.push({p:[[colRx,yColTop],[colRx,yFtTop]], c:CUT, w:1.8});
+  var contH=0.20;
+  lines.push({p:[[colLx, yColTop],[colLx, yColTop+contH]], c:GHOST, w:1.0, d:'7 4'});
+  lines.push({p:[[colRx, yColTop],[colRx, yColTop+contH]], c:GHOST, w:1.0, d:'7 4'});
+  // เส้นศูนย์ (chain) แกนเสา/แกนเข็ม
+  lines.push({p:[[midX, yColTop+contH+0.05],[midX, pyBotE-0.18]], c:GHOST, w:0.8, d:'10 4 2 4'});
+
+  // ===== เสริมเหล็ก — แบบ ก (พื้นฐาน) vs แบบ ข/ค (กรงตะกร้อ F1 กันฐานหลุด) =====
+  var pat = I.pattern || 'A';
+  var gL = cov+dia/2, gR = A-cov-dia/2;                       // ขอบกรง/ตะแกรง (ริมฐาน)
+  var mainInset = Math.min(0.03, a1*0.12), bxL=colLx+mainInset, bxR=colRx-mainInset;
+  var yBarA = yFtBot + cov + dia/2, yDotB = yBarA + dia;      // (ใช้ callout แบบ ก)
+  var yTopGrid = yFtTop - cov, yPileHead = pyTopE;            // ตะแกรงบน / หัวเข็มอมในฐาน (แบบ ข/ค)
+  var hoopN = 0;                                              // จำนวนปลอกรัดรอบที่วาดจริง (ใช้ใน callout)
+
+  if(pat === 'A'){
+    // ---- แบบ ก: ตะแกรงล่าง — ขาดัด 90° ยืดถึงหลังฐาน(−cover) + hook 90° สั้นเข้าใน (จบปลาย) ตรงกับ 3D ----
+    var aTop = yFtTop - cov, aHkS = Math.min(0.08, 8*dia);
+    lines.push({p:[[gL+aHkS,aTop],[gL,aTop],[gL,yBarA],[gR,yBarA],[gR,aTop],[gR-aHkS,aTop]], c:MAIN, w:wMain});
+    for(var j=0;j<I.nB;j++){ var xj=gL+(gR-gL)*j/Math.max(1,I.nB-1); dots.push({x:xj,y:yDotB,f:MAIN,s:'#111',rm:rMain}); }
+    var yDw=yBarA+dia*2, hookDw=Math.min(12*dia,(bxR-bxL)/2-0.008);
+    lines.push({p:[[bxL,yColTop+0.05],[bxL,yDw],[bxL+hookDw,yDw]], c:SEC, w:wMain});
+    lines.push({p:[[bxR,yColTop+0.05],[bxR,yDw],[bxR-hookDw,yDw]], c:SEC, w:wMain});
+    for(var ct=1;ct<=2;ct++){ var yct=yFtTop+(yColTop-yFtTop)*ct/3; lines.push({p:[[bxL,yct],[bxR,yct]],c:SEC,w:wTie}); }
+    // ---- ปลอกรัดรอบ tall-U @nHoop (สี่เหลี่ยม RB น้ำเงิน) + hook 135° — รัดรอบเหล็กเมน ตรงกับโมเดล 3D ----
+    var hoopTopA=aTop-dia*1.5, hoopBotA=yBarA+dia;
+    hoopN=(I.nHoop && I.nHoop>0) ? I.nHoop : (Math.max(3, Math.round((hoopTopA-hoopBotA)/0.20)+1));
+    for(var ha=0; ha<hoopN; ha++){
+      var yha=(hoopN>1)?(hoopBotA+(hoopTopA-hoopBotA)*ha/(hoopN-1)):(hoopBotA+(hoopTopA-hoopBotA)/2);
+      lines.push({p:[[gL, yha-0.01],[gL, yha],[gR, yha],[gR, yha-0.01]], c:SEC, w:wTie});
+      if(ha===hoopN-1){ lines.push({p:[[gR, yha],[gR-0.03, yha-0.03]], c:SEC, w:wTie}); }   // hook 135° ปลอกบนสุด
+    }
+  } else {
+    // ---- แบบ ข/ค: กรงตะกร้อ F1 (หัวเข็มอม 25cm) ----
+    var legBot = yFtBot + cov;                       // ปลายขา U ล้วงลงถึงก้นฐาน − ระยะหุ้ม 7.5cm (ครอบหัวเข็ม)
+    var legHk = Math.min(10*dia, (gR-gL)/2 - 0.01);  // hook ปลายตัว U = 10db งอเข้า
+    // (1) ตะกร้อ U คว่ำ (⊓): ท้องบน(ตะแกรงบน) + ขายืนสองข้างล้วงลงถึงก้นฐาน + hook 90° ปลายล่างงอเข้า — เหล็กหลัก แดง
+    lines.push({p:[[gL+legHk, legBot],[gL, legBot],[gL, yTopGrid],[gR, yTopGrid],[gR, legBot],[gR-legHk, legBot]], c:MAIN, w:wMain});
+    for(var g1=0; g1<=5; g1++){ var xg1=gL+(gR-gL)*g1/5; dots.push({x:xg1,y:yTopGrid-dia,f:MAIN,s:'#111',rm:rMain}); }
+    // (2) ตะแกรงล่าง วางหงาย (∪) hook 90° ขึ้น — วางบนหัวเข็มพอดี (ที่ระดับ 25cm)
+    var uHk = Math.min(0.07,(yTopGrid-yPileHead)*0.3);
+    lines.push({p:[[gL, yPileHead+uHk],[gL, yPileHead],[gR, yPileHead],[gR, yPileHead+uHk]], c:MAIN, w:wMain});
+    for(var g2=0; g2<=5; g2++){ var xg2=gL+(gR-gL)*g2/5; dots.push({x:xg2,y:yPileHead+dia,f:MAIN,s:'#111',rm:rMain}); }
+    // (3) ปลอกปิดรัดรอบขาตะกร้อ U @0.10 (สี่เหลี่ยม น้ำเงิน) + hook 135° — เฉพาะปลอกปิด ไม่มีปลอกเพชร (ตามสกิล)
+    var hoopTop=yTopGrid-dia*1.5, hoopBot=legBot+dia;
+    var nRings2=(I.nHoop && I.nHoop>0) ? I.nHoop : (Math.max(3, Math.round((hoopTop-hoopBot)/(pat==='C'?0.10:0.20)))+1);   // ผู้ใช้กำหนด · 0=อัตโนมัติ
+    for(var h=0; h<nRings2; h++){
+      var yh=(nRings2>1)?(hoopBot+(hoopTop-hoopBot)*h/(nRings2-1)):(hoopBot+(hoopTop-hoopBot)/2);
+      lines.push({p:[[gL, yh-0.01],[gL, yh],[gR, yh],[gR, yh-0.01]], c:SEC, w:wTie});
+      if(h===nRings2-1){ lines.push({p:[[gR, yh],[gR-0.03, yh-0.03]], c:SEC, w:wTie}); }   // hook 135° ปลอกบนสุด (ACI 318 Ch.25)
+    }
+    // (4) เดือยเสา ลงในกรง + ของอ 90° 12db
+    var dwB=yPileHead+dia*3, hkD=Math.min(12*dia,(bxR-bxL)/2-0.008);
+    lines.push({p:[[bxL,yColTop+0.05],[bxL,dwB],[bxL+hkD,dwB]], c:SEC, w:wMain});
+    lines.push({p:[[bxR,yColTop+0.05],[bxR,dwB],[bxR-hkD,dwB]], c:SEC, w:wMain});
+  }
+
+  // ===== เส้นวิกฤต one-way @d — เส้นบางประเทา =====
+  var dAm=R.d_A/100;
+  var xCL=colLx-dAm, xCR=colRx+dAm;
+  if(xCL>0){lines.push({p:[[xCL, yFtTop],[xCL, yFtBot]], c:GHOST, w:0.8, d:'4 2'})}
+  if(xCR<A){lines.push({p:[[xCR, yFtTop],[xCR, yFtBot]], c:GHOST, w:0.8, d:'4 2'})}
+  if(xCL>0.05){labels.push({x:xCL, y:yFtTop+0.05, t:'CRIT @ d', c:GHOST, sz:9, a:'middle', stroke:'#fff'})}
+
+  // ===== ลูกศรปฏิกิริยาเข็ม (ข้อมูลวิเคราะห์ = เทาเข้ม เส้นบาง) =====
+  var qY1 = pyTopE - 0.01;
+  var qY0 = pyBotE - 0.15;
+  lines.push({p:[[A/2, qY0],[A/2, qY1]], c:FRC, w:1.2});
+  lines.push({p:[[A/2-0.02, qY1-0.045],[A/2, qY1],[A/2+0.02, qY1-0.045]], c:FRC, w:1.2});
+  labels.push({x:A/2, y:qY0-0.05, t:'Pu (pile) = '+fmt(R.PileU/1000,2)+' t', c:FRC, sz:9.5, a:'middle', stroke:'#fff'});
+
+  // ===== มิติซ้าย (tick 45° + gap/overshoot) =====
+  var dxL = -0.10;
+  dimV(yColTop, yFtTop, dxL, fmt(stubH,2), 0);
+  dimV(yFtTop, yFtBot, dxL, fmt(T,2), 0);
+  dimV(yLeanTop, yLeanBot, dxL, fmt(leanT,2), -0.05, 9.5);
+  dimV(ySandTop, ySandBot, dxL, fmt(sandT,2), -0.05, 9.5);
+
+  // ===== callout (§5) — leader หัวจุดแตะบนเหล็ก · เลข #n ตรงกับแปลน =====
+  var LX = A + 0.16;
+  var topBarY = yColTop - 0.20;
+  if(pat === 'A'){
+    leader(bxR, topBarY, LX, topBarY+0.06, '#3 เหล็กยืนเสา (Dowel)', 'start');
+    leader(gR, (aTop+yBarA)*0.42, LX, topBarY+0.22, '#4 ปลอกรัดรอบ RB'+(I.dTie||6)+' × '+hoopN+' เส้น', 'start', SEC);
+    leader(gL+(gR-gL)*0.85, yDotB, LX, yDotB+0.42, '#2 เหล็กล่าง '+I.nB+'-'+bL+I.dMain, 'start');
+    leader(gL+(gR-gL)*0.70, yBarA, LX, yBarA+0.26, '#1 เหล็กล่าง '+I.nA+'-'+bL+I.dMain+' (ของอ 90°)', 'start');
+  } else {
+    // กรงตะกร้อ F1 (แบบ ข/ค)
+    leader(bxR, topBarY, LX, topBarY+0.06, '#3 เดือยเสา (Dowel) ลงในกรง', 'start');
+    leader(gL+(gR-gL)*0.28, yTopGrid, LX, yFtTop+0.06, '#1 ตะแกรงบน — ตะกร้อ U คว่ำ ('+I.nA+'-'+bL+I.dMain+')', 'start', MAIN);
+    leader(gR, (yTopGrid+yPileHead)/2, LX, yFtTop-0.10, '#2 ปลอกปิด RB'+(I.dTie||6)+' @'+(pat==='C'?'0.10':'0.20')+' + hook 135° (สี่เหลี่ยม)', 'start', SEC);
+    leader(gL+(gR-gL)*0.66, yPileHead, LX, yPileHead-0.02, '#4 ตะแกรงล่าง วางหงาย hook 90° บนหัวเข็ม', 'start', MAIN);
+    leader(pxRp, yPileHead, -0.15, yFtBot+0.30, 'หัวเข็มอมในฐาน 25 cm', 'end', GHOST, 9);
+  }
+  // ระยะหุ้ม
+  leader(gL+(gR-gL)*0.30, (yBarA-dia/2+yFtBot)/2, A*0.28, ySandBot-0.14, 'ระยะหุ้ม '+fmt(I.cov,1)+' cm', 'middle', GHOST, 9.5);
+  // ชั้นรองใต้ฐาน
+  leader(A+0.05, (yLeanTop+yLeanBot)/2, LX, (yLeanTop+yLeanBot)/2+0.06, 'คอนกรีตหยาบ 1:3:5 หนา '+fmt(leanT,2)+' m', 'start', GHOST, 9.5);
+  leader(A+0.05, (ySandTop+ySandBot)/2, LX, (ySandTop+ySandBot)/2-0.04, 'ทรายอัดแน่น หนา '+fmt(sandT,2)+' m', 'start', GHOST, 9.5);
+  // เสาเข็ม
+  var yPileMid=(yFtBot+pyBotE)/2;
+  leader(pxRp, yPileMid, LX, yPileMid-0.07, 'เสาเข็ม '+I.pileType+' Ø '+fmt(I.pileD,0)+' cm × 1 ต้น', 'start', GHOST, 9.5);
+  labels.push({x:LX, y:yPileMid-0.07, t:'S.L. ≥ '+fmt(I.pileSL,0)+' ตัน/ต้น', c:GHOST, sz:9.5, a:'start', dy:10});
+  // ระดับดินเดิม
+  if(h_soil > 0.02){
+    lines.push({p:[[A+0.03, yGrade],[A+0.13, yGrade]], c:THIN, w:0.7});
+    labels.push({x:A+0.15, y:yGrade, t:'ระดับดินเดิม', c:GHOST, sz:9.5, a:'start', dy:3});
+  }
+
+  // ===== ชื่อรูป (§3) — นอกตัวรูป ด้านบน =====
+  labels.push({x:A/2, y:yColTop+contH+0.16, t:'รูปตัด · SECTION', c:'#111', sz:14, a:'middle', fw:800});
+
+  // uniform:true preserves real-world aspect ratio (m × m) — canvas height auto-adjusts
+  var svg = emitSVG(700, 600, lines, dots, labels, {m:36, fs:11, uniform:true});
+  document.getElementById('diagSec').innerHTML = svg
+    + '<div class="cap">รูปตัดตามสกิล pile-cap-rebar (ACI 318 Ch.25) — คอนกรีตแรเงา 45° · <b>แบบ ก</b>: เหล็กล่าง #1/#2 แดง+ของอ 90° · เดือยเสา #3 น้ำเงิน · <b>แบบ ข/ค = กรงตะกร้อ U (3 กลุ่ม)</b>: #1 <b>ตะกร้อตัว U คว่ำ</b> (ท้องบน=ตะแกรงบน · ขาล้วงถึงก้นฐาน−cover + hook 90° แดง) · #2 <b>ปลอกปิดรัดรอบขา U</b> + hook 135° น้ำเงิน (แบบ ข @0.20 · แบบ ค @0.10) · #4 <b>ตะแกรงล่างวางหงาย hook 90°</b> บนหัวเข็ม · <b>หัวเข็มอมในฐาน 25 ซม.</b> · เหล็กทุกเส้นเหลื่อม +1d_b ไม่ตัดกัน · ไม่มี PC wire/ปลอกเพชร · ลูกศรเทา = ปฏิกิริยาเข็ม</div>';
+}
+
+/* ============================================================
+ * 3D Viewer (Three.js) — Pile Cap + Column Stub + Rebar + Dowel + Pile
+ * (กู้คืน: บล็อกประกาศ V3 หายไป ทำให้ v3init โยน ReferenceError
+ *  แล้วถูก try/catch กลืน — 3D ไม่เคยแสดงผลเลย)
+ * ============================================================ */
+var V3 = {
+  scene:null, camera:null, renderer:null, canvas:null,
+  r:5, theta:0.85, phi:0.55, target:new THREE.Vector3(0,0,0),
+  show:{conc:true, col:true, barA:true, barB:true, dowel:true, pile:true, soil:false, base:true, grid:true},
+  bg:'light', barMode:'real',
+  mats:{}, layers:{}, grid:null, gridY:0,
+  colors:{conc:'#c4cad2', col:'#9aa0a8', barA:'#5b3a1a', barB:'#10a06b', dowel:'#1f57a0', pile:'#a8770a', soil:'#c8a576', lean:'#b8b2a6', sand:'#e0cfa0'},
+  inited:false, autoFit:true
+};
+
+function v3init(){
+  if(V3.inited) return;
+  V3.canvas = document.getElementById('cv3d');
+  V3.scene = new THREE.Scene();
+  V3.scene.background = new THREE.Color('#f7f9fc');
+  V3.renderer = new THREE.WebGLRenderer({canvas:V3.canvas, antialias:true});
+  V3.renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  v3resize();
+  V3.camera = new THREE.PerspectiveCamera(40, 1, 0.05, 200);
+  // Lighting
+  var amb = new THREE.AmbientLight(0xffffff, 0.55);
+  V3.scene.add(amb);
+  var dir = new THREE.DirectionalLight(0xffffff, 0.7);
+  dir.position.set(5,8,5);
+  V3.scene.add(dir);
+  var dir2 = new THREE.DirectionalLight(0xffffff, 0.35);
+  dir2.position.set(-5,4,-5);
+  V3.scene.add(dir2);
+
+  // Materials — concrete + column SEMI-TRANSPARENT so rebar inside is visible
+  V3.mats.conc = new THREE.MeshLambertMaterial({color:new THREE.Color(V3.colors.conc), transparent:true, opacity:0.30, depthWrite:false});
+  V3.mats.col  = new THREE.MeshLambertMaterial({color:new THREE.Color(V3.colors.col),  transparent:true, opacity:0.45, depthWrite:false});
+  V3.mats.barA = new THREE.MeshLambertMaterial({color:new THREE.Color(V3.colors.barA)});
+  V3.mats.barB = new THREE.MeshLambertMaterial({color:new THREE.Color(V3.colors.barB)});
+  V3.mats.soil = new THREE.MeshLambertMaterial({color:new THREE.Color(V3.colors.soil), transparent:true, opacity:0.30, depthWrite:false});
+  V3.mats.pile = new THREE.MeshLambertMaterial({color:new THREE.Color(V3.colors.pile), transparent:false, opacity:1.0});
+  V3.mats.dowel = new THREE.MeshLambertMaterial({color:new THREE.Color(V3.colors.dowel)});
+  V3.mats.tie = new THREE.MeshLambertMaterial({color:'#c0392b'});   // (legacy · ไม่ใช้แล้ว)
+  V3.mats.colBar = new THREE.MeshLambertMaterial({color:new THREE.Color('#b0b6bf')});   // เหล็กเสา (เดือย+ปลอกเสา) เทาจาง — ไม่เน้น
+  V3.mats.pcwire = new THREE.MeshLambertMaterial({color:new THREE.Color('#d6336c')});   // PC wire จากหัวเข็ม (Ø4mm) — สีชมพูเข้ม แยกชัด
+  V3.mats.lean = new THREE.MeshLambertMaterial({color:new THREE.Color(V3.colors.lean), transparent:true, opacity:0.85});   // คอนกรีตหยาบ (lean 1:3:5)
+  V3.mats.sand = new THREE.MeshLambertMaterial({color:new THREE.Color(V3.colors.sand), transparent:true, opacity:0.85});   // ทรายอัดแน่น
+  V3.mats.edge = new THREE.LineBasicMaterial({color:0x1f2937, transparent:true, opacity:0.75});
+
+  // Layer groups
+  V3.layers.conc = new THREE.Group(); V3.scene.add(V3.layers.conc);
+  V3.layers.col  = new THREE.Group(); V3.scene.add(V3.layers.col);
+  V3.layers.barA = new THREE.Group(); V3.scene.add(V3.layers.barA);
+  V3.layers.barB = new THREE.Group(); V3.scene.add(V3.layers.barB);
+  V3.layers.dowel = new THREE.Group(); V3.scene.add(V3.layers.dowel);
+  V3.layers.pile = new THREE.Group(); V3.scene.add(V3.layers.pile);
+  V3.layers.soil = new THREE.Group(); V3.scene.add(V3.layers.soil); V3.layers.soil.visible=false;
+  V3.layers.base = new THREE.Group(); V3.scene.add(V3.layers.base);   // คอนกรีตหยาบ + ทรายอัดแน่น ใต้ฐาน
+
+  // Grid helper
+  V3.grid = new THREE.GridHelper(8, 16, 0xc9ced8, 0xe2e8f0);
+  V3.scene.add(V3.grid);
+
+  // === Controls — orbit อิสระทุกมุม (ซ้ายลาก) · pan เลื่อนตำแหน่ง (ขวาลาก / Shift+ซ้าย / กลาง / 2 นิ้ว) · zoom (ล้อ/pinch) ===
+  var PHI_MIN=-Math.PI/2+0.05, PHI_MAX=Math.PI/2-0.05;   // ก้ม-เงย ได้เกือบเต็มแนวดิ่ง (บน↔ล่าง) ไม่พลิก
+  function clampPhi(){ V3.phi=Math.max(PHI_MIN, Math.min(PHI_MAX, V3.phi)); }
+  function panTarget(dx, dy){    // เลื่อน target ในระนาบจอ (right/up ของกล้อง) — สเกลตามระยะซูม
+    var cp=new THREE.Vector3(
+      V3.target.x + V3.r*Math.cos(V3.phi)*Math.cos(V3.theta),
+      V3.target.y + V3.r*Math.sin(V3.phi),
+      V3.target.z + V3.r*Math.cos(V3.phi)*Math.sin(V3.theta));
+    var forward=new THREE.Vector3().subVectors(V3.target, cp).normalize();
+    var right=new THREE.Vector3().crossVectors(forward, new THREE.Vector3(0,1,0)).normalize();
+    var up=new THREE.Vector3().crossVectors(right, forward).normalize();
+    var k=V3.r*0.0016;
+    V3.target.addScaledVector(right, -dx*k).addScaledVector(up, dy*k);
+  }
+  var dragging=false, mode='orbit', lx=0, ly=0;
+  V3.canvas.addEventListener('contextmenu', function(e){e.preventDefault();});
+  V3.canvas.addEventListener('mousedown', function(e){
+    dragging=true; lx=e.clientX; ly=e.clientY;
+    mode=(e.button===2 || e.button===1 || (e.button===0 && e.shiftKey)) ? 'pan' : 'orbit';
+    e.preventDefault();
+  });
+  window.addEventListener('mouseup', function(){dragging=false});
+  window.addEventListener('mousemove', function(e){
+    if(!dragging) return;
+    var dx=e.clientX-lx, dy=e.clientY-ly;
+    if(mode==='pan'){ panTarget(dx,dy); }
+    else { V3.theta -= dx*0.008; V3.phi -= dy*0.008; clampPhi(); }
+    lx=e.clientX; ly=e.clientY;
+    v3render();
+  });
+  V3.canvas.addEventListener('wheel', function(e){
+    e.preventDefault();
+    V3.r *= (e.deltaY>0 ? 1.07 : 0.93);
+    V3.r = Math.max(0.6, Math.min(60, V3.r));
+    v3render();
+  }, {passive:false});
+  // Touch — 1 นิ้ว = หมุน · 2 นิ้ว = pan + pinch zoom
+  var pinchD=0, twoFinger=false;
+  V3.canvas.addEventListener('touchstart', function(e){
+    if(e.touches.length===1){ dragging=true; twoFinger=false; lx=e.touches[0].clientX; ly=e.touches[0].clientY; }
+    else if(e.touches.length===2){ dragging=true; twoFinger=true;
+      lx=(e.touches[0].clientX+e.touches[1].clientX)/2; ly=(e.touches[0].clientY+e.touches[1].clientY)/2;
+      pinchD=Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY); }
+  }, {passive:false});
+  V3.canvas.addEventListener('touchend', function(){ dragging=false; twoFinger=false; });
+  V3.canvas.addEventListener('touchmove', function(e){
+    if(!dragging) return;
+    e.preventDefault();
+    if(twoFinger && e.touches.length===2){
+      var mx=(e.touches[0].clientX+e.touches[1].clientX)/2, my=(e.touches[0].clientY+e.touches[1].clientY)/2;
+      panTarget(mx-lx, my-ly); lx=mx; ly=my;
+      var d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+      if(pinchD>0){ V3.r *= pinchD/Math.max(1,d); V3.r=Math.max(0.6,Math.min(60,V3.r)); }
+      pinchD=d;
+    } else if(e.touches.length===1){
+      var t=e.touches[0], dx=t.clientX-lx, dy=t.clientY-ly;
+      V3.theta -= dx*0.008; V3.phi -= dy*0.008; clampPhi();
+      lx=t.clientX; ly=t.clientY;
+    }
+    v3render();
+  }, {passive:false});
+  window.addEventListener('resize', function(){v3resize(); v3render()});
+  V3.inited = true;
+}
+
+function v3resize(){
+  if(!V3.renderer) return;
+  var box = document.getElementById('v3dBox');
+  var w = box.clientWidth, h = box.clientHeight;
+  V3.renderer.setSize(w, h, false);
+  if(V3.camera){V3.camera.aspect = w/h; V3.camera.updateProjectionMatrix()}
+}
+
+function v3render(){
+  if(!V3.renderer) return;
+  var cx = V3.target.x + V3.r*Math.cos(V3.phi)*Math.cos(V3.theta);
+  var cy = V3.target.y + V3.r*Math.sin(V3.phi);
+  var cz = V3.target.z + V3.r*Math.cos(V3.phi)*Math.sin(V3.theta);
+  V3.camera.position.set(cx, cy, cz);
+  V3.camera.lookAt(V3.target);
+  V3.renderer.render(V3.scene, V3.camera);
+}
+
+function v3clearLayer(L){
+  while(L.children.length){
+    var c = L.children[0];
+    L.remove(c);
+    if(c.geometry) c.geometry.dispose();
+  }
+}
+
+function draw3D(I, R){
+  // Three.js fallback guard (P1-11)
+  if(typeof THREE === 'undefined' || window.__threeFailed){
+    var vbox = document.getElementById('v3dBox');
+    if(vbox) vbox.style.display = 'none';
+    return;
+  }
+  v3init();
+  // Clear all layers
+  ['conc','col','barA','barB','dowel','pile','soil','base'].forEach(function(k){v3clearLayer(V3.layers[k])});
+
+  // Update materials — โหมดสี (ปกติ) · หรือ โหมดลายเส้น ขาว-ดำ (lineart สไตล์ SketchUp Layout hidden-line: คอนกรีตขาวโปร่ง+ขอบดำ · เหล็กดำ โชว์ความหนาจริง)
+  var LA = !!V3.lineart;
+  V3.mats.conc.color.set(LA?'#ffffff':V3.colors.conc);  V3.mats.conc.opacity = LA?0.10:0.30;
+  V3.mats.col.color.set(LA?'#f6f6f6':V3.colors.col);    V3.mats.col.opacity  = LA?0.14:0.45;
+  V3.mats.barA.color.set(LA?'#1a1a1a':V3.colors.barA);
+  V3.mats.barB.color.set(LA?'#3d3d3d':V3.colors.barB);
+  V3.mats.dowel.color.set(LA?'#585858':V3.colors.dowel);
+  V3.mats.pile.color.set(LA?'#fafafa':V3.colors.pile);
+  V3.mats.soil.color.set(V3.colors.soil);
+  if(V3.mats.colBar) V3.mats.colBar.color.set(LA?'#8c8c8c':'#b0b6bf');
+  if(V3.mats.lean) V3.mats.lean.color.set(LA?'#ededed':'#b8b2a6');
+  if(V3.mats.sand) V3.mats.sand.color.set(LA?'#f4f4f4':'#e0cfa0');
+  if(V3.mats.edge){ V3.mats.edge.color.set(LA?0x111111:0x1f2937); V3.mats.edge.opacity = LA?0.95:0.75; }
+
+  // Background
+  var bgMap = {light:'#f7f9fc', soft:'#e8eef5', dark:'#0f1e33'};
+  V3.scene.background = new THREE.Color(LA?'#ffffff':(bgMap[V3.bg]||'#f7f9fc'));
+
+  // Geometry (in meters)
+  var A = I.A, B = I.B, T = I.T/100;
+  var aCol = I.a1/100, bCol = I.b1col/100;
+  var h_soil = R.h_soil;
+  var cov = I.cov/100;
+  var dia = R.dia_cm/100;
+  // For bar visualization, use thicker exaggerated radius by default (barMode='show')
+  // Floor of 25mm so DB10–DB16 are still visible at standard zoom
+  var rBar = (V3.barMode==='show') ? Math.max(0.009, dia*0.6) : dia/2;   // บาง สมจริง → offset เกยผิวสัมผัส (ไม่ทะลุเนื้อเหล็ก)
+  var dTie = (I.dTie||6)/1000, rTie = Math.max(dTie/2, 0.003);   // ขนาดเหล็กปลอก RB6/RB9 (ผู้ใช้เลือก) — ใช้ทั้งปลอกรัดรอบ+ปลอกเสา
+
+  // === FOOTING block (centered at origin, top at y=0) ===
+  var gFt = new THREE.BoxGeometry(A, T, B);
+  var mFt = new THREE.Mesh(gFt, V3.mats.conc);
+  mFt.position.set(0, -T/2, 0);
+  V3.layers.conc.add(mFt);
+  var eFt = new THREE.LineSegments(new THREE.EdgesGeometry(gFt), V3.mats.edge);
+  eFt.position.set(0, -T/2, 0);
+  V3.layers.conc.add(eFt);
+
+  // === ชั้นรองใต้ฐาน: คอนกรีตหยาบ (lean 1:3:5 หนา 0.05) + ทรายอัดแน่น (หนา 0.10) — โผล่กว้างกว่าฐานเล็กน้อย ===
+  var leanT=0.05, sandT=0.10, leanOver=0.05, sandOver=0.10;
+  [ {t:leanT, over:leanOver, y0:-T,        mat:V3.mats.lean},
+    {t:sandT, over:sandOver, y0:-T-leanT,  mat:V3.mats.sand} ].forEach(function(L){
+    var g=new THREE.BoxGeometry(A+2*L.over, L.t, B+2*L.over);
+    var m=new THREE.Mesh(g, L.mat); m.position.set(0, L.y0 - L.t/2, 0); V3.layers.base.add(m);
+    var e=new THREE.LineSegments(new THREE.EdgesGeometry(g), V3.mats.edge); e.position.set(0, L.y0 - L.t/2, 0); V3.layers.base.add(e);
+  });
+
+  // === COLUMN stub above (height 0.6 m for visualization) ===
+  var hCol = 0.6;
+  var gCol = new THREE.BoxGeometry(aCol, hCol, bCol);
+  var mCol = new THREE.Mesh(gCol, V3.mats.col);
+  mCol.position.set(0, hCol/2, 0);
+  V3.layers.col.add(mCol);
+  var eCol = new THREE.LineSegments(new THREE.EdgesGeometry(gCol), V3.mats.edge);
+  eCol.position.set(0, hCol/2, 0);
+  V3.layers.col.add(eCol);
+
+  // ขอ 90° ปลายเหล็กตะแกรงฐาน (ขาตั้งขึ้น) — หาง 12db ACI 318-19 Sec.25.3.1
+  var hookMat = Math.min(0.12, 12*dia, Math.max(T - 2*cov - dia, 0.05));
+  // === helpers: เหล็ก "เส้นเดียวดัด" ต่อเนื่อง (ไม่ใช่คนละเส้นต่อกัน) — ขาตรง + มุมดัด 90° รัศมีเล็ก ===
+  function roundPath3(way, bend){
+    var P=way.map(function(p){return new THREE.Vector3(p[0],p[1],p[2]);});
+    var out=[P[0].clone()], sseg=3, aseg=6, s;
+    for(var i=1;i<P.length-1;i++){
+      var p1=P[i], d1=P[i-1].clone().sub(p1), d2=P[i+1].clone().sub(p1);
+      var L1=d1.length(), L2=d2.length(), rr=Math.min(bend, L1*0.5, L2*0.5);
+      var t1=p1.clone().add(d1.multiplyScalar(rr/L1)), t2=p1.clone().add(d2.multiplyScalar(rr/L2));
+      var pv=out[out.length-1];
+      for(s=1;s<=sseg;s++) out.push(pv.clone().lerp(t1,s/sseg));
+      for(s=1;s<aseg;s++){ var tt=s/aseg, a=t1.clone().lerp(p1,tt), b=p1.clone().lerp(t2,tt); out.push(a.lerp(b,tt)); }
+      out.push(t2.clone());
+    }
+    var pv2=out[out.length-1], lst=P[P.length-1];
+    for(s=1;s<=sseg;s++) out.push(pv2.clone().lerp(lst,s/sseg));
+    return out;
+  }
+  function bentTube3(way, rad, mat, layer, bend){
+    var pts=roundPath3(way, bend||Math.min(0.025, rad*3));
+    var cu=new THREE.CatmullRomCurve3(pts,false,'catmullrom',0.0);
+    var g=new THREE.TubeGeometry(cu, pts.length*2, rad, 8, false);
+    (layer||V3.layers.barA).add(new THREE.Mesh(g, mat||V3.mats.barA));
+  }
+  // ปลอกปิดต่อเนื่อง (เส้นเดียวดัดรอบสี่เหลี่ยม มุม 90° + hook 135° ปลาย) — ไม่ใช่ 4 ท่อนต่อมุม
+  function tieRect3(xL, zF, xR, zB, y, rad, mat, layer){
+    var h=Math.max(0.006, rad*1.5);   // hook 135° ปลายสั้น (nub) — กันชนขากรง/เดือย
+    bentTube3([[xL,y,zF],[xR,y,zF],[xR,y,zB],[xL,y,zB],[xL,y,zF],[xL+h,y,zF+h]], rad, mat, layer);
+  }
+  // === BARS — Direction A (along x, repeated along z) ===
+  // Bottom mat: A-bars are outermost layer (deepest from compression face / nearest to bottom)
+  // Footing bottom is at y = -T → bar centerline: y = -T + cov + dia/2
+  var yPileCut = -T + (((I.pattern||'A')==='A') ? 0.07 : Math.min(0.25, T*0.6));    // ระดับ pile cut-off (หัวเข็มอมในฐาน)
+  var yBotGrid = (I.pattern==='B'||I.pattern==='C') ? yPileCut : (-T + cov + dia/2); // ตะแกรงล่าง: แบบ ข/ค วางหงายบนหัวเข็มพอดี
+  var yA = yBotGrid;
+  var nA = I.nA;
+  var matInA = rTie + rBar + 0.006;   // แบบ ก: inset ขา tall-U เพื่อวางปลอกรัดรอบด้านนอกในระยะหุ้ม
+  var matIn=((I.pattern||'A')==='A')?matInA:0.07, mHX=A/2-cov-matIn, mHZ=B/2-cov-matIn;   // หดตะแกรงเข้าใน เว้นช่องว่างจากขา/ปลอก (ไม่ชนผิว)
+  var isPatA=((I.pattern||'A')==='A'), matTopY=-cov, matHkS=Math.min(0.09, 8*dia);   // แบบ ก: ขายืดถึงหลังฐาน(−cover) + hook 90° สั้นเข้าใน
+  for(var i=0;i<nA;i++){
+    var z = -mHZ + 2*mHZ*i/Math.max(1,nA-1);
+    if(isPatA)   // แบบ ก: ท้องราบ + ขายืดถึงหลังฐาน−cover + hook 90° สั้นเข้าใน (จบปลายเหล็ก) · มุมดัดแคบ กันจุ่มชน
+      bentTube3([[-mHX+matHkS, matTopY, z], [-mHX, matTopY, z], [-mHX, yA, z], [mHX, yA, z], [mHX, matTopY, z], [mHX-matHkS, matTopY, z]], rBar, V3.mats.barA, V3.layers.barA, rBar*1.4);
+    else         // แบบ ข: ∪ hook สั้นขึ้น (ตะแกรงล่างอยู่ในกรง)
+      bentTube3([[-mHX, yA+hookMat, z], [-mHX, yA, z], [mHX, yA, z], [mHX, yA+hookMat, z]], rBar, V3.mats.barA, V3.layers.barA);
+  }
+  // === BARS — Direction B (along z, repeated along x) offset +dia (เหลื่อม ไม่ตัดกัน) ===
+  var yB = yBotGrid + 2*rBar + 0.006; // วางบนเหล็กทิศ A + ช่องว่างเลยรัศมีดัด กันมุมดัดจุ่มชนเนื้อ (ไม่ทะลุ)
+  var nB = I.nB;
+  var mHXb = Math.max(0.05, mHX - 2*rBar - 0.006);   // หด B เข้า กันขอตั้ง A + มุมดัด ที่ปลายชนเนื้อ
+  for(var j=0;j<nB;j++){
+    var x = -mHXb + 2*mHXb*j/Math.max(1,nB-1);
+    if(isPatA){   // แบบ ก: ขายืดถึงหลังฐาน−cover + hook 90° สั้นเข้าใน · ท้องบนเหลื่อมลง กันชนขอทิศ A (nest ทุกด้าน)
+      var mtB=matTopY-2*rBar-0.006;
+      bentTube3([[x, mtB, -mHZ+matHkS], [x, mtB, -mHZ], [x, yB, -mHZ], [x, yB, mHZ], [x, mtB, mHZ], [x, mtB, mHZ-matHkS]], rBar, V3.mats.barA, V3.layers.barA, rBar*1.4);
+    }
+    else         // แบบ ข: ∪ hook สั้นขึ้น (สีเดียว น้ำตาล — ชุดตะแกรงล่าง)
+      bentTube3([[x, yB+hookMat, -mHZ], [x, yB, -mHZ], [x, yB, mHZ], [x, yB+hookMat, mHZ]], rBar, V3.mats.barA, V3.layers.barA);
+  }
+
+  // === COLUMN DOWELS (4 corner bars) + COLUMN TIES + Pattern-specific extra ties ===
+  var dowelInset = Math.min(0.025, aCol*0.10);
+  var dxL = -aCol/2 + dowelInset, dxR = aCol/2 - dowelInset;
+  var dzF = -bCol/2 + dowelInset, dzB = bCol/2 - dowelInset;
+  var rDowel = Math.max(rBar*1.15, 0.008); // เดือย (เทาจาง) หนากว่าตะแกรงเล็กน้อย
+  var dowelTop = hCol - 0.04;             // top of dowel (just below column top break)
+  var dowelBot = yB + rBar + rDowel;      // เท้า L นั่งบน "ผิว" ตะแกรงล่าง (ไม่ทะลุเนื้อเหล็ก)
+  var dowelLen = dowelTop - dowelBot;
+  var hookLen = 0.07;
+
+  var dowelPos = [[dxL,dzF],[dxR,dzF],[dxL,dzB],[dxR,dzB]];
+  var footLen = Math.max(0.12, 12*dia);      // เท้า L = ของอ 90° 12db (ACI 318 Sec.25.3.1)
+  dowelPos.forEach(function(p){
+    // เดือยเสา "รูปตัว L" เส้นเดียวดัด: ขาดิ่ง + ดัด 90° เท้าเดียว "พุ่งแฉก 45° เข้าหามุมฐานราก" (ระยะล้วงพัฒนากำลัง) · เทาจาง
+    var fx=(p[0]>0?1:-1)*footLen/Math.SQRT2, fz=(p[1]>0?1:-1)*footLen/Math.SQRT2;
+    bentTube3([[p[0], dowelTop, p[1]], [p[0], dowelBot, p[1]], [p[0]+fx, dowelBot, p[1]+fz]], rDowel, V3.mats.colBar, V3.layers.col);
+  });
+
+  // Helper: build a rectangular tie ring (4 cylinder segments) at height yT
+  function makeTieRing(xL, zF, xR, zB, yT, radius, mat, layer){
+    var lenX = Math.abs(xR-xL), lenZ = Math.abs(zB-zF);
+    var midX = (xL+xR)/2, midZ = (zF+zB)/2;
+    // 4 sides: front (along X at zF), back (along X at zB), left (along Z at xL), right (along Z at xR)
+    [
+      {x:midX, z:zF, len:lenX, axis:'x'},
+      {x:midX, z:zB, len:lenX, axis:'x'},
+      {x:xL, z:midZ, len:lenZ, axis:'z'},
+      {x:xR, z:midZ, len:lenZ, axis:'z'}
+    ].forEach(function(s){
+      var g = new THREE.CylinderGeometry(radius, radius, s.len, 6);
+      if(s.axis==='x') g.rotateZ(Math.PI/2);
+      else g.rotateX(Math.PI/2);
+      var m = new THREE.Mesh(g, mat);
+      m.position.set(s.x, yT, s.z);
+      (layer||V3.layers.dowel).add(m);
+    });
+  }
+
+  // Column ties — spacing matching real construction (15 cm typical)
+  var tieSpacing3D = 0.15;
+  var nColTies = Math.max(3, Math.round(hCol/tieSpacing3D));
+  var gTie=rDowel+rTie;   // ปลอกเสาอ้อม "นอก" เดือย (ผิวปลอกในแตะผิวเดือยนอกพอดี ไม่ทะลุ)
+  for(var t=0; t<nColTies; t++){
+    var yT = (t+0.5)*hCol/nColTies;
+    tieRect3(dxL-gTie, dzF-gTie, dxR+gTie, dzB+gTie, yT, rTie, V3.mats.colBar, V3.layers.col);   // ปลอกเสา ต่อเนื่อง เทาจาง (ขนาด RB)
+  }
+
+  // แบบ ก: ปลอกรัดรอบ tall-U basket (ตาม nHoop จัดระยะเท่ากัน · ขนาด RB) — ให้เหล็กปลอกอัปเดตตามที่ผู้ใช้กำหนด
+  if(isPatA){
+    var gA = rTie + rBar + 0.006;   // ปลอกอยู่นอกขา tall-U (ขา inset ด้วย matInA แล้ว → ปลอกอยู่แนวระยะหุ้ม ไม่ชนผิว)
+    var hLA=-(mHX+gA), hRA=mHX+gA, hFA=-(mHZ+gA), hBA=mHZ+gA;
+    var hBotA=yA+2*rBar, hTopA=matTopY-3*rBar, spanA=Math.max(0.05, hTopA-hBotA);
+    var nRA=(I.nHoop && I.nHoop>0) ? I.nHoop : Math.max(3, Math.round(spanA/0.20)+1);
+    for(var ha=0; ha<nRA; ha++){ var yhA=(nRA>1)?(hBotA+spanA*ha/(nRA-1)):(hBotA+spanA/2); tieRect3(hLA, hFA, hRA, hBA, yhA, rTie, V3.mats.dowel, V3.layers.dowel); }
+  }
+
+  // Pattern: กรงตะกร้อ U (pile-cap-rebar skill · 3 กลุ่ม: ตะแกรงล่าง + ตัว U คว่ำสองทาง + ปลอกปิด) — ก: tall-U+ปลอก · ข: ⊓ cage+ปลอก
+  var pat = I.pattern || 'A';
+  if(pat === 'B' || pat === 'C'){
+    // radii บาง เพื่อ nest สะอาด: ขาตะกร้อ U (rU) อยู่ "ด้านใน" · ปลอก (rH) รัด "ด้านนอก" มีช่องว่าง clr ไม่ชนผิวเหล็ก
+    var rU=Math.max(dia*0.6, 0.010), rH=rTie, clr=0.006;   // rH = ขนาดปลอกที่ผู้ใช้เลือก (RB6/RB9)
+    var txL=-A/2+cov+rH, txR=A/2-cov-rH, tzF=-B/2+cov+rH, tzB=B/2-cov-rH;   // สี่เหลี่ยมปลอกรัดรอบ นอกสุด (ผิวนอก≈cov)
+    var cXL=txL+rH+clr+rU, cXR=txR-rH-clr-rU, cZF=tzF+rH+clr+rU, cZB=tzB-rH-clr-rU;   // ขาตะกร้อ U ซ้อน "ใน" ปลอก
+    var cyTop=-cov-rH-clr-rU, legBottom3=-T+cov+rH;   // ท้อง U ใต้แนวปลอกบน · ขา U ถึงก้นฐาน (เหนือปลอกล่าง)
+    var t3=2*rU+0.003, nU=4, hk3=10*dia;   // t3=เหลื่อม 1 เส้น (ผลรวมรัศมี+ช่องว่าง 3mm) ไม่ทะลุ · hook 10db · nU=4 (5 เส้น/ทิศ)
+    // === เหล็กตัว U คว่ำ (⊓) — เหล็กเส้นเดียว "ดัด 90°" ขาตรง+ท้องตรง มุมดัดรัศมีเล็กตามมาตรฐาน ACI + hook 10db ปลายล่าง ===
+    var bendR = Math.min(0.028, (cyTop-legBottom3)*0.16);   // รัศมีมุมดัด 90° (เล็ก) — เส้นตรงเป็นมุมฉาก ไม่ใช่ซุ้มโค้ง
+    function roundPath(way, r){         // straight runs + small 90° corner fillets (densified → spline ไม่โก่ง)
+      var P=way.map(function(p){return new THREE.Vector3(p[0],p[1],p[2]);});
+      var out=[P[0].clone()], sseg=4, aseg=6, s;
+      for(var i=1;i<P.length-1;i++){
+        var p1=P[i], d1=P[i-1].clone().sub(p1), d2=P[i+1].clone().sub(p1);
+        var L1=d1.length(), L2=d2.length(), rr=Math.min(r,L1*0.5,L2*0.5);
+        var t1=p1.clone().add(d1.multiplyScalar(rr/L1)), t2=p1.clone().add(d2.multiplyScalar(rr/L2));
+        var pv=out[out.length-1];
+        for(s=1;s<=sseg;s++) out.push(pv.clone().lerp(t1,s/sseg));                                  // ขาตรง
+        for(s=1;s<aseg;s++){ var tt=s/aseg, a=t1.clone().lerp(p1,tt), b=p1.clone().lerp(t2,tt); out.push(a.lerp(b,tt)); }  // มุมดัด 90°
+        out.push(t2.clone());
+      }
+      var pv2=out[out.length-1], lst=P[P.length-1];
+      for(s=1;s<=sseg;s++) out.push(pv2.clone().lerp(lst,s/sseg));
+      return out;
+    }
+    function bentBar3D(way){                     // กรงตัว U = ชุดเดียว → สีเดียว (เขียว barB) ทั้งแนว X-Y ชั้นเดียวกัน
+      var pts=roundPath(way, bendR);
+      var cu=new THREE.CatmullRomCurve3(pts,false,'catmullrom',0.0);
+      var g=new THREE.TubeGeometry(cu, pts.length*2, rU, 8, false);
+      V3.layers.barB.add(new THREE.Mesh(g, V3.mats.barB));
+    }
+    for(var kz=0; kz<=nU; kz++){ var uz=cZF+(cZB-cZF)*kz/nU;   // ⊓ ทิศ X — ขาตรง+มุมฉาก+hook 10db
+      bentBar3D([[cXL+hk3,legBottom3,uz],[cXL,legBottom3,uz],[cXL,cyTop,uz],[cXR,cyTop,uz],[cXR,legBottom3,uz],[cXR-hk3,legBottom3,uz]]); }
+    var uxL=cXL+t3, uxR=cXR-t3, legZ=legBottom3+t3;   // ⊓ ทิศ Z nest เข้าใน t3 "ทุกด้าน" (x + บน + ล่าง) ไม่ทับ ⊓ X ที่จุดใด
+    for(var kx=0; kx<=nU; kx++){ var ux=uxL+(uxR-uxL)*kx/nU;   // ⊓ ทิศ Z เหลื่อม +t (ชุดเดียวกัน สีเดียว)
+      bentBar3D([[ux,legZ,cZF+t3+hk3],[ux,legZ,cZF+t3],[ux,cyTop-t3,cZF+t3],[ux,cyTop-t3,cZB-t3],[ux,legZ,cZB-t3],[ux,legZ,cZB-t3-hk3]]); }
+    // ปลอกรัดรอบ "ด้านนอก" ขาตะกร้อ U (สี่เหลี่ยม txL..txR/tzF..tzB) เว้นช่องว่าง clr ไม่ชนผิวเหล็ก U · @0.20(ข)/0.10(ค)
+    var hoopBot3=-T+cov+rH, hoopSpan3=cyTop-hoopBot3;
+    // จำนวนปลอก: ผู้ใช้กำหนดเอง (I.nHoop>0) → จัดระยะเท่ากัน · 0 = อัตโนมัติตามระยะ @0.20(ข)/0.10(ค)
+    var nRings3 = (I.nHoop && I.nHoop>0) ? I.nHoop : (Math.max(4, Math.round(hoopSpan3/(pat==='C'?0.10:0.20)))+1);
+    for(var hh=0; hh<nRings3; hh++){
+      var yHoop3 = (nRings3>1) ? (hoopBot3 + hoopSpan3*hh/(nRings3-1)) : (hoopBot3 + hoopSpan3/2);
+      tieRect3(txL, tzF, txR, tzB, yHoop3, rH, V3.mats.dowel, V3.layers.dowel);   // ปลอกรัดรอบ ต่อเนื่อง เส้นเดียวดัด (น้ำเงิน) ระยะเท่ากัน
+    }
+    // (ตะแกรงบน = ท้องเหล็กตัว U คว่ำ ด้านบน · ไม่มี PC wire / ปลอกเพชร — เฉพาะ 3 กลุ่มตามสกิล)
+  }
+
+  // === SOIL cover (semi-transparent box around column up to grade) ===
+  if(h_soil > 0.01){
+    var gridSoilSize = Math.max(A, B) * 1.4;
+    var gSoil = new THREE.BoxGeometry(gridSoilSize, h_soil, gridSoilSize);
+    var mSoil = new THREE.Mesh(gSoil, V3.mats.soil);
+    mSoil.position.set(0, h_soil/2, 0);
+    V3.layers.soil.add(mSoil);
+    var eSoil = new THREE.LineSegments(new THREE.EdgesGeometry(gSoil), V3.mats.edge);
+    eSoil.position.set(0, h_soil/2, 0);
+    V3.layers.soil.add(eSoil);
+  }
+
+  // === PILE (embedded into cap — แบบ ก 7cm · แบบ ข/ค หัวเข็ม pile cut-off อมในฐาน 25cm) ===
+  var pileD_m = (I.pileD||26)/100;
+  var pileEmbed = ((I.pattern||'A')==='A') ? 0.07 : Math.min(0.25, T*0.6);   // แบบ ข/ค: อมในฐาน 25 ซม.
+  var pileH3D = 1.8;        // pile length visible in 3D (below + embedment)
+  var pileTop = -T + pileEmbed;   // pile top is ABOVE footing bottom (inside cap)
+  var pileBot = pileTop - pileH3D;
+  var isRound = I.pileType && I.pileType.indexOf('O-')===0;
+  var pileGeom;
+  if(isRound){
+    pileGeom = new THREE.CylinderGeometry(pileD_m/2, pileD_m/2, pileH3D, 24);
+  } else {
+    pileGeom = iPileGeom(pileD_m, pileH3D);   // หน้าตัดตัวไอจริง มอก.396 (แทนกล่องเดิม)
+  }
+  var mPile = new THREE.Mesh(pileGeom, V3.mats.pile);
+  mPile.position.set(0, (pileTop+pileBot)/2, 0);
+  V3.layers.pile.add(mPile);
+  var ePile = new THREE.LineSegments(new THREE.EdgesGeometry(pileGeom), V3.mats.edge);
+  ePile.position.set(0, (pileTop+pileBot)/2, 0);
+  V3.layers.pile.add(ePile);
+
+  // === PC WIRE จากหัวเข็ม (optional ตามผู้ใช้เลือก · Ø4mm · โผล่ ~15cm · เอียงเยื้องออกเล็กน้อย) ===
+  if(I.showPC){
+    var pcLen=0.15, pcR=0.0035, pcSplay=0.035;   // ยาว 15cm · ปลายเยื้องออก ~3.5cm
+    var pcPts;
+    if(isRound){
+      pcPts=[]; var rr=Math.max(0.03, pileD_m/2-0.03), nPC=6;
+      for(var q=0;q<nPC;q++){ var ang=(q+0.5)/nPC*Math.PI*2, cx=Math.cos(ang), sz=Math.sin(ang); pcPts.push([cx*rr, sz*rr, cx, sz]); }
+    } else {
+      var eh=Math.max(0.03, pileD_m/2-0.03);
+      pcPts=[[0,-eh,0,-1],[0,eh,0,1],[-eh,0,-1,0],[eh,0,1,0]];   // 4 กลางด้าน (เลี่ยงเดือยเสาที่มุม) + เยื้องออกตั้งฉากด้าน
+    }
+    var pcBaseY = Math.max(pileTop, yB + rBar + 0.006);   // เริ่มเหนือผิวตะแกรงล่างเล็กน้อย (โผล่จากหัวเข็มบริเวณเหนือตะแกรง ไม่ทะลุเหล็กตะแกรง)
+    pcPts.forEach(function(p){
+      var dn=Math.hypot(p[2],p[3])||1;
+      var a=new THREE.Vector3(p[0], pcBaseY, p[1]);
+      var b=new THREE.Vector3(p[0]+p[2]/dn*pcSplay, pcBaseY+pcLen, p[1]+p[3]/dn*pcSplay);   // ปลายเยื้องออก
+      var dir=new THREE.Vector3().subVectors(b,a), len=dir.length();
+      var g=new THREE.CylinderGeometry(pcR, pcR, len, 6);
+      var m=new THREE.Mesh(g, V3.mats.pcwire);
+      m.position.copy(a).add(b).multiplyScalar(0.5);
+      m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), dir.normalize());
+      V3.layers.pile.add(m);
+    });
+  }
+
+  // Set layer visibility
+  V3.layers.conc.visible = V3.show.conc;
+  V3.layers.col.visible  = V3.show.col;
+  V3.layers.dowel.visible= V3.show.dowel;
+  V3.layers.pile.visible = V3.show.pile;
+  V3.layers.barA.visible = V3.show.barA;
+  V3.layers.barB.visible = V3.show.barB;
+  V3.layers.soil.visible = V3.show.soil;
+  V3.layers.base.visible = V3.show.base;
+  if(V3.grid) V3.grid.visible = V3.show.grid;
+
+  // Grid at footing bottom level
+  V3.gridY = -T - 0.02;
+  if(V3.grid) V3.grid.position.y = V3.gridY;
+
+  // Camera target & radius — auto-fit on first draw OR when geometry shape changes
+  // (target reset below to center on footing+pile midpoint)
+  // Include pile depth in scene extent for camera fit
+  var totalH = hCol + T + 1.8;   // column-stub + footing + pile
+  var diag = Math.sqrt(A*A + B*B + totalH*totalH);
+  V3.target.set(0, -T - 0.5, 0);  // re-center on footing+pile midpoint
+  if(V3.autoFit){
+    V3.r = diag * 1.4;
+    V3.theta = 0.85;
+    V3.phi   = 0.55;
+    V3.autoFit = false;
+  }
+
+  v3resize();
+  v3render();
+}
+
+/* ===== Wire up inputs ===== */
+document.querySelectorAll('input,select').forEach(function(el){
+  el.addEventListener('input', function(){
+    if(el.classList && el.classList.contains('v3color')) return;
+    // Auto-adjust β1 when fc' changes
+    if(el.id==='fc'){
+      var fc = parseFloat(el.value);
+      var b1auto = fc<=280?0.85 : (fc>560?0.65 : 0.85-0.05*((fc-280)/70));
+      var b1el = document.getElementById('b1');
+      if(b1el) b1el.value = b1auto.toFixed(2);
+    }
+    // Auto-set pile diameter + SL when pile type changes
+    if(el.id==='pileType' && el.value !== 'custom'){
+      var pileMap = {
+        'I-22':{d:22, sl:20}, 'I-26':{d:26, sl:26}, 'I-30':{d:30, sl:35},
+        'I-35':{d:35, sl:45}, 'I-40':{d:40, sl:60},
+        'O-30':{d:30, sl:30}, 'O-35':{d:35, sl:40}
+      };
+      var spec = pileMap[el.value];
+      if(spec){
+        var dE = document.getElementById('pileD'); if(dE) dE.value = spec.d;
+        var sE = document.getElementById('pileSL'); if(sE) sE.value = spec.sl;
+      }
+    }
+    render();
+  });
+});
+
+/* 3D viewer controls */
+document.querySelectorAll('#v3dToggles button').forEach(function(b){
+  b.addEventListener('click', function(){
+    var lay = b.getAttribute('data-layer');
+    var on = !b.classList.contains('on');
+    b.classList.toggle('on', on);
+    V3.show[lay] = on;
+    if(lay==='grid' && V3.grid) V3.grid.visible = on;
+    else if(V3.layers[lay]) V3.layers[lay].visible = on;
+    v3render();
+  });
+});
+document.querySelectorAll('#v3dTone button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('#v3dTone button').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    V3.bg = b.getAttribute('data-tone');
+    var bgMap = {light:'#f7f9fc', soft:'#e8eef5', dark:'#0f1e33'};
+    if(V3.scene) V3.scene.background = new THREE.Color(bgMap[V3.bg]);
+    v3render();
+  });
+});
+document.querySelectorAll('#v3dSize button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('#v3dSize button').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    V3.barMode = b.getAttribute('data-size');
+    render(); // re-build with new bar radius
+  });
+});
+document.querySelectorAll('.v3color').forEach(function(el){
+  el.addEventListener('input', function(){
+    var mat = el.getAttribute('data-mat');
+    V3.colors[mat] = el.value;
+    if(V3.mats[mat]) V3.mats[mat].color.set(el.value);
+    v3render();
+  });
+});
+
+/* Init */
+render();
+</script>
+<script>
+/* Workstation config — สร้างแถว D/C จาก compute() (pure function) ของเครื่องมือนี้
+   แสดงผลอย่างเดียว ไม่แตะ engine */
+window.WS_CONFIG={
+  rows:function(){
+    var lcEl=document.getElementById('loadCombo'), ldmEl=document.getElementById('ldMode');
+    var I={
+      fc:num('fc'), fy:num('fy'),
+      phib:num('phib'), phiv:num('phiv'), b1:num('b1'),
+      gsoil:num('gsoil'),
+      pileType:document.getElementById('pileType')?document.getElementById('pileType').value:'I-26',
+      pileSL:num('pileSL'), pileD:num('pileD'),
+      pattern:(document.querySelector('input[name="pat"]:checked')||{value:'A'}).value,
+      PD:num('PD'), PL:num('PL'), Mx:0, My:0,
+      e_ecc:num('e_ecc'),
+      loadCombo: lcEl ? lcEl.value : 'wsl',
+      ldMode: ldmEl ? ldmEl.value : 'comp',
+      a1:num('a1'), b1col:num('b1col'),
+      A:num('A'), B:num('B'), T:num('T'), H:num('H'), cov:num('cov'),
+      dMain:intv('dMain'), nA:intv('nA'), nB:intv('nB'), nHoop:intv('nHoop'), dTie:(intv('dTie')||6),
+      showPC:!!(document.getElementById('showPC')&&document.getElementById('showPC').checked)
+    };
+    var crit=['fc','fy','phib','phiv','pileSL','pileD','PD','a1','b1col','A','B','T','H','cov','dMain','nA','nB','gsoil'];
+    for(var i=0;i<crit.length;i++){ var v=I[crit[i]]; if(typeof v!=='number'||!isFinite(v)||v<=0) return null; }
+    if(!isFinite(I.PL)||I.PL<0) return null;
+    if(!isFinite(I.e_ecc)||I.e_ecc<0) I.e_ecc=0;
+    if(I.nA<3||I.nB<3) return null;
+    if(I.A<I.a1/100||I.B<I.b1col/100) return null;
+    var R=compute(I);
+    var rows=[];
+    rows.push({name:'กำลังรับน้ำหนักเสาเข็ม',sub:'P·pile / Safe Load',dem:R.Pile_load_t,cap:R.Pile_SL,unit:'t',ratio:R.Pile_load_t/R.Pile_SL,ok:R.chkPileSL});
+    rows.push({name:'เหล็กเสริมทิศ A',sub:'As·req / As·prov',dem:R.As_req_tot_A,cap:R.As_prov_A,unit:'cm²',ratio:R.As_req_tot_A/R.As_prov_A,ok:R.chkAsA});
+    rows.push({name:'เหล็กเสริมทิศ B',sub:'As·req / As·prov',dem:R.As_req_tot_B,cap:R.As_prov_B,unit:'cm²',ratio:R.As_req_tot_B/R.As_prov_B,ok:R.chkAsB});
+    rows.push({name:'เฉือนวิกฤตรอบเสา',sub:'Vu / φVc @ d/2',dem:R.Vu_crit,cap:R.phiVc_crit,unit:'kg',ratio:R.Vu_crit/R.phiVc_crit,ok:R.chkCritShear});
+    rows.push({name:'เฉือนรอบหัวเสาเข็ม',sub:'Vu / φVc @ d/2',dem:R.Vu_pile_punch,cap:R.phiVc_pile_punch,unit:'kg',ratio:R.Vu_pile_punch/R.phiVc_pile_punch,ok:R.chkPilePunch});
+    rows.push({name:'ระยะเรียงทิศ A',sub:'s·use / s·max',dem:R.spA_cm,cap:R.sp_max,unit:'cm',ratio:R.spA_cm/R.sp_max,ok:R.chkSpA});
+    rows.push({name:'ระยะเรียงทิศ B',sub:'s·use / s·max',dem:R.spB_cm,cap:R.sp_max,unit:'cm',ratio:R.spB_cm/R.sp_max,ok:R.chkSpB});
+    rows.push({name:'ระยะฝัง Dowel',sub:'Ld·req / Ld·avail',dem:R.Ld_req,cap:R.Ld_avail,unit:'cm',ratio:R.Ld_req/R.Ld_avail,ok:R.chkLd});
+    rows.push({name:'ขนาดเสาเข็ม ≤ เสา',sub:'Ø·pile / col·min',dem:I.pileD,cap:R.colMin,unit:'cm',ratio:I.pileD/R.colMin,ok:!R.pileVsCol_warn});
+    rows.push({name:'B-region (a/d ≥ 1)',sub:R.isDRegion?'D-region — ต้องตรวจด้วย STM':'พฤติกรรมคานปกติ',dem:NaN,cap:NaN,unit:'',ratio:NaN,ok:!R.isDRegion});
+    return rows;
+  }
+};
+</script>
+<script src="ws-layer.js"></script>
+<script src="ws-3d.js"></script>
+  <script src="ck-print-report.js" defer></script>
+  <script src="ck-drawing-sheet.js" defer></script>
+</body>
+</html>

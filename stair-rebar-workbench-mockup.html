@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stair Reinforcement Workbench Mockup - นายช่างใหญ่ Civil Apps</title>
+  <link rel="stylesheet" href="fonts/sarabun/sarabun.css" />
+  <style>
+    :root {
+      --bg: oklch(96.5% 0.008 247);
+      --surface: oklch(99.2% 0.004 247);
+      --panel: oklch(97.7% 0.009 247);
+      --panel-strong: oklch(94.7% 0.014 247);
+      --line: oklch(84% 0.025 247);
+      --line-strong: oklch(67% 0.038 247);
+      --ink: oklch(23% 0.035 247);
+      --text: oklch(36% 0.03 247);
+      --muted: oklch(54% 0.026 247);
+      --blue: oklch(52% 0.17 258);
+      --blue-soft: oklch(95.5% 0.032 258);
+      --green: oklch(50% 0.13 157);
+      --green-soft: oklch(95.5% 0.036 157);
+      --amber: oklch(60% 0.13 72);
+      --amber-soft: oklch(96% 0.045 72);
+      --red: oklch(53% 0.18 29);
+      --red-soft: oklch(95.5% 0.036 29);
+      --violet: oklch(52% 0.16 292);
+      --violet-soft: oklch(95% 0.034 292);
+      --cyan: oklch(57% 0.12 213);
+      --radius: 8px;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--bg); color: var(--ink); font-family: "Sarabun", "Segoe UI", system-ui, sans-serif; font-size: 14px; }
+    body { margin: 0; background: var(--bg); }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible { outline: 3px solid oklch(65% 0.14 258 / 0.28); outline-offset: 1px; }
+    .app { min-height: 100vh; padding: 8px; }
+    .shell { max-width: 1800px; margin: 0 auto; }
+
+    .topbar, .phasebar, .statusbar, .workbench, .schedule { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+    .topbar { min-height: 42px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 6px 10px; }
+    .brand { min-width: 0; display: flex; align-items: center; gap: 9px; }
+    .logo { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 6px; background: var(--red); color: oklch(98% 0.004 247); font-weight: 900; font-size: 11px; }
+    .brand-copy { min-width: 0; }
+    .brand-copy b { display: block; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .brand-copy span { color: var(--muted); font-size: 10.5px; }
+    .toolbar { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn { min-height: 29px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--text); padding: 4px 9px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+    .btn:hover { background: var(--panel); border-color: var(--line-strong); }
+    .btn.primary { background: var(--ink); border-color: var(--ink); color: oklch(98% 0.004 247); }
+    .btn.blue { background: var(--blue-soft); border-color: oklch(78% 0.08 258); color: var(--blue); }
+    .btn[disabled] { cursor: not-allowed; opacity: .48; }
+
+    .phasebar { margin-top: 6px; padding: 5px; display: flex; gap: 4px; overflow-x: auto; }
+    .phase { min-width: 116px; min-height: 36px; flex: 1 0 auto; display: grid; grid-template-columns: 18px minmax(0, 1fr); align-items: center; gap: 5px; border: 1px solid transparent; border-radius: 6px; background: var(--panel); color: var(--muted); padding: 4px 7px; text-align: left; }
+    .phase strong { font-size: 10px; color: inherit; }
+    .phase span { font-size: 9.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .phase.done { color: var(--green); }
+    .phase.active { background: var(--blue-soft); border-color: var(--blue); color: var(--blue); }
+    .phase-number { width: 18px; height: 18px; display: grid; place-items: center; border-radius: 50%; border: 1px solid currentColor; font: 700 9px var(--mono); }
+
+    .statusbar { margin-top: 6px; min-height: 44px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 6px 10px; }
+    .title-group { min-width: 0; display: flex; align-items: center; gap: 9px; }
+    .title-group h1 { margin: 0; font-size: 15px; line-height: 1.2; }
+    .title-group p { margin: 2px 0 0; color: var(--muted); font-size: 10.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .status-meta { display: flex; align-items: center; gap: 6px; }
+    .pill { display: inline-flex; align-items: center; gap: 4px; min-height: 23px; border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; font-size: 10px; font-weight: 800; white-space: nowrap; }
+    .pill.pass { background: var(--green-soft); border-color: oklch(79% 0.075 157); color: var(--green); }
+    .pill.warn { background: var(--amber-soft); border-color: oklch(82% 0.08 72); color: var(--amber); }
+    .pill.info { background: var(--blue-soft); border-color: oklch(81% 0.065 258); color: var(--blue); }
+
+    .workbench { margin-top: 6px; min-height: 635px; display: grid; grid-template-columns: 244px minmax(520px, 1fr) 278px; overflow: hidden; }
+    .sidebar, .inspector { min-width: 0; background: var(--panel); overflow: auto; }
+    .sidebar { border-inline-end: 1px solid var(--line); }
+    .inspector { border-inline-start: 1px solid var(--line); }
+    .panel-section { padding: 10px; border-bottom: 1px solid var(--line); }
+    .panel-section:last-child { border-bottom: 0; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 7px; }
+    .panel-head h2 { margin: 0; font-size: 11px; }
+    .panel-head span { color: var(--muted); font: 10px var(--mono); }
+
+    .view-list, .bar-list, .qa-list { display: grid; gap: 4px; }
+    .view-btn, .bar-row, .qa-row { width: 100%; min-height: 37px; border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--text); text-align: left; padding: 5px 7px; }
+    .view-btn { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; align-items: center; gap: 6px; }
+    .view-btn:hover, .bar-row:hover { background: var(--surface); border-color: var(--line); }
+    .view-btn.active { background: var(--surface); border-color: var(--blue); color: var(--blue); }
+    .view-btn b, .bar-row b { display: block; font-size: 10.5px; }
+    .view-btn small, .bar-row small { color: var(--muted); font-size: 9.5px; }
+    .count { min-width: 21px; text-align: center; border-radius: 4px; background: var(--panel-strong); padding: 1px 4px; font: 9px var(--mono); color: var(--muted); }
+
+    .layer-row { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 6px; min-height: 29px; font-size: 10px; }
+    .layer-row input { width: 15px; height: 15px; accent-color: var(--blue); }
+    .layer-row code { color: var(--muted); font: 8.5px var(--mono); }
+    .swatch { width: 15px; height: 4px; border-radius: 2px; background: var(--ink); }
+    .swatch.main { background: var(--red); }
+    .swatch.top { background: var(--violet); }
+    .swatch.dist { background: var(--blue); }
+    .swatch.cover { background: var(--cyan); }
+
+    .bar-row { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 6px; min-height: 43px; }
+    .bar-row.active { background: var(--red-soft); border-color: oklch(78% 0.09 29); }
+    .bar-mark { display: grid; place-items: center; height: 27px; border-radius: 5px; background: var(--surface); border: 1px solid var(--line); font: 800 10px var(--mono); }
+    .bar-row.active .bar-mark { background: var(--red); border-color: var(--red); color: oklch(98% 0.004 247); }
+    .bar-status { color: var(--green); font-size: 9px; font-weight: 800; }
+
+    .canvas-panel { min-width: 0; background: oklch(93.8% 0.012 247); display: grid; grid-template-rows: auto minmax(0, 1fr); }
+    .canvas-toolbar { min-height: 39px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 5px 8px; background: var(--surface); border-bottom: 1px solid var(--line); }
+    .canvas-tabs { min-width: 0; display: flex; gap: 3px; overflow-x: auto; }
+    .canvas-tab { min-height: 27px; border: 1px solid transparent; border-radius: 5px; background: transparent; color: var(--muted); padding: 3px 8px; font-size: 10.5px; font-weight: 800; white-space: nowrap; }
+    .canvas-tab.active { background: var(--blue-soft); border-color: oklch(79% 0.08 258); color: var(--blue); }
+    .canvas-tools { display: flex; gap: 4px; }
+    .icon-btn { width: 28px; height: 27px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); color: var(--text); font-weight: 900; }
+    .icon-btn:hover { background: var(--panel); }
+
+    .viewport { min-width: 0; min-height: 0; padding: 11px; overflow: auto; }
+    .sheet { min-width: 770px; min-height: 555px; background: oklch(99.5% 0.003 247); border: 1px solid var(--line-strong); box-shadow: 0 2px 6px oklch(25% 0.03 247 / .1); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+    .sheet-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; border-bottom: 1px solid var(--line); padding: 7px 10px; }
+    .sheet-head h2 { margin: 0; font-size: 12px; }
+    .sheet-head p { margin: 2px 0 0; color: var(--muted); font-size: 9.5px; }
+    .sheet-meta { display: flex; gap: 10px; font: 9px var(--mono); color: var(--muted); }
+    .sheet-meta b { color: var(--ink); }
+    .drawing { position: relative; min-height: 0; overflow: hidden; }
+    .drawing-view { display: none; width: 100%; height: 100%; }
+    .drawing-view.active { display: block; }
+    .cad-svg { width: 100%; height: 100%; min-height: 455px; display: block; }
+    .sheet-foot { min-height: 48px; display: grid; grid-template-columns: minmax(0, 1fr) 95px 95px 80px; border-top: 1px solid var(--ink); }
+    .title-cell { min-width: 0; padding: 5px 8px; border-inline-end: 1px solid var(--line); }
+    .title-cell:last-child { border-inline-end: 0; }
+    .title-cell span { display: block; color: var(--muted); font-size: 8px; }
+    .title-cell b { display: block; margin-top: 2px; font-size: 9.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .cad-outline { fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linejoin: round; }
+    .cad-thin { fill: none; stroke: var(--text); stroke-width: 1; }
+    .cad-hidden { fill: none; stroke: var(--line-strong); stroke-width: .8; stroke-dasharray: 6 4; }
+    .cad-level { fill: none; stroke: oklch(66% 0.05 247); stroke-width: .8; stroke-dasharray: 8 5; }
+    .cad-dim { fill: none; stroke: var(--text); stroke-width: .75; }
+    .cad-cover { fill: none; stroke: var(--cyan); stroke-width: .9; stroke-dasharray: 4 3; }
+    .cad-support { fill: url(#concDots); stroke: var(--ink); stroke-width: 2.2; }
+    .cad-waist-top { fill: none; stroke: var(--line-strong); stroke-width: .8; stroke-dasharray: 2 3; }
+    .cad-main { fill: none; stroke: var(--red); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: opacity .16s ease-out, stroke-width .16s ease-out; }
+    .cad-top { fill: none; stroke: var(--violet); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: opacity .16s ease-out, stroke-width .16s ease-out; }
+    .cad-dist { fill: var(--blue); stroke: var(--blue); transition: opacity .16s ease-out; }
+    .cad-landing { fill: none; stroke: var(--green); stroke-width: 2.1; }
+    .cad-text { fill: var(--ink); font: 700 10px "Sarabun", sans-serif; }
+    .cad-note { fill: var(--text); font: 9px "Sarabun", sans-serif; }
+    .cad-muted { fill: var(--muted); font: 8.5px "Sarabun", sans-serif; }
+    .cad-red { fill: var(--red); font: 700 9px "Sarabun", sans-serif; }
+    .cad-violet { fill: var(--violet); font: 700 9px "Sarabun", sans-serif; }
+    .cad-blue { fill: var(--blue); font: 700 9px "Sarabun", sans-serif; }
+    .cad-green { fill: var(--green); font: 700 9px "Sarabun", sans-serif; }
+    .bar-geometry { transition: opacity .16s ease-out, filter .16s ease-out; }
+    .sheet[data-selected="S1"] [data-bar="S1"], .sheet[data-selected="S2"] [data-bar="S2"], .sheet[data-selected="D1"] [data-bar="D1"], .sheet[data-selected="L1"] [data-bar="L1"] { filter: drop-shadow(0 0 2px oklch(50% 0.08 247 / .34)); }
+    .sheet.symbolic .cad-main, .sheet.symbolic .cad-top, .sheet.symbolic .cad-landing { stroke-width: 3.4; }
+    .sheet.hide-main .cad-main, .sheet.hide-main .main-note { opacity: .08; }
+    .sheet.hide-top .cad-top, .sheet.hide-top .top-note { opacity: .08; }
+    .sheet.hide-dist .cad-dist, .sheet.hide-dist .dist-note { opacity: .08; }
+    .sheet.hide-cover .cad-cover, .sheet.hide-cover .cover-note { opacity: 0; }
+
+    .property-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+    .field { min-width: 0; }
+    .field label { display: block; color: var(--muted); font-size: 9px; margin-bottom: 2px; }
+    .field-value { min-height: 29px; display: flex; align-items: center; justify-content: space-between; gap: 4px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); padding: 4px 6px; font: 10px var(--mono); }
+    .field-value em { color: var(--muted); font: 9px "Sarabun", sans-serif; font-style: normal; }
+    .formula { margin-top: 6px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); padding: 6px; font: 9px/1.45 var(--mono); color: var(--text); }
+    .formula b { color: var(--blue); }
+
+    .qa-row { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; align-items: center; gap: 5px; min-height: 32px; background: var(--surface); border-color: var(--line); }
+    .qa-icon { width: 17px; height: 17px; display: grid; place-items: center; border-radius: 50%; font-size: 9px; font-weight: 900; }
+    .qa-row.pass .qa-icon { background: var(--green-soft); color: var(--green); }
+    .qa-row.warn .qa-icon { background: var(--amber-soft); color: var(--amber); }
+    .qa-copy b { display: block; font-size: 9.5px; }
+    .qa-copy small { color: var(--muted); font-size: 8.5px; }
+    .qa-value { font: 8.5px var(--mono); color: var(--muted); }
+    .notice { border: 1px solid oklch(81% 0.075 72); border-radius: 6px; background: var(--amber-soft); color: oklch(43% 0.09 72); padding: 7px; font-size: 9.5px; line-height: 1.45; }
+
+    .schedule { margin-top: 6px; overflow: hidden; }
+    .schedule-head { min-height: 35px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 5px 10px; background: var(--panel); border-bottom: 1px solid var(--line); }
+    .schedule-head h2 { margin: 0; font-size: 11px; }
+    .schedule-head span { color: var(--muted); font-size: 9.5px; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; min-width: 980px; border-collapse: collapse; font-size: 9.5px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 5px 7px; text-align: left; white-space: nowrap; }
+    th { background: var(--panel); color: var(--muted); font-size: 8.5px; }
+    td.mono { font-family: var(--mono); }
+    tr[data-bar-row] { cursor: pointer; }
+    tr[data-bar-row]:hover, tr[data-bar-row].active { background: var(--red-soft); }
+    .shape-mini { width: 62px; height: 18px; }
+    .footnote { padding: 6px 10px; color: var(--muted); font-size: 9px; }
+
+    @media (max-width: 1380px) {
+      .workbench { grid-template-columns: 214px minmax(520px, 1fr); }
+      .inspector { grid-column: 1 / -1; border-inline-start: 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr 1fr; }
+      .inspector .panel-section { border-bottom: 0; border-inline-end: 1px solid var(--line); }
+      .inspector .panel-section:last-child { border-inline-end: 0; }
+    }
+
+    @media (max-width: 760px) {
+      .app { padding: 5px; }
+      .topbar, .statusbar { grid-template-columns: 1fr; }
+      .toolbar, .status-meta { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
+      .workbench { grid-template-columns: 1fr; }
+      .sidebar { border-inline-end: 0; border-bottom: 1px solid var(--line); max-height: 245px; display: grid; grid-template-columns: 1fr 1fr; overflow: auto; }
+      .sidebar .panel-section { border-inline-end: 1px solid var(--line); }
+      .canvas-panel { min-height: 620px; }
+      .viewport { padding: 7px; }
+      .inspector { grid-template-columns: 1fr; }
+      .inspector .panel-section { border-inline-end: 0; border-bottom: 1px solid var(--line); }
+      .sheet-foot { grid-template-columns: minmax(0, 1fr) 72px 72px; }
+      .sheet-foot .title-cell:last-child { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo">2D</div>
+          <div class="brand-copy">
+            <b>Stair Reinforcement Workbench</b>
+            <span>STR-01 · Straight stair with intermediate landing · Mockup only</span>
+          </div>
+        </div>
+        <div class="toolbar" aria-label="คำสั่งเอกสาร">
+          <button class="btn">ย้อนกลับ</button>
+          <button class="btn">บันทึก Draft</button>
+          <button class="btn blue">Preview PDF</button>
+          <button class="btn primary" id="exportBtn">Export Drawing</button>
+        </div>
+      </header>
+
+      <nav class="phasebar" aria-label="ขั้นตอนออกแบบบันได">
+        <button class="phase done"><span class="phase-number">1</span><span><strong>P1</strong> Stair Type</span></button>
+        <button class="phase done"><span class="phase-number">2</span><span><strong>P2</strong> Geometry</span></button>
+        <button class="phase done"><span class="phase-number">3</span><span><strong>P3</strong> Supports</span></button>
+        <button class="phase done"><span class="phase-number">4</span><span><strong>P4</strong> Material + Load</span></button>
+        <button class="phase done"><span class="phase-number">5</span><span><strong>P5</strong> Analysis</span></button>
+        <button class="phase done"><span class="phase-number">6</span><span><strong>P6</strong> Rebar Design</span></button>
+        <button class="phase active"><span class="phase-number">7</span><span><strong>P7</strong> Rebar Layout</span></button>
+        <button class="phase"><span class="phase-number">8</span><span><strong>P8</strong> Drawing</span></button>
+        <button class="phase"><span class="phase-number">9</span><span><strong>P9</strong> QA/QC</span></button>
+        <button class="phase"><span class="phase-number">10</span><span><strong>P10</strong> Export</span></button>
+      </nav>
+
+      <section class="statusbar">
+        <div class="title-group">
+          <div>
+            <h1>จัดวางเหล็กและตรวจแบบ STR-01</h1>
+            <p>ค่าตัวอย่างเพื่อทบทวน UI และหลัก Detailing เท่านั้น ไม่ใช่ผลคำนวณหรือแบบก่อสร้าง</p>
+          </div>
+        </div>
+        <div class="status-meta">
+          <span class="pill pass">✓ Structural 8/8</span>
+          <span class="pill pass">✓ Cover 26 mm</span>
+          <span class="pill warn">! Drawing 2 จุด</span>
+          <span class="pill info">Support: FB + LB</span>
+        </div>
+      </section>
+
+      <section class="workbench">
+        <aside class="sidebar" aria-label="มุมมองและชั้นข้อมูล">
+          <section class="panel-section">
+            <div class="panel-head"><h2>Drawing Views</h2><span>5 VIEWS</span></div>
+            <div class="view-list">
+              <button class="view-btn active" data-view="section"><span>▱</span><span><b>Longitudinal Section</b><small>Section A-A · S-05</small></span><span class="count">1</span></button>
+              <button class="view-btn" data-view="plan"><span>⌗</span><span><b>Stair Plan</b><small>Cut plane + UP direction</small></span><span class="count">1</span></button>
+              <button class="view-btn" data-view="cross"><span>▦</span><span><b>Cross Section</b><small>Section B-B · layers</small></span><span class="count">2</span></button>
+              <button class="view-btn" data-view="axon"><span>◇</span><span><b>3D Preview</b><small>Concept viewport</small></span><span class="count">1</span></button>
+            </div>
+          </section>
+
+          <section class="panel-section">
+            <div class="panel-head"><h2>Drawing Layers</h2><span>PLOT</span></div>
+            <label class="layer-row"><input type="checkbox" checked data-layer="main" /><span><i class="swatch main"></i> Main bottom</span><code>RB-MAIN-BOT</code></label>
+            <label class="layer-row"><input type="checkbox" checked data-layer="top" /><span><i class="swatch top"></i> Support top</span><code>RB-MAIN-TOP</code></label>
+            <label class="layer-row"><input type="checkbox" checked data-layer="dist" /><span><i class="swatch dist"></i> Distribution</span><code>RB-DIST</code></label>
+            <label class="layer-row"><input type="checkbox" checked data-layer="cover" /><span><i class="swatch cover"></i> Cover check</span><code>NON-PLOT</code></label>
+          </section>
+
+          <section class="panel-section">
+            <div class="panel-head"><h2>Rebar Groups</h2><span>4 MARKS</span></div>
+            <div class="bar-list">
+              <button class="bar-row active" data-select-bar="S1"><span class="bar-mark">S1</span><span><b>Main Bottom DB12@150</b><small>BOT-L1 · continuous</small></span><span class="bar-status">PASS</span></button>
+              <button class="bar-row" data-select-bar="S2"><span class="bar-mark">S2</span><span><b>Support Top DB12@150</b><small>TOP-L1 · max(Ld, 0.30L)</small></span><span class="bar-status">PASS</span></button>
+              <button class="bar-row" data-select-bar="D1"><span class="bar-mark">D1</span><span><b>Distribution RB9@200</b><small>Inner layer · transverse</small></span><span class="bar-status">PASS</span></button>
+              <button class="bar-row" data-select-bar="L1"><span class="bar-mark">L1</span><span><b>Landing DB12@150 EW</b><small>BOT-X / BOT-Y · 2 layers</small></span><span class="bar-status">PASS</span></button>
+            </div>
+          </section>
+        </aside>
+
+        <section class="canvas-panel" aria-label="พื้นที่เขียนแบบ">
+          <header class="canvas-toolbar">
+            <div class="canvas-tabs">
+              <button class="canvas-tab active" data-view="section">Section A-A</button>
+              <button class="canvas-tab" data-view="plan">Plan</button>
+              <button class="canvas-tab" data-view="cross">Cross Section B-B</button>
+              <button class="canvas-tab" data-view="axon">3D Preview</button>
+            </div>
+            <div class="canvas-tools">
+              <button class="btn" id="scaleMode">True Scale</button>
+              <button class="icon-btn" title="ซูมออก" aria-label="ซูมออก">−</button>
+              <button class="icon-btn" title="พอดีหน้าจอ" aria-label="พอดีหน้าจอ">□</button>
+              <button class="icon-btn" title="ซูมเข้า" aria-label="ซูมเข้า">+</button>
+            </div>
+          </header>
+
+          <div class="viewport">
+            <article class="sheet" id="drawingSheet" data-selected="S1">
+              <header class="sheet-head">
+                <div>
+                  <h2 id="sheetTitle">SECTION A-A · STRAIGHT STAIR WITH INTERMEDIATE LANDING</h2>
+                  <p id="sheetSubtitle">Flights supported by floor beams and LB-01 · reinforcement paths follow support condition</p>
+                </div>
+                <div class="sheet-meta"><span>SHEET <b>S-05</b></span><span>SCALE <b>1:25</b></span><span>REV <b>R0</b></span></div>
+              </header>
+
+              <div class="drawing">
+                <div class="drawing-view active" data-drawing="section">
+                  <svg class="cad-svg" viewBox="0 0 1060 520" role="img" aria-label="Longitudinal stair reinforcement section">
+                    <defs>
+                      <pattern id="concDots" width="12" height="10" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".6" fill="oklch(67% 0.025 247)" opacity=".38"/><circle cx="9" cy="8" r=".45" fill="oklch(67% 0.025 247)" opacity=".34"/></pattern>
+                      <marker id="arrowDim" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M7 0 0 3.5 7 7" fill="none" stroke="oklch(36% 0.03 247)" stroke-width=".9"/></marker>
+                    </defs>
+
+                    <g aria-label="levels">
+                      <line x1="55" y1="438" x2="1005" y2="438" class="cad-level"/><text x="1000" y="431" text-anchor="end" class="cad-muted">FFL +0.000</text>
+                      <line x1="55" y1="274" x2="1005" y2="274" class="cad-level"/><text x="1000" y="267" text-anchor="end" class="cad-muted">LANDING +1.700</text>
+                      <line x1="55" y1="104" x2="1005" y2="104" class="cad-level"/><text x="1000" y="97" text-anchor="end" class="cad-muted">FFL +3.400</text>
+                    </g>
+
+                    <g aria-label="concrete geometry and supports">
+                      <path d="M120 438 L144 420 L168 420 L168 398 L192 398 L192 376 L216 376 L216 354 L240 354 L240 332 L264 332 L264 310 L288 310 L288 288 L312 288 L312 274 L438 274 L462 256 L486 256 L486 234 L510 234 L510 212 L534 212 L534 190 L558 190 L558 168 L582 168 L582 146 L606 146 L606 124 L630 124 L630 104 L690 104 L720 82" class="cad-outline"/>
+                      <path d="M124 460 L322 298 L448 298 L724 128 L720 82 L438 274 L312 274 L120 438 Z" fill="url(#concDots)" stroke="none"/>
+                      <path d="M124 460 L322 298 L448 298 L724 128" class="cad-outline"/>
+                      <path d="M137 443 L319 286 L441 286 L714 113" class="cad-waist-top"/>
+                      <rect x="42" y="438" width="108" height="22" class="cad-support"/>
+                      <rect x="94" y="438" width="52" height="58" class="cad-support"/>
+                      <rect x="362" y="274" width="52" height="82" class="cad-support"/>
+                      <rect x="690" y="104" width="112" height="24" class="cad-support"/>
+                      <rect x="700" y="104" width="52" height="62" class="cad-support"/>
+                      <text x="388" y="369" text-anchor="middle" class="cad-muted">LB-01 · 250×450</text>
+                      <text x="105" y="509" text-anchor="middle" class="cad-muted">FB-01</text>
+                      <text x="726" y="179" text-anchor="middle" class="cad-muted">FB-02</text>
+                    </g>
+
+                    <g class="cover-note" aria-label="cover boundaries measured normal to concrete face">
+                      <path d="M129 455 L326 294 M452 294 L720 124" class="cad-cover"/>
+                      <path d="M141 447 L323 290 L443 290 L718 117" class="cad-cover"/>
+                      <path d="M201 376 L184 359" class="cad-dim" marker-start="url(#arrowDim)" marker-end="url(#arrowDim)"/>
+                      <text x="64" y="350" class="cad-blue">25 mm clear cover</text>
+                      <text x="64" y="364" class="cad-muted">เส้นประ = ขอบเขตถึงผิวเหล็ก ไม่ใช่แกนเหล็ก</text>
+                    </g>
+
+                    <g data-bar="S1" class="bar-geometry main-note" aria-label="S1 main bottom reinforcement separated by flight">
+                      <path d="M58 450 L113 450 Q123 450 132 443 L315 292 Q321 287 331 287 L374 287" class="cad-main"/>
+                      <path d="M402 290 L438 290 Q447 290 455 284 L718 119 Q727 115 738 116 L790 116" class="cad-main"/>
+                      <path d="M224 370 L185 388 L72 388" class="cad-dim"/>
+                      <text x="68" y="381" class="cad-red">S1 MAIN BOTTOM DB12 @150</text>
+                      <text x="68" y="398" class="cad-note">BOT-L1 · แยก Flight 1/2 · ฝังเข้า FB/LB ตาม Ld</text>
+                    </g>
+
+                    <g data-bar="S2" class="bar-geometry top-note" aria-label="S2 top reinforcement inside structural waist slab over supports">
+                      <path d="M238 362 L313 296 Q320 291 329 291 L430 291 Q438 291 446 286 L536 231" class="cad-top"/>
+                      <path d="M586 199 L696 128 Q703 124 712 124 L786 124" class="cad-top"/>
+                      <path d="M433 291 L492 207 L650 207" class="cad-dim"/>
+                      <text x="500" y="200" class="cad-violet">S2 TOP DB12 @150 OVER SUPPORT</text>
+                      <text x="500" y="216" class="cad-note">อยู่ใต้ structural waist top plane · ยื่น max(Ld, 0.30L)</text>
+                    </g>
+
+                    <g data-bar="D1" class="bar-geometry dist-note" aria-label="D1 distribution bars perpendicular to S1 and tied directly above it">
+                      <circle cx="160" cy="416" r="3" class="cad-dist"/><circle cx="190" cy="391" r="3" class="cad-dist"/><circle cx="220" cy="366" r="3" class="cad-dist"/><circle cx="250" cy="341" r="3" class="cad-dist"/><circle cx="280" cy="316" r="3" class="cad-dist"/>
+                      <circle cx="478" cy="266" r="3" class="cad-dist"/><circle cx="512" cy="244" r="3" class="cad-dist"/><circle cx="546" cy="223" r="3" class="cad-dist"/><circle cx="580" cy="202" r="3" class="cad-dist"/><circle cx="614" cy="180" r="3" class="cad-dist"/><circle cx="648" cy="159" r="3" class="cad-dist"/>
+                      <path d="M250 341 L282 258 L120 258" class="cad-dim"/><text x="64" y="250" class="cad-blue">D1 RB9 @200 · TRANSVERSE</text><text x="64" y="266" class="cad-note">จุดตัดวางชิดเหนือ S1 และผูกสัมผัสกัน</text>
+                    </g>
+
+                    <g data-bar="L1" class="bar-geometry" aria-label="L1 landing reinforcement with outer and inner directions tied in one bottom mat">
+                      <path d="M326 292 L446 292" class="cad-landing"/>
+                      <circle cx="338" cy="286" r="2.8" class="cad-landing"/><circle cx="362" cy="286" r="2.8" class="cad-landing"/><circle cx="386" cy="286" r="2.8" class="cad-landing"/><circle cx="410" cy="286" r="2.8" class="cad-landing"/><circle cx="434" cy="286" r="2.8" class="cad-landing"/>
+                      <path d="M386 292 L386 315 L535 315" class="cad-dim"/><text x="542" y="311" class="cad-green">L1-X / L1-Y DB12 @150</text><text x="542" y="327" class="cad-note">X outer + Y inner ผูกสัมผัสใน bottom mat</text>
+                    </g>
+
+                    <g aria-label="steps and dimensions">
+                      <text x="132" y="405" class="cad-muted">01</text><text x="180" y="363" class="cad-muted">03</text><text x="228" y="319" class="cad-muted">05</text><text x="276" y="277" class="cad-muted">07</text>
+                      <text x="476" y="243" class="cad-muted">10</text><text x="524" y="199" class="cad-muted">12</text><text x="572" y="155" class="cad-muted">14</text><text x="620" y="111" class="cad-muted">16</text>
+                      <line x1="120" y1="492" x2="312" y2="492" class="cad-dim" marker-start="url(#arrowDim)" marker-end="url(#arrowDim)"/><text x="216" y="486" text-anchor="middle" class="cad-note">Flight 1 = 2.00 m</text>
+                      <line x1="312" y1="492" x2="438" y2="492" class="cad-dim" marker-start="url(#arrowDim)" marker-end="url(#arrowDim)"/><text x="375" y="486" text-anchor="middle" class="cad-note">Landing 1.20 m</text>
+                      <line x1="438" y1="492" x2="720" y2="492" class="cad-dim" marker-start="url(#arrowDim)" marker-end="url(#arrowDim)"/><text x="579" y="486" text-anchor="middle" class="cad-note">Flight 2 = 2.00 m</text>
+                      <line x1="808" y1="104" x2="808" y2="438" class="cad-dim" marker-start="url(#arrowDim)" marker-end="url(#arrowDim)"/><text x="824" y="272" transform="rotate(-90 824 272)" text-anchor="middle" class="cad-note">Floor to floor = 3.400 m</text>
+                      <text x="850" y="150" class="cad-text">SUPPORT SCHEME</text><text x="850" y="170" class="cad-note">Flight 1: FB-01 → LB-01</text><text x="850" y="186" class="cad-note">Flight 2: LB-01 → FB-02</text><text x="850" y="202" class="cad-note">Landing supported at LB-01</text><text x="850" y="218" class="cad-note">waist t = 150 mm</text><text x="850" y="234" class="cad-note">clear cover = 25 mm</text>
+
+                      <g transform="translate(838 270)" aria-label="enlarged reinforcement layer detail">
+                        <rect x="0" y="0" width="184" height="154" fill="oklch(98.4% 0.006 247)" stroke="oklch(74% 0.03 247)"/>
+                        <text x="10" y="18" class="cad-text">DETAIL B · LAYER STACK</text>
+                        <line x1="16" y1="30" x2="168" y2="30" class="cad-outline"/>
+                        <line x1="16" y1="126" x2="168" y2="126" class="cad-outline"/>
+                        <line x1="16" y1="48" x2="168" y2="48" class="cad-cover"/>
+                        <line x1="16" y1="106" x2="168" y2="106" class="cad-cover"/>
+                        <circle cx="54" cy="54" r="6" fill="none" class="cad-top"/>
+                        <circle cx="54" cy="100" r="6" fill="none" class="cad-main"/>
+                        <circle cx="54" cy="89.5" r="4.5" class="cad-dist"/>
+                        <line x1="22" y1="106" x2="22" y2="126" class="cad-dim" marker-start="url(#arrowDim)" marker-end="url(#arrowDim)"/>
+                        <text x="28" y="121" class="cad-muted">25 clear</text>
+                        <text x="66" y="57" class="cad-violet">S2 top axis = 31</text>
+                        <text x="66" y="92" class="cad-blue">D1 inner axis = 41.5</text>
+                        <text x="66" y="104" class="cad-red">S1 outer axis = 31</text>
+                        <text x="10" y="144" class="cad-muted">S1 ↔ D1 c/c = (12+9)/2 = 10.5 mm · tied contact</text>
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+
+                <div class="drawing-view" data-drawing="plan">
+                  <svg class="cad-svg" viewBox="0 0 1060 520" role="img" aria-label="Stair reinforcement plan">
+                    <defs><marker id="upArrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 9 4.5 0 9Z" fill="oklch(23% 0.035 247)"/></marker></defs>
+                    <g transform="translate(170 55)">
+                      <rect x="0" y="0" width="620" height="390" class="cad-outline"/>
+                      <rect x="0" y="150" width="620" height="90" fill="url(#concDots)" class="cad-outline"/>
+                      <g class="cad-thin">
+                        <line x1="0" y1="18" x2="310" y2="18"/><line x1="0" y1="36" x2="310" y2="36"/><line x1="0" y1="54" x2="310" y2="54"/><line x1="0" y1="72" x2="310" y2="72"/><line x1="0" y1="90" x2="310" y2="90"/><line x1="0" y1="108" x2="310" y2="108"/><line x1="0" y1="126" x2="310" y2="126"/>
+                        <line x1="310" y1="258" x2="620" y2="258"/><line x1="310" y1="276" x2="620" y2="276"/><line x1="310" y1="294" x2="620" y2="294"/><line x1="310" y1="312" x2="620" y2="312"/><line x1="310" y1="330" x2="620" y2="330"/><line x1="310" y1="348" x2="620" y2="348"/><line x1="310" y1="366" x2="620" y2="366"/>
+                      </g>
+                      <g data-bar="S1" class="bar-geometry main-note"><line x1="28" y1="20" x2="28" y2="145" class="cad-main"/><line x1="58" y1="20" x2="58" y2="145" class="cad-main"/><line x1="88" y1="20" x2="88" y2="145" class="cad-main"/><line x1="118" y1="20" x2="118" y2="145" class="cad-main"/><line x1="148" y1="20" x2="148" y2="145" class="cad-main"/><line x1="178" y1="20" x2="178" y2="145" class="cad-main"/></g>
+                      <g data-bar="L1" class="bar-geometry"><line x1="14" y1="175" x2="606" y2="175" class="cad-landing"/><line x1="14" y1="200" x2="606" y2="200" class="cad-landing"/><line x1="14" y1="225" x2="606" y2="225" class="cad-landing"/></g>
+                      <g data-bar="S2" class="bar-geometry top-note"><line x1="455" y1="245" x2="455" y2="374" class="cad-top"/><line x1="485" y1="245" x2="485" y2="374" class="cad-top"/><line x1="515" y1="245" x2="515" y2="374" class="cad-top"/><line x1="545" y1="245" x2="545" y2="374" class="cad-top"/></g>
+                      <line x1="150" y1="125" x2="150" y2="35" class="cad-thin" marker-end="url(#upArrow)"/><text x="163" y="85" class="cad-text">UP</text>
+                      <line x1="470" y1="365" x2="470" y2="275" class="cad-thin" marker-end="url(#upArrow)"/><text x="483" y="324" class="cad-text">UP</text>
+                      <line x1="310" y1="0" x2="310" y2="390" class="cad-hidden"/><text x="320" y="20" class="cad-muted">CUT PLANE</text>
+                      <line x1="-45" y1="0" x2="-45" y2="390" class="cad-dim"/><text x="-57" y="195" transform="rotate(-90 -57 195)" text-anchor="middle" class="cad-note">STAIR WIDTH 1.20 m</text>
+                    </g>
+                    <text x="170" y="36" class="cad-text">STAIR PLAN · STR-01</text><text x="170" y="482" class="cad-note">Visible steps use solid line. Flight above cut plane uses hidden line. Bar marks trace to the same RebarGroup.</text>
+                  </svg>
+                </div>
+
+                <div class="drawing-view" data-drawing="cross">
+                  <svg class="cad-svg" viewBox="0 0 1060 520" role="img" aria-label="Stair cross section and reinforcement layers">
+                    <g transform="translate(130 72)">
+                      <text x="0" y="-25" class="cad-text">SECTION B-B · MID FLIGHT · TRUE SCALE REBAR POSITION</text>
+                      <path d="M0 110 L720 110 L720 260 L0 260 Z" fill="url(#concDots)" class="cad-outline"/>
+                      <path d="M25 135 L695 135 L695 235 L25 235 Z" class="cad-cover"/>
+                      <g data-bar="S1" class="bar-geometry main-note"><circle cx="65" cy="229" r="6" class="cad-main" fill="none"/><circle cx="185" cy="229" r="6" class="cad-main" fill="none"/><circle cx="305" cy="229" r="6" class="cad-main" fill="none"/><circle cx="425" cy="229" r="6" class="cad-main" fill="none"/><circle cx="545" cy="229" r="6" class="cad-main" fill="none"/><circle cx="665" cy="229" r="6" class="cad-main" fill="none"/></g>
+                      <g data-bar="D1" class="bar-geometry dist-note"><line x1="55" y1="218.5" x2="675" y2="218.5" class="cad-dist" stroke-width="9"/></g>
+                      <line x1="65" y1="229" x2="65" y2="300" class="cad-dim"/><line x1="665" y1="229" x2="665" y2="300" class="cad-dim"/><line x1="65" y1="290" x2="665" y2="290" class="cad-dim"/><text x="365" y="284" text-anchor="middle" class="cad-note">S1 DB12 @150 · outer layer nearest soffit</text>
+                      <line x1="-35" y1="110" x2="-35" y2="260" class="cad-dim"/><text x="-48" y="185" transform="rotate(-90 -48 185)" text-anchor="middle" class="cad-note">waist 150 mm</text>
+                      <path d="M720 229 L810 190" class="cad-dim"/><text x="820" y="194" class="cad-red">S1 axis = 31 mm</text>
+                      <path d="M680 218.5 L810 220" class="cad-dim"/><text x="820" y="224" class="cad-blue">D1 axis = 41.5 mm</text>
+                      <path d="M695 235 L810 260" class="cad-dim"/><text x="820" y="264" class="cad-blue">Cover boundary, non-plot</text>
+                      <text x="820" y="242" class="cad-muted">D1 ตั้งฉากและผูกสัมผัสบน S1</text>
+                    </g>
+                  </svg>
+                </div>
+
+                <div class="drawing-view" data-drawing="axon">
+                  <svg class="cad-svg" viewBox="0 0 1060 520" role="img" aria-label="Concept 3D stair reinforcement preview">
+                    <g transform="translate(205 80)">
+                      <text x="0" y="-30" class="cad-text">3D REINFORCEMENT PREVIEW · CONCEPT MOCKUP</text>
+                      <path d="M0 300 L160 390 L600 135 L440 45 Z" fill="oklch(94% 0.018 247)" stroke="oklch(67% 0.038 247)" stroke-width="1.2" opacity=".72"/>
+                      <path d="M0 300 L160 390 L160 420 L0 330 Z M160 390 L600 135 L600 165 L160 420" fill="oklch(88% 0.024 247)" stroke="oklch(67% 0.038 247)"/>
+                      <g data-bar="S1" class="bar-geometry main-note"><path d="M28 310 L176 394 L579 159" class="cad-main"/><path d="M56 294 L204 378 L607 143" class="cad-main"/><path d="M84 278 L232 362 L635 127" class="cad-main"/></g>
+                      <g data-bar="D1" class="bar-geometry dist-note"><path d="M92 330 L242 243" class="cad-dist" stroke-width="2"/><path d="M146 360 L296 273" class="cad-dist" stroke-width="2"/><path d="M240 344 L390 257" class="cad-dist" stroke-width="2"/><path d="M334 290 L484 203" class="cad-dist" stroke-width="2"/></g>
+                      <g data-bar="S2" class="bar-geometry top-note"><path d="M420 110 L448 126 L580 50" class="cad-top"/><path d="M390 128 L418 144 L550 68" class="cad-top"/></g>
+                      <text x="640" y="75" class="cad-note">เลือก Bar Mark ทางซ้าย</text><text x="640" y="92" class="cad-note">เพื่อ Highlight ชิ้นเดียวกัน</text><text x="640" y="109" class="cad-note">ในทุก View และ BBS</text>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+
+              <footer class="sheet-foot">
+                <div class="title-cell"><span>PROJECT / DRAWING</span><b>นายช่างใหญ่ CIVIL APPS · STR-01 REINFORCEMENT DETAIL</b></div>
+                <div class="title-cell"><span>DRAWN</span><b>DRAFTSMAN</b></div>
+                <div class="title-cell"><span>CHECK</span><b>ENGINEER</b></div>
+                <div class="title-cell"><span>SHEET</span><b>S-05 / R0</b></div>
+              </footer>
+            </article>
+          </div>
+        </section>
+
+        <aside class="inspector" aria-label="คุณสมบัติและการตรวจสอบ">
+          <section class="panel-section">
+            <div class="panel-head"><h2>Selected Bar · <span id="selectedMark">S1</span></h2><span>LIVE LINK</span></div>
+            <div class="property-grid">
+              <div class="field"><label>Layer</label><div class="field-value" id="propLayer">BOT-L1 · OUTER</div></div>
+              <div class="field"><label>Bar</label><div class="field-value" id="propBar">DB12@150</div></div>
+              <div class="field"><label>Clear Cover</label><div class="field-value">25 <em>mm</em></div></div>
+              <div class="field"><label>Bar Radius</label><div class="field-value" id="propRadius">6 <em>mm</em></div></div>
+              <div class="field"><label>Axis from Face</label><div class="field-value" id="propAxis">31 <em>mm</em></div></div>
+              <div class="field"><label>Shape Code</label><div class="field-value" id="propShape">21</div></div>
+            </div>
+            <div class="formula" id="propFormula"><b>Bottom main centerline</b><br/>cover + 0.5db = 25 + 6 = <strong>31 mm</strong><br/>วัดตั้งฉากจาก soffit ถึงแกน S1</div>
+          </section>
+
+          <section class="panel-section">
+            <div class="panel-head"><h2>QA/QC Summary</h2><span>10 CHECKS</span></div>
+            <div class="qa-list">
+              <div class="qa-row pass"><span class="qa-icon">✓</span><span class="qa-copy"><b>Cover boundary</b><small>เหล็กอยู่ภายในทุกเส้น</small></span><span class="qa-value">26 min</span></div>
+              <div class="qa-row pass"><span class="qa-icon">✓</span><span class="qa-copy"><b>Layer ordering</b><small>S1 outer / D1 inner ผูกสัมผัส</small></span><span class="qa-value">10.5 c/c</span></div>
+              <div class="qa-row pass"><span class="qa-icon">✓</span><span class="qa-copy"><b>Development</b><small>Available ≥ Required</small></span><span class="qa-value">520 ≥ 462</span></div>
+              <div class="qa-row pass"><span class="qa-icon">✓</span><span class="qa-copy"><b>Support scheme</b><small>FB-01 / LB-01 / FB-02</small></span><span class="qa-value">LOCKED</span></div>
+              <div class="qa-row warn"><span class="qa-icon">!</span><span class="qa-copy"><b>Plan vs Section</b><small>รออัปเดต Plan ตาม Revision นี้</small></span><span class="qa-value">REVIEW</span></div>
+              <div class="qa-row warn"><span class="qa-icon">!</span><span class="qa-copy"><b>Engineer notes</b><small>ยังไม่ได้ลงนามตรวจแบบ</small></span><span class="qa-value">OPEN</span></div>
+            </div>
+          </section>
+
+          <section class="panel-section">
+            <div class="panel-head"><h2>Export Readiness</h2><span>DRAFT</span></div>
+            <div class="notice">ไม่มี Reinforcement Clash ระดับ FAIL จึง Preview ได้ แต่ Shop Drawing Final ต้องผ่าน Engineer Review และปิด Warning ก่อน</div>
+            <button class="btn primary" style="width:100%; margin-top:7px" disabled>Final Shop Drawing Locked</button>
+          </section>
+        </aside>
+      </section>
+
+      <section class="schedule">
+        <header class="schedule-head"><div><h2>Bar Bending Schedule · Linked Geometry</h2><span>เลือกแถวเพื่อ Highlight เหล็กใน Section, Plan และ 3D Preview</span></div><span>Total steel 142.6 kg · Mock data</span></header>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Mark</th><th>Member</th><th>Location / Layer</th><th>Bar</th><th>Shape</th><th>A</th><th>B</th><th>C</th><th>Cut Length</th><th>Qty</th><th>Total Weight</th><th>QA</th></tr></thead>
+            <tbody>
+              <tr data-bar-row="S1" class="active"><td class="mono"><b>S1</b></td><td>FL-01/02</td><td>Main bottom · BOT-L1</td><td class="mono">DB12@150</td><td><svg class="shape-mini" viewBox="0 0 62 18"><path d="M3 14 H12 L50 4 H59" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></td><td class="mono">Ld</td><td class="mono">2,680</td><td class="mono">Ld</td><td class="mono">By geometry</td><td class="mono">16</td><td class="mono">Mock</td><td><span class="pill warn">! REVIEW</span></td></tr>
+              <tr data-bar-row="S2"><td class="mono"><b>S2</b></td><td>LB/FB</td><td>Support top · TOP-L1</td><td class="mono">DB12@150</td><td><svg class="shape-mini" viewBox="0 0 62 18"><path d="M4 14 L20 5 H42 L58 14" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></td><td class="mono">max(Ld,.3L)</td><td class="mono">Support</td><td class="mono">max(Ld,.3L)</td><td class="mono">By geometry</td><td class="mono">24</td><td class="mono">Mock</td><td><span class="pill warn">! REVIEW</span></td></tr>
+              <tr data-bar-row="D1"><td class="mono"><b>D1</b></td><td>STR-01</td><td>Distribution · INNER</td><td class="mono">RB9@200</td><td><svg class="shape-mini" viewBox="0 0 62 18"><line x1="5" y1="9" x2="57" y2="9" stroke="currentColor" stroke-width="1.5"/></svg></td><td class="mono">1,150</td><td class="mono">0</td><td class="mono">0</td><td class="mono">1,150 mm</td><td class="mono">48</td><td class="mono">34.1 kg</td><td><span class="pill pass">✓ PASS</span></td></tr>
+              <tr data-bar-row="L1"><td class="mono"><b>L1</b></td><td>LAND-01</td><td>Landing bottom · X/Y 2 layers</td><td class="mono">DB12@150 EW</td><td><svg class="shape-mini" viewBox="0 0 62 18"><line x1="5" y1="6" x2="57" y2="6" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="13" r="1.5" fill="currentColor"/><circle cx="31" cy="13" r="1.5" fill="currentColor"/><circle cx="48" cy="13" r="1.5" fill="currentColor"/></svg></td><td class="mono">X</td><td class="mono">Y</td><td class="mono">2 layers</td><td class="mono">By geometry</td><td class="mono">27</td><td class="mono">Mock</td><td><span class="pill warn">! REVIEW</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="footnote">Mockup นี้แสดงหลักการ traceability ระหว่าง Geometry, RebarGroup, Drawing Callout และ BBS เท่านั้น ค่าทางวิศวกรรมทั้งหมดต้องมาจาก Calculation Engine และผ่าน Owner/Engineer Approval ก่อนใช้จริง</div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const sheet = document.getElementById('drawingSheet');
+    const titles = {
+      section: ['SECTION A-A · STRAIGHT STAIR WITH INTERMEDIATE LANDING', 'Flights supported by floor beams and LB-01 · reinforcement paths follow support condition'],
+      plan: ['STAIR PLAN · STR-01', 'Cut plane, visible and hidden steps, direction arrow and reinforcement marks'],
+      cross: ['SECTION B-B · REINFORCEMENT LAYERS', 'True scale bar diameter with outer and inner layers separated'],
+      axon: ['3D REINFORCEMENT PREVIEW · STR-01', 'Concept mockup for cross-view selection and clash review']
+    };
+    const barProps = {
+      S1: { layer: 'BOT-L1 · OUTER', bar: 'DB12@150', radius: '6 mm', shape: '21', axis: '31 mm', formula: '<b>Bottom main centerline</b><br/>cover + 0.5db = 25 + 6 = <strong>31 mm</strong><br/>วัดตั้งฉากจาก soffit ถึงแกน S1' },
+      S2: { layer: 'TOP-L1 · OUTER', bar: 'DB12@150', radius: '6 mm', shape: '21', axis: '31 mm', formula: '<b>Support top centerline</b><br/>top cover + 0.5db = 25 + 6 = <strong>31 mm</strong><br/>อ้างอิง structural waist top plane ไม่ใช่ผิวขั้น' },
+      D1: { layer: 'BOT-L2 · INNER', bar: 'RB9@200', radius: '4.5 mm', shape: '00', axis: '41.5 mm', formula: '<b>Distribution centerline</b><br/>25 cover + 12 main + 4.5 = <strong>41.5 mm</strong><br/>D1 ตั้งฉากและผูกสัมผัสบน S1 ไม่มีช่องว่าง 20 mm' },
+      L1: { layer: 'LANDING BOT-X/Y', bar: 'DB12@150 EW', radius: '6 mm', shape: '00', axis: 'X 31 / Y 43 mm', formula: '<b>Landing bottom mat</b><br/>X outer axis = <strong>31 mm</strong><br/>Y inner axis = 25 + 12 + 6 = <strong>43 mm</strong> เมื่อผูกสัมผัส' }
+    };
+
+    function setView(view) {
+      document.querySelectorAll('[data-view]').forEach((button) => button.classList.toggle('active', button.dataset.view === view));
+      document.querySelectorAll('[data-drawing]').forEach((drawing) => drawing.classList.toggle('active', drawing.dataset.drawing === view));
+      document.getElementById('sheetTitle').textContent = titles[view][0];
+      document.getElementById('sheetSubtitle').textContent = titles[view][1];
+    }
+
+    function selectBar(mark) {
+      sheet.dataset.selected = mark;
+      document.querySelectorAll('[data-select-bar]').forEach((row) => row.classList.toggle('active', row.dataset.selectBar === mark));
+      document.querySelectorAll('[data-bar-row]').forEach((row) => row.classList.toggle('active', row.dataset.barRow === mark));
+      document.getElementById('selectedMark').textContent = mark;
+      document.getElementById('propLayer').textContent = barProps[mark].layer;
+      document.getElementById('propBar').textContent = barProps[mark].bar;
+      document.getElementById('propRadius').innerHTML = `${barProps[mark].radius} <em>radius</em>`;
+      document.getElementById('propShape').textContent = barProps[mark].shape;
+      document.getElementById('propAxis').innerHTML = `${barProps[mark].axis} <em>from face</em>`;
+      document.getElementById('propFormula').innerHTML = barProps[mark].formula;
+    }
+
+    document.querySelectorAll('[data-view]').forEach((button) => button.addEventListener('click', () => setView(button.dataset.view)));
+    document.querySelectorAll('[data-select-bar]').forEach((row) => row.addEventListener('click', () => selectBar(row.dataset.selectBar)));
+    document.querySelectorAll('[data-bar-row]').forEach((row) => row.addEventListener('click', () => selectBar(row.dataset.barRow)));
+    document.querySelectorAll('[data-layer]').forEach((toggle) => toggle.addEventListener('change', () => sheet.classList.toggle(`hide-${toggle.dataset.layer}`, !toggle.checked)));
+    document.getElementById('scaleMode').addEventListener('click', (event) => {
+      const symbolic = sheet.classList.toggle('symbolic');
+      event.currentTarget.textContent = symbolic ? 'Symbolic' : 'True Scale';
+    });
+    document.getElementById('exportBtn').addEventListener('click', () => alert('Mockup only: Preview export flow. Final drawing remains locked until Engineer Review.'));
+  </script>
+</body>
+</html>

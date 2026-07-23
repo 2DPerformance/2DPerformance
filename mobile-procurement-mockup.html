@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f4f6f8" />
+  <title>2D Procurement · Mobile PR Mockup</title>
+  <style>
+    :root {
+      --ink: oklch(23% 0.018 252);
+      --text: oklch(34% 0.024 252);
+      --muted: oklch(55% 0.025 252);
+      --line: oklch(87% 0.012 252);
+      --soft-line: oklch(92% 0.009 252);
+      --page: oklch(97% 0.008 252);
+      --surface: oklch(99% 0.005 252);
+      --panel: oklch(95.5% 0.011 252);
+      --blue: oklch(51% 0.17 252);
+      --blue-soft: oklch(95% 0.035 252);
+      --red: oklch(51% 0.19 25);
+      --green: oklch(49% 0.12 155);
+      --green-soft: oklch(95% 0.035 155);
+      --amber: oklch(61% 0.13 70);
+      --amber-soft: oklch(96% 0.04 78);
+      --shadow: 0 12px 32px color-mix(in oklch, var(--ink) 10%, transparent);
+      --nav-h: 72px;
+      --cart-h: 72px;
+      font-family: "Prompt", "Sarabun", "Noto Sans Thai", system-ui, sans-serif;
+      color-scheme: light;
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--page); }
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 18% 5%, oklch(91% 0.04 252 / 0.45), transparent 28rem),
+        var(--page);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid color-mix(in oklch, var(--blue) 22%, transparent);
+      outline-offset: 2px;
+    }
+
+    .showcase-note { display: none; }
+    .app-shell {
+      width: 100%;
+      min-height: 100dvh;
+      margin: 0 auto;
+      background: var(--page);
+      position: relative;
+      overflow-x: clip;
+    }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      padding: max(10px, env(safe-area-inset-top)) 14px 10px;
+      background: color-mix(in oklch, var(--page) 95%, transparent);
+      border-bottom: 1px solid var(--soft-line);
+      box-shadow: 0 1px 2px oklch(23% 0.02 252 / 0.05);
+    }
+
+    .header-row, .section-row, .price-row, .field-label-row, .success-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .project-trigger {
+      min-width: 0;
+      min-height: 48px;
+      padding: 4px 8px 4px 2px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      text-align: left;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .project-trigger span { display: block; color: var(--muted); font-size: 11px; font-weight: 650; }
+    .project-trigger strong {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      max-width: 245px;
+      font-size: 15px;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sync-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 44px;
+      padding: 0 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+    .sync-state.offline { color: oklch(44% 0.09 65); background: var(--amber-soft); border-color: oklch(85% 0.06 70); }
+    .sync-state.offline .sync-dot { background: var(--amber); }
+
+    .search-wrap { position: relative; margin-top: 8px; }
+    .search-wrap svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+    .search-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 44px 0 42px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 14px;
+      box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.65);
+    }
+    .scan-button {
+      position: absolute;
+      right: 2px;
+      top: 2px;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--blue);
+      cursor: pointer;
+    }
+
+    main { padding: 0 14px calc(var(--nav-h) + var(--cart-h) + 20px); }
+    .view { display: none; }
+    .view.active { display: block; animation: reveal 180ms cubic-bezier(.22,1,.36,1); }
+    @keyframes reveal { from { opacity: .5; transform: translateY(3px); } }
+
+    .catalog-intro { padding: 16px 0 12px; }
+    .eyebrow { margin: 0 0 4px; color: var(--blue); font-size: 11px; line-height: 1.2; font-weight: 800; letter-spacing: .05em; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 2px; color: var(--ink); font-size: 22px; line-height: 1.25; letter-spacing: -.02em; }
+    h2 { margin-bottom: 0; color: var(--ink); font-size: 17px; line-height: 1.3; }
+    h3 { margin-bottom: 2px; color: var(--ink); font-size: 14px; line-height: 1.35; }
+    .subtle { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+    .category-scroller {
+      display: flex;
+      gap: 8px;
+      margin: 0 -14px 16px;
+      padding: 0 14px 2px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      scroll-snap-type: x proximity;
+    }
+    .category-scroller::-webkit-scrollbar { display: none; }
+    .category-chip {
+      flex: 0 0 auto;
+      min-height: 44px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+      scroll-snap-align: start;
+      cursor: pointer;
+    }
+    .category-chip.active { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+
+    .section-row { margin-bottom: 10px; }
+    .result-count { color: var(--muted); font-size: 11px; font-weight: 700; }
+    .product-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .product-card {
+      display: grid;
+      grid-template-columns: 108px minmax(0, 1fr);
+      min-height: 142px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+    .product-visual {
+      min-height: 142px;
+      display: grid;
+      place-items: center;
+      background: var(--visual-bg, var(--panel));
+      border-right: 1px solid var(--soft-line);
+      overflow: hidden;
+    }
+    .product-visual svg { width: 92%; height: 92%; }
+    .product-info { min-width: 0; padding: 12px 11px 10px; display: flex; flex-direction: column; }
+    .sku { margin: 0 0 4px; color: var(--muted); font: 700 10px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .product-name { margin: 0; color: var(--ink); font-size: 14px; line-height: 1.35; font-weight: 750; }
+    .product-meta { margin: 2px 0 8px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+    .price-row { margin-top: auto; align-items: flex-end; }
+    .price { color: var(--ink); font-size: 15px; font-weight: 800; white-space: nowrap; }
+    .price small { color: var(--muted); font-size: 10px; font-weight: 650; }
+    .add-button, .qty-control {
+      min-height: 46px;
+      border-radius: 8px;
+    }
+    .add-button {
+      min-width: 78px;
+      padding: 0 12px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--surface);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .qty-control {
+      display: grid;
+      grid-template-columns: 44px 34px 44px;
+      align-items: center;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      overflow: hidden;
+    }
+    .qty-control button { height: 44px; border: 0; background: var(--panel); color: var(--ink); font-size: 20px; cursor: pointer; }
+    .qty-control strong { text-align: center; color: var(--ink); font-size: 13px; }
+
+    .empty-state { padding: 50px 18px; text-align: center; color: var(--muted); }
+    .empty-state svg { margin-bottom: 10px; color: var(--line); }
+
+    .sticky-cart {
+      position: fixed;
+      z-index: 35;
+      left: max(10px, env(safe-area-inset-left));
+      right: max(10px, env(safe-area-inset-right));
+      bottom: calc(var(--nav-h) + max(8px, env(safe-area-inset-bottom)));
+      max-width: 410px;
+      min-height: 60px;
+      margin: 0 auto;
+      padding: 7px 8px 7px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid oklch(30% 0.02 252);
+      border-radius: 11px;
+      background: var(--ink);
+      color: var(--surface);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transform: translateY(0);
+      transition: transform 180ms cubic-bezier(.22,1,.36,1), opacity 180ms ease;
+    }
+    .sticky-cart.hidden { pointer-events: none; opacity: 0; transform: translateY(14px); }
+    .cart-icon-wrap { position: relative; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 8px; background: oklch(100% 0 0 / .10); }
+    .cart-badge { position: absolute; top: -5px; right: -5px; min-width: 20px; height: 20px; padding: 0 5px; display: grid; place-items: center; border: 2px solid var(--ink); border-radius: 999px; background: var(--red); color: var(--surface); font-size: 10px; font-weight: 800; }
+    .cart-summary { min-width: 0; flex: 1; text-align: left; }
+    .cart-summary strong, .cart-summary span { display: block; }
+    .cart-summary strong { font-size: 13px; }
+    .cart-summary span { color: oklch(86% 0.014 252); font-size: 10px; }
+    .cart-total { font: 800 14px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; white-space: nowrap; }
+
+    .bottom-nav {
+      position: fixed;
+      z-index: 40;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: calc(var(--nav-h) + env(safe-area-inset-bottom));
+      padding: 6px max(6px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(6px, env(safe-area-inset-left));
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background: color-mix(in oklch, var(--surface) 97%, transparent);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -2px 12px oklch(23% 0.02 252 / .06);
+    }
+    .nav-button {
+      min-width: 0;
+      min-height: 58px;
+      padding: 5px 2px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .nav-button.active { color: var(--blue); background: var(--blue-soft); }
+
+    .view-header { padding: 18px 0 14px; display: flex; align-items: flex-start; gap: 9px; }
+    .back-button { flex: 0 0 auto; width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); cursor: pointer; }
+    .view-title { min-width: 0; padding-top: 1px; }
+    .view-title h1 { font-size: 20px; }
+
+    .cart-lines { border-top: 1px solid var(--line); }
+    .cart-line {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .cart-line-visual { width: 58px; height: 58px; display: grid; place-items: center; overflow: hidden; border-radius: 8px; background: var(--panel); }
+    .cart-line-visual svg { width: 92%; height: 92%; }
+    .cart-line-copy { min-width: 0; }
+    .cart-line-copy strong { display: block; color: var(--ink); font-size: 13px; line-height: 1.35; }
+    .cart-line-copy span { color: var(--muted); font-size: 10px; }
+    .line-amount { margin-top: 3px; color: var(--ink); font-size: 12px; font-weight: 800; }
+    .mini-qty { display: grid; grid-template-columns: 34px 28px 34px; align-items: center; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+    .mini-qty button { width: 34px; height: 44px; border: 0; background: var(--panel); color: var(--ink); font-size: 18px; cursor: pointer; }
+    .mini-qty strong { color: var(--ink); text-align: center; font-size: 12px; }
+
+    .summary-panel { margin: 14px 0; padding: 13px 14px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
+    .summary-row { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; color: var(--muted); font-size: 12px; }
+    .summary-row strong { color: var(--ink); font-weight: 750; }
+    .summary-row.total { margin-top: 7px; padding-top: 11px; border-top: 1px solid var(--line); color: var(--ink); font-size: 14px; }
+    .summary-row.total strong { font-size: 17px; }
+
+    .primary-action, .secondary-action {
+      width: 100%;
+      min-height: 50px;
+      padding: 0 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .primary-action { border: 1px solid var(--ink); background: var(--ink); color: var(--surface); }
+    .primary-action:disabled { cursor: not-allowed; opacity: .48; }
+    .secondary-action { border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+
+    .progress-rail { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin: 2px 0 18px; }
+    .progress-segment { height: 4px; border-radius: 999px; background: var(--line); }
+    .progress-segment.done, .progress-segment.active { background: var(--blue); }
+
+    .form-section { margin-bottom: 18px; }
+    .form-section-title { margin-bottom: 9px; color: var(--ink); font-size: 14px; font-weight: 800; }
+    .field { margin-bottom: 12px; }
+    .field label { display: block; margin-bottom: 6px; color: var(--text); font-size: 12px; font-weight: 750; }
+    .field-label-row label { margin-bottom: 6px; }
+    .optional { color: var(--muted); font-size: 10px; font-weight: 650; }
+    .control {
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 14px;
+    }
+    textarea.control { min-height: 94px; resize: vertical; line-height: 1.5; }
+    .field-help { margin: 5px 0 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
+
+    .attach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .attach-button {
+      min-height: 72px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      border: 1px dashed oklch(72% 0.045 252);
+      border-radius: 9px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .attachment-preview { display: none; margin-top: 8px; padding: 8px; align-items: center; gap: 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    .attachment-preview.visible { display: flex; }
+    .preview-thumb { width: 48px; height: 48px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 7px; background: var(--panel); color: var(--blue); }
+    .preview-copy { min-width: 0; flex: 1; }
+    .preview-copy strong, .preview-copy span { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .preview-copy strong { color: var(--ink); font-size: 11px; }
+    .preview-copy span { color: var(--muted); font-size: 10px; }
+    .remove-attachment { width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 7px; background: var(--panel); color: var(--muted); cursor: pointer; }
+
+    .draft-note { margin: 12px 0 16px; display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--muted); font-size: 10px; }
+    .draft-note.saved { color: var(--green); }
+
+    .review-block { margin-bottom: 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); overflow: hidden; }
+    .review-heading { padding: 11px 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 12px; font-weight: 800; }
+    .text-button { min-height: 44px; padding: 0 8px; border: 0; border-radius: 6px; background: transparent; color: var(--blue); font-size: 11px; font-weight: 800; cursor: pointer; }
+    .review-body { padding: 10px 12px; }
+    .review-row { display: grid; grid-template-columns: 110px 1fr; gap: 9px; padding: 5px 0; font-size: 11px; line-height: 1.5; }
+    .review-row span { color: var(--muted); }
+    .review-row strong { color: var(--ink); font-weight: 700; }
+    .consent { display: flex; align-items: flex-start; gap: 9px; margin: 14px 0; color: var(--text); font-size: 11px; line-height: 1.5; }
+    .consent input { flex: 0 0 auto; width: 20px; height: 20px; margin: 0; accent-color: var(--blue); }
+
+    .success-view { min-height: calc(100dvh - var(--nav-h) - 30px); padding: 54px 0 24px; text-align: center; }
+    .success-mark { width: 70px; height: 70px; margin: 0 auto 17px; display: grid; place-items: center; border-radius: 50%; background: var(--green-soft); color: var(--green); }
+    .success-view h1 { font-size: 23px; }
+    .pr-number { margin: 4px 0 6px; color: var(--blue); font: 800 17px/1.3 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .status-pill { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 10px; border: 1px solid oklch(84% 0.06 75); border-radius: 999px; background: var(--amber-soft); color: oklch(43% 0.1 70); font-size: 11px; font-weight: 800; }
+    .success-summary { margin: 22px 0 14px; padding: 8px 13px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); text-align: left; }
+    .line-status { margin-bottom: 16px; padding: 11px 12px; display: flex; align-items: flex-start; gap: 9px; border: 1px solid oklch(85% 0.05 155); border-radius: 9px; background: var(--green-soft); color: oklch(40% 0.09 155); text-align: left; font-size: 11px; line-height: 1.5; }
+    .success-actions { flex-direction: column; }
+
+    .toast {
+      position: fixed;
+      z-index: 60;
+      left: 50%;
+      bottom: calc(var(--nav-h) + 18px);
+      width: calc(100% - 28px);
+      max-width: 390px;
+      padding: 11px 13px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: var(--surface);
+      box-shadow: var(--shadow);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 10px);
+      transition: opacity 170ms ease, transform 170ms cubic-bezier(.22,1,.36,1);
+    }
+    .toast.visible { opacity: 1; transform: translate(-50%, 0); }
+    .toast.error { background: oklch(39% 0.12 25); }
+
+    .skeleton { position: relative; overflow: hidden; background: var(--panel); color: transparent; }
+    .skeleton::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, oklch(100% 0 0 / .7), transparent); transform: translateX(-100%); animation: shimmer 1s infinite; }
+    @keyframes shimmer { to { transform: translateX(100%); } }
+
+    @media (min-width: 410px) {
+      .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .product-card { display: flex; flex-direction: column; min-height: 310px; }
+      .product-visual { min-height: 130px; border-right: 0; border-bottom: 1px solid var(--soft-line); }
+      .product-info { min-height: 178px; flex: 1; }
+      .product-card .price-row { display: grid; grid-template-columns: 1fr; gap: 6px; align-items: center; }
+      .product-card .qty-control { width: 100%; grid-template-columns: 44px 1fr 44px; }
+      .product-card .qty-control button { width: 44px; }
+      .product-card .add-button { width: 100%; }
+    }
+
+    @media (min-width: 700px) {
+      body { padding: 36px 0; }
+      .app-shell { max-width: 430px; min-height: calc(100dvh - 72px); border: 1px solid var(--line); border-radius: 24px; box-shadow: 0 28px 90px oklch(23% 0.02 252 / .16); overflow: clip; }
+      .app-header { top: 0; }
+      .bottom-nav { left: 50%; right: auto; width: 428px; transform: translateX(-50%); bottom: 36px; border-radius: 0 0 23px 23px; }
+      .sticky-cart { bottom: calc(36px + var(--nav-h) + 8px); }
+      .toast { bottom: calc(36px + var(--nav-h) + 18px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <header class="app-header" id="appHeader">
+      <div class="header-row">
+        <button class="project-trigger" type="button" id="projectTrigger" aria-label="เลือกโครงการ">
+          <span>กำลังสั่งวัสดุให้</span>
+          <strong>อาคารสำนักงาน NCY <svg width="15" height="15" aria-hidden="true"><use href="#chevron-down" /></svg></strong>
+        </button>
+        <button class="sync-state" type="button" id="syncState" aria-label="สถานะการเชื่อมต่อ กดเพื่อจำลองออฟไลน์">
+          <i class="sync-dot"></i><span>บันทึกแล้ว</span>
+        </button>
+      </div>
+      <div class="search-wrap" id="searchWrap">
+        <svg width="19" height="19" aria-hidden="true"><use href="#search" /></svg>
+        <input class="search-input" id="searchInput" type="search" placeholder="ค้นหาสินค้า รหัส หรือหมวด" autocomplete="off" />
+        <button class="scan-button" type="button" id="scanButton" aria-label="สแกนบาร์โค้ด">
+          <svg width="21" height="21" aria-hidden="true"><use href="#scan" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="view active" id="catalogView" data-view="catalog">
+        <div class="catalog-intro">
+          <p class="eyebrow">รายการวัสดุหน้างาน</p>
+          <h1>เลือกของที่ต้องใช้</h1>
+          <p class="subtle">แตะเพิ่มได้ทันที รายละเอียดอื่นค่อยระบุในตะกร้า</p>
+        </div>
+        <div class="category-scroller" id="categoryScroller" aria-label="หมวดสินค้า"></div>
+        <div class="section-row">
+          <h2 id="categoryTitle">ใช้บ่อยในโครงการ</h2>
+          <span class="result-count" id="resultCount">0 รายการ</span>
+        </div>
+        <div class="product-grid" id="productGrid" aria-live="polite"></div>
+      </section>
+
+      <section class="view" id="cartView" data-view="cart">
+        <div class="view-header">
+          <button class="back-button" type="button" data-back="catalog" aria-label="กลับไปสินค้า"><svg width="21" height="21" aria-hidden="true"><use href="#arrow-left" /></svg></button>
+          <div class="view-title"><p class="eyebrow">ขั้นที่ 1 จาก 3</p><h1>ตะกร้าวัสดุ</h1><p class="subtle" id="cartSubtitle">ตรวจจำนวนก่อนสร้าง PR</p></div>
+        </div>
+        <div class="progress-rail" aria-label="ความคืบหน้า"><i class="progress-segment active"></i><i class="progress-segment"></i><i class="progress-segment"></i></div>
+        <div class="cart-lines" id="cartLines"></div>
+        <div class="summary-panel" id="cartSummary"></div>
+        <button class="primary-action" type="button" id="toFormButton">ระบุการใช้งานและวันที่</button>
+      </section>
+
+      <section class="view" id="formView" data-view="form">
+        <div class="view-header">
+          <button class="back-button" type="button" data-back="cart" aria-label="กลับไปตะกร้า"><svg width="21" height="21" aria-hidden="true"><use href="#arrow-left" /></svg></button>
+          <div class="view-title"><p class="eyebrow">ขั้นที่ 2 จาก 3</p><h1>รายละเอียดการใช้งาน</h1><p class="subtle">ข้อมูลจำเป็นสำหรับผู้อนุมัติและฝ่ายจัดซื้อ</p></div>
+        </div>
+        <div class="progress-rail"><i class="progress-segment done"></i><i class="progress-segment active"></i><i class="progress-segment"></i></div>
+        <form id="prForm">
+          <div class="form-section">
+            <div class="form-section-title">ต้องการใช้ที่ไหนและเมื่อไร</div>
+            <div class="field">
+              <label for="useArea">พื้นที่ใช้งาน</label>
+              <input class="control" id="useArea" name="useArea" required value="ชั้น 2 งานผนัง" placeholder="เช่น ชั้น 2 งานผนัง" />
+            </div>
+            <div class="field">
+              <label for="needDate">วันที่ต้องการใช้</label>
+              <input class="control" id="needDate" name="needDate" type="date" required value="2026-07-30" />
+            </div>
+            <div class="field">
+              <label for="urgency">ความเร่งด่วน</label>
+              <select class="control" id="urgency" name="urgency"><option value="normal">ปกติ</option><option value="urgent">เร่งด่วน</option><option value="critical">ต้องใช้ภายใน 24 ชั่วโมง</option></select>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="field">
+              <div class="field-label-row"><label for="reason">เหตุผล</label><span class="optional">ไม่เกิน 300 ตัวอักษร</span></div>
+              <textarea class="control" id="reason" name="reason" maxlength="300" placeholder="อธิบายงานที่จะนำวัสดุไปใช้">ใช้สำหรับงานก่อผนังชั้น 2 ตามแผนงานประจำสัปดาห์</textarea>
+            </div>
+            <div class="field">
+              <div class="field-label-row"><label>รูปประกอบ</label><span class="optional">ไม่บังคับ</span></div>
+              <div class="attach-grid">
+                <label class="attach-button" for="cameraInput"><svg width="23" height="23" aria-hidden="true"><use href="#camera" /></svg>ถ่ายรูปหน้างาน</label>
+                <label class="attach-button" for="galleryInput"><svg width="23" height="23" aria-hidden="true"><use href="#image" /></svg>เลือกจากคลัง</label>
+              </div>
+              <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden />
+              <input id="galleryInput" type="file" accept="image/*" hidden />
+              <div class="attachment-preview" id="attachmentPreview">
+                <div class="preview-thumb"><svg width="23" height="23" aria-hidden="true"><use href="#image" /></svg></div>
+                <div class="preview-copy"><strong id="attachmentName">รูปพื้นที่ใช้งาน.jpg</strong><span>แนบกับ PR นี้</span></div>
+                <button class="remove-attachment" type="button" id="removeAttachment" aria-label="ลบรูปแนบ"><svg width="18" height="18" aria-hidden="true"><use href="#x" /></svg></button>
+              </div>
+              <p class="field-help">รูปจะเก็บในแบบร่างจนกว่าส่ง PR สำเร็จ</p>
+            </div>
+          </div>
+          <button class="primary-action" type="submit">ตรวจสอบก่อนส่ง</button>
+          <p class="draft-note saved" id="draftNote"><svg width="14" height="14" aria-hidden="true"><use href="#cloud-check" /></svg><span>บันทึกแบบร่างอัตโนมัติแล้ว</span></p>
+        </form>
+      </section>
+
+      <section class="view" id="reviewView" data-view="review">
+        <div class="view-header">
+          <button class="back-button" type="button" data-back="form" aria-label="กลับไปแก้ไข"><svg width="21" height="21" aria-hidden="true"><use href="#arrow-left" /></svg></button>
+          <div class="view-title"><p class="eyebrow">ขั้นที่ 3 จาก 3</p><h1>ตรวจสอบก่อนส่ง</h1><p class="subtle">ข้อมูลนี้จะส่งให้ผู้อนุมัติลำดับถัดไป</p></div>
+        </div>
+        <div class="progress-rail"><i class="progress-segment done"></i><i class="progress-segment done"></i><i class="progress-segment active"></i></div>
+        <div id="reviewContent"></div>
+        <label class="consent"><input id="confirmCheck" type="checkbox" checked /><span>ยืนยันว่ารายการและจำนวนวัสดุถูกต้องตามการใช้งานหน้างาน</span></label>
+        <button class="primary-action" type="button" id="submitPrButton">ส่ง PR ขออนุมัติ</button>
+        <p class="draft-note saved"><svg width="14" height="14" aria-hidden="true"><use href="#shield" /></svg><span>หาก LINE ส่งไม่สำเร็จ PR จะยังถูกบันทึกตามปกติ</span></p>
+      </section>
+
+      <section class="view success-view" id="successView" data-view="success">
+        <div class="success-mark"><svg width="36" height="36" aria-hidden="true"><use href="#check" /></svg></div>
+        <h1>ส่งคำขอเรียบร้อย</h1>
+        <div class="pr-number">PR-2026-000125</div>
+        <div class="status-pill"><svg width="15" height="15" aria-hidden="true"><use href="#clock" /></svg>รออนุมัติ</div>
+        <div class="success-summary" id="successSummary"></div>
+        <div class="line-status"><svg width="20" height="20" aria-hidden="true"><use href="#message" /></svg><div><strong>ส่งแจ้งเตือน LINE แล้ว</strong><br />ผู้จัดการโครงการได้รับลิงก์สำหรับตรวจสอบ PR นี้</div></div>
+        <div class="success-actions">
+          <button class="primary-action" type="button" id="viewPrButton">ดูรายละเอียด PR</button>
+          <button class="secondary-action" type="button" id="shareButton"><svg width="16" height="16" aria-hidden="true" style="vertical-align:-3px;margin-right:6px"><use href="#share" /></svg>แชร์ข้อมูล</button>
+        </div>
+      </section>
+    </main>
+
+    <button class="sticky-cart hidden" type="button" id="stickyCart" aria-label="เปิดตะกร้า">
+      <span class="cart-icon-wrap"><svg width="22" height="22" aria-hidden="true"><use href="#cart" /></svg><b class="cart-badge" id="cartBadge">0</b></span>
+      <span class="cart-summary"><strong id="cartItemText">0 รายการ</strong><span>ยอดประมาณการ</span></span>
+      <span class="cart-total" id="cartTotal">฿0</span>
+      <svg width="18" height="18" aria-hidden="true"><use href="#chevron-right" /></svg>
+    </button>
+
+    <nav class="bottom-nav" aria-label="เมนูหลัก">
+      <button class="nav-button" type="button" data-nav="home"><svg width="21" height="21" aria-hidden="true"><use href="#home" /></svg><span>หน้าหลัก</span></button>
+      <button class="nav-button active" type="button" data-nav="catalog"><svg width="21" height="21" aria-hidden="true"><use href="#box" /></svg><span>สินค้า</span></button>
+      <button class="nav-button" type="button" data-nav="prs"><svg width="21" height="21" aria-hidden="true"><use href="#file" /></svg><span>PR ของฉัน</span></button>
+      <button class="nav-button" type="button" data-nav="alerts"><svg width="21" height="21" aria-hidden="true"><use href="#bell" /></svg><span>แจ้งเตือน</span></button>
+      <button class="nav-button" type="button" data-nav="account"><svg width="21" height="21" aria-hidden="true"><use href="#user" /></svg><span>บัญชี</span></button>
+    </nav>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute"><defs>
+    <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="scan" viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M7 12h10M7 9v6M10 9v6M14 9v6M17 9v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="chevron-down" viewBox="0 0 24 24"><path d="m7 9 5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="chevron-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="arrow-left" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="cart" viewBox="0 0 24 24"><path d="M3 4h2l2.1 10.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.4L21 7H6M9.5 20a.8.8 0 1 0 0-1.6.8.8 0 0 0 0 1.6ZM17.5 20a.8.8 0 1 0 0-1.6.8.8 0 0 0 0 1.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4v10l-8 4-8-4ZM4 7l8 4 8-4M12 11v10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6ZM14 3v5h4M9 13h6M9 17h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 21a8 8 0 0 1 16 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="camera" viewBox="0 0 24 24"><path d="M4 7h4l1.5-2h5L16 7h4v12H4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="10" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m4 18 5-5 3 3 2-2 6 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="cloud-check" viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 1-9.9A6 6 0 0 1 20 10a4 4 0 0 1-1 7.9H7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 14 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="shield" viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="message" viewBox="0 0 24 24"><path d="M4 5h16v12H9l-5 4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9h8M8 13h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="19" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  </defs></svg>
+
+  <script>
+    const STORAGE_KEY = 'sv-mobile-pr-mockup-v1';
+    const categories = ['ใช้บ่อย', 'ปูนและก่อ', 'เหล็ก', 'งานระบบ', 'เครื่องมือ'];
+    const products = [
+      { id:'CEM-001', name:'ปูนซีเมนต์งานก่อ', detail:'ถุง 50 กก. · อินทรีแดง', price:152, unit:'ถุง', category:'ปูนและก่อ', kind:'bag', tone:'#9aa7b2', label:'INSEE' },
+      { id:'BLK-075', name:'อิฐมวลเบา 7.5 ซม.', detail:'20 × 60 ซม. · มอก.', price:28, unit:'ก้อน', category:'ปูนและก่อ', kind:'block', tone:'#e6e1d4', label:'AAC' },
+      { id:'STL-012', name:'เหล็กข้ออ้อย DB12', detail:'ยาว 10 ม. · SD40', price:218, unit:'เส้น', category:'เหล็ก', kind:'steel', tone:'#55626c', label:'DB12' },
+      { id:'MOR-050', name:'ปูนก่ออิฐมวลเบา', detail:'ถุง 50 กก. · สูตรสำเร็จ', price:185, unit:'ถุง', category:'ปูนและก่อ', kind:'bag', tone:'#c79a57', label:'MORTAR' },
+      { id:'PVC-200', name:'ท่อ PVC 2 นิ้ว ชั้น 8.5', detail:'ยาว 4 ม. · สีฟ้า', price:116, unit:'เส้น', category:'งานระบบ', kind:'pipe', tone:'#60a8ce', label:'2\"' },
+      { id:'WIR-040', name:'ลวดผูกเหล็ก เบอร์ 18', detail:'ขด 5 กก.', price:265, unit:'ขด', category:'เหล็ก', kind:'wire', tone:'#414c54', label:'#18' },
+      { id:'TOL-115', name:'ใบตัดเหล็ก 4 นิ้ว', detail:'หนา 1 มม. · 25 ใบ', price:390, unit:'กล่อง', category:'เครื่องมือ', kind:'disc', tone:'#25313b', label:'CUT' },
+      { id:'ELC-225', name:'สายไฟ THW 2.5 ตร.มม.', detail:'100 ม. · สีดำ', price:1240, unit:'ม้วน', category:'งานระบบ', kind:'wire', tone:'#202832', label:'THW' }
+    ];
+
+    let state = {
+      cart: { 'CEM-001': 12, 'BLK-075': 80, 'STL-012': 6, 'MOR-050': 5, 'WIR-040': 1 },
+      category: 'ใช้บ่อย',
+      search: '',
+      offline: false,
+      attachment: null,
+      form: { useArea:'ชั้น 2 งานผนัง', needDate:'2026-07-30', urgency:'normal', reason:'ใช้สำหรับงานก่อผนังชั้น 2 ตามแผนงานประจำสัปดาห์' }
+    };
+
+    try {
+      const cached = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (cached && cached.cart) state = { ...state, ...cached, offline:false };
+    } catch (_) {}
+
+    const el = id => document.getElementById(id);
+    const money = value => new Intl.NumberFormat('th-TH', { style:'currency', currency:'THB', maximumFractionDigits:0 }).format(value);
+    const qtyTotal = () => Object.values(state.cart).reduce((sum, qty) => sum + qty, 0);
+    const lineTotal = product => product.price * (state.cart[product.id] || 0);
+    const grandTotal = () => products.reduce((sum, product) => sum + lineTotal(product), 0);
+    const selectedProducts = () => products.filter(product => state.cart[product.id] > 0);
+
+    function saveState() {
+      const safe = { ...state, attachment: state.attachment ? { name: state.attachment.name } : null };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(safe));
+      el('draftNote')?.classList.add('saved');
+    }
+
+    function productVisual(product) {
+      const common = `viewBox="0 0 120 120" role="img" aria-label="${product.name}"`;
+      if (product.kind === 'bag') return `<svg ${common}><ellipse cx="60" cy="101" rx="34" ry="5" fill="#1e293b16"/><path d="M35 23q25-9 50 0l-4 76q-21 8-42 0Z" fill="${product.tone}"/><path d="M35 23q25 7 50 0l-2 13q-23 5-46 0Z" fill="#f8fafc88"/><rect x="42" y="48" width="36" height="28" rx="3" fill="#f8fafcdd"/><text x="60" y="61" text-anchor="middle" font-size="9" font-weight="800" fill="#25313b">${product.label}</text><text x="60" y="71" text-anchor="middle" font-size="6" font-weight="700" fill="#59636c">50 KG</text></svg>`;
+      if (product.kind === 'block') return `<svg ${common}><ellipse cx="60" cy="98" rx="46" ry="5" fill="#1e293b13"/><path d="m15 44 70-17 22 22-69 18Z" fill="#f6f3e8" stroke="#b9b5a9"/><path d="m38 67 69-18v31L38 97Z" fill="${product.tone}" stroke="#b9b5a9"/><path d="M15 44v31l23 22V67Z" fill="#d5d0c2" stroke="#b9b5a9"/><circle cx="43" cy="48" r="8" fill="#d8d3c6"/><circle cx="72" cy="41" r="8" fill="#d8d3c6"/><text x="72" y="78" text-anchor="middle" font-size="11" font-weight="800" fill="#8d887d">${product.label}</text></svg>`;
+      if (product.kind === 'steel' || product.kind === 'pipe') { const stroke = product.kind === 'pipe' ? product.tone : '#4a555e'; return `<svg ${common}><ellipse cx="58" cy="96" rx="46" ry="5" fill="#1e293b16"/><g stroke="${stroke}" stroke-width="7" stroke-linecap="round"><path d="m17 88 81-51"/><path d="m22 97 81-51"/><path d="m10 77 81-51"/></g><g fill="none" stroke="#dae2e7" stroke-width="2"><circle cx="98" cy="37" r="4"/><circle cx="103" cy="46" r="4"/><circle cx="91" cy="26" r="4"/></g><rect x="14" y="62" width="30" height="18" rx="3" fill="#f8fafcdd"/><text x="29" y="74" text-anchor="middle" font-size="9" font-weight="800" fill="#25313b">${product.label}</text></svg>`; }
+      if (product.kind === 'wire') return `<svg ${common}><ellipse cx="60" cy="99" rx="36" ry="5" fill="#1e293b16"/><g fill="none" stroke="${product.tone}" stroke-width="5"><circle cx="60" cy="61" r="35"/><circle cx="60" cy="61" r="27"/><circle cx="60" cy="61" r="19"/></g><rect x="45" y="49" width="30" height="24" rx="4" fill="#f8fafcdd"/><text x="60" y="64" text-anchor="middle" font-size="9" font-weight="800" fill="#25313b">${product.label}</text></svg>`;
+      return `<svg ${common}><ellipse cx="60" cy="99" rx="35" ry="5" fill="#1e293b16"/><circle cx="60" cy="58" r="38" fill="${product.tone}"/><circle cx="60" cy="58" r="19" fill="#d9a43c"/><path d="M60 20v76M22 58h76" stroke="#eef2f5" stroke-width="3" opacity=".6"/><text x="60" y="62" text-anchor="middle" font-size="9" font-weight="800" fill="#25313b">${product.label}</text></svg>`;
+    }
+
+    function renderCategories() {
+      el('categoryScroller').innerHTML = categories.map(category => `<button type="button" class="category-chip ${category === state.category ? 'active' : ''}" data-category="${category}">${category}</button>`).join('');
+    }
+
+    function filteredProducts() {
+      const query = state.search.trim().toLowerCase();
+      return products.filter(product => {
+        const matchesCategory = state.category === 'ใช้บ่อย' ? ['CEM-001','BLK-075','STL-012','MOR-050','WIR-040'].includes(product.id) : product.category === state.category;
+        const matchesQuery = !query || `${product.name} ${product.id} ${product.category}`.toLowerCase().includes(query);
+        return matchesCategory && matchesQuery;
+      });
+    }
+
+    function renderProducts() {
+      const visible = filteredProducts();
+      el('categoryTitle').textContent = state.search ? `ผลการค้นหา “${state.search}”` : state.category === 'ใช้บ่อย' ? 'ใช้บ่อยในโครงการ' : state.category;
+      el('resultCount').textContent = `${visible.length} รายการ`;
+      el('productGrid').innerHTML = visible.length ? visible.map(product => {
+        const qty = state.cart[product.id] || 0;
+        return `<article class="product-card"><div class="product-visual" style="--visual-bg:color-mix(in oklch, ${product.tone} 14%, var(--panel))">${productVisual(product)}</div><div class="product-info"><p class="sku">${product.id}</p><h3 class="product-name">${product.name}</h3><p class="product-meta">${product.detail}</p><div class="price-row"><span class="price">${money(product.price)} <small>/ ${product.unit}</small></span>${qty ? `<div class="qty-control" aria-label="จำนวน ${product.name}"><button type="button" data-qty="-1" data-id="${product.id}" aria-label="ลดจำนวน">−</button><strong>${qty}</strong><button type="button" data-qty="1" data-id="${product.id}" aria-label="เพิ่มจำนวน">+</button></div>` : `<button class="add-button" type="button" data-qty="1" data-id="${product.id}">+ เพิ่ม</button>`}</div></div></article>`;
+      }).join('') : `<div class="empty-state"><svg width="54" height="54"><use href="#search" /></svg><h3>ไม่พบสินค้าที่ค้นหา</h3><p class="subtle">ลองใช้ชื่อสินค้า รหัส หรือเลือกหมวดอื่น</p></div>`;
+      renderCartBar();
+    }
+
+    function renderCartBar() {
+      const totalQty = qtyTotal();
+      el('cartBadge').textContent = totalQty;
+      el('cartItemText').textContent = `${totalQty} ชิ้น · ${selectedProducts().length} รายการ`;
+      el('cartTotal').textContent = money(grandTotal());
+      const currentView = document.querySelector('.view.active')?.dataset.view;
+      el('stickyCart').classList.toggle('hidden', totalQty === 0 || currentView !== 'catalog');
+    }
+
+    function updateQty(id, delta) {
+      const next = Math.max(0, (state.cart[id] || 0) + delta);
+      if (next) state.cart[id] = next; else delete state.cart[id];
+      saveState();
+      renderProducts();
+      if (el('cartView').classList.contains('active')) renderCart();
+    }
+
+    function renderCart() {
+      const items = selectedProducts();
+      el('cartSubtitle').textContent = `${items.length} รายการ · บันทึกแบบร่างแล้ว`;
+      el('cartLines').innerHTML = items.length ? items.map(product => `<div class="cart-line"><div class="cart-line-visual">${productVisual(product)}</div><div class="cart-line-copy"><strong>${product.name}</strong><span>${money(product.price)} / ${product.unit}</span><div class="line-amount">${money(lineTotal(product))}</div></div><div class="mini-qty"><button type="button" data-cart-qty="-1" data-id="${product.id}" aria-label="ลดจำนวน">−</button><strong>${state.cart[product.id]}</strong><button type="button" data-cart-qty="1" data-id="${product.id}" aria-label="เพิ่มจำนวน">+</button></div></div>`).join('') : `<div class="empty-state"><svg width="52" height="52"><use href="#cart" /></svg><h3>ยังไม่มีสินค้าในตะกร้า</h3><p class="subtle">กลับไปเลือกวัสดุที่ต้องใช้ก่อนสร้าง PR</p></div>`;
+      el('cartSummary').innerHTML = `<div class="summary-row"><span>จำนวนรายการ</span><strong>${items.length} รายการ</strong></div><div class="summary-row"><span>จำนวนรวม</span><strong>${qtyTotal()} ชิ้น</strong></div><div class="summary-row total"><span>ยอดประมาณการ</span><strong>${money(grandTotal())}</strong></div>`;
+      el('toFormButton').disabled = !items.length;
+    }
+
+    function showView(name) {
+      document.querySelectorAll('.view').forEach(view => view.classList.toggle('active', view.dataset.view === name));
+      el('appHeader').style.display = name === 'catalog' ? '' : 'none';
+      document.querySelector('.bottom-nav').style.display = name === 'success' ? 'none' : '';
+      document.querySelectorAll('.nav-button').forEach(button => button.classList.toggle('active', name === 'catalog' && button.dataset.nav === 'catalog'));
+      if (name === 'cart') renderCart();
+      if (name === 'review') renderReview();
+      renderCartBar();
+      window.scrollTo({ top:0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }
+
+    function readForm() {
+      state.form = {
+        useArea: el('useArea').value.trim(),
+        needDate: el('needDate').value,
+        urgency: el('urgency').value,
+        reason: el('reason').value.trim()
+      };
+      saveState();
+    }
+
+    function dateText(value) {
+      if (!value) return 'ยังไม่ระบุ';
+      return new Intl.DateTimeFormat('th-TH', { day:'numeric', month:'long', year:'numeric' }).format(new Date(`${value}T12:00:00`));
+    }
+
+    function urgencyText(value) { return value === 'critical' ? 'ต้องใช้ภายใน 24 ชั่วโมง' : value === 'urgent' ? 'เร่งด่วน' : 'ปกติ'; }
+
+    function renderReview() {
+      const itemRows = selectedProducts().map(product => `<div class="review-row"><span>${state.cart[product.id]} ${product.unit}</span><strong>${product.name}<br>${money(lineTotal(product))}</strong></div>`).join('');
+      el('reviewContent').innerHTML = `<section class="review-block"><div class="review-heading"><span>รายการวัสดุ (${selectedProducts().length})</span><button class="text-button" type="button" data-edit="cart">แก้ไข</button></div><div class="review-body">${itemRows}<div class="summary-row total"><span>ยอดประมาณการ</span><strong>${money(grandTotal())}</strong></div></div></section><section class="review-block"><div class="review-heading"><span>การใช้งาน</span><button class="text-button" type="button" data-edit="form">แก้ไข</button></div><div class="review-body"><div class="review-row"><span>โครงการ</span><strong>อาคารสำนักงาน NCY</strong></div><div class="review-row"><span>พื้นที่</span><strong>${state.form.useArea || 'ยังไม่ระบุ'}</strong></div><div class="review-row"><span>วันที่ต้องใช้</span><strong>${dateText(state.form.needDate)}</strong></div><div class="review-row"><span>ความเร่งด่วน</span><strong>${urgencyText(state.form.urgency)}</strong></div><div class="review-row"><span>เหตุผล</span><strong>${state.form.reason || 'ไม่ระบุ'}</strong></div><div class="review-row"><span>รูปประกอบ</span><strong>${state.attachment ? state.attachment.name : 'ไม่ได้แนบ'}</strong></div></div></section><section class="review-block"><div class="review-heading"><span>ลำดับอนุมัติ</span></div><div class="review-body"><div class="review-row"><span>ผู้อนุมัติถัดไป</span><strong>คุณปกรณ์ · ผู้จัดการโครงการ</strong></div><div class="review-row"><span>การแจ้งเตือน</span><strong>ระบบและ LINE กลุ่มโครงการ</strong></div></div></section>`;
+    }
+
+    function renderSuccess() {
+      el('successSummary').innerHTML = `<div class="summary-row"><span>จำนวนรายการ</span><strong>${selectedProducts().length} รายการ</strong></div><div class="summary-row"><span>ยอดประมาณการ</span><strong>${money(grandTotal())}</strong></div><div class="summary-row"><span>วันที่ต้องการใช้</span><strong>${dateText(state.form.needDate)}</strong></div><div class="summary-row"><span>ผู้อนุมัติถัดไป</span><strong>คุณปกรณ์</strong></div>`;
+    }
+
+    let toastTimer;
+    function toast(message, type='') {
+      clearTimeout(toastTimer);
+      el('toast').textContent = message;
+      el('toast').className = `toast visible ${type}`;
+      toastTimer = setTimeout(() => el('toast').className = 'toast', 2400);
+    }
+
+    function setOffline(value) {
+      state.offline = value;
+      el('syncState').classList.toggle('offline', value);
+      el('syncState').querySelector('span').textContent = value ? 'ออฟไลน์ · ร่างปลอดภัย' : 'บันทึกแล้ว';
+      toast(value ? 'จำลองออฟไลน์แล้ว ตะกร้าและแบบร่างยังอยู่' : 'กลับมาออนไลน์แล้ว ระบบพร้อมส่ง PR');
+    }
+
+    renderCategories();
+    renderProducts();
+    ['useArea','needDate','urgency','reason'].forEach(id => { if (state.form[id]) el(id).value = state.form[id]; });
+    if (state.attachment) { el('attachmentName').textContent = state.attachment.name; el('attachmentPreview').classList.add('visible'); }
+
+    el('categoryScroller').addEventListener('click', event => {
+      const button = event.target.closest('[data-category]');
+      if (!button) return;
+      state.category = button.dataset.category;
+      renderCategories(); renderProducts(); saveState();
+    });
+
+    el('productGrid').addEventListener('click', event => {
+      const button = event.target.closest('[data-qty]');
+      if (button) updateQty(button.dataset.id, Number(button.dataset.qty));
+    });
+
+    el('cartLines').addEventListener('click', event => {
+      const button = event.target.closest('[data-cart-qty]');
+      if (button) updateQty(button.dataset.id, Number(button.dataset.cartQty));
+    });
+
+    el('searchInput').addEventListener('input', event => { state.search = event.target.value; renderProducts(); });
+    el('stickyCart').addEventListener('click', () => showView('cart'));
+    document.querySelectorAll('[data-back]').forEach(button => button.addEventListener('click', () => showView(button.dataset.back)));
+    el('toFormButton').addEventListener('click', () => showView('form'));
+    el('prForm').addEventListener('input', () => { readForm(); el('draftNote').querySelector('span').textContent = state.offline ? 'บันทึกแบบร่างไว้ในเครื่องแล้ว' : 'บันทึกแบบร่างอัตโนมัติแล้ว'; });
+    el('prForm').addEventListener('submit', event => { event.preventDefault(); readForm(); if (event.currentTarget.reportValidity()) showView('review'); });
+    el('reviewContent').addEventListener('click', event => { const button = event.target.closest('[data-edit]'); if (button) showView(button.dataset.edit); });
+
+    [el('cameraInput'), el('galleryInput')].forEach(input => input.addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      state.attachment = { name:file.name };
+      el('attachmentName').textContent = file.name;
+      el('attachmentPreview').classList.add('visible');
+      saveState(); toast('แนบรูปกับแบบร่างแล้ว');
+    }));
+    el('removeAttachment').addEventListener('click', () => { state.attachment = null; el('attachmentPreview').classList.remove('visible'); saveState(); });
+
+    el('submitPrButton').addEventListener('click', () => {
+      if (!el('confirmCheck').checked) { toast('กรุณายืนยันความถูกต้องก่อนส่ง', 'error'); return; }
+      if (state.offline) { toast('ยังส่ง PR ไม่ได้ แต่แบบร่างและตะกร้าถูกเก็บไว้ครบ', 'error'); return; }
+      const button = el('submitPrButton');
+      button.disabled = true; button.textContent = 'กำลังบันทึก PR…';
+      setTimeout(() => { button.disabled = false; button.textContent = 'ส่ง PR ขออนุมัติ'; renderSuccess(); showView('success'); }, 900);
+    });
+
+    el('syncState').addEventListener('click', () => setOffline(!state.offline));
+    el('scanButton').addEventListener('click', () => toast('เตรียมพร้อมสำหรับ QR / Barcode ในเฟสถัดไป'));
+    el('projectTrigger').addEventListener('click', () => toast('Mockup นี้เลือกโครงการ “อาคารสำนักงาน NCY” ไว้แล้ว'));
+
+    document.querySelectorAll('[data-nav]').forEach(button => button.addEventListener('click', () => {
+      if (button.dataset.nav === 'catalog') showView('catalog');
+      else toast(`${button.querySelector('span').textContent} จะแสดงใน Mockup รอบถัดไป`);
+    }));
+    el('viewPrButton').addEventListener('click', () => toast('เปิดรายละเอียด PR-2026-000125'));
+    el('shareButton').addEventListener('click', async () => {
+      const shareData = { title:'PR-2026-000125', text:`PR-2026-000125 · ${selectedProducts().length} รายการ · ${money(grandTotal())}` };
+      try { if (navigator.share) await navigator.share(shareData); else { await navigator.clipboard.writeText(shareData.text); toast('คัดลอกข้อมูล PR แล้ว'); } } catch (_) {}
+    });
+  </script>
+</body>
+</html>

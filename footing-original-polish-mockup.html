@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Footing Original Polish Mockup - นายช่างใหญ่ Civil Apps</title>
+  <link rel="stylesheet" href="/fonts/sarabun/sarabun.css" />
+  <style>
+    :root {
+      --bg: oklch(96.5% 0.01 247);
+      --surface: oklch(99% 0.006 247);
+      --panel: oklch(97.4% 0.01 247);
+      --line: oklch(82% 0.022 247);
+      --ink: oklch(23% 0.035 247);
+      --text: oklch(34% 0.035 247);
+      --muted: oklch(51% 0.035 247);
+      --blue: oklch(52% 0.16 258);
+      --orange: oklch(62% 0.13 72);
+      --orange-soft: oklch(96% 0.045 72);
+      --green: oklch(53% 0.13 157);
+      --green-soft: oklch(95% 0.035 157);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Sarabun", "IBM Plex Sans Thai", "Segoe UI", system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .mock-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .mock-top {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 10px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 1px 2px oklch(24% 0.03 247 / 0.08);
+    }
+
+    .mock-title {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mock-title strong {
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .mock-title span,
+    .mock-actions span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--text);
+      padding: 3px 9px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .mock-title .keep {
+      background: var(--green-soft);
+      border-color: oklch(76% 0.07 157);
+      color: var(--green);
+    }
+
+    .mock-actions {
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mock-actions span {
+      background: var(--orange-soft);
+      border-color: oklch(80% 0.08 72);
+      color: oklch(40% 0.075 72);
+    }
+
+    .mock-frame-wrap {
+      min-height: 0;
+      display: grid;
+    }
+
+    iframe {
+      width: 100%;
+      min-height: calc(100vh - 54px);
+      border: 0;
+      background: var(--bg);
+    }
+
+    @media (max-width: 760px) {
+      .mock-top {
+        grid-template-columns: 1fr;
+      }
+
+      .mock-actions {
+        justify-content: start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="mock-shell">
+    <header class="mock-top">
+      <div class="mock-title">
+        <strong>Footing UI, Original Geometry Polish</strong>
+        <span class="keep">ใช้แปลนเดิม + F3 capPts เดิม</span>
+        <span>ปรับเฉพาะอ่านง่ายบนจอ</span>
+      </div>
+      <div class="mock-actions">
+        <span>Auto select F3</span>
+        <span>No formula change</span>
+      </div>
+    </header>
+
+    <div class="mock-frame-wrap">
+      <iframe id="footingFrame" title="Original footing mockup with readability polish" src="/footing-mockup.html"></iframe>
+    </div>
+  </main>
+
+  <script>
+    const frame = document.getElementById('footingFrame');
+    const polishCss = `
+      @import url('/fonts/sarabun/sarabun.css');
+
+      /* polish ทั้งหมด = จอเท่านั้น — พิมพ์จากหน้านี้ได้พฤติกรรมเดิมของต้นฉบับ (zoom A4 เดิม) */
+      @media screen {
+
+      /* กัน scrollbar แนวนอนจากลายน้ำเอียง (pre-existing ในต้นฉบับ) */
+      .wm { overflow: hidden !important; }
+
+      :root {
+        --ink: oklch(23% 0.035 247);
+        --mut: oklch(51% 0.035 247);
+        --line: oklch(82% 0.022 247);
+        --hd: oklch(23% 0.035 247);
+        --accent: oklch(52% 0.16 258);
+      }
+
+      body {
+        background: oklch(96.5% 0.01 247) !important;
+        font-family: "Sarabun", "IBM Plex Sans Thai", "Segoe UI", system-ui, sans-serif !important;
+        color: var(--ink) !important;
+        font-size: 16px !important;
+      }
+
+      .bar {
+        background: oklch(23% 0.035 247) !important;
+        min-height: 50px !important;
+        padding: 9px 16px !important;
+        gap: 9px !important;
+      }
+
+      .bar b {
+        font-size: 15px !important;
+      }
+
+      .bar .tag,
+      .bar .lg,
+      .prn,
+      .cta,
+      .tabs button {
+        font-size: 12px !important;
+      }
+
+      .tabs button,
+      .prn,
+      .cta {
+        min-height: 32px !important;
+        padding: 6px 12px !important;
+      }
+
+      .wrap {
+        padding: 18px 20px 34px !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+      }
+
+      .sheet {
+        width: min(1160px, calc(100vw - 40px)) !important;
+        max-width: 100% !important;   /* ต้นฉบับไม่มี — กันล้นจาก scrollbar width (review LOW-2) */
+        min-height: 920px !important;
+        border: 1px solid oklch(26% 0.035 247) !important;
+        box-shadow: 0 10px 30px oklch(24% 0.03 247 / 0.14) !important;
+      }
+
+      .wm span {
+        font-size: 92px !important;
+      }
+
+      .hd {
+        grid-template-columns: 1.25fr 0.95fr 1fr !important;
+      }
+
+      .hd .cell {
+        padding: 7px 12px !important;
+      }
+
+      .hd .k {
+        font-size: 11px !important;
+        font-weight: 700 !important;
+      }
+
+      .hd .v,
+      #hdCG,
+      .hd input {
+        font-size: 12px !important;
+      }
+
+      .title {
+        padding: 7px 8px !important;
+        font-size: 16px !important;
+      }
+
+      .pchk {
+        font-size: 13px !important;
+        padding: 7px 0 4px !important;
+      }
+
+      .plansrow {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 16px !important;
+        padding: 8px 14px 2px !important;
+      }
+
+      #planDevBox > div,
+      #planDimBox > div {
+        font-size: 12px !important;
+        margin: 2px 0 4px !important;
+      }
+
+      #planDevBox svg,
+      #planDimBox svg,
+      #sectionBox svg {
+        max-width: 500px !important;
+        border-color: oklch(82% 0.022 247) !important;
+      }
+
+      .body {
+        grid-template-columns: 520px minmax(0, 1fr) !important;
+      }
+
+      .plan {
+        padding: 9px !important;
+      }
+
+      .plan > div[style*="display:flex"] {
+        font-size: 12px !important;
+        padding: 5px 7px !important;
+      }
+
+      .sec {
+        padding: 7px 12px !important;
+      }
+
+      .plan .sec {
+        padding: 7px !important;
+      }
+
+      .sh,
+      .sec .sh,
+      .sec .sh[style] {
+        font-size: 14px !important;
+        margin-bottom: 5px !important;
+      }
+
+      .sh .n {
+        width: 19px !important;
+        height: 19px !important;
+        font-size: 10px !important;
+      }
+
+      table {
+        font-size: 13px !important;
+      }
+
+      th,
+      td {
+        padding: 4px 6px !important;
+        line-height: 1.35 !important;
+      }
+
+      th {
+        font-size: 12px !important;
+        font-weight: 800 !important;
+      }
+
+      td .fx {
+        width: 58px !important;
+      }
+
+      .kv {
+        font-size: 13px !important;
+        gap: 5px 10px !important;
+      }
+
+      .kv .fx {
+        width: 58px !important;
+      }
+
+      .formula {
+        font-size: 12px !important;
+        line-height: 1.65 !important;
+        padding: 5px 8px !important;
+      }
+
+      .leg,
+      .note,
+      .sig,
+      .disc,
+      #enlBox table,
+      div[style*="font-size:9"],
+      div[style*="font-size:9.5"],
+      div[style*="font-size:10"],
+      span[style*="font-size:9"] {
+        font-size: 12px !important;
+      }
+
+      .chip {
+        font-size: 12px !important;
+        padding: 3px 9px !important;
+      }
+
+      .concl {
+        padding: 9px 12px !important;
+        gap: 8px !important;
+      }
+
+      .fx,
+      select {
+        min-height: 28px !important;
+        font-size: 13px !important;
+      }
+
+      .disc {
+        max-width: 1160px !important;
+        margin: 12px auto 28px !important;
+      }
+
+      }
+
+      @media screen and (max-width: 1080px) {
+        .sheet {
+          width: calc(100vw - 24px) !important;
+        }
+        .plansrow,
+        .body {
+          grid-template-columns: 1fr !important;
+        }
+        .plan {
+          border-inline-end: 0 !important;
+          border-bottom: 1.5px solid var(--hd) !important;
+        }
+      }
+    `;
+
+    frame.addEventListener('load', () => {
+      const doc = frame.contentDocument;
+      if (!doc) return;
+
+      const style = doc.createElement('style');
+      style.setAttribute('data-polish-layer', 'original-geometry');
+      style.textContent = polishCss;
+      doc.head.appendChild(style);
+
+      const f3 = doc.querySelector('#tabs button[data-k="F3"]');
+      if (f3) f3.click();
+    });
+  </script>
+</body>
+</html>

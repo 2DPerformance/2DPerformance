@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <script src="marketplace-demo-storage.js"></script>
+  <script src="./mockup-data/procurement-globalhouse-categories.js"></script>
+  <script src="./mockup-data/procurement-globalhouse-products.js?v=20260722-19b"></script>
+  <meta name="theme-color" content="#0b2948" />
+  <title>NCY Procurement Workbench · Mockup</title>
+  <style>
+    :root {
+      --navy: oklch(27% 0.075 252);
+      --navy-2: oklch(22% 0.065 252);
+      --ink: oklch(24% 0.025 252);
+      --text: oklch(36% 0.025 252);
+      --muted: oklch(56% 0.025 252);
+      --line: oklch(88% 0.012 252);
+      --line-soft: oklch(93% 0.009 252);
+      --page: oklch(97.5% 0.006 252);
+      --surface: oklch(99% 0.004 252);
+      --panel: oklch(96% 0.009 252);
+      --blue: oklch(54% 0.19 255);
+      --blue-soft: oklch(95% 0.035 255);
+      --green: oklch(51% 0.13 153);
+      --green-soft: oklch(95% 0.035 153);
+      --amber: oklch(65% 0.14 76);
+      --amber-soft: oklch(96% 0.045 78);
+      --red: oklch(55% 0.19 25);
+      --red-soft: oklch(96% 0.035 25);
+      --sidebar: 174px;
+      font-family: "Prompt", "Sarabun", "Noto Sans Thai", system-ui, sans-serif;
+      color-scheme: light;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-width: 320px; min-height: 100%; background: var(--page); color: var(--text); }
+    body { min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    button, input, select, textarea { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid color-mix(in oklch, var(--blue) 22%, transparent);
+      outline-offset: 2px;
+    }
+    svg { flex: 0 0 auto; }
+    h1, h2, h3, p { margin-top: 0; }
+
+    .app { min-height: 100vh; }
+    .sidebar {
+      position: fixed;
+      z-index: 30;
+      inset: 0 auto 0 0;
+      width: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      background: var(--navy);
+      color: oklch(98% 0.005 252);
+      box-shadow: 1px 0 0 oklch(16% 0.04 252 / .22);
+    }
+    .brand { height: 72px; padding: 15px 18px; display: flex; align-items: center; border-bottom: 1px solid oklch(100% 0 0 / .12); }
+    .brand-mark { font-size: 24px; line-height: .9; font-weight: 900; letter-spacing: -.08em; }
+    .brand-mark small { display: block; margin-top: 5px; font-size: 7px; line-height: 1; letter-spacing: .16em; font-weight: 750; }
+    .profile { padding: 15px 13px; display: grid; grid-template-columns: 38px 1fr; gap: 9px; align-items: center; border-bottom: 1px solid oklch(100% 0 0 / .09); }
+    .avatar { width: 38px; height: 38px; display: grid; place-items: center; border: 2px solid oklch(100% 0 0 / .72); border-radius: 50%; background: oklch(83% 0.05 65); color: var(--navy); font-size: 13px; font-weight: 850; }
+    .profile strong, .profile span { display: block; }
+    .profile strong { font-size: 12px; }
+    .profile span { margin-top: 2px; color: oklch(82% 0.018 252); font-size: 9px; }
+    .side-nav { padding: 10px 9px; display: flex; flex-direction: column; gap: 3px; }
+    .side-nav button, .logout {
+      width: 100%;
+      min-height: 42px;
+      padding: 0 11px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 0;
+      border-radius: 7px;
+      background: transparent;
+      color: oklch(92% 0.01 252);
+      font-size: 11px;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+    }
+    .side-nav button:hover, .side-nav button.active { background: oklch(38% 0.095 252); color: oklch(99% 0.004 252); }
+    .side-nav button.active { box-shadow: inset 2px 0 0 oklch(76% 0.14 252); }
+    .nav-count { margin-left: auto; min-width: 20px; height: 20px; padding: 0 5px; display: grid; place-items: center; border-radius: 999px; background: var(--red); color: var(--surface); font-size: 9px; }
+    .logout { margin: auto 9px 14px; width: calc(100% - 18px); color: oklch(82% 0.018 252); }
+
+    .workspace { min-height: 100vh; margin-left: var(--sidebar); }
+    .topbar {
+      position: sticky;
+      z-index: 20;
+      top: 0;
+      height: 58px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: color-mix(in oklch, var(--surface) 97%, transparent);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 1px 2px oklch(24% 0.02 252 / .04);
+    }
+    .menu-button { width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: var(--ink); cursor: pointer; }
+    .page-title { min-width: 0; color: var(--ink); font-size: 15px; font-weight: 800; }
+    .topbar-spacer { flex: 1; }
+    .sync { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); font-size: 10px; font-weight: 700; }
+    .sync i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+    .icon-button { position: relative; width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 8px; background: transparent; color: var(--text); cursor: pointer; }
+    .icon-button:hover { background: var(--panel); }
+    .notification-dot { position: absolute; top: 5px; right: 4px; width: 16px; height: 16px; display: grid; place-items: center; border: 2px solid var(--surface); border-radius: 50%; background: var(--red); color: var(--surface); font-size: 7px; font-weight: 800; }
+
+    .screen { display: none; }
+    .screen.active { display: block; animation: reveal 180ms cubic-bezier(.22,1,.36,1); }
+    @keyframes reveal { from { opacity: .55; transform: translateY(2px); } }
+
+    .catalog-layout { height: calc(100vh - 58px); min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(420px, 36%); overflow: hidden; }
+    .catalog-pane { min-width: 0; padding: 14px 16px 28px; overflow-y: auto; border-right: 1px solid var(--line); }
+    .searchbar { position: relative; }
+    .searchbar svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+    .searchbar input { width: 100%; height: 40px; padding: 0 12px 0 38px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--ink); font-size: 11px; }
+
+    .category-row { margin: 13px 0 7px; padding: 0 2px 4px; display: flex; gap: 11px; overflow-x: auto; scrollbar-width: none; }
+    .category-row::-webkit-scrollbar { display: none; }
+    .category {
+      flex: 0 0 auto;
+      min-width: 65px;
+      min-height: 64px;
+      padding: 3px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text);
+      font-size: 9px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .category-icon { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--muted); }
+    .category.active { color: var(--blue); }
+    .category.active .category-icon { border-color: transparent; background: var(--blue-soft); color: var(--blue); }
+    .retail-directory-toggle { width: 100%; min-height: 40px; margin: 2px 0 9px; padding: 0 11px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--ink); font-size: 9px; font-weight: 800; cursor: pointer; text-align: left; }
+    .retail-directory-toggle span { color: var(--muted); font-size: 8px; font-weight: 650; }
+    .retail-directory-toggle b { color: var(--blue); white-space: nowrap; }
+    .retail-directory { margin-bottom: 10px; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    .retail-directory[hidden] { display: none; }
+    .retail-directory-head { padding: 10px 11px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); }
+    .retail-directory-head strong, .retail-directory-head span { display: block; }
+    .retail-directory-head strong { color: var(--ink); font-size: 10px; }
+    .retail-directory-head span { margin-top: 2px; color: var(--muted); font-size: 8px; line-height: 1.45; }
+    .retail-directory-head a { flex: 0 0 auto; color: var(--blue); font-size: 8px; font-weight: 800; text-decoration: none; }
+    .retail-directory-tabs { padding: 8px; display: flex; gap: 6px; overflow-x: auto; border-bottom: 1px solid var(--line-soft); scrollbar-width: thin; }
+    .retail-directory-tabs button { flex: 0 0 auto; min-height: 36px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--text); font-size: 8px; font-weight: 750; cursor: pointer; }
+    .retail-directory-tabs button.active { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); }
+    .retail-directory-groups { padding: 9px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .retail-category-group { min-width: 0; padding: 9px; border: 1px solid var(--line-soft); border-radius: 7px; background: var(--page); }
+    .retail-category-group > a { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--ink); font-size: 9px; font-weight: 850; text-decoration: none; }
+    .retail-category-group > a::after { content: "↗"; color: var(--blue); }
+    .retail-category-links { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 5px; }
+    .retail-category-links a { min-height: 26px; padding: 4px 7px; display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); color: var(--text); font-size: 7px; line-height: 1.35; text-decoration: none; }
+
+    .tabs { display: flex; gap: 24px; border-bottom: 1px solid var(--line); }
+    .tab { min-width: 64px; min-height: 38px; padding: 0; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--muted); font-size: 10px; font-weight: 750; cursor: pointer; }
+    .tab.active { border-bottom-color: var(--blue); color: var(--blue); }
+    .product-family-panel { margin-top: 9px; padding: 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    .product-family-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    .product-family-head strong { color: var(--ink); font-size: 10px; }
+    .product-family-head span { color: var(--muted); font-size: 8px; text-align: right; }
+    .product-family-row, .product-size-row { margin-top: 7px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: thin; }
+    .product-family-row button, .product-size-row button { flex: 0 0 auto; min-height: 34px; padding: 5px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--text); font-size: 8px; font-weight: 750; cursor: pointer; }
+    .product-family-row button span { display: block; margin-top: 1px; color: var(--muted); font-size: 7px; font-weight: 600; }
+    .product-family-row button.active, .product-size-row button.active { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); }
+    .product-family-row button.active span { color: var(--blue); }
+    .product-size-row[hidden] { display: none; }
+    .retailer-note { margin-top: 9px; padding: 7px 9px; display: flex; align-items: center; gap: 7px; border: 1px solid oklch(86% 0.035 255); border-radius: 7px; background: var(--blue-soft); color: var(--text); font-size: 8px; line-height: 1.45; }
+    .retailer-note strong { color: var(--blue); white-space: nowrap; }
+    .product-grid { margin-top: 10px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+    .product-card { min-width: 0; min-height: 310px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    .product-art { height: 158px; display: grid; place-items: center; background: var(--art-bg, var(--panel)); border-bottom: 1px solid var(--line-soft); overflow: hidden; }
+    .product-art svg { width: 92%; height: 92%; }
+    .product-art img { width: 100%; height: 100%; padding: 7px; object-fit: contain; background: var(--surface); }
+    .product-art-link { width: 100%; height: 100%; display: block; }
+    .product-copy { min-width: 0; flex: 1; padding: 8px 9px 7px; display: flex; flex-direction: column; }
+    .source-row { margin-bottom: 5px; display: flex; align-items: center; justify-content: space-between; gap: 5px; }
+    .source-chip { min-height: 20px; padding: 0 6px; display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: var(--text); font-size: 7px; font-weight: 800; text-decoration: none; }
+    .source-date { color: var(--muted); font-size: 7px; white-space: nowrap; }
+    .product-copy h3 { margin: 0; min-height: 32px; color: var(--ink); font-size: 11px; line-height: 1.42; }
+    .product-specs { margin: 5px 0 1px; display: flex; flex-wrap: wrap; gap: 4px; }
+    .product-specs span { min-height: 20px; padding: 2px 6px; display: inline-flex; align-items: center; border-radius: 999px; background: var(--panel); color: var(--text); font-size: 7px; font-weight: 750; }
+    .product-specs span:first-child { background: var(--blue-soft); color: var(--blue); }
+    .product-sku { margin-top: 3px; color: var(--muted); font-size: 7px; }
+    .price { margin-top: 5px; color: var(--blue); font-size: 13px; font-weight: 850; }
+    .price small, .stock { color: var(--muted); font-size: 8px; font-weight: 600; }
+    .stock { margin: 2px 0 6px; }
+    .price-scope { margin: -3px 0 5px; color: var(--muted); font-size: 7px; line-height: 1.35; }
+    .freshness-badge { min-height: 22px; display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; padding: 2px 6px; font-size: 7px; font-weight: 750; white-space: nowrap; }
+    .freshness-badge.fresh { color: #137044; border-color: #9bd1b5; background: #effaf4; }
+    .freshness-badge.stale { color: #925408; border-color: #e4c48c; background: #fff8e9; }
+    .price-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin: 5px 0; }
+    .price-actions a, .price-actions button { min-height: 32px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); color: var(--blue); display: grid; place-items: center; padding: 4px 6px; font-size: 7px; font-weight: 750; text-decoration: none; }
+    .price-actions button { cursor: pointer; }
+    .qty button:disabled { cursor: not-allowed; opacity: .38; }
+    .qty { margin-top: auto; height: 32px; display: grid; grid-template-columns: 34px 1fr 34px; align-items: center; overflow: hidden; border: 1px solid var(--line); border-radius: 7px; }
+    .qty button { height: 30px; border: 0; background: var(--blue-soft); color: var(--blue); font-size: 16px; font-weight: 700; cursor: pointer; }
+    .qty strong { text-align: center; color: var(--ink); font-size: 10px; }
+
+    .cart-pane { min-width: 0; padding: 0 12px 13px; display: flex; flex-direction: column; overflow-y: auto; background: var(--page); }
+    .cart-head { height: 52px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--line); }
+    .cart-head h2 { margin: 0; color: var(--ink); font-size: 13px; }
+    .cart-head span { color: var(--muted); font-size: 9px; }
+    .cart-close { display: none; margin-left: auto; width: 40px; height: 40px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); cursor: pointer; }
+    .cart-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .cart-table th { padding: 8px 5px; color: var(--muted); font-size: 8px; text-align: left; font-weight: 750; border-bottom: 1px solid var(--line); }
+    .cart-table td { padding: 8px 5px; color: var(--text); font-size: 9px; vertical-align: middle; border-bottom: 1px solid var(--line-soft); }
+    .cart-product { display: grid; grid-template-columns: 34px 1fr; gap: 6px; align-items: center; }
+    .cart-thumb { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 5px; background: var(--panel); overflow: hidden; }
+    .cart-thumb svg { width: 94%; height: 94%; }
+    .cart-product strong, .cart-product span { display: block; }
+    .cart-product strong { color: var(--ink); font-size: 9px; line-height: 1.35; }
+    .cart-product span { color: var(--muted); font-size: 8px; }
+    .cart-qty { height: 28px; display: grid; grid-template-columns: 25px 1fr 25px; align-items: center; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+    .cart-qty button { height: 26px; border: 0; background: transparent; color: var(--blue); cursor: pointer; }
+    .cart-qty strong { text-align: center; color: var(--ink); font-size: 9px; }
+    .delete-button { width: 28px; height: 28px; display: grid; place-items: center; border: 0; border-radius: 5px; background: transparent; color: oklch(70% 0.02 252); cursor: pointer; }
+    .pr-remove { border: 1px solid var(--line); background: var(--surface); color: var(--red); font-size: 16px; }
+
+    .order-form { margin-top: 9px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    .order-form h3 { margin: 0 0 8px; color: var(--ink); font-size: 11px; }
+    .form-grid { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 8px; }
+    .form-grid.two { margin-top: 8px; grid-template-columns: 1fr 1.15fr; }
+    .field label { display: block; margin-bottom: 4px; color: var(--muted); font-size: 8px; font-weight: 750; }
+    .control { width: 100%; min-height: 34px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font-size: 9px; }
+    textarea.control { min-height: 48px; resize: none; }
+    .attach { margin-top: 8px; display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 8px; }
+    .attach button { min-height: 31px; padding: 0 9px; display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font-size: 9px; font-weight: 750; cursor: pointer; }
+    .cart-footer { margin-top: auto; padding: 11px 0 0; display: grid; grid-template-columns: auto auto minmax(150px, 1fr); align-items: center; gap: 12px; border-top: 1px solid var(--line); }
+    .cart-footer span { color: var(--ink); font-size: 11px; font-weight: 800; }
+    .cart-footer strong { color: var(--blue); font-size: 18px; }
+    .primary, .secondary, .approve, .return, .reject {
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .primary { border: 1px solid var(--blue); background: var(--blue); color: var(--surface); }
+    .secondary { border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+
+    .document-screen { padding: 15px 17px 30px; }
+    .doc-head { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .doc-head-copy { min-width: 0; }
+    .breadcrumb { margin-bottom: 4px; color: var(--muted); font-size: 9px; }
+    .doc-head h1 { margin: 0; color: var(--ink); font-size: 18px; }
+    .doc-head-actions { margin-left: auto; display: flex; gap: 7px; }
+    .pill { display: inline-flex; min-height: 24px; padding: 0 8px; align-items: center; gap: 5px; border-radius: 999px; font-size: 8px; font-weight: 800; }
+    .pill.wait { background: var(--amber-soft); color: oklch(47% 0.1 70); }
+    .pill.done { background: var(--green-soft); color: oklch(42% 0.1 153); }
+    .doc-summary { padding: 11px 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    .meta span, .meta strong { display: block; }
+    .meta span { color: var(--muted); font-size: 8px; }
+    .meta strong { margin-top: 3px; color: var(--ink); font-size: 10px; }
+    .document-grid { margin-top: 10px; display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 10px; }
+    .doc-panel { border: 1px solid var(--line); border-radius: 8px; background: var(--surface); overflow: hidden; }
+    .panel-title { padding: 9px 11px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 10px; font-weight: 800; }
+    .line-table { width: 100%; border-collapse: collapse; }
+    .line-table th { padding: 8px; background: var(--panel); color: var(--muted); font-size: 8px; text-align: left; }
+    .line-table td { padding: 9px 8px; color: var(--text); font-size: 9px; border-top: 1px solid var(--line-soft); }
+    .line-table td:last-child, .line-table th:last-child { text-align: right; }
+    .line-table tfoot td { color: var(--ink); font-weight: 850; }
+    .pr-side-stack { min-width: 0; display: grid; align-content: start; gap: 10px; }
+    .line-share-preview { margin: 0; padding: 12px; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--panel); color: var(--ink); font: 600 9px/1.65 "Sarabun", "Prompt", sans-serif; }
+    .share-ready { display: inline-flex; min-height: 20px; padding: 0 6px; align-items: center; border: 1px solid oklch(82% 0.045 255); border-radius: 999px; background: var(--blue-soft); color: var(--blue); font-size: 7px; }
+    .line-share-footer { padding: 9px 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px solid var(--line); }
+    .line-share-footer span { max-width: 22ch; color: var(--muted); font-size: 8px; line-height: 1.45; }
+    .copy-line-button { flex: 0 0 auto; min-height: 34px; padding: 0 10px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--blue); border-radius: 6px; background: var(--blue); color: var(--surface); font-size: 9px; font-weight: 800; cursor: pointer; }
+    .copy-line-button[data-copy-state="copied"] { border-color: var(--ink); background: var(--ink); }
+    .project-home { max-width: 1100px; display: grid; grid-template-columns: minmax(300px, 360px) minmax(0, 1fr); gap: 14px; }
+    .project-create { padding: 18px; align-self: start; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    .project-eyebrow { color: var(--blue); font-size: 8px; font-weight: 850; letter-spacing: .06em; }
+    .project-create h2 { margin: 5px 0 6px; color: var(--ink); font-size: 17px; }
+    .project-create > p { margin: 0 0 16px; max-width: 42ch; color: var(--muted); font-size: 9px; line-height: 1.6; }
+    .project-create .field { margin-top: 10px; }
+    .project-create .primary { width: 100%; min-height: 40px; margin-top: 14px; }
+    .project-directory { overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    .project-directory-head { min-height: 52px; padding: 10px 13px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); }
+    .project-directory-head h2 { margin: 0; color: var(--ink); font-size: 13px; }
+    .project-directory-head span { display: block; margin-top: 2px; color: var(--muted); font-size: 8px; }
+    .project-count { color: var(--muted); font-size: 9px; white-space: nowrap; }
+    .project-list { display: grid; }
+    .project-row { width: 100%; min-height: 74px; padding: 12px 13px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; border: 0; border-bottom: 1px solid var(--line-soft); background: var(--surface); text-align: left; cursor: pointer; }
+    .project-row:last-child { border-bottom: 0; }
+    .project-row:hover { background: var(--panel); }
+    .project-row.active { background: var(--blue-soft); box-shadow: inset 0 0 0 1px oklch(80% 0.06 255); }
+    .project-row strong { display: block; color: var(--ink); font-size: 11px; }
+    .project-row-meta { margin-top: 5px; display: flex; flex-wrap: wrap; gap: 5px 10px; color: var(--muted); font-size: 8px; }
+    .project-row-status { display: grid; justify-items: end; gap: 5px; color: var(--muted); font-size: 8px; }
+    .project-row-status b { color: var(--blue); font-size: 8px; }
+    .role-switch { padding: 3px; display: inline-flex; gap: 3px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); }
+    .role-switch button { min-height: 32px; padding: 0 10px; border: 0; border-radius: 5px; background: transparent; color: var(--muted); font-size: 8px; font-weight: 800; cursor: pointer; }
+    .role-switch button.active { background: var(--ink); color: var(--surface); }
+    .admin-role-note { max-width: 1100px; margin-bottom: 12px; padding: 9px 11px; display: flex; align-items: center; gap: 8px; border: 1px solid oklch(84% 0.04 255); border-radius: 7px; background: var(--blue-soft); color: var(--text); font-size: 9px; line-height: 1.5; }
+    .admin-role-note strong { color: var(--blue); }
+    .product-admin-layout { max-width: 1180px; display: grid; grid-template-columns: minmax(360px, 430px) minmax(0, 1fr); gap: 12px; align-items: start; }
+    .product-editor, .admin-list-panel { border: 1px solid var(--line); border-radius: 8px; background: var(--surface); overflow: hidden; }
+    .product-editor-head, .admin-list-head { min-height: 52px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--line); }
+    .product-editor-head h2, .admin-list-head h2 { margin: 0; color: var(--ink); font-size: 13px; }
+    .product-editor-head span, .admin-list-head span { color: var(--muted); font-size: 8px; }
+    .admin-list-head-tools { display: flex; align-items: center; gap: 7px; }
+    .admin-list-head-tools button { min-height: 30px; padding: 0 8px; border: 1px solid var(--blue); border-radius: 5px; background: var(--surface); color: var(--blue); font-size: 8px; font-weight: 800; cursor: pointer; }
+    .product-editor-body { padding: 12px; }
+    .admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .admin-form-grid .wide { grid-column: 1 / -1; }
+    .admin-image-preview { min-height: 84px; display: grid; place-items: center; overflow: hidden; border: 1px dashed var(--line); border-radius: 7px; background: var(--panel); color: var(--muted); font-size: 8px; text-align: center; }
+    .admin-image-preview img { width: 100%; height: 110px; display: block; object-fit: contain; background: var(--surface); }
+    .image-source-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 9px; }
+    .upload-control { min-height: 36px; padding: 7px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--muted); font-size: 8px; }
+    .upload-note { margin: 4px 0 0; color: var(--muted); font-size: 7px; line-height: 1.45; }
+    .offer-editor { margin: 2px 0 0; padding: 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); }
+    .offer-editor legend { padding: 0 5px; color: var(--ink); font-size: 9px; font-weight: 800; }
+    .offer-editor-head { margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .offer-editor-head span { color: var(--muted); font-size: 7px; line-height: 1.4; }
+    .offer-editor-head button { min-height: 30px; padding: 0 8px; border: 1px solid var(--blue); border-radius: 5px; background: var(--surface); color: var(--blue); font-size: 8px; font-weight: 800; cursor: pointer; }
+    .offer-editor-rows { display: grid; gap: 8px; }
+    .offer-editor-row { padding: 9px; display: grid; grid-template-columns: 1.2fr .8fr .7fr .65fr; gap: 7px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+    .offer-editor-row .wide { grid-column: span 2; }
+    .offer-editor-row .offer-row-head { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; }
+    .offer-row-head strong { color: var(--ink); font-size: 8px; }
+    .offer-row-head button { min-height: 28px; padding: 0 7px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); color: var(--red); font-size: 7px; cursor: pointer; }
+    .admin-form-actions { margin-top: 12px; display: flex; gap: 7px; }
+    .admin-form-actions .primary { flex: 1; }
+    .admin-list-toolbar { padding: 9px 11px; display: grid; grid-template-columns: minmax(0, 1fr) 150px; gap: 8px; border-bottom: 1px solid var(--line-soft); background: var(--panel); }
+    .admin-product-list { display: grid; }
+    .admin-product-item { min-width: 0; border-bottom: 1px solid var(--line-soft); }
+    .admin-product-item:last-child { border-bottom: 0; }
+    .admin-product-row { min-width: 0; padding: 10px 11px; display: grid; grid-template-columns: 52px minmax(0, 1fr) 98px minmax(146px, auto); align-items: center; gap: 10px; }
+    .admin-thumb { width: 52px; height: 52px; display: grid; place-items: center; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
+    .admin-thumb img, .admin-thumb svg { width: 100%; height: 100%; object-fit: contain; }
+    .admin-product-copy { min-width: 0; }
+    .admin-product-copy strong { display: block; overflow: hidden; color: var(--ink); font-size: 10px; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
+    .admin-product-meta { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px 8px; color: var(--muted); font-size: 8px; }
+    .admin-price { color: var(--ink); font-size: 9px; font-weight: 800; text-align: right; }
+    .admin-price span { display: block; margin-top: 3px; color: var(--muted); font-size: 7px; font-weight: 600; }
+    .admin-row-actions { display: flex; justify-content: flex-end; gap: 5px; }
+    .admin-row-actions button { min-height: 30px; padding: 0 7px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); color: var(--ink); font-size: 7px; font-weight: 800; cursor: pointer; }
+    .admin-row-actions button.publish { border-color: var(--blue); color: var(--blue); }
+    .admin-status { display: inline-flex; min-height: 20px; padding: 0 6px; align-items: center; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: var(--muted); font-size: 7px; font-weight: 800; }
+    .admin-status.published { border-color: oklch(80% 0.055 255); background: var(--blue-soft); color: var(--blue); }
+    .admin-status.pending { border-color: oklch(82% 0.075 75); background: var(--amber-soft); color: oklch(47% 0.1 70); }
+    .admin-status.rejected { border-color: oklch(82% 0.06 25); background: var(--red-soft); color: var(--red); }
+    .admin-status.hidden { color: var(--muted); }
+    .admin-rejection { margin-top: 5px; color: var(--red); font-size: 8px; line-height: 1.45; }
+    .admin-product-detail { padding: 11px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr); gap: 10px; border-top: 1px solid var(--line-soft); background: var(--panel); }
+    .offer-summary { min-width: 0; }
+    .detail-title { margin: 0 0 7px; color: var(--ink); font-size: 9px; }
+    .offer-summary-list { display: grid; gap: 6px; }
+    .offer-summary-row { min-width: 0; padding: 8px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+    .offer-summary-row strong, .offer-summary-row span { display: block; }
+    .offer-summary-row strong { color: var(--ink); font-size: 8px; }
+    .offer-summary-row span { margin-top: 2px; color: var(--muted); font-size: 7px; }
+    .offer-summary-price { color: var(--ink); font-size: 9px; font-weight: 850; white-space: nowrap; text-align: right; }
+    .audit-list { display: grid; gap: 7px; }
+    .audit-entry { position: relative; padding-left: 15px; color: var(--muted); font-size: 7px; line-height: 1.45; }
+    .audit-entry::before { content: ""; position: absolute; left: 1px; top: 4px; width: 7px; height: 7px; border: 2px solid var(--blue); border-radius: 50%; background: var(--surface); }
+    .audit-entry strong { display: block; color: var(--ink); font-size: 8px; }
+    .review-panel { margin: 9px 11px; padding: 10px; border: 1px solid oklch(82% 0.06 25); border-radius: 7px; background: var(--red-soft); }
+    .review-panel[hidden] { display: none; }
+    .review-panel strong { display: block; margin-bottom: 6px; color: var(--red); font-size: 9px; }
+    .review-panel textarea { width: 100%; min-height: 70px; resize: vertical; }
+    .review-panel-actions { margin-top: 7px; display: flex; justify-content: flex-end; gap: 6px; }
+    .review-panel-actions button { min-height: 34px; padding: 0 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); color: var(--ink); font-size: 8px; font-weight: 800; cursor: pointer; }
+    .review-panel-actions .confirm-reject { border-color: var(--red); background: var(--red); color: var(--surface); }
+    .admin-empty { padding: 28px 16px; color: var(--muted); font-size: 9px; text-align: center; }
+    .timeline { padding: 12px; }
+    .timeline-step { position: relative; min-height: 48px; padding-left: 24px; color: var(--muted); font-size: 9px; }
+    .timeline-step::before { content: ""; position: absolute; left: 7px; top: 13px; bottom: -13px; width: 1px; background: var(--line); }
+    .timeline-step:last-child::before { display: none; }
+    .timeline-dot { position: absolute; left: 2px; top: 2px; width: 11px; height: 11px; border: 2px solid var(--line); border-radius: 50%; background: var(--surface); }
+    .timeline-step.done .timeline-dot { border-color: var(--green); background: var(--green); box-shadow: inset 0 0 0 2px var(--surface); }
+    .timeline-step.active .timeline-dot { border-color: var(--blue); }
+    .timeline-step strong { display: block; margin-bottom: 2px; color: var(--ink); }
+
+    .approval-layout { display: grid; grid-template-columns: 330px minmax(0, 1fr); min-height: calc(100vh - 58px); }
+    .queue { padding: 14px 10px; border-right: 1px solid var(--line); background: var(--page); }
+    .queue h2 { margin: 0 0 10px; color: var(--ink); font-size: 16px; }
+    .queue-tabs { margin-bottom: 10px; display: flex; border-bottom: 1px solid var(--line); }
+    .queue-tabs button { flex: 1; min-height: 35px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--muted); font-size: 9px; font-weight: 750; cursor: pointer; }
+    .queue-tabs button.active { border-bottom-color: var(--blue); color: var(--blue); }
+    .queue-card { width: 100%; margin-bottom: 8px; padding: 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); text-align: left; cursor: pointer; }
+    .queue-card.active { border-color: oklch(78% 0.08 255); box-shadow: 0 0 0 2px var(--blue-soft); }
+    .queue-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .queue-card strong { color: var(--ink); font-size: 11px; }
+    .queue-card p { margin: 7px 0; color: var(--text); font-size: 9px; line-height: 1.55; }
+    .queue-card-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; color: var(--muted); font-size: 8px; }
+    .approval-detail { padding: 15px; }
+    .approval-actions { padding: 11px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; border-top: 1px solid var(--line); }
+    .approve { border: 1px solid var(--green); background: var(--green); color: var(--surface); }
+    .return { border: 1px solid var(--amber); background: var(--surface); color: oklch(48% 0.11 70); }
+    .reject { border: 1px solid var(--red); background: var(--surface); color: var(--red); }
+
+    .po-totals { margin-left: auto; width: min(360px, 100%); padding: 10px 12px; }
+    .total-row { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; color: var(--muted); font-size: 9px; }
+    .total-row strong { color: var(--ink); }
+    .total-row.grand { margin-top: 6px; padding-top: 9px; border-top: 1px solid var(--line); font-size: 11px; font-weight: 850; }
+    .report-strip { margin-bottom: 10px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+    .report-metric { min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    .report-metric span, .report-metric small { display: block; color: var(--muted); font-size: 8px; }
+    .report-metric strong { display: block; margin: 5px 0 2px; color: var(--ink); font-size: 17px; }
+    .report-grid, .settings-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .report-list { padding: 5px 11px 10px; }
+    .report-row { min-height: 45px; padding: 8px 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line-soft); }
+    .report-row:last-child { border-bottom: 0; }
+    .report-row span, .report-row small { display: block; }
+    .report-row span { color: var(--ink); font-size: 9px; font-weight: 750; }
+    .report-row small { margin-top: 2px; color: var(--muted); font-size: 7px; }
+    .report-row strong { color: var(--ink); font-size: 10px; white-space: nowrap; }
+    .readiness-list { padding: 4px 11px 10px; }
+    .readiness-row { min-height: 53px; padding: 8px 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line-soft); }
+    .readiness-row:last-child { border-bottom: 0; }
+    .readiness-row span, .readiness-row small { display: block; }
+    .readiness-row span { color: var(--ink); font-size: 9px; font-weight: 800; }
+    .readiness-row small { margin-top: 3px; max-width: 48ch; color: var(--muted); font-size: 7px; line-height: 1.45; }
+    .readiness-state { flex: 0 0 auto; min-height: 25px; padding: 0 8px; display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; font-size: 7px; font-weight: 850; white-space: nowrap; }
+    .readiness-state.ready { border-color: oklch(79% .08 153); background: var(--green-soft); color: oklch(42% .1 153); }
+    .readiness-state.pending { border-color: oklch(82% .07 70); background: var(--amber-soft); color: oklch(47% .1 70); }
+    .settings-policy { padding: 11px; }
+    .settings-policy ul { margin: 0; padding-left: 18px; color: var(--text); font-size: 9px; line-height: 1.8; }
+    .settings-note { margin-top: 10px; padding: 10px 11px; display: flex; gap: 8px; align-items: flex-start; border: 1px solid oklch(84% .055 70); border-radius: 7px; background: var(--amber-soft); color: var(--text); font-size: 8px; line-height: 1.55; }
+    .report-export { min-height: 38px; }
+
+    .bottom-nav, .mobile-cart-button, .backdrop { display: none; }
+    .toast { position: fixed; z-index: 80; left: calc(var(--sidebar) + (100vw - var(--sidebar))/2); bottom: 20px; width: max-content; max-width: min(430px, calc(100vw - 32px)); padding: 10px 14px; border-radius: 7px; background: var(--ink); color: var(--surface); box-shadow: 0 14px 40px oklch(24% 0.03 252 / .2); font-size: 10px; font-weight: 700; opacity: 0; pointer-events: none; transform: translate(-50%, 8px); transition: opacity 160ms ease, transform 160ms cubic-bezier(.22,1,.36,1); }
+    .toast.visible { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 1250px) {
+      .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .catalog-layout { grid-template-columns: minmax(0, 1fr) minmax(400px, 39%); }
+    }
+
+    @media (max-width: 980px) {
+      .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .catalog-layout { height: auto; min-height: calc(100vh - 58px); display: block; overflow: visible; }
+      .catalog-pane { border-right: 0; }
+      .cart-pane { position: fixed; z-index: 55; top: 0; right: 0; bottom: 0; width: min(500px, 92vw); display: none; overflow-y: auto; background: var(--page); box-shadow: -20px 0 55px oklch(24% 0.03 252 / .18); }
+      .cart-pane.open { display: flex; }
+      .cart-close, .backdrop { display: block; }
+      .backdrop { position: fixed; z-index: 50; inset: 0; border: 0; background: oklch(18% 0.03 252 / .44); opacity: 0; pointer-events: none; transition: opacity 160ms ease; }
+      .backdrop.open { opacity: 1; pointer-events: auto; }
+      .mobile-cart-button { min-height: 38px; padding: 0 11px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--blue); border-radius: 7px; background: var(--blue); color: var(--surface); font-size: 10px; font-weight: 800; cursor: pointer; }
+      .document-grid { grid-template-columns: 1fr; }
+      .approval-layout { grid-template-columns: 280px 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      :root { --bottom-nav: 70px; }
+      .sidebar { display: none; }
+      .workspace { margin-left: 0; padding-bottom: var(--bottom-nav); }
+      .topbar { height: 58px; padding: 0 10px; }
+      .menu-button, .icon-button { width: 44px; height: 44px; }
+      .mobile-cart-button { min-height: 44px; }
+      .sync { display: none; }
+      .catalog-pane, .document-screen, .approval-detail { padding: 12px; }
+      .category-row { margin-left: -12px; margin-right: -12px; padding-left: 12px; padding-right: 12px; }
+      .category { min-width: 60px; min-height: 62px; }
+      .retail-directory-toggle { min-height: 44px; }
+      .retail-directory-head { align-items: flex-start; }
+      .retail-directory-head a { min-height: 44px; display: inline-flex; align-items: center; }
+      .retail-directory-tabs button { min-height: 44px; }
+      .retail-directory-groups { grid-template-columns: 1fr; }
+      .retail-category-links a { min-height: 44px; padding: 7px 9px; }
+      .product-family-row button, .product-size-row button { min-height: 44px; padding: 7px 11px; }
+      .product-grid { grid-template-columns: 1fr; gap: 7px; }
+      .product-card { min-height: 178px; display: grid; grid-template-columns: 104px minmax(0, 1fr); }
+      .product-art { width: 104px; height: auto; min-height: 178px; border-right: 1px solid var(--line-soft); border-bottom: 0; }
+      .product-copy { padding: 8px 9px; }
+      .product-copy h3 { min-height: 0; font-size: 10px; }
+      .product-copy .price { margin-top: 4px; }
+      .product-copy .stock { margin-bottom: 2px; }
+      .price-scope { margin-bottom: 4px; }
+      .price-actions a, .price-actions button { min-height: 44px; }
+      .qty { height: 44px; grid-template-columns: 44px 1fr 44px; }
+      .qty button { height: 44px; }
+      .tab { min-height: 44px; }
+      .cart-pane { width: 100vw; }
+      .cart-close { width: 44px; height: 44px; }
+      .cart-table th:nth-child(3), .cart-table th:nth-child(4), .cart-table td:nth-child(3), .cart-table td:nth-child(4) { display: none; }
+      .order-form { padding: 9px; }
+      .form-grid, .form-grid.two { grid-template-columns: 1fr; }
+      .control { min-height: 44px; font-size: 12px; }
+      .field label { font-size: 10px; }
+      .attach button, .primary, .secondary { min-height: 44px; }
+      .cart-footer { position: sticky; bottom: 0; grid-template-columns: 1fr auto; padding: 10px; margin: 10px -12px -13px; background: var(--surface); }
+      .cart-footer .primary { grid-column: 1 / -1; }
+      .doc-head { align-items: flex-start; flex-wrap: wrap; }
+      .doc-head-actions { width: 100%; margin-left: 0; }
+      .doc-head-actions button { flex: 1; min-height: 44px; }
+      .doc-summary { grid-template-columns: 1fr 1fr; }
+      .document-grid { grid-template-columns: 1fr; }
+      .line-share-footer { align-items: stretch; flex-direction: column; }
+      .line-share-footer span { max-width: none; }
+      .copy-line-button { width: 100%; min-height: 44px; }
+      .project-home { grid-template-columns: 1fr; }
+      .project-create { padding: 14px; }
+      .project-create .primary { min-height: 44px; }
+      .project-row { min-height: 78px; }
+      .role-switch { width: 100%; }
+      .role-switch button { flex: 1; min-height: 44px; }
+      .product-admin-layout { grid-template-columns: 1fr; }
+      .product-admin-layout .admin-list-panel { order: -1; }
+      .admin-form-grid { grid-template-columns: 1fr; }
+      .admin-form-grid .wide { grid-column: auto; }
+      .image-source-grid { grid-template-columns: 1fr; }
+      .upload-control { min-height: 44px; }
+      .offer-editor-row { grid-template-columns: 1fr 1fr; }
+      .offer-editor-row .wide { grid-column: 1 / -1; }
+      .offer-editor-head { align-items: stretch; flex-direction: column; }
+      .offer-editor-head button { min-height: 44px; }
+      .admin-form-actions button { min-height: 44px; }
+      .admin-list-toolbar { grid-template-columns: 1fr; }
+      .admin-list-head-tools button { min-height: 44px; }
+      .admin-product-row { grid-template-columns: 52px minmax(0, 1fr); align-items: start; }
+      .admin-price { text-align: left; }
+      .admin-row-actions { grid-column: 1 / -1; justify-content: stretch; }
+      .admin-row-actions button { flex: 1; min-height: 44px; }
+      .admin-product-detail { grid-template-columns: 1fr; }
+      .review-panel-actions button { flex: 1; min-height: 44px; }
+      .line-table { min-width: 620px; }
+      .pr-remove { width: 44px; height: 44px; }
+      .table-scroll { overflow-x: auto; }
+      .approval-layout { display: block; }
+      .queue { border-right: 0; }
+      .approval-actions { grid-template-columns: 1fr; }
+      .approval-actions button { min-height: 44px; }
+      .report-strip { grid-template-columns: 1fr 1fr; }
+      .report-grid, .settings-grid { grid-template-columns: 1fr; }
+      .readiness-row { min-height: 60px; }
+      .report-export { min-height: 44px; }
+      .bottom-nav { position: fixed; z-index: 45; left: 0; right: 0; bottom: 0; height: calc(var(--bottom-nav) + env(safe-area-inset-bottom)); padding: 5px 5px env(safe-area-inset-bottom); display: flex; overflow-x: auto; overscroll-behavior-x: contain; background: color-mix(in oklch, var(--surface) 97%, transparent); border-top: 1px solid var(--line); box-shadow: 0 -2px 12px oklch(24% 0.02 252 / .06); scrollbar-width: none; }
+      .bottom-nav::-webkit-scrollbar { display: none; }
+      .bottom-nav button { flex: 0 0 64px; min-width: 64px; min-height: 60px; padding: 4px 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font-size: 8px; font-weight: 750; cursor: pointer; }
+      .bottom-nav button.active { background: var(--blue-soft); color: var(--blue); }
+      .toast { left: 50%; bottom: calc(var(--bottom-nav) + 13px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+    @media print {
+      body.po-printing { background: #fff; }
+      body.po-printing .sidebar, body.po-printing .topbar, body.po-printing .bottom-nav, body.po-printing .toast, body.po-printing .backdrop, body.po-printing .doc-head-actions { display: none !important; }
+      body.po-printing .workspace { margin: 0; padding: 0; }
+      body.po-printing .screen { display: none !important; }
+      body.po-printing .screen[data-screen="po"] { display: block !important; padding: 0; }
+      body.po-printing .doc-panel, body.po-printing .doc-summary { break-inside: avoid; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">NCY<small>CONSTRUCTION</small></div></div>
+      <div class="profile"><div class="avatar">วก</div><div><strong>วิศวกร หน้างาน</strong><span>Site Engineer</span></div></div>
+      <nav class="side-nav" aria-label="เมนูหลัก">
+        <button type="button" class="active" data-screen="home"><svg width="17" height="17"><use href="#home"/></svg>หน้าหลัก</button>
+        <button type="button" data-screen="catalog"><svg width="17" height="17"><use href="#bag"/></svg>สินค้า</button>
+        <button type="button" data-screen="product-admin"><svg width="17" height="17"><use href="#settings"/></svg>จัดการสินค้า</button>
+        <button type="button" data-screen="pr"><svg width="17" height="17"><use href="#file"/></svg>PR ของฉัน</button>
+        <button type="button" data-screen="approvals"><svg width="17" height="17"><use href="#check-square"/></svg>อนุมัติ<span class="nav-count">3</span></button>
+        <button type="button" data-screen="po"><svg width="17" height="17"><use href="#clipboard"/></svg>PO</button>
+        <button type="button" data-screen="reports"><svg width="17" height="17"><use href="#chart"/></svg>รายงาน</button>
+        <button type="button" data-screen="settings"><svg width="17" height="17"><use href="#settings"/></svg>ตั้งค่า</button>
+      </nav>
+      <button class="logout" type="button"><svg width="17" height="17"><use href="#logout"/></svg>ออกจากระบบ</button>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <button class="menu-button" type="button" aria-label="เปิดเมนู"><svg width="19" height="19"><use href="#menu"/></svg></button>
+        <div class="page-title" id="pageTitle">หน้าหลัก</div>
+        <div class="topbar-spacer"></div>
+        <div class="sync"><i></i>บันทึกร่างแล้ว</div>
+        <button class="mobile-cart-button" id="openCart" type="button"><svg width="17" height="17"><use href="#cart"/></svg><span id="mobileCartText">5 รายการ</span></button>
+        <button class="icon-button" type="button" aria-label="แจ้งเตือน"><svg width="19" height="19"><use href="#bell"/></svg><span class="notification-dot">3</span></button>
+      </header>
+
+      <section class="screen" data-screen="catalog">
+        <div class="catalog-layout">
+          <div class="catalog-pane">
+            <div class="searchbar"><svg width="17" height="17"><use href="#search"/></svg><input id="searchInput" type="search" placeholder="ค้นหาสินค้า เช่น ปูนซีเมนต์, เหล็ก, สี, ท่อ PVC" /></div>
+            <div class="category-row" id="categories"></div>
+            <button class="retail-directory-toggle" id="retailCategoryToggle" type="button" aria-expanded="false" aria-controls="retailCategoryBrowser"><span><strong>หมวดสินค้าทางการ Global House</strong><br>ปูน/งานก่อสร้าง · เหล็ก · ปั๊มน้ำและระบบประปา</span><b id="retailCategoryCount">95 หมวดย่อย</b></button>
+            <section class="retail-directory" id="retailCategoryBrowser" aria-label="สารบัญหมวดสินค้า Global House" hidden>
+              <div class="retail-directory-head"><div><strong id="retailCategoryTitle">ปูนซีเมนต์ และงานก่อสร้าง</strong><span>สารบัญจากหน้าเว็บทางการ ใช้เปิดหา SKU แล้วเพิ่มสินค้าผ่านหลังบ้าน</span></div><a id="retailCategorySource" href="https://globalhouse.co.th/category/8697" target="_blank" rel="noreferrer">เปิดต้นทาง ↗</a></div>
+              <div class="retail-directory-tabs" id="retailCategoryTabs" role="tablist" aria-label="แผนกสินค้า"></div>
+              <div class="retail-directory-groups" id="retailCategoryGroups"></div>
+            </section>
+            <div class="tabs"><button class="tab active" type="button">แนะนำ</button><button class="tab" type="button">สินค้าที่สั่งบ่อย</button><button class="tab" type="button">รายการโปรด</button></div>
+            <section class="product-family-panel" aria-label="สินค้า Global House แบบระบุขนาด">
+              <div class="product-family-head"><strong>เลือกชนิดและขนาดจริง</strong><span id="productFamilyResult">กำลังโหลด SKU ทางการ</span></div>
+              <div class="product-family-row" id="productFamilyFilters"></div>
+              <div class="product-size-row" id="productSizeFilters" aria-label="กรองตามขนาด"></div>
+            </section>
+            <div class="retailer-note"><strong>ราคาใช้ได้ 24 ชั่วโมงหลังยืนยัน</strong><span>555 SKU ทางการจาก Global House รวมท่อและข้อต่อประปาเหล็กครบหมวด พร้อมตัวอย่างอีก 4 ร้าน · หากเกิน 24 ชม. ระบบจะบล็อก PR จนเปิดต้นทางและยืนยันใหม่</span></div>
+            <div class="product-grid" id="productGrid"></div>
+          </div>
+
+          <aside class="cart-pane" id="cartPane">
+            <div class="cart-head"><div><h2>ตะกร้าสินค้า <span id="cartHeadCount">(5 รายการ)</span></h2><span>ยอดประมาณการอัปเดตตามจำนวน</span></div><button class="cart-close" id="closeCart" type="button" aria-label="ปิดตะกร้า"><svg width="20" height="20"><use href="#x"/></svg></button></div>
+            <div class="table-scroll"><table class="cart-table"><colgroup><col style="width:40%"><col style="width:23%"><col style="width:14%"><col style="width:15%"><col style="width:8%"></colgroup><thead><tr><th>สินค้า</th><th>จำนวน</th><th>ราคา</th><th>รวม</th><th></th></tr></thead><tbody id="cartRows"></tbody></table></div>
+            <div class="order-form">
+              <h3>ข้อมูลการขอซื้อ</h3>
+              <div class="form-grid">
+                <div class="field"><label for="project">โครงการ</label><select class="control" id="project"><option>อาคารสำนักงาน NCY</option></select></div>
+                <div class="field"><label for="area">พื้นที่ / งาน</label><input class="control" id="area" value="ชั้น 2 งานผนัง" /></div>
+                <div class="field"><label for="needDate">วันที่ต้องการใช้</label><input class="control" id="needDate" type="date" value="2026-07-30" /></div>
+              </div>
+              <div class="form-grid two">
+                <div class="field"><label for="reason">เหตุผลในการขอซื้อ</label><textarea class="control" id="reason">ใช้สำหรับงานก่อสร้างผนังชั้น 2</textarea></div>
+                <div class="field"><label for="costCenter">ศูนย์ต้นทุน</label><select class="control" id="costCenter"><option>ค่าใช้จ่ายโครงการก่อสร้าง</option></select></div>
+              </div>
+              <div class="attach"><button type="button" id="attachButton"><svg width="14" height="14"><use href="#paperclip"/></svg>แนบไฟล์</button><span id="attachStatus">รองรับ PDF, JPG, PNG</span></div>
+            </div>
+            <div class="cart-footer"><span>รวมทั้งหมด</span><strong id="grandTotal">฿11,130</strong><button class="primary" id="createPr" type="button">สร้าง PR</button></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="screen document-screen" data-screen="pr">
+        <div class="doc-head"><div class="doc-head-copy"><div class="breadcrumb">PR ของฉัน &nbsp;›&nbsp; PR-2026-000125</div><h1>PR-2026-000125 <span class="pill wait">รออนุมัติหัวหน้าโครงการ</span></h1></div><div class="doc-head-actions"><button class="secondary copy-line" id="copyLineHeader" type="button">💬 คัดลอกส่ง LINE</button><button class="secondary" type="button">ยกเลิก PR</button><button class="secondary" type="button">แก้ไข PR</button></div></div>
+        <div class="doc-summary"><div class="meta"><span>โครงการ</span><strong id="prProjectName">อาคารสำนักงาน NCY</strong></div><div class="meta"><span>ผู้ขอ</span><strong>วิศวกร หน้างาน</strong></div><div class="meta"><span>วันที่ขอ</span><strong>22/07/2026 · 10:30</strong></div><div class="meta"><span>วันที่ต้องการใช้</span><strong id="prNeedDate">30/07/2026</strong></div><div class="meta"><span>พื้นที่ / งาน</span><strong id="prArea">ชั้น 2 งานผนัง</strong></div><div class="meta"><span>ศูนย์ต้นทุน</span><strong>ค่าใช้จ่ายโครงการก่อสร้าง</strong></div><div class="meta"><span>เหตุผลในการขอซื้อ</span><strong id="prReason">ใช้สำหรับงานก่อสร้างผนังชั้น 2</strong></div><div class="meta"><span>ข้อความ LINE</span><strong>พร้อมคัดลอก</strong></div></div>
+        <div class="document-grid">
+          <div class="doc-panel"><div class="panel-title">รายการสินค้า <span id="prItemCount">5 รายการ</span></div><div class="table-scroll"><table class="line-table"><thead><tr><th>#</th><th>รายละเอียด</th><th>จำนวน</th><th>หน่วย</th><th>ราคาประมาณการ</th><th>รวม</th><th aria-label="ยกเลิกรายการ"></th></tr></thead><tbody id="prRows"></tbody><tfoot><tr><td colspan="5">รวมทั้งหมด</td><td id="prTotal">11,130.00 บาท</td><td></td></tr></tfoot></table></div></div>
+          <div class="pr-side-stack">
+            <div class="doc-panel"><div class="panel-title"><span>ข้อความส่ง LINE</span><span class="share-ready">พร้อมคัดลอก</span></div><pre class="line-share-preview" id="lineSharePreview" aria-label="ตัวอย่างข้อความสำหรับส่ง LINE"></pre><div class="line-share-footer"><span>สรุปจาก PR ปัจจุบัน ไม่ส่งออกจากระบบอัตโนมัติ</span><button class="copy-line-button copy-line" id="copyLinePanel" type="button">💬 คัดลอกข้อความ</button></div></div>
+            <div class="doc-panel"><div class="panel-title">สถานะการดำเนินการ</div><div class="timeline"><div class="timeline-step done"><i class="timeline-dot"></i><strong>สร้าง PR</strong>22/07/2026 · 10:30</div><div class="timeline-step active"><i class="timeline-dot"></i><strong>ส่งอนุมัติ</strong>22/07/2026 · 10:31</div><div class="timeline-step"><i class="timeline-dot"></i><strong>รออนุมัติหัวหน้าโครงการ</strong></div><div class="timeline-step"><i class="timeline-dot"></i><strong>รออนุมัติฝ่ายจัดซื้อ</strong></div><div class="timeline-step"><i class="timeline-dot"></i><strong>ดำเนินการจัดซื้อ</strong></div><div class="timeline-step"><i class="timeline-dot"></i><strong>PO Issued</strong></div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="approvals">
+        <div class="approval-layout">
+          <aside class="queue"><h2>อนุมัติ PR</h2><div class="queue-tabs"><button class="active" type="button">รออนุมัติ (3)</button><button type="button">อนุมัติแล้ว</button><button type="button">ทั้งหมด</button></div><button class="queue-card active" type="button"><div class="queue-card-head"><strong>PR-2026-000125</strong><span class="pill wait">รออนุมัติ</span></div><p>อาคารสำนักงาน NCY<br>วิศวกร หน้างาน</p><div class="queue-card-meta"><span>5 รายการ</span><span>11,130.00 บาท</span><span>ใช้ 30/07/2026</span><span>ปกติ</span></div></button><button class="queue-card" type="button"><div class="queue-card-head"><strong>PR-2026-000123</strong><span class="pill wait">รออนุมัติ</span></div><p>บ้านพักอาศัย K.Ploy<br>โฟร์แมน งานระบบ</p><div class="queue-card-meta"><span>3 รายการ</span><span>7,450.00 บาท</span><span>ใช้ 01/08/2026</span><span>ปกติ</span></div></button></aside>
+          <div class="approval-detail"><div class="doc-head"><div class="doc-head-copy"><div class="breadcrumb">Approval Inbox</div><h1>PR-2026-000125 <span class="pill wait">รอการตัดสินใจ</span></h1></div></div><div class="doc-summary"><div class="meta"><span>โครงการ</span><strong id="approvalProjectName">อาคารสำนักงาน NCY</strong></div><div class="meta"><span>ผู้ขอ</span><strong>วิศวกร หน้างาน</strong></div><div class="meta"><span>วันที่ต้องการใช้</span><strong>30/07/2026</strong></div><div class="meta"><span>ยอดประมาณการ</span><strong>11,130.00 บาท</strong></div><div class="meta"><span>พื้นที่</span><strong>ชั้น 2 งานผนัง</strong></div><div class="meta"><span>เหตุผล</span><strong>ใช้สำหรับงานก่อสร้างผนังชั้น 2</strong></div><div class="meta"><span>ไฟล์แนบ</span><strong>site-wall-02.jpg</strong></div><div class="meta"><span>ผู้อนุมัติถัดไป</span><strong>ฝ่ายจัดซื้อ</strong></div></div><div class="doc-panel" style="margin-top:10px"><div class="panel-title">รายการที่ขอซื้อ</div><div class="table-scroll"><table class="line-table"><thead><tr><th>สินค้า</th><th>จำนวน</th><th>หน่วย</th><th>ราคา/หน่วย</th><th>รวม</th></tr></thead><tbody id="approvalRows"></tbody></table></div><div class="approval-actions"><button class="approve" id="approveButton" type="button">อนุมัติ</button><button class="return" id="returnButton" type="button">ส่งกลับแก้ไข</button><button class="reject" id="rejectButton" type="button">ไม่อนุมัติ</button></div></div></div>
+        </div>
+      </section>
+
+      <section class="screen document-screen" data-screen="po">
+        <div class="doc-head"><div class="doc-head-copy"><div class="breadcrumb">PO &nbsp;›&nbsp; เอกสารล่าสุด</div><h1>PO-2026-000058 <span class="pill done">ออก PO แล้ว</span></h1></div><div class="doc-head-actions"><button class="secondary" id="poPrint" type="button">พิมพ์ / บันทึก PDF</button><button class="secondary" id="poCopyLine" type="button">💬 Copy LINE</button></div></div>
+        <div class="doc-summary"><div class="meta"><span>ผู้ขาย</span><strong>Global House สาขารังสิต</strong></div><div class="meta"><span>วันที่ PO</span><strong>22/07/2026</strong></div><div class="meta"><span>กำหนดส่ง</span><strong>29/07/2026</strong></div><div class="meta"><span>เงื่อนไขชำระเงิน</span><strong>เครดิต 30 วัน</strong></div><div class="meta"><span>อ้างอิงจาก PR</span><strong>PR-2026-000125</strong></div><div class="meta"><span>ที่อยู่จัดส่ง</span><strong>อาคารสำนักงาน NCY ชั้น 2</strong></div><div class="meta"><span>สถานะผู้ขาย</span><strong>ยืนยันคำสั่งซื้อแล้ว</strong></div><div class="meta"><span>ผู้ดำเนินการ</span><strong>ฝ่ายจัดซื้อ</strong></div></div>
+        <div class="doc-panel" style="margin-top:10px"><div class="panel-title">รายการสินค้า</div><div class="table-scroll"><table class="line-table"><thead><tr><th>สินค้า</th><th>จำนวน</th><th>หน่วย</th><th>ราคา/หน่วย</th><th>ส่วนลด</th><th>รวม</th></tr></thead><tbody id="poRows"></tbody></table></div><div class="po-totals"><div class="total-row"><span>รวมสินค้า</span><strong>9,540.00</strong></div><div class="total-row"><span>ส่วนลด</span><strong>0.00</strong></div><div class="total-row"><span>ภาษีมูลค่าเพิ่ม 7%</span><strong>667.80</strong></div><div class="total-row"><span>ค่าขนส่ง</span><strong>300.00</strong></div><div class="total-row grand"><span>รวมทั้งสิ้น</span><strong>10,507.80 บาท</strong></div></div></div>
+      </section>
+
+      <section class="screen active document-screen" data-screen="home">
+        <div class="doc-head"><div><div class="breadcrumb">Procurement Workspace</div><h1>โครงการ</h1></div><div class="doc-head-actions"><button class="secondary" type="button" data-screen="product-admin">จัดการสินค้า</button><span class="pill done" id="activeProjectHeader">กำลังใช้: อาคารสำนักงาน NCY</span></div></div>
+        <div class="project-home">
+          <form class="project-create" id="projectForm">
+            <span class="project-eyebrow">เริ่มงานจัดซื้อ</span>
+            <h2>สร้างโครงการใหม่</h2>
+            <p>ตั้งชื่อโครงการก่อนเลือกสินค้า เพื่อให้ PR, การอนุมัติ และเอกสาร PO อ้างอิงงานเดียวกัน</p>
+            <div class="field"><label for="newProjectName">ชื่อโครงการ</label><input class="control" id="newProjectName" required maxlength="80" placeholder="เช่น โกดังสินค้า บางนา" /></div>
+            <div class="field"><label for="newProjectLocation">สถานที่ / สาขา</label><input class="control" id="newProjectLocation" maxlength="80" placeholder="เช่น บางนา กรุงเทพฯ" /></div>
+            <div class="field"><label for="newProjectOwner">ผู้รับผิดชอบ</label><input class="control" id="newProjectOwner" maxlength="80" value="วิศวกร หน้างาน" /></div>
+            <button class="primary" type="submit">สร้างโครงการและเลือกสินค้า</button>
+          </form>
+          <section class="project-directory" aria-labelledby="projectDirectoryTitle">
+            <div class="project-directory-head"><div><h2 id="projectDirectoryTitle">โครงการของฉัน</h2><span>เลือกโครงการก่อนสร้าง PR</span></div><strong class="project-count" id="projectCount"></strong></div>
+            <div class="project-list" id="projectList"></div>
+          </section>
+        </div>
+      </section>
+      <section class="screen document-screen" data-screen="product-admin">
+        <div class="doc-head"><div class="doc-head-copy"><div class="breadcrumb">Administration &nbsp;›&nbsp; Product Catalog</div><h1>จัดการสินค้า</h1></div><div class="doc-head-actions"><div class="role-switch" aria-label="บทบาทสำหรับทดสอบ"><button class="active" type="button" data-admin-role="owner">เจ้าของระบบ</button><button type="button" data-admin-role="subscriber">User ที่สมัคร</button></div></div></div>
+        <div class="admin-role-note" id="adminRoleNote"><strong>สิทธิ์เจ้าของระบบ</strong><span>เพิ่มหรือแก้ไขสินค้าได้ทันที และอนุมัติรายการที่สมาชิกส่งเข้ามาก่อนเผยแพร่ใน Catalog</span></div>
+        <div class="product-admin-layout">
+          <form class="product-editor" id="adminProductForm">
+            <div class="product-editor-head"><h2 id="adminFormTitle">เพิ่มสินค้าใหม่</h2><span id="adminFormMode">สินค้าใหม่</span></div>
+            <div class="product-editor-body">
+              <div class="admin-form-grid">
+                <div class="field wide"><label for="adminProductName">ชื่อสินค้า *</label><input class="control" id="adminProductName" required maxlength="140" placeholder="เช่น ปูนซีเมนต์ปอร์ตแลนด์ 50 กก." /></div>
+                <div class="field"><label for="adminProductSku">SKU *</label><input class="control" id="adminProductSku" required maxlength="40" placeholder="NCY-CEM-001" /></div>
+                <div class="field"><label for="adminProductCategory">หมวดงาน *</label><select class="control" id="adminProductCategory"><option value="bag|งานโครงสร้าง">งานโครงสร้าง · ปูน/วัสดุถุง</option><option value="steel|งานโครงสร้าง">งานโครงสร้าง · เหล็ก</option><option value="block|งานโครงสร้าง">งานโครงสร้าง · อิฐ/บล็อก</option><option value="pipe|งานระบบ">งานระบบ · ท่อ/ข้อต่อ</option><option value="tile|งานระบบ">งานระบบ · สุขภัณฑ์/อุปกรณ์</option><option value="wire|งานไฟฟ้า">งานไฟฟ้า · สายไฟ</option><option value="drill|งานไฟฟ้า">งานไฟฟ้า · อุปกรณ์/เครื่องมือ</option><option value="tile|อื่นๆ">อื่นๆ</option></select></div>
+                <div class="field"><label for="adminProductUnit">หน่วยกลาง *</label><input class="control" id="adminProductUnit" required maxlength="20" placeholder="ถุง / เส้น / เครื่อง" /></div>
+                <div class="field wide"><label for="adminOfficialCategory">หมวดย่อย Global House (ถ้ามี)</label><select class="control" id="adminOfficialCategory"><option value="">ไม่ระบุหมวดย่อยทางการ</option></select></div>
+                <fieldset class="offer-editor wide">
+                  <legend>ราคาและสต็อกแต่ละร้าน *</legend>
+                  <div class="offer-editor-head"><span>สินค้า 1 รายการเก็บข้อเสนอหลายร้านไว้เปรียบเทียบ โดย Catalog ใช้ราคาต่ำสุดที่ยังใช้งาน</span><button id="addOfferButton" type="button">+ เพิ่มร้าน</button></div>
+                  <div class="offer-editor-rows" id="adminOfferRows"></div>
+                </fieldset>
+                <div class="image-source-grid wide">
+                  <div class="field"><label for="adminProductImage">URL รูปสินค้า</label><input class="control" id="adminProductImage" type="url" placeholder="https://.../product.jpg" /></div>
+                  <div class="field"><label for="adminProductUpload">หรืออัปโหลดรูป</label><input class="upload-control" id="adminProductUpload" type="file" accept="image/png,image/jpeg,image/webp" /><p class="upload-note">PNG, JPG หรือ WebP ไม่เกิน 1.5 MB, Mockup เก็บในเบราว์เซอร์นี้เท่านั้น</p></div>
+                </div>
+                <div class="admin-image-preview wide" id="adminImagePreview">วาง URL หรือเลือกรูปสินค้าเพื่อดูตัวอย่าง</div>
+              </div>
+              <div class="admin-form-actions"><button class="secondary" id="adminCancelEdit" type="button" hidden>ยกเลิกแก้ไข</button><button class="primary" id="adminSubmitProduct" type="submit">เพิ่มและเผยแพร่</button></div>
+            </div>
+          </form>
+          <section class="admin-list-panel" aria-labelledby="adminProductListTitle">
+            <div class="admin-list-head"><div><h2 id="adminProductListTitle">สินค้าทั้งหมด</h2><span id="adminProductCount"></span></div><div class="admin-list-head-tools"><span id="adminPendingCount"></span><button id="jumpToProductForm" type="button">+ เพิ่มสินค้า</button></div></div>
+            <div class="admin-list-toolbar"><input class="control" id="adminProductSearch" type="search" placeholder="ค้นหาชื่อสินค้า, SKU, ผู้ขาย" /><select class="control" id="adminStatusFilter"><option value="all">ทุกสถานะ</option><option value="published">เผยแพร่แล้ว</option><option value="pending">รอตรวจสอบ</option><option value="rejected">ตีกลับให้แก้ไข</option><option value="hidden">ยกเลิกเผยแพร่</option></select></div>
+            <div class="review-panel" id="adminReviewPanel" hidden>
+              <strong id="adminReviewTitle">ตีกลับสินค้าให้ผู้ส่งแก้ไข</strong>
+              <label class="field" for="adminRejectReason"><span>เหตุผลที่ต้องแก้ไข *</span><textarea class="control" id="adminRejectReason" maxlength="240" placeholder="เช่น รูปไม่ชัด หรือราคายังไม่ระบุสาขา"></textarea></label>
+              <div class="review-panel-actions"><button id="cancelRejectProduct" type="button">ยกเลิก</button><button class="confirm-reject" id="confirmRejectProduct" type="button">ยืนยันตีกลับ</button></div>
+            </div>
+            <div class="admin-product-list" id="adminProductList"></div>
+          </section>
+        </div>
+      </section>
+      <section class="screen document-screen" data-screen="reports">
+        <div class="doc-head"><div><div class="breadcrumb">Procurement Analytics</div><h1>รายงานจัดซื้อ</h1></div><div class="doc-head-actions"><button class="secondary report-export" id="exportReportCsv" type="button">ดาวน์โหลด CSV</button></div></div>
+        <div class="report-strip">
+          <div class="report-metric"><span>ยอด PO ล่าสุด</span><strong>10,507.80 บาท</strong><small>1 เอกสารออกแล้ว</small></div>
+          <div class="report-metric"><span>ยอด PR ปัจจุบัน</span><strong id="reportPrTotal">0.00 บาท</strong><small>รออนุมัติหัวหน้าโครงการ</small></div>
+          <div class="report-metric"><span>ราคาไม่เกิน 24 ชม.</span><strong id="reportFreshOffers">0/0</strong><small>รายการที่ใช้สร้าง PR ได้</small></div>
+          <div class="report-metric"><span>คิวสินค้า</span><strong id="reportPendingProducts">0 รายการ</strong><small>รอเจ้าของระบบตรวจ</small></div>
+        </div>
+        <div class="report-grid">
+          <section class="doc-panel"><div class="panel-title"><span>ยอดตามผู้ขาย</span><span>PO และตะกร้าปัจจุบัน</span></div><div class="report-list" id="reportVendorList"></div></section>
+          <section class="doc-panel"><div class="panel-title"><span>งานที่ต้องติดตาม</span><span>อัปเดตจาก Preview นี้</span></div><div class="report-list"><div class="report-row"><div><span>PR รออนุมัติ</span><small>PR-2026-000125</small></div><strong>1 รายการ</strong></div><div class="report-row"><div><span>ราคาต้องยืนยันใหม่</span><small>เกินนโยบาย 24 ชั่วโมง</small></div><strong id="reportStaleOffers">0 รายการ</strong></div><div class="report-row"><div><span>PO ออกแล้ว</span><small>PO-2026-000058</small></div><strong>1 เอกสาร</strong></div></div></section>
+        </div>
+      </section>
+      <section class="screen document-screen" data-screen="settings">
+        <div class="doc-head"><div><div class="breadcrumb">Administration</div><h1>ตั้งค่าและสถานะระบบ</h1></div><div class="doc-head-actions"><button class="secondary" id="refreshReadiness" type="button">ตรวจสถานะใหม่</button></div></div>
+        <div class="settings-grid">
+          <section class="doc-panel"><div class="panel-title"><span>ความพร้อมระบบ</span><span>Preview environment</span></div><div class="readiness-list"><div class="readiness-row"><div><span>ข้อมูล Preview</span><small>โครงการ สินค้า ตะกร้า และการตรวจราคาเก็บในเบราว์เซอร์เครื่องนี้</small></div><b class="readiness-state ready">พร้อมทดสอบ</b></div><div class="readiness-row"><div><span>สารบัญ Global House</span><small>3 แผนก 95 หมวดย่อย พร้อมลิงก์ต้นทางทางการ</small></div><b class="readiness-state ready">พร้อมใช้งาน</b></div><div class="readiness-row"><div><span>ฐานข้อมูลและรูป Private</span><small>ต้องใส่ Supabase runtime และรัน tenant isolation smoke test ก่อนรับคำสั่งซื้อจริง</small></div><b class="readiness-state pending">ยังไม่เปิดจริง</b></div><div class="readiness-row"><div><span>LINE อัตโนมัติ</span><small>Preview ใช้ Copy LINE; การ Push ต้องมี channel token และปลายทางขององค์กร</small></div><b class="readiness-state pending">ใช้ Copy LINE</b></div></div></section>
+          <section class="doc-panel"><div class="panel-title"><span>นโยบายจัดซื้อ</span><span>Server-authoritative เมื่อขึ้นจริง</span></div><div class="settings-policy"><ul><li>ราคาใช้สร้าง PR ได้ไม่เกิน 24 ชั่วโมงหลังยืนยัน</li><li>เปิดลิงก์ต้นทางและตรวจสาขา/ค่าขนส่งก่อนกดยืนยันราคา</li><li>เจ้าของระบบอนุมัติสินค้าที่สมาชิกเพิ่มก่อนเผยแพร่</li><li>PO เก็บรายการและราคาตาม snapshot ตอนออกเอกสาร</li><li>Secret และ LINE destination อยู่ฝั่งเซิร์ฟเวอร์เท่านั้น</li></ul></div></section>
+        </div>
+        <div class="settings-note"><strong>หมายเหตุ</strong><span>สารบัญหมวดสินค้าไม่ใช่การนำเข้าราคาอัตโนมัติ สินค้าแต่ละ SKU ต้องมีรูป ราคา สาขา และเวลาตรวจสอบของตัวเองก่อนซื้อจริง</span></div>
+      </section>
+
+      <button class="backdrop" id="backdrop" type="button" aria-label="ปิดตะกร้า"></button>
+      <nav class="bottom-nav" aria-label="เมนูมือถือ"><button class="active" type="button" data-screen="home"><svg width="19" height="19"><use href="#home"/></svg>หน้าหลัก</button><button type="button" data-screen="catalog"><svg width="19" height="19"><use href="#bag"/></svg>สินค้า</button><button type="button" data-screen="pr"><svg width="19" height="19"><use href="#file"/></svg>PR ของฉัน</button><button type="button" data-screen="approvals"><svg width="19" height="19"><use href="#check-square"/></svg>อนุมัติ</button><button type="button" data-screen="po"><svg width="19" height="19"><use href="#clipboard"/></svg>PO</button><button type="button" data-screen="reports"><svg width="19" height="19"><use href="#chart"/></svg>รายงาน</button><button type="button" data-screen="settings"><svg width="19" height="19"><use href="#settings"/></svg>ตั้งค่า</button></nav>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs>
+    <symbol id="menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v9H4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 21v-7h6v7" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="bag" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 9V6a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6ZM14 3v5h4M9 13h6M9 17h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="check-square" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m7 12 3 3 7-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="clipboard" viewBox="0 0 24 24"><path d="M8 5H5v16h14V5h-3M9 3h6v4H9ZM8 12h8M8 16h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="chart" viewBox="0 0 24 24"><path d="M4 20V10h4v10M10 20V4h4v16M16 20v-7h4v7M3 20h18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M19 13.5v-3l-2-.7-.8-1.8.9-1.9-2.2-2.2-1.9.9-1.8-.8-.7-2h-3l-.7 2-1.8.8-1.9-.9L.9 6.1 1.8 8 1 9.8l-2 .7v3l2 .7.8 1.8-.9 1.9 2.2 2.2 1.9-.9 1.8.8.7 2h3l.7-2 1.8-.8 1.9.9 2.2-2.2-.9-1.9.8-1.8Z" transform="translate(2) scale(.83)" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="logout" viewBox="0 0 24 24"><path d="M10 4H4v16h6M14 8l4 4-4 4M8 12h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="cart" viewBox="0 0 24 24"><path d="M3 4h2l2 10h11l3-8H6M9 20h.01M17 20h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="paperclip" viewBox="0 0 24 24"><path d="m8 12 6-6a4 4 0 0 1 6 6l-8 8a6 6 0 0 1-8-8l8-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  </defs></svg>
+
+  <script>
+    const categories = [
+      ['ทั้งหมด','bag'],['งานโครงสร้าง','home'],['งานระบบ','cart'],['งานไฟฟ้า','bell'],['Global House','bag'],['DoHome','clipboard'],['HomePro','home'],['ไทวัสดุ','file']
+    ];
+    const officialProductSnapshot = window.PROCUREMENT_GLOBALHOUSE_PRODUCT_SNAPSHOT || {families:[],products:[]};
+    const officialFamilyMeta = Array.isArray(officialProductSnapshot.families) ? officialProductSnapshot.families : [];
+    const compareCatalogProducts = typeof officialProductSnapshot.compareProducts === 'function' ? officialProductSnapshot.compareProducts : (()=>0);
+    const products = [
+      ...(Array.isArray(officialProductSnapshot.products) ? officialProductSnapshot.products : []),
+      {id:'GH-30023018',name:'ท่อน้ำไทย ท่อพีวีซี 1/2 นิ้ว ชั้น 8.5 ยาว 4 เมตร',short:'ท่อ PVC น้ำไทย 1/2 นิ้ว',price:51,unit:'ท่อน',stock:'พร้อมตรวจสาขา',stockQty:999,discipline:'งานระบบ',category:'งานระบบ',image:'https://www.image-gbh.com/uploads/thumbnail/CN03PR9cQkp6.png',retailer:'Global House',checkedAt:'2026-07-22T12:30:00+07:00',priceScope:'ราคาหน้าสินค้าทางการ · ยืนยันพื้นที่จัดส่งก่อนสั่ง',sourceUrl:'https://globalhouse.co.th/product/%E0%B8%97%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%97%E0%B9%88%E0%B8%AD%E0%B8%9E%E0%B8%B5%E0%B8%A7%E0%B8%B5%E0%B8%8B%E0%B8%B5-12-%E0%B8%99%E0%B8%B4%E0%B9%89%E0%B8%A7-18-%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99-8.5-%E0%B8%9B%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%9A-i.30023018',kind:'pipe',tone:'#cfd6d9',label:'PVC 8.5'},
+      {id:'GH-8854420006003',name:'BCC สายไฟ THW 1x2.5 ตร.มม. 50 เมตร สีขาว',short:'สายไฟ BCC THW 2.5',price:329,unit:'ม้วน',stock:'พร้อมตรวจสาขา',stockQty:999,discipline:'งานไฟฟ้า',category:'งานไฟฟ้า',image:'https://www.image-gbh.com/uploads/thumbnail/VEN-188039_8854420006003_20220223033520.jpg',retailer:'Global House',checkedAt:'2026-07-22T12:30:00+07:00',priceScope:'ราคาหน้าสินค้าทางการ · ยืนยันสี/สาขาก่อนสั่ง',sourceUrl:'https://globalhouse.co.th/product/BCC-%E0%B8%AA%E0%B8%B2%E0%B8%A2%E0%B9%84%E0%B8%9F-THW-1x2.5-%E0%B8%95%E0%B8%A3.%E0%B8%A1%E0%B8%A1.-50-m.-%E0%B8%AA%E0%B8%B5%E0%B8%82%E0%B8%B2%E0%B8%A7-i.8854420006003',kind:'wire',tone:'#20292f',label:'BCC THW'},
+      {id:'DH-10253515',name:'เหล็กท่อกลมดำ 10 นิ้ว หนา 6 มม. (มอก.)',short:'เหล็กท่อกลมดำ 10 นิ้ว',price:8970,unit:'เส้น',stock:'พร้อมตรวจสาขา',stockQty:99,discipline:'งานโครงสร้าง',category:'งานโครงสร้าง',image:'https://dh-media.dohome.technology/article-image/products/10253515/images/44ebc94b-5cb1-4022-bc6c-f17c7d283362/10253515_sen_1200_1.jpg',retailer:'DoHome',checkedAt:'2026-07-22T12:30:00+07:00',priceScope:'ราคาหน้าสินค้าทางการ · สินค้าขนาดใหญ่ตรวจค่าขนส่ง',sourceUrl:'https://www.dohome.co.th/product/black-round-steel-pipe-10-inches-thickness-6-mm-tis-10253515',kind:'steel',tone:'#4f5c65',label:'STEEL PIPE'},
+      {id:'DH-10402536',name:'THOR ข้อต่อยูเนี่ยน PVC แบบสวม 1/2 นิ้ว',short:'ข้อต่อยูเนี่ยน PVC 1/2 นิ้ว',price:17,unit:'ชิ้น',stock:'พร้อมตรวจสาขา',stockQty:999,discipline:'งานระบบ',category:'งานระบบ',image:'https://dh-media.dohome.technology/article-image/products/10402536/images/80b6c43f-61dc-430d-bab7-106e12cf3c18/10402536_ea_p1_1.jpg',retailer:'DoHome',checkedAt:'2026-07-22T12:30:00+07:00',priceScope:'ราคาหน้าสินค้าทางการ · ตรวจสต็อกสาขาก่อนสั่ง',sourceUrl:'https://www.dohome.co.th/product/thor-1-2-inch-threaded-pvc-union-coupling-10402536',kind:'pipe',tone:'#cfd6d9',label:'THOR PVC'},
+      {id:'DH-10257727',name:'NNN สายไฟ IEC01 (THW) 1x2.5 ตร.มม. 100 เมตร สีเทา',short:'สายไฟ NNN THW 2.5',price:1368,unit:'ม้วน',stock:'พร้อมตรวจสาขา',stockQty:99,discipline:'งานไฟฟ้า',category:'งานไฟฟ้า',image:'https://dh-media.dohome.technology/article-image/products/10257727/7805a49a-dde5-4f86-8997-582106f12964/10257727_ROL_P1.jpg',retailer:'DoHome',checkedAt:'2026-07-22T12:30:00+07:00',priceScope:'ราคาส่งเสริมการขายบนหน้าสินค้าทางการ',sourceUrl:'https://www.dohome.co.th/product/nnn-thw-electrical-cable-2-5-x-100-m-grey-10257727',kind:'wire',tone:'#20292f',label:'NNN THW'},
+      {id:'HP-1109470',name:'ปูนซีเมนต์ผสม TPI 197 50 กก. สีเขียว',short:'ปูนซีเมนต์ TPI 197',price:245,priceText:'109.00–245.00',unit:'ถุง',stock:'ขึ้นกับพื้นที่จัดส่ง',stockQty:999,discipline:'งานโครงสร้าง',category:'งานโครงสร้าง',image:'https://statice.homepro.co.th/homepro/ART_IMAGE/11/094/1109470/447x447/17102025_1109470%24Imagec1.jpg',retailer:'HomePro',checkedAt:'2026-07-22T12:30:00+07:00',priceScope:'ช่วงราคาตามพื้นที่จัดส่ง · ใช้ 245 บาทเป็นยอดประมาณแบบไม่ต่ำเกินจริง',sourceUrl:'https://www.homepro.co.th/p/1109470',kind:'bag',tone:'#7f9c58',label:'TPI 197'},
+      {id:'HP-91161',name:'ท่อ PVC ท่อน้ำไทย CLASS 8.5 1/2 นิ้ว 4 ม. สีขาว',short:'ท่อ PVC น้ำไทย 1/2 นิ้ว',price:62,priceText:'59.00–62.00',unit:'ท่อน',stock:'ขึ้นกับพื้นที่จัดส่ง',stockQty:999,discipline:'งานระบบ',category:'งานระบบ',image:'https://statice.homepro.co.th/homepro/ART_IMAGE/00/911/91161/447x447/31012023_91161%24Imagec1.jpg',retailer:'HomePro',checkedAt:'2026-07-22T12:30:00+07:00',priceScope:'ช่วงราคาตามพื้นที่จัดส่ง · ใช้ 62 บาทเป็นยอดประมาณ',sourceUrl:'https://www.homepro.co.th/p/91161',kind:'pipe',tone:'#cfd6d9',label:'PVC 8.5'},
+      {id:'HP-1286399',name:'สายไฟ THW IEC01 THAIUNION 1X2.5 ตร.มม. 100 ม. สีน้ำตาล',short:'สายไฟ THAIUNION THW 2.5',price:1490,unit:'ม้วน',stock:'ขึ้นกับพื้นที่จัดส่ง',stockQty:99,discipline:'งานไฟฟ้า',category:'งานไฟฟ้า',image:'https://statice.homepro.co.th/homepro/ART_IMAGE/12/863/1286399/447x447/28022025_1286399%24Imagec1.jpg',retailer:'HomePro',checkedAt:'2026-07-22T12:30:00+07:00',priceScope:'ราคาหน้าสินค้าทางการ · ยืนยันพื้นที่จัดส่งก่อนสั่ง',sourceUrl:'https://www.homepro.co.th/p/1286399',kind:'wire',tone:'#20292f',label:'THAIUNION'},
+      {id:'TWD-60268320',name:'เหล็กตัวซีมีขอบ มอก. 75 x 45 x 15 x 2.3 มม.',short:'เหล็กตัวซีมีขอบ 75 มม.',price:436,unit:'เส้น',stock:'ต้องเปิดหน้าร้านยืนยัน',stockQty:99,discipline:'งานโครงสร้าง',category:'งานโครงสร้าง',image:'https://images.weserv.nl/?url=pim.thaiwatsadu.com/TWDPIM/web/Thumbnail/Image/0113/60268320.jpg',retailer:'ไทวัสดุ',checkedAt:'2026-07-22T12:30:00+07:00',priceScope:'ราคาจากหน้าสินค้าทางการ · รูป official ผ่าน preview proxy',sourceUrl:'https://www.thaiwatsadu.com/th/product/%E0%B9%80%E0%B8%AB%E0%B8%A5%E0%B9%87%E0%B8%81%E0%B8%95%E0%B8%B1%E0%B8%A7%E0%B8%8B%E0%B8%B5%E0%B8%A1%E0%B8%B5%E0%B8%82%E0%B8%AD%E0%B8%9A-%E0%B8%A1%E0%B8%AD%E0%B8%81-%E0%B8%82%E0%B8%99%E0%B8%B2%E0%B8%94-75-x-45-x-15-x-23-%E0%B8%A1%E0%B8%A1-%E0%B8%9E%E0%B9%88%E0%B8%99%E0%B8%9B%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B8%AA%E0%B8%B5%E0%B8%8A%E0%B8%A1%E0%B8%9E%E0%B8%B9-60268320',kind:'steel',tone:'#4f5c65',label:'C-CHANNEL'},
+      {id:'TWD-60311171',name:'ท่อ PVC น้ำไทย ชั้น 8.5 1/2 นิ้ว 4 ม. สีขาว',short:'ท่อ PVC น้ำไทย 1/2 นิ้ว',price:60,unit:'ท่อน',stock:'ต้องเปิดหน้าร้านยืนยัน',stockQty:999,discipline:'งานระบบ',category:'งานระบบ',image:'https://images.weserv.nl/?url=pim.thaiwatsadu.com/TWDPIM/web/Thumbnail/Image/0114/60311171.jpg',retailer:'ไทวัสดุ',checkedAt:'2026-07-22T12:30:00+07:00',priceScope:'ราคาจากหน้าสินค้าทางการ · รูป official ผ่าน preview proxy',sourceUrl:'https://www.thaiwatsadu.com/en/product/%E0%B8%97%E0%B9%88%E0%B8%AD-PVC-%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99-85-%E0%B8%82%E0%B8%99%E0%B8%B2%E0%B8%94-4-%E0%B8%A1-x-1%7C2-%E0%B8%99%E0%B8%B4%E0%B9%89%E0%B8%A7-%E0%B8%AA%E0%B8%B5%E0%B8%82%E0%B8%B2%E0%B8%A7-60311171',kind:'pipe',tone:'#cfd6d9',label:'PVC 8.5'},
+      {id:'TWD-60421015',name:'สายไฟ NNN IEC 01 THW 1 x 2.5 ตร.มม. 100 เมตร สีดำ',short:'สายไฟ NNN THW 2.5',price:1408,unit:'ม้วน',stock:'ต้องเปิดหน้าร้านยืนยัน',stockQty:99,discipline:'งานไฟฟ้า',category:'งานไฟฟ้า',image:'https://images.weserv.nl/?url=pim.thaiwatsadu.com/TWDPIM/web/Thumbnail/Image/0202/60421015.jpg',retailer:'ไทวัสดุ',checkedAt:'2026-07-22T12:30:00+07:00',priceScope:'ราคาจากหน้าสินค้าทางการ · รูป official ผ่าน preview proxy',sourceUrl:'https://www.thaiwatsadu.com/th/product/%E0%B8%AA%E0%B8%B2%E0%B8%A2%E0%B9%84%E0%B8%9F-NNN-%E0%B8%A3%E0%B8%B8%E0%B9%88%E0%B8%99-IEC-01-THW-%E0%B8%82%E0%B8%99%E0%B8%B2%E0%B8%94-1-x-25-%E0%B8%95%E0%B8%A3%E0%B8%A1%E0%B8%A1-%E0%B8%A2%E0%B8%B2%E0%B8%A7-100-%E0%B9%80%E0%B8%A1%E0%B8%95%E0%B8%A3-%E0%B8%AA%E0%B8%B5%E0%B8%94%E0%B8%B3-60421015',kind:'wire',tone:'#20292f',label:'NNN THW'}
+    ];
+    const seededAudit = (action,note,actor='เจ้าของระบบ') => [{at:'22 ก.ค. 2569 · 09:30',actor,action,note}];
+    const legacyStockQty = product => Number(product.stockQty ?? String(product.stock||'').replace(/[^0-9.]/g,''))||0;
+    const legacyOffer = (product,index=0) => ({id:`${product.id}-offer-${index+1}`,vendor:product.retailer||'คลังวัสดุ NCY',branch:product.branch||'ไม่ระบุสาขา',price:Number(product.price)||0,stockQty:legacyStockQty(product),vatMode:product.vatMode||'ไม่ระบุ VAT',effectiveDate:product.effectiveDate||'2026-07-22',expiryDate:product.expiryDate||'',leadDays:Number(product.leadDays)||0,sourceUrl:product.sourceUrl||'',checkedAt:product.checkedAt||'',active:true});
+    function normalizeManagedProduct(product){
+      const offers=(Array.isArray(product.offers)&&product.offers.length?product.offers:[legacyOffer(product)]).map((offer,index)=>({...legacyOffer(product,index),...offer,id:offer.id||`${product.id}-offer-${index+1}`,price:Number(offer.price)||0,stockQty:Number(offer.stockQty)||0,leadDays:Number(offer.leadDays)||0,checkedAt:offer.checkedAt||product.checkedAt||'',active:offer.active!==false}));
+      const activeOffers=offers.filter(offer=>offer.active!==false);
+      const primary=(activeOffers.length?activeOffers:offers).slice().sort((left,right)=>left.price-right.price)[0]||legacyOffer(product);
+      return {...product,offers,price:primary.price,stockQty:primary.stockQty,stock:product.stock||`${primary.stockQty} ${product.unit}`,retailer:primary.vendor,sourceUrl:primary.sourceUrl||'',status:product.status||'published',ownerRole:product.ownerRole||'owner',submittedBy:product.submittedBy||'เจ้าของระบบ',history:Array.isArray(product.history)&&product.history.length?product.history:seededAudit('สร้างสินค้า','นำเข้ารายการเริ่มต้น'),version:Number(product.version)||1,rejectionReason:product.rejectionReason||''};
+    }
+    const adminCatalogSeed = products.map(product=>normalizeManagedProduct({...product,status:'published',ownerRole:'owner',submittedBy:product.retailer?`เจ้าของระบบ · ${product.retailer}`:'เจ้าของระบบ',custom:false}));
+    adminCatalogSeed.unshift(normalizeManagedProduct({id:'MEM-VAF-225',name:'สายไฟ VAF 2x2.5 ตร.มม. 100 เมตร',short:'สายไฟ VAF 2x2.5',unit:'ม้วน',kind:'wire',tone:'#2f3b45',label:'VAF',checked:'รอตรวจสอบ',priceScope:'สมาชิกส่งเข้าระบบ รอเจ้าของระบบตรวจสอบ',image:'',status:'pending',ownerRole:'subscriber',submittedBy:'User สมาชิก · ร้านวัสดุสมาชิก A',custom:true,offers:[{id:'MEM-VAF-225-offer-1',vendor:'ร้านวัสดุสมาชิก A',branch:'บางนา',price:2380,stockQty:18,vatMode:'รวม VAT แล้ว',effectiveDate:'2026-07-22',expiryDate:'2026-07-31',leadDays:2,sourceUrl:'',active:true},{id:'MEM-VAF-225-offer-2',vendor:'ผู้แทนจำหน่าย B',branch:'สมุทรปราการ',price:2420,stockQty:42,vatMode:'ยังไม่รวม VAT',effectiveDate:'2026-07-22',expiryDate:'',leadDays:1,sourceUrl:'',active:true}],history:seededAudit('ส่งให้ตรวจสอบ','สมาชิกส่ง Product Master พร้อมราคา 2 ร้าน','User สมาชิก')}));
+    const ADMIN_DATA_VERSION = 10;
+    function loadManagedProducts(){
+      try {
+        const saved=JSON.parse(localStorage.getItem('ncy-procurement-managed-products'));
+        let normalized=(Array.isArray(saved)&&saved.length?saved:adminCatalogSeed).map(normalizeManagedProduct);
+        const storedVersion=Number(localStorage.getItem('ncy-procurement-managed-products-version'))||1;
+        if(storedVersion<ADMIN_DATA_VERSION){
+          const preserved=normalized.filter(product=>product.custom&&!adminCatalogSeed.some(seed=>seed.id===product.id));
+          normalized=[...adminCatalogSeed.map(normalizeManagedProduct),...preserved];
+          localStorage.setItem('ncy-procurement-managed-products-version',String(ADMIN_DATA_VERSION));
+          localStorage.setItem('ncy-procurement-managed-products',JSON.stringify(normalized));
+        }
+        return normalized;
+      } catch(error) { return adminCatalogSeed.map(normalizeManagedProduct); }
+    }
+    let managedProducts = loadManagedProducts();
+    let adminRole = 'owner';
+    let editingProductId = null;
+    let expandedProductId = 'MEM-VAF-225';
+    let reviewProductId = null;
+    let pendingImageDataUrl = '';
+    let offerDrafts = [];
+    let cart = {'GH-8852437304938':30,'GH-30023018':20,'GH-8854420006003':1,'DH-10402536':10,'HP-91161':10};
+    let activeCategory = 'ทั้งหมด';
+    let activeProductFamily = officialFamilyMeta.some(family=>family.id==='RB') ? 'RB' : 'all';
+    let activeProductSize = 'all';
+    const retailCategoryTree = window.PROCUREMENT_RETAIL_CATEGORY_TREE || {departments:[]};
+    let activeRetailDepartment = retailCategoryTree.departments[0]?.id || '';
+    const starterProjects = [
+      {name:'อาคารสำนักงาน NCY',location:'รังสิต ปทุมธานี',owner:'วิศวกร หน้างาน',prCount:4},
+      {name:'บ้านพักอาศัย K.Ploy',location:'เมือง นครปฐม',owner:'โฟร์แมน งานระบบ',prCount:2}
+    ];
+    function loadProjectState(){
+      try { const saved=JSON.parse(localStorage.getItem('ncy-procurement-projects')); return Array.isArray(saved)&&saved.length?saved:starterProjects; } catch(error) { return starterProjects; }
+    }
+    let projects = loadProjectState();
+    let activeProject = (()=>{ try { return localStorage.getItem('ncy-procurement-active-project')||projects[0].name; } catch(error) { return projects[0].name; } })();
+    if(!projects.some(project=>project.name===activeProject)) activeProject=projects[0].name;
+    const $ = id => document.getElementById(id);
+    const money = value => new Intl.NumberFormat('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}).format(value);
+    const PRICE_FRESHNESS_MS = 24*60*60*1000;
+    const escapeMarkup = value => String(value).replace(/[&<>'"]/g,character=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[character]));
+    const safeExternalUrl = value => { try { const url=new URL(String(value||''),location.href); return ['http:','https:'].includes(url.protocol)?url.href:''; } catch(error) { return ''; } };
+    const safeImageUrl = value => { const raw=String(value||'').trim(); if(!raw)return ''; return /^data:image\/(png|jpeg|webp);base64,/i.test(raw)?raw:safeExternalUrl(raw); };
+    const offerFreshness = value => { const checked=Date.parse(String(value||''));const age=Date.now()-checked;return {fresh:Number.isFinite(checked)&&age>=-300000&&age<=PRICE_FRESHNESS_MS,checked:Number.isFinite(checked)?new Date(checked):null}; };
+    const checkedLabel = value => { const state=offerFreshness(value);return state.checked?new Intl.DateTimeFormat('th-TH',{dateStyle:'short',timeStyle:'short'}).format(state.checked):'ยังไม่เคยยืนยัน'; };
+    const selected = () => products.filter(p => cart[p.id] > 0);
+    const total = () => selected().reduce((sum,p)=>sum+p.price*cart[p.id],0);
+    const requestValue = (id,fallback) => $(id)?.value.trim()||fallback;
+    const displayDate = value => { const [year,month,day]=value.split('-'); return year&&month&&day?`${day}/${month}/${year}`:value; };
+    function lineShareText(){
+      const rows=selected();
+      const items=rows.map((p,i)=>`${i+1}. ${p.short} × ${cart[p.id]} ${p.unit}`).join('\n');
+      return `📌 ขออนุมัติ PR\n🧾 PR-2026-000125\n🏗️ โครงการ: ${activeProject}\n👷 ผู้ขอ: วิศวกร หน้างาน\n📍 พื้นที่: ${requestValue('area','ยังไม่ระบุพื้นที่')}\n📅 ต้องการใช้: ${displayDate(requestValue('needDate','ยังไม่ระบุวันที่'))}\n💰 ยอดประมาณการ: ${money(total())} บาท\n\n📦 รายการ (${rows.length})\n${items}\n\n📝 เหตุผล: ${requestValue('reason','ยังไม่ระบุเหตุผล')}\n⏳ สถานะ: รออนุมัติหัวหน้าโครงการ\n\n👉 กรุณาตรวจสอบและอนุมัติในระบบ`;
+    }
+    function persistProjects(){
+      try { localStorage.setItem('ncy-procurement-projects',JSON.stringify(projects)); localStorage.setItem('ncy-procurement-active-project',activeProject); } catch(error) {}
+    }
+    function persistManagedProducts(){ try { localStorage.setItem('ncy-procurement-managed-products',JSON.stringify(managedProducts)); localStorage.setItem('ncy-procurement-managed-products-version',String(ADMIN_DATA_VERSION)); } catch(error) {} }
+    function catalogProduct(item){ const normalized=normalizeManagedProduct(item);const active=normalized.offers.filter(offer=>offer.active!==false).sort((left,right)=>left.price-right.price);const primary=active[0]||legacyOffer(normalized);const priceRange=active.length>1&&active.at(-1).price!==primary.price?`${money(primary.price)}–${money(active.at(-1).price)}`:'';return {...normalized,id:normalized.id,name:normalized.name,short:normalized.short||normalized.name,price:primary.price,priceText:priceRange||normalized.priceText||'',unit:normalized.unit,stock:normalized.stock||`${primary.stockQty||0} ${normalized.unit}`,image:normalized.image||'',retailer:primary.vendor||normalized.submittedBy,checkedAt:primary.checkedAt||'',discipline:normalized.discipline||normalized.category||'อื่นๆ',priceScope:active.length>1?`เปรียบเทียบ ${active.length} ร้าน · เลือกราคาต่ำสุดที่ยังใช้งาน`:normalized.priceScope||'เพิ่มจากหลังบ้าน · ตรวจสอบราคาและสต็อกก่อนสั่ง',sourceUrl:primary.sourceUrl||'',kind:normalized.kind||'tile',tone:normalized.tone||'#64748b',label:normalized.label||String(normalized.id).slice(0,8),offerCount:active.length}; }
+    function syncCatalogFromManaged(){ products.splice(0,products.length,...managedProducts.filter(item=>item.status==='published').map(catalogProduct)); Object.keys(cart).forEach(id=>{if(!products.some(product=>product.id===id))delete cart[id];}); if($('productFamilyFilters'))renderProductFamilyFilters(); }
+    function adminStatusLabel(status){ return status==='published'?'เผยแพร่แล้ว':status==='pending'?'รอตรวจสอบ':status==='rejected'?'ตีกลับให้แก้ไข':'ยกเลิกเผยแพร่'; }
+    function nowStamp(){ return new Intl.DateTimeFormat('th-TH',{dateStyle:'medium',timeStyle:'short'}).format(new Date()); }
+    function appendAudit(item,action,note,actor=adminRole==='owner'?'เจ้าของระบบ':'User สมาชิก'){ item.history=[{at:nowStamp(),actor,action,note},...(item.history||[])].slice(0,12);item.version=(Number(item.version)||0)+1; }
+    function blankOffer(seed={}){ return {id:seed.id||`offer-${Date.now()}-${Math.random().toString(16).slice(2,7)}`,vendor:seed.vendor||'',branch:seed.branch||'',price:Number(seed.price)||0,stockQty:Number(seed.stockQty)||0,vatMode:seed.vatMode||'รวม VAT แล้ว',effectiveDate:seed.effectiveDate||'2026-07-22',expiryDate:seed.expiryDate||'',leadDays:Number(seed.leadDays)||0,sourceUrl:seed.sourceUrl||'',checkedAt:seed.checkedAt||'',active:seed.active!==false}; }
+    function collectOfferDrafts(){ return [...document.querySelectorAll('[data-offer-row]')].map(row=>blankOffer({id:row.dataset.offerId,vendor:row.querySelector('[data-offer-field="vendor"]').value.trim(),branch:row.querySelector('[data-offer-field="branch"]').value.trim(),price:row.querySelector('[data-offer-field="price"]').value,stockQty:row.querySelector('[data-offer-field="stockQty"]').value,vatMode:row.querySelector('[data-offer-field="vatMode"]').value,effectiveDate:row.querySelector('[data-offer-field="effectiveDate"]').value,expiryDate:row.querySelector('[data-offer-field="expiryDate"]').value,leadDays:row.querySelector('[data-offer-field="leadDays"]').value,sourceUrl:row.querySelector('[data-offer-field="sourceUrl"]').value.trim(),checkedAt:new Date().toISOString()})); }
+    function renderOfferEditor(){ if(!offerDrafts.length)offerDrafts=[blankOffer()];$('adminOfferRows').innerHTML=offerDrafts.map((offer,index)=>`<div class="offer-editor-row" data-offer-row data-offer-id="${escapeMarkup(offer.id)}"><div class="offer-row-head"><strong>ร้านที่ ${index+1}</strong>${offerDrafts.length>1?`<button type="button" data-offer-remove="${escapeMarkup(offer.id)}">นำร้านนี้ออก</button>`:''}</div><label class="field wide"><span>ร้าน / ผู้ขาย *</span><input class="control" data-offer-field="vendor" required maxlength="80" value="${escapeMarkup(offer.vendor)}" /></label><label class="field wide"><span>สาขา / พื้นที่ราคา</span><input class="control" data-offer-field="branch" maxlength="80" value="${escapeMarkup(offer.branch)}" /></label><label class="field"><span>ราคา/หน่วย *</span><input class="control" data-offer-field="price" required min="0" step="0.01" type="number" value="${offer.price}" /></label><label class="field"><span>คงเหลือ *</span><input class="control" data-offer-field="stockQty" required min="0" step="1" type="number" value="${offer.stockQty}" /></label><label class="field"><span>VAT</span><select class="control" data-offer-field="vatMode"><option${offer.vatMode==='รวม VAT แล้ว'?' selected':''}>รวม VAT แล้ว</option><option${offer.vatMode==='ยังไม่รวม VAT'?' selected':''}>ยังไม่รวม VAT</option><option${offer.vatMode==='ไม่ระบุ VAT'?' selected':''}>ไม่ระบุ VAT</option></select></label><label class="field"><span>ส่งภายใน (วัน)</span><input class="control" data-offer-field="leadDays" min="0" step="1" type="number" value="${offer.leadDays}" /></label><label class="field"><span>วันที่ราคา</span><input class="control" data-offer-field="effectiveDate" type="date" value="${escapeMarkup(offer.effectiveDate)}" /></label><label class="field"><span>หมดอายุราคา</span><input class="control" data-offer-field="expiryDate" type="date" value="${escapeMarkup(offer.expiryDate)}" /></label><label class="field wide"><span>URL ต้นทาง</span><input class="control" data-offer-field="sourceUrl" type="url" value="${escapeMarkup(offer.sourceUrl)}" placeholder="https://..." /></label></div>`).join(''); }
+    function updateAdminRoleUi(){
+      document.querySelectorAll('[data-admin-role]').forEach(button=>button.classList.toggle('active',button.dataset.adminRole===adminRole));
+      $('adminRoleNote').innerHTML=adminRole==='owner'?'<strong>สิทธิ์เจ้าของระบบ</strong><span>เพิ่มหรือแก้ไขสินค้าได้ทันที และอนุมัติรายการที่สมาชิกส่งเข้ามาก่อนเผยแพร่ใน Catalog</span>':'<strong>สิทธิ์ User ที่สมัคร</strong><span>เพิ่มและแก้ไขสินค้าของตนเองได้ รายการใหม่จะอยู่ในสถานะรอตรวจสอบจนกว่าเจ้าของระบบอนุมัติ</span>';
+      $('adminSubmitProduct').textContent=editingProductId?'บันทึกการแก้ไข':adminRole==='owner'?'เพิ่มและเผยแพร่':'ส่งให้ตรวจสอบ';
+    }
+    function renderAdminProducts(){
+      const query=$('adminProductSearch').value.trim().toLowerCase();
+      const status=$('adminStatusFilter').value;
+      const visible=managedProducts.filter(item=>(adminRole==='owner'||item.status==='published'||item.ownerRole==='subscriber')&&(status==='all'||item.status===status)&&(!query||`${item.name} ${item.id} ${item.officialCategoryName||''} ${(item.offers||[]).map(offer=>offer.vendor).join(' ')} ${item.submittedBy||''}`.toLowerCase().includes(query)));
+      $('adminProductCount').textContent=`${managedProducts.length} รายการในระบบ`;
+      $('adminPendingCount').textContent=`รอตรวจสอบ ${managedProducts.filter(item=>item.status==='pending').length}`;
+      $('adminProductList').innerHTML=visible.length?visible.map(item=>{const normalized=normalizeManagedProduct(item);const canEdit=adminRole==='owner'||item.ownerRole==='subscriber';const detailOpen=expandedProductId===item.id;let reviewActions='';if(adminRole==='owner'){if(item.status==='pending')reviewActions=`<button class="publish" type="button" data-admin-action="publish" data-product-id="${escapeMarkup(item.id)}">อนุมัติ</button><button type="button" data-admin-action="reject" data-product-id="${escapeMarkup(item.id)}">ตีกลับ</button>`;else if(item.status==='published')reviewActions=`<button type="button" data-admin-action="unpublish" data-product-id="${escapeMarkup(item.id)}">ยกเลิกเผยแพร่</button>`;else reviewActions=`<button class="publish" type="button" data-admin-action="publish" data-product-id="${escapeMarkup(item.id)}">เผยแพร่</button>`;}const detail=detailOpen?`<div class="admin-product-detail"><div class="offer-summary"><h3 class="detail-title">ราคาและสต็อก ${normalized.offers.length} ร้าน</h3><div class="offer-summary-list">${normalized.offers.map(offer=>`<div class="offer-summary-row"><div><strong>${escapeMarkup(offer.vendor)} · ${escapeMarkup(offer.branch||'ไม่ระบุสาขา')}</strong><span>${escapeMarkup(offer.vatMode)} · Stock ${offer.stockQty} ${escapeMarkup(item.unit)} · ส่ง ${offer.leadDays||0} วัน${offer.expiryDate?` · ราคาถึง ${escapeMarkup(offer.expiryDate)}`:''}</span></div><div class="offer-summary-price">${money(offer.price)} บาท</div></div>`).join('')}</div></div><div><h3 class="detail-title">ประวัติ v${normalized.version}</h3><div class="audit-list">${normalized.history.slice(0,5).map(entry=>`<div class="audit-entry"><strong>${escapeMarkup(entry.action)} · ${escapeMarkup(entry.actor)}</strong>${escapeMarkup(entry.at)}${entry.note?`<br>${escapeMarkup(entry.note)}`:''}</div>`).join('')}</div></div></div>`:'';return `<article class="admin-product-item"><div class="admin-product-row"><div class="admin-thumb">${art(item)}</div><div class="admin-product-copy"><strong>${escapeMarkup(item.name)}</strong><div class="admin-product-meta"><span>${escapeMarkup(item.id)}</span><span>${normalized.offers.length} ร้าน</span><span class="admin-status ${item.status}">${adminStatusLabel(item.status)}</span></div>${item.rejectionReason?`<div class="admin-rejection">ต้องแก้ไข: ${escapeMarkup(item.rejectionReason)}</div>`:''}</div><div class="admin-price">เริ่ม ${money(normalized.price)} บาท<span>Product Master v${normalized.version}</span></div><div class="admin-row-actions"><button type="button" data-admin-action="detail" data-product-id="${escapeMarkup(item.id)}">${detailOpen?'ซ่อนรายละเอียด':'รายละเอียด'}</button>${canEdit?`<button type="button" data-admin-action="edit" data-product-id="${escapeMarkup(item.id)}">แก้ไข</button>`:''}${reviewActions}</div></div>${detail}</article>`;}).join(''):'<div class="admin-empty">ไม่พบสินค้าที่ตรงกับตัวกรอง</div>';
+    }
+    function updateAdminImagePreview(){ const url=safeImageUrl(pendingImageDataUrl||$('adminProductImage').value.trim());$('adminImagePreview').innerHTML=url?`<img src="${escapeMarkup(url)}" alt="ตัวอย่างรูปสินค้า" />`:'วาง URL หรือเลือกรูปสินค้าเพื่อดูตัวอย่าง'; }
+    function closeRejectPanel(){ reviewProductId=null;$('adminReviewPanel').hidden=true;$('adminRejectReason').value=''; }
+    function resetAdminForm(){ editingProductId=null;pendingImageDataUrl='';offerDrafts=[blankOffer()];$('adminProductSku').disabled=false;$('adminProductForm').reset();$('adminProductUpload').value='';$('adminFormTitle').textContent='เพิ่มสินค้าใหม่';$('adminFormMode').textContent='สินค้าใหม่';$('adminCancelEdit').hidden=true;renderOfferEditor();updateAdminImagePreview();updateAdminRoleUi(); }
+    function editManagedProduct(id){ const item=managedProducts.find(product=>product.id===id);if(!item)return;const normalized=normalizeManagedProduct(item);editingProductId=id;pendingImageDataUrl=normalized.image?.startsWith('data:')?normalized.image:'';offerDrafts=normalized.offers.map(blankOffer);$('adminProductName').value=normalized.name;$('adminProductSku').value=normalized.id;$('adminProductSku').disabled=true;$('adminProductCategory').value=`${normalized.kind}|${normalized.category||'อื่นๆ'}`;if(!$('adminProductCategory').value)$('adminProductCategory').value='tile|อื่นๆ';$('adminOfficialCategory').value=normalized.officialCategoryUrl||'';$('adminProductUnit').value=normalized.unit;$('adminProductImage').value=normalized.image?.startsWith('data:')?'':normalized.image||'';$('adminFormTitle').textContent='แก้ไขสินค้า';$('adminFormMode').textContent=`${normalized.id} · v${normalized.version}`;$('adminCancelEdit').hidden=false;renderOfferEditor();updateAdminImagePreview();updateAdminRoleUi();$('adminProductName').focus(); }
+    function renderProjects(){
+      $('projectCount').textContent=`${projects.length} โครงการ`;
+      $('projectList').innerHTML=projects.map((project,index)=>`<button class="project-row ${project.name===activeProject?'active':''}" type="button" data-project-index="${index}" aria-pressed="${project.name===activeProject}"><span><strong>${escapeMarkup(project.name)}</strong><span class="project-row-meta"><span>📍 ${escapeMarkup(project.location||'ยังไม่ระบุสถานที่')}</span><span>👤 ${escapeMarkup(project.owner||'ยังไม่ระบุผู้รับผิดชอบ')}</span></span></span><span class="project-row-status"><b>${project.name===activeProject?'กำลังใช้งาน':'เลือกโครงการ'}</b><span>${project.prCount||0} PR</span></span></button>`).join('');
+      $('project').innerHTML=projects.map(project=>`<option value="${escapeMarkup(project.name)}">${escapeMarkup(project.name)}</option>`).join('');
+      $('project').value=activeProject;
+      $('activeProjectHeader').textContent=`กำลังใช้: ${activeProject}`;
+      $('prProjectName').textContent=activeProject;
+      $('approvalProjectName').textContent=activeProject;
+      $('lineSharePreview').textContent=lineShareText();
+    }
+
+    function art(p) {
+      const image=safeImageUrl(p.image);
+      if(image) return `<img src="${escapeMarkup(image)}" alt="${escapeMarkup(p.name)}" loading="lazy" />`;
+      const safeName=escapeMarkup(p.name),safeLabel=escapeMarkup(p.label||'');
+      const a = `viewBox="0 0 120 100" role="img" aria-label="${safeName}"`;
+      if(p.kind==='bag') return `<svg ${a}><ellipse cx="60" cy="88" rx="27" ry="4" fill="#17203318"/><path d="M38 15q22-7 44 0l-4 70q-18 6-36 0Z" fill="${p.tone}"/><rect x="44" y="38" width="32" height="27" rx="2" fill="#f8fafce8"/><text x="60" y="51" text-anchor="middle" font-size="7" font-weight="800" fill="#243244">${safeLabel}</text><text x="60" y="60" text-anchor="middle" font-size="5" fill="#64748b">50 KG</text></svg>`;
+      if(p.kind==='steel'||p.kind==='pipe') return `<svg ${a}><ellipse cx="59" cy="86" rx="44" ry="4" fill="#17203318"/><g stroke="${p.tone}" stroke-width="8" stroke-linecap="round"><path d="m17 77 80-50"/><path d="m23 88 80-50"/><path d="m10 66 80-50"/></g><rect x="12" y="56" width="31" height="17" rx="3" fill="#f8fafce8"/><text x="27" y="67" text-anchor="middle" font-size="7" font-weight="800" fill="#243244">${safeLabel}</text></svg>`;
+      if(p.kind==='block') return `<svg ${a}><ellipse cx="60" cy="86" rx="42" ry="4" fill="#17203315"/><path d="m16 39 65-16 23 20-65 17Z" fill="#f3efe5" stroke="#bbb6aa"/><path d="m39 60 65-17v28L39 88Z" fill="${p.tone}" stroke="#bbb6aa"/><path d="M16 39v29l23 20V60Z" fill="#cbc6ba" stroke="#bbb6aa"/><circle cx="42" cy="43" r="7" fill="#d5d0c3"/><circle cx="69" cy="36" r="7" fill="#d5d0c3"/><text x="70" y="75" text-anchor="middle" font-size="8" font-weight="800" fill="#77736b">${safeLabel}</text></svg>`;
+      if(p.kind==='paint') return `<svg ${a}><ellipse cx="60" cy="88" rx="26" ry="4" fill="#17203318"/><path d="M34 26h52l-5 56q-21 7-42 0Z" fill="#f5f6f5" stroke="#aeb6bd"/><path d="M31 20h58v11H31Z" rx="3" fill="#273744"/><rect x="40" y="42" width="40" height="25" rx="2" fill="${p.tone}"/><text x="60" y="57" text-anchor="middle" font-size="10" font-weight="900" fill="#243244">${safeLabel}</text></svg>`;
+      if(p.kind==='drill') return `<svg ${a}><ellipse cx="59" cy="88" rx="37" ry="4" fill="#17203318"/><path d="M22 37h57l15 13-16 13H59L48 79H31l8-22H22Z" fill="${p.tone}"/><path d="M22 37h-9v11h9M76 42h21" fill="none" stroke="#243244" stroke-width="6"/><rect x="36" y="46" width="30" height="10" rx="2" fill="#16242e"/><text x="51" y="53" text-anchor="middle" font-size="5" font-weight="800" fill="#eef3f6">BOSCH</text></svg>`;
+      if(p.kind==='wire') return `<svg ${a}><ellipse cx="60" cy="87" rx="34" ry="4" fill="#17203318"/><g fill="none" stroke="${p.tone}" stroke-width="7"><circle cx="60" cy="51" r="32"/><circle cx="60" cy="51" r="21"/></g><rect x="43" y="41" width="34" height="21" rx="3" fill="#eef2f5"/><text x="60" y="54" text-anchor="middle" font-size="8" font-weight="800" fill="#243244">${safeLabel}</text></svg>`;
+      if(p.kind==='sand') return `<svg ${a}><ellipse cx="60" cy="76" rx="45" ry="13" fill="${p.tone}"/><path d="M24 73 55 29l43 45Z" fill="#d2a05c"/><path d="m49 39 8-11 8 13" fill="#e1b875"/></svg>`;
+      if(p.kind==='tile') return `<svg ${a}><ellipse cx="60" cy="83" rx="42" ry="4" fill="#17203318"/><path d="m22 58 57-26 21 13-58 27Z" fill="#f1f2f1" stroke="#aeb6bd"/><path d="m42 72 58-27v9L42 81Z" fill="#c6cbce"/><path d="M22 58v9l20 14v-9Z" fill="#d7dadd"/></svg>`;
+      return `<svg ${a}><ellipse cx="60" cy="82" rx="39" ry="5" fill="#17203318"/><g fill="none" stroke="${p.tone}" stroke-width="4"><path d="m20 64 67-29M26 75l67-29M35 82l60-26"/></g></svg>`;
+    }
+
+    function renderCategories(){ $('categories').innerHTML=categories.map(([name,icon])=>`<button class="category ${name===activeCategory?'active':''}" type="button" data-category="${name}"><span class="category-icon"><svg width="18" height="18"><use href="#${icon}"/></svg></span>${name}</button>`).join(''); }
+    function renderRetailCategoryDirectory(){
+      const departments=Array.isArray(retailCategoryTree.departments)?retailCategoryTree.departments:[];
+      const leafCount=departments.flatMap(department=>department.groups||[]).reduce((sum,group)=>sum+(group.children?.length||0),0);
+      $('retailCategoryCount').textContent=`${leafCount} หมวดย่อย`;
+      if(!departments.length){$('retailCategoryToggle').hidden=true;return;}
+      const active=departments.find(department=>department.id===activeRetailDepartment)||departments[0];
+      activeRetailDepartment=active.id;
+      $('retailCategoryTitle').textContent=active.name;
+      $('retailCategorySource').href=safeExternalUrl(active.url);
+      $('retailCategoryTabs').innerHTML=departments.map(department=>`<button class="${department.id===active.id?'active':''}" type="button" role="tab" aria-selected="${department.id===active.id}" data-retail-department="${escapeMarkup(department.id)}">${escapeMarkup(department.name)}</button>`).join('');
+      $('retailCategoryGroups').innerHTML=(active.groups||[]).map(group=>`<section class="retail-category-group"><a href="${escapeMarkup(safeExternalUrl(group.url))}" target="_blank" rel="noreferrer">${escapeMarkup(group.name)}</a><div class="retail-category-links">${(group.children||[]).map(child=>`<a href="${escapeMarkup(safeExternalUrl(child.url))}" target="_blank" rel="noreferrer">${escapeMarkup(child.name)}</a>`).join('')}</div></section>`).join('');
+    }
+    function renderOfficialCategoryOptions(){
+      const groups=(retailCategoryTree.departments||[]).flatMap(department=>(department.groups||[]).map(group=>({department,group})));
+      $('adminOfficialCategory').innerHTML='<option value="">ไม่ระบุหมวดย่อยทางการ</option>'+groups.map(({department,group})=>`<optgroup label="${escapeMarkup(department.name)} · ${escapeMarkup(group.name)}">${(group.children||[]).map(child=>`<option value="${escapeMarkup(safeExternalUrl(child.url))}" data-category-name="${escapeMarkup(child.name)}">${escapeMarkup(child.name)}</option>`).join('')}</optgroup>`).join('');
+    }
+    function renderProductFamilyFilters(){
+      const families=[{id:'all',label:'สินค้าทั้งหมด',description:`${products.length} SKU`},...officialFamilyMeta];
+      $('productFamilyFilters').innerHTML=families.map(family=>{const count=family.id==='all'?products.length:products.filter(product=>product.family===family.id).length;return `<button class="${family.id===activeProductFamily?'active':''}" type="button" data-product-family="${escapeMarkup(family.id)}" aria-pressed="${family.id===activeProductFamily}">${escapeMarkup(family.label)}<span>${escapeMarkup(family.id==='all'?family.description:`${family.description} · ${count} SKU`)}</span></button>`;}).join('');
+      const familyProducts=products.filter(product=>product.family===activeProductFamily&&product.sizeKey);
+      const sizes=[...new Map(familyProducts.sort((left,right)=>Number(left.sizeKey)-Number(right.sizeKey)).map(product=>[String(product.sizeKey),product.sizeLabel||product.sizeKey])).entries()];
+      $('productSizeFilters').hidden=activeProductFamily==='all'||!sizes.length;
+      $('productSizeFilters').innerHTML=[['all','ทุกขนาด'],...sizes].map(([value,label])=>`<button class="${String(value)===String(activeProductSize)?'active':''}" type="button" data-product-size="${escapeMarkup(value)}" aria-pressed="${String(value)===String(activeProductSize)}">${escapeMarkup(label)}</button>`).join('');
+    }
+    function renderProducts(){
+      const q=$('searchInput').value.trim().toLowerCase();
+      const list=products.filter(product=>{
+        const categoryMatch=activeCategory==='ทั้งหมด'||product.discipline===activeCategory||product.retailer===activeCategory;
+        const familyMatch=activeProductFamily==='all'||product.family===activeProductFamily;
+        const sizeMatch=activeProductSize==='all'||String(product.sizeKey||'')===String(activeProductSize);
+        const searchable=`${product.name} ${product.id} ${product.retailer||''} ${product.discipline||''} ${product.familyLabel||''} ${product.sizeLabel||''} ${(product.specTokens||[]).join(' ')}`.toLowerCase();
+        return categoryMatch&&familyMatch&&sizeMatch&&(!q||searchable.includes(q));
+      }).sort(compareCatalogProducts);
+      const family=officialFamilyMeta.find(item=>item.id===activeProductFamily);
+      $('productFamilyResult').textContent=`${family?family.label:'ทุกหมวด'} · พบ ${list.length} SKU${activeProductSize!=='all'?` · ${products.find(product=>product.family===activeProductFamily&&String(product.sizeKey)===String(activeProductSize))?.sizeLabel||''}`:''}`;
+      $('productGrid').innerHTML=list.length?list.map(product=>{
+        const source=safeExternalUrl(product.sourceUrl);
+        const freshness=offerFreshness(product.checkedAt);
+        const artMarkup=source?`<a class="product-art-link" href="${escapeMarkup(source)}" target="_blank" rel="noreferrer" aria-label="เปิดหน้าสินค้า ${escapeMarkup(product.name)}">${art(product)}</a>`:art(product);
+        const specs=Array.isArray(product.specTokens)&&product.specTokens.length?`<div class="product-specs">${product.specTokens.map(token=>`<span>${escapeMarkup(token)}</span>`).join('')}${product.preorder?'<span>Preorder</span>':''}</div>`:'';
+        return `<article class="product-card ${freshness.fresh?'price-fresh':'price-stale'}"><div class="product-art" style="--art-bg:color-mix(in oklch, ${product.tone} 13%, var(--panel))">${artMarkup}</div><div class="product-copy">${product.retailer?`<div class="source-row">${source?`<a class="source-chip" href="${escapeMarkup(source)}" target="_blank" rel="noreferrer">${escapeMarkup(product.retailer)} ↗</a>`:`<span class="source-chip">${escapeMarkup(product.retailer)}</span>`}<span class="freshness-badge ${freshness.fresh?'fresh':'stale'}">${freshness.fresh?'✓ ราคาพร้อมใช้':'⚠ ต้องตรวจราคา'}</span></div>`:''}<h3>${escapeMarkup(product.name)}</h3>${specs}<div class="product-sku">SKU ${escapeMarkup(product.sku||product.id)}</div><div class="price">${escapeMarkup(product.priceText||money(product.price))} <small>บาท/${escapeMarkup(product.unit)}</small></div><div class="stock">Stock: ${escapeMarkup(product.stock)}</div><div class="source-date">ตรวจล่าสุด ${escapeMarkup(checkedLabel(product.checkedAt))}</div>${product.priceScope?`<div class="price-scope">${escapeMarkup(product.priceScope)}</div>`:''}${!freshness.fresh?`<div class="price-actions">${source?`<a href="${escapeMarkup(source)}" target="_blank" rel="noreferrer">1. เปิดหน้าร้าน</a>`:''}<button type="button" data-confirm-price="${escapeMarkup(product.id)}">2. ยืนยันราคานี้</button></div>`:''}<div class="qty"><button type="button" data-delta="-1" data-id="${escapeMarkup(product.id)}" aria-label="ลด ${escapeMarkup(product.short)}">−</button><strong>${cart[product.id]||0}</strong><button type="button" data-delta="1" data-id="${escapeMarkup(product.id)}" ${freshness.fresh?'':'disabled'} aria-label="เพิ่ม ${escapeMarkup(product.short)}">+</button></div></div></article>`;
+      }).join(''):'<div class="admin-empty">ไม่พบ SKU ที่ตรงกับชนิด ขนาด หรือคำค้นนี้</div>';
+    }
+    function renderRows(){ const rows=selected(); $('cartRows').innerHTML=rows.map(p=>`<tr><td><div class="cart-product"><div class="cart-thumb">${art(p)}</div><div><strong>${escapeMarkup(p.short)}</strong><span>${escapeMarkup(p.unit)}ละ ${money(p.price)}</span></div></div></td><td><div class="cart-qty"><button type="button" data-cart-delta="-1" data-id="${escapeMarkup(p.id)}">−</button><strong>${cart[p.id]}</strong><button type="button" data-cart-delta="1" data-id="${escapeMarkup(p.id)}">+</button></div></td><td>${money(p.price)}</td><td>${money(p.price*cart[p.id])}</td><td><button class="delete-button" type="button" data-delete="${escapeMarkup(p.id)}" aria-label="ลบ ${escapeMarkup(p.short)}">×</button></td></tr>`).join(''); $('cartHeadCount').textContent=`(${rows.length} รายการ)`; $('mobileCartText').textContent=`${rows.length} รายการ`; $('grandTotal').textContent=`฿${money(total())}`; renderDocumentRows(); renderReports(); }
+    function renderDocumentRows(){ const rows=selected(); const standard=rows.map((p,i)=>`<tr><td>${i+1}</td><td>${escapeMarkup(p.name)}</td><td>${cart[p.id]}</td><td>${escapeMarkup(p.unit)}</td><td>${money(p.price)}</td><td>${money(p.price*cart[p.id])}</td><td><button class="delete-button pr-remove" type="button" data-pr-remove="${escapeMarkup(p.id)}" aria-label="ยกเลิก ${escapeMarkup(p.short)} จาก PR" title="ยกเลิกรายการนี้">×</button></td></tr>`).join(''); $('prRows').innerHTML=standard||'<tr><td colspan="7" class="admin-empty">PR นี้ไม่มีสินค้าแล้ว กลับไปหน้า “สินค้า” เพื่อเพิ่มรายการใหม่</td></tr>'; $('prItemCount').textContent=`${rows.length} รายการ`; $('prTotal').textContent=`${money(total())} บาท`; $('prArea').textContent=requestValue('area','ยังไม่ระบุพื้นที่'); $('prNeedDate').textContent=displayDate(requestValue('needDate','ยังไม่ระบุวันที่')); $('prReason').textContent=requestValue('reason','ยังไม่ระบุเหตุผล'); $('lineSharePreview').textContent=lineShareText(); $('approvalRows').innerHTML=rows.map(p=>`<tr><td>${escapeMarkup(p.name)}</td><td>${cart[p.id]}</td><td>${escapeMarkup(p.unit)}</td><td>${money(p.price)}</td><td>${money(p.price*cart[p.id])}</td></tr>`).join(''); $('poRows').innerHTML=rows.map(p=>`<tr><td>${escapeMarkup(p.name)}</td><td>${cart[p.id]}</td><td>${escapeMarkup(p.unit)}</td><td>${money(p.price)}</td><td>0%</td><td>${money(p.price*cart[p.id])}</td></tr>`).join(''); }
+    function update(id,delta){ const product=products.find(item=>item.id===id);if(delta>0&&!offerFreshness(product?.checkedAt).fresh){toast('ราคานี้เกิน 24 ชั่วโมง กรุณาเปิดหน้าร้านและยืนยันใหม่ก่อนเพิ่มลง PR');return;}cart[id]=Math.max(0,(cart[id]||0)+delta); if(!cart[id]) delete cart[id]; renderProducts(); renderRows(); }
+    function confirmCatalogPrice(id){ const managed=managedProducts.find(item=>item.id===id);if(!managed)return;const active=managed.offers.filter(offer=>offer.active!==false).sort((left,right)=>left.price-right.price);if(!active.length)return;if(!safeExternalUrl(active[0].sourceUrl)){toast('ต้องเพิ่ม URL ต้นทางก่อนยืนยันราคา');return;}active[0].checkedAt=new Date().toISOString();appendAudit(managed,'ยืนยันราคาและสต็อก','เปิดแหล่งที่มาและยืนยันให้ใช้ได้ 24 ชั่วโมง');persistManagedProducts();syncCatalogFromManaged();renderProducts();renderRows();renderAdminProducts();toast('ยืนยันราคาแล้ว ใช้สร้าง PR ได้ 24 ชั่วโมง'); }
+    function renderReports(){
+      const fresh=products.filter(product=>offerFreshness(product.checkedAt).fresh).length;
+      const stale=products.length-fresh;
+      const pending=managedProducts.filter(product=>product.status==='pending').length;
+      const vendorTotals=new Map();
+      selected().forEach(product=>vendorTotals.set(product.retailer||'ไม่ระบุผู้ขาย',(vendorTotals.get(product.retailer||'ไม่ระบุผู้ขาย')||0)+(product.price*cart[product.id])));
+      $('reportPrTotal').textContent=`${money(total())} บาท`;
+      $('reportFreshOffers').textContent=`${fresh}/${products.length}`;
+      $('reportPendingProducts').textContent=`${pending} รายการ`;
+      $('reportStaleOffers').textContent=`${stale} รายการ`;
+      $('reportVendorList').innerHTML=[...vendorTotals.entries()].sort((left,right)=>right[1]-left[1]).map(([vendor,amount])=>`<div class="report-row"><div><span>${escapeMarkup(vendor)}</span><small>ยอดประมาณจากตะกร้าปัจจุบัน</small></div><strong>${money(amount)} บาท</strong></div>`).join('')||'<div class="admin-empty">ยังไม่มีรายการในตะกร้า</div>';
+    }
+    function downloadReportCsv(){
+      const rows=[['SKU','สินค้า','ผู้ขาย','จำนวน','หน่วย','ราคา/หน่วย','รวม','ตรวจราคาล่าสุด'],...selected().map(product=>[product.id,product.name,product.retailer||'',cart[product.id],product.unit,product.price,product.price*cart[product.id],product.checkedAt||''])];
+      const csv='\uFEFF'+rows.map(row=>row.map(value=>{const text=String(value??'').replace(/\r?\n/g,' ');return /[",\n]/.test(text)?`"${text.replace(/"/g,'""')}"`:text;}).join(',')).join('\r\n');
+      const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const anchor=document.createElement('a');anchor.href=url;anchor.download=`procurement-report-${new Date().toISOString().slice(0,10)}.csv`;document.body.appendChild(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('ดาวน์โหลดรายงาน CSV แล้ว');
+    }
+    function poLineText(){ const rows=selected();return `📄 PO-2026-000058\n🏗️ โครงการ: ${activeProject}\n🧾 อ้างอิง: PR-2026-000125\n🏪 ผู้ขาย: Global House สาขารังสิต\n📦 รายการ (${rows.length})\n${rows.map((product,index)=>`${index+1}. ${product.short} × ${cart[product.id]} ${product.unit}`).join('\n')}\n💰 รวมทั้งสิ้น: 10,507.80 บาท\n🚚 ส่งที่: อาคารสำนักงาน NCY ชั้น 2\n✅ สถานะ: ออก PO แล้ว`; }
+    async function copyPlainText(text,successMessage){ let copied=false;try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);copied=true;}}catch(error){}if(!copied){const fallback=document.createElement('textarea');fallback.value=text;fallback.setAttribute('readonly','');fallback.style.position='fixed';fallback.style.opacity='0';document.body.appendChild(fallback);fallback.select();copied=document.execCommand('copy');fallback.remove();}toast(copied?successMessage:'คัดลอกไม่สำเร็จ กรุณาลองใหม่'); }
+    function printPurchaseOrder(){document.body.classList.add('po-printing');let cleaned=false;const cleanup=()=>{if(cleaned)return;cleaned=true;document.body.classList.remove('po-printing');window.removeEventListener('afterprint',cleanup);};window.addEventListener('afterprint',cleanup);window.print();setTimeout(cleanup,1200);}
+    const titles={home:'หน้าหลัก',catalog:'เลือกสินค้า','product-admin':'จัดการสินค้า',pr:'PR ของฉัน',approvals:'อนุมัติ PR',po:'ใบสั่งซื้อ',reports:'รายงาน',settings:'ตั้งค่า'};
+    function showScreen(name){ document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.dataset.screen===name)); document.querySelectorAll('[data-screen]').forEach(b=>b.classList.toggle('active',b.dataset.screen===name)); $('pageTitle').textContent=titles[name]||name; closeCart(); window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}); }
+    function openCart(){ $('cartPane').classList.add('open'); $('backdrop').classList.add('open'); }
+    function closeCart(){ $('cartPane').classList.remove('open'); $('backdrop').classList.remove('open'); }
+    let toastTimer; function toast(text){ clearTimeout(toastTimer); $('toast').textContent=text; $('toast').classList.add('visible'); toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),2200); }
+    async function copyLineSummary(trigger){
+      const text=lineShareText();
+      let copied=false;
+      try { if(navigator.clipboard?.writeText){ await navigator.clipboard.writeText(text); copied=true; } } catch(error) {}
+      if(!copied){
+        const fallback=document.createElement('textarea'); fallback.value=text; fallback.setAttribute('readonly',''); fallback.style.position='fixed'; fallback.style.opacity='0'; document.body.appendChild(fallback); fallback.select(); copied=document.execCommand('copy'); fallback.remove();
+      }
+      if(!copied){ toast('คัดลอกไม่สำเร็จ กรุณาเลือกข้อความแล้วคัดลอก'); return; }
+      document.querySelectorAll('.copy-line').forEach(button=>button.dataset.copyState='copied');
+      const original=trigger.textContent; trigger.textContent='✓ คัดลอกแล้ว';
+      toast('คัดลอกสรุป PR สำหรับส่ง LINE แล้ว');
+      setTimeout(()=>{ document.querySelectorAll('.copy-line').forEach(button=>delete button.dataset.copyState); trigger.textContent=original; },1800);
+    }
+
+    syncCatalogFromManaged(); renderCategories(); renderRetailCategoryDirectory(); renderOfficialCategoryOptions(); renderProductFamilyFilters(); renderProducts(); renderRows(); renderProjects(); resetAdminForm(); renderAdminProducts();
+    $('categories').addEventListener('click',e=>{const b=e.target.closest('[data-category]');if(!b)return;activeCategory=b.dataset.category;const family=officialFamilyMeta.find(item=>item.id===activeProductFamily);if(family&&![family.discipline,'ทั้งหมด','Global House'].includes(activeCategory))activeProductFamily='all';activeProductSize='all';renderCategories();renderProductFamilyFilters();renderProducts();});
+    $('productFamilyFilters').addEventListener('click',event=>{const button=event.target.closest('[data-product-family]');if(!button)return;activeProductFamily=button.dataset.productFamily;activeProductSize='all';const family=officialFamilyMeta.find(item=>item.id===activeProductFamily);if(family)activeCategory=family.discipline;renderCategories();renderProductFamilyFilters();renderProducts();});
+    $('productSizeFilters').addEventListener('click',event=>{const button=event.target.closest('[data-product-size]');if(!button)return;activeProductSize=button.dataset.productSize;renderProductFamilyFilters();renderProducts();});
+    $('retailCategoryToggle').addEventListener('click',()=>{const browser=$('retailCategoryBrowser');const opening=browser.hidden;browser.hidden=!opening;$('retailCategoryToggle').setAttribute('aria-expanded',String(opening));if(opening)renderRetailCategoryDirectory();});
+    $('retailCategoryTabs').addEventListener('click',event=>{const button=event.target.closest('[data-retail-department]');if(!button)return;activeRetailDepartment=button.dataset.retailDepartment;renderRetailCategoryDirectory();});
+    $('searchInput').addEventListener('input',renderProducts);
+    $('adminProductSearch').addEventListener('input',renderAdminProducts); $('adminStatusFilter').addEventListener('change',renderAdminProducts); $('adminProductImage').addEventListener('input',()=>{pendingImageDataUrl='';updateAdminImagePreview();});
+    $('adminProductUpload').addEventListener('change',event=>{const file=event.target.files?.[0];if(!file)return;if(file.size>1.5*1024*1024){event.target.value='';toast('รูปใหญ่เกิน 1.5 MB กรุณาเลือกรูปใหม่');return;}if(!['image/png','image/jpeg','image/webp'].includes(file.type)){event.target.value='';toast('รองรับเฉพาะ PNG, JPG และ WebP');return;}const reader=new FileReader();reader.addEventListener('load',()=>{pendingImageDataUrl=String(reader.result||'');$('adminProductImage').value='';updateAdminImagePreview();toast('เตรียมรูปสินค้าแล้ว รูปจะถูกบันทึกเมื่อกดบันทึกสินค้า');});reader.readAsDataURL(file);});
+    $('addOfferButton').addEventListener('click',()=>{offerDrafts=collectOfferDrafts();offerDrafts.push(blankOffer());renderOfferEditor();});
+    $('adminOfferRows').addEventListener('click',event=>{const remove=event.target.closest('[data-offer-remove]');if(!remove)return;offerDrafts=collectOfferDrafts().filter(offer=>offer.id!==remove.dataset.offerRemove);renderOfferEditor();});
+    $('jumpToProductForm').addEventListener('click',()=>{$('adminProductForm').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});setTimeout(()=>$('adminProductName').focus(),220);});
+    document.querySelectorAll('[data-admin-role]').forEach(button=>button.addEventListener('click',()=>{adminRole=button.dataset.adminRole;resetAdminForm();renderAdminProducts();}));
+    $('adminCancelEdit').addEventListener('click',()=>{$('adminProductSku').disabled=false;resetAdminForm();});
+    $('adminProductList').addEventListener('click',event=>{const action=event.target.closest('[data-admin-action]');if(!action)return;const item=managedProducts.find(product=>product.id===action.dataset.productId);if(!item)return;if(action.dataset.adminAction==='detail'){expandedProductId=expandedProductId===item.id?null:item.id;renderAdminProducts();return;}if(action.dataset.adminAction==='edit'){editManagedProduct(item.id);$('adminProductForm').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});return;}if(adminRole!=='owner')return;if(action.dataset.adminAction==='reject'){reviewProductId=item.id;$('adminReviewTitle').textContent=`ตีกลับ ${item.id} ให้ผู้ส่งแก้ไข`;$('adminReviewPanel').hidden=false;setTimeout(()=>$('adminRejectReason').focus(),0);return;}item.status=action.dataset.adminAction==='publish'?'published':'hidden';item.rejectionReason='';appendAudit(item,item.status==='published'?'อนุมัติและเผยแพร่':'ยกเลิกเผยแพร่',item.status==='published'?'เจ้าของระบบตรวจสอบแล้ว':'นำสินค้าออกจาก Catalog');persistManagedProducts();syncCatalogFromManaged();renderProducts();renderRows();renderAdminProducts();toast(item.status==='published'?'อนุมัติและเผยแพร่สินค้าใน Catalog แล้ว':'ยกเลิกเผยแพร่สินค้าแล้ว');});
+    $('cancelRejectProduct').addEventListener('click',closeRejectPanel);
+    $('confirmRejectProduct').addEventListener('click',()=>{const reason=$('adminRejectReason').value.trim();const item=managedProducts.find(product=>product.id===reviewProductId);if(!item)return closeRejectPanel();if(!reason){toast('กรุณาระบุเหตุผลที่ต้องแก้ไข');$('adminRejectReason').focus();return;}item.status='rejected';item.rejectionReason=reason;appendAudit(item,'ตีกลับให้แก้ไข',reason);persistManagedProducts();syncCatalogFromManaged();renderProducts();renderRows();closeRejectPanel();expandedProductId=item.id;renderAdminProducts();toast('ตีกลับสินค้าแล้ว ผู้ส่งจะเห็นเหตุผลและแก้ไขส่งใหม่ได้');});
+    $('adminProductForm').addEventListener('submit',event=>{event.preventDefault();const [kind,category]=$('adminProductCategory').value.split('|');const officialCategoryOption=$('adminOfficialCategory').selectedOptions[0];const officialCategoryUrl=safeExternalUrl(officialCategoryOption?.value);const officialCategoryName=officialCategoryUrl?officialCategoryOption?.dataset.categoryName||officialCategoryOption?.textContent.trim():'';const existing=editingProductId?managedProducts.find(product=>product.id===editingProductId):null;const sku=(existing?.id||$('adminProductSku').value.trim()).toUpperCase();if(!existing&&managedProducts.some(product=>product.id.toUpperCase()===sku)){toast('SKU นี้มีอยู่ในระบบแล้ว');$('adminProductSku').focus();return;}const offers=collectOfferDrafts();if(!offers.length||offers.some(offer=>!offer.vendor)){toast('กรุณาระบุร้านหรือผู้ขายอย่างน้อย 1 ร้าน');return;}if(offers.some(offer=>!safeExternalUrl(offer.sourceUrl))){toast('กรุณาใส่ URL ต้นทางของราคาทุกร้านก่อนบันทึก');return;}const nextStatus=adminRole==='subscriber'?'pending':existing?.status==='hidden'?'hidden':'published';const record=normalizeManagedProduct({...(existing||{}),id:sku,name:$('adminProductName').value.trim(),short:$('adminProductName').value.trim(),unit:$('adminProductUnit').value.trim(),kind,category,discipline:category,officialCategoryName,officialCategoryUrl,tone:kind==='bag'?'#a08c6b':kind==='steel'?'#4f5c65':kind==='pipe'?'#cfd6d9':kind==='wire'?'#20292f':'#64748b',label:sku.slice(0,8),offers,image:pendingImageDataUrl||$('adminProductImage').value.trim()||existing?.image||'',checked:'เพิ่มจากหลังบ้าน',priceScope:adminRole==='owner'?'เพิ่มโดยเจ้าของระบบ':'สมาชิกส่งเข้าระบบ',status:nextStatus,ownerRole:existing?.ownerRole||adminRole,submittedBy:existing?.submittedBy||(adminRole==='owner'?'เจ้าของระบบ':'User สมาชิก'),rejectionReason:'',custom:true});appendAudit(record,existing?'แก้ไขและยืนยันราคา':adminRole==='owner'?'สร้างและเผยแพร่':'ส่งให้ตรวจสอบ',`${offers.length} ร้าน · ราคาใช้ได้ 24 ชั่วโมง · ${record.name}`);if(existing)managedProducts[managedProducts.indexOf(existing)]=record;else managedProducts.unshift(record);persistManagedProducts();syncCatalogFromManaged();renderProducts();renderRows();expandedProductId=record.id;renderAdminProducts();$('adminProductSku').disabled=false;resetAdminForm();toast(record.status==='published'?'บันทึกและยืนยันราคา 24 ชั่วโมงแล้ว':'ส่งสินค้าเข้าคิวตรวจสอบแล้ว');});
+    ['area','needDate','reason'].forEach(id=>$(id).addEventListener('input',renderDocumentRows));
+    $('project').addEventListener('change',event=>{activeProject=event.target.value;persistProjects();renderProjects();toast(`เลือกโครงการ ${activeProject} แล้ว`);});
+    $('projectList').addEventListener('click',event=>{const row=event.target.closest('[data-project-index]');if(!row)return;activeProject=projects[Number(row.dataset.projectIndex)].name;persistProjects();renderProjects();toast(`เลือกโครงการ ${activeProject} แล้ว`);});
+    $('projectForm').addEventListener('submit',event=>{event.preventDefault();const name=$('newProjectName').value.trim();if(!name){toast('กรุณาระบุชื่อโครงการ');$('newProjectName').focus();return;}const existing=projects.find(project=>project.name.toLowerCase()===name.toLowerCase());if(existing){activeProject=existing.name;}else{projects.unshift({name,location:$('newProjectLocation').value.trim()||'ยังไม่ระบุสถานที่',owner:$('newProjectOwner').value.trim()||'วิศวกร หน้างาน',prCount:0});activeProject=name;}persistProjects();renderProjects();event.target.reset();$('newProjectOwner').value='วิศวกร หน้างาน';toast(existing?'เลือกโครงการเดิมแล้ว':'สร้างโครงการแล้ว ไปเลือกสินค้าได้เลย');setTimeout(()=>showScreen('catalog'),450);});
+    $('productGrid').addEventListener('click',e=>{const verify=e.target.closest('[data-confirm-price]');if(verify){confirmCatalogPrice(verify.dataset.confirmPrice);return;}const b=e.target.closest('[data-delta]');if(b)update(b.dataset.id,Number(b.dataset.delta));});
+    $('cartRows').addEventListener('click',e=>{const q=e.target.closest('[data-cart-delta]');const d=e.target.closest('[data-delete]');if(q)update(q.dataset.id,Number(q.dataset.cartDelta));if(d){delete cart[d.dataset.delete];renderProducts();renderRows();}});
+    $('prRows').addEventListener('click',event=>{const remove=event.target.closest('[data-pr-remove]');if(!remove)return;const product=products.find(item=>item.id===remove.dataset.prRemove);delete cart[remove.dataset.prRemove];renderProducts();renderRows();toast(`ยกเลิก ${product?.short||'สินค้า'} จาก PR แล้ว`);});
+    document.querySelectorAll('button[data-screen]').forEach(button=>button.addEventListener('click',event=>{event.stopPropagation();showScreen(button.dataset.screen);}));
+    $('openCart').addEventListener('click',openCart); $('closeCart').addEventListener('click',closeCart); $('backdrop').addEventListener('click',closeCart);
+    $('attachButton').addEventListener('click',()=>{$('attachStatus').textContent='แนบ site-wall-02.jpg แล้ว';toast('แนบรูปพื้นที่ใช้งานกับแบบร่างแล้ว');});
+    $('createPr').addEventListener('click',()=>{const stale=selected().filter(product=>!offerFreshness(product.checkedAt).fresh);if(stale.length){toast(`มี ${stale.length} รายการที่ต้องยืนยันราคาภายใน 24 ชั่วโมงก่อนสร้าง PR`);return;}toast('สร้าง PR-2026-000125 พร้อมข้อความสำหรับ LINE แล้ว');setTimeout(()=>showScreen('pr'),450);});
+    document.querySelectorAll('.copy-line').forEach(button=>button.addEventListener('click',()=>copyLineSummary(button)));
+    $('poCopyLine').addEventListener('click',()=>copyPlainText(poLineText(),'คัดลอกสรุป PO สำหรับส่ง LINE แล้ว'));
+    $('poPrint').addEventListener('click',printPurchaseOrder);
+    $('exportReportCsv').addEventListener('click',downloadReportCsv);
+    $('refreshReadiness').addEventListener('click',()=>{renderRetailCategoryDirectory();renderReports();toast('ตรวจสถานะ Preview ล่าสุดแล้ว');});
+    $('approveButton').addEventListener('click',()=>toast('อนุมัติ PR แล้ว ส่งต่อฝ่ายจัดซื้อ')); $('returnButton').addEventListener('click',()=>toast('ส่ง PR กลับให้ผู้ขอแก้ไข')); $('rejectButton').addEventListener('click',()=>toast('บันทึกสถานะไม่อนุมัติแล้ว'));
+  </script>
+</body>
+</html>

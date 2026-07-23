@@ -1,0 +1,56 @@
+{
+  "authorization": "Owner confirmed ownership and requested a 1:1 port on 2026-07-12.",
+  "sourcePage": "https://changkid-engapp.pages.dev/Concrete-design/footing-1pile",
+  "importedAt": "2026-07-11T18:11:43.997Z",
+  "integration": {
+    "removed": [
+      "source login guard",
+      "print paywall",
+      "calculation-report paywall"
+    ],
+    "localized": [
+      "Sarabun font",
+      "Three.js 0.150.1",
+      "print report",
+      "drawing sheet"
+    ],
+    "presentation": "Rebranded as นายช่างใหญ่ Civil Apps Foundation Lab with a local design override."
+  },
+  "files": [
+    {
+      "file": "footing-1pile.html",
+      "source": "https://changkid-engapp.pages.dev/Concrete-design/footing-1pile",
+      "sha256": "565cb4a25f67dd575df3ef41c799c487a36bd16f8b35dc0af8d45a86cace03d9"
+    },
+    {
+      "file": "ws-theme.css",
+      "source": "https://changkid-engapp.pages.dev/Concrete-design/ws-theme.css",
+      "sha256": "bb12a41742742823371a80b2fa51dd393a0f1ef834a364d1ca84d9bd80e5c328"
+    },
+    {
+      "file": "ws-layer.js",
+      "source": "https://changkid-engapp.pages.dev/Concrete-design/ws-layer.js",
+      "sha256": "a556aabf5a83afee7f15cd87c39d0d9e6970c90f246dbfa182e670092d7ec668"
+    },
+    {
+      "file": "ws-3d.js",
+      "source": "https://changkid-engapp.pages.dev/Concrete-design/ws-3d.js",
+      "sha256": "881d882039946781272d652f845fc622b4de2f7afc30ea160242bfba63e4b4b5"
+    },
+    {
+      "file": "ck-print-report.js",
+      "source": "https://changkid-engapp.pages.dev/ck-print-report.js",
+      "sha256": "0e1944b37af8f684880671286bc7e55402e0f712ccb307648d3d88f5c823061f"
+    },
+    {
+      "file": "ck-drawing-sheet.js",
+      "source": "https://changkid-engapp.pages.dev/ck-drawing-sheet.js",
+      "sha256": "7851128251a0f1ad46248989fb836ef797f56cf0d468f1f02a88051974a33bbb"
+    },
+    {
+      "file": "three.min.js",
+      "source": "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js",
+      "sha256": "72c8a8302444fb39cb8e04be1f556b2fdca798e606a99b4b37c8cfe3e3ee3272"
+    }
+  ]
+}

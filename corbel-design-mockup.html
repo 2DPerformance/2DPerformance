@@ -1,0 +1,1139 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>นายช่างใหญ่ Civil Apps · ออกแบบหูช้าง ค.ส.ล. 3D</title>
+  <script>
+    (() => {
+      const local = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+      let embeddedByWorkbench = false;
+      try {
+        const referrer = new URL(document.referrer);
+        embeddedByWorkbench = window.self !== window.top
+          && referrer.origin === window.location.origin
+          && /\/concrete-corbel\/?$/.test(referrer.pathname);
+      } catch {}
+      if (!local && !embeddedByWorkbench) {
+        const target = window.location.pathname.replace(/\/corbel-design-mockup\.html$/, '/concrete-corbel');
+        window.location.replace(target || '/concrete-corbel');
+      }
+    })();
+  </script>
+  <style>
+    @font-face{font-family:Sarabun;src:url('fonts/sarabun/sarabun-400-thai.woff2') format('woff2');font-weight:400;font-display:swap}@font-face{font-family:Sarabun;src:url('fonts/sarabun/sarabun-500-thai.woff2') format('woff2');font-weight:500 600;font-display:swap}@font-face{font-family:Sarabun;src:url('fonts/sarabun/sarabun-700-thai.woff2') format('woff2');font-weight:700 800;font-display:swap}
+    :root{
+      color-scheme:light;
+      --ink:oklch(24% .035 38);--text:oklch(38% .032 42);--muted:oklch(50% .028 48);
+      --bg:oklch(96.8% .022 76);--surface:oklch(99.2% .010 76);--panel:oklch(94.8% .028 68);
+      --line:oklch(84% .035 58);--line-strong:oklch(70% .055 50);--blue:oklch(55% .18 35);
+      --blue-soft:oklch(95% .045 63);--amber:oklch(68% .15 72);--amber-soft:oklch(96% .036 78);
+      --red:oklch(55% .19 27);--red-soft:oklch(96.5% .025 27);--violet:oklch(51% .15 294);
+      --teal:oklch(48% .11 190);--teal-soft:oklch(95% .025 190);
+      font-family:"Sarabun","Segoe UI",Tahoma,sans-serif;
+    }
+    *{box-sizing:border-box}[hidden]{display:none!important} body{margin:0;background:var(--bg);color:var(--text);font-size:13px;line-height:1.45}
+    button,input,select{font:inherit} button{cursor:pointer} button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid color-mix(in oklch,var(--blue) 24%,transparent);outline-offset:1px}
+    .topbar{min-height:58px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:8px 18px;position:sticky;top:0;z-index:20;box-shadow:0 1px 2px rgba(15,23,42,.06)}
+    .brand{display:flex;align-items:center;gap:9px;min-width:190px}.logo{display:grid;place-items:center;width:34px;height:34px;border-radius:6px;background:var(--ink);color:oklch(98% .004 255);font-weight:800}.brand b{display:block;color:var(--ink);font-size:14px}.brand small{color:var(--muted);font-size:10px;letter-spacing:.08em}
+    .titleline{display:flex;align-items:center;gap:9px;min-width:0}.titleline h1{font-size:16px;line-height:1.2;margin:0;color:var(--ink)}
+    .badge{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line-strong);border-radius:5px;padding:3px 7px;font-size:10px;font-weight:700;white-space:nowrap;background:var(--panel);color:var(--text)}
+    .badge.mock{background:var(--amber-soft);border-color:color-mix(in oklch,var(--amber) 42%,var(--line));color:oklch(43% .10 72)}
+    .top-spacer{flex:1}.member-field{display:flex;align-items:center;gap:6px;color:var(--muted);font-weight:650}.member-field input{width:86px;height:32px;border:1px solid var(--line);border-radius:5px;padding:0 9px;background:var(--surface);color:var(--ink);font-weight:700}
+    .btn{min-height:32px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);color:var(--text);padding:6px 11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px}.btn:hover{border-color:var(--ink);color:var(--ink)}.btn.primary{background:var(--ink);border-color:var(--ink);color:oklch(98% .004 255)}.btn.blue{background:var(--blue);border-color:var(--blue);color:oklch(98% .004 255)}.btn:disabled{opacity:.45;cursor:not-allowed}
+    .workflow{background:var(--surface);border-bottom:1px solid var(--line);padding:8px 18px}.steps{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));max-width:1180px;margin:auto;gap:5px}.step{border:1px solid transparent;background:transparent;border-radius:6px;padding:8px 10px;display:flex;gap:9px;text-align:left;color:var(--muted)}.step:hover{background:var(--panel)}.step.active{background:var(--blue-soft);border-color:color-mix(in oklch,var(--blue) 30%,var(--line));color:var(--ink)}.step .num{flex:0 0 25px;height:25px;border-radius:5px;border:1px solid var(--line-strong);display:grid;place-items:center;font-size:11px;font-weight:800}.step.active .num{background:var(--blue);border-color:var(--blue);color:oklch(98% .004 255)}.step b{display:block;font-size:12px}.step small{display:block;font-size:10px;color:var(--muted);margin-top:1px}
+    .workspace{display:grid;grid-template-columns:340px minmax(420px,1fr) 350px;min-height:calc(100vh - 127px);max-width:1760px;margin:auto}
+    .panel{background:var(--surface);min-width:0}.left{border-right:1px solid var(--line);padding:15px 14px 22px}.right{border-left:1px solid var(--line);padding:15px 14px 22px}.center{min-width:0;background:oklch(95.7% .022 76);display:flex;flex-direction:column}
+    .section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:13px}.section-head h2{font-size:15px;color:var(--ink);margin:0}.section-head p{font-size:11px;color:var(--muted);margin:3px 0 0;max-width:42ch}.kicker{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);font-weight:800;margin-bottom:3px}
+    .step-panel{display:none}.step-panel.active{display:block}.field-group{padding:13px 0;border-top:1px solid var(--line)}.field-group:first-of-type{border-top:0;padding-top:0}.field-group h3{font-size:11px;letter-spacing:.03em;color:var(--ink);margin:0 0 9px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.field-grid.one{grid-template-columns:1fr}.field{min-width:0}.field label{display:flex;justify-content:space-between;align-items:end;gap:5px;color:var(--muted);font-size:10.5px;font-weight:650;margin-bottom:4px}.field label span{font-size:9px;font-weight:500}.control{display:flex;align-items:center;border:1px solid var(--line);border-radius:5px;background:var(--surface);height:35px;overflow:hidden}.control:focus-within{border-color:var(--blue)}.control input,.control select{width:100%;height:100%;border:0;outline:0;background:transparent;padding:0 9px;color:var(--ink);font-weight:650;min-width:0}.control input[readonly]{background:var(--panel);color:var(--muted);cursor:default}.unit{padding:0 8px;color:var(--muted);font-size:10px;border-left:1px solid var(--line);height:100%;display:flex;align-items:center;background:var(--panel);white-space:nowrap}
+    .segmented{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:6px;padding:3px;gap:3px;background:var(--panel);margin-bottom:12px}.segmented button{min-height:34px;border:0;border-radius:4px;background:transparent;color:var(--muted);font-weight:700}.segmented button.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(15,23,42,.08)}
+    .preset{width:100%;border:1px solid color-mix(in oklch,var(--blue) 30%,var(--line));background:var(--blue-soft);color:oklch(41% .13 255);border-radius:6px;padding:8px 10px;text-align:left;font-weight:700;margin-bottom:11px}.preset small{display:block;font-weight:500;color:var(--muted);margin-top:2px}
+    .notice{border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:9px 10px;color:var(--muted);font-size:10.5px;margin-top:10px}.notice strong{display:block;color:var(--ink);font-size:11px;margin-bottom:2px}.notice.warn{background:var(--amber-soft);border-color:color-mix(in oklch,var(--amber) 35%,var(--line));color:oklch(43% .075 72)}
+    .mini-table{width:100%;border-collapse:collapse;font-size:10.5px}.mini-table td{padding:6px 4px;border-bottom:1px solid var(--line)}.mini-table td:last-child{text-align:right;font-family:Consolas,monospace;color:var(--ink);font-weight:700}
+    .choice-list{display:grid;gap:7px}.choice{border:1px solid var(--line);border-radius:6px;padding:9px 10px;display:flex;gap:9px;align-items:flex-start;background:var(--surface)}.choice input{margin-top:2px}.choice b{font-size:11px;color:var(--ink);display:block}.choice small{font-size:10px;color:var(--muted);display:block;margin-top:1px}
+    .left-actions{display:flex;gap:7px;margin-top:14px}.left-actions .btn{flex:1}
+    #simpleModeBtn{display:none}body.advanced-mode #simpleModeBtn{display:inline-flex}.quick-auto{display:block}body:not([data-active-step="1"]) .quick-auto{display:none}body:not(.advanced-mode) .step-panel[data-panel="1"]{display:none!important}.quick-head{margin-bottom:18px}.quick-head .kicker{margin-bottom:5px}.quick-head h2{margin:0;color:var(--ink);font-size:18px;line-height:1.3}.quick-head p{margin:5px 0 0;color:var(--muted);font-size:11px;max-width:38ch}.quick-field label{display:flex;justify-content:space-between;gap:8px;align-items:center;color:var(--ink);font-size:12px;font-weight:750;margin-bottom:6px}.quick-field label span{font-size:9px;color:var(--muted);font-weight:650}.quick-control{display:grid;grid-template-columns:1fr 78px;border:1px solid var(--line-strong);border-radius:7px;overflow:hidden;background:var(--surface);height:52px}.quick-control:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px color-mix(in oklch,var(--blue) 15%,transparent)}.quick-control input{width:100%;border:0;outline:0;padding:0 12px;background:transparent;color:var(--ink);font:750 22px/1 Consolas,monospace}.quick-control select{border:0;border-left:1px solid var(--line);outline:0;background:var(--panel);color:var(--ink);padding:0 8px;font-weight:750}.quick-run{width:100%;min-height:44px;margin-top:10px;font-size:13px}.quick-status{min-height:44px;margin-top:9px;border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:10px;color:var(--muted);font-size:10px}.quick-status.ready{border-color:color-mix(in oklch,var(--blue) 35%,var(--line));background:var(--blue-soft);color:oklch(40% .12 38)}.quick-status.error{border-color:color-mix(in oklch,var(--red) 40%,var(--line));background:var(--red-soft);color:oklch(43% .14 27)}.quick-results{margin-top:12px;border:1px solid var(--line);border-radius:7px;overflow:hidden}.quick-result{display:grid;grid-template-columns:1fr auto;gap:8px;padding:8px 9px;background:var(--surface);border-bottom:1px solid var(--line)}.quick-result:last-child{border-bottom:0}.quick-result span{font-size:10px;color:var(--muted)}.quick-result b{font:750 11px Consolas,monospace;color:var(--ink)}.quick-result.pending-result b{font-family:inherit;color:var(--muted)}.quick-output-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.quick-output-actions .btn{min-width:0}.quick-basis{margin-top:16px;padding-top:13px;border-top:1px solid var(--line)}.quick-basis-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px}.quick-basis-head b{font-size:11px;color:var(--ink)}.quick-basis-head span{font-size:9px;color:var(--muted);font-weight:650}.quick-basis dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:6px 9px;font-size:10px}.quick-basis dt{color:var(--muted)}.quick-basis dd{margin:0;color:var(--ink);font-family:Consolas,monospace;font-weight:700;text-align:right}.quick-advanced{width:100%;margin-top:14px}.quick-warning{margin:11px 0 0;color:var(--muted);font-size:9.5px;line-height:1.5}.quick-warning strong{color:var(--ink)}
+    .viewport-head{min-height:47px;padding:8px 12px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:7px;flex-wrap:wrap}.viewport-head b{font-size:12px;color:var(--ink);margin-right:4px}.tool{height:30px;border:1px solid var(--line);background:var(--surface);border-radius:5px;color:var(--muted);padding:0 9px;font-size:10.5px;font-weight:700}.tool:hover,.tool.active{border-color:var(--blue);color:var(--blue);background:var(--blue-soft)}.tool.mode.active,.tool.workview.active{background:var(--ink);border-color:var(--ink);color:oklch(98% .004 76)}.tool-divider{height:20px;width:1px;background:var(--line);margin:0 2px}.view-spacer{flex:1}.viewport{position:relative;min-height:520px;flex:1;overflow:hidden;background:oklch(95.7% .022 76)}#stage{position:absolute;inset:0}.canvas-label{position:absolute;left:14px;bottom:13px;background:color-mix(in oklch,var(--surface) 92%,transparent);border:1px solid var(--line);border-radius:6px;padding:7px 9px;font-size:10px;color:var(--muted);pointer-events:none}.canvas-label b{color:var(--ink)}
+.section-view{position:absolute;inset:0;overflow:auto;padding:20px;background:oklch(96.5% .009 255)}.section-sheet{width:min(820px,100%);min-height:100%;margin:auto;background:var(--surface);border:1px solid var(--line-strong);padding:15px}.section-sheet-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding-bottom:10px;border-bottom:1px solid var(--line)}.section-sheet-head h3{margin:0;color:var(--ink);font-size:14px}.section-sheet-head p{margin:3px 0 0;color:var(--muted);font-size:10px}.section-sheet-head .badge{align-self:flex-start}.badge.preview{background:var(--blue-soft);border-color:color-mix(in oklch,var(--blue) 35%,var(--line));color:oklch(40% .12 255)}.section-drawing{margin-top:12px;border:1px solid var(--line);background:oklch(98.7% .004 255);min-height:380px;display:grid;place-items:center}.section-drawing.preview{border-color:color-mix(in oklch,var(--blue) 30%,var(--line));background:color-mix(in oklch,var(--blue-soft) 28%,oklch(98.7% .004 255))}.section-drawing.invalid{border-color:color-mix(in oklch,var(--red) 38%,var(--line));background:color-mix(in oklch,var(--red-soft) 45%,var(--surface))}.section-drawing svg{display:block;width:100%;height:auto;max-height:430px}.section-invalid{width:min(520px,calc(100% - 36px));border-left:4px solid var(--red);padding:18px 20px;background:var(--surface);box-shadow:0 8px 24px color-mix(in oklch,var(--ink) 8%,transparent);color:var(--ink)}.section-invalid small{display:block;color:var(--red);font-size:9px;font-weight:800;letter-spacing:.06em}.section-invalid strong{display:block;margin-top:4px;font-size:15px}.section-invalid p{margin:7px 0 0;color:var(--muted);font-size:11px;line-height:1.55}.section-invalid .section-invalid-values{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font:700 11px Consolas,monospace;color:var(--ink)}.section-data{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-top:0}.section-data div{padding:8px;border-right:1px solid var(--line)}.section-data div:last-child{border-right:0}.section-data small{display:block;color:var(--muted);font-size:8.5px}.section-data b{display:block;color:var(--ink);font:700 10px Consolas,monospace;margin-top:2px}.section-foot{margin-top:10px;color:var(--muted);font-size:9px;display:flex;justify-content:space-between;gap:12px}.section-foot strong{color:oklch(45% .10 72)}
+    .legend{position:absolute;right:13px;top:13px;background:color-mix(in oklch,var(--surface) 94%,transparent);border:1px solid var(--line);border-radius:6px;padding:8px 9px;display:grid;gap:5px;font-size:9.5px;color:var(--muted)}.legend span{display:flex;align-items:center;gap:6px}.swatch{width:13px;height:3px;border-radius:2px}.model-note{padding:8px 12px;background:var(--surface);border-top:1px solid var(--line);font-size:10px;color:var(--muted);display:flex;gap:12px;align-items:center}.model-note strong{color:var(--ink)}
+    .status-strip{display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid var(--line);border-radius:7px;overflow:hidden;margin-bottom:12px}.stat{padding:9px 8px;background:var(--panel);border-right:1px solid var(--line);min-width:0}.stat:last-child{border-right:0}.stat small{display:block;color:var(--muted);font-size:9px}.stat b{display:block;color:var(--ink);font-family:Consolas,monospace;font-size:14px;margin-top:2px;white-space:nowrap}.stat .state-text{font-family:inherit;font-size:11px;color:oklch(45% .11 72)}
+    .trace{border:1px solid var(--line);border-radius:7px;overflow:hidden;margin-bottom:12px}.trace-head{padding:9px 10px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.trace-head b{font-size:11px;color:var(--ink)}.trace-row{display:grid;grid-template-columns:23px 1fr auto;align-items:center;gap:7px;padding:8px 9px;border-bottom:1px solid var(--line);background:var(--surface)}.trace-row:last-child{border-bottom:0}.trace-num{width:21px;height:21px;border-radius:4px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-size:9px;font-weight:800}.trace-row span{font-size:10.5px;color:var(--text)}.trace-row code{font-family:Consolas,monospace;color:var(--ink);font-size:10px;font-weight:700}
+    .checklist{border-top:1px solid var(--line)}.check{display:grid;grid-template-columns:24px 1fr auto;gap:7px;align-items:start;padding:9px 2px;border-bottom:1px solid var(--line)}.check-icon{width:21px;height:21px;border:1px solid var(--line-strong);border-radius:4px;display:grid;place-items:center;color:var(--muted);font-size:10px;background:var(--panel)}.check b{display:block;font-size:10.5px;color:var(--ink)}.check small{display:block;font-size:9.5px;color:var(--muted);margin-top:2px}.pending{font-size:9px;background:var(--amber-soft);color:oklch(43% .10 72);border:1px solid color-mix(in oklch,var(--amber) 35%,var(--line));padding:3px 5px;border-radius:4px;white-space:nowrap;font-weight:700}.pending.calculated{background:var(--blue-soft);color:var(--blue);border-color:color-mix(in oklch,var(--blue) 32%,var(--line))}
+    .source-note{margin-top:12px;font-size:9.5px;color:var(--muted)}.source-note a{color:var(--blue)}
+    .formula-note{font-family:Consolas,monospace;background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 8px;font-size:10px;color:var(--ink);margin-top:8px}
+    .report-cta{width:100%;margin-top:12px;min-height:40px}.report-shell{position:fixed;inset:0;z-index:100;background:oklch(22% .016 255 / .72);display:grid;grid-template-rows:auto 1fr}.report-toolbar{min-height:54px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;padding:8px 18px}.report-toolbar b{color:var(--ink);font-size:13px}.report-toolbar span{color:var(--muted);font-size:10px}.report-toolbar .spacer{flex:1}.report-stage{overflow:auto;padding:24px}.report-page{width:210mm;min-height:297mm;margin:0 auto;background:oklch(99.3% .003 255);color:var(--ink);box-shadow:0 20px 50px rgba(15,23,42,.24);padding:13mm 14mm;font-size:10pt}.report-header{display:grid;grid-template-columns:1fr auto;gap:12mm;align-items:start;border-bottom:1.2px solid var(--ink);padding-bottom:4mm}.report-header h2{margin:0;font-size:16pt}.report-header p{margin:1mm 0 0;color:var(--muted);font-size:8.5pt}.report-header .report-code{text-align:right;font:700 9pt Consolas,monospace}.report-warning{margin:4mm 0;padding:2.5mm 3mm;border:1px solid color-mix(in oklch,var(--amber) 38%,var(--line));background:var(--amber-soft);font-size:8.5pt}.report-warning strong{color:oklch(42% .10 72)}.report-section{margin-top:4mm;break-inside:avoid}.report-section h3{font-size:10pt;margin:0 0 2mm;border-bottom:1px solid var(--line);padding-bottom:1.3mm}.report-table{width:100%;border-collapse:collapse;font-size:8.5pt}.report-table th,.report-table td{border:1px solid var(--line);padding:1.7mm 2mm;text-align:left;vertical-align:top}.report-table th{background:var(--panel);font-weight:700}.report-table td:last-child,.report-table .num{text-align:right;font-family:Consolas,monospace}.report-grid{display:grid;grid-template-columns:1fr 1fr;gap:4mm}.report-formula{border:1px solid var(--line);padding:2.5mm;background:var(--panel);font:8.5pt/1.6 Consolas,monospace}.report-section-mount{border:1px solid var(--line);background:oklch(98.7% .004 255)}.report-section-mount svg{display:block;width:100%;height:auto}.report-footer{margin-top:6mm;padding-top:2mm;border-top:1px solid var(--line);font-size:7.5pt;color:var(--muted);display:flex;justify-content:space-between;gap:8mm}.state-pending{color:oklch(44% .10 72);font-weight:700;font-family:inherit!important}.state-calculated{color:var(--blue);font-weight:700;font-family:inherit!important}
+    @media(min-width:1181px){.center{position:sticky;top:59px;height:calc(100vh - 59px);align-self:start}}
+    @media(max-width:1180px){.workspace{grid-template-columns:310px minmax(390px,1fr)}.right{grid-column:1/-1;border-left:0;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:15px}.right>.section-head{grid-column:1/-1}.status-strip{grid-column:1/-1}.source-note{grid-column:1/-1}}
+    @media(max-width:820px){.topbar{position:static;flex-wrap:wrap}.brand{min-width:auto}.titleline{order:3;width:100%}.topbar .top-spacer{display:none}.steps{grid-template-columns:1fr 1fr}.step small{display:none}.workspace{display:block}.left,.right{border:0;border-bottom:1px solid var(--line)}.right{display:block}.viewport{min-height:560px}.center{min-height:620px}.section-view{padding:10px}.section-sheet{padding:10px}.section-data{grid-template-columns:1fr 1fr}.section-data div:nth-child(2){border-right:0}.section-data div:nth-child(-n+2){border-bottom:1px solid var(--line)}.report-stage{padding:10px}.report-page{width:100%;min-height:0;padding:18px}.report-grid{grid-template-columns:1fr}.report-toolbar{flex-wrap:wrap}.report-toolbar .spacer{display:none}}
+    .report-page{position:relative}
+    @media print{@page{size:A4 portrait;margin:0}body{background:oklch(99.3% .003 255)!important}.topbar,.workflow,.workspace,.report-toolbar{display:none!important}.report-shell{position:static!important;display:block!important;background:transparent!important}.report-shell[hidden],body:not([data-run-state="ready"]) .report-shell{display:none!important}.report-stage{overflow:visible!important;padding:0!important}.report-page{width:210mm;min-height:297mm;margin:0;box-shadow:none;padding:13mm 14mm}.report-section{break-inside:avoid}}
+    .badge.live,.pending.pass,.state-pass{background:var(--teal-soft);border-color:color-mix(in oklch,var(--teal) 35%,var(--line));color:oklch(38% .09 190);font-weight:800}.badge.fail,.pending.fail,.state-fail{background:var(--red-soft);border-color:color-mix(in oklch,var(--red) 38%,var(--line));color:var(--red);font-weight:800}.quick-result.verdict b{font-family:inherit}.quick-result.verdict.pass b{color:var(--teal)}.quick-result.verdict.fail b{color:var(--red)}.report-warning.pass{background:var(--teal-soft);border-color:color-mix(in oklch,var(--teal) 35%,var(--line))}.report-warning.pass strong{color:var(--teal)}.report-warning.fail{background:var(--red-soft);border-color:color-mix(in oklch,var(--red) 35%,var(--line))}.report-warning.fail strong{color:var(--red)}.field-error{margin-top:4px;color:var(--red);font-size:9px}.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    .quick-wall-thickness,.quick-wall-height,.quick-wall-width{margin-top:10px}.quick-field label .quick-label-main{font-size:12px;color:var(--ink);font-weight:750}.quick-control .quick-static-unit{display:grid;place-items:center;min-width:48px;border-left:1px solid var(--line);background:var(--panel);color:var(--ink);font:750 11px Consolas,monospace}.quick-wall-thickness small,.quick-wall-height small,.quick-wall-width small,.quick-field>small{display:block;margin-top:5px;color:var(--muted);font-size:9px;line-height:1.45}.section-drawing svg{max-height:560px}
+    .layout-box{border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:9px}.layout-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}.layout-head b{color:var(--ink);font-size:10.5px}.layout-head span{color:var(--muted);font-size:8.5px}.layout-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.layout-grid .quick-mini.span-2{grid-column:1/-1}.layout-select{width:100%;height:38px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);padding:0 7px;font-size:10px;font-weight:700}.layout-confirm{display:flex;gap:7px;align-items:flex-start;margin-top:8px;padding:7px;border-radius:5px;background:var(--amber-soft);color:oklch(43% .075 72);font-size:8.8px;line-height:1.45}.layout-confirm input{margin-top:2px}.layout-result{margin-top:8px;padding-top:7px;border-top:1px solid var(--line);display:grid;gap:3px}.layout-result b{color:var(--ink);font:750 10.5px Consolas,monospace}.layout-result small{color:var(--muted);font-size:8.5px;line-height:1.45}.layout-result.error b{color:var(--red)}
+    .load-mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border:1px solid var(--line);border-radius:8px;background:var(--panel);margin-bottom:13px}.load-mode-switch button{min-height:38px;border:0;border-radius:5px;background:transparent;color:var(--muted);font-size:10px;font-weight:750;padding:6px}.load-mode-switch button.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(15,23,42,.12)}.load-panel{display:grid;gap:10px}.quick-select,.quick-text{width:100%;min-height:42px;border:1px solid var(--line-strong);border-radius:7px;background:var(--surface);color:var(--ink);padding:0 10px;font-weight:750}.quick-text:focus{border-color:var(--blue);outline:3px solid color-mix(in oklch,var(--blue) 15%,transparent)}.quick-load-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.quick-mini.span-2{grid-column:1/-1}.quick-mini label{display:block;color:var(--muted);font-size:9.5px;font-weight:650;margin-bottom:4px}.quick-mini-control{height:38px;display:grid;grid-template-columns:1fr auto;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface)}.quick-mini-control:focus-within{border-color:var(--blue)}.quick-mini-control input{min-width:0;width:100%;border:0;outline:0;padding:0 8px;color:var(--ink);font:700 12px Consolas,monospace;background:transparent}.quick-mini-control span{display:grid;place-items:center;padding:0 7px;border-left:1px solid var(--line);background:var(--panel);color:var(--muted);font-size:9px;white-space:nowrap}.load-preview{border:1px solid color-mix(in oklch,var(--blue) 30%,var(--line));border-radius:7px;background:var(--blue-soft);padding:9px}.load-preview-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:baseline;font-size:9.5px;color:var(--muted)}.load-preview-row+.load-preview-row{margin-top:4px}.load-preview-row b{color:var(--ink);font:750 10.5px Consolas,monospace}.load-preview-row.total{margin-top:7px;padding-top:7px;border-top:1px solid color-mix(in oklch,var(--blue) 22%,var(--line));font-weight:750}.load-preview-row.total b{color:var(--blue);font-size:13px}.load-preview-breakdown,.load-preview-note{margin-top:7px;color:var(--muted);font-size:8.5px;line-height:1.45}.load-preview-note{padding-top:6px;border-top:1px solid color-mix(in oklch,var(--blue) 18%,var(--line))}.load-summary-badge{display:inline-flex;align-items:center;padding:2px 5px;border-radius:4px;background:var(--blue-soft);color:var(--blue);font-size:8.5px;font-weight:750}.quick-field-disabled{opacity:.55}
+    .btn,.tool,.step,.segmented button,.load-mode-switch button,.quick-select,.quick-text,.layout-select,.quick-mini-control,.control{min-height:44px}.tool{height:44px}.member-field input{height:44px}.control,.quick-mini-control{height:46px}.step{align-items:center}.section-invalid{border:2px solid var(--red);border-left-width:2px}.pending{background:var(--panel);color:var(--muted);border-color:var(--line)}.pending.review{background:var(--amber-soft);color:oklch(43% .10 72);border-color:color-mix(in oklch,var(--amber) 35%,var(--line))}.review-stack{display:grid;gap:10px}.review-card{border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:11px}.review-card h3{margin:0;color:var(--ink);font-size:11px}.review-card p{margin:4px 0 0;color:var(--muted);font-size:10px}.review-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.review-status{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:10px}.review-status b{font-family:Consolas,monospace;color:var(--ink)}.recovery-card{border:1px solid color-mix(in oklch,var(--red) 38%,var(--line));background:var(--red-soft)}.recovery-card .btn{width:100%;margin-top:9px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.report-warning.fail{border-color:var(--red);background:var(--red-soft)}.report-warning.fail strong{color:var(--red)}body[data-run-state="running"] .workspace{cursor:progress}body[data-active-step="4"] .right{background:color-mix(in oklch,var(--surface) 86%,var(--blue-soft))}
+    @media(max-width:820px){.review-actions{grid-template-columns:1fr}.quick-load-grid{grid-template-columns:1fr}.quick-mini.span-2{grid-column:auto}.steps{grid-template-columns:1fr 1fr}.step{min-height:52px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body data-product-lifecycle="beta" data-local-verdict="pending" data-construction-authorized="false" data-run-state="idle" data-active-step="1">
+  <header class="topbar">
+    <button class="btn" id="workspaceBackBtn" type="button" aria-label="กลับไปหน้าเครื่องมือทั้งหมด">← เครื่องมือทั้งหมด</button>
+    <div class="brand"><div class="logo">NCY</div><div><b>นายช่างใหญ่ Civil Apps</b><small>STRUCTURAL APPS</small></div></div>
+    <div class="titleline"><h1>ออกแบบหูช้าง ค.ส.ล.</h1><span class="badge mock">BETA · NOT FOR CONSTRUCTION</span></div>
+    <div class="top-spacer"></div>
+    <label class="member-field">รหัส <input id="memberId" value="CB-01" aria-label="รหัสหูช้าง" /></label>
+    <button class="btn" id="simpleModeBtn">ซ่อนรายละเอียด</button>
+    <button class="btn" id="resetBtn">คืนค่าตัวอย่าง</button>
+    <button class="btn primary" id="reviewBtn" disabled>เปิด Report สำหรับตรวจ</button>
+  </header>
+
+  <nav class="workflow" aria-label="ขั้นตอน Concrete Workbench">
+    <div class="steps" role="tablist" aria-label="ขั้นตอนออกแบบหูช้าง">
+      <button class="step active" id="corbel-step-1" data-step="1" role="tab" aria-selected="true" aria-controls="corbel-panel-1" tabindex="0"><span class="num">1</span><span><b>Quick Input</b><small>Wall หรือ Direct ในจุดเดียว</small></span></button>
+      <button class="step" id="corbel-step-2" data-step="2" role="tab" aria-selected="false" aria-controls="corbel-panel-2" tabindex="-1"><span class="num">2</span><span><b>Load path</b><small>แรงจากผนังถึงหน้าคาน</small></span></button>
+      <button class="step" id="corbel-step-3" data-step="3" role="tab" aria-selected="false" aria-controls="corbel-panel-3" tabindex="-1"><span class="num">3</span><span><b>Section + เหล็ก</b><small>Aₛ / Aₕ จากผลที่ตรวจ</small></span></button>
+      <button class="step" id="corbel-step-4" data-step="4" role="tab" aria-selected="false" aria-controls="corbel-panel-4" tabindex="-1"><span class="num">4</span><span><b>Review + A4</b><small>สถานะ หลักฐาน trace และรายงาน</small></span></button>
+    </div>
+  </nav>
+
+  <main class="workspace">
+    <aside class="panel left">
+      <section class="quick-auto" id="corbel-panel-1" role="tabpanel" aria-labelledby="corbel-step-1" aria-hidden="false">
+        <div class="quick-head"><div class="kicker">น้ำหนัก → แบ่งช่วงต่อเนื่อง → ออกแบบเหล็ก → รายงาน</div><h2 id="quickTitle">น้ำหนักผนังลงช่วงหูช้างตัวแทน</h2><p>เลือกชนิดผนัง กรอกความยาวรวมและจำนวนช่วงของหูช้างต่อเนื่อง ระบบกำหนด b = Btrib แล้วออกแบบหนึ่งช่วงพร้อมรายงาน</p></div>
+        <div class="load-mode-switch" role="group" aria-label="วิธีกำหนดน้ำหนัก"><button type="button" id="wallModeBtn" class="active" data-load-mode="wall" aria-pressed="true">เลือกชนิดผนัง<br />คำนวณให้อัตโนมัติ</button><button type="button" id="directModeBtn" data-load-mode="direct" aria-pressed="false">กรอก Vᵤ โดยตรง<br />จาก Analysis</button></div>
+        <div class="load-panel" id="wallLoadPanel">
+          <div class="quick-field"><label for="wallMaterial">ชนิดผนัง <span>ค่าเริ่มต้น · แก้ได้</span></label><select class="quick-select" id="wallMaterial"><option value="aac_75">อิฐมวลเบา 7.5 ซม.</option><option value="aac_100" selected>อิฐมวลเบา 10 ซม.</option><option value="aac_150">อิฐมวลเบา 15 ซม.</option><option value="red_brick_100">ผนังอิฐแดง 10 ซม. (ค่าอ้างอิง)</option><option value="concrete_block_100">ผนังคอนกรีตบล็อก 10 ซม. (ค่าสูงอ้างอิง)</option><option value="custom">กำหนดน้ำหนักเอง</option></select><small id="loadPresetBasis">ค่าอ้างอิงเริ่มต้น; ตรวจสอบผู้ผลิต ปูนก่อ ความชื้น และรายละเอียดจริงของโครงการ</small></div>
+          <div class="quick-load-grid">
+            <div class="quick-mini"><label for="wallUnitWeight">น้ำหนักผนัง q<sub>wall</sub></label><div class="quick-mini-control"><input id="wallUnitWeight" type="number" value="75.8" min="0.01" max="2500" step="0.1" inputmode="decimal" /><span>kgf/m²</span></div></div>
+            <div class="quick-mini"><label for="finishUnitWeight">ปูนก่อ/ฉาบ/ตกแต่งเพิ่ม</label><div class="quick-mini-control"><input id="finishUnitWeight" type="number" value="34.7" min="0" max="1000" step="0.1" inputmode="decimal" /><span>kgf/m²</span></div></div>
+            <div class="quick-mini"><label for="otherPermanentLoad">น้ำหนักถาวรอื่นต่อช่วง*</label><div class="quick-mini-control"><input id="otherPermanentLoad" type="number" value="0" min="0" max="100000" step="1" inputmode="decimal" /><span>kgf/ช่วง</span></div><small>ใส่ต่อช่วงออกแบบหนึ่งช่วง; ระบบจะรวม N ครั้งทั้งแนวผนัง</small></div>
+            <div class="quick-mini span-2"><label for="deadLoadFactor">ตัวคูณน้ำหนัก γ<sub>G</sub> · ตรวจ Load combination ของโครงการ</label><div class="quick-mini-control"><input id="deadLoadFactor" type="number" value="1.4" min="1" max="3" step="0.05" inputmode="decimal" /><span>×</span></div></div>
+          </div>
+          <div class="layout-box" aria-labelledby="layoutTitle">
+            <div class="layout-head"><b id="layoutTitle">แบ่งหูช้างต่อเนื่องเป็นช่วงออกแบบ</b><span>ช่วงตัวแทนอัตโนมัติ</span></div>
+            <div class="layout-grid">
+              <div class="quick-mini"><label for="wallRun">ความยาวผนังรวม L<sub>wall</sub></label><div class="quick-mini-control"><input id="wallRun" type="number" value="300" min="150" max="30000" step="50" inputmode="decimal" /><span>mm</span></div></div>
+              <div class="quick-mini"><label for="layoutMethod">วิธีกำหนดช่วงออกแบบ</label><select class="layout-select" id="layoutMethod"><option value="count" selected>ระบุจำนวนช่วง</option><option value="max-spacing">ระบุความกว้างช่วงสูงสุด</option></select></div>
+              <div class="quick-mini span-2" id="supportCountField"><label for="supportCount">จำนวนช่วงต่อเนื่อง N</label><div class="quick-mini-control"><input id="supportCount" type="number" value="1" min="1" max="100" step="1" inputmode="numeric" /><span>ช่วง</span></div></div>
+              <div class="quick-mini span-2" id="maxSpacingField" hidden><label for="maxSpacing">ความกว้างช่วงสูงสุด B<sub>max</sub></label><div class="quick-mini-control"><input id="maxSpacing" type="number" value="1500" min="150" max="2000" step="50" inputmode="decimal" /><span>mm</span></div></div>
+            </div>
+            <label class="layout-confirm" id="distributionConfirmRow" hidden><input id="distributionConfirmed" type="checkbox" /><span>ยืนยันว่าเป็นคอนกรีตหูช้าง/ledge ต่อเนื่องเต็มแนวผนัง ไม่มีช่องว่าง และแต่ละช่วงมีรูปตัดเดียวกัน หากเป็นหูช้างแยกตัวให้ใช้ Vᵤ จาก Analysis</span></label>
+            <div class="layout-result" id="layoutResult"><b id="layoutSummaryOut">1 ช่วง · b = Btrib = 300 mm</b><small id="layoutWidthsOut">3D และ Section แสดงช่วงออกแบบตัวแทนหนึ่งช่วง</small></div>
+          </div>
+          <div class="load-preview" id="wallLoadPreview" aria-live="polite"><div class="load-preview-row"><span>พื้นที่ผนังของช่วงตัวแทน H × B<sub>trib</sub></span><b id="loadAreaOut">0.840 m²</b></div><div class="load-preview-row"><span>น้ำหนักใช้งาน D ต่อช่วง</span><b id="loadServiceOut">92.8 kgf</b></div><div class="load-preview-row total"><span>แรงออกแบบ Vᵤ = γ<sub>G</sub>D</span><b id="loadVuOut">129.9 kgf</b></div><div class="load-preview-breakdown" id="loadBreakdownOut">D = ผนัง 63.7 + ฉาบ 29.1 + อื่น 0.0 kgf · γG 1.40</div><div class="load-preview-note">* Dother เป็นค่าต่อช่วงออกแบบและต้องลงแนวเดียวกับผนัง หากหูช้างไม่ต่อเนื่อง มีช่องเปิด/แรงจุด หรือรับผ่านคานกระจายโหลด ให้ใช้ปฏิกิริยา Vᵤ จาก Analysis</div></div>
+        </div>
+        <div class="load-panel" id="directLoadPanel" hidden>
+          <div class="quick-field"><label for="quickLoad">แรงดิ่งออกแบบที่ปลาย Vᵤ <span>FACTORED · ต่อหูช้าง 1 ตัว</span></label><div class="quick-control"><input id="quickLoad" type="number" value="2000" min="1" step="50" inputmode="decimal" aria-describedby="quickStatus" /><select id="quickUnit" aria-label="หน่วยแรงดิ่ง"><option value="kg">kgf</option><option value="ton">tonf</option></select></div><small>กรอกแรงที่รวม load combination จากแบบวิเคราะห์แล้ว ระบบจะไม่คูณซ้ำ</small></div>
+          <div class="quick-field"><label for="quickNu">แรงดึงแนวนอน Nᵤ จาก Analysis <span>FACTORED · 0 = ใช้ขั้นต่ำ 0.2Vᵤ</span></label><div class="quick-control"><input id="quickNu" type="number" value="0" min="0" step="10" inputmode="decimal" /><select id="quickNuUnit" aria-label="หน่วยแรงแนวนอน"><option value="kg">kgf</option><option value="ton">tonf</option></select></div><small>ถ้าโมเดลให้ Nᵤ มากกว่า 0.2Vᵤ ต้องกรอกค่าจริง; Engine จะใช้ค่าที่มากกว่า</small></div>
+          <div class="quick-field"><label for="analysisBasis">มาตรฐานและฉบับที่ใช้รวมแรง <span>ใช้ใน REPORT</span></label><input class="quick-text" id="analysisBasis" type="text" value="" placeholder="เช่น วสท. 011008-21 / ACI edition ที่ใช้จริง" maxlength="120" autocomplete="off" /></div>
+          <div class="quick-field"><label for="analysisCombination">ชุด Load combination / Envelope <span>ใช้ใน REPORT</span></label><input class="quick-text" id="analysisCombination" type="text" value="" placeholder="เช่น ULS-COMB-01" maxlength="120" autocomplete="off" /></div>
+          <div class="quick-field"><label for="analysisReference">Load case / แบบวิเคราะห์อ้างอิง <span>ใช้ใน REPORT</span></label><input class="quick-text" id="analysisReference" type="text" value="" placeholder="เช่น MODEL-CB01 / LC-ULS-03 / REV P2" maxlength="120" autocomplete="off" /><small>ระบุชื่อโมเดล, load case และ revision จริงเพื่อให้ตรวจย้อนหลังได้; ข้อความตัวอย่างไม่ถูกบันทึกเป็นข้อมูล</small></div>
+        </div>
+        <div class="quick-field quick-wall-thickness"><label for="wallThickness"><span class="quick-label-main">ความหนาผนังก่อ t<sub>wall</sub></span><span>3D + SECTION + BEARING</span></label><div class="quick-control"><input id="wallThickness" type="number" value="100" min="50" max="450" step="5" inputmode="decimal" /><span class="quick-static-unit">mm</span></div><small>ชนิดผนังจะตั้งค่าเริ่มต้นให้ แต่แก้ตามแบบจริงได้ทั้งโหมด Auto และ Analysis</small></div>
+        <div class="quick-field quick-wall-height"><label for="wallHeight"><span class="quick-label-main">ความสูงผนังก่อ H<sub>wall</sub></span><span>LOAD + 3D + SECTION</span></label><div class="quick-control"><input id="wallHeight" type="number" value="2.8" min="0.3" max="6" step="0.1" inputmode="decimal" aria-describedby="wallHeightHelp" /><span class="quick-static-unit">m</span></div><small id="wallHeightHelp">ใช้คำนวณพื้นที่ผนังและสร้างโมเดล; Vᵤ จะเปลี่ยนตามความสูง</small></div>
+        <div class="quick-field quick-wall-width"><label for="wallWidth"><span class="quick-label-main">ความกว้างจริงของช่วงหูช้าง b</span><span>AUTO = Btrib ในโหมดผนัง</span></label><div class="quick-control"><input id="wallWidth" type="number" value="300" min="150" max="2000" step="10" inputmode="decimal" aria-describedby="wallWidthHelp" readonly /><span class="quick-static-unit">mm</span></div><small id="wallWidthHelp">โหมดผนัง: b เท่ากับช่วงต่อเนื่อง Lwall/N อัตโนมัติ; โหมด Analysis: กรอก b จริงได้โดยไม่เปลี่ยน Vᵤ</small></div>
+        <button class="btn primary quick-run" id="autoDesignBtn">คำนวณและออกแบบอัตโนมัติ</button>
+        <div class="quick-status" id="quickStatus" role="status" aria-live="polite" tabindex="-1">รอคำนวณ: ตรวจชนิดผนังและน้ำหนักแล้วกดปุ่ม</div>
+        <div class="quick-results" aria-label="ผลออกแบบหูช้าง"><div class="quick-result"><span>แรงดิ่งออกแบบ Vᵤ</span><b id="quickVu">—</b></div><div class="quick-result"><span>ที่มาของน้ำหนัก</span><b id="quickLoadBasis">—</b></div><div class="quick-result"><span>โมเมนต์ที่หน้าคาน Mᵤ</span><b id="quickMu">—</b></div><div class="quick-result"><span>อัตราส่วน aᵥ/d</span><b id="quickRatio">—</b></div><div class="quick-result"><span>เหล็กหลัก Aₛ / ปลอกแนวนอน Aₕ</span><b id="quickSteel">—</b></div><div class="quick-result verdict" id="quickVerdictRow"><span>ผลตรวจหูช้างเฉพาะที่</span><b id="quickVerdict">รอคำนวณ</b></div></div>
+        <div class="quick-output-actions"><button class="btn" id="sectionBtn" disabled>ดู Section A-A</button><button class="btn blue" id="quickReportBtn" disabled>Report สำหรับตรวจ</button></div>
+        <div class="quick-basis"><div class="quick-basis-head"><b>ค่าที่ใช้คำนวณ</b><span>แก้ไขได้</span></div><dl><dt>รูปทรง b × h × h₂ × L</dt><dd id="quickGeometry">300 × 500 × 250 × 450 mm</dd><dt>ช่วงผนังตัวแทน Btrib</dt><dd id="quickTributary">300 mm</dd><dt>ระยะแรง aᵥ / d</dt><dd id="quickLever">400 / 430 mm</dd><dt>วัสดุ f′c / fy</dt><dd id="quickMaterial">24 / 400 MPa</dd><dt>ชิ้นส่วนรองรับ</dt><dd>คาน ค.ส.ล. · schematic</dd><dt>ผนังก่อที่ปลาย</dt><dd id="quickWall">b 300 · หนา 100 · สูง 2.80 m · ชิดปลาย · c_anchor 60 mm</dd><dt>ผลที่ออก</dt><dd>LOCAL CHECK + REVIEW REPORT</dd></dl></div>
+        <button class="btn quick-advanced" id="advancedModeBtn">เปิดขนาด วัสดุ และรายละเอียดใน Quick Input</button>
+        <p class="quick-warning"><strong>ค่าน้ำหนักต่อพื้นที่แสดงเป็นแรงเทียบเท่า kgf/m²</strong><br />ข้อมูลผู้ผลิตที่เป็นมวล kg/m² ถูกใช้เป็นน้ำหนักเทียบเท่าภายใต้แรงโน้มถ่วงมาตรฐาน (1 kg/m² ≈ 1 kgf/m²) และแปลงใน Engine ด้วย 1 kgf = 9.80665 N ค่าชนิดผนังเป็นค่าเริ่มต้นที่แก้ไขได้ และผลนี้ตรวจเฉพาะหูช้าง ไม่รวมคานรองรับ เสถียรภาพผนัง หรือระบบอาคาร</p>
+      </section>
+      <section class="step-panel active" id="corbel-advanced-input" data-panel="1" aria-labelledby="quickAdvancedTitle" aria-hidden="false">
+        <div class="section-head"><div><div class="kicker">QUICK INPUT · รายละเอียดเพิ่มเติม</div><h2 id="quickAdvancedTitle">รูปทรง วัสดุ และจุดยึด</h2><p>อยู่ใน surface เดียวกับ Wall/Direct และใช้เมื่อจำเป็นต้องแก้ค่าจากตัวอย่าง</p></div></div>
+        <div class="field-group">
+          <h3>วัสดุและชิ้นส่วนรองรับ</h3>
+          <div class="field-grid">
+            <div class="field"><label>กำลังคอนกรีต f′c</label><div class="control"><input id="fc" type="number" value="24" min="18" step="1" /><span class="unit">MPa</span></div></div>
+            <div class="field"><label>กำลังเหล็ก fy</label><div class="control"><input id="fy" type="number" value="400" min="240" step="10" /><span class="unit">MPa</span></div></div>
+            <div class="field"><label>หูช้างยึดกับ</label><div class="control"><select id="hostType"><option value="beam">คาน ค.ส.ล. แนวนอน</option></select></div></div>
+            <div class="field"><label>ผิวรอยต่อ</label><div class="control"><select id="surface"><option value="monolithic">หล่อเป็นเนื้อเดียว</option><option value="rough">เทภายหลัง ผิวขรุขระ</option><option value="smooth">เทภายหลัง ผิวเรียบ</option></select></div></div>
+          </div>
+        </div>
+        <div class="field-group">
+          <h3>รูปทรงหลัก</h3>
+          <div class="field-grid">
+            <div class="field"><label>ความกว้างจริงหูช้าง b <span>จากช่องหลัก</span></label><div class="control"><input id="width" type="number" value="300" readonly aria-describedby="wallWidthHelp" /><span class="unit">mm</span></div></div>
+            <div class="field"><label>ความสูงชิดคาน h</label><div class="control"><input id="height" type="number" value="500" min="250" step="10" /><span class="unit">mm</span></div></div>
+            <div class="field"><label>ความสูงที่ปลาย h₂</label><div class="control"><input id="tipHeight" type="number" value="250" min="100" step="10" /><span class="unit">mm</span></div></div>
+            <div class="field"><label>ระยะยื่น L</label><div class="control"><input id="length" type="number" value="450" min="200" step="10" /><span class="unit">mm</span></div></div>
+            <div class="field"><label>ความลึกประสิทธิผล d</label><div class="control"><input id="depth" type="number" value="430" min="180" step="10" /><span class="unit">mm</span></div></div>
+            <div class="field"><label>โซนยึดเหล็กที่ปลาย c<sub>anchor</sub></label><div class="control"><input id="noseSetback" type="number" value="60" min="0" step="5" /><span class="unit">mm</span></div></div>
+            <div class="field"><label>ระยะแรง aᵥ <span>ถึงกึ่งกลางผนัง · AUTO</span></label><div class="control"><input id="av" type="number" value="400" readonly /><span class="unit">mm</span></div></div>
+            <div class="field"><label>ตำแหน่งผนังก่อ</label><div class="control"><input id="wallPosition" value="ชิดปลายหูช้าง · โซนยึดเหล็ก 60 mm" readonly /></div></div>
+          </div>
+          <div class="formula-note">aᵥ = L - t<sub>wall</sub>/2 · ผนังก่อชิดปลาย · ขอบเขต aᵥ/d = <strong id="ratioInline">0.93</strong></div>
+        </div>
+        <div class="notice"><strong>ผนังก่อวางชิดปลายหูช้าง</strong>ผนังวางบนคอนกรีตโดยตรง ส่วน c<sub>anchor</sub> เป็นโซนภายในคอนกรีตสำหรับตรวจ cover และรายละเอียดจุดยึดเหล็ก ไม่ใช่ช่องว่างหน้าผนังหรือแผ่นรอง</div>
+        <div class="left-actions"><button class="btn blue next" data-next="2">ถัดไป: ใส่โหลด</button></div>
+      </section>
+
+      <section class="step-panel" id="corbel-panel-2" data-panel="2" role="tabpanel" aria-labelledby="corbel-step-2" aria-hidden="true">
+        <div class="section-head"><div><div class="kicker">STEP 2 · ENGINEERING EVIDENCE</div><h2>Load path จาก snapshot</h2><p>ค่าด้านล่างเป็นข้อมูลอ่านอย่างเดียวจากผล Run ล่าสุด ไม่คำนวณซ้ำจากหน้าจอ</p></div></div>
+        <div id="directLoad">
+          <div class="field-group"><h3>แรงออกแบบที่ใช้</h3><div class="field-grid">
+            <div class="field"><label>แรงเฉือน Vᵤ ที่ส่งเข้า Engine</label><div class="control"><input id="directV" type="number" value="129.95" readonly /><span class="unit">kgf</span></div></div>
+            <div class="field"><label>ที่มาของแรง</label><div class="control"><input id="loadSourceSummary" value="Auto · อิฐมวลเบา 10 ซม." readonly /></div></div>
+          </div></div>
+          <div class="notice warn"><strong>ตรวจสมมติฐานก่อนใช้</strong><span id="loadAdvancedNote">Auto ใช้หูช้างต่อเนื่องเต็มแนวและแบ่งเป็นช่วงเท่า ๆ กัน โดย b = Btrib; หูช้างแยกตัวต้องใช้ Analysis</span></div>
+        </div>
+        <div class="left-actions"><button class="btn back" data-next="1">ย้อนกลับ</button><button class="btn blue next" data-next="3">ถัดไป: เหล็กและ 3D</button></div>
+      </section>
+
+      <section class="step-panel" id="corbel-panel-3" data-panel="3" role="tabpanel" aria-labelledby="corbel-step-3" aria-hidden="true">
+        <div class="section-head"><div><div class="kicker">STEP 3 · SECTION + REBAR</div><h2>เหล็กที่ Engine ตรวจ</h2><p>แสดง Aₛ/Aₕ จาก snapshot เดียวกับ verdict; ถ้า FAIL จะแสดงเป็น rejected evidence ไม่ใช่เหล็กพร้อมก่อสร้าง</p></div></div>
+        <div class="field-group"><h3>เหล็กหลักและปลอกปิดแนวนอน</h3><div class="field-grid">
+          <div class="field"><label>เหล็กหลัก Aₛ</label><div class="control"><input id="mainBar" value="รอคำนวณ" readonly /></div></div>
+          <div class="field"><label>ปลอกปิดแนวนอน Aₕ</label><div class="control"><input id="hangerBar" value="รอคำนวณ" readonly /></div></div>
+          <div class="field"><label>ระยะหุ้ม</label><div class="control"><input id="cover" type="number" value="40" min="25" step="5" /><span class="unit">mm</span></div></div>
+          <div class="field"><label>การฝังเหล็กหลักเข้าคาน</label><div class="control"><input id="supportAnchorDetail" value="รอคำนวณจาก snapshot" readonly /></div></div>
+        </div></div>
+        <div class="field-group"><h3>แสดงในโมเดล</h3><div class="choice-list">
+          <label class="choice"><input type="checkbox" class="layer" data-layer="concrete" checked /><span><b>คอนกรีต</b><small>คานและหูช้างที่ผนังก่อวางโดยตรง</small></span></label>
+          <label class="choice"><input type="checkbox" class="layer" data-layer="rebar" checked /><span><b>เหล็กหลัก + ปลอกปิดแนวนอน</b><small>น้ำเงิน = Aₛ · เขียว = Aₕ ขาขนาน Aₛ</small></span></label>
+          <label class="choice"><input type="checkbox" class="layer" data-layer="load" checked /><span><b>ผนังและแรงกระทำ</b><small>ลูกศรแดงแสดงน้ำหนักลงที่กึ่งกลางผนัง</small></span></label>
+        </div></div>
+        <div class="notice warn"><strong>รายละเอียดฝังเหล็กเข้าคาน</strong><span id="supportAnchorNote">กรณี monolithic ต้องวางเหล็ก Aₛ ก่อนเทและหล่อพร้อมคาน ไม่ใช่เหล็กเจาะเสียบ; ค่า screening จาก snapshot ไม่ใช่ l<sub>dh</sub> สำหรับก่อสร้าง</span></div>
+        <div class="left-actions"><button class="btn back" data-next="2">ย้อนกลับ</button><button class="btn blue next" data-next="4">ถัดไป: ตรวจรายการ</button></div>
+      </section>
+
+      <section class="step-panel" id="corbel-panel-4" data-panel="4" role="tabpanel" aria-labelledby="corbel-step-4" aria-hidden="true">
+        <div class="section-head"><div><div class="kicker">STEP 4 · REVIEW</div><h2 id="reviewTitle">Readiness → Evidence → A4</h2><p>ตรวจสถานะ exact จาก snapshot ก่อนเปิดรายงาน; FAIL ยังเปิดหลักฐานได้แต่ไม่ใช่แบบก่อสร้าง</p></div><span class="badge" id="reviewVerdictBadge">LOCKED</span></div>
+        <div class="review-stack">
+          <section class="review-card" aria-labelledby="readinessTitle"><h3 id="readinessTitle">1 · Snapshot readiness</h3><p id="reviewReadinessText">ยังไม่มีผล Run ที่อ่านได้</p><div class="review-status"><span>Snapshot</span><b id="reviewSnapshotId">—</b></div></section>
+          <section class="review-card" aria-labelledby="evidenceTitle"><h3 id="evidenceTitle">2 · Engineering evidence</h3><p>เลือกดู Load path, Section A-A หรือโมเดล 3D จาก snapshot เดียวกัน</p><div class="review-actions"><button class="btn" id="reviewLoadPathBtn">ดู Load path</button><button class="btn" id="reviewSectionBtn">ดู Section A-A</button><button class="btn" id="review3dBtn">ดู 3D load path</button><button class="btn primary" id="reviewA4Btn">เปิด A4</button></div></section>
+          <section class="review-card" aria-labelledby="exactStatusTitle"><h3 id="exactStatusTitle">3 · Exact status / demand / capacity / trace</h3><p id="reviewExactText">Run Analysis เพื่อสร้างรายการ check ที่ตรวจย้อนกลับได้</p><div class="review-status"><span>Governing result</span><b id="reviewGoverningResult">—</b></div></section>
+          <section class="review-card recovery-card" id="recoveryCard" hidden aria-labelledby="recoveryTitle"><h3 id="recoveryTitle">แก้ governing input แล้ว Run ใหม่</h3><p id="recoveryText">ระบบจะพากลับไปยังช่องที่เกี่ยวข้อง โดยไม่เพิ่มช่องเลือก DB เอง</p><button class="btn" id="recoveryBtn">กลับไปแก้ข้อมูล</button></section>
+        </div>
+        <div class="left-actions"><button class="btn back" data-next="3">ย้อนกลับ Section</button><button class="btn" id="simpleModeBtn2">กลับ Quick Input</button></div>
+      </section>
+    </aside>
+
+    <section class="center" aria-label="โมเดลสามมิติและรูปตัดหูช้าง">
+      <div class="viewport-head"><b id="viewportTitle">โมเดลหูช้าง 3D</b><button class="tool workview active" data-workview="3d" aria-pressed="true">โมเดล 3D + load path</button><button class="tool workview" data-workview="section" aria-pressed="false" disabled>Section A-A</button><span class="tool-divider"></span><span id="cameraTools" role="group" aria-label="มุมมองกล้อง 3D"><button class="tool active" data-view="iso" aria-pressed="true">ภาพเอียง</button><button class="tool" data-view="front" aria-pressed="false">ด้านข้าง</button><button class="tool" data-view="top" aria-pressed="false">ด้านบน</button></span><span class="view-spacer"></span><button class="tool" id="fitBtn">จัดพอดี</button></div>
+      <div class="viewport"><div id="stage" aria-label="โมเดลสามมิติหูช้าง หมุนด้วยการลากและซูมด้วยล้อเมาส์"></div>
+        <section class="section-view" id="sectionView" hidden aria-label="รูปตัดหูช้าง Section A-A">
+          <div class="section-sheet">
+            <div class="section-sheet-head"><div><h3>รูปตัดผนังและหูช้าง · SECTION A-A</h3><p>แสดงความสูงผนังแบบย่อ ผนังวางบนคอนกรีตหูช้างโดยตรง; b คือความกว้างจริง ส่วน Btrib ใช้แบ่งน้ำหนัก</p></div><span class="badge" id="sectionVerdictBadge">รอคำนวณ</span></div>
+            <div class="section-drawing" id="sectionDrawing"></div>
+            <div class="section-data"><div><small>น้ำหนักผนังต่อช่วง Vᵤ</small><b id="sectionVu">—</b></div><div><small>H<sub>wall</sub> / b จริง / B<sub>trib</sub></small><b id="sectionWallHeight">2.80 m / 300 / 300 mm</b><b id="sectionMu" hidden>—</b></div><div><small>ระยะแรง aᵥ</small><b id="sectionAv">400 mm</b></div><div><small>ความลึก d</small><b id="sectionDepth">430 mm</b></div></div>
+            <div class="section-foot"><span id="sectionSteelNote">ระบบจะแสดงขนาดเหล็กพร้อมลูกศรหลังคำนวณ</span><strong id="sectionScopeNote">LOCAL CORBEL CHECK</strong></div>
+          </div>
+        </section>
+        <div class="legend" id="modelLegend"><span><i class="swatch" style="background:#2563eb"></i>เหล็กหลัก Aₛ เบื้องต้น</span><span><i class="swatch" style="background:#10a06b"></i>Aₕ เบื้องต้น</span><span><i class="swatch" style="background:#8b5e3c"></i>เหล็กคาน · SCHEMATIC</span><span><i class="swatch" style="background:#dc2626"></i>แรง Vᵤ / Nᵤ จาก snapshot</span></div>
+        <div class="canvas-label" id="modelHint"><b>ลากเพื่อหมุน · ล้อเมาส์เพื่อซูม</b><br />ช่วงตัวแทนหนึ่งช่วง; คานและเหล็กคานเป็นภาพประกอบ</div>
+      </div>
+      <div class="model-note"><strong id="modelName">CB-01</strong><span id="modelDims">b 300 · Btrib 300 · t 100 · h 500 · h₂ 250 · L 450 mm · Hwall 2.80 m</span><span id="modelStatus">PREVIEW · กดคำนวณเพื่อสร้างผลเบื้องต้น</span></div>
+    </section>
+
+    <aside class="panel right" id="calculationTrace">
+        <div class="section-head"><div><div class="kicker">รายการคำนวณ</div><h2>ผลคำนวณและรายงาน</h2><p>ผลคำนวณและ Report ใช้ snapshot เดียวกัน ส่วนรูป Preview จะขยับตามค่าที่แก้</p></div><span class="badge" id="snapshotBadge">รอคำนวณ</span></div>
+      <div class="status-strip"><div class="stat"><small>แรงดิ่งออกแบบ Vᵤ</small><b id="vuOut">—</b></div><div class="stat"><small>โมเมนต์หน้าคาน Mᵤ</small><b id="muOut">—</b></div><div class="stat"><small>อัตราส่วน aᵥ/d</small><b class="state-text" id="scopeOut">—</b></div></div>
+      <section class="trace"><div class="trace-head"><b id="traceTitle">น้ำหนักผนัง → แรงที่หน้าคาน</b><span class="badge">ข้อมูลชุดเดียว</span></div>
+        <div class="trace-row"><span class="trace-num">1</span><span id="traceLabel1">น้ำหนักผนังออกแบบต่อช่วง</span><code id="wallLineOut">—</code></div>
+        <div class="trace-row"><span class="trace-num">2</span><span id="traceLabel2">ระยะแรงถึงกึ่งกลางผนัง aᵥ</span><code id="finishLineOut">400 mm</code></div>
+        <div class="trace-row"><span class="trace-num">3</span><span id="traceLabel3">Mᵤ = Vᵤaᵥ + Nᵤ(h-d)</span><code id="deadOut">—</code></div>
+        <div class="trace-row"><span class="trace-num">4</span><span id="traceLabel4">ขอบเขตรูปทรง aᵥ/d</span><code id="comboOut">—</code></div>
+      </section>
+      <div class="report-scope"><div class="section-head" style="margin-bottom:5px"><div><h2 style="font-size:12px">รายการในรายงาน</h2><p>ตรวจความครบของ snapshot กำลัง เหล็ก และผล PASS/FAIL</p></div></div>
+        <div class="checklist">
+          <div class="check"><span class="check-icon">01</span><span><b>Load snapshot และหน่วย</b><small>Vᵤ ที่ผู้ใช้กรอก, kgf/ton-force และรหัสชิ้นส่วน</small></span><span class="pending" id="loadCheckState">รอคำนวณ</span></div>
+          <div class="check"><span class="check-icon">02</span><span><b>Demand ที่หน้าคาน</b><small>Vᵤ, Nᵤ, Mᵤ = Vᵤaᵥ + Nᵤ(h-d) และ aᵥ/d จาก Basis ชุดเดียว</small></span><span class="pending" id="demandCheckState">รอคำนวณ</span></div>
+          <div class="check"><span class="check-icon">03</span><span><b>Section A-A และแนวแรง</b><small>คานและหูช้างระดับบนตรงกัน ผนังก่อชิดปลาย แนวแรง มิติ และเหล็กที่ระบบเลือก</small></span><span class="pending" id="sectionCheckState">รอคำนวณ</span></div>
+          <div class="check"><span class="check-icon">04</span><span><b>กำลังรับน้ำหนักของหูช้าง</b><small>เฉือน ดัด shear-friction และ bearing พร้อม utilization</small></span><span class="pending" id="capacityCheckState">รอคำนวณ</span></div>
+          <div class="check"><span class="check-icon">05</span><span><b>เหล็กหลักและปลอกเบื้องต้น</b><small>เลือก Aₛ / Aₕ และระยะวางขั้นต่ำ; anchorage/spacing จริงยังต้องตรวจ</small></span><span class="pending" id="rebarCheckState">รอคำนวณ</span></div>
+          <div class="check"><span class="check-icon">06</span><span><b>ผลตรวจเฉพาะหูช้าง</b><small>LOCAL PASS/FAIL จาก snapshot เดียว</small></span><span class="pending" id="verdictCheckState">รอคำนวณ</span></div>
+        </div>
+      </div>
+      <button class="btn primary report-cta" id="reportBtn" disabled>เปิด Report A4 สำหรับวิศวกรตรวจ</button>
+      <div class="source-note">เกณฑ์หลักที่ตั้งใจใช้: <a href="https://www.eit.or.th/order/book/view/173" target="_blank" rel="noopener">วสท. 011008-21</a> (ต้องตรวจฉบับเต็มและเลขข้อโดยวิศวกร). Auto dead-only เริ่มจาก <a href="https://ratchakitcha.soc.go.th/documents/140A054N0000000000400.pdf" target="_blank" rel="noopener">กฎกระทรวง พ.ศ. 2566 ข้อ 7(1)</a>. โปรแกรมใช้ <a href="https://www.concrete.org/Portals/0/Files/PDF/Previews/318-19_preview.pdf" target="_blank" rel="noopener">ACI 318-19(22)</a> เป็น local cross-check เบื้องต้นเท่านั้น.</div>
+    </aside>
+  </main>
+
+  <section class="report-shell" id="reportShell" hidden role="dialog" aria-modal="true" aria-labelledby="reportDialogTitle"><div class="report-toolbar"><div><b id="reportDialogTitle">รายการคำนวณหูช้างเบื้องต้น</b><span> A4 · Calculation snapshot</span></div><span class="spacer"></span><button class="btn blue" id="printReportBtn">พิมพ์ Report / Save PDF</button><button class="btn" id="closeReportBtn">ปิด</button></div><div class="report-stage"><article class="report-page"><header class="report-header"><div><h2>รายการคำนวณหูช้าง ค.ส.ล.</h2><p>BETA · PRELIMINARY · NOT FOR CONSTRUCTION</p><p>น้ำหนักผนัง · Section A-A · เหล็กและผลตรวจเฉพาะจุด</p></div><div class="report-code"><div id="reportMember">CB-01</div><div id="reportTimestamp">—</div><div id="reportSnapshotId">SNAPSHOT —</div></div></header><div class="report-warning" id="reportVerdictBanner"><strong>BETA · NOT FOR CONSTRUCTION · รอคำนวณ:</strong> กรอกน้ำหนักออกแบบแล้วกดคำนวณ</div><section class="report-section"><h3>1. ข้อมูลนำเข้าและที่มาน้ำหนัก</h3><table class="report-table"><caption class="sr-only">ข้อมูลนำเข้าและที่มาน้ำหนัก</caption><thead><tr><th scope="col">รายการ</th><th scope="col">สัญลักษณ์</th><th scope="col">ค่า</th></tr></thead><tbody id="reportInputRows"></tbody></table></section><section class="report-section"><h3>2. รูปตัดผนังและหูช้าง · Section A-A</h3><div class="report-section-mount" id="reportSectionDrawing"></div></section><section class="report-section report-grid"><div><h3>3. น้ำหนักและแรงที่หน้าคาน</h3><div class="report-formula" id="reportFormula">—</div></div><div><h3>4. สรุปผลเฉพาะหูช้าง</h3><table class="report-table"><caption class="sr-only">สรุปผลเฉพาะหูช้าง</caption><tbody id="reportResultRows"></tbody></table></div></section><section class="report-section"><h3>5. Local cross-checks</h3><table class="report-table"><caption class="sr-only">รายการ demand capacity utilization และผลตรวจ</caption><thead><tr><th scope="col">หัวข้อตรวจ</th><th scope="col">ฐานอ้างอิง</th><th scope="col" class="num">Util.</th><th scope="col">ผล</th></tr></thead><tbody id="reportCheckRows"></tbody></table></section><footer class="report-footer"><span>นายช่างใหญ่ Civil Apps · RC Corbel · BETA</span><span>BETA · NOT FOR CONSTRUCTION · ผลคำนวณเบื้องต้น ต้องให้วิศวกรตรวจรับก่อนก่อสร้าง</span></footer></article></div></section>
+
+  <script src="Concrete-design/three.min.js"></script>
+  <script src="Concrete-design/corbel-engine.js?v=wall-layout-v1"></script>
+  <script src="Concrete-design/corbel-workbench-model.js?v=workbench-v3"></script>
+  <script>
+    (() => {
+      const $ = (id) => document.getElementById(id);
+      const num = (id) => Number($(id)?.value || 0);
+      let activeStep = 1;
+      let loadMode = 'wall';
+      let workView = '3d';
+      let calculationSnapshot = null;
+      let snapshotDirty = false;
+      let runState = 'idle';
+      let reportTrigger = null;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const scrollOptions = (block = 'start') => ({ behavior: reduceMotion ? 'auto' : 'smooth', block });
+
+      function readableSnapshot(){
+        const evidence=window.CorbelWorkbenchModel.selectCorbelEvidence(calculationSnapshot,{runState,dirty:snapshotDirty});
+        return evidence.ready?calculationSnapshot:null;
+      }
+
+      function setWorkView(view){
+        if(view==='section'&&!readableSnapshot()){
+          $('quickStatus').className='quick-status error';$('quickStatus').textContent='กรุณากดคำนวณก่อนเปิด Section A-A';$(loadMode==='wall'?'wallMaterial':'quickLoad').focus();return;
+        }
+        workView=view;
+        const section=view==='section';
+        document.querySelectorAll('[data-workview]').forEach((el)=>{const active=el.dataset.workview===view;el.classList.toggle('active',active);el.setAttribute('aria-pressed',String(active))});
+        $('sectionView').hidden=!section;$('cameraTools').hidden=section;$('fitBtn').hidden=section;
+        if(section){$('stage').hidden=true;$('modelLegend').hidden=true;$('modelHint').hidden=true;$('viewportTitle').textContent='Section A-A'}
+        else{$('stage').hidden=false;$('modelLegend').hidden=false;$('modelHint').hidden=false;$('viewportTitle').textContent='โมเดลหูช้าง 3D';const modelResult=window.__corbelDesignResult;$('modelStatus').textContent=modelResult?(modelResult.verdict==='pass'?'SCHEMATIC 3D · แบบเหล็กเบื้องต้น':`LOCAL ${String(modelResult.verdict||'').toUpperCase()} · ไม่แสดงเหล็ก`):'PREVIEW · กดคำนวณเพื่อสร้างผลเบื้องต้น'}
+      }
+      document.querySelectorAll('[data-workview]').forEach((el)=>el.addEventListener('click',()=>setWorkView(el.dataset.workview)));
+
+      function setStep(step){
+        const requested=Number(step);
+        if(requested>1&&!readableSnapshot()){
+          $('quickStatus').hidden=false;$('quickStatus').className='quick-status error';$('quickStatus').textContent=runState==='running'?'กำลัง Run Analysis กรุณารอผล snapshot':'ต้อง Run Analysis หลังแก้ข้อมูลก่อนเปิดหลักฐาน';
+          activeStep=1;document.body.dataset.activeStep='1';$(loadMode==='wall'?'wallMaterial':'quickLoad').focus();return;
+        }
+        activeStep = requested;
+        document.body.dataset.activeStep=String(activeStep);
+        document.querySelectorAll('.step').forEach((el) => {const active=Number(el.dataset.step)===activeStep;el.classList.toggle('active',active);el.setAttribute('aria-selected',String(active));el.tabIndex=active?0:-1});
+        document.querySelectorAll('.step-panel').forEach((el) => {const active=Number(el.dataset.panel)===activeStep;el.classList.toggle('active',active);el.setAttribute('aria-hidden',String(!active))});
+        $('corbel-panel-1').setAttribute('aria-hidden',String(activeStep!==1));
+        if(activeStep===2)setWorkView('3d');
+        if(activeStep===3||activeStep===4)setWorkView('section');
+        if (innerWidth <= 820) document.querySelector('.left').scrollIntoView(scrollOptions());
+      }
+      document.querySelectorAll('.step').forEach((el) => el.addEventListener('click', () => setStep(el.dataset.step)));
+      document.querySelector('.steps').addEventListener('keydown',(event)=>{
+        if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+        const tabs=[...document.querySelectorAll('.step')],current=tabs.indexOf(document.activeElement);if(current<0)return;
+        event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(current+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[next].focus();tabs[next].click();
+      });
+      document.querySelectorAll('[data-next]').forEach((el) => el.addEventListener('click', () => setStep(el.dataset.next)));
+      $('reviewBtn').addEventListener('click', openReport);
+      $('advancedModeBtn').addEventListener('click',()=>{document.body.classList.add('advanced-mode');setStep(1);document.querySelector('[data-panel="1"]').scrollIntoView(scrollOptions())});
+      const returnToSimpleMode=()=>{document.body.classList.remove('advanced-mode');setStep(1);setWorkView('3d');window.scrollTo({top:0,behavior:reduceMotion?'auto':'smooth'})};
+      $('simpleModeBtn').addEventListener('click',returnToSimpleMode);$('simpleModeBtn2').addEventListener('click',returnToSimpleMode);
+
+      function setLoadMode(mode='wall',notify=true){
+        loadMode=mode==='direct'?'direct':'wall';
+        $('wallLoadPanel').hidden=loadMode!=='wall';
+        $('directLoadPanel').hidden=loadMode!=='direct';
+        document.querySelectorAll('[data-load-mode]').forEach((button)=>{
+          const active=button.dataset.loadMode===loadMode;
+          button.classList.toggle('active',active);
+          button.setAttribute('aria-pressed',String(active));
+        });
+        $('wallHeightHelp').textContent=loadMode==='wall'?'ใช้คำนวณพื้นที่ผนังและสร้างโมเดล; Vᵤ จะเปลี่ยนตามความสูง':'ใช้สร้างโมเดลและ Section เท่านั้น; ไม่เปลี่ยน Vᵤ จาก Analysis';
+        $('wallWidth').readOnly=loadMode==='wall';
+        $('wallWidthHelp').textContent=loadMode==='wall'?'b เท่ากับช่วงหูช้างต่อเนื่อง Lwall/N อัตโนมัติ และใช้ทั้งกำลังหน้าตัด bearing เหล็ก 3D และ Section':'กรอก b จริงของหูช้างจากโมเดล; ใช้กำลังหน้าตัดและ 3D แต่ไม่เปลี่ยน Vᵤ จาก Analysis';
+        update();
+        if(notify){markSnapshotDirty();window.dispatchEvent(new Event('corbel-load-change'))}
+      }
+
+      function format(value,digits=2){const number=Number(value);if(Number.isNaN(number))return '—';if(!Number.isFinite(number))return number>0?'∞':'−∞';return number.toLocaleString('th-TH',{minimumFractionDigits:digits,maximumFractionDigits:digits})}
+      function escapeHtml(value){return String(value).replace(/[&<>'"]/g,(char)=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]))}
+      function wallLayoutInput(){
+        return {wallRunMm:num('wallRun'),layoutMethod:$('layoutMethod').value==='max-spacing'?'max-spacing':'count',supportCount:num('supportCount'),maxSpacingMm:num('maxSpacing'),distributionConfirmed:$('distributionConfirmed').checked};
+      }
+      function updateLayoutFieldVisibility(){
+        const maxSpacingMode=$('layoutMethod').value==='max-spacing';
+        $('supportCountField').hidden=maxSpacingMode;
+        $('maxSpacingField').hidden=!maxSpacingMode;
+      }
+      function updateLayoutPreview(layout){
+        const multiple=Number(layout?.supportCount)>1;
+        $('distributionConfirmRow').hidden=!multiple;
+        $('layoutResult').classList.toggle('error',Boolean(layout&&!layout.ok));
+        if(!layout){$('layoutSummaryOut').textContent='—';$('layoutWidthsOut').textContent='กรอกข้อมูลการวางหูช้างให้ครบ';return}
+        const governing=layout.governingTributaryWidthMm==null?NaN:Number(layout.governingTributaryWidthMm);
+        const spacing=layout.spacingMm==null?NaN:Number(layout.spacingMm);
+        const centers=layout.supportPositionsMm||[];
+        const centerText=centers.length<=8?centers.map((value)=>format(value,1)).join(' / '):`${centers.slice(0,3).map((value)=>format(value,1)).join(' / ')} / … / ${centers.slice(-3).map((value)=>format(value,1)).join(' / ')}`;
+        $('layoutSummaryOut').textContent=Number.isFinite(governing)?`${layout.supportCount} ช่วงต่อเนื่อง · b = Btrib = ${format(governing,1)} mm`:'ข้อมูลการแบ่งช่วงไม่ถูกต้อง';
+        $('layoutWidthsOut').textContent=layout.ok?`ศูนย์กลางช่วง: ${centerText} mm · 3D/Section แสดงช่วงตัวแทน #1`:(layout.errors?.[0]?.message||'กรอกข้อมูลการแบ่งช่วงให้ครบ');
+      }
+      function directLoadCase(){
+        const raw=Number($('quickLoad').value),unit=$('quickUnit').value==='ton'?'ton':'kg',vuKg=unit==='ton'?raw*1000:raw;
+        const rawNu=Number($('quickNu').value),nuUnit=$('quickNuUnit').value==='ton'?'ton':'kg',nucKg=nuUnit==='ton'?rawNu*1000:rawNu;
+        const analysisBasis=$('analysisBasis').value.trim().slice(0,120),analysisCombination=$('analysisCombination').value.trim().slice(0,120),analysisReference=$('analysisReference').value.trim().slice(0,120),errors=[];
+        if(!Number.isFinite(vuKg)||vuKg<=0)errors.push({field:'quickLoad',message:'กรุณากรอก Vᵤ จาก Analysis มากกว่า 0'});
+        if(!Number.isFinite(nucKg)||nucKg<0)errors.push({field:'quickNu',message:'กรุณากรอก Nᵤ จาก Analysis ตั้งแต่ 0 ขึ้นไป'});
+        if(!analysisBasis)errors.push({field:'analysisBasis',message:'กรุณาระบุมาตรฐานและฉบับที่ใช้รวมแรง'});
+        if(!analysisCombination)errors.push({field:'analysisCombination',message:'กรุณาระบุ Load combination หรือ Envelope'});
+        if(!analysisReference)errors.push({field:'analysisReference',message:'กรุณาระบุ Load case หรือแบบวิเคราะห์อ้างอิง'});
+        return {ok:errors.length===0,mode:'direct',errors,materialKey:'direct',materialLabel:'กรอกแรงจาก Analysis',directRaw:raw,directUnit:unit,directUnitLabel:unit==='ton'?'tonf':'kgf',directNuRaw:rawNu,directNuUnit:nuUnit,directNuUnitLabel:nuUnit==='ton'?'tonf':'kgf',analysisBasis,analysisCombination,analysisReference,wallHeightM:num('wallHeight'),corbelWidthMm:num('wallWidth'),wallThicknessMm:num('wallThickness'),vuKg,nucKg};
+      }
+      function resolveActiveLoad(){
+        if(loadMode==='direct')return directLoadCase();
+        return window.CorbelDesign.calculateWallLoad({materialKey:$('wallMaterial').value,wallHeightM:num('wallHeight'),...wallLayoutInput(),wallWeightKgM2:Number($('wallUnitWeight').value),finishWeightKgM2:Number($('finishUnitWeight').value),wallThicknessMm:Number($('wallThickness').value),otherPermanentKg:Number($('otherPermanentLoad').value),deadLoadFactor:Number($('deadLoadFactor').value)});
+      }
+      function updateLoadPreview(){
+        const load=resolveActiveLoad(),vuKg=load.vuKg;
+        $('directV').value=Number.isFinite(vuKg)?vuKg.toFixed(2):'';
+        if(load.mode==='direct'){
+          updateLayoutPreview(null);
+          $('loadSourceSummary').value=`Analysis · ${load.analysisCombination||'ยังไม่ระบุ combination'} · ${load.analysisReference||'ยังไม่ระบุอ้างอิง'}`;
+          $('loadAdvancedNote').textContent=`${load.analysisBasis||'ยังไม่ระบุมาตรฐาน'} · ${load.analysisCombination||'ยังไม่ระบุ combination'} · Vᵤ ${Number.isFinite(vuKg)?format(vuKg,1):'—'} kgf · Nᵤ input ${Number.isFinite(load.nucKg)?format(load.nucKg,1):'—'} kgf · ไม่คูณซ้ำ`;
+          return load;
+        }
+        const preset=load.preset,override=load.overridden;
+        updateLayoutPreview(load.layout);
+        $('loadPresetBasis').textContent=`${preset.basis} · ${preset.finishBasis} · ${preset.sourceLabel} · catalog ${load.catalogVersion}${override?' · มีการแก้ค่าจาก preset':''}`;
+        $('loadAreaOut').textContent=load.ok?`${format(load.areaM2,3)} m²`:'—';
+        $('loadServiceOut').textContent=load.ok?`${format(load.serviceKg,1)} kgf`:'—';
+        $('loadVuOut').textContent=load.ok?`${format(load.vuKg,1)} kgf`:'—';
+        $('loadBreakdownOut').textContent=load.ok?`D = ผนัง ${format(load.wallServiceKg,1)} + ปูน/ฉาบ/ตกแต่ง ${format(load.finishServiceKg,1)} + อื่น ${format(load.input.otherPermanentKg,1)} kgf · γG ${format(load.input.deadLoadFactor,2)}`:load.errors[0]?.message||'กรอกข้อมูลให้ครบ';
+        $('loadSourceSummary').value=`Auto · ${load.input.materialLabel}${override?' (แก้ค่า)':''} · ${load.layout?.supportCount||1} ช่วงต่อเนื่อง · แสดง #1`;
+        $('loadAdvancedNote').textContent=load.ok?`ต่อเนื่อง ${load.layout?.supportCount||1} ช่วง · b = Btrib ${format(load.input.tributaryWidthMm,1)} mm · A ${format(load.areaM2,3)} m² · D ${format(load.serviceKg,1)} kgf · γG ${format(load.input.deadLoadFactor,2)} · Vᵤ ${format(load.vuKg,1)} kgf`:(load.errors[0]?.message||'กรอกข้อมูลให้ครบ');
+        return load;
+      }
+      function applySelectedPreset(){
+        const preset=window.CorbelDesign.WALL_LOAD_PRESETS[$('wallMaterial').value];
+        if(!preset)return;
+        if(preset.key!=='custom'){
+          $('wallUnitWeight').value=preset.wallWeightKgM2;
+          $('finishUnitWeight').value=preset.finishWeightKgM2;
+          if(Number.isFinite(preset.wallThicknessMm))$('wallThickness').value=preset.wallThicknessMm;
+        }
+        update();markSnapshotDirty();window.dispatchEvent(new Event('corbel-load-change'));
+      }
+      window.resolveCorbelLoadCase=resolveActiveLoad;
+      document.querySelectorAll('[data-load-mode]').forEach((button)=>button.addEventListener('click',()=>setLoadMode(button.dataset.loadMode)));
+      $('wallMaterial').addEventListener('change',applySelectedPreset);
+      function wallLoadGeometryMm(){
+        const lengthMm=Math.max(1,num('length')),wallThicknessMm=Math.min(lengthMm,Math.max(1,num('wallThickness')));
+        const noseSetbackMm=Math.max(0,num('noseSetback'));
+        return {lengthMm,wallThicknessMm,noseSetbackMm,avMm:lengthMm-wallThicknessMm/2};
+      }
+      function corbelGeometryMm(){
+        const heightMm=Math.max(1,num('height')),tipHeightMm=Math.min(heightMm,Math.max(100,num('tipHeight')));
+        return {heightMm,tipHeightMm};
+      }
+      function markSnapshotDirty(){
+        $('quickStatus').hidden=true;
+        if(!calculationSnapshot)return;
+        snapshotDirty=true;runState='stale';document.body.dataset.runState='stale';$('snapshotBadge').textContent='ต้องคำนวณใหม่';['reviewBtn','quickReportBtn','reportBtn','sectionBtn','reviewLoadPathBtn','reviewSectionBtn','review3dBtn','reviewA4Btn'].forEach((id)=>{if($(id))$(id).disabled=true});document.querySelector('[data-workview="section"]').disabled=true;
+      }
+      function setBackgroundInert(inert){document.querySelectorAll('.topbar,.workflow,.workspace').forEach((node)=>{node.inert=inert})}
+      function openReport(event){
+        if(!readableSnapshot()){$('quickStatus').hidden=false;$('quickStatus').className='quick-status error';$('quickStatus').textContent='กรุณากด Run Analysis ก่อนเปิด Report';$(loadMode==='wall'?'wallMaterial':'quickLoad').focus();return}
+        reportTrigger=event?.currentTarget||document.activeElement;$('reportShell').hidden=false;document.body.style.overflow='hidden';setBackgroundInert(true);$('closeReportBtn').focus();
+      }
+      function closeReport(){$('reportShell').hidden=true;document.body.style.overflow='';setBackgroundInert(false);reportTrigger?.focus?.()}
+      $('quickReportBtn').addEventListener('click',openReport);$('reportBtn').addEventListener('click',openReport);$('reviewA4Btn').addEventListener('click',openReport);$('closeReportBtn').addEventListener('click',closeReport);$('printReportBtn').addEventListener('click',()=>window.print());$('sectionBtn').addEventListener('click',()=>{setWorkView('section');document.querySelector('.center').scrollIntoView(scrollOptions())});document.addEventListener('keydown',(event)=>{if(event.key==='Escape'&&!$('reportShell').hidden)closeReport()});
+      function update(){
+        updateLayoutFieldVisibility();
+        const activeLoad=updateLoadPreview();
+        if(loadMode==='wall'&&activeLoad.layout?.governingTributaryWidthMm!=null)$('wallWidth').value=Number(activeLoad.layout.governingTributaryWidthMm).toFixed(3).replace(/\.000$/,'');
+        $('wallWidth').readOnly=loadMode==='wall';
+        if($('width')&&$('wallWidth'))$('width').value=$('wallWidth').value;
+        const {avMm,wallThicknessMm}=wallLoadGeometryMm(),{heightMm,tipHeightMm}=corbelGeometryMm(),ratio=avMm/Math.max(1,num('depth')),wallWidthMm=num('wallWidth');
+        const tributaryMm=activeLoad.mode==='wall'&&Number.isFinite(activeLoad.input?.tributaryWidthMm)?activeLoad.input.tributaryWidthMm:null;
+        $('av').value=Number(avMm.toFixed(2));
+        $('ratioInline').textContent=format(ratio,2);
+        $('modelName').textContent=$('memberId').value||'CB-01';$('modelDims').textContent=`b ${format(wallWidthMm,0)} · Btrib ${tributaryMm===null?'Analysis':format(tributaryMm,1)} · t ${format(wallThicknessMm,0)} · h ${format(heightMm,0)} · h₂ ${format(tipHeightMm,0)} · L ${num('length')} mm · Hwall ${format(num('wallHeight'),2)} m`;
+        $('quickGeometry').textContent=`${format(wallWidthMm,0)} × ${format(heightMm,0)} × ${format(tipHeightMm,0)} × ${num('length')} mm`;$('quickTributary').textContent=tributaryMm===null?'จาก Analysis':`${format(tributaryMm,1)} mm`;$('quickLever').textContent=`${format(avMm,0)} / ${num('depth')} mm`;$('quickMaterial').textContent=`${num('fc')} / ${num('fy')} MPa`;$('quickWall').textContent=`b ${format(wallWidthMm,0)} · หนา ${format(wallThicknessMm,0)} · สูง ${format(num('wallHeight'),2)} m · ชิดปลาย · c_anchor ${format(num('noseSetback'),0)} mm`;$('wallPosition').value=`ชิดปลายหูช้าง · โซนยึดเหล็ก ${format(num('noseSetback'),0)} mm`;
+        if(window.rebuildCorbel) window.rebuildCorbel();
+      }
+      document.querySelectorAll('input,select').forEach((el) => el.addEventListener('input',()=>{update();markSnapshotDirty()}));
+
+      window.beginCorbelRun=()=>{runState='running';snapshotDirty=false;calculationSnapshot=null;document.body.dataset.runState='running';document.body.dataset.localVerdict='running';delete document.body.dataset.corbelSnapshotId;window.clearCorbelCalculatedEvidence?.('running');return null};
+      window.failCorbelRun=()=>{runState='error';snapshotDirty=false;calculationSnapshot=null;document.body.dataset.runState='error';document.body.dataset.localVerdict='error';delete document.body.dataset.corbelSnapshotId;window.clearCorbelCalculatedEvidence?.('error');return null};
+      window.commitCorbelResultSnapshot=(result,presentation)=>{calculationSnapshot=window.CorbelWorkbenchModel.createCorbelResultSnapshot(result,presentation);snapshotDirty=false;runState='ready';document.body.dataset.runState='ready';return calculationSnapshot;};
+      window.getCorbelResultSnapshot=()=>readableSnapshot();
+      window.getCorbelEvidence=()=>window.CorbelWorkbenchModel.selectCorbelEvidence(calculationSnapshot,{runState,dirty:snapshotDirty});
+      window.markCorbelSnapshotStale=()=>{if(calculationSnapshot){snapshotDirty=true;runState='stale';document.body.dataset.runState='stale'}};
+      window.setCorbelWorkbenchStep=setStep;
+      window.setCorbelWorkView=setWorkView;
+
+      const initial={fc:24,fy:400,wallRun:300,layoutMethod:'count',supportCount:1,maxSpacing:1500,wallWidth:300,width:300,height:500,tipHeight:250,length:450,depth:430,wallThickness:100,wallHeight:2.8,noseSetback:60,cover:40,directV:129.95,wallUnitWeight:75.8,finishUnitWeight:34.7,otherPermanentLoad:0,deadLoadFactor:1.4,quickNu:0,analysisBasis:'',analysisCombination:'',analysisReference:''};
+      $('resetBtn').addEventListener('click',()=>{Object.entries(initial).forEach(([k,v])=>{if($(k))$(k).value=v});$('distributionConfirmed').checked=false;$('memberId').value='CB-01';$('wallMaterial').value='aac_100';$('quickLoad').value=2000;$('quickUnit').value='kg';$('quickNuUnit').value='kg';calculationSnapshot=null;snapshotDirty=false;runState='idle';document.body.dataset.runState='idle';$('quickStatus').hidden=false;$('quickStatus').className='quick-status';$('quickStatus').textContent='รอคำนวณ: ตรวจชนิดผนังและน้ำหนักแล้วกดปุ่ม';['quickVu','quickLoadBasis','quickMu','quickRatio','vuOut','muOut','scopeOut','wallLineOut','deadOut','comboOut'].forEach((id)=>$(id).textContent='—');$('finishLineOut').textContent='400 mm';$('snapshotBadge').textContent='รอคำนวณ';['loadCheckState','demandCheckState','sectionCheckState'].forEach((id)=>{$(id).textContent='รอคำนวณ';$(id).className='pending'});['reviewBtn','quickReportBtn','reportBtn','sectionBtn','reviewLoadPathBtn','reviewSectionBtn','review3dBtn','reviewA4Btn'].forEach((id)=>{if($(id))$(id).disabled=true});document.querySelector('[data-workview="section"]').disabled=true;document.body.classList.remove('advanced-mode');setLoadMode('wall',false);setStep(1);setWorkView('3d');update();});
+
+      if(!window.THREE){ $('stage').innerHTML='<div style="padding:24px;color:#64748b">ไม่สามารถเปิด 3D renderer ได้ กรุณาตรวจไฟล์ Three.js ภายในโปรเจกต์</div>'; update(); return; }
+      const stage=$('stage'),scene=new THREE.Scene();scene.background=new THREE.Color(0xf8f0e5);
+      const camera=new THREE.PerspectiveCamera(34,1,.01,100);camera.position.set(3.4,2.6,4.5);
+      const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;stage.appendChild(renderer.domElement);
+      let renderPending=true;function requestRender(){renderPending=true}
+      scene.add(new THREE.HemisphereLight(0xfffbf3,0xbda99b,1.45));const sun=new THREE.DirectionalLight(0xfff8ed,1.35);sun.position.set(4,7,5);sun.castShadow=true;scene.add(sun);
+      const grid=new THREE.GridHelper(8,32,0xbfa895,0xe6d9cb);grid.position.y=0;scene.add(grid);
+      const groups={concrete:new THREE.Group(),rebar:new THREE.Group(),wall:new THREE.Group(),load:new THREE.Group()};Object.values(groups).forEach(g=>scene.add(g));
+      const mat={concrete:new THREE.MeshStandardMaterial({color:0xd7c1ae,roughness:.84,metalness:0,transparent:true,opacity:.28,depthWrite:false}),edge:new THREE.LineBasicMaterial({color:0x6e4c3d,transparent:true,opacity:.82}),wall:new THREE.MeshStandardMaterial({color:0xe6cfaa,roughness:.95,transparent:true,opacity:.48,depthWrite:false}),blue:new THREE.MeshStandardMaterial({color:0x155eef,roughness:.28,metalness:.10,emissive:0x0b3a9c,emissiveIntensity:.12}),violet:new THREE.MeshStandardMaterial({color:0x00a66f,roughness:.30,metalness:.08,emissive:0x045c41,emissiveIntensity:.10}),sideBar:new THREE.MeshStandardMaterial({color:0x8b5e3c,roughness:.38,metalness:.06}),columnBar:new THREE.MeshStandardMaterial({color:0x4a3a34,roughness:.34,metalness:.10}),red:new THREE.MeshStandardMaterial({color:0xd93624,roughness:.40})};
+      function clear(group){while(group.children.length){const o=group.children.pop();o.geometry?.dispose?.();}}
+      function edged(mesh,group){mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);const e=new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry),mat.edge);e.position.copy(mesh.position);e.rotation.copy(mesh.rotation);e.scale.copy(mesh.scale);group.add(e);}
+      function cylinderBetween(a,b,r,material,group){const p1=new THREE.Vector3(...a),p2=new THREE.Vector3(...b),mid=p1.clone().add(p2).multiplyScalar(.5),len=p1.distanceTo(p2);const geo=new THREE.CylinderGeometry(r,r,len,14);const mesh=new THREE.Mesh(geo,material);mesh.position.copy(mid);mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),p2.clone().sub(p1).normalize());mesh.castShadow=true;group.add(mesh);return mesh;}
+      function arrow(from,to,material,group){const a=new THREE.Vector3(...from),b=new THREE.Vector3(...to),dir=b.clone().sub(a),len=dir.length(),shaftEnd=a.clone().add(dir.clone().normalize().multiplyScalar(Math.max(.05,len-.18)));cylinderBetween(a.toArray(),shaftEnd.toArray(),.018,material,group);const cone=new THREE.Mesh(new THREE.ConeGeometry(.065,.18,18),material);cone.position.copy(b.clone().sub(dir.clone().normalize().multiplyScalar(.09)));cone.quaternion.setFromUnitVectors(new THREE.Vector3(0,-1,0),dir.clone().normalize());group.add(cone);}
+      function addMasonryJoints(group,x,y,height,length,thickness){const points=[],faces=[x-thickness/2-.002,x+thickness/2+.002],rows=Math.max(3,Math.min(24,Math.round(height/.20))),modules=Math.max(1,Math.round(length/.28));faces.forEach(xFace=>{for(let row=1;row<rows;row++){const yy=y-height/2+height*row/rows;points.push(xFace,yy,-length/2,xFace,yy,length/2)}for(let row=0;row<rows;row++){const y0=y-height/2+height*row/rows,y1=y-height/2+height*(row+1)/rows,offset=row%2?.5:0;for(let m=1;m<modules;m++){const z=-length/2+length*(m+offset)/modules;if(z<length/2)points.push(xFace,y0,z,xFace,y1,z)}}});const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(points,3));group.add(new THREE.LineSegments(geo,mat.edge));}
+      function supportGeometry(h,b){const top=1.48,wallRun=Math.max(.15,b),beamDepth=Math.max(.58,Math.min(.78,h*1.2)),beamWidth=Math.max(.34,Math.min(.46,b*1.18)),beamSpan=Math.max(1.8,Math.min(3,b+.55));return {top,wallRun,beamDepth,beamWidth,beamSpan}}
+
+      function parseBarSpec(value,fallbackCount,fallbackDiameter){const m=String(value||'').match(/(\d+)\s*-\s*(?:DB|RB)(\d+)/i);return {valid:!!m,count:m?Math.max(2,Math.min(8,Number(m[1]))):fallbackCount,diameter:m?Number(m[2]):fallbackDiameter}}
+      function roundPath3(way,bend=.025){
+        const p=way.map(v=>new THREE.Vector3(...v));if(p.length<3)return p;const out=[p[0].clone()];
+        for(let i=1;i<p.length-1;i++){const prev=p[i-1],at=p[i],next=p[i+1],inLen=prev.distanceTo(at),outLen=at.distanceTo(next);if(inLen<1e-5||outLen<1e-5){out.push(at.clone());continue}const r=Math.min(bend,inLen*.28,outLen*.28),a=at.clone().add(prev.clone().sub(at).normalize().multiplyScalar(r)),b=at.clone().add(next.clone().sub(at).normalize().multiplyScalar(r));out.push(a);for(let j=1;j<5;j++){const t=j/5,one=1-t,q=a.clone().multiplyScalar(one*one).add(at.clone().multiplyScalar(2*one*t)).add(b.clone().multiplyScalar(t*t));out.push(q)}out.push(b)}out.push(p[p.length-1].clone());return out
+      }
+      function bentTube3(way,radius,material,group,bend=.025){const pts=roundPath3(way,bend),curve=new THREE.CatmullRomCurve3(pts,false,'centripetal'),geo=new THREE.TubeGeometry(curve,Math.max(24,pts.length*4),radius,12,false),mesh=new THREE.Mesh(geo,material);mesh.castShadow=true;group.add(mesh);return mesh}
+      function spacedValues(count,extent){if(count<=1)return [0];return Array.from({length:count},(_,i)=>-extent+(2*extent*i)/(count-1))}
+      function addCorbelRebarCage(group,L,h,b,snapshot){
+        if(snapshot?.verdict!=='pass'){stage.dataset.rebarStatus='local-fail';return;}
+        const main=parseBarSpec(snapshot.provided?.main?.label,3,20),hanger=parseBarSpec(snapshot.provided?.ties?.label,3,9),cover=Math.min(Math.max(.025,Number(snapshot.input.coverMm)/1000),Math.min(b,h)*.24),support=supportGeometry(h,b),h2=Math.min(h,Math.max(.10,Number(snapshot.input.tipHeightMm)/1000));
+        const supportAnchorCheck=Array.isArray(snapshot.checks)?snapshot.checks.find(check=>check.id==='support-anchor'):null,supportScreenMm=Number(supportAnchorCheck?.demand),isMonolithicSupport=snapshot.input?.surface==='monolithic';
+        if(!main.valid||!hanger.valid){stage.dataset.rebarStatus='unavailable';return;}
+        const mainR=Math.max(.011,main.diameter/2000*.72),tieR=Math.max(.007,hanger.diameter/2000*.68),beamR=Math.max(.0095,mainR*.78),top=support.top;
+        const mainMat=mat.blue,tieMat=mat.violet,beamMat=mat.columnBar;
+        const beamX=[-support.beamWidth+cover+beamR,-cover-beamR],beamY=[top-support.beamDepth+cover+beamR,top-cover-beamR],beamZ=support.beamSpan/2-cover-beamR;
+        beamX.forEach(x=>beamY.forEach(y=>bentTube3([[x,y,-beamZ],[x,y,beamZ]],beamR,beamMat,group,.018)));
+        const tieXL=beamX[0]-tieR*.5,tieXR=beamX[1]+tieR*.5,tieYB=beamY[0]-tieR*.5,tieYT=beamY[1]+tieR*.5;
+        spacedValues(7,support.beamSpan/2-cover-tieR).forEach((z)=>bentTube3([[tieXL,tieYB,z],[tieXR,tieYB,z],[tieXR,tieYT,z],[tieXL,tieYT,z],[tieXL,tieYB,z],[tieXL+.035,tieYB+.035,z]],tieR*.82,beamMat,group,.022));
+        const zExtent=Math.max(.018,b/2-cover-mainR),yMain=top-cover-mainR,xAnchor=-support.beamWidth+cover+mainR,xNose=Math.max(L*.72,L-cover-mainR),noseHook=Math.min(.18,Math.max(.06,Math.min(h*.34,h2-cover-mainR*2))),supportTail=Math.min(support.beamDepth-2*cover-mainR*2,Math.max(.12,noseHook));
+        spacedValues(main.count,zExtent).forEach((z,i)=>{bentTube3([[xAnchor,yMain-supportTail,z],[xAnchor,yMain,z],[xNose,yMain,z],[xNose,yMain-noseHook*.58,z]],mainR,mainMat,group,.032);if(i===0||i===main.count-1)bentTube3([[xAnchor,yMain-supportTail*.88,z],[xAnchor-.075,yMain-supportTail*.88,z]],mainR*.92,mainMat,group,.018)});
+        bentTube3([[xNose,yMain-noseHook*.50,-zExtent],[xNose,yMain-noseHook*.50,zExtent]],mainR*.88,mainMat,group,.018);
+        const horizontalTieCount=Math.max(3,Math.min(8,hanger.count)),effectiveDepth=Math.min(Math.max(.05,Number(snapshot.input.depthMm)/1000),h-cover-mainR),ahBand=Math.min(2*effectiveDepth/3,h-cover-mainR-tieR),xBack=-support.beamWidth+cover+tieR,zEdge=Math.max(.014,b/2-cover-tieR),xNoseCap=Math.max(.08,Math.min(xNose-.02,L-cover-2*tieR-.015));
+        for(let i=0;i<horizontalTieCount;i++){
+          const y=yMain-((i+1)/(horizontalTieCount+1))*ahBand;
+          const slopeCap=h-h2>.001?L*(y-(top-h)-cover-tieR)/(h-h2):xNoseCap;
+          const xFront=Math.max(.08,Math.min(xNoseCap,slopeCap));
+          bentTube3([[xBack,y,zEdge],[xFront,y,zEdge],[xFront,y,-zEdge],[xBack,y,-zEdge],[xBack,y,zEdge],[xBack+.035,y,zEdge-.035]],tieR,tieMat,group,.025);
+        }
+        stage.dataset.mainBars=String(main.count);stage.dataset.ahLoops=String(horizontalTieCount);stage.dataset.ahOrientation='horizontal-xz';stage.dataset.rebarStatus='selected';stage.dataset.supportAnchor=isMonolithicSupport?'cast-in-90-hook-schematic':'joint-90-hook-schematic';stage.dataset.supportHookCount=String(main.count);stage.dataset.supportInstallation=isMonolithicSupport?'cast-in-monolithic':'joint-detail-unverified';stage.dataset.supportAnchorVerified='false';stage.dataset.supportScreenMm=Number.isFinite(supportScreenMm)?supportScreenMm.toFixed(3):'';
+      }
+
+      window.applyLayerVisibility=()=>{
+        const layer=(name)=>document.querySelector(`.layer[data-layer="${name}"]`)?.checked!==false;
+        groups.concrete.visible=layer('concrete');groups.rebar.visible=layer('rebar');groups.wall.visible=layer('load');groups.load.visible=layer('load');
+        requestRender();
+      };
+      window.rebuildCorbel=()=>{
+        Object.values(groups).forEach(clear);
+        const snapshot=window.getCorbelResultSnapshot?.(),evidence=snapshot?window.CorbelWorkbenchModel.selectCorbelViewModel(snapshot,{runState:'ready'}):null;
+        const L=Math.max(.20,Number(evidence?.lengthMm??num('length'))/1000),h=Math.max(.25,Number(evidence?.heightMm??num('height'))/1000),h2=Math.min(h,Math.max(.10,Number(evidence?.tipHeightMm??num('tipHeight'))/1000)),b=Math.max(.15,Number(evidence?.widthMm??num('wallWidth'))/1000),support=supportGeometry(h,b),wallThickness=Math.min(L,Math.max(.05,Number(evidence?.wallThicknessMm??num('wallThickness'))/1000)),wallHeight=Math.max(.30,Math.min(6,Number(evidence?.wallHeightM??num('wallHeight'))||2.8)),wallX=L-wallThickness/2;
+        const beam=new THREE.Mesh(new THREE.BoxGeometry(support.beamWidth,support.beamDepth,support.beamSpan),mat.concrete);beam.position.set(-support.beamWidth/2,support.top-support.beamDepth/2,0);edged(beam,groups.concrete);
+        const shape=new THREE.Shape();shape.moveTo(0,support.top);shape.lineTo(L,support.top);shape.lineTo(L,support.top-h2);shape.lineTo(0,support.top-h);shape.closePath();const corbel=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:b,bevelEnabled:false}),mat.concrete);corbel.position.z=-b/2;edged(corbel,groups.concrete);
+        const wall=new THREE.Mesh(new THREE.BoxGeometry(wallThickness,wallHeight,support.wallRun),mat.wall);wall.position.set(wallX,support.top+wallHeight/2,0);edged(wall,groups.wall);addMasonryJoints(groups.wall,wall.position.x,wall.position.y,wallHeight,support.wallRun,wallThickness);
+        stage.dataset.corbelTipX=L.toFixed(6);stage.dataset.wallOuterX=(wallX+wallThickness/2).toFixed(6);stage.dataset.beamTopY=(beam.position.y+support.beamDepth/2).toFixed(6);stage.dataset.corbelTopY=support.top.toFixed(6);stage.dataset.wallBaseY=(wall.position.y-wallHeight/2).toFixed(6);
+        stage.dataset.mainBars='0';stage.dataset.ahLoops='0';stage.dataset.ahOrientation='horizontal-xz';stage.dataset.rebarStatus='preview';stage.dataset.supportHookCount='0';stage.dataset.supportAnchorVerified='false';delete stage.dataset.supportAnchor;delete stage.dataset.supportInstallation;delete stage.dataset.supportScreenMm;
+        if(evidence?.constructionReadyCage)addCorbelRebarCage(groups.rebar,L,h,b,snapshot);
+        else if(snapshot)stage.dataset.rebarStatus=snapshot.verdict==='fail'?'rejected-evidence':'unavailable';
+        const snapshotDemand=snapshot?.demand,vuKg=Number(snapshotDemand?.vuKg),nucKg=Number(snapshotDemand?.nucKg),supportAnchorCheck=Array.isArray(snapshot?.checks)?snapshot.checks.find(check=>check.id==='support-anchor'):null,supportScreenMm=Number(supportAnchorCheck?.demand),isMonolithicSupport=snapshot?.input?.surface==='monolithic';
+        arrow([wallX,support.top+wallHeight+.58,0],[wallX,support.top+wallHeight+.08,0],mat.red,groups.load);
+        if(Number.isFinite(nucKg))arrow([L+.04,support.top+.16,0],[L+.52,support.top+.16,0],mat.red,groups.load);
+        stage.dataset.vuKg=Number.isFinite(vuKg)?vuKg.toFixed(3):'';stage.dataset.nucKg=Number.isFinite(nucKg)?nucKg.toFixed(3):'';
+        const supportHint=snapshot&&Number.isFinite(supportScreenMm)?(evidence?.constructionReadyCage?`<br />Aₛ ${isMonolithicSupport?'วางก่อนเทและหล่อพร้อมคาน':'รายละเอียดรอยต่อยังไม่ยืนยัน'} · hook 90° เป็นภาพ schematic · ค่า engine screening ${format(supportScreenMm)} mm ไม่ใช่ ldh สำหรับก่อสร้าง`:`<br />ค่า support screening ${format(supportScreenMm)} mm · 3D ซ่อน cage ที่ไม่ผ่าน; ดูเหล็ก CHECKED / REJECTED ใน Section และ A4`):'';
+        $('modelHint').innerHTML=snapshotDemand?`<b>Vᵤ ${format(vuKg,1)} kgf ↓ · Nᵤ ${format(nucKg,1)} kgf →</b><br />แรงจาก snapshot; คานและเหล็กคานเป็นภาพประกอบ${supportHint}`:'<b>ลากเพื่อหมุน · ล้อเมาส์เพื่อซูม</b><br />ช่วงตัวแทนหนึ่งช่วง; คานและเหล็กคานเป็นภาพประกอบ';
+        window.applyLayerVisibility();
+        updateCameraTarget(L,true);
+        requestRender();
+      };
+      let target=new THREE.Vector3(.15,2.15,0),spherical={theta:.66,phi:1.05,radius:7.3};
+      function markActiveView(view){document.querySelectorAll('[data-view]').forEach(btn=>{const active=btn.dataset.view===view;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active))})}
+      function cameraFit(L=num('length')/1000){const wallHeight=Math.max(.30,Math.min(6,num('wallHeight')||2.8)),b=Math.max(.15,num('wallWidth')/1000||.3);return {targetY:1.48+wallHeight*.48,radius:Math.max(4.2,Math.min(11.8,2.15+wallHeight*1.85+Math.max(0,L-.45)*.35+Math.max(0,b-.3)*1.15))}}
+      function updateCameraTarget(L=num('length')/1000,resetRadius=false){const fit=cameraFit(L);target.set(Math.max(.1,L*.25),fit.targetY,0);if(resetRadius)spherical.radius=fit.radius;applyCamera();}
+      function applyCamera(){const s=Math.sin(spherical.phi);camera.position.set(target.x+spherical.radius*s*Math.sin(spherical.theta),target.y+spherical.radius*Math.cos(spherical.phi),target.z+spherical.radius*s*Math.cos(spherical.theta));camera.lookAt(target);requestRender();}
+      let drag=false,px=0,py=0;renderer.domElement.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)});renderer.domElement.addEventListener('pointermove',e=>{if(!drag)return;spherical.theta-=(e.clientX-px)*.008;spherical.phi=Math.max(.25,Math.min(1.48,spherical.phi-(e.clientY-py)*.008));px=e.clientX;py=e.clientY;applyCamera()});renderer.domElement.addEventListener('pointerup',()=>drag=false);renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();spherical.radius=Math.max(1.8,Math.min(12,spherical.radius+e.deltaY*.003));applyCamera()},{passive:false});
+      document.querySelectorAll('[data-view]').forEach(btn=>btn.addEventListener('click',()=>{markActiveView(btn.dataset.view);const fit=cameraFit();if(btn.dataset.view==='front'){spherical={theta:0,phi:Math.PI/2,radius:fit.radius*.88}}else if(btn.dataset.view==='top'){spherical={theta:.66,phi:.12,radius:fit.radius*1.05}}else{spherical={theta:.66,phi:1.05,radius:fit.radius}}updateCameraTarget()}));
+      $('fitBtn').addEventListener('click',()=>{markActiveView('iso');const fit=cameraFit();spherical={theta:.66,phi:1.05,radius:fit.radius};updateCameraTarget()});
+      document.querySelectorAll('.layer').forEach(c=>c.addEventListener('change',()=>window.applyLayerVisibility()));
+      function resize(){const r=stage.getBoundingClientRect();renderer.setSize(Math.max(1,r.width),Math.max(1,r.height),false);camera.aspect=Math.max(1,r.width)/Math.max(1,r.height);camera.updateProjectionMatrix();requestRender()}
+      new ResizeObserver(resize).observe(stage);function animate(){requestAnimationFrame(animate);if(!document.hidden&&!stage.hidden&&(renderPending||drag)){renderer.render(scene,camera);renderPending=false}}resize();applyCamera();update();animate();
+    })();
+  </script>
+  <script>
+    const corbelEngineApi = window.CorbelDesign;
+    const corbelWorkbenchApi = window.CorbelWorkbenchModel;
+    const calculateCorbel = corbelEngineApi.designCorbel;
+    const corbelVerdictLabel = corbelEngineApi.verdictLabel;
+
+    const $ = (id) => document.getElementById(id);
+    const numberAt = (id) => Number($(id)?.value);
+    const format = (value, digits = 0) => {
+      const number = Number(value);
+      if (Number.isNaN(number)) return '—';
+      if (!Number.isFinite(number)) return number > 0 ? '∞' : '−∞';
+      return number.toLocaleString('th-TH', {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits,
+      });
+    };
+    const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (char) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;',
+    })[char]);
+    let currentResult = null;
+
+    function bindLabels() {
+      document.querySelectorAll('.field').forEach((field, index) => {
+        const label = field.querySelector(':scope > label');
+        const control = field.querySelector('input,select');
+        if (!label || !control) return;
+        if (!control.id) control.id = `corbel-field-${index + 1}`;
+        label.htmlFor = control.id;
+      });
+    }
+
+    function inputFromPage(vuKg, widthOverrideMm = null, nucKg = 0) {
+      return {
+        memberId: $('memberId').value,
+        vuKg,
+        nucKg,
+        widthMm: Number.isFinite(widthOverrideMm) ? widthOverrideMm : numberAt('wallWidth'),
+        heightMm: numberAt('height'),
+        tipHeightMm: numberAt('tipHeight'),
+        lengthMm: numberAt('length'),
+        depthMm: numberAt('depth'),
+        wallThicknessMm: numberAt('wallThickness'),
+        noseSetbackMm: numberAt('noseSetback'),
+        coverMm: numberAt('cover'),
+        fcMpa: numberAt('fc'),
+        fyMpa: numberAt('fy'),
+        surface: $('surface').value,
+      };
+    }
+
+    function viewModel(result) {
+      return corbelWorkbenchApi.selectCorbelViewModel(result, { runState: 'ready', dirty: false });
+    }
+
+    function sectionSvg(s, suffix) {
+      const loadArrow = `load-${suffix}`;
+      const mainNoteArrow = `main-note-${suffix}`;
+      const tieNoteArrow = `tie-note-${suffix}`;
+      const xFace = 230, yTop = 245, yBase = 467, wallTop = 42;
+      const px = 425 / 450;
+      const xTip = xFace + s.lengthMm * px;
+      const viewWidth = Math.max(900, xTip + 250);
+      const wallOuter = xTip;
+      const anchorZoneStart = xTip - s.noseSetbackMm * px;
+      const wallWidth = Math.max(30, s.wallThicknessMm * px);
+      const wallLeft = wallOuter - wallWidth;
+      const wallCenter = wallLeft + wallWidth / 2;
+      const wallHeightM = Number.isFinite(s.wallHeightM) ? s.wallHeightM : 2.8;
+      const tributaryMm = s.loadCase?.mode === 'wall' && Number.isFinite(s.loadCase.input?.tributaryWidthMm) ? s.loadCase.input.tributaryWidthMm : null;
+      const yTip = yTop + (yBase - yTop) * (s.tipHeightMm / s.heightMm);
+      const mainY = yTop + 25;
+      const mainBarDiameterMm = s.provided.main?.diameterMm || 12;
+      const supportAnchorCheck = Array.isArray(s.checks) ? s.checks.find((check) => check.id === 'support-anchor') : null;
+      const supportScreenMm = Number(supportAnchorCheck?.demand);
+      const isMonolithicSupport = s.input?.surface === 'monolithic';
+      const supportInstallation = isMonolithicSupport ? 'cast-in-monolithic' : 'joint-detail-unverified';
+      const supportInstallLine = isMonolithicSupport ? 'วางก่อนเท · หล่อพร้อมคาน' : 'รายละเอียดรอยต่อยังไม่ยืนยัน';
+      const supportMethodLine = isMonolithicSupport ? 'ไม่ใช่เหล็กเจาะเสียบ' : 'ต้องกำหนดวิธีต่อ/ยึดจริง';
+      const supportHookX = 104;
+      const supportHookRadius = 16;
+      const supportTailY = Math.min(yBase - 36, mainY + 108);
+      const hookX = xTip - (s.coverMm + mainBarDiameterMm / 2) * px;
+      const lowerAt = (x) => yBase + (yTip - yBase) * ((x - xFace) / (xTip - xFace));
+      const usableSpan = Math.max(wallCenter - xFace, 1);
+      const isPreview = s.verdict === 'preview';
+      const hasCheckedRebar = s.checkedRebar === true && Boolean(s.provided?.main && s.provided?.ties);
+      const rebarEvidenceState = s.verdict === 'fail' ? 'checked-rejected' : 'checked-pass';
+      const tieCount = hasCheckedRebar ? Math.max(3, Math.min(8, Number(s.provided.ties.count))) : 0;
+      const sectionScaleY = (yBase - yTop) / s.heightMm;
+      const ahBandPx = (2 * s.depthMm / 3) * sectionScaleY;
+      const tieCoverPx = (s.coverMm + (s.provided?.ties?.diameterMm || 9) / 2) * sectionScaleY;
+      const xAtSlopeCover = (y) => {
+        const target = y + tieCoverPx;
+        if (target <= yTip) return xTip;
+        if (target >= yBase) return xFace;
+        return xFace + ((target - yBase) / (yTip - yBase)) * (xTip - xFace);
+      };
+      const tieYs = Array.from({ length: tieCount }, (_, index) => mainY + ((index + 1) / (tieCount + 1)) * ahBandPx);
+      const tieEnds = tieYs.map((y) => Math.max(xFace + 45, Math.min(hookX - 8, xAtSlopeCover(y))));
+      const horizontalTies = tieYs.map((y, index) => `<path data-ah-layer="${index + 1}" d="M${(xFace - 42).toFixed(1)} ${y.toFixed(1)}H${tieEnds[index].toFixed(1)}" stroke-linecap="round"/>`).join('');
+      const tieLeaderIndex = tieCount ? tieCount - 1 : 0;
+      const tieLeaderX = tieCount ? xFace + Math.max(45, (tieEnds[tieLeaderIndex] - xFace) * .56) : xFace + 80;
+      const tieLeaderY = tieCount ? tieYs[tieLeaderIndex] : mainY + 90;
+      const verdict = isPreview ? 'PREVIEW · ต้องคำนวณใหม่' : corbelVerdictLabel(s.verdict);
+      const loadText = Number.isFinite(s.vuKg) ? format(s.vuKg) : '—';
+      const horizontalLoadText = Number.isFinite(s.nucKg) ? format(s.nucKg) : '—';
+      const hDimensionX = 48;
+      const tipDimensionX = xTip + 28;
+      const wallDimensionX = xTip + 92;
+      const wallMidY = (wallTop + yTop) / 2;
+      const breakY = 122;
+      const avDimensionY = 218;
+      const anchorDimensionY = 188;
+      const lengthDimensionY = 505;
+      const insetX = xTip + 55, insetY = Math.max(390, yTip + 35), insetW = 150, insetH = 108;
+      const hookRadius = 16;
+      const mainDetail = hasCheckedRebar ? `<path data-main-bar="As" data-support-hook="As" data-support-anchor="90-hook-schematic" data-installation="${supportInstallation}" data-support-anchor-verified="false" data-support-screen-mm="${Number.isFinite(supportScreenMm) ? supportScreenMm.toFixed(3) : ''}" data-hook-center-x="${hookX.toFixed(1)}" data-tip-clearance-mm="${(s.coverMm + mainBarDiameterMm / 2).toFixed(1)}" data-rebar-evidence="${rebarEvidenceState}" d="M${supportHookX} ${supportTailY.toFixed(1)}V${(mainY + supportHookRadius).toFixed(1)}Q${supportHookX} ${mainY} ${(supportHookX + supportHookRadius).toFixed(1)} ${mainY}H${(hookX - hookRadius).toFixed(1)}Q${hookX.toFixed(1)} ${mainY} ${hookX.toFixed(1)} ${(mainY + hookRadius).toFixed(1)}V${Math.max(mainY + 30, yTip - 15).toFixed(1)}" fill="none" stroke="#2563eb" stroke-width="7" stroke-linecap="round"/>` : '';
+      const supportAnchorCallout = hasCheckedRebar ? `<g data-support-anchor-callout="screening-only" data-installation="${supportInstallation}" data-support-anchor-verified="false"><path d="M${supportHookX} ${(supportTailY - 20).toFixed(1)}L92 388" fill="none" stroke="#1d4ed8" stroke-width="1.2"/><rect x="78" y="388" width="145" height="64" rx="4" fill="#eff6ff" stroke="#93c5fd"/><text data-support-anchor-label="true" x="85" y="402" fill="#1d4ed8" font-size="9" font-weight="700">Aₛ เข้าเนื้อคาน · งอ 90°</text><text x="85" y="416" fill="#1d4ed8" font-size="9">${supportInstallLine}</text><text x="85" y="430" fill="#1d4ed8" font-size="9">${supportMethodLine}</text><text x="85" y="444" fill="#991b1b" font-size="8.5" font-weight="700">ค่าเบื้องต้น ${Number.isFinite(supportScreenMm) ? format(supportScreenMm) : '—'} mm · ยังไม่ยืนยัน</text></g>` : '';
+      const ahBracketX = xFace - 56;
+      const ahBracket = hasCheckedRebar ? `<path d="M${ahBracketX} ${mainY}V${(mainY + ahBandPx).toFixed(1)}M${ahBracketX - 7} ${mainY}H${ahBracketX + 7}M${ahBracketX - 7} ${(mainY + ahBandPx).toFixed(1)}H${ahBracketX + 7}"/><text x="${ahBracketX - 18}" y="${(mainY + ahBandPx / 2).toFixed(1)}" transform="rotate(-90 ${ahBracketX - 18} ${(mainY + ahBandPx / 2).toFixed(1)})" text-anchor="middle" fill="#047857" stroke="none" font-size="11">เขต Aₕ = 2d/3 จาก Aₛ</text>` : '';
+      const planInset = hasCheckedRebar ? `<g data-ah-plan="closed-horizontal-loop" data-rebar-evidence="${rebarEvidenceState}" data-inset-below-tip="true" aria-label="PLAN A-h หนึ่งชั้น แสดงวงปิดเท่านั้น"><rect x="${insetX.toFixed(1)}" y="${insetY.toFixed(1)}" width="${insetW}" height="${insetH}" rx="4" fill="#f8fafc" stroke="#94a3b8"/><text x="${(insetX + 8).toFixed(1)}" y="${(insetY + 17).toFixed(1)}" fill="#334155" font-size="11" font-weight="700">PLAN Aₕ · วงปิด 1 ชั้น</text><path d="M${(insetX + 18).toFixed(1)} ${(insetY + 36).toFixed(1)}H${(insetX + insetW - 18).toFixed(1)}V${(insetY + 75).toFixed(1)}H${(insetX + 18).toFixed(1)}Z" fill="none" stroke="#10a06b" stroke-width="4"/><text x="${(insetX + insetW / 2).toFixed(1)}" y="${(insetY + 94).toFixed(1)}" text-anchor="middle" fill="#475569" font-size="10">วง Aₕ กว้างจริง b ${format(s.widthMm)} mm</text></g>` : '';
+      const asTargetX = xFace + usableSpan * .48;
+      const asLabelX = xFace + 24;
+      const asLabelY = yTop - 7;
+      const ahLabelX = xFace + 24;
+      const ahLabelY = Math.min(yBase - 34, tieLeaderY + 34);
+      const asLabelEndX = asLabelX + 112;
+      const ahLabelEndX = ahLabelX + 182;
+      const asLeaderStartX = asLabelEndX + 8;
+      const ahLeaderStartX = ahLabelEndX + 8;
+      const rebarLeaders = hasCheckedRebar ? `<path data-rebar-leader="As" data-target="main-bar" d="M${asLeaderStartX.toFixed(1)} ${(asLabelY - 5).toFixed(1)}H${(asTargetX - 18).toFixed(1)}L${asTargetX.toFixed(1)} ${mainY}" stroke="#1d4ed8" stroke-width="1.8" marker-end="url(#${mainNoteArrow})"/><path data-rebar-leader="Ah" data-target="lowest-horizontal-loop" d="M${ahLeaderStartX.toFixed(1)} ${(ahLabelY - 5).toFixed(1)}H${(tieLeaderX + 18).toFixed(1)}L${tieLeaderX.toFixed(1)} ${tieLeaderY.toFixed(1)}" stroke="#047857" stroke-width="1.8" marker-end="url(#${tieNoteArrow})"/>` : '';
+      const rebarCallouts = hasCheckedRebar ? `<text data-rebar-label="As" x="${asLabelEndX.toFixed(1)}" y="${asLabelY.toFixed(1)}" text-anchor="end" fill="#1d4ed8" stroke="#f8fafc" stroke-width="5" paint-order="stroke" font-weight="700">Aₛ ${escapeHtml(s.mainBar)} · เหล็กหลัก</text><text data-rebar-label="Ah" x="${ahLabelEndX.toFixed(1)}" y="${ahLabelY.toFixed(1)}" text-anchor="end" fill="#047857" stroke="#f8fafc" stroke-width="5" paint-order="stroke" font-weight="700">Aₕ ${escapeHtml(s.hangerBar)} · วงปิดแนวนอน</text><text x="${ahLabelX.toFixed(1)}" y="571" fill="${s.verdict === 'fail' ? '#991b1b' : '#475569'}">${s.verdict === 'fail' ? 'CHECKED / REJECTED · NOT FOR CONSTRUCTION' : 'แบบเหล็กเบื้องต้น'}</text>` : `<text x="${(xFace + 24).toFixed(1)}" y="310" fill="#991b1b" font-weight="700">${isPreview ? 'PREVIEW · คำนวณใหม่ก่อนแสดงแบบเสนอเหล็ก' : 'ไม่มีชุดเหล็กที่ Engine ตรวจได้'}</text>`;
+      return `<svg viewBox="0 0 ${viewWidth.toFixed(1)} 640" role="img" aria-label="Section A-A หูช้าง ${escapeHtml(s.memberId)} ผนังสูง ${format(wallHeightM, 2)} เมตร ความกว้างจริง b ${format(s.widthMm)} มิลลิเมตร${tributaryMm === null ? '' : ` ช่วงผนังตัวแทน Btrib ${format(tributaryMm)} มิลลิเมตร`} พร้อม Detail เหล็ก สถานะ ${verdict}">
+        <defs>
+          <marker id="${loadArrow}" markerWidth="10" markerHeight="10" refX="6" refY="4" orient="auto"><path d="M0 0 8 4 0 8Z" fill="#dc2626"/></marker>
+          <marker id="${mainNoteArrow}" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 9 4 0 8Z" fill="#1d4ed8"/></marker>
+          <marker id="${tieNoteArrow}" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 9 4 0 8Z" fill="#047857"/></marker>
+          <pattern id="masonry-${suffix}" width="34" height="20" patternUnits="userSpaceOnUse"><rect width="34" height="20" fill="#ede4d2"/><path d="M0 0H34M0 20H34M17 0V20" stroke="#a89472" stroke-width="1"/></pattern>
+        </defs>
+        <rect data-section-member="support-beam" data-top-y="${yTop}" x="72" y="${yTop}" width="158" height="305" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+        <path data-section-member="corbel" data-top-y="${yTop}" data-tip-x="${xTip.toFixed(1)}" d="M${xFace} ${yTop}H${xTip.toFixed(1)}V${yTip.toFixed(1)}L${xFace} ${yBase}Z" fill="#e8edf2" stroke="#334155" stroke-width="2"/>
+        <rect data-section-member="masonry" data-base-y="${yTop}" data-outer-x="${wallOuter.toFixed(1)}" x="${wallLeft.toFixed(1)}" y="${wallTop}" width="${wallWidth.toFixed(1)}" height="${yTop - wallTop}" fill="url(#masonry-${suffix})" stroke="#665a46" stroke-width="1.5"/>
+        <path d="M${wallLeft.toFixed(1)} ${breakY - 9}L${(wallLeft + wallWidth * .32).toFixed(1)} ${breakY + 6}L${(wallLeft + wallWidth * .66).toFixed(1)} ${breakY - 6}L${(wallLeft + wallWidth).toFixed(1)} ${breakY + 9}" fill="none" stroke="#f8fafc" stroke-width="10"/><path d="M${wallLeft.toFixed(1)} ${breakY - 9}L${(wallLeft + wallWidth * .32).toFixed(1)} ${breakY + 6}L${(wallLeft + wallWidth * .66).toFixed(1)} ${breakY - 6}L${(wallLeft + wallWidth).toFixed(1)} ${breakY + 9}" fill="none" stroke="#665a46" stroke-width="1.5"/>
+        <path d="M${wallLeft.toFixed(1)} ${yTop}H${wallOuter.toFixed(1)}" stroke="#665a46" stroke-width="4"/>
+        <path d="M${wallCenter.toFixed(1)} 10V78" stroke="#dc2626" stroke-width="5" marker-end="url(#${loadArrow})"/><path data-load-line="Vu-center" d="M${wallCenter.toFixed(1)} 82V${yTop}" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="5 4" opacity=".5"/><text x="${(wallCenter + 15).toFixed(1)}" y="24" fill="#991b1b" font-size="14" font-weight="700">Vᵤ ${loadText} kgf</text>
+        <path data-load="Nu" data-origin="wall-tip" d="M${wallOuter.toFixed(1)} 142H${(wallOuter + 84).toFixed(1)}" stroke="#dc2626" stroke-width="5" marker-end="url(#${loadArrow})"/><text x="${(wallOuter + 18).toFixed(1)}" y="130" fill="#991b1b" font-size="14" font-weight="700">Nᵤ ${horizontalLoadText} kgf</text>
+        ${mainDetail}
+        ${supportAnchorCallout}
+        <g fill="none" stroke="#10a06b" stroke-width="4">${horizontalTies}</g>
+        <g fill="none" stroke="#047857" stroke-width="1.2">${ahBracket}</g>
+        ${planInset}
+        <g data-dimension-extensions="true" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3" fill="none">
+          <path data-for-dimension="L" d="M${xFace} ${yBase}V${lengthDimensionY}M${xTip.toFixed(1)} ${yTip.toFixed(1)}V${lengthDimensionY}"/>
+          <path data-for-dimension="h" d="M${hDimensionX} ${yTop}H72M${hDimensionX} ${yBase}H72"/>
+          <path data-for-dimension="h2" d="M${xTip.toFixed(1)} ${yTop}H${tipDimensionX.toFixed(1)}M${xTip.toFixed(1)} ${yTip.toFixed(1)}H${tipDimensionX.toFixed(1)}"/>
+          <path data-for-dimension="Hwall" d="M${wallOuter.toFixed(1)} ${wallTop}H${wallDimensionX.toFixed(1)}M${wallOuter.toFixed(1)} ${yTop}H${wallDimensionX.toFixed(1)}"/>
+          <path data-for-dimension="av" d="M${xFace} ${yTop}V${avDimensionY}M${wallCenter.toFixed(1)} ${yTop}V${avDimensionY}"/>
+          <path data-for-dimension="c-anchor" d="M${anchorZoneStart.toFixed(1)} ${yTop}V${anchorDimensionY}M${xTip.toFixed(1)} ${yTop}V${anchorDimensionY}"/>
+        </g>
+        <g stroke="#64748b" stroke-width="1.3" fill="none">
+          <path d="M230 ${lengthDimensionY}H${xTip.toFixed(1)}M230 496V514M${xTip.toFixed(1)} 496V514"/><path d="M230 501l10 4-10 4M${xTip.toFixed(1)} 501l-10 4 10 4"/>
+          <path d="M${hDimensionX} ${yTop}V${yBase}M${hDimensionX - 9} ${yTop}H${hDimensionX + 9}M${hDimensionX - 9} ${yBase}H${hDimensionX + 9}"/><path d="M${hDimensionX - 4} ${yTop}l4 10 4-10M${hDimensionX - 4} ${yBase}l4-10 4 10"/>
+          <path d="M${tipDimensionX.toFixed(1)} ${yTop}V${yTip.toFixed(1)}M${(tipDimensionX - 9).toFixed(1)} ${yTop}H${(tipDimensionX + 9).toFixed(1)}M${(tipDimensionX - 9).toFixed(1)} ${yTip.toFixed(1)}H${(tipDimensionX + 9).toFixed(1)}"/><path d="M${(tipDimensionX - 4).toFixed(1)} ${yTop + 9}L${tipDimensionX.toFixed(1)} ${yTop}L${(tipDimensionX + 4).toFixed(1)} ${yTop + 9}M${(tipDimensionX - 4).toFixed(1)} ${(yTip - 9).toFixed(1)}L${tipDimensionX.toFixed(1)} ${yTip.toFixed(1)}L${(tipDimensionX + 4).toFixed(1)} ${(yTip - 9).toFixed(1)}"/>
+          <path d="M${wallDimensionX.toFixed(1)} ${wallTop}V${yTop}M${(wallDimensionX - 9).toFixed(1)} ${wallTop}H${(wallDimensionX + 9).toFixed(1)}M${(wallDimensionX - 9).toFixed(1)} ${yTop}H${(wallDimensionX + 9).toFixed(1)}"/><path d="M${(wallDimensionX - 4).toFixed(1)} ${wallTop + 9}L${wallDimensionX.toFixed(1)} ${wallTop}L${(wallDimensionX + 4).toFixed(1)} ${wallTop + 9}M${(wallDimensionX - 4).toFixed(1)} ${yTop - 9}L${wallDimensionX.toFixed(1)} ${yTop}L${(wallDimensionX + 4).toFixed(1)} ${yTop - 9}"/>
+          <path data-dimension="av" d="M230 ${avDimensionY}H${wallCenter.toFixed(1)}M230 210V226M${wallCenter.toFixed(1)} 210V226"/>
+          <path data-dimension="c-anchor-zone" d="M${anchorZoneStart.toFixed(1)} ${anchorDimensionY}H${xTip.toFixed(1)}M${anchorZoneStart.toFixed(1)} 181V195M${xTip.toFixed(1)} 181V195"/>
+          ${rebarLeaders}
+        </g>
+        <g fill="#475569" font-family="Sarabun,Segoe UI,sans-serif" font-size="13">
+          <text x="${((xFace + xTip) / 2).toFixed(1)}" y="522" text-anchor="middle">L = ${format(s.lengthMm)} mm</text><text x="${hDimensionX - 19}" y="${((yTop + yBase) / 2).toFixed(1)}" text-anchor="middle" transform="rotate(-90 ${hDimensionX - 19} ${((yTop + yBase) / 2).toFixed(1)})">h = ${format(s.heightMm)} mm</text>
+          <text x="${(tipDimensionX + 23).toFixed(1)}" y="${((yTop + yTip) / 2).toFixed(1)}" text-anchor="middle" transform="rotate(-90 ${(tipDimensionX + 23).toFixed(1)} ${((yTop + yTip) / 2).toFixed(1)})">h₂ = ${format(s.tipHeightMm)} mm</text>
+          <text x="${(wallDimensionX + 23).toFixed(1)}" y="${wallMidY.toFixed(1)}" text-anchor="middle" transform="rotate(-90 ${(wallDimensionX + 23).toFixed(1)} ${wallMidY.toFixed(1)})">Hwall = ${format(wallHeightM, 2)} m · แสดงย่อ</text>
+          <text x="${((xFace + wallCenter) / 2).toFixed(1)}" y="${avDimensionY - 11}" text-anchor="middle" stroke="#f8fafc" stroke-width="4" paint-order="stroke">aᵥ = ${format(s.avMm)} mm</text><text x="${((anchorZoneStart + xTip) / 2).toFixed(1)}" y="${anchorDimensionY - 11}" text-anchor="middle" stroke="#f8fafc" stroke-width="4" paint-order="stroke">โซน c_anchor = ${format(s.noseSetbackMm)} mm</text>
+          <text x="92" y="${yTop + 72}" font-weight="700">คาน ค.ส.ล.</text><text x="${wallCenter.toFixed(1)}" y="94" text-anchor="middle" font-weight="700">ผนังก่อชิดปลาย · t = ${format(s.wallThicknessMm)} mm</text>
+          ${rebarCallouts}
+          <text x="${xFace}" y="600" font-weight="700">มิตินอกระนาบ: b จริง = ${format(s.widthMm)} mm${tributaryMm === null ? '' : ` = Btrib ช่วงตัวแทน ${format(tributaryMm)} mm`} · cover ${format(s.coverMm)} mm</text>
+          <text x="75" y="626" font-weight="700">${escapeHtml(s.memberId)} · SECTION A-A · ${verdict}</text>
+        </g>
+      </svg>`;
+    }
+
+    function liveSectionModel() {
+      const loadCase = window.resolveCorbelLoadCase();
+      const vuKg = loadCase.ok ? loadCase.vuKg : NaN;
+      const input = inputFromPage(vuKg, null, loadCase.nucKg || 0);
+      const last = currentResult ? viewModel(currentResult) : null;
+      return {
+        ...input,
+        verdict: 'preview',
+        vuKg,
+        avMm: input.lengthMm - input.wallThicknessMm / 2,
+        wallHeightM: numberAt('wallHeight'),
+        loadCase,
+        mainBar: last?.mainBar || 'รอคำนวณ',
+        hangerBar: last?.hangerBar || 'รอคำนวณ',
+        provided: currentResult?.provided || {},
+      };
+    }
+
+    function renderLiveSectionPreview() {
+      const s = liveSectionModel();
+      const geometryRules = [
+        [s.widthMm, 150, 2000, 'ความกว้างจริง b ต้องอยู่ระหว่าง 150–2,000 mm'],
+        [s.heightMm, 250, 2500, 'ความสูง h ต้องอยู่ระหว่าง 250–2,500 mm'],
+        [s.tipHeightMm, 100, s.heightMm, 'ความสูงปลาย h₂ ต้องอยู่ระหว่าง 100 mm และไม่เกิน h'],
+        [s.lengthMm, 150, 2000, 'ระยะยื่น L ต้องอยู่ระหว่าง 150–2,000 mm'],
+        [s.depthMm, 150, s.heightMm - 20, 'ความลึก d ต้องน้อยกว่า h และไม่น้อยกว่า 150 mm'],
+        [s.wallThicknessMm, 50, s.lengthMm, 'ความหนาผนังต้องอยู่ภายในช่วงยื่นของหูช้าง'],
+        [s.noseSetbackMm, 0, s.lengthMm, 'โซนยึดเหล็กที่ปลายต้องไม่เกินระยะยื่น'],
+        [s.coverMm, 25, Math.min(s.widthMm, s.tipHeightMm) / 3, 'ระยะหุ้มต้องอยู่ในช่วงที่จัดเหล็กได้'],
+      ];
+      const failedGeometryRule = geometryRules.find(([value, min, max]) => !Number.isFinite(value) || value < min || value > max);
+      const geometryError = failedGeometryRule ? { message: failedGeometryRule[3] } : null;
+      const wallHeightInvalid = !Number.isFinite(s.wallHeightM) || s.wallHeightM < 0.3 || s.wallHeightM > 6;
+      const minimumLengthMm = Math.max(150, s.wallThicknessMm);
+      const wallCannotFit = Number.isFinite(minimumLengthMm) && Number.isFinite(s.lengthMm) && s.lengthMm < minimumLengthMm;
+      const vuText = Number.isFinite(s.vuKg) ? `${format(s.vuKg)} kgf` : '—';
+      const avText = Number.isFinite(s.avMm) ? `${format(s.avMm)} mm` : '—';
+
+      $('sectionVu').textContent = vuText;
+      $('sectionMu').textContent = 'ต้องคำนวณใหม่';
+      $('sectionWallHeight').textContent = Number.isFinite(s.wallHeightM) && Number.isFinite(s.widthMm) ? `${format(s.wallHeightM, 2)} m / ${format(s.widthMm)} mm` : '—';
+      $('sectionAv').textContent = avText;
+      $('sectionDepth').textContent = Number.isFinite(s.depthMm) ? `${format(s.depthMm)} mm` : '—';
+
+      if (geometryError || wallCannotFit || wallHeightInvalid) {
+        const title = wallHeightInvalid ? 'ความสูงผนังอยู่นอกช่วงโมเดล' : (wallCannotFit ? 'ระยะยื่นสั้นเกินกว่าจะวางผนัง' : 'รูปทรงยังไม่พร้อมวาด Section');
+        const detail = wallHeightInvalid
+          ? 'กรอกความสูงผนังระหว่าง 0.30 ถึง 6.00 m'
+          : wallCannotFit
+          ? `ต้องมี L อย่างน้อย t = ${format(minimumLengthMm)} mm เพื่อให้ผนังที่ชิดปลายอยู่บนหูช้างทั้งแนว`
+          : geometryError.message;
+        $('sectionDrawing').className = 'section-drawing invalid';
+        $('sectionDrawing').innerHTML = `<div class="section-invalid" role="alert"><small>SECTION PREVIEW ถูกหยุด</small><strong>${escapeHtml(title)}</strong><p>${escapeHtml(detail)} แก้ค่ารูปทรงแล้วกดคำนวณใหม่ ระบบจะไม่ใช้ Section และผล PASS เดิมแทนข้อมูลชุดนี้</p><div class="section-invalid-values">b จริง = ${Number.isFinite(s.widthMm) ? format(s.widthMm) : '—'} mm · L = ${Number.isFinite(s.lengthMm) ? format(s.lengthMm) : '—'} mm · c_anchor = ${Number.isFinite(s.noseSetbackMm) ? format(s.noseSetbackMm) : '—'} mm · t = ${Number.isFinite(s.wallThicknessMm) ? format(s.wallThicknessMm) : '—'} mm · Hwall = ${Number.isFinite(s.wallHeightM) ? format(s.wallHeightM, 2) : '—'} m</div></div>`;
+        $('sectionVerdictBadge').textContent = 'รูปทรงไม่ถูกต้อง';
+        $('sectionVerdictBadge').className = 'badge fail';
+        $('sectionSteelNote').textContent = 'Section ชุดเดิมถูกซ่อน เพราะไม่ตรงกับรูปทรงที่กำลังกรอก';
+        $('sectionScopeNote').textContent = 'แก้รูปทรงก่อนคำนวณ';
+        return;
+      }
+
+      $('sectionDrawing').className = 'section-drawing preview';
+      $('sectionDrawing').innerHTML = sectionSvg(s, 'screen-preview');
+      $('sectionVerdictBadge').textContent = 'PREVIEW · ต้องคำนวณใหม่';
+      $('sectionVerdictBadge').className = 'badge preview';
+      $('sectionSteelNote').textContent = `มิตินอกระนาบ b จริง = ${format(s.widthMm)} mm · ซ่อน Detail เหล็กเดิมจนกว่าจะคำนวณใหม่`;
+      $('sectionScopeNote').textContent = 'PREVIEW · NOT A RESULT';
+    }
+
+    function setState(id, verdict, text = corbelVerdictLabel(verdict)) {
+      const node = $(id);
+      if (!node) return;
+      node.textContent = text;
+      node.className = `pending ${verdict}`;
+    }
+
+    function loadBasisLabel(loadCase) {
+      return loadCase.mode === 'wall'
+        ? `${loadCase.input.materialLabel}${loadCase.provenance === 'custom' ? ' (ค่าผู้ใช้)' : (loadCase.overridden ? ' (แก้ preset)' : '')} · N ${loadCase.layout?.supportCount || 1} · Btrib ${format(loadCase.input.tributaryWidthMm, 1)} mm · A ${format(loadCase.areaM2, 3)} m² · γG ${format(loadCase.input.deadLoadFactor, 2)}`
+        : `Analysis · ${loadCase.analysisReference} · ${format(loadCase.directRaw, loadCase.directUnit === 'ton' ? 3 : 1)} ${loadCase.directUnitLabel}`;
+    }
+
+    function loadReportRows(loadCase) {
+      if (loadCase.mode === 'direct') {
+        return `<tr><td>วิธีกำหนดแรง</td><td>MODE</td><td>กรอก Vᵤ / Nᵤ จาก Analysis หลังรวมตัวคูณแล้ว</td></tr><tr><td>มาตรฐานและชุดรวมแรง</td><td>BASIS / COMBO</td><td>${escapeHtml(loadCase.analysisBasis)}<br><small>${escapeHtml(loadCase.analysisCombination)}</small></td></tr><tr><td>Load case / แบบวิเคราะห์อ้างอิง</td><td>REF</td><td>${escapeHtml(loadCase.analysisReference)}</td></tr><tr><td>แรงดิ่งที่กรอกและการแปลงหน่วย</td><td>Vᵤ,input</td><td>${format(loadCase.directRaw, loadCase.directUnit === 'ton' ? 3 : 1)} ${escapeHtml(loadCase.directUnitLabel)} = ${format(loadCase.vuKg, 2)} kgf</td></tr><tr><td>แรงแนวนอนที่กรอก</td><td>Nᵤ,input</td><td>${format(loadCase.directNuRaw, loadCase.directNuUnit === 'ton' ? 3 : 1)} ${escapeHtml(loadCase.directNuUnitLabel)} = ${format(loadCase.nucKg, 2)} kgf<br><small>Engine ใช้ค่ามากกว่าระหว่างค่านี้กับ 0.2Vᵤ</small></td></tr>`;
+      }
+      const load = loadCase.input;
+      const overrideLabel = loadCase.provenance === 'custom' ? 'ค่าที่ผู้ใช้กำหนด (ไม่ใช่ preset)' : (loadCase.overridden ? `ปรับจาก preset (${loadCase.overrideFields.map((field) => ({ wallWeightKgM2: 'qwall', finishWeightKgM2: 'qfinish', wallThicknessMm: 'twall' })[field] || field).join(', ')})` : 'ตรงตาม preset');
+      const layout = loadCase.layout;
+      const compactSeries = (values, digits = 1) => values.length <= 12 ? values.map((value) => format(value, digits)).join(' / ') : `${values.slice(0, 3).map((value) => format(value, digits)).join(' / ')} / … / ${values.slice(-3).map((value) => format(value, digits)).join(' / ')}`;
+      const layoutMethodLabel = layout?.input.layoutMethod === 'max-spacing' ? `กำหนด Bmax = ${format(layout.input.requestedMaxSpacingMm, 1)} mm → N = ceil(Lwall/Bmax)` : `กำหนดจำนวนช่วง N = ${layout?.input.requestedSupportCount || 1}`;
+      const topologyStatus = layout?.supportCount === 1 ? 'N = 1 · ไม่ต้องยืนยันหลายช่วง' : `ยืนยันต่อเนื่องเต็มแนว ${layout?.distributionConfirmed ? 'YES' : 'NO'}`;
+      const layoutRows = layout ? `<tr><td>หูช้างต่อเนื่องและจำนวนช่วง</td><td>Lwall / N</td><td>${format(layout.input.wallRunMm, 1)} mm / ${layout.supportCount} ช่วง<br><small>${layoutMethodLabel} · ${topologyStatus}</small></td></tr><tr><td>ความกว้างช่วงออกแบบ</td><td>b = Btrib = Lwall/N</td><td>${format(layout.requiredPhysicalWidthMm, 3)} mm<br><small>ศูนย์กลางช่วง: ${compactSeries(layout.supportPositionsMm)} mm · ΣBtrib = ${format(layout.totalTributaryWidthMm, 3)} mm · balance ${format(layout.tributaryBalanceErrorMm, 6)} mm</small></td></tr><tr><td>แรงออกแบบแต่ละช่วง</td><td>Vu,i</td><td>${compactSeries(layout.supportFactoredLoadsKg, 2)} kgf<br><small>ΣD = ${format(layout.distributedServiceTotalKg, 3)} kgf · balance ${format(layout.serviceLoadBalanceErrorKg, 6)} kgf</small></td></tr>` : '';
+      return `<tr><td>วิธีกำหนดแรง</td><td>MODE</td><td>หูช้างคอนกรีตต่อเนื่อง แบ่งเป็นช่วงออกแบบเท่า ๆ กัน</td></tr><tr><td>ฐาน Load combination เริ่มต้น</td><td>LOAD BASIS</td><td>${escapeHtml(loadCase.loadBasis.code)} · ${escapeHtml(loadCase.loadBasis.clause)}<br><small>${escapeHtml(loadCase.loadBasis.combination)} · ต้องยืนยัน project envelope</small></td></tr><tr><td>ชนิดผนัง</td><td>WALL</td><td>${escapeHtml(load.materialLabel)}<br><small>${escapeHtml(loadCase.preset.basis)} · ${escapeHtml(loadCase.preset.finishBasis)}</small></td></tr><tr><td>Catalog / แหล่งค่าเริ่มต้น</td><td>SOURCE</td><td>${escapeHtml(loadCase.catalogVersion)} · ${escapeHtml(loadCase.preset.sourceLabel)}<br><small>${escapeHtml(overrideLabel)} · ต้องตรวจผลิตภัณฑ์และระบบผนังจริง</small></td></tr>${layoutRows}<tr><td>น้ำหนักผนังเทียบเท่า</td><td>qwall</td><td>${format(load.wallWeightKgM2, 1)} kgf/m²</td></tr><tr><td>ปูนก่อ/ฉาบ/ตกแต่งเพิ่ม</td><td>qfinish</td><td>${format(load.finishWeightKgM2, 1)} kgf/m²</td></tr><tr><td>พื้นที่ผนังต่อช่วง</td><td>A = Hwall × Btrib</td><td>${format(loadCase.areaM2, 3)} m²</td></tr><tr><td>น้ำหนักถาวรอื่นที่แนวผนัง</td><td>Dother</td><td>${format(load.otherPermanentKg, 1)} kgf/ช่วง<br><small>ต้องลงแนวเดียวกับผนังในช่วงออกแบบ</small></td></tr><tr><td>น้ำหนักใช้งานรวมต่อช่วง</td><td>D</td><td>${format(loadCase.serviceKg, 2)} kgf</td></tr><tr><td>ตัวคูณน้ำหนักถาวรที่ผู้ใช้ยืนยัน</td><td>γG</td><td>${format(load.deadLoadFactor, 2)}</td></tr><tr><td>แรงออกแบบต่อช่วง</td><td>Vᵤ</td><td>${format(loadCase.vuKg, 2)} kgf</td></tr>`;
+    }
+
+    function loadFormula(loadCase, s) {
+      const structural = `Nᵤ = max(0.2Vᵤ, Nᵤ input) = ${format(s.nucKg)} kgf<br>aᵥ = L - t/2 = ${format(s.avMm)} mm · ผนังก่อชิดปลาย<br>Mᵤ = Vᵤaᵥ + Nᵤ(h-d)<br><b>Mᵤ = ${format(s.muKgm)} kgf·m</b><br><br>aᵥ/d = ${format(s.ratio, 2)}`;
+      if (loadCase.mode === 'direct') {
+        return `BASIS = ${escapeHtml(loadCase.analysisBasis)}<br>COMBO = ${escapeHtml(loadCase.analysisCombination)}<br>REF = ${escapeHtml(loadCase.analysisReference)}<br>Vᵤ = ${format(loadCase.directRaw, loadCase.directUnit === 'ton' ? 3 : 1)} ${escapeHtml(loadCase.directUnitLabel)} = ${format(loadCase.vuKg, 2)} kgf<br>Nᵤ,input = ${format(loadCase.directNuRaw, loadCase.directNuUnit === 'ton' ? 3 : 1)} ${escapeHtml(loadCase.directNuUnitLabel)} = ${format(loadCase.nucKg, 2)} kgf<br>รับค่าหลังรวมตัวคูณแล้ว · ไม่คูณ γG ซ้ำ<br><br>${structural}`;
+      }
+      const load = loadCase.input;
+      const layout = loadCase.layout;
+      const distribution = layout ? `${layout.input.layoutMethod === 'max-spacing' ? `N = ceil(Lwall/Bmax) = ceil(${format(layout.input.wallRunMm, 1)}/${format(layout.input.requestedMaxSpacingMm, 1)}) = ${layout.supportCount}<br>` : ''}b = Btrib = Lwall/N = ${format(layout.input.wallRunMm, 1)}/${layout.supportCount} = ${format(layout.governingTributaryWidthMm, 3)} mm<br>หูช้างคอนกรีตต่อเนื่องเต็มแนว · ทุกช่วงเท่ากัน` : `Btrib = ${format(load.tributaryWidthMm, 3)} mm`;
+      return `LOAD BASIS = ${escapeHtml(loadCase.loadBasis.code)} · ${escapeHtml(loadCase.loadBasis.clause)}<br>Auto เป็น dead-only preliminary takeoff; ต้องยืนยัน project envelope<br>q ใช้แรงเทียบเท่า kgf/m² (1 kg/m² ≈ 1 kgf/m²)<br>${distribution}<br>A = Hwall × Btrib = ${format(load.wallHeightM, 2)} × ${format(load.tributaryWidthMm / 1000, 3)} = ${format(loadCase.areaM2, 3)} m²<br>Dwall = ${format(load.wallWeightKgM2, 1)} × ${format(loadCase.areaM2, 3)} = ${format(loadCase.wallServiceKg, 2)} kgf<br>Dfinish = ${format(load.finishWeightKgM2, 1)} × ${format(loadCase.areaM2, 3)} = ${format(loadCase.finishServiceKg, 2)} kgf<br>D = Dwall + Dfinish + Dother = ${format(loadCase.serviceKg, 2)} kgf<br><b>Vᵤ = γG × D = ${format(load.deadLoadFactor, 2)} × ${format(loadCase.serviceKg, 2)} = ${format(loadCase.vuKg, 2)} kgf</b><br><br>${structural}`;
+    }
+
+    function renderResult(result) {
+      const s = viewModel(result);
+      const verdict = corbelVerdictLabel(s.verdict);
+      const localVerdict = `LOCAL ${verdict}`;
+      const hasCheckedBars = s.checkedRebar && Boolean(result.provided.main && result.provided.ties);
+      const evidenceSuffix = s.verdict === 'fail' ? ' · CHECKED / REJECTED' : ' · เบื้องต้น';
+      const detailText = hasCheckedBars ? `${s.mainBar} / ${s.hangerBar}${evidenceSuffix}` : 'ไม่มีชุดเหล็กที่ Engine ตรวจได้';
+      const supportAnchorCheck = result.checks.find((check) => check.id === 'support-anchor');
+      const supportScreenMm = Number(supportAnchorCheck?.demand);
+      const isMonolithicSupport = result.input.surface === 'monolithic';
+      const supportAnchorText = Number.isFinite(supportScreenMm)
+        ? `${isMonolithicSupport ? 'วางเหล็กก่อนเท · หล่อพร้อมคาน' : 'รายละเอียดรอยต่อยังไม่ยืนยัน'} · hook 90° (schematic) · ค่า engine screening ${format(supportScreenMm)} mm`
+        : `${isMonolithicSupport ? 'วางเหล็กก่อนเท · หล่อพร้อมคาน' : 'รายละเอียดรอยต่อยังไม่ยืนยัน'} · ต้องตรวจ anchorage จากรายละเอียดจริง`;
+      currentResult = result;
+      window.__corbelDesignResult = result;
+      document.body.dataset.localVerdict = s.verdict;
+      document.body.dataset.constructionAuthorized = 'false';
+      document.body.dataset.corbelSnapshotId = s.snapshotId;
+      const governingTributaryMm = s.loadCase.mode === 'wall' ? s.loadCase.input.tributaryWidthMm : null;
+      $('modelStatus').textContent = s.constructionReadyCage ? `3D CAGE · ${s.mainBar} + ${s.hangerBar} · LOCAL PASS` : `3D LOAD PATH · ${localVerdict} · ซ่อน construction-ready cage`;
+      $('mainBar').value = hasCheckedBars ? `${s.mainBar}${evidenceSuffix}` : detailText;
+      $('hangerBar').value = hasCheckedBars ? `${s.hangerBar}${evidenceSuffix}` : detailText;
+      $('supportAnchorDetail').value = hasCheckedBars ? supportAnchorText : detailText;
+      $('supportAnchorNote').textContent = hasCheckedBars
+        ? `${supportAnchorText}; ไม่ใช่ ldh สำหรับก่อสร้าง และต้องยืนยันขนาดคาน, bend, tail, cover, confinement และ congestion${isMonolithicSupport ? ' · ไม่ใช่เหล็กเจาะเสียบภายหลัง' : ''}`
+        : 'ไม่มีชุดเหล็กที่ตรวจได้ จึงยังไม่สร้างรายละเอียดฝังเข้าคาน';
+      $('quickVu').textContent = `${format(s.vuKg)} kgf`;
+      $('quickLoadBasis').textContent = loadBasisLabel(s.loadCase);
+      $('quickMu').textContent = `${format(s.muKgm)} kgf·m`;
+      $('quickRatio').textContent = format(s.ratio, 2);
+      $('quickSteel').textContent = detailText;
+      $('quickVerdict').textContent = localVerdict;
+      $('quickVerdictRow').className = `quick-result verdict ${s.verdict}`;
+      $('vuOut').textContent = `${format(s.vuKg)} kgf`;
+      $('muOut').textContent = `${format(s.muKgm)} kgf·m`;
+      $('scopeOut').textContent = `${format(s.ratio, 2)} · ${localVerdict}`;
+      $('wallLineOut').textContent = `${format(s.vuKg)} kgf`;
+      $('finishLineOut').textContent = `${format(s.avMm)} mm`;
+      $('deadOut').textContent = `${format(s.muKgm)} kgf·m`;
+      $('comboOut').textContent = format(s.ratio, 2);
+      $('sectionVu').textContent = `${format(s.vuKg)} kgf`;
+      $('sectionMu').textContent = `${format(s.muKgm)} kgf·m`;
+      $('sectionWallHeight').textContent = `${format(s.wallHeightM, 2)} m / ${format(s.widthMm)} / ${governingTributaryMm === null ? 'Analysis' : format(governingTributaryMm, 1)} mm`;
+      $('sectionAv').textContent = `${format(s.avMm)} mm`;
+      $('sectionDepth').textContent = `${format(s.depthMm)} mm`;
+      $('sectionSteelNote').textContent = hasCheckedBars ? `b ${format(s.widthMm)} mm${governingTributaryMm === null ? '' : ` · Btrib ${format(governingTributaryMm, 1)} mm`} · Aₛ ${s.mainBar} · Aₕ ${s.hangerBar} · ${supportAnchorText} · cover ${format(s.coverMm)} mm${s.verdict === 'fail' ? ' · CHECKED / REJECTED' : ''}` : detailText;
+      $('sectionScopeNote').textContent = localVerdict;
+      $('sectionDrawing').className = 'section-drawing';
+      $('sectionDrawing').innerHTML = sectionSvg(s, 'screen-final');
+      $('reportSectionDrawing').innerHTML = sectionSvg(s, 'report-final');
+      for (const id of ['snapshotBadge', 'sectionVerdictBadge']) {
+        $(id).textContent = localVerdict;
+        $(id).className = `badge ${s.verdict}`;
+      }
+      ['loadCheckState', 'demandCheckState', 'sectionCheckState'].forEach((id) => setState(id, 'pass', 'พร้อม'));
+      setState('capacityCheckState', s.verdict);
+      setState('rebarCheckState', s.verdict);
+      setState('verdictCheckState', s.verdict);
+      $('reportMember').textContent = s.memberId;
+      $('reportTimestamp').textContent = new Date(s.createdAt).toLocaleString('th-TH', { dateStyle: 'medium', timeStyle: 'short' });
+      $('reportSnapshotId').textContent = s.snapshotId;
+      $('reportInputRows').innerHTML = `${loadReportRows(s.loadCase)}<tr><td>ความกว้างจริงของช่วงหูช้าง</td><td>b</td><td>${format(s.widthMm)} mm<br><small>${s.loadCase.mode === 'wall' ? 'Auto จากช่วงต่อเนื่อง: b = Btrib = Lwall/N' : 'กรอกจาก geometry ของหูช้าง; ไม่เปลี่ยน Vᵤ จาก Analysis'}</small></td></tr><tr><td>ขนาดหูช้าง</td><td>b × h × h₂ × L</td><td>${format(s.widthMm)} × ${format(s.heightMm)} × ${format(s.tipHeightMm)} × ${format(s.lengthMm)} mm</td></tr><tr><td>ผนังก่อชิดปลาย / โซนยึดเหล็ก</td><td>t × Hwall / c_anchor</td><td>${format(s.wallThicknessMm)} mm × ${format(s.wallHeightM, 2)} m / ${format(s.noseSetbackMm)} mm<br><small>c_anchor เป็นโซนรายละเอียดเหล็กภายในคอนกรีต ไม่ใช่ระยะถอยผนัง</small></td></tr><tr><td>การฝังเหล็กหลักเข้าคาน</td><td>SUPPORT ANCHOR</td><td>${escapeHtml(supportAnchorText)}<br><small>SCHEMATIC / SCREENING ONLY · ไม่ใช่ ldh สำหรับก่อสร้าง; ต้องยืนยันจากขนาดคานและ confinement จริง</small></td></tr><tr><td>ระยะแรง / ความลึกประสิทธิผล</td><td>aᵥ / d</td><td>${format(s.avMm)} / ${format(s.depthMm)} mm</td></tr><tr><td>กำลังวัสดุ</td><td>f′c / fy</td><td>${format(s.fcMpa)} / ${format(s.fyMpa)} MPa</td></tr><tr><td>ผิวรอยต่อ</td><td>μ</td><td>${format(result.provided.mu, 2)}</td></tr>`;
+      $('reportFormula').innerHTML = loadFormula(s.loadCase, s);
+      const tieAreaFormula = hasCheckedBars ? `${result.provided.ties.count} × 2 × A(RB${result.provided.ties.diameterMm}) = ${format(result.provided.ties.providedMm2, 1)} mm² ≥ ${format(result.required.ahMm2, 1)} mm²` : detailText;
+      const mainDetailResult = hasCheckedBars ? `${escapeHtml(s.mainBar)} (${format(result.provided.main.providedMm2, 1)} ≥ ${format(result.required.asMm2, 1)} mm²)${s.verdict === 'fail' ? '<br><small>CHECKED / REJECTED · ไม่ใช่เหล็กพร้อมก่อสร้าง</small>' : ''}` : detailText;
+      const tieDetailResult = hasCheckedBars ? `${escapeHtml(s.hangerBar)} · ${escapeHtml(tieAreaFormula)}<br><small>${s.verdict === 'fail' ? 'CHECKED / REJECTED · NOT FOR CONSTRUCTION' : 'ตรวจ spacing/legs/detail จริงก่อนก่อสร้าง'}</small>` : detailText;
+      $('reportResultRows').innerHTML = `<tr><th>ผลตรวจหูช้างเฉพาะที่</th><td class="state-${s.verdict}">${localVerdict}</td></tr><tr><th>เหล็กหลัก Aₛ</th><td>${mainDetailResult}</td></tr><tr><th>ฝังเหล็ก Aₛ เข้าคาน</th><td>${escapeHtml(supportAnchorText)}<br><small>SCHEMATIC / SCREENING ONLY · NOT VERIFIED · ไม่ใช่การรับรอง anchorage จริง</small></td></tr><tr><th>ปลอกปิดแนวนอน Aₕ</th><td>${tieDetailResult}</td></tr><tr><th>φVₙ (local cross-check)</th><td>${format(result.provided.phiVnN / 9.80665)} kgf</td></tr><tr><th>φMₙ (local cross-check)</th><td>${format(result.provided.phiMnNmm / 9.80665 / 1000)} kgf·m</td></tr><tr><th>Utilization สูงสุด</th><td>${format(result.utilization, 3)}</td></tr>`;
+      const checkUnit = (id) => id === 'flexure' ? 'N·mm' : ['primary-steel','closed-ties'].includes(id) ? 'mm²' : ['tip-depth','nose-anchor','support-anchor'].includes(id) ? 'mm' : ['scope-avd','scope-nv'].includes(id) ? 'ratio' : 'N';
+      $('reportCheckRows').innerHTML = result.checks.map((check) => `<tr><td>${escapeHtml(check.label)}<br><small>Demand ${format(check.demand, 3)} / Capacity ${format(check.capacity, 3)} ${checkUnit(check.id)}${check.note ? ` · ${escapeHtml(check.note)}` : ''}</small></td><td>${escapeHtml(check.clause)}</td><td class="num">${format(check.utilization, 3)}</td><td class="state-${check.status}">${check.status.toUpperCase()}</td></tr>`).join('');
+      const banner = $('reportVerdictBanner');
+      banner.className = `report-warning ${s.verdict}`;
+      banner.innerHTML = `<strong>BETA · NOT FOR CONSTRUCTION · ${localVerdict}:</strong> ${s.verdict === 'pass' ? 'ผ่านรายการตรวจเฉพาะหูช้างสำหรับการทบทวนเบื้องต้น' : `ไม่ผ่าน ${result.checks.filter((check) => check.status === 'fail').length} รายการ · เปิดดูหลักฐานได้แต่ห้ามใช้เป็นแบบก่อสร้าง`}`;
+      const revision = s.revisionPlan;
+      const governing = revision.finding || [...result.checks].sort((left, right) => Number(right.utilization || 0) - Number(left.utilization || 0))[0];
+      $('reviewVerdictBadge').textContent = localVerdict;
+      $('reviewVerdictBadge').className = `badge ${s.verdict}`;
+      $('reviewReadinessText').textContent = `${s.schemaVersion || result.schemaVersion} · พร้อมอ่าน Section, 3D, trace และ A4 จากผล Run ชุดเดียว`;
+      $('reviewSnapshotId').textContent = s.snapshotId;
+      $('reviewExactText').textContent = governing ? `${governing.label} · Demand ${format(governing.demand, 3)} / Capacity ${format(governing.capacity, 3)} · ${governing.clause}` : 'ไม่มีรายการ check';
+      $('reviewGoverningResult').textContent = governing ? `${String(governing.status).toUpperCase()} · Util. ${format(governing.utilization, 3)}` : '—';
+      $('recoveryCard').hidden = !revision.show;
+      if (revision.show) {
+        $('recoveryText').textContent = `${revision.finding.label}: ${revision.label}`;
+        $('recoveryBtn').dataset.target = revision.selector;
+        $('recoveryBtn').textContent = `กลับไป${revision.label}`;
+      }
+      ['reviewBtn', 'quickReportBtn', 'reportBtn', 'sectionBtn', 'reviewLoadPathBtn', 'reviewSectionBtn', 'review3dBtn', 'reviewA4Btn'].forEach((id) => { $(id).disabled = false; });
+      document.querySelector('[data-workview="section"]').disabled = false;
+      $('quickStatus').hidden = false;
+      $('quickStatus').className = `quick-status ${s.verdict}`;
+      $('quickStatus').textContent = `${localVerdict} · Mᵤ ${format(s.muKgm)} kgf·m · แสดง Section และ Aₛ/Aₕ จาก ${s.snapshotId}`;
+      window.rebuildCorbel?.();
+      window.setCorbelWorkbenchStep?.(3);
+      window.setCorbelWorkView?.('section');
+      $('quickStatus').focus({ preventScroll: true });
+      if (innerWidth <= 820) document.querySelector('.center').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    }
+
+    function clearReportEvidence() {
+      $('reportShell').hidden = true;
+      document.body.style.overflow = '';
+      document.querySelectorAll('.topbar,.workflow,.workspace').forEach((node) => { node.inert = false; });
+      $('reportTimestamp').textContent = '—';
+      $('reportSnapshotId').textContent = 'SNAPSHOT —';
+      $('reportVerdictBanner').className = 'report-warning';
+      $('reportVerdictBanner').innerHTML = '<strong>LOCKED:</strong> ต้อง Run Analysis เพื่อสร้าง A4 จาก snapshot ปัจจุบัน';
+      ['reportInputRows', 'reportResultRows', 'reportCheckRows', 'reportSectionDrawing'].forEach((id) => { $(id).innerHTML = ''; });
+      $('reportFormula').textContent = '—';
+    }
+
+    function clearCalculatedEvidence(state = 'idle') {
+      currentResult = null;
+      window.__corbelDesignResult = null;
+      document.body.dataset.localVerdict = state;
+      document.body.dataset.constructionAuthorized = 'false';
+      delete document.body.dataset.corbelSnapshotId;
+      clearReportEvidence();
+      $('mainBar').value = state === 'running' ? 'กำลังคำนวณ' : 'ไม่มีผล Run ที่อ่านได้';
+      $('hangerBar').value = state === 'running' ? 'กำลังคำนวณ' : 'ไม่มีผล Run ที่อ่านได้';
+      $('supportAnchorDetail').value = state === 'running' ? 'กำลังคำนวณจาก snapshot' : 'ไม่มีผล Run ที่อ่านได้';
+      $('supportAnchorNote').textContent = 'เหล็ก Aₛ ต้องต่อเนื่องเข้าเนื้อคาน ไม่ใช่เหล็กเจาะเสียบ; ต้อง Run ใหม่ก่อนแสดงรายละเอียดจาก snapshot';
+      ['quickVu', 'quickLoadBasis', 'quickMu', 'quickRatio', 'quickSteel', 'vuOut', 'muOut', 'scopeOut', 'wallLineOut', 'finishLineOut', 'deadOut', 'comboOut'].forEach((id) => { $(id).textContent = '—'; });
+      $('quickVerdict').textContent = state === 'running' ? 'กำลังคำนวณ' : 'คำนวณไม่สำเร็จ';
+      $('quickVerdictRow').className = 'quick-result verdict';
+      $('snapshotBadge').textContent = state === 'running' ? 'RUNNING' : 'LOCKED';
+      $('snapshotBadge').className = 'badge';
+      $('sectionVerdictBadge').textContent = state === 'running' ? 'RUNNING' : 'LOCKED';
+      $('sectionVerdictBadge').className = 'badge';
+      $('reviewVerdictBadge').textContent = state === 'running' ? 'RUNNING' : 'LOCKED';
+      $('reviewVerdictBadge').className = 'badge';
+      $('reviewReadinessText').textContent = state === 'running' ? 'กำลังสร้าง snapshot ใหม่ หลักฐานเดิมถูกปิดแล้ว' : 'การคำนวณไม่สำเร็จ ไม่มีหลักฐานที่อ่านได้';
+      $('reviewSnapshotId').textContent = '—';
+      $('reviewExactText').textContent = 'ไม่มี exact status ที่อ่านได้';
+      $('reviewGoverningResult').textContent = '—';
+      $('recoveryCard').hidden = true;
+      ['loadCheckState', 'demandCheckState', 'sectionCheckState', 'capacityCheckState', 'rebarCheckState', 'verdictCheckState'].forEach((id) => setState(id, '', state === 'running' ? 'กำลังคำนวณ' : 'คำนวณไม่สำเร็จ'));
+      ['reviewBtn', 'quickReportBtn', 'reportBtn', 'sectionBtn', 'reviewLoadPathBtn', 'reviewSectionBtn', 'review3dBtn', 'reviewA4Btn'].forEach((id) => { if ($(id)) $(id).disabled = true; });
+      document.querySelector('[data-workview="section"]').disabled = true;
+      renderLiveSectionPreview();
+      window.rebuildCorbel?.();
+      window.setCorbelWorkbenchStep?.(1);
+      window.setCorbelWorkView?.('3d');
+      $('modelStatus').textContent = state === 'running' ? 'RUNNING · ซ่อนหลักฐานและเหล็กชุดเดิมแล้ว' : 'ERROR · ไม่มี calculated evidence';
+    }
+    window.clearCorbelCalculatedEvidence = clearCalculatedEvidence;
+
+    function runProductionDesign() {
+      const button = $('autoDesignBtn');
+      if (button.disabled) return;
+      button.disabled = true;
+      button.setAttribute('aria-busy', 'true');
+      try {
+        window.beginCorbelRun?.();
+        currentResult = null;
+        window.__corbelDesignResult = null;
+        document.querySelectorAll('[aria-invalid="true"]').forEach((node) => node.removeAttribute('aria-invalid'));
+        ['reviewBtn', 'quickReportBtn', 'reportBtn', 'sectionBtn', 'reviewLoadPathBtn', 'reviewSectionBtn', 'review3dBtn', 'reviewA4Btn'].forEach((id) => { if ($(id)) $(id).disabled = true; });
+        document.querySelector('[data-workview="section"]').disabled = true;
+        $('quickStatus').hidden = false;
+        $('quickStatus').className = 'quick-status';
+        $('quickStatus').textContent = 'กำลัง Run Analysis และสร้าง corbel-result-v2…';
+        const loadCase = window.resolveCorbelLoadCase();
+        const vuKg = loadCase.vuKg;
+        if (!loadCase.ok) {
+          const error = loadCase.errors[0];
+          window.failCorbelRun?.();
+          $('quickStatus').hidden = false;
+          $('quickStatus').className = 'quick-status error';
+          $('quickStatus').textContent = error.message;
+          const loadField = { quickLoad: 'quickLoad', quickNu: 'quickNu', analysisBasis: 'analysisBasis', analysisCombination: 'analysisCombination', analysisReference: 'analysisReference', wallHeightM: 'wallHeight', wallRunMm: 'wallRun', layoutMethod: 'layoutMethod', supportCount: 'supportCount', maxSpacingMm: 'maxSpacing', distributionConfirmed: 'distributionConfirmed', tributaryWidthMm: 'wallRun', wallWeightKgM2: 'wallUnitWeight', finishWeightKgM2: 'finishUnitWeight', wallThicknessMm: 'wallThickness', otherPermanentKg: 'otherPermanentLoad', deadLoadFactor: 'deadLoadFactor' }[error.field];
+          $(loadField)?.setAttribute('aria-invalid', 'true');
+          $(loadField)?.focus();
+          return;
+        }
+        const wallHeightM = numberAt('wallHeight');
+        if (!Number.isFinite(wallHeightM) || wallHeightM < 0.3 || wallHeightM > 6) {
+          window.failCorbelRun?.();
+          $('quickStatus').hidden = false;
+          $('quickStatus').className = 'quick-status error';
+          $('quickStatus').textContent = 'กรุณากรอกความสูงผนังระหว่าง 0.30 ถึง 6.00 m';
+          $('wallHeight').setAttribute('aria-invalid', 'true');
+          $('wallHeight').focus();
+          return;
+        }
+        const wallModeWidthMm = loadCase.mode === 'wall' ? Number(loadCase.requiredPhysicalWidthMm) : null;
+        const result = calculateCorbel(inputFromPage(vuKg, wallModeWidthMm, loadCase.nucKg || 0));
+        if (result.errors.length) {
+          window.failCorbelRun?.();
+          $('quickStatus').hidden = false;
+          $('quickStatus').className = 'quick-status error';
+          $('quickStatus').textContent = result.errors[0].message;
+          const target = $(result.errors[0].field === 'vuKg' ? (loadCase.mode === 'direct' ? 'quickLoad' : 'wallUnitWeight') : ({ widthMm: 'wallWidth', heightMm: 'height', tipHeightMm: 'tipHeight', lengthMm: 'length', depthMm: 'depth', wallThicknessMm: 'wallThickness', noseSetbackMm: 'noseSetback', coverMm: 'cover', fcMpa: 'fc', fyMpa: 'fy', surface: 'surface' })[result.errors[0].field]);
+          if (target && target.closest('.step-panel')) { document.body.classList.add('advanced-mode'); window.setCorbelWorkbenchStep?.(1); }
+          target?.setAttribute('aria-invalid', 'true');
+          target?.focus();
+          return;
+        }
+        const immutableLoadCase = JSON.parse(JSON.stringify(loadCase));
+        const committed = window.commitCorbelResultSnapshot(result, { wallHeightM, loadCase: immutableLoadCase, createdAt: new Date().toISOString() });
+        renderResult(committed);
+      } catch (error) {
+        window.failCorbelRun?.();
+        $('quickStatus').hidden = false;
+        $('quickStatus').className = 'quick-status error';
+        $('quickStatus').textContent = 'Run Analysis ไม่สำเร็จ หลักฐานเดิมถูกปิดแล้ว กรุณาตรวจข้อมูลและลองใหม่';
+        console.error('Corbel Run Analysis failed', error);
+        window.setTimeout(() => button.focus(), 0);
+      } finally {
+        button.disabled = false;
+        button.removeAttribute('aria-busy');
+      }
+    }
+
+    function resetProductionUi() {
+      currentResult = null;
+      window.__corbelDesignResult = null;
+      document.body.dataset.localVerdict = 'pending';
+      document.body.dataset.constructionAuthorized = 'false';
+      delete document.body.dataset.corbelSnapshotId;
+      $('mainBar').value = 'รอคำนวณ';
+      $('hangerBar').value = 'รอคำนวณ';
+      $('supportAnchorDetail').value = 'รอคำนวณจาก snapshot';
+      $('supportAnchorNote').textContent = 'กรณี monolithic ต้องวางเหล็ก Aₛ ก่อนเทและหล่อพร้อมคาน ไม่ใช่เหล็กเจาะเสียบ; ค่า engine screening จาก snapshot ไม่ใช่ ldh สำหรับก่อสร้าง';
+      $('quickSteel').textContent = '—';
+      $('quickVerdict').textContent = 'รอคำนวณ';
+      $('quickVerdictRow').className = 'quick-result verdict';
+      ['capacityCheckState', 'rebarCheckState', 'verdictCheckState'].forEach((id) => setState(id, '', 'รอคำนวณ'));
+      $('quickStatus').hidden = false;
+      $('sectionVerdictBadge').textContent = 'รอคำนวณ';
+      $('sectionVerdictBadge').className = 'badge';
+      $('modelStatus').textContent = 'PREVIEW · กดคำนวณเพื่อสร้าง Detail เหล็ก';
+      $('reviewVerdictBadge').textContent = 'LOCKED';
+      $('reviewVerdictBadge').className = 'badge';
+      $('reviewReadinessText').textContent = 'ยังไม่มีผล Run ที่อ่านได้';
+      $('reviewSnapshotId').textContent = '—';
+      $('reviewExactText').textContent = 'Run Analysis เพื่อสร้างรายการ check ที่ตรวจย้อนกลับได้';
+      $('reviewGoverningResult').textContent = '—';
+      $('recoveryCard').hidden = true;
+      window.rebuildCorbel?.();
+    }
+
+    function markProductionStale() {
+      if (!currentResult) return;
+      window.markCorbelSnapshotStale?.();
+      currentResult = null;
+      window.__corbelDesignResult = null;
+      clearReportEvidence();
+      document.body.dataset.localVerdict = 'stale';
+      document.body.dataset.constructionAuthorized = 'false';
+      delete document.body.dataset.corbelSnapshotId;
+      ['quickVu', 'quickLoadBasis', 'quickMu', 'quickRatio', 'quickSteel', 'vuOut', 'muOut', 'scopeOut', 'wallLineOut', 'finishLineOut', 'deadOut', 'comboOut'].forEach((id) => { $(id).textContent = '—'; });
+      $('supportAnchorDetail').value = 'ข้อมูลเปลี่ยนแล้ว · ต้องคำนวณใหม่';
+      $('supportAnchorNote').textContent = 'ปิดรายละเอียดฝังเหล็กจาก snapshot เดิมแล้ว · Run Analysis ใหม่เพื่อแสดงผลชุดล่าสุด';
+      $('quickVerdict').textContent = 'ต้องคำนวณใหม่';
+      $('quickVerdictRow').className = 'quick-result verdict';
+      $('sectionVerdictBadge').textContent = 'ข้อมูลเปลี่ยนแล้ว';
+      $('sectionVerdictBadge').className = 'badge';
+      $('snapshotBadge').textContent = 'ต้องคำนวณใหม่';
+      $('snapshotBadge').className = 'badge';
+      ['loadCheckState', 'demandCheckState', 'sectionCheckState', 'capacityCheckState', 'rebarCheckState', 'verdictCheckState'].forEach((id) => setState(id, '', 'ต้องคำนวณใหม่'));
+      ['reviewBtn', 'quickReportBtn', 'reportBtn', 'sectionBtn', 'reviewLoadPathBtn', 'reviewSectionBtn', 'review3dBtn', 'reviewA4Btn'].forEach((id) => { if ($(id)) $(id).disabled = true; });
+      document.querySelector('[data-workview="section"]').disabled = true;
+      $('reviewVerdictBadge').textContent = 'STALE';
+      $('reviewVerdictBadge').className = 'badge';
+      $('reviewReadinessText').textContent = 'ข้อมูลเปลี่ยนแล้ว หลักฐานชุดเดิมถูกปิดจนกว่าจะ Run ใหม่';
+      $('reviewSnapshotId').textContent = '—';
+      $('reviewExactText').textContent = 'ไม่มี exact status ที่อ่านได้ในสถานะ stale';
+      $('reviewGoverningResult').textContent = '—';
+      $('recoveryCard').hidden = true;
+      $('quickStatus').hidden = false;
+      $('quickStatus').className = 'quick-status error';
+      $('quickStatus').textContent = 'ข้อมูลเปลี่ยนแล้ว · ต้อง Run Analysis ใหม่';
+      renderLiveSectionPreview();
+      $('modelStatus').textContent = 'PREVIEW · ซ่อนเหล็กจากผลเดิมแล้ว · ต้องคำนวณใหม่';
+      window.rebuildCorbel?.();
+      window.setCorbelWorkbenchStep?.(1);
+    }
+
+    bindLabels();
+    $('workspaceBackBtn').addEventListener('click', () => {
+      if (window.parent !== window) {
+        window.parent.postMessage({ type: '2dp:corbel-back' }, window.location.origin);
+      } else {
+        window.location.assign(new URL('.', window.location.href).href);
+      }
+    });
+    $('autoDesignBtn').addEventListener('click', runProductionDesign);
+    ['quickLoad', 'quickNu', 'analysisBasis', 'analysisCombination', 'analysisReference', 'wallUnitWeight', 'finishUnitWeight', 'otherPermanentLoad', 'deadLoadFactor', 'wallRun', 'supportCount', 'maxSpacing', 'wallThickness', 'wallHeight', 'wallWidth'].forEach((id) => $(id)?.addEventListener('keydown', (event) => { if (event.key === 'Enter') runProductionDesign(); }));
+    $('resetBtn').addEventListener('click', resetProductionUi);
+    ['memberId', 'quickLoad', 'quickUnit', 'quickNu', 'quickNuUnit', 'analysisBasis', 'analysisCombination', 'analysisReference', 'wallMaterial', 'wallUnitWeight', 'finishUnitWeight', 'otherPermanentLoad', 'deadLoadFactor', 'wallRun', 'layoutMethod', 'supportCount', 'maxSpacing', 'distributionConfirmed', 'fc', 'fy', 'surface', 'wallWidth', 'width', 'height', 'tipHeight', 'length', 'depth', 'wallThickness', 'wallHeight', 'noseSetback', 'cover'].forEach((id) => $(id)?.addEventListener('input', markProductionStale));
+    window.addEventListener('corbel-load-change', markProductionStale);
+    $('reviewLoadPathBtn').addEventListener('click', () => { window.setCorbelWorkView?.('3d'); $('calculationTrace').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); });
+    $('reviewSectionBtn').addEventListener('click', () => window.setCorbelWorkView?.('section'));
+    $('review3dBtn').addEventListener('click', () => window.setCorbelWorkView?.('3d'));
+    $('recoveryBtn').addEventListener('click', () => {
+      const target = document.querySelector($('recoveryBtn').dataset.target || '');
+      window.setCorbelWorkbenchStep?.(1);
+      if (target?.closest('.step-panel')) document.body.classList.add('advanced-mode');
+      requestAnimationFrame(() => { target?.focus(); target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' }); });
+    });
+    $('reportShell').addEventListener('click', (event) => { if (event.target === $('reportShell')) $('closeReportBtn').click(); });
+    document.addEventListener('keydown', (event) => {
+      if ($('reportShell').hidden || event.key !== 'Tab') return;
+      const focusable = [...$('reportShell').querySelectorAll('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),[tabindex]:not([tabindex="-1"])')];
+      if (!focusable.length) return;
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    });
+  </script>
+</body>
+</html>

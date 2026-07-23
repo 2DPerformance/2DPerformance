@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">RC Column P-M-M Workbench</title>
+  <desc id="desc">เสาคอนกรีตสามมิติในโทนพลัม พร้อมกรงเหล็กและกราฟปฏิสัมพันธ์สองแกน</desc>
+  <defs>
+    <linearGradient id="column-bg" x1="35" y1="32" x2="474" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F4EF"/>
+      <stop offset=".57" stop-color="#ECE7EE"/>
+      <stop offset="1" stop-color="#D5C6D4"/>
+    </linearGradient>
+    <linearGradient id="column-front" x1="135" y1="111" x2="216" y2="385" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F4F5"/>
+      <stop offset="1" stop-color="#C7BECD"/>
+    </linearGradient>
+    <linearGradient id="column-side" x1="216" y1="133" x2="354" y2="357" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A99DB0"/>
+      <stop offset="1" stop-color="#564B63"/>
+    </linearGradient>
+    <filter id="column-shadow" x="-35%" y="-25%" width="180%" height="175%">
+      <feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#4E455B" flood-opacity=".19"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#column-bg)"/>
+  <path d="M0 126C97 70 190 57 282 72c91 15 159-3 230-46V0H0Z" fill="#FCFAF7" opacity=".72"/>
+  <circle cx="428" cy="91" r="54" fill="#E4B49F" opacity=".52"/>
+  <path d="M50 105h103M50 126h63" stroke="#756A80" stroke-width="5" stroke-linecap="round" opacity=".3"/>
+  <g filter="url(#column-shadow)" stroke="#4E455B" stroke-width="8" stroke-linejoin="round">
+    <path d="m132 117 146-44 75 46-148 47Z" fill="#F7F2F2"/>
+    <path d="m132 117 73 49v218l-73-50Z" fill="url(#column-front)"/>
+    <path d="m205 166 148-47v216l-148 49Z" fill="url(#column-side)"/>
+  </g>
+  <g fill="none" stroke="#C7654F" stroke-linecap="round">
+    <path d="M151 120v207M190 144v215M281 83v214M333 115v210" stroke-width="10"/>
+    <path d="m149 151 48 31 139-44M149 196l48 31 139-44M149 241l48 31 139-44M149 286l48 31 139-44M149 331l48 31 139-44" stroke-width="6" stroke-linejoin="round" opacity=".93"/>
+  </g>
+  <g fill="#4E455B" stroke="#F8F4EF" stroke-width="4">
+    <circle cx="151" cy="120" r="8"/><circle cx="190" cy="144" r="8"/>
+    <circle cx="281" cy="83" r="8"/><circle cx="333" cy="115" r="8"/>
+  </g>
+  <g transform="translate(52 392)">
+    <rect width="408" height="72" rx="25" fill="#F9F6F3" stroke="#CFC7D2" stroke-width="3"/>
+    <g transform="translate(28 11)">
+      <path d="M0 49V2M0 49h153" fill="none" stroke="#A89EAD" stroke-width="3" stroke-linecap="round"/>
+      <path d="M1 8h34c37 0 81 14 116 41" fill="none" stroke="#756184" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="88" cy="29" r="8" fill="#F9F6F3" stroke="#C7654F" stroke-width="5"/>
+    </g>
+    <g transform="translate(225 11)">
+      <path d="M0 49V2M0 49h153" fill="none" stroke="#A89EAD" stroke-width="3" stroke-linecap="round"/>
+      <path d="M1 8h29c40 0 89 16 121 41" fill="none" stroke="#594E68" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="94" cy="33" r="8" fill="#F9F6F3" stroke="#C7654F" stroke-width="5"/>
+    </g>
+  </g>
+</svg>

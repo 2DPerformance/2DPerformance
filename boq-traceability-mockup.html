@@ -1,0 +1,2096 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="marketplace-demo-storage.js"></script>
+  <title>BOQ Traceability Workbench</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --ink: oklch(25% 0.035 250);
+      --muted: oklch(52% 0.025 250);
+      --line: oklch(88% 0.018 240);
+      --line-strong: oklch(78% 0.025 240);
+      --paper: oklch(100% 0 0);
+      --surface: oklch(97.5% 0.008 240);
+      --surface-2: oklch(94.5% 0.012 240);
+      --navy: oklch(32% 0.07 245);
+      --navy-ink: white;
+      --teal: oklch(55% 0.11 195);
+      --teal-soft: oklch(96% 0.03 195);
+      --blue: oklch(57% 0.19 255);
+      --blue-soft: oklch(96% 0.025 255);
+      --green: oklch(53% 0.15 145);
+      --green-soft: oklch(96% 0.035 145);
+      --amber: oklch(62% 0.16 70);
+      --amber-soft: oklch(96% 0.04 80);
+      --red: oklch(52% 0.2 28);
+      --red-soft: oklch(96% 0.035 28);
+      --pink: oklch(60% 0.2 350);
+      --violet: oklch(58% 0.17 295);
+      --shadow: 0 10px 30px oklch(25% 0.03 250 / 0.12);
+      font-family: "Leelawadee UI", "Sarabun", Tahoma, Arial, sans-serif;
+      font-size: 14px;
+      letter-spacing: 0;
+    }
+    /* ---- dark theme (auto + manual toggle wins both ways) ---- */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --ink: oklch(92% 0.02 240); --muted: oklch(68% 0.025 245);
+        --line: oklch(34% 0.02 245); --line-strong: oklch(44% 0.025 245);
+        --paper: oklch(23% 0.02 250); --surface: oklch(19% 0.018 250); --surface-2: oklch(16% 0.016 250);
+        --navy: oklch(60% 0.09 245); --navy-ink: oklch(15% 0.02 250);
+        --teal-soft: oklch(30% 0.05 195); --blue-soft: oklch(30% 0.05 255);
+        --green-soft: oklch(30% 0.05 145); --amber-soft: oklch(32% 0.05 80); --red-soft: oklch(30% 0.06 28);
+        --shadow: 0 12px 34px oklch(0% 0 0 / 0.5);
+      }
+    }
+    :root[data-theme="dark"] {
+      --ink: oklch(92% 0.02 240); --muted: oklch(68% 0.025 245);
+      --line: oklch(34% 0.02 245); --line-strong: oklch(44% 0.025 245);
+      --paper: oklch(23% 0.02 250); --surface: oklch(19% 0.018 250); --surface-2: oklch(16% 0.016 250);
+      --navy: oklch(60% 0.09 245); --navy-ink: oklch(15% 0.02 250);
+      --teal-soft: oklch(30% 0.05 195); --blue-soft: oklch(30% 0.05 255);
+      --green-soft: oklch(30% 0.05 145); --amber-soft: oklch(32% 0.05 80); --red-soft: oklch(30% 0.06 28);
+      --shadow: 0 12px 34px oklch(0% 0 0 / 0.5);
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--surface); overflow: hidden; }
+    button, input { font: inherit; letter-spacing: 0; }
+    button { color: inherit; }
+    [hidden] { display: none !important; }
+
+    .topbar {
+      height: 58px;
+      display: grid;
+      grid-template-columns: auto minmax(220px, 1fr) auto;
+      align-items: center;
+      gap: 18px;
+      padding: 0 16px;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: 220px; }
+    .brand-mark {
+      width: 30px; height: 30px; display: grid; place-items: center;
+      background: var(--navy); color: white; border-radius: 6px; font-weight: 800; font-size: 12px;
+    }
+    .brand-name { font-weight: 800; line-height: 1.05; }
+    .brand-meta { color: var(--muted); font-size: 11px; margin-top: 3px; }
+    .project-line { min-width: 0; display: flex; align-items: center; gap: 12px; }
+    .project-title { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .source-chip, .status-chip {
+      display: inline-flex; align-items: center; gap: 6px; min-height: 26px; padding: 3px 9px;
+      border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--surface);
+      font-size: 11px; white-space: nowrap;
+    }
+    .status-chip.ok { color: var(--green); border-color: oklch(82% 0.09 145); background: var(--green-soft); font-weight: 700; }
+    .top-actions { display: flex; align-items: center; gap: 7px; }
+
+    .icon-btn, .command-btn, .seg-btn {
+      border: 1px solid var(--line-strong); background: var(--paper); border-radius: 6px;
+      min-height: 32px; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      cursor: pointer;
+    }
+    .icon-btn { width: 32px; padding: 0; }
+    .command-btn { padding: 0 11px; font-weight: 700; }
+    .command-btn.primary { color: white; background: var(--navy); border-color: var(--navy); }
+    .command-btn.teal { color: white; background: var(--teal); border-color: var(--teal); }
+    .icon-btn:hover, .command-btn:hover, .seg-btn:hover { border-color: var(--teal); }
+    svg.lucide { width: 16px; height: 16px; stroke-width: 1.8; }
+
+    .app {
+      height: calc(100vh - 58px);
+      display: grid;
+      grid-template-columns: 322px minmax(540px, 1fr) 356px;
+      min-height: 0;
+    }
+    .sidebar, .inspector, .workspace { min-width: 0; min-height: 0; }
+    .sidebar { background: var(--paper); border-right: 1px solid var(--line); display: flex; flex-direction: column; }
+    .inspector { background: var(--paper); border-left: 1px solid var(--line); overflow: auto; }
+    .workspace { display: flex; flex-direction: column; background: var(--surface-2); }
+
+    .side-head { padding: 12px; border-bottom: 1px solid var(--line); }
+    .search-box { position: relative; }
+    .search-box input {
+      width: 100%; height: 34px; padding: 0 10px 0 34px; border: 1px solid var(--line-strong);
+      border-radius: 6px; outline: 0; background: var(--surface);
+    }
+    .search-box input:focus { border-color: var(--teal); background: var(--paper); }
+    .search-box svg { position: absolute; left: 10px; top: 9px; width: 16px; color: var(--muted); }
+
+    .trade-list { display: flex; gap: 5px; overflow-x: auto; padding-top: 10px; scrollbar-width: none; }
+    .trade-list::-webkit-scrollbar { display: none; }
+    .trade-btn {
+      border: 1px solid var(--line); background: var(--paper); border-radius: 5px; padding: 5px 8px;
+      color: var(--muted); font-size: 11px; white-space: nowrap; cursor: pointer;
+    }
+    .trade-btn.active { color: var(--navy); border-color: var(--navy); background: var(--blue-soft); font-weight: 700; }
+
+    .summary-band { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+    .summary-stat { padding: 10px 11px; border-right: 1px solid var(--line); }
+    .summary-stat:last-child { border-right: 0; }
+    .summary-label { color: var(--muted); font-size: 10px; }
+    .summary-value { font-weight: 800; margin-top: 2px; }
+
+    .item-list { flex: 1; overflow: auto; padding: 7px; }
+    .item-row {
+      width: 100%; text-align: left; border: 1px solid transparent; border-bottom-color: var(--line);
+      background: transparent; padding: 10px 8px; display: grid; grid-template-columns: 5px 1fr auto;
+      gap: 9px; cursor: pointer; border-radius: 5px;
+    }
+    .item-row:hover { background: var(--surface); }
+    .item-row.active { background: var(--blue-soft); border-color: oklch(82% 0.07 255); }
+    .item-accent { width: 4px; height: 100%; min-height: 38px; border-radius: 2px; background: var(--item-color, var(--teal)); }
+    .item-code { color: var(--muted); font-size: 10px; font-weight: 700; }
+    .item-name { font-size: 12px; font-weight: 700; line-height: 1.35; margin-top: 2px; }
+    .item-source { color: var(--muted); font-size: 10px; margin-top: 4px; }
+    .item-qty { text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .item-unit { font-size: 10px; color: var(--muted); font-weight: 400; }
+    .item-status { font-size: 10px; margin-top: 4px; color: var(--green); font-weight: 700; }
+    .item-status.review { color: var(--amber); }
+
+    .workspace-toolbar {
+      height: 48px; background: var(--paper); border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 10px;
+    }
+    .toolbar-group { display: flex; align-items: center; gap: 6px; min-width: 0; }
+    .segmented { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 6px; padding: 2px; background: var(--surface); }
+    .seg-btn { min-height: 27px; padding: 0 10px; border: 0; background: transparent; color: var(--muted); font-size: 11px; }
+    .seg-btn.active { color: var(--navy); background: var(--paper); box-shadow: 0 1px 2px oklch(25% 0.03 250 / 0.12); font-weight: 700; }
+    .zoom-label { min-width: 46px; text-align: center; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+
+    .viewer { flex: 1; min-height: 0; position: relative; overflow: hidden; }
+    .plan-stage { position: absolute; inset: 0; padding: 12px; display: grid; place-items: center; overflow: hidden; }
+    .drawing-layer {
+      width: 100%; height: 100%; position: relative; transform-origin: center; transition: transform 160ms ease;
+    }
+    .drawing-layer img, .drawing-layer .markup {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+    }
+    .drawing-layer img { filter: contrast(0.98); }
+    .viewer.muted-plan .drawing-layer img { opacity: 0.3; filter: grayscale(0.5); }
+    .markup { pointer-events: none; overflow: visible; }
+    .markup .mark-fill { fill: var(--active-fill); stroke: var(--active-color); stroke-width: var(--active-stroke); vector-effect: non-scaling-stroke; }
+    .markup .mark-line { fill: none; stroke: var(--active-color); stroke-width: calc(var(--active-stroke) * 1.15); vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+    .markup .pin { fill: var(--paper); stroke: var(--active-color); stroke-width: 2; vector-effect: non-scaling-stroke; }
+    .markup .pin-text { fill: var(--active-color); font: 700 34px Tahoma, sans-serif; paint-order: stroke; stroke: white; stroke-width: 8; stroke-linejoin: round; }
+    @keyframes tracePulse { 0%,100% { opacity: 0.78; } 50% { opacity: 1; } }
+    .markup .focus { animation: tracePulse 1.8s ease-in-out infinite; }
+
+    .viewer-footer {
+      height: 42px; flex: 0 0 42px; display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 0 12px; background: var(--paper); border-top: 1px solid var(--line);
+      color: var(--muted); font-size: 11px;
+    }
+    .legend { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .legend-item { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .legend-swatch { width: 18px; height: 4px; background: var(--swatch); border-radius: 2px; }
+    .viewer-ref { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .sheet-view { position: absolute; inset: 0; background: var(--paper); overflow: auto; }
+    .data-grid { border-collapse: separate; border-spacing: 0; width: max-content; min-width: 100%; font-size: 11px; }
+    .data-grid th { position: sticky; top: 0; z-index: 2; background: var(--navy); color: white; padding: 8px; text-align: left; border-right: 1px solid oklch(48% 0.04 245); white-space: nowrap; }
+    .data-grid td { padding: 7px 8px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); white-space: nowrap; }
+    .data-grid tr[data-item] { cursor: pointer; }
+    .data-grid tr[data-item]:hover td { background: var(--blue-soft); }
+    .data-grid .input { background: oklch(97% 0.035 90); }
+    .data-grid .formula { background: var(--blue-soft); font-variant-numeric: tabular-nums; text-align: right; }
+    .data-grid .group td { background: var(--surface); font-weight: 800; color: var(--navy); }
+
+    .inspector-head { padding: 14px; border-bottom: 1px solid var(--line); }
+    .eyebrow { color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+    .inspector-title { font-size: 16px; font-weight: 800; line-height: 1.35; margin: 5px 0 8px; }
+    .meta-line { display: flex; flex-wrap: wrap; gap: 6px; }
+    .mini-chip { display: inline-flex; padding: 3px 7px; border-radius: 4px; background: var(--surface); border: 1px solid var(--line); color: var(--muted); font-size: 10px; }
+    .mini-chip.ok { background: var(--green-soft); border-color: oklch(83% 0.07 145); color: var(--green); font-weight: 700; }
+
+    .qty-strip { display: grid; grid-template-columns: 1fr 1fr 0.8fr; border-bottom: 1px solid var(--line); }
+    .qty-cell { padding: 11px 12px; border-right: 1px solid var(--line); }
+    .qty-cell:last-child { border-right: 0; }
+    .qty-label { color: var(--muted); font-size: 10px; }
+    .qty-value { font-size: 17px; font-weight: 800; margin-top: 3px; font-variant-numeric: tabular-nums; }
+    .qty-value.zero { color: var(--green); }
+
+    .section { padding: 13px 14px; border-bottom: 1px solid var(--line); }
+    .section-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; font-weight: 800; margin-bottom: 9px; }
+    .section-title span:last-child { color: var(--muted); font-size: 10px; font-weight: 500; }
+    .calc-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .calc-table th { color: var(--muted); font-weight: 600; text-align: left; padding: 5px 4px; border-bottom: 1px solid var(--line); }
+    .calc-table td { padding: 7px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .calc-table td.num, .calc-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .calc-table tr:last-child td { border-bottom: 0; }
+    .formula-box { background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 9px 10px; font-family: "Cascadia Mono", Consolas, monospace; font-size: 11px; line-height: 1.55; overflow-wrap: anywhere; }
+    .formula-result { margin-top: 7px; display: flex; justify-content: space-between; align-items: center; font-weight: 800; }
+    .formula-result strong { color: var(--teal); font-size: 15px; }
+    .audit-list { display: grid; gap: 7px; }
+    .audit-row { display: grid; grid-template-columns: 20px 1fr auto; align-items: center; gap: 7px; font-size: 11px; }
+    .audit-icon { width: 18px; height: 18px; display: grid; place-items: center; border-radius: 50%; background: var(--green-soft); color: var(--green); }
+    .audit-time { color: var(--muted); font-size: 10px; }
+    .assumption { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 11px; }
+    .assumption:last-child { border-bottom: 0; }
+    .assumption span:first-child { color: var(--muted); }
+    .inspector-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; padding: 12px 14px 16px; }
+
+    dialog { border: 0; padding: 0; width: min(1120px, calc(100vw - 40px)); max-height: calc(100vh - 40px); border-radius: 8px; box-shadow: var(--shadow); }
+    dialog::backdrop { background: oklch(20% 0.02 250 / 0.48); }
+    .dialog-head { height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px 0 18px; background: var(--navy); color: white; }
+    .dialog-title { font-weight: 800; }
+    .dialog-actions { display: flex; gap: 6px; }
+    .dialog-actions .icon-btn { color: white; border-color: oklch(65% 0.03 245); background: transparent; }
+    .client-page { background: white; aspect-ratio: 1.414 / 1; margin: 16px auto; width: calc(100% - 32px); padding: 28px; overflow: hidden; }
+    .client-grid { display: grid; grid-template-columns: 1.05fr 1.6fr; gap: 24px; height: 100%; }
+    .client-kicker { color: var(--teal); font-size: 10px; font-weight: 800; }
+    .client-title { font-size: 20px; font-weight: 800; margin: 5px 0 6px; }
+    .client-sub { color: var(--muted); font-size: 11px; }
+    .client-metrics { display: grid; grid-template-columns: repeat(3, 1fr); margin: 18px 0; border-block: 1px solid var(--line); }
+    .client-metric { padding: 10px 0; }
+    .client-metric + .client-metric { padding-left: 10px; border-left: 1px solid var(--line); }
+    .client-metric b { display: block; font-size: 17px; margin-top: 3px; }
+    .client-plan { position: relative; min-height: 0; border: 1px solid var(--line); background: var(--surface); }
+    .client-plan img, .client-plan svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+    .client-summary { margin-top: 14px; font-size: 12px; line-height: 1.6; }
+    .client-summary strong { color: var(--teal); }
+
+    .empty-search { padding: 32px 12px; text-align: center; color: var(--muted); }
+    .toast { position: fixed; right: 18px; bottom: 18px; z-index: 10; background: var(--navy); color: white; padding: 10px 13px; border-radius: 6px; box-shadow: var(--shadow); font-size: 12px; }
+
+    @media (max-width: 1260px) {
+      .app { grid-template-columns: 250px minmax(500px, 1fr) 326px; }
+      .project-line .source-chip { display: none; }
+    }
+    @media (max-width: 980px) {
+      body { overflow: auto; }
+      .topbar { grid-template-columns: 1fr auto; }
+      .project-line { display: none; }
+      .app { height: auto; min-height: calc(100vh - 58px); grid-template-columns: 240px 1fr; }
+      .inspector { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--line); }
+      .workspace { min-height: 680px; }
+    }
+    @media print {
+      body > :not(dialog[open]) { display: none !important; }
+      dialog[open] { position: static; width: 100%; max-height: none; box-shadow: none; overflow: visible; }
+      dialog::backdrop, .dialog-head { display: none; }
+      .client-page { margin: 0; width: 100%; }
+      .export-sheettabs, .export-toolbar { display: none !important; }
+      .export-doc { box-shadow: none; }
+      @page { size: A4 landscape; margin: 8mm; }
+    }
+
+    /* ===== dark-mode: text on navy/teal surfaces ===== */
+    .brand-mark { color: var(--navy-ink); }
+    .command-btn.primary { color: var(--navy-ink); border-color: var(--navy); }
+    .data-grid th { color: var(--navy-ink); }
+    .dialog-head { color: var(--navy-ink); }
+    .toast { color: var(--navy-ink); }
+    svg.lucide { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .theme-btn .lucide { stroke-width: 2; }
+
+    /* ===== annotation tools ===== */
+    .draw-tools { display: flex; align-items: center; gap: 5px; }
+    .draw-tools .divider { width: 1px; height: 20px; background: var(--line-strong); margin: 0 2px; }
+    .tool-btn {
+      width: 32px; min-height: 32px; border: 1px solid var(--line-strong); background: var(--paper);
+      border-radius: 6px; display: grid; place-items: center; cursor: pointer; color: var(--muted); padding: 0;
+    }
+    .tool-btn:hover { border-color: var(--teal); color: var(--ink); }
+    .tool-btn.active { background: var(--navy); border-color: var(--navy); color: var(--navy-ink); }
+    .color-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--paper); box-shadow: 0 0 0 1px var(--line-strong); cursor: pointer; padding: 0; background: var(--c); }
+    .color-dot.active { box-shadow: 0 0 0 2px var(--teal); }
+    /* user annotation layer sits above the pre-baked markup; captures pointer only when a tool is armed */
+    #planAnno { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; overflow: visible; }
+    .viewer.arming #planAnno { pointer-events: auto; cursor: crosshair; }
+    #planAnno .a-fill { fill: var(--a-c); opacity: 0.28; }
+    #planAnno .a-stroke { fill: none; stroke: var(--a-c); stroke-width: var(--a-w); vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+    #planAnno .a-arrowhead { fill: var(--a-c); }
+    #planAnno .a-pinbg { fill: var(--paper); stroke: var(--a-c); stroke-width: 2; vector-effect: non-scaling-stroke; }
+    #planAnno .a-pintext { fill: var(--a-c); paint-order: stroke; stroke: var(--paper); stroke-width: 6; stroke-linejoin: round; font-weight: 700; }
+    .anno-hint { position: absolute; left: 12px; bottom: 12px; z-index: 3; background: var(--navy); color: var(--navy-ink);
+      font-size: 11px; padding: 6px 10px; border-radius: 6px; box-shadow: var(--shadow); pointer-events: none; opacity: 0.94; }
+    .anno-text-input { position: absolute; z-index: 5; font: 700 14px "Leelawadee UI", Tahoma, sans-serif;
+      border: 1px dashed var(--teal); background: var(--paper); color: var(--ink); padding: 1px 5px; border-radius: 4px; outline: 0; min-width: 80px; }
+
+    /* ===== export workbook (Codex UI — data-grid style) ===== */
+    #exportDialog { width: min(1120px, calc(100vw - 40px)); }
+    .export-body { display: flex; flex-direction: column; max-height: calc(100vh - 40px - 52px); background: var(--surface-2); }
+    .export-tabs { display: flex; gap: 5px; padding: 10px 12px; background: var(--paper); border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; flex: 0 0 auto; }
+    .export-tabs::-webkit-scrollbar { display: none; }
+    .export-scroll { overflow: auto; flex: 1; padding: 13px; }
+    .export-panel { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+    .export-head { padding: 13px 15px; border-bottom: 1px solid var(--line); }
+    .export-head h2 { font-size: 15px; font-weight: 800; margin: 5px 0 8px; line-height: 1.35; }
+    .export-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+    .export-gridwrap { overflow-x: auto; }
+    .export-gridwrap .data-grid { font-size: 11.5px; }
+    .data-grid th.n, .data-grid td.n { text-align: right; font-variant-numeric: tabular-nums; }
+    .data-grid th.c, .data-grid td.c { text-align: center; }
+    .data-grid .code { color: var(--muted); }
+    .data-grid .sub td { background: var(--surface-2); font-style: italic; font-weight: 700; color: var(--muted); }
+    .data-grid .total td { background: var(--surface); font-weight: 800; color: var(--navy); border-top: 2px solid var(--line-strong); }
+    .data-grid tr.grand td { background: var(--navy); color: var(--navy-ink); font-weight: 800; }
+    .data-grid .neg { color: var(--red); }
+    .data-grid tr.link { cursor: pointer; }
+    .data-grid tr.link:hover td { background: var(--blue-soft); }
+    .export-words { margin: 13px; padding: 11px 15px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; text-align: center; font-weight: 800; color: var(--navy); }
+    .export-banner { margin: 13px 15px 3px; padding: 9px 13px; display: flex; gap: 8px; align-items: center; background: var(--amber-soft); border: 1px solid oklch(80% 0.1 75); border-radius: 8px; color: var(--amber); font-weight: 700; font-size: 12px; }
+    .export-note { padding: 11px 15px 14px; font-size: 11px; color: var(--muted); }
+    .export-cn { color: var(--muted); margin-right: 8px; font-weight: 700; }
+
+    /* ===== project system ===== */
+    .project-switch { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-strong);
+      background: var(--surface); border-radius: 7px; height: 30px; padding: 0 8px 0 9px; cursor: pointer; color: var(--ink); font-weight: 700; }
+    .project-switch:hover { border-color: var(--teal); }
+    .project-switch .ps-name { max-width: 190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .project-switch svg:last-child { width: 14px; color: var(--muted); }
+    .project-body { padding: 14px; max-height: calc(100vh - 40px - 52px); overflow: auto; }
+    .project-actionbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+    .project-hint { color: var(--muted); font-size: 11.5px; }
+    .project-form { border: 1px solid var(--line); border-radius: 8px; padding: 13px; margin-bottom: 14px; background: var(--surface); }
+    .pf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .project-form label { display: flex; flex-direction: column; gap: 4px; font-size: 11.5px; color: var(--muted); font-weight: 700; }
+    .project-form input { height: 32px; border: 1px solid var(--line-strong); border-radius: 6px; padding: 0 9px; background: var(--paper); color: var(--ink); font-weight: 400; }
+    .project-form input:focus { border-color: var(--teal); outline: 0; }
+    .pf-actions { display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-top: 12px; }
+    .pf-check { margin-right: auto; display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); cursor: pointer; }
+    .project-list { display: grid; gap: 8px; }
+    .project-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; border: 1px solid var(--line);
+      border-left-width: 4px; border-radius: 8px; padding: 11px 13px; cursor: pointer; background: var(--paper); }
+    .project-card:hover { border-color: var(--teal); background: var(--surface); }
+    .project-card.active { border-left-color: var(--teal); background: var(--blue-soft); }
+    .project-card .pc-name { font-weight: 800; font-size: 14px; }
+    .project-card .pc-name .pc-demo { font-size: 10px; font-weight: 700; color: var(--teal); border: 1px solid var(--teal); border-radius: 4px; padding: 1px 5px; margin-left: 7px; }
+    .project-card .pc-meta { color: var(--muted); font-size: 11.5px; margin-top: 3px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .project-card .pc-prog { font-weight: 700; font-variant-numeric: tabular-nums; }
+    .project-card .pc-tools { display: flex; gap: 4px; }
+    .pc-tools .icon-btn { width: 30px; height: 30px; }
+    .pc-tools .icon-btn.danger:hover { border-color: var(--red); color: var(--red); }
+    .workspace-toolbar { overflow-x: auto; scrollbar-width: thin; }
+    .workspace-toolbar .toolbar-group { flex-shrink: 0; }
+    @media (max-width: 980px) { .draw-tools { display: none; } }
+    /* sidebar = BOQ lines grouped by งานกลุ่ม */
+    /* ===== sidebar = BOQ list กระชับ + กรอก "ถอดได้" แบบ Excel ===== */
+    .item-list { padding: 3px; }
+    .side-group { padding: 7px 9px 4px; font-size: 10px; font-weight: 800; color: var(--navy); background: var(--surface);
+      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 1; }
+    .side-group:first-child { border-top: 0; }
+    .boq-row { display: block; width: 100%; text-align: left; background: transparent; cursor: pointer;
+      padding: 4px 8px 5px; border: 1px solid transparent; border-bottom: 1px solid var(--line); border-left-width: 3px; }
+    .boq-row:hover { background: var(--surface); }
+    .boq-row.active { background: var(--blue-soft); border-left-color: var(--teal); }
+    .boq-row .r1 { display: flex; align-items: baseline; gap: 6px; }
+    .boq-row .rcode { font-family: "Cascadia Mono", Consolas, monospace; font-size: 10px; font-weight: 700; color: var(--muted); flex-shrink: 0; min-width: 40px; }
+    .boq-row .rname { font-size: 11.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+    .boq-row .rdot { flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong); align-self: center; }
+    .boq-row .rdot.on { background: var(--green); }
+    .boq-row .r2 { display: flex; align-items: center; gap: 7px; margin-top: 3px; padding-left: 46px; font-size: 10.5px; }
+    .boq-row .rboq { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .boq-row .rboq b { color: var(--ink); font-weight: 700; }
+    .boq-row .rin { display: inline-flex; align-items: center; gap: 3px; color: var(--muted); margin-left: auto; }
+    .boq-row .rin input { width: 50px; height: 21px; border: 1px solid var(--line-strong); border-radius: 4px; padding: 0 5px;
+      font: 700 11px "Cascadia Mono", Consolas, monospace; text-align: right; font-variant-numeric: tabular-nums;
+      background: oklch(97% 0.035 90); color: var(--ink); }
+    :root[data-theme="dark"] .boq-row .rin input { background: oklch(26% 0.03 90); }
+    .boq-row .rin input:focus { border-color: var(--teal); background: var(--paper); outline: 0; }
+    .boq-row .rvar { font-weight: 800; font-variant-numeric: tabular-nums; flex-shrink: 0; min-width: 30px; text-align: right; }
+    .boq-row .rvar.zero { color: var(--green); } .boq-row .rvar.diff { color: var(--amber); } .boq-row .rvar.none { color: var(--line-strong); }
+    /* ตาราง = BOQ mirror */
+    .data-grid tr.boq-line td { cursor: pointer; }
+    .data-grid tr.boq-line.sel td { background: var(--blue-soft); box-shadow: inset 3px 0 0 var(--teal); }
+    .data-grid tr.boq-line.has-ev td.code::after { content: " ●"; color: var(--green); font-weight: 800; }
+    .data-grid tr.grand td { background: var(--navy); color: var(--navy-ink); font-weight: 800; }
+    .data-grid td.code { font-family: "Cascadia Mono", Consolas, monospace; color: var(--muted); }
+    .data-grid td.code .codewrap { display: inline-flex; align-items: center; gap: 5px; }
+    .data-grid .rgrip { cursor: grab; color: var(--line-strong); font-size: 13px; line-height: 1; user-select: none; touch-action: none; padding: 1px 3px; border-radius: 3px; font-family: system-ui, sans-serif; }
+    .data-grid .rgrip:hover { color: var(--teal); background: var(--surface); }
+    .data-grid .rgrip:active { cursor: grabbing; }
+    .data-grid td.code .ecell { cursor: text; padding: 1px 3px; border-radius: 2px; display: inline-block; min-width: 26px; }
+    .data-grid td.code .ecell:hover { background: var(--surface); }
+    .data-grid td.code .ecell:focus { outline: 2px solid var(--teal); outline-offset: -2px; background: var(--paper); }
+    .data-grid tr.dragging td { opacity: .45; }
+    .data-grid tr.drop-before td { box-shadow: inset 0 2px 0 0 var(--teal); }
+    .data-grid tr.drop-after td { box-shadow: inset 0 -2px 0 0 var(--teal); }
+    /* วิธีการถอด (method calculator) ในแผงขวา */
+    #methodEditor { display: flex; flex-direction: column; gap: 5px; }
+    .mrow { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; padding: 5px 6px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); font-size: 11px; }
+    .mrow .mk { font-size: 9.5px; font-weight: 800; color: var(--teal); background: var(--blue-soft); padding: 1px 5px; border-radius: 999px; letter-spacing: .02em; }
+    .mrow .min { width: 46px; border: 1px solid var(--line); background: var(--paper); border-radius: 5px; padding: 3px 4px; font: inherit; color: var(--ink); text-align: right; }
+    .mrow .min.mwide { width: 78px; text-align: left; flex: 1; min-width: 60px; }
+    .mrow .min:focus { outline: 0; border-color: var(--teal); box-shadow: 0 0 0 1px var(--teal); }
+    .mrow .msel { border: 1px solid var(--line); background: var(--paper); border-radius: 5px; padding: 3px 2px; font: inherit; color: var(--ink); }
+    .mrow .mx { color: var(--muted); }
+    .mrow .meq { margin-left: auto; color: var(--muted); white-space: nowrap; }
+    .mrow .mval { color: var(--navy); font-variant-numeric: tabular-nums; }
+    .mrow .mdel { border: 0; background: transparent; color: var(--line-strong); cursor: pointer; font-size: 11px; padding: 2px 4px; border-radius: 4px; line-height: 1; }
+    .mrow .mdel:hover { background: var(--red-soft); color: var(--red); }
+    .mhint { font-size: 10.5px; color: var(--muted); padding: 6px 2px; line-height: 1.5; }
+    .maddrow { display: flex; gap: 5px; flex-wrap: wrap; }
+    .maddbtn { border: 1px dashed var(--line-strong); background: transparent; color: var(--muted); border-radius: 6px; padding: 4px 8px; font: inherit; font-size: 10.5px; cursor: pointer; }
+    .maddbtn:hover { border-color: var(--teal); color: var(--teal); border-style: solid; }
+    .msum { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 8px; margin-top: 2px; border-radius: 7px; background: var(--blue-soft); font-size: 12px; }
+    .msum b { color: var(--navy); font-size: 14px; font-variant-numeric: tabular-nums; }
+    /* ตาราง: คอลัมน์ ถอด/ผลต่าง + ซ่อนคอลัมน์ราคา (compact) */
+    .sheet-bar { position: sticky; top: 0; z-index: 6; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 5px 10px; background: var(--surface); border-bottom: 1px solid var(--line); }
+    .sheet-hint { font-size: 10.5px; color: var(--muted); }
+    .sheet-toggle { border: 1px solid var(--line-strong); background: var(--paper); color: var(--muted); border-radius: 6px; padding: 3px 10px; font: inherit; font-size: 10.5px; cursor: pointer; white-space: nowrap; }
+    .sheet-toggle:hover { border-color: var(--teal); color: var(--teal); }
+    .sheet-toggle[aria-pressed="true"] { border-color: var(--teal); color: var(--teal); background: var(--blue-soft); }
+    #gridTable td, #gridTable th { padding: 5px 7px; }
+    .data-grid.hide-prices .col-price { display: none; }
+    .data-grid input.qin { color: var(--teal); font-weight: 700; }
+    .runit { color: var(--muted); font-size: 10.5px; }
+    .data-grid td.subtot, .data-grid td.grandtot { font-variant-numeric: tabular-nums; }
+    /* ตารางแก้ไขได้ (Excel-like) */
+    .data-grid td.ecell { cursor: text; }
+    .data-grid td.ecell:hover { background: var(--surface); }
+    .data-grid td.ecell:focus { outline: 2px solid var(--teal); outline-offset: -2px; background: var(--paper); border-radius: 2px; }
+    .data-grid td.egroup { color: var(--navy); font-weight: 800; }
+    .data-grid input.gin { width: 100%; min-width: 58px; border: 1px solid transparent; background: transparent; font: inherit;
+      text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); padding: 2px 5px; border-radius: 4px; }
+    .data-grid input.gin:hover { border-color: var(--line); }
+    .data-grid input.gin:focus { outline: 0; background: var(--paper); border-color: var(--teal); box-shadow: 0 0 0 1px var(--teal); }
+    .data-grid td.gcomp { color: var(--muted); }
+    .data-grid td.gact { text-align: center; width: 34px; }
+    .data-grid .rowdel { border: 0; background: transparent; color: var(--line-strong); cursor: pointer; font-size: 12px; padding: 3px 6px; border-radius: 4px; line-height: 1; }
+    .data-grid tr:hover .rowdel { color: var(--muted); }
+    .data-grid .rowdel:hover { background: var(--red-soft); color: var(--red); }
+    .data-grid tr.addrow td { background: var(--surface); padding: 7px 8px; border-bottom: 1px solid var(--line); }
+    .data-grid .addbtn { border: 1px dashed var(--line-strong); background: var(--paper); border-radius: 6px; padding: 4px 11px;
+      font: 700 11.5px inherit; color: var(--teal); cursor: pointer; margin-right: 6px; }
+    .data-grid .addbtn:hover { border-color: var(--teal); background: var(--teal-soft); }
+    .data-grid .addbtn span { font-weight: 800; margin-right: 2px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">2D</div>
+      <div>
+        <div class="brand-name">BOQ Trace</div>
+        <div class="brand-meta">Quantity takeoff & evidence</div>
+      </div>
+    </div>
+    <div class="project-line">
+      <button class="project-switch" id="projectSwitch" title="สลับ / จัดการโปรเจกต์ถอดราคา">
+        <i data-lucide="folder"></i><span class="ps-name" id="psName">—</span><i data-lucide="chevron-down"></i>
+      </button>
+      <span class="source-chip" id="projectMeta"></span>
+      <span class="status-chip ok" id="projectStatus"><i data-lucide="shield-check"></i> <span id="psProgress">0/0</span></span>
+      <span class="source-chip" id="projectTotalChip" title="ราคารวมทั้งโครงการ (ปริมาณ × ราคาต่อหน่วย ทุกหมวด)">฿ 0</span>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn theme-btn" id="themeToggle" title="สลับโหมดสว่าง/มืด" aria-label="สลับธีม"><i data-lucide="moon"></i></button>
+      <button class="icon-btn" id="uploadButton" title="แนบหลักฐานแปลน (หรือ Ctrl+V / ลากรูปวาง)" aria-label="แนบหลักฐานแปลน"><i data-lucide="image-plus"></i></button>
+      <input id="fileInput" type="file" accept="image/*" hidden>
+      <button class="command-btn" id="openExport"><i data-lucide="file-spreadsheet"></i> BOQ เต็ม</button>
+      <button class="command-btn" id="openPresentation"><i data-lucide="presentation"></i> นำเสนอ</button>
+      <button class="command-btn primary" id="printReport"><i data-lucide="printer"></i> พิมพ์</button>
+    </div>
+  </header>
+
+  <main class="app">
+    <aside class="sidebar">
+      <div class="side-head">
+        <div class="search-box">
+          <i data-lucide="search"></i>
+          <input id="searchInput" type="search" placeholder="ค้นหา BOQ, รายการ, Evidence">
+        </div>
+        <div class="trade-list" id="tradeList"></div>
+      </div>
+      <div class="summary-band">
+        <div class="summary-stat"><div class="summary-label">กรอกแล้ว</div><div class="summary-value">0</div></div>
+        <div class="summary-stat"><div class="summary-label">ยังไม่กรอก</div><div class="summary-value">0</div></div>
+        <div class="summary-stat"><div class="summary-label">รายการ</div><div class="summary-value">0</div></div>
+      </div>
+      <div class="item-list" id="itemList"></div>
+    </aside>
+
+    <section class="workspace">
+      <div class="workspace-toolbar">
+        <div class="toolbar-group">
+          <div class="segmented" aria-label="รูปแบบมุมมอง">
+            <button class="seg-btn active" data-mode="plan"><i data-lucide="map"></i> แปลน + สูตร</button>
+            <button class="seg-btn" data-mode="sheet"><i data-lucide="table-2"></i> ตาราง</button>
+          </div>
+          <span class="source-chip" id="drawingChip">S-01 • Rev.R0</span>
+        </div>
+        <div class="toolbar-group draw-tools" id="drawTools" aria-label="เครื่องมือไฮไลต์">
+          <button class="tool-btn active" data-tool="off" title="เลื่อน/เลือก (ปิดวาด)"><i data-lucide="mouse-pointer-2"></i></button>
+          <button class="tool-btn" data-tool="highlight" title="ไฮไลต์ทึบ (โปร่งแสง)"><i data-lucide="highlighter"></i></button>
+          <button class="tool-btn" data-tool="rect" title="กรอบสี่เหลี่ยม"><i data-lucide="square"></i></button>
+          <button class="tool-btn" data-tool="arrow" title="ลูกศรชี้"><i data-lucide="arrow-up-right"></i></button>
+          <button class="tool-btn" data-tool="pen" title="ปากกาวาดอิสระ"><i data-lucide="pen-line"></i></button>
+          <button class="tool-btn" data-tool="pin" title="หมุด + ข้อความ"><i data-lucide="map-pin"></i></button>
+          <span class="divider"></span>
+          <button class="color-dot active" data-color="oklch(60% 0.2 350)" style="--c:oklch(60% 0.2 350)" title="ชมพู"></button>
+          <button class="color-dot" data-color="oklch(52% 0.2 28)" style="--c:oklch(52% 0.2 28)" title="แดง"></button>
+          <button class="color-dot" data-color="oklch(62% 0.16 70)" style="--c:oklch(62% 0.16 70)" title="ส้ม"></button>
+          <button class="color-dot" data-color="oklch(57% 0.19 255)" style="--c:oklch(57% 0.19 255)" title="น้ำเงิน"></button>
+          <button class="color-dot" data-color="oklch(53% 0.15 145)" style="--c:oklch(53% 0.15 145)" title="เขียว"></button>
+          <span class="divider"></span>
+          <button class="tool-btn" id="annoUndo" title="ย้อนกลับ (ล่าสุด)"><i data-lucide="undo-2"></i></button>
+          <button class="tool-btn" id="annoClear" title="ล้างที่วาดเองทั้งหมด"><i data-lucide="eraser"></i></button>
+        </div>
+        <div class="toolbar-group">
+          <button class="icon-btn" id="mutePlan" title="ลดความเข้มแปลน" aria-label="ลดความเข้มแปลน"><i data-lucide="contrast"></i></button>
+          <button class="icon-btn" id="zoomOut" title="ย่อ" aria-label="ย่อ"><i data-lucide="zoom-out"></i></button>
+          <span class="zoom-label" id="zoomLabel">100%</span>
+          <button class="icon-btn" id="zoomIn" title="ขยาย" aria-label="ขยาย"><i data-lucide="zoom-in"></i></button>
+          <button class="icon-btn" id="fitPlan" title="พอดีหน้าจอ" aria-label="พอดีหน้าจอ"><i data-lucide="maximize-2"></i></button>
+        </div>
+      </div>
+
+      <div class="viewer" id="viewer">
+        <div class="plan-stage" id="planView">
+          <div class="drawing-layer" id="drawingLayer">
+            <img id="planImage" alt="แปลนหลักฐานการถอดปริมาณ">
+            <svg id="planMarkup" class="markup" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+            <svg id="planAnno" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+          <input id="annoText" class="anno-text-input" hidden maxlength="48">
+          <div class="anno-hint" id="annoHint" hidden></div>
+        </div>
+        <div class="sheet-view" id="sheetView" hidden>
+          <div class="sheet-bar"><span class="sheet-hint">ปริมาณ = ที่ถอดได้ (กรอกในตาราง/ช่องซ้าย/จากวิธีถอด) → คิดราคาให้อัตโนมัติ</span><button class="sheet-toggle" id="priceToggle" aria-pressed="false" title="แสดง/ซ่อนคอลัมน์ราคา">แสดงราคา ▸</button></div>
+          <table class="data-grid hide-prices" id="gridTable">
+            <thead><tr><th>ลำดับ</th><th>รายการ</th><th class="n">ปริมาณ</th><th class="c">หน่วย</th><th class="n col-price">ค่าวัสดุ/หน่วย</th><th class="n col-price">ค่าวัสดุรวม</th><th class="n col-price">ค่าแรง/หน่วย</th><th class="n">ราคารวม</th><th class="c" title="เพิ่ม/ลบแถวได้">✎</th></tr></thead>
+            <tbody id="gridBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="viewer-footer">
+        <div class="legend" id="legend"></div>
+        <div class="viewer-ref" id="viewerRef"></div>
+      </div>
+    </section>
+
+    <aside class="inspector">
+      <div class="inspector-head">
+        <div class="eyebrow" id="inspectorCode"></div>
+        <div class="inspector-title" id="inspectorTitle"></div>
+        <div class="meta-line">
+          <span class="mini-chip ok" id="statusBadge"></span>
+          <span class="mini-chip" id="evidenceBadge"></span>
+          <span class="mini-chip" id="revisionBadge"></span>
+        </div>
+      </div>
+      <div class="qty-strip">
+        <div class="qty-cell"><div class="qty-label">ปริมาณ</div><div class="qty-value" id="boqQty"></div></div>
+        <div class="qty-cell"><div class="qty-label">ราคา/หน่วย</div><div class="qty-value" id="calcQty"></div></div>
+        <div class="qty-cell"><div class="qty-label">ราคารวม</div><div class="qty-value" id="variance"></div></div>
+      </div>
+      <section class="section">
+        <div class="section-title">รายการถอด <span id="lineCount"></span></div>
+        <table class="calc-table" id="calcTable">
+          <thead><tr><th>Zone</th><th>วิธี</th><th class="num">ก่อนเผื่อ</th><th class="num">รวม</th></tr></thead>
+          <tbody id="calcRows"></tbody>
+        </table>
+        <div id="methodEditor" hidden></div>
+      </section>
+      <section class="section">
+        <div class="section-title">สมการตรวจสอบ <span id="sourceCell"></span></div>
+        <div class="formula-box" id="formulaText"></div>
+        <div class="formula-result"><span>ปริมาณส่งเข้า BOQ</span><strong id="formulaResult"></strong></div>
+      </section>
+      <section class="section">
+        <div class="section-title">สมมติฐานและที่มา <span id="drawingRef"></span></div>
+        <div id="assumptions"></div>
+      </section>
+      <section class="section">
+        <div class="section-title">ประวัติหลักฐาน <span>Audit trail</span></div>
+        <div class="audit-list" id="auditList"></div>
+      </section>
+      <div class="inspector-actions">
+        <button class="command-btn" id="openImage"><i data-lucide="scan-search"></i> เปิดหลักฐาน</button>
+        <button class="command-btn teal" id="presentItem"><i data-lucide="presentation"></i> เสนอลูกค้า</button>
+      </div>
+    </aside>
+  </main>
+
+  <dialog id="presentationDialog">
+    <div class="dialog-head">
+      <div class="dialog-title">Client Takeoff Presentation</div>
+      <div class="dialog-actions">
+        <button class="icon-btn" id="dialogPrint" title="พิมพ์" aria-label="พิมพ์"><i data-lucide="printer"></i></button>
+        <button class="icon-btn" id="closeDialog" title="ปิด" aria-label="ปิด"><i data-lucide="x"></i></button>
+      </div>
+    </div>
+    <div class="client-page">
+      <div class="client-grid">
+        <div>
+          <div class="client-kicker" id="clientCode"></div>
+          <div class="client-title" id="clientTitle"></div>
+          <div class="client-sub" id="clientMeta"></div>
+          <div class="client-metrics">
+            <div class="client-metric"><span class="qty-label">ปริมาณ</span><b id="clientBoq"></b></div>
+            <div class="client-metric"><span class="qty-label">ราคา/หน่วย</span><b id="clientCalc"></b></div>
+            <div class="client-metric"><span class="qty-label">ราคารวม</span><b id="clientVar"></b></div>
+          </div>
+          <table class="calc-table"><thead><tr><th>Zone</th><th>วิธีถอด</th><th class="num">รวมเผื่อ</th></tr></thead><tbody id="clientRows"></tbody></table>
+          <div class="client-summary" id="clientSummary"></div>
+        </div>
+        <div class="client-plan">
+          <img id="clientImage" alt="แปลนประกอบการนำเสนอ">
+          <svg id="clientMarkup" class="markup" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+        </div>
+      </div>
+    </div>
+  </dialog>
+  <dialog id="exportDialog">
+    <div class="dialog-head">
+      <div class="dialog-title">ใบเสนอราคา BOQ — On Nuch • workbook 7 แผ่น</div>
+      <div class="dialog-actions">
+        <button class="icon-btn" id="exportPrint" title="พิมพ์ / บันทึก PDF" aria-label="พิมพ์"><i data-lucide="printer"></i></button>
+        <button class="icon-btn" id="closeExport" title="ปิด" aria-label="ปิด"><i data-lucide="x"></i></button>
+      </div>
+    </div>
+    <div class="export-body">
+      <div class="export-tabs" id="exportTabs"></div>
+      <div class="export-scroll" id="exportScroll"></div>
+    </div>
+  </dialog>
+  <dialog id="projectDialog">
+    <div class="dialog-head">
+      <div class="dialog-title">โปรเจกต์ถอดราคา BOQ</div>
+      <div class="dialog-actions">
+        <button class="icon-btn" id="closeProject" title="ปิด" aria-label="ปิด"><i data-lucide="x"></i></button>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-actionbar">
+        <button class="command-btn primary" id="newProjectBtn"><i data-lucide="plus"></i> สร้างโปรเจกต์ใหม่</button>
+        <button class="command-btn" id="importProjectBtn"><i data-lucide="folder"></i> นำเข้าไฟล์</button>
+        <button class="command-btn" id="exportProjectBtn"><i data-lucide="file-spreadsheet"></i> ส่งออกไฟล์นี้</button>
+        <input id="projFileInput" type="file" accept=".json,application/json" hidden>
+        <span class="project-hint">แต่ละโปรเจกต์เก็บปริมาณ + หลักฐานแยกกัน · บันทึกในเครื่องอัตโนมัติ · ส่งออก .json สำรอง/ย้ายเครื่อง/แชร์ได้</span>
+      </div>
+      <form class="project-form" id="projectForm" hidden>
+        <div class="pf-grid">
+          <label>ชื่อโปรเจกต์ *<input id="pfName" required placeholder="เช่น บ้านคุณเบนซ์ อ่อนนุช"></label>
+          <label>รหัส (Code)<input id="pfCode" placeholder="เช่น ON-2569"></label>
+          <label>เจ้าของ<input id="pfOwner" placeholder="เช่น คุณเบนซ์"></label>
+          <label>สถานที่<input id="pfLoc" placeholder="เช่น อ่อนนุช กรุงเทพฯ"></label>
+        </div>
+        <div class="pf-actions">
+          <label class="pf-check"><input type="checkbox" id="pfBlank"> เริ่มเปล่า (ไม่ใช้โครง On Nuch)</label>
+          <button type="button" class="command-btn" id="pfCancel">ยกเลิก</button>
+          <button type="submit" class="command-btn primary"><i data-lucide="check"></i> สร้าง</button>
+        </div>
+      </form>
+      <div class="project-list" id="projectList"></div>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" hidden></div>
+
+  <script>
+    const trades = [
+      { id: "all", label: "ทั้งหมด" },
+      { id: "structure", label: "โครงสร้าง" },
+      { id: "architecture", label: "สถาปัตย์" },
+      { id: "mep", label: "ระบบ" },
+    ];
+
+    const items = [
+      {
+        id: "TO-STR-001", boq: "2.1.3", trade: "structure", title: "งานไม้แบบฐานรากและตอม่อ",
+        qty: 91, calc: 91, unit: "ตร.ม.", evidence: "EV-FND-01", source: "'2.งานโครงสร้าง'!E14",
+        drawing: "S-01", revision: "R0", location: "Grid 1–4 / A–E", status: "ตรงกัน",
+        image: "boq-trace-assets/foundation-plan.png", size: [2435, 1721], color: "oklch(60% 0.2 350)", fill: "oklch(72% 0.14 350 / 0.26)", stroke: 4,
+        legend: [{ label: "F1 • 21 ฐาน", color: "oklch(60% 0.2 350)" }, { label: "F2 • 2 ฐาน", color: "oklch(62% 0.16 240)" }, { label: "C1 • 23 ต้น", color: "oklch(62% 0.16 145)" }],
+        formula: "Σ[(กว้าง + ยาว) × 2 × สูง × จำนวน] × (1 + เผื่อ 10%)",
+        formulaDetail: "(44.10 + 5.00 + 33.12) × 1.10 = 90.442 → ปัดขึ้น 91 ตร.ม.",
+        lines: [
+          { zone: "F1", method: "(1.05+1.05)×2×0.50×21", gross: 44.10, final: 48.51 },
+          { zone: "F2", method: "(0.70+1.80)×2×0.50×2", gross: 5.00, final: 5.50 },
+          { zone: "C1", method: "(0.30+0.30)×2×1.20×23", gross: 33.12, final: 36.432 },
+        ],
+        assumptions: [["เผื่อสูญเสีย", "10%"], ["การปัด", "รวมแล้วปัดขึ้น"], ["ที่มาจำนวน", "นับจากแปลนฐานราก"], ["ผู้ตรวจ", "ENG-01"]],
+        summary: "ฐานราก <strong>F1 จำนวน 21 ฐาน</strong>, F2 จำนวน 2 ฐาน และตอม่อ C1 จำนวน 23 ต้น รวมไม้แบบก่อนเผื่อ 82.22 ตร.ม. หลังเผื่อและปัดขึ้นเป็น <strong>91 ตร.ม.</strong>",
+        markup: `
+          <g class="focus">
+            <rect class="mark-fill" x="790" y="365" width="730" height="920" rx="20"/>
+            <rect class="mark-line" x="1110" y="735" width="130" height="60"/>
+            <circle class="pin" cx="930" cy="430" r="25"/><text class="pin-text" x="970" y="442">F1 × 21</text>
+            <circle class="pin" cx="1190" cy="790" r="25"/><text class="pin-text" x="1230" y="802">F2 × 2</text>
+            <circle class="pin" cx="1425" cy="1110" r="25"/><text class="pin-text" x="1465" y="1122">C1 × 23</text>
+          </g>`
+      },
+      {
+        id: "TO-STR-002", boq: "2.2.1", trade: "structure", title: "งานไม้แบบคานคอดิน ชั้น 1",
+        qty: 174, calc: 174, unit: "ตร.ม.", evidence: "EV-BEAM-01", source: "'2.งานโครงสร้าง'!E26",
+        drawing: "S-02", revision: "R0", location: "Grid 1–4 / A–E", status: "ตรงกัน",
+        image: "boq-trace-assets/beam-level1.png", size: [4367, 3087], color: "oklch(57% 0.16 210)", fill: "oklch(75% 0.12 210 / 0.2)", stroke: 5,
+        legend: [{ label: "B1 • 83.00 ม.", color: "oklch(62% 0.16 350)" }, { label: "B2 • 62.60 ม.", color: "oklch(64% 0.15 210)" }],
+        formula: "Σ[(ท้องคาน + 2 × ด้านข้าง) × ความยาว] × (1 + เผื่อ 10%)",
+        formulaDetail: "[(0.20+2×0.40)×83.00 + (0.20+2×0.50)×62.60] × 1.10 = 173.932 → 174 ตร.ม.",
+        lines: [
+          { zone: "B1", method: "(0.20+2×0.40)×83.00", gross: 83.00, final: 91.30 },
+          { zone: "B2", method: "(0.20+2×0.50)×62.60", gross: 75.12, final: 82.632 },
+        ],
+        assumptions: [["เผื่อสูญเสีย", "10%"], ["หน้าตัด B1", "0.20 × 0.40 ม."], ["หน้าตัด B2", "0.20 × 0.50 ม."], ["ผู้ตรวจ", "ENG-01"]],
+        summary: "คาน B1 รวมความยาว 83.00 ม. และ B2 รวมความยาว 62.60 ม. คิดไม้แบบท้องคานและสองด้าน หลังเผื่อ 10% ได้ <strong>174 ตร.ม.</strong>",
+        markup: `
+          <g class="focus">
+            <path class="mark-line" d="M1260 770 H2250 V1030 H2500 V1530 H1260 V770 M1560 770 V1530 M1880 770 V1530 M2250 1030 H2860 V2500 H1850"/>
+            <path class="mark-line" d="M1260 1530 V2200 H1850 V2500 H2860" opacity=".65"/>
+            <circle class="pin" cx="1560" cy="900" r="36"/><text class="pin-text" x="1620" y="912">B1 = 83.00 m</text>
+            <circle class="pin" cx="2440" cy="1700" r="36"/><text class="pin-text" x="2500" y="1712">B2 = 62.60 m</text>
+          </g>`
+      },
+      {
+        id: "TO-STR-003", boq: "2.3.1", trade: "structure", title: "งานไม้แบบพื้นชั้น 1",
+        qty: 213, calc: 213, unit: "ตร.ม.", evidence: "EV-SLAB-01", source: "'2.งานโครงสร้าง'!E37",
+        drawing: "S-02", revision: "R0", location: "PS / S1 / S2 / S3", status: "ตรงกัน",
+        image: "boq-trace-assets/slab-level1.png", size: [2435, 1721], color: "oklch(58% 0.17 295)", fill: "oklch(72% 0.12 295 / 0.23)", stroke: 4,
+        legend: [{ label: "PS • 132.57", color: "oklch(66% 0.16 350)" }, { label: "S1 • 6.57", color: "oklch(65% 0.15 240)" }, { label: "S2 • 12.09", color: "oklch(68% 0.14 145)" }, { label: "S3 • 41.50", color: "oklch(62% 0.15 295)" }],
+        formula: "Σพื้นที่พื้นแต่ละชนิด × (1 + เผื่อ 10%)",
+        formulaDetail: "(132.57 + 6.57 + 12.09 + 41.50) × 1.10 = 212.003 → ปัดขึ้น 213 ตร.ม.",
+        lines: [
+          { zone: "PS", method: "พื้นที่ไฮไลต์สีชมพู", gross: 132.57, final: 145.827 },
+          { zone: "S1", method: "พื้นที่ไฮไลต์สีฟ้า", gross: 6.57, final: 7.227 },
+          { zone: "S2", method: "พื้นที่ไฮไลต์สีเขียว", gross: 12.09, final: 13.299 },
+          { zone: "S3", method: "พื้นที่ไฮไลต์สีม่วง", gross: 41.50, final: 45.65 },
+        ],
+        assumptions: [["เผื่อสูญเสีย", "10%"], ["แยกพื้นที่", "ตามชนิดพื้น"], ["ใช้ร่วมกับ", "คอนกรีตพื้น"], ["ผู้ตรวจ", "ENG-01"]],
+        summary: "แยกพื้นที่พื้น PS, S1, S2 และ S3 ตามสีในแบบ รวมก่อนเผื่อ 192.73 ตร.ม. หลังเผื่อและปัดขึ้นเป็น <strong>213 ตร.ม.</strong>",
+        markup: `
+          <g class="focus">
+            <path class="mark-fill" d="M700 420 H1250 V690 H1510 V1060 H1220 V1390 H860 V1060 H700 Z"/>
+            <rect class="mark-line" x="1040" y="420" width="220" height="140"/>
+            <circle class="pin" cx="950" cy="630" r="25"/><text class="pin-text" x="990" y="642">PS 132.57</text>
+            <circle class="pin" cx="1150" cy="500" r="25"/><text class="pin-text" x="1190" y="512">S1 6.57</text>
+            <circle class="pin" cx="1430" cy="730" r="25"/><text class="pin-text" x="1470" y="742">S2 12.09</text>
+            <circle class="pin" cx="820" cy="1070" r="25"/><text class="pin-text" x="860" y="1082">S3 41.50</text>
+          </g>`
+      },
+      {
+        id: "TO-STR-004", boq: "2.3.2", trade: "structure", title: "คอนกรีตพื้นชั้น 1 (กันซึม)",
+        qty: 25, calc: 25, unit: "ลบ.ม.", evidence: "EV-SLAB-01", source: "'2.งานโครงสร้าง'!E38",
+        drawing: "S-02", revision: "R0", location: "PS / S1 / S2 / S3", status: "ตรงกัน",
+        image: "boq-trace-assets/slab-level1.png", size: [2435, 1721], color: "oklch(62% 0.16 70)", fill: "oklch(78% 0.12 75 / 0.26)", stroke: 4,
+        legend: [{ label: "t = 0.10 ม.", color: "oklch(62% 0.16 70)" }, { label: "t = 0.15 ม.", color: "oklch(57% 0.16 210)" }],
+        formula: "Σ(พื้นที่ × ความหนา) × (1 + เผื่อ 10%)",
+        formulaDetail: "(13.257 + 0.986 + 1.813 + 6.225) × 1.10 = 24.509 → ปัดขึ้น 25 ลบ.ม.",
+        lines: [
+          { zone: "PS", method: "132.57 × 0.10", gross: 13.257, final: 14.583 },
+          { zone: "S1", method: "6.57 × 0.15", gross: 0.986, final: 1.084 },
+          { zone: "S2", method: "12.09 × 0.15", gross: 1.813, final: 1.995 },
+          { zone: "S3", method: "41.50 × 0.15", gross: 6.225, final: 6.848 },
+        ],
+        assumptions: [["เผื่อสูญเสีย", "10%"], ["PS", "หนา 0.10 ม."], ["S1/S2/S3", "หนา 0.15 ม."], ["ผู้ตรวจ", "ENG-01"]],
+        summary: "ใช้พื้นที่ชุดเดียวกับไม้แบบ แต่คูณความหนาของพื้นแต่ละชนิด แยก PS หนา 0.10 ม. และพื้นอื่นหนา 0.15 ม. ได้ปริมาณเสนอ <strong>25 ลบ.ม.</strong>",
+        markup: `
+          <g class="focus">
+            <path class="mark-fill" d="M700 420 H1250 V690 H1510 V1060 H1220 V1390 H860 V1060 H700 Z"/>
+            <path class="mark-line" d="M705 560 H1250 M860 1060 H1220"/>
+            <circle class="pin" cx="930" cy="650" r="25"/><text class="pin-text" x="970" y="662">PS • t 0.10</text>
+            <circle class="pin" cx="1260" cy="980" r="25"/><text class="pin-text" x="1300" y="992">S1–S3 • t 0.15</text>
+          </g>`
+      },
+      {
+        id: "TO-STR-005", boq: "2.8.x", trade: "structure", title: "เหล็กโครงหลังคา • ตรวจทวนระยะ",
+        qty: 394, calc: 393.8, unit: "ม.", evidence: "EV-ROOF-01", source: "แบบหลังคา / image10",
+        drawing: "S-04", revision: "R0", location: "แนวสีม่วง / ชมพู / ฟ้า", status: "รอตรวจ",
+        image: "boq-trace-assets/roof-takeoff.png", size: [4367, 3087], color: "oklch(62% 0.16 70)", fill: "oklch(78% 0.12 75 / 0.18)", stroke: 5,
+        legend: [{ label: "ม่วง • 46.50 ม.", color: "oklch(58% 0.17 295)" }, { label: "ชมพู • 205.20 ม.", color: "oklch(60% 0.2 350)" }, { label: "ฟ้า • 142.10 ม.", color: "oklch(62% 0.16 210)" }],
+        formula: "Σ ความยาวแนวสมาชิกแยกสี",
+        formulaDetail: "46.50 + 205.20 + 142.10 = 393.80 ม. • ต่างจาก BOQ -0.20 ม.",
+        lines: [
+          { zone: "ม่วง", method: "รวมแนวแปหลัก", gross: 46.50, final: 46.50 },
+          { zone: "ชมพู", method: "รวมแนวสมาชิกหลัก", gross: 205.20, final: 205.20 },
+          { zone: "ฟ้า", method: "รวมแนวสมาชิกเสริม", gross: 142.10, final: 142.10 },
+        ],
+        assumptions: [["เผื่อสูญเสีย", "ยังไม่รวม"], ["ความคลาดเคลื่อน", "-0.20 ม."], ["สถานะ", "รอ Engineer ตรวจ"], ["ผู้ถอด", "QS-02"]],
+        summary: "แนวสมาชิกหลังคาที่ถอดจากสีในแบบรวม 393.80 ม. ต่างจาก BOQ 0.20 ม. จึงแสดงเป็น <strong>รอตรวจ</strong> ก่อนเสนอราคา",
+        markup: `
+          <g class="focus">
+            <path class="mark-line" d="M1200 950 H2200 V700 H2750 V1500 H3150 V2500 H2300 V1600 H1200 Z"/>
+            <circle class="pin" cx="2200" cy="950" r="40"/><text class="pin-text" x="2270" y="965">393.80 m</text>
+          </g>`
+      },
+      {
+        id: "TO-MEP-001", boq: "4.1.1", trade: "mep", title: "งานเดินสายไฟแสงสว่าง",
+        qty: 122, calc: 122, unit: "ชุด", evidence: "EV-EL-01", source: "'4.งานไฟฟ้า'!E12",
+        drawing: "E-01", revision: "R0", location: "ชั้น 1 + ชั้น 2", status: "รอตรวจ",
+        image: "boq-trace-assets/slab-level1.png", size: [2435, 1721], color: "oklch(62% 0.16 70)", fill: "oklch(78% 0.12 75 / 0.18)", stroke: 4,
+        legend: [{ label: "จุดแสงสว่าง • 122 ชุด", color: "oklch(62% 0.16 70)" }],
+        formula: "นับจำนวนจุดตามสัญลักษณ์และแยกชั้น",
+        formulaDetail: "ชั้น 1 จำนวน 64 จุด + ชั้น 2 จำนวน 58 จุด = 122 ชุด",
+        lines: [{ zone: "ชั้น 1", method: "นับสัญลักษณ์ดวงโคม", gross: 64, final: 64 }, { zone: "ชั้น 2", method: "นับสัญลักษณ์ดวงโคม", gross: 58, final: 58 }],
+        assumptions: [["เผื่อสูญเสีย", "ไม่ใช้กับจำนวนจุด"], ["แบบอ้างอิง", "รอแนบ E-01"], ["สถานะ", "รอหลักฐานแปลน"], ["ผู้ถอด", "MEP-01"]],
+        summary: "จำนวนจุดไฟรวม 122 ชุดตรงกับ BOQ แต่ยังต้องแนบแบบไฟฟ้า E-01 เพื่อให้หลักฐานครบก่อนเสนอราคา",
+        markup: `<g class="focus"><rect class="mark-fill" x="700" y="420" width="800" height="900" rx="20"/><circle class="pin" cx="1000" cy="760" r="28"/><text class="pin-text" x="1045" y="772">รอแนบ E-01</text></g>`
+      },
+    ];
+
+    // ===== FULL BOQ (mirror จาก BOQ On Nuch 8.5.69.xlsx · ทุกบรรทัดทุกหมวด) =====
+    const DEMO_BOQ = [
+      { key:"prep", no:"1", name:"งานเตรียมการ", total:25000, rows:[
+        {t:'g',code:"1.1",title:"งานเตรียมการ"},
+        {t:'l',no:"1.1.1",d:"งานจัดทำที่พักคนงาน",q:1,u:"เหมา",mu:25000,ms:25000,lu:0,ls:0,tot:25000},
+        {t:'s',d:"รวมงาน 1.1",tot:25000},
+      ]},
+      { key:"struct", no:"2", name:"งานวิศวกรรมโครงสร้าง", total:2635256.38, rows:[
+        {t:'g',code:"2.1",title:"งานชั้น ฐานรากและเสาเข็ม และตอม่อ"},
+        {t:'l',no:"2.1.1",d:"เสาเข็มเจาะ    O - 0.35 x 0.35 x 21.00 ม.",q:24,u:"ต้น",mu:21500,ms:516000,lu:1000,ls:24000,tot:540000},
+        {t:'l',no:"2.1.2",d:"ค่าตัดเสาเข็ม",q:25,u:"ต้น",mu:null,ms:0,lu:500,ls:12500,tot:12500},
+        {t:'l',no:"2.1.3",d:"งานไม้แบบทั่วไป",q:91,u:"ตร.ม.",mu:300,ms:27300,lu:100,ls:9100,tot:36400},
+        {t:'l',no:"2.1.4",d:"คอนกรีตโครงสร้าง 240 กก / ตร.ม. Cube",q:17,u:"ลบ.ม.",mu:3000,ms:51000,lu:500,ls:8500,tot:59500},
+        {t:'l',no:"2.1.5",d:"คอนกรีตหยาบ",q:2,u:"ลบ.ม.",mu:2500,ms:5000,lu:500,ls:1000,tot:6000},
+        {t:'l',no:"2.1.6",d:"ทรายถมอัดแน่น",q:3,u:"ลบ.ม.",mu:800,ms:2400,lu:100,ls:300,tot:2700},
+        {t:'l',no:"2.1.7",d:"ลวดผูกเหล็ก",q:31,u:"กก.",mu:70,ms:2170,lu:null,ls:0,tot:2170},
+        {t:'l',no:"2.1.8",d:"ตะปู",q:25,u:"กก.",mu:70,ms:1750,lu:null,ls:0,tot:1750},
+        {t:'lb',d:"งานเหล็กเส้น"},
+        {t:'l',no:"2.1.9",d:"- เหล็กกลมผิวเรียบ ขนาดเส้นผ่านศูนย์กลาง RB  6 mm. (2.22 กก./เส้น) ชั้นคุณภาพ SR24",q:80.88,u:"กก.",mu:35,ms:2830.77,lu:15,ls:1213.19,tot:4043.95},
+        {t:'l',no:"2.1.10",d:"- เหล็กกลมผิวเรียบ ขนาดเส้นผ่านศูนย์กลาง  RB 9 mm. (4.99 กก./เส้น)  ชั้นคุณภาพ SR24",q:53.9,u:"กก.",mu:35,ms:1886.57,lu:15,ls:808.53,tot:2695.1},
+        {t:'l',no:"2.1.11",d:"- เหล็กกลมผิวข้ออ้อย ขนาดเส้นผ่านศูนย์กลาง DB 16 mm (15.78 กก./เส้น) ชั้นคุณภาพ SD40",q:1391.42,u:"กก.",mu:35,ms:48699.6,lu:15,ls:20871.26,tot:69570.86},
+        {t:'s',d:"รวมงาน 2.1",tot:737329.91},
+        {t:'g',code:"2.2",title:"งานคานคอดิน ชั้น 1"},
+        {t:'l',no:"2.2.1",d:"งานไม้แบบทั่วไป",q:174,u:"ตร.ม.",mu:300,ms:52200,lu:100,ls:17400,tot:69600},
+        {t:'l',no:"2.2.2",d:"คอนกรีตโครงสร้าง 240 กก / ตร.ม. Cube",q:15,u:"ลบ.ม.",mu:3000,ms:45000,lu:500,ls:7500,tot:52500},
+        {t:'l',no:"2.2.3",d:"คอนกรีตหยาบ",q:2,u:"ลบ.ม.",mu:2500,ms:5000,lu:500,ls:1000,tot:6000},
+        {t:'l',no:"2.2.4",d:"ทรายถมอัดแน่น",q:4,u:"ลบ.ม.",mu:800,ms:3200,lu:100,ls:400,tot:3600},
+        {t:'l',no:"2.2.5",d:"ลวดผูกเหล็ก",q:45,u:"กก.",mu:70,ms:3150,lu:null,ls:0,tot:3150},
+        {t:'l',no:"2.2.6",d:"ตะปู",q:48,u:"กก.",mu:70,ms:3360,lu:null,ls:0,tot:3360},
+        {t:'lb',d:"งานเหล็กเส้น"},
+        {t:'l',no:"2.2.7",d:"- เหล็กกลมผิวเรียบ ขนาดเส้นผ่านศูนย์กลาง  RB 9 mm. (4.99 กก./เส้น)  ชั้นคุณภาพ SR24",q:1027.76,u:"กก.",mu:35,ms:35971.61,lu:15,ls:15416.41,tot:51388.02},
+        {t:'l',no:"2.2.8",d:"- เหล็กกลมผิวข้ออ้อย ขนาดเส้นผ่านศูนย์กลาง DB 16 mm (15.78 กก./เส้น) ชั้นคุณภาพ SD40",q:1228.25,u:"กก.",mu:35,ms:42988.82,lu:15,ls:18423.78,tot:61412.6},
+        {t:'s',d:"รวมงาน 2.2",tot:251010.62},
+        {t:'g',code:"2.3",title:"งานพื้นชั้น 1"},
+        {t:'l',no:"2.3.1",d:"งานไม้แบบทั่วไป",q:213,u:"ตร.ม.",mu:300,ms:63900,lu:100,ls:21300,tot:85200},
+        {t:'l',no:"2.3.2",d:"คอนกรีตโครงสร้าง 240 กก / ตร.ม. Cube (กันซึม )",q:25,u:"ตร.ม.",mu:3000,ms:75000,lu:500,ls:12500,tot:87500},
+        {t:'l',no:"2.3.4",d:"ทรายถมอัดแน่น",q:7,u:"ลบ.ม.",mu:800,ms:5600,lu:100,ls:700,tot:6300},
+        {t:'l',no:"2.3.5",d:"พลาสติกอเนกประสงค์ (พลาสติกปูพื้นคอนกรีต)",q:2,u:"ม้วน",mu:650,ms:1300,lu:null,ls:0,tot:1300},
+        {t:'lb',d:"งานเหล็กเส้น"},
+        {t:'l',no:"2.3.6",d:"- เหล็กกลมผิวเรียบ ขนาดเส้นผ่านศูนย์กลาง  RB 9 mm. (4.99 กก./เส้น)  ชั้นคุณภาพ SR24",q:824.45,u:"กก.",mu:35,ms:28855.67,lu:15,ls:12366.72,tot:41222.39},
+        {t:'l',no:"2.3.7",d:"- เหล็กกลมผิวข้ออ้อย ขนาดเส้นผ่านศูนย์กลาง DB 12 mm (8.88 กก./เส้น) ชั้นคุณภาพ SD40",q:276.76,u:"กก.",mu:35,ms:9686.6,lu:15,ls:4151.4,tot:13838},
+        {t:'l',no:"2.3.8",d:"ตะแกรง W/M ∅ 4 mm. @ 0.20 m. #",q:2.95,u:"ม้วน",mu:6500,ms:19202,lu:1500,ls:4431.23,tot:23633.23},
+        {t:'l',no:"2.3.9",d:"ลวดผูกเหล็ก",q:22,u:"กก.",mu:70,ms:1540,lu:null,ls:0,tot:1540},
+        {t:'l',no:"2.3.10",d:"ตะปู",q:59,u:"กก.",mu:70,ms:4130,lu:null,ls:0,tot:4130},
+        {t:'s',d:"รวมงาน 2.3",tot:264663.62},
+        {t:'g',code:"2.4",title:"งานเสาชั้น 1 -2"},
+        {t:'l',no:"2.4.1",d:"งานไม้แบบทั่วไป",q:80,u:"ตร.ม.",mu:300,ms:24000,lu:100,ls:8000,tot:32000},
+        {t:'l',no:"2.4.2",d:"คอนกรีตโครงสร้าง 240 กก / ตร.ม. Cube",q:4,u:"ตร.ม.",mu:3000,ms:12000,lu:500,ls:2000,tot:14000},
+        {t:'lb',d:"งานเหล็กเส้น"},
+        {t:'l',no:"2.4.3",d:"- เหล็กกลมผิวเรียบ ขนาดเส้นผ่านศูนย์กลาง RB  6 mm. (2.22 กก./เส้น) ชั้นคุณภาพ SR24",q:117.22,u:"กก.",mu:35,ms:4102.56,lu:15,ls:1758.24,tot:5860.8},
+        {t:'l',no:"2.4.4",d:"- เหล็กกลมผิวข้ออ้อย ขนาดเส้นผ่านศูนย์กลาง DB 12 mm (8.88 กก./เส้น) ชั้นคุณภาพ SD40",q:351.65,u:"กก.",mu:35,ms:12307.68,lu:15,ls:5274.72,tot:17582.4},
+        {t:'l',no:"2.4.5",d:"ลวดผูกเหล็ก",q:10,u:"กก.",mu:70,ms:700,lu:null,ls:0,tot:700},
+        {t:'l',no:"2.4.6",d:"ตะปู",q:20,u:"กก.",mu:70,ms:1400,lu:null,ls:0,tot:1400},
+        {t:'s',d:"รวมงาน 2.4",tot:71543.2},
+        {t:'g',code:"2.5",title:"งานคาน ชั้น 2"},
+        {t:'l',no:"2.5.1",d:"งานไม้แบบทั่วไป",q:216,u:"ตร.ม.",mu:300,ms:64800,lu:100,ls:21600,tot:86400},
+        {t:'l',no:"2.5.2",d:"คอนกรีตโครงสร้าง 240 กก / ตร.ม. Cube",q:18,u:"ลบ.ม.",mu:3000,ms:54000,lu:500,ls:9000,tot:63000},
+        {t:'l',no:"2.5.3",d:"ลวดผูกเหล็ก",q:50,u:"กก.",mu:70,ms:3500,lu:null,ls:0,tot:3500},
+        {t:'l',no:"2.5.4",d:"ตะปู",q:60,u:"กก.",mu:70,ms:4200,lu:null,ls:0,tot:4200},
+        {t:'lb',d:"งานเหล็กเส้น"},
+        {t:'l',no:"2.5.5",d:"- เหล็กกลมผิวเรียบ ขนาดเส้นผ่านศูนย์กลาง  RB 9 mm. (4.99 กก./เส้น)  ชั้นคุณภาพ SR24",q:543.13,u:"กก.",mu:35,ms:19009.4,lu:15,ls:8146.88,tot:27156.28},
+        {t:'l',no:"2.5.6",d:"- เหล็กกลมผิวข้ออ้อย ขนาดเส้นผ่านศูนย์กลาง DB 12 mm (8.88 กก./เส้น) ชั้นคุณภาพ SD40",q:1966.94,u:"กก.",mu:35,ms:68842.87,lu:15,ls:29504.09,tot:98346.96},
+        {t:'s',d:"รวมงาน 2.5",tot:282603.23},
+        {t:'g',code:"2.6",title:"งานพื้นชั้น 2"},
+        {t:'l',no:"2.6.1",d:"งานไม้แบบทั่วไป",q:254,u:"ตร.ม.",mu:300,ms:76200,lu:100,ls:25400,tot:101600},
+        {t:'l',no:"2.6.2",d:"คอนกรีตโครงสร้าง 240 กก / ตร.ม. Cube (กันซึม )",q:31,u:"ตร.ม.",mu:3000,ms:93000,lu:500,ls:15500,tot:108500},
+        {t:'l',no:"",d:"งานเหล็กเส้น",q:null,u:"",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"2.6.3",d:"- เหล็กกลมผิวเรียบ ขนาดเส้นผ่านศูนย์กลาง  RB 9 mm. (4.99 กก./เส้น)  ชั้นคุณภาพ SR24",q:1481.24,u:"กก.",mu:35,ms:51843.39,lu:15,ls:22218.59,tot:74061.98},
+        {t:'l',no:"2.6.4",d:"- เหล็กกลมผิวข้ออ้อย ขนาดเส้นผ่านศูนย์กลาง DB 12 mm (8.88 กก./เส้น) ชั้นคุณภาพ SD40",q:226.75,u:"กก.",mu:35,ms:7936.17,lu:15,ls:3401.22,tot:11337.39},
+        {t:'l',no:"2.6.5",d:"ตะแกรง W/M ∅ 4 mm. @ 0.20 m. #",q:2.95,u:"ม้วน",mu:6500,ms:19202,lu:1500,ls:4431.23,tot:23633.23},
+        {t:'l',no:"2.6.6",d:"ลวดผูกเหล็ก",q:34,u:"กก.",mu:70,ms:2380,lu:null,ls:0,tot:2380},
+        {t:'l',no:"2.6.7",d:"ตะปู",q:70,u:"กก.",mu:70,ms:4900,lu:null,ls:0,tot:4900},
+        {t:'s',d:"รวมงาน 2.6",tot:326412.6},
+        {t:'g',code:"2.7",title:"งานเสาชั้น 2-3"},
+        {t:'l',no:"2.7.1",d:"งานไม้แบบทั่วไป",q:71,u:"ตร.ม.",mu:300,ms:21300,lu:100,ls:7100,tot:28400},
+        {t:'l',no:"2.7.2",d:"คอนกรีตโครงสร้าง 240 กก / ตร.ม. Cube",q:4,u:"ตร.ม.",mu:3000,ms:12000,lu:500,ls:2000,tot:14000},
+        {t:'lb',d:"งานเหล็กเส้น"},
+        {t:'l',no:"2.7.3",d:"- เหล็กกลมผิวเรียบ ขนาดเส้นผ่านศูนย์กลาง RB  6 mm. (2.22 กก./เส้น) ชั้นคุณภาพ SR24",q:104.19,u:"กก.",mu:35,ms:3646.72,lu:15,ls:1562.88,tot:5209.6},
+        {t:'l',no:"2.7.4",d:"- เหล็กกลมผิวข้ออ้อย ขนาดเส้นผ่านศูนย์กลาง DB 12 mm (8.88 กก./เส้น) ชั้นคุณภาพ SD40",q:312.58,u:"กก.",mu:35,ms:10940.16,lu:15,ls:4688.64,tot:15628.8},
+        {t:'l',no:"2.7.5",d:"ลวดผูกเหล็ก",q:9,u:"กก.",mu:70,ms:630,lu:null,ls:0,tot:630},
+        {t:'l',no:"2.7.6",d:"ตะปู",q:20,u:"กก.",mu:70,ms:1400,lu:null,ls:0,tot:1400},
+        {t:'s',d:"รวมงาน 2.7",tot:65268.4},
+        {t:'g',code:"2.8",title:"งานคาน ชั้น 3"},
+        {t:'l',no:"2.8.1",d:"งานไม้แบบทั่วไป",q:120,u:"ตร.ม.",mu:300,ms:36000,lu:100,ls:12000,tot:48000},
+        {t:'l',no:"2.8.2",d:"คอนกรีตโครงสร้าง 240 กก / ตร.ม. Cube",q:10,u:"ลบ.ม.",mu:3000,ms:30000,lu:500,ls:5000,tot:35000},
+        {t:'l',no:"2.8.3",d:"ลวดผูกเหล็ก",q:30,u:"กก.",mu:70,ms:2100,lu:null,ls:0,tot:2100},
+        {t:'l',no:"2.8.4",d:"ตะปู",q:33,u:"กก.",mu:70,ms:2310,lu:null,ls:0,tot:2310},
+        {t:'lb',d:"งานเหล็กเส้น"},
+        {t:'l',no:"2.8.5",d:"- เหล็กกลมผิวเรียบ ขนาดเส้นผ่านศูนย์กลาง RB  9 mm. (2.22 กก./เส้น) ชั้นคุณภาพ SR24",q:717.3,u:"กก.",mu:35,ms:25105.59,lu:15,ls:10759.54,tot:35865.13},
+        {t:'l',no:"2.8.6",d:"- เหล็กกลมผิวข้ออ้อย ขนาดเส้นผ่านศูนย์กลาง DB 16 mm (8.88 กก./เส้น) ชั้นคุณภาพ SD40",q:756.11,u:"กก.",mu:35,ms:26464.01,lu:15,ls:11341.72,tot:37805.72},
+        {t:'s',d:"รวมงาน 2.8",tot:161080.85},
+        {t:'g',code:"2.9",title:"งานพื้นชั้น 3"},
+        {t:'l',no:"2.9.1",d:"งานไม้แบบทั่วไป",q:41,u:"ตร.ม.",mu:300,ms:12300,lu:100,ls:4100,tot:16400},
+        {t:'l',no:"2.9.2",d:"คอนกรีตโครงสร้าง 240 กก / ตร.ม. Cube (กันซึม )",q:5,u:"ตร.ม.",mu:3000,ms:15000,lu:500,ls:2500,tot:17500},
+        {t:'lb',d:"งานเหล็กเส้น"},
+        {t:'l',no:"2.9.3",d:"- เหล็กกลมผิวเรียบ ขนาดเส้นผ่านศูนย์กลาง  RB 9 mm. (4.99 กก./เส้น)  ชั้นคุณภาพ SR24",q:350.47,u:"กก.",mu:35,ms:12266.54,lu:15,ls:5257.09,tot:17523.63},
+        {t:'l',no:"2.9.4",d:"- เหล็กกลมผิวข้ออ้อย ขนาดเส้นผ่านศูนย์กลาง DB 12 mm (8.88 กก./เส้น) ชั้นคุณภาพ SD40",q:183.96,u:"กก.",mu:35,ms:6438.74,lu:15,ls:2759.46,tot:9198.2},
+        {t:'l',no:"2.9.5",d:"ลวดผูกเหล็ก",q:11,u:"กก.",mu:70,ms:770,lu:null,ls:0,tot:770},
+        {t:'l',no:"2.9.6",d:"ตะปู",q:12,u:"กก.",mu:70,ms:840,lu:null,ls:0,tot:840},
+        {t:'s',d:"รวมงาน 2.9",tot:62231.83},
+        {t:'g',code:"2.10",title:"งานบันได"},
+        {t:'l',no:"2.10.1",d:"งานไม้แบบทั่วไป",q:17,u:"ตร.ม.",mu:300,ms:5100,lu:100,ls:1700,tot:6800},
+        {t:'l',no:"2.10.2",d:"คอนกรีตโครงสร้าง 240 กก / ตร.ม. Cube",q:3,u:"ตร.ม.",mu:3000,ms:9000,lu:500,ls:1500,tot:10500},
+        {t:'lb',d:"งานเหล็กเส้น"},
+        {t:'l',no:"2.10.3",d:"- เหล็กกลมผิวเรียบ ขนาดเส้นผ่านศูนย์กลาง RB  6 mm. (2.22 กก./เส้น) ชั้นคุณภาพ SR24",q:18.2,u:"กก.",mu:35,ms:637.04,lu:15,ls:273.02,tot:910.05},
+        {t:'l',no:"2.10.4",d:"- เหล็กกลมผิวเรียบ ขนาดเส้นผ่านศูนย์กลาง  RB 9 mm. (4.99 กก./เส้น)  ชั้นคุณภาพ SR24",q:137.01,u:"กก.",mu:35,ms:4795.19,lu:15,ls:2055.08,tot:6850.27},
+        {t:'l',no:"2.10.5",d:"- เหล็กกลมผิวข้ออ้อย ขนาดเส้นผ่านศูนย์กลาง DB 12 mm (8.88 กก./เส้น) ชั้นคุณภาพ SD40",q:69.94,u:"กก.",mu:35,ms:2447.86,lu:15,ls:null,tot:null},
+        {t:'l',no:"2.10.6",d:"ลวดผูกเหล็ก",q:5,u:"กก.",mu:70,ms:350,lu:null,ls:0,tot:350},
+        {t:'l',no:"2.10.7",d:"ตะปู",q:5,u:"กก.",mu:70,ms:350,lu:null,ls:0,tot:350},
+        {t:'s',d:"รวมงาน 2.10",tot:28208.18},
+        {t:'g',code:"2.11",title:"งานหลังคา"},
+        {t:'l',no:"2.11.1",d:"อะเส 2C-100x50x3.2 @1.00m",q:519.68,u:"กก.",mu:45,ms:23385.78,lu:25,ls:12992.1,tot:36377.88},
+        {t:'l',no:"2.11.2",d:"แปเหล็กกล่องขนาด 50x25x3.2mm. @1.00 m.",q:475.18,u:"กก.",mu:45,ms:21383.21,lu:25,ls:11879.56,tot:33262.77},
+        {t:'l',no:"2.11.3",d:"จันทันเหล็ก C-100x50x3.2 @1.00m",q:1146.66,u:"กก.",mu:45,ms:51599.59,lu:25,ls:28666.44,tot:80266.03},
+        {t:'l',no:"2.11.4",d:"ดั้งเหล็ก 2C-100x50x 3.2 mm.",q:140.82,u:"กก.",mu:45,ms:6336.79,lu:25,ls:3520.44,tot:9857.23},
+        {t:'l',no:"2.11.5",d:"แผ่นเพลทเหล็ก 8\"x8\"x6mm แบบเจาะ 4 รู",q:22,u:"ชุด",mu:200,ms:4400,lu:100,ls:2200,tot:6600},
+        {t:'l',no:"2.11.6",d:"แอลโบลท์เกลียวมิล 20 x 300 มม. U HENG (แพ็ก 1 ชุด)",q:88,u:"ชุด",mu:180,ms:15840,lu:50,ls:4400,tot:20240},
+        {t:'l',no:"2.11.7",d:"แฟรชชิ่งครอบข้าง",q:48,u:"เมตร",mu:300,ms:14400,lu:150,ls:7200,tot:21600},
+        {t:'l',no:"2.11.8",d:"แฟรชชิ่งครอบจั่ว",q:14,u:"เมตร",mu:300,ms:4200,lu:150,ls:2100,tot:6300},
+        {t:'l',no:"2.11.9",d:"Waterproof Membrane",q:16,u:"ตร.ม.",mu:1000,ms:16000,lu:500,ls:8000,tot:24000},
+        {t:'l',no:"2.11.10",d:"KNACK รูฟเดรน Mod.324 ขนาด 4\"",q:9,u:"ชุด",mu:1800,ms:16200,lu:300,ls:2700,tot:18900},
+        {t:'l',no:"2.11.11",d:"เมทัลชีท 0.35 มม. บลูสโคป สีอลูซิงค์ AZ70 มอก. + ฉนวน PU 2 นิ้ว (35-40K)",q:170,u:"ตร.ม.",mu:600,ms:102000,lu:150,ls:25500,tot:127500},
+        {t:'s',d:"รวมงาน 2.10",tot:384903.91},
+      ]},
+      { key:"arch", no:"3", name:"งานสถาปัตยกรรม", total:1777940, rows:[
+        {t:'g',code:"3.6",title:"งานประตู และหน้าต่าง"},
+        {t:'l',no:"3.1",d:"ชั้น1 ประตู 12 บาน หน้าต่าง 6 บาท",q:1,u:"ชุด",mu:625000,ms:625000,lu:null,ls:0,tot:625000},
+        {t:'l',no:"-",d:"ประตูบานเปิดเดี่ยว  ชนิดใช้ภายใน",q:null,u:"",mu:null,ms:null,lu:null,ls:null,tot:null},
+        {t:'l',no:"-",d:"กุญแจลูกบิด พร้อมอุปกรณ์ครบชุด",q:null,u:"",mu:null,ms:null,lu:null,ls:null,tot:null},
+        {t:'l',no:"3.6.2",d:"D5 -ขนาดบาน 0.70x2.00 ม. วงกบ P.V.C.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"-",d:"กุญแจลูกบิด พร้อมอุปกรณ์ครบชุด",q:null,u:"",mu:null,ms:null,lu:null,ls:null,tot:null},
+        {t:'l',no:"-",d:"แบบมีช่องระบายอากาศด้านบน",q:null,u:"",mu:null,ms:null,lu:null,ls:null,tot:null},
+        {t:'l',no:"-",d:"ประตูบานเปิดเดี่ยว บาน P.V.C.",q:null,u:"",mu:null,ms:null,lu:null,ls:null,tot:null},
+        {t:'l',no:"3.6.3",d:"W3  ขนาดบานละ 0.70x1.20 ม.ลูกฟักกระจกอบสี (ใส) หนา 5 มม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"-",d:"หน้าต่างบานเลื่อนสลับ",q:null,u:"",mu:null,ms:null,lu:null,ls:null,tot:null},
+        {t:'lb',d:"อลูมิเนียมสีธรรมชาติ หนา 1.5 มม."},
+        {t:'l',no:"-",d:"กระจกเขียวใส 6 มม.",q:null,u:"",mu:null,ms:null,lu:null,ls:null,tot:null},
+        {t:'l',no:"3.6.4",d:"W4 ขนาดบานละ 2.00x1.10 ม",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'lb',d:"บานเกล็ดปรับมุม"},
+        {t:'lb',d:"วงกบเหล็ก ขนาด 2\"x4\""},
+        {t:'lb',d:"เกล็ดกระจกโฟลทสีตัดแสง(ระบุสีภายหลัง) หนา 5 มม."},
+        {t:'lb',d:"ชุดบานเกล็ดอลูมิเนียมชนิดมือหมุน พร้อมเหล็กกันขโมย (เหล็กตัน ∅ 9 มม.)"},
+        {t:'l',no:"3.6.5",d:"W5 ขนาดบานละ 2.65x1.10 ม",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'lb',d:"บานเกล็ดปรับมุม"},
+        {t:'lb',d:"วงกบเหล็ก ขนาด 2\"x4\""},
+        {t:'lb',d:"เกล็ดกระจกโฟลทสีตัดแสง(ระบุสีภายหลัง) หนา 5 มม."},
+        {t:'lb',d:"ชุดบานเกล็ดอลูมิเนียมชนิดมือหมุน พร้อมเหล็กกันขโมย (เหล็กตัน ∅ 9 มม.)"},
+        {t:'lb',d:"ชั้น2 ประตู 7 บาน หน้าต่าง 13 บาท"},
+        {t:'s',d:"รวมงาน 3.1",tot:625000},
+        {t:'g',code:"3.2",title:"งานสุขภัณฑ์"},
+        {t:'l',no:"3.2.1",d:"งานสุขภัณฑ์",q:1,u:"ชุด",mu:200000,ms:200000,lu:null,ls:0,tot:200000},
+        {t:'s',d:"รวมงาน 3.2",tot:200000},
+        {t:'g',code:"3.3",title:"งานฝ้า"},
+        {t:'l',no:"3.3.1",d:"ฝ้ายิปซั่มบอร์ด ฉาบเรียบ 9 มม. C1",q:284,u:"ตร.ม.",mu:300,ms:85200,lu:120,ls:34080,tot:119280},
+        {t:'l',no:"3.3.2",d:"ฝ้ายิปซั่มบอร์ด ชนิดกันชื้น ฉาบเรียบ 9 มม. C2 ห้องน้ำ",q:36,u:"ตร.ม.",mu:350,ms:12600,lu:120,ls:4320,tot:16920},
+        {t:'l',no:"3.3.2",d:"ฝ้ายิปซั่มบอร์ด ชนิดกันชื้น ฉาบเรียบ 9 มม. C2 ภายนอก",q:133,u:"ตร.ม.",mu:350,ms:46550,lu:120,ls:15960,tot:62510},
+        {t:'s',d:"รวมงาน 3.3",tot:198710},
+        {t:'g',code:"3.4",title:"งานผนัง"},
+        {t:'l',no:"3.4.1",d:"ผนังก่ออิฐชั้น 1",q:-25,u:"ตร.ม.",mu:350,ms:-8750,lu:200,ls:-5000,tot:-13750},
+        {t:'l',no:"3.4.2",d:"ผนังก่ออิฐชั้น 2",q:-25,u:"ตร.ม.",mu:350,ms:-8750,lu:200,ls:-5000,tot:-13750},
+        {t:'l',no:"3.4.3",d:"ผนังก่ออิฐชั้น ดาดฟ้า",q:0,u:"ตร.ม.",mu:350,ms:0,lu:200,ls:0,tot:0},
+        {t:'l',no:"3.4.4",d:"กระเบื้องผนังห้องน้ำชั้น1Bathroom 1 TL-01  กระเบื้องขนาด 60x60 ซม.",q:38,u:"ตร.ม.",mu:700,ms:26600,lu:250,ls:9500,tot:36100},
+        {t:'l',no:"3.4.5",d:"กระเบื้องผนังห้องน้ำชั้น2 Bathroom 2 TL-02",q:44,u:"ตร.ม.",mu:1000,ms:44000,lu:250,ls:11000,tot:55000},
+        {t:'l',no:"3.4.6",d:"กระเบื้องผนังห้องน้ำ มาสเตอร์ Master Bathroom  TL-03",q:50,u:"ตร.ม.",mu:1050,ms:52500,lu:250,ls:12500,tot:65000},
+        {t:'l',no:"3.4.7",d:"ปูนกาว วัสดุปูพื้น",q:132,u:"ตร.ม.",mu:350,ms:46200,lu:0,ls:0,tot:46200},
+        {t:'l',no:"3.4.8",d:"ผิวผนังฉาบปูนเรียบภายนอกและภายใน",q:-100,u:"ตร.ม.",mu:200,ms:-20000,lu:200,ls:-20000,tot:-40000},
+        {t:'s',d:"รวมงาน 3.4",tot:134800},
+        {t:'g',code:"3.5",title:"งานสี"},
+        {t:'l',no:"3.5.1",d:"สีผนัง P1 ภายนอกและภายใน",q:-100,u:"ตร.ม.",mu:100,ms:-10000,lu:100,ls:-10000,tot:-20000},
+        {t:'l',no:"3.5.2",d:"สีฝ้า C1",q:284,u:"ตร.ม.",mu:100,ms:28400,lu:100,ls:28400,tot:56800},
+        {t:'l',no:"3.5.4",d:"สีฝ้า C2 ห้องน้ำ",q:36,u:"ตร.ม.",mu:100,ms:3600,lu:100,ls:3600,tot:7200},
+        {t:'l',no:"3.5.4",d:"สีฝ้า C2 ภายนอก",q:133,u:"ตร.ม.",mu:100,ms:13300,lu:100,ls:13300,tot:26600},
+        {t:'s',d:"รวมงาน 3.5",tot:70600},
+        {t:'g',code:"3.6",title:"งานพื้น"},
+        {t:'l',no:"3.6.1",d:"พื้นชั้น 1 F1",q:139,u:"ตร.ม.",mu:500,ms:69500,lu:350,ls:48650,tot:118150},
+        {t:'l',no:"3.6.2",d:"พื้นชั้น 1 F2",q:54,u:"ตร.ม.",mu:300,ms:16200,lu:500,ls:27000,tot:43200},
+        {t:'l',no:"3.6.3",d:"พื้นชั้น 1 F3",q:8,u:"ตร.ม.",mu:685,ms:5480,lu:250,ls:2000,tot:7480},
+        {t:'l',no:"3.6.4",d:"พื้นชั้น 2 F1",q:145,u:"ตร.ม.",mu:500,ms:72500,lu:350,ls:50750,tot:123250},
+        {t:'l',no:"3.6.5",d:"พื้นชั้น 2 F3",q:13,u:"ตร.ม.",mu:1000,ms:13000,lu:250,ls:3250,tot:16250},
+        {t:'l',no:"3.6.6",d:"พื้นชั้น 2 F3",q:15,u:"ตร.ม.",mu:1000,ms:15000,lu:250,ls:3750,tot:18750},
+        {t:'l',no:"3.6.7",d:"พื้นชั้น 2 F4 พื้น คสล. ขัดเรียบ",q:79,u:"ตร.ม.",mu:300,ms:23700,lu:500,ls:39500,tot:63200},
+        {t:'l',no:"3.6.8",d:"ปูนกาว วัสดุปูพื้น",q:453,u:"ตร.ม.",mu:350,ms:158550,lu:0,ls:0,tot:158550},
+        {t:'s',d:"รวมงาน 3.6",tot:548830},
+      ]},
+      { key:"elec", no:"4", name:"งานระบบไฟฟ้า", total:398650, rows:[
+        {t:'g',code:"4.1",title:"งานเต้ารับ และไฟแสงสว่าง"},
+        {t:'l',no:"4.1.1",d:"งานเดินสายไฟแสงสว่าง",q:122,u:"ชุด",mu:800,ms:97600,lu:400,ls:48800,tot:146400},
+        {t:'l',no:"4.1.2",d:"งานเดินสายไฟเต้ารับ",q:55,u:"ชุด",mu:800,ms:44000,lu:400,ls:22000,tot:66000},
+        {t:'l',no:"4.1.3",d:"หลอดไฟ L1",q:54,u:"ชุด",mu:350,ms:18900,lu:null,ls:0,tot:18900},
+        {t:'l',no:"4.1.4",d:"หลอดไฟ L2",q:34,u:"ชุด",mu:700,ms:23800,lu:null,ls:0,tot:23800},
+        {t:'l',no:"4.1.5",d:"หลอดไฟ L3",q:2,u:"ชุด",mu:350,ms:700,lu:null,ls:0,tot:700},
+        {t:'l',no:"4.1.6",d:"หลอดไฟ L4",q:2,u:"ชุด",mu:350,ms:700,lu:null,ls:0,tot:700},
+        {t:'l',no:"4.1.7",d:"หลอดไฟ DL1",q:5,u:"ชุด",mu:null,ms:0,lu:0,ls:0,tot:0},
+        {t:'l',no:"4.1.8",d:"หลอดไฟ DL2",q:1,u:"ม.",mu:null,ms:0,lu:0,ls:0,tot:0},
+        {t:'l',no:"4.1.9",d:"หลอดไฟ LED CL",q:195,u:"ม.",mu:300,ms:58500,lu:100,ls:19500,tot:78000},
+        {t:'l',no:"4.1.10",d:"สวิตซ์ 1 ทาง",q:40,u:"ชุด",mu:300,ms:12000,lu:0,ls:0,tot:12000},
+        {t:'l',no:"4.1.11",d:"สวิตซ์ 2 ทาง",q:26,u:"ชุด",mu:400,ms:10400,lu:0,ls:0,tot:10400},
+        {t:'l',no:"4.1.12",d:"สวิตซ์ 3 ทาง",q:11,u:"ชุด",mu:500,ms:5500,lu:0,ls:0,tot:5500},
+        {t:'l',no:"4.1.13",d:"หม้อแปลง LED",q:24,u:"ชุด",mu:500,ms:12000,lu:0,ls:0,tot:12000},
+        {t:'l',no:"4.1.14",d:"เต้ารับคู่",q:45,u:"ชุด",mu:350,ms:15750,lu:0,ls:0,tot:15750},
+        {t:'l',no:"4.1.15",d:"เต้ารับ LAN",q:5,u:"ชุด",mu:500,ms:2500,lu:0,ls:0,tot:2500},
+        {t:'l',no:"4.1.16",d:"เต้ารับ HDMI",q:5,u:"ชุด",mu:500,ms:2500,lu:0,ls:0,tot:2500},
+        {t:'l',no:"4.1.17",d:"Junction Box",q:7,u:"ชุด",mu:500,ms:3500,lu:0,ls:0,tot:3500},
+        {t:'s',d:"รวมงาน 4.1",tot:398650},
+        {t:'l',no:"รวมราคาหมวดงานระบบไฟฟ้า",d:"",q:null,u:"",mu:null,ms:308350,lu:null,ls:90300,tot:398650},
+      ]},
+      { key:"san", no:"5", name:"งานสุขาภิบาล", total:260445, rows:[
+        {t:'g',code:"5.1",title:"งานระบบท่อน้ำดี"},
+        {t:'l',no:"5.1.1",d:"ท่อ PVC 3/4 นิ้ว",q:142,u:"ม.",mu:35,ms:4970,lu:null,ls:0,tot:4970},
+        {t:'l',no:"5.1.2",d:"ท่อ PVC 1/2 นิ้ว",q:44,u:"ม.",mu:25,ms:1100,lu:null,ls:0,tot:1100},
+        {t:'l',no:"5.1.3",d:"ท่อ PPR 3/4 นิ้ว",q:28,u:"ม.",mu:50,ms:1400,lu:null,ls:0,tot:1400},
+        {t:'l',no:"5.1.4",d:"ก๊อกสนาม",q:4,u:"ชุด",mu:250,ms:1000,lu:null,ls:0,tot:1000},
+        {t:'l',no:"5.1.5",d:"ถังน้ำดี 1,500 ลิตร",q:1,u:"ชุด",mu:10900,ms:10900,lu:null,ls:0,tot:10900},
+        {t:'l',no:"5.1.6",d:"ฐานถังน้ำดี",q:1,u:"ชุด",mu:5000,ms:5000,lu:2000,ls:2000,tot:7000},
+        {t:'l',no:"5.1.7",d:"ปั้มน้ำ แรงดันคงที่ 300 W ยี่ห้อ Hitachi",q:1,u:"ชุด",mu:11500,ms:11500,lu:null,ls:0,tot:11500},
+        {t:'l',no:"5.1.8",d:"ข้อต่อ และวัสดุสิ้นเปลือง",q:1,u:"เหมา",mu:8000,ms:8000,lu:null,ls:0,tot:8000},
+        {t:'l',no:"5.1.9",d:"ค่าแรงติดตั้งท่อ",q:1,u:"เหมา",mu:null,ms:0,lu:15000,ls:15000,tot:15000},
+        {t:'s',d:"รวมงาน 5.1",tot:60870},
+        {t:'g',code:"5.2",title:"งานระบบท่อน้ำทิ้ง"},
+        {t:'l',no:"5.2.1",d:"ท่อ PVC 2 นิ้ว",q:72,u:"ม.",mu:25,ms:1800,lu:null,ls:0,tot:1800},
+        {t:'l',no:"5.2.2",d:"ท่อ PVC 4 นิ้ว",q:115,u:"ม.",mu:25,ms:2875,lu:null,ls:0,tot:2875},
+        {t:'l',no:"5.2.3",d:"FCO",q:2,u:"ชุด",mu:500,ms:1000,lu:null,ls:0,tot:1000},
+        {t:'l',no:"5.2.4",d:"Roof Drain",q:7,u:"ชุด",mu:1500,ms:10500,lu:null,ls:0,tot:10500},
+        {t:'l',no:"5.2.5",d:"ข้อต่อ และวัสดุสิ้นเปลือง",q:1,u:"เหมา",mu:15000,ms:15000,lu:null,ls:0,tot:15000},
+        {t:'l',no:"5.2.6",d:"ค่าแรงติดตั้งท่อ",q:1,u:"เหมา",mu:null,ms:0,lu:15000,ls:15000,tot:15000},
+        {t:'s',d:"รวมงาน 5.2",tot:46175},
+        {t:'g',code:"5.3",title:"งานระบบท่อน้ำทิ้งภายนอก"},
+        {t:'l',no:"5.3.1",d:"ท่อใยหิน ขนาด 6 นิ้ว",q:72,u:"ม.",mu:150,ms:10800,lu:null,ls:0,tot:10800},
+        {t:'l',no:"5.3.2",d:"บ่อพักขนาด 40*50 ซม.",q:48,u:"ชุด",mu:800,ms:38400,lu:null,ls:0,tot:38400},
+        {t:'l',no:"5.3.3",d:"ฝาบ่อพักขนาด 40*50 ซม.",q:16,u:"ชุด",mu:350,ms:5600,lu:null,ls:0,tot:5600},
+        {t:'l',no:"5.3.4",d:"ถังบำบัดน้ำเสีย ยี่ห้อ DOS ขนาด 1,000 ลิตร",q:3,u:"ชุด",mu:6500,ms:19500,lu:null,ls:0,tot:19500},
+        {t:'l',no:"5.3.5",d:"ฐานถังบำบัด",q:3,u:"ชุด",mu:5000,ms:15000,lu:2000,ls:6000,tot:21000},
+        {t:'l',no:"5.3.6",d:"ถังดักไขมัน แบบฝังดิน ยี่ห้อ DOS ขนาด 40 ลิตร",q:2,u:"ชุด",mu:3800,ms:7600,lu:null,ls:0,tot:7600},
+        {t:'l',no:"5.3.7",d:"ค่าแบคโฮ",q:3,u:"เหมา",mu:8500,ms:25500,lu:null,ls:0,tot:25500},
+        {t:'l',no:"5.3.8",d:"ข้อต่อ และวัสดุสิ้นเปลือง",q:1,u:"เหมา",mu:5000,ms:5000,lu:null,ls:0,tot:5000},
+        {t:'l',no:"5.3.9",d:"ค่าแรงติดตั้งท่อ",q:1,u:"เหมา",mu:null,ms:0,lu:20000,ls:20000,tot:20000},
+        {t:'s',d:"รวมงาน 5.3",tot:153400},
+        {t:'l',no:"รวมราคาหมวดงานเฟอร์นิเจอร์",d:"",q:null,u:"",mu:null,ms:202445,lu:null,ls:58000,tot:260445},
+      ]},
+      { key:"built", no:"6", name:"งานเฟอร์นิเจอร์บิ้วอิน", total:0, rows:[
+        {t:'g',code:"6.1",title:"งานเฟอร์นิเจอร์บิ้วอินชั้น1"},
+        {t:'l',no:"6.1.1",d:"BF101.1 ตู้ 1.80*2.60*0.55 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.2",d:"BF101.2 ตู้ ขนาด 2.25*2.60*0.60 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.3",d:"BF102 ตู้ ขนาด 1.95*2.60*0.53 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.4",d:"BF103 ตู้ ขนาด 3.50*2.60*0.50 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.5",d:"BF104 ตู้ ขนาด 3.85*2.60*0.45 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.6",d:"BF105 ตู้ ขนาด 4.50*2.60*0.60 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.7",d:"BF106 ตู้ ขนาด 4.25*2.60*0.80 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.8",d:"BF107 ตู้ ขนาด 3.80*2.60*0.60 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.9",d:"BF108 ตู้ ขนาด 2.40*0.90*0.80 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.10",d:"BF109 ตู้ ขนาด 3.25*2.60*0.70 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.11",d:"BF110 ตู้ ขนาด 4.30*2.60*0.60 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.12",d:"BF111 ตู้ ขนาด 3.35*2.60*0.40 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.13",d:"BF301 ตู้ ขนาด 1.25*0.85*0.60 ม. พร้อมแผงติดกระจก",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.1.14",d:"BF301.2 ตู้ ขนาด 1.25*1.20*0.20 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"5.1.15",d:"BF302 ตู้ ขนาด 2.30*0.30*0.50 ม. พร้อมแผงติดกระจก",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'s',d:"รวมงาน 6.1",tot:0},
+        {t:'g',code:"6.2",title:"งานเฟอร์นิเจอร์บิ้วอินชั้น2"},
+        {t:'l',no:"6.2.1",d:"BF201 ตู้ ขนาด 3.00*2.60*0.25 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.2",d:"BF202 ตู้ ขนาด 1.20*2.60*0.50 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.3",d:"BF203 ตู้ ขนาด 4.00*2.70*0.55 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.4",d:"BF204 ตู้ ขนาด 3.10*2.60*0.30 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.5",d:"BF205 ตู้ ขนาด 3.90*2.70*0.30 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.6",d:"BF206 ตู้ ขนาด 2.90*0.30*0.60 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.7",d:"BF207 ตู้ ขนาด 3.90*2.60*0.60 ม. ตู้ ขนาด 1.75*2.60*0.40 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.8",d:"BF208 ตู้ ขนาด 3.90*2.60*0.60 ม. ตู้ ขนาด 1.75*2.60*0.40 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.9",d:"BF209 โต๊ะ ขนาด 1.80*0.75*1.00 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.10",d:"BF210 ตู้ ขนาด 2.90*0.90*0.50 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.11",d:"BF211 ตู้ ขนาด 2.40*0.15*0.40 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.12",d:"BF212 ตู้ ขนาด 2.40*2.60*0.60 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.13",d:"BF213 ตู้ ขนาด 2.40*2.60*0.60 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.14",d:"BF214 ตู้ ขนาด 3.60*2.60*0.40 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.15",d:"BF215 ตู้ ขนาด 1.90*2.60*0.60 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.16",d:"BF216 ตู้ ขนาด 2.10*2.60*0.40 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.17",d:"BF401 ตู้ ขนาด 2.10*0.60*0.80 ม. ตู้ 2.10*1.35*0.20 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.18",d:"BF402 ตู้ ขนาด 1.30*1.50*0.35 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.19",d:"BF403 ตู้ ขนาด 1.10*1.40*0.20 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.20",d:"BF404 ตู้ ขนาด 1.20*0.60*0.55 ม. พร้อมแผงติดกระจก",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'l',no:"6.2.21",d:"BF405 ตู้ ขนาด 1.00*1.40*0.20 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'s',d:"รวมงาน 6.2",tot:0},
+        {t:'g',code:"6.3",title:"งานผนังตกแต่งชั้น2"},
+        {t:'l',no:"6.3.1",d:"WD201 ขนาด 3.80*2.60 ม.",q:null,u:"ชุด",mu:null,ms:0,lu:null,ls:0,tot:0},
+        {t:'s',d:"รวมงาน 6.3",tot:0},
+        {t:'l',no:"รวมราคาหมวดงานเฟอร์นิเจอร์",d:"",q:null,u:"",mu:null,ms:0,lu:null,ls:0,tot:0},
+      ]},
+    ];
+
+    // ===== category meta + takeoff mapping (link demo takeoffs to real BOQ ลำดับ) =====
+    const CAT_LABEL = { prep:'เตรียมการ', struct:'โครงสร้าง', arch:'สถาปัตย์', elec:'ไฟฟ้า', san:'สุขาภิบาล', built:'บิ้วอิน' };
+    const CAT_DEFS = DEMO_BOQ.map(c => ({ key:c.key, no:c.no, name:c.name }));   // 6 หมวดคงที่
+    const CATS = CAT_DEFS.map(c => ({ ...c, label:CAT_LABEL[c.key] }));
+    // ⭐ BOQ เก็บแยกต่อโปรเจกต์ (activeProject.boq) แก้/เพิ่ม/ลบแถวได้ · เดโม=On Nuch เต็ม · ใหม่=เปล่า
+    const cloneBoq = src => JSON.parse(JSON.stringify(src));
+    const emptyBoq = () => CAT_DEFS.map(c => ({ key:c.key, no:c.no, name:c.name, rows:[] }));
+    const boqCat = key => (activeProject && activeProject.boq || []).find(c => c.key === key) || { key, no:"", name:"", rows:[] };
+    const catTotal = cat => cat.rows.reduce((s, r) => s + (r.t === "l" && typeof r.tot === "number" ? r.tot : 0), 0);
+    const catMatLab = cat => cat.rows.reduce((a, r) => { if (r.t === "l") { const lab = typeof r.ls === "number" ? r.ls : 0; a.lab += lab; a.mat += (typeof r.tot === "number" ? r.tot : 0) - lab; } return a; }, { mat: 0, lab: 0 });   // mat = ราคารวม − ค่าแรง (ให้ mat+lab = total เสมอ แม้เหมารวม/override)
+    const projectTotal = () => (activeProject && activeProject.boq || []).reduce((s, c) => s + catTotal(c), 0);
+    // จำนวนเงินเป็นตัวหนังสือไทย (ใช้ในใบเสนอราคา)
+    function bahtText(n) {
+      n = Math.round(Math.abs(n || 0) * 100) / 100; const bi = Math.floor(n), sat = Math.round((n - bi) * 100);
+      const t = ["", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"], p = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน"];
+      const chunk = raw => { let s = String(raw).replace(/^0+/, "") || "0"; if (s === "0") return ""; const L = s.length; let r = ""; for (let i = 0; i < L; i++) { const d = +s[i], place = L - i - 1; if (d === 0) continue; if (place === 0 && d === 1 && L > 1) r += "เอ็ด"; else if (place === 1 && d === 1) r += "สิบ"; else if (place === 1 && d === 2) r += "ยี่สิบ"; else r += t[d] + p[place]; } return r; };
+      const readInt = numStr => { if (numStr === "0") return "ศูนย์"; const g = []; let s = numStr; while (s.length > 6) { g.unshift(s.slice(-6)); s = s.slice(0, -6); } g.unshift(s); let res = ""; for (let i = 0; i < g.length; i++) { const gr = chunk(g[i]); if (gr) res += gr; if (i < g.length - 1) res += "ล้าน"; } return res; };
+      let w = (bi === 0 && sat === 0) ? "ศูนย์บาทถ้วน" : readInt(String(bi)) + "บาท";
+      if (bi > 0 && sat === 0) w += "ถ้วน"; if (sat > 0) w += readInt(String(sat)) + "สตางค์";
+      return w;
+    }
+    const numOf = v => { const n = Number(String(v).replace(/,/g, "")); return Number.isFinite(n) ? n : 0; };
+    const parseNum = s => { s = String(s).replace(/,/g, "").trim(); if (s === "") return null; const n = Number(s); return Number.isFinite(n) ? n : null; };
+    // ⭐ ทำความสะอาด DEMO_BOQ: ตัดแถว "รวมราคาหมวด"/แถวรวมท้ายว่าง (extractor artifact กัน total ซ้ำ 2 เท่า) + ใส่ _id ให้ทุก line (key ที่เสถียร แทน ลำดับที่แก้ได้)
+    let _uid = 0;
+    const newLineId = () => "L" + (_uid++).toString(36) + Math.floor(Math.random() * 1e6).toString(36);
+    // แถวขยะจาก extractor: "รวมราคาหมวด" หรือ แถวว่างสนิท (ไม่มีทั้ง ลำดับ/รายการ/ตัวเลข) — 🔴 ห้ามตัดแถวที่ user เพิ่มแล้วกรอกราคาไว้แม้ยังไม่ใส่ชื่อ
+    const isPhantomLine = r => r.t === "l" && (String(r.no || "").trim().startsWith("รวมราคา") || (!String(r.no || "").trim() && !String(r.d || "").trim() && !String(r.u || "").trim() && r.q == null && r.mu == null && r.lu == null && r.tot == null));
+    DEMO_BOQ.forEach(c => {
+      c.rows = c.rows.filter(r => !isPhantomLine(r));
+      c.rows.forEach(r => { if (r.t === "l") r._id = newLineId(); });
+    });
+    // 🔴 โปรเจกต์ใหม่ = โครง BOQ ตุ๊กตา: เก็บ ลำดับ+รายการ+หน่วย ตาม Excel แต่ล้างตัวเลข (ปริมาณ/ค่าวัสดุ/ค่าแรง/ราคา) ให้ user กรอกเอง · _id ใหม่ไม่ชนโปรเจกต์อื่น (owner 2026-07-11: เฉพาะลำดับ+รายการ+หน่วย ราคาว่าง)
+    const templateBoq = () => { const b = cloneBoq(DEMO_BOQ); b.forEach(c => c.rows.forEach(r => { if (r.t === "l") { r._id = newLineId(); r.q = r.mu = r.ms = r.lu = r.ls = r.tot = null; delete r._totManual; } else if (r.t === "s") r.tot = 0; })); return b; };
+    const TAKEOFF_MAP = { '2.1.3':'TO-STR-001', '2.2.1':'TO-STR-002', '2.3.1':'TO-STR-003', '2.3.2':'TO-STR-004', '2.11.3':'TO-STR-005', '4.1.1':'TO-MEP-001' };
+    const TAKEOFF_BY_NO = Object.fromEntries(Object.entries(TAKEOFF_MAP).map(([no,id]) => [no, items.find(i => i.id === id)]).filter(([,v]) => v));
+    const lineCtx = {};   // synthetic evidence context per BOQ line (keeps user annotations)
+    let takeoffQty = {};     // line._id -> ปริมาณที่ถอดได้ (= activeProject.takeoff · กรอกแบบ Excel · key เสถียรแม้แก้ ลำดับ)
+
+    // ===== ระบบโปรเจกต์ถอดราคา (localStorage · หลายโปรเจกต์ · แต่ละอันเก็บ takeoff แยก) =====
+    const PROJ_KEY = "sv_boqtrace_projects", ACTIVE_KEY = "sv_boqtrace_active";
+    let projects = [], activeProject = null;
+    function seedDemo() {
+      return { id: "demo-onnuch", name: "บ้านคุณเบนซ์ อ่อนนุช", code: "ON-2569", owner: "คุณเบนซ์", location: "อ่อนนุช กรุงเทพฯ", date: "11 ก.ค. 2569", isDemo: true, takeoff: {}, boq: cloneBoq(DEMO_BOQ) };
+    }
+    // migrate โปรเจกต์เก่า: กัน boq หาย · ใส่ _id · ตัดแถวรวม/ว่าง · 🔴 ย้าย takeoff เดิม (key "cat|no" หรือ _id) → line.q (ปริมาณ) เพราะเปลี่ยนเป็นช่องเดียว (owner 2026-07-11)
+    function migrateProject(p) {
+      if (!Array.isArray(p.boq)) p.boq = templateBoq();   // โปรเจกต์เก่าไม่มี boq = ถอดจาก BOQ กลาง (On Nuch)
+      if (!p.takeoff || typeof p.takeoff !== "object") p.takeoff = {};
+      p.boq.forEach(c => {
+        c.rows = (c.rows || []).filter(r => !isPhantomLine(r) || (p.evidence && r._id && p.evidence[r._id]));   // เก็บบรรทัดว่างที่มีหลักฐานแนบไว้ (กันรูป+บรรทัดหาย)
+        c.rows.forEach(r => {
+          if (r.t !== "l") return;
+          if (!r._id) r._id = newLineId();
+          const oldKey = c.key + "|" + r.no;
+          if (p.takeoff[oldKey] !== undefined && p.takeoff[r._id] === undefined) { p.takeoff[r._id] = p.takeoff[oldKey]; delete p.takeoff[oldKey]; }
+          if (p.takeoff[r._id] !== undefined) {   // ถอดเดิม → ปริมาณ (ครั้งเดียว)
+            if (r.q == null || r.q === "") { const v = parseNum(p.takeoff[r._id]); if (v != null) { r.q = v; recalcRow(r); } }
+            delete p.takeoff[r._id];   // 🔴 ลบทิ้งหลังย้าย — กันฟื้นค่าที่ user ลบทิ้งทีหลัง (migrate รันทุก boot)
+          }
+        });
+      });
+      return p;
+    }
+    function loadProjects() {
+      let list = null;
+      try { const p = JSON.parse(localStorage.getItem(PROJ_KEY)); if (Array.isArray(p) && p.length) list = p; } catch (e) {}
+      if (!list) list = [seedDemo()];
+      list.forEach(migrateProject);
+      return list;
+    }
+    let _quotaWarned = false;
+    const _serReplacer = (k, v) => (k === "_line" || k === "_objUrl" || k === "_transient") ? undefined : v;   // ตัด back-ref/blob ชั่วคราว ไม่ให้บวม localStorage/ไฟล์
+    function saveProjects() {
+      try { localStorage.setItem(PROJ_KEY, JSON.stringify(projects, _serReplacer)); if (activeProject) localStorage.setItem(ACTIVE_KEY, activeProject.id); _quotaWarned = false; }
+      catch (e) { if (e && (e.name === "QuotaExceededError" || /quota/i.test(String(e))) && !_quotaWarned) { _quotaWarned = true; if (typeof showToast === "function") showToast("⚠ พื้นที่เก็บเต็ม — รูปหลักฐานอาจไม่ถูกบันทึก · ลบรูป/โปรเจกต์เก่าออก หรือส่งออกไฟล์เก็บไว้"); } }
+    }
+    const saveDebounced = (() => { let t; return () => { clearTimeout(t); t = setTimeout(saveProjects, 400); }; })();
+    // demo takeoff/แปลนตัวอย่าง โชว์เฉพาะโปรเจกต์เดโม — โปรเจกต์ใหม่เริ่มเปล่า (ทุกบรรทัด "รอถอด")
+    function linkedTakeoff(no) { return activeProject && activeProject.isDemo ? TAKEOFF_BY_NO[no] : null; }
+
+    const details = items.flatMap(item => item.lines.map((line, index) => ({ item, line, lineId: `L-${String(index + 1).padStart(3, "0")}` })));
+    let activeCat = CATS.find(c => c.key === "struct") || CATS[0];   // หมวดที่เลือก
+    let activeLine = null;                                           // บรรทัด BOQ ที่เลือก (object)
+    let activeItem = null;                                           // context หลักฐาน/takeoff (real หรือ synthetic)
+    let zoom = 1;
+
+    const $ = selector => document.querySelector(selector);
+    const itemList = $("#itemList");
+    const viewer = $("#viewer");
+    const planImage = $("#planImage");
+    const planMarkup = $("#planMarkup");
+    const drawingLayer = $("#drawingLayer");
+
+    const fmt = value => (value == null ? "—" : Number(value).toLocaleString("th-TH", { minimumFractionDigits: Number.isInteger(Number(value)) ? 0 : 2, maximumFractionDigits: 3 }));
+    const mny = v => (v == null ? "" : Number(v).toLocaleString("en-US", { maximumFractionDigits: 0 }));
+
+    // context หลักฐานของบรรทัด BOQ: ใช้ takeoff ที่ผูกไว้ (real) หรือสร้าง synthetic (ให้แนบรูป/วาดเองได้ · เก็บมาร์ก)
+    const EVIDENCE_DEFAULT = () => ({ synthetic: true, image: null, size: [1400, 1000], markup: "", userAnno: [], color: "var(--teal)", fill: "transparent", stroke: 4 });
+    function ctxFor(line) {
+      const tk = linkedTakeoff(line.no);
+      if (tk) { tk._line = line; return tk; }
+      const store = activeProject.evidence || (activeProject.evidence = {});
+      const c = store[line._id] || EVIDENCE_DEFAULT();   // ยังไม่เก็บจนกว่าจะมีหลักฐานจริง (กัน entry ว่างเต็ม localStorage)
+      c.synthetic = true; c.id = "ctx|" + line._id; c._line = line;
+      return c;
+    }
+    // 🔴 เก็บหลักฐาน (รูป/วง) ลงโปรเจกต์ → persist ข้าม reload/สลับโปรเจกต์ (เดิมอยู่ใน lineCtx global หายทันที)
+    function ensureEvidenceStored(ctx, proj) {
+      proj = proj || activeProject;
+      if (!ctx || !ctx._line || !ctx.synthetic || !proj) return;
+      (proj.evidence || (proj.evidence = {}))[ctx._line._id] = ctx;
+      saveDebounced();
+    }
+    function catLines(cat) { return boqCat(cat.key).rows.filter(r => r.t === "l"); }
+    const lineById = id => catLines(activeCat).find(r => r._id === id);
+
+    function renderTrades() {
+      $("#tradeList").innerHTML = CATS.map(c => `<button class="trade-btn ${c.key === activeCat.key ? "active" : ""}" data-trade="${c.key}">${c.no}. ${c.label}</button>`).join("");
+      document.querySelectorAll("[data-trade]").forEach(button => button.addEventListener("click", () => {
+        activeCat = CATS.find(c => c.key === button.dataset.trade) || activeCat;
+        const first = catLines(activeCat)[0];
+        activeLine = first || null; activeItem = first ? ctxFor(first) : null; zoom = 1;
+        renderTrades(); renderItems(); renderGrid(); renderActive(); updateSummaryBand();
+      }));
+    }
+
+    function updateSummaryBand() {
+      const cat = boqCat(activeCat.key);
+      const lines = cat.rows.filter(r => r.t === "l");
+      const filled = lines.filter(r => r.q != null && r.q !== "").length;   // กรอกปริมาณแล้วในหมวดนี้
+      const stats = $("#tradeList").parentElement.parentElement.querySelectorAll(".summary-value");
+      if (stats.length >= 3) { stats[0].textContent = filled; stats[1].textContent = lines.length - filled; stats[2].textContent = lines.length; }
+    }
+
+    // ปริมาณที่ถอด = line.q (ปริมาณในตาราง) — แหล่งเดียว (owner 2026-07-11: ถอด → ปริมาณ ช่องเดียว ไม่มีคอลัมน์ถอดแยก)
+    const enteredQty = line => (line.q == null || line.q === "") ? null : numOf(line.q);
+    function recalcRow(r) {
+      r.ms = (r.q != null && r.mu != null) ? numOf(r.q) * numOf(r.mu) : null;
+      r.ls = (r.q != null && r.lu != null) ? numOf(r.q) * numOf(r.lu) : null;
+      if (!r._totManual) r.tot = (r.ms || 0) + (r.ls || 0);
+    }
+
+    function renderItems() {
+      const query = $("#searchInput").value.trim().toLowerCase();
+      const cat = boqCat(activeCat.key);
+      let html = "";
+      for (const r of cat.rows) {
+        if (r.t === "g") { html += `<div class="side-group">${escapeHtml((r.code ? r.code + " · " : "") + (r.title || ""))}</div>`; continue; }
+        if (r.t !== "l") continue;
+        if (query && !(`${r.no} ${r.d}`.toLowerCase().includes(query))) continue;
+        const tk = linkedTakeoff(r.no);
+        const sel = activeLine && activeLine._id === r._id;
+        html += `<div class="boq-row ${sel ? "active" : ""}" data-id="${r._id}">
+          <div class="r1"><span class="rcode">${escapeHtml(r.no || "")}</span><span class="rname" title="${escapeHtml(r.d || "")}">${escapeHtml(r.d || "(ไม่มีชื่อ)")}</span><span class="rdot ${tk ? "on" : ""}" title="${tk ? "มีหลักฐาน/แปลน" : "ยังไม่มีหลักฐาน"}"></span></div>
+          <div class="r2"><span class="rin">ปริมาณ <input type="text" inputmode="decimal" data-id="${r._id}" value="${r.q != null ? escapeHtml(String(r.q)) : ""}" placeholder="—" aria-label="ปริมาณ ${escapeHtml(r.no || "")}"></span> <span class="runit">${escapeHtml(r.u || "")}</span></div>
+        </div>`;
+      }
+      itemList.innerHTML = html || `<div class="empty-search">ไม่พบรายการ</div>`;
+      itemList.querySelectorAll(".boq-row[data-id]").forEach(row => row.addEventListener("click", e => { if (e.target.tagName === "INPUT") return; selectLine(row.dataset.id); }));
+      const inputs = [...itemList.querySelectorAll(".rin input")];
+      inputs.forEach((inp, i) => {
+        inp.addEventListener("focus", () => selectLineSoft(inp.dataset.id));
+        inp.addEventListener("input", () => { const l = lineById(inp.dataset.id); if (!l) return; if ($("#sheetView").hidden) setMode("sheet"); setLineQty(l, inp.value.trim(), inp); });
+        inp.addEventListener("keydown", e => {
+          if (e.key === "Enter" || e.key === "ArrowDown") { e.preventDefault(); (inputs[i + 1] || inputs[0]).focus(); }
+          else if (e.key === "ArrowUp") { e.preventDefault(); (inputs[i - 1] || inputs[inputs.length - 1]).focus(); }
+          else if (e.key === "Escape") inp.blur();
+        });
+      });
+    }
+
+    // เลือกบรรทัด (คลิกแถว) — re-render sidebar เต็ม
+    function selectLine(id) {
+      const line = lineById(id);
+      if (!line) return;
+      activeLine = line; activeItem = ctxFor(line); zoom = 1;
+      renderItems(); renderGrid(); renderActive();
+    }
+    // เลือกแบบเบา (ตอนโฟกัสช่องกรอก/กริด) — ไม่ rebuild sidebar/กริด เพื่อคงโฟกัส (แก้บั๊ก grid พิมพ์ไม่ได้)
+    function selectLineSoft(id) {
+      const line = lineById(id);
+      if (!line) return;
+      if (activeLine && activeLine._id === id) { renderActive(); return; }   // เลือกอยู่แล้ว — อย่า rebuild
+      activeLine = line; activeItem = ctxFor(line); zoom = 1;
+      itemList.querySelectorAll(".boq-row").forEach(r => r.classList.toggle("active", r.dataset.id === id));
+      const gb = $("#gridBody"); if (gb) gb.querySelectorAll("tr.boq-line").forEach(r => r.classList.toggle("sel", r.dataset.id === id));
+      renderActive();
+    }
+
+    // ===== วิธีการถอด (method calculator) — เหล็ก (กก.=จำนวน×ยาว×D²/162) · ปริมาตร (ลบ.ม.=กว้าง×ยาว×หนา×จำนวน) · กรอกเอง · ผลรวมเด้งเข้า "ถอด" =====
+    function lineMethods(line) { if (!activeProject.methods) activeProject.methods = {}; if (!Array.isArray(activeProject.methods[line._id])) activeProject.methods[line._id] = []; return activeProject.methods[line._id]; }   // สร้าง (สำหรับ mutate/เพิ่มแถว)
+    const getMethods = line => (activeProject.methods && activeProject.methods[line._id]) || [];   // อ่านอย่างเดียว ไม่สร้าง (กันเก็บ [] เปล่าเต็ม localStorage แค่เปิดดู)
+    const rebarWpm = d => { const n = numOf(d); return n > 0 ? (n * n) / 162 : 0; };   // น้ำหนักเหล็ก กก./ม. = D²/162 (D มม.) — RB6=0.222 · DB16=1.580
+    function methodRowValue(r) {
+      if (r.kind === "rebar") return numOf(r.count) * numOf(r.length) * rebarWpm(r.d);
+      if (r.kind === "vol") { const c = (r.count === "" || r.count == null) ? 1 : numOf(r.count); return numOf(r.w) * numOf(r.l) * numOf(r.t) * c; }
+      return numOf(r.qty);
+    }
+    function methodSum(line) { return getMethods(line).reduce((s, r) => s + methodRowValue(r), 0); }
+    const REBAR_SIZES = [6, 9, 10, 12, 16, 20, 25, 28, 32];
+    function renderMethod(line) {
+      const box = $("#methodEditor"); if (!box) return;
+      const rows = getMethods(line); const u = line.u || "หน่วย";
+      let html = "";
+      rows.forEach((r, i) => {
+        if (r.kind === "rebar") html += `<div class="mrow" data-i="${i}"><span class="mk">เหล็ก</span>
+          <select class="msel" data-f="d">${REBAR_SIZES.map(d => `<option value="${d}" ${numOf(r.d) === d ? "selected" : ""}>${d <= 9 ? "RB" : "DB"}${d}</option>`).join("")}</select>
+          <input class="min" data-f="count" inputmode="decimal" value="${escapeHtml(String(r.count ?? ""))}" placeholder="เส้น" title="จำนวนเส้น"><span class="mx">×</span>
+          <input class="min" data-f="length" inputmode="decimal" value="${escapeHtml(String(r.length ?? ""))}" placeholder="ยาว ม." title="ความยาว/เส้น (ม.)">
+          <span class="meq">= <b class="mval">${fmt(methodRowValue(r))}</b> กก.</span><button class="mdel" title="ลบ">✕</button></div>`;
+        else if (r.kind === "vol") html += `<div class="mrow" data-i="${i}"><span class="mk">ปริมาตร</span>
+          <input class="min mwide" data-f="label" value="${escapeHtml(String(r.label ?? ""))}" placeholder="ตำแหน่ง เช่น F1">
+          <input class="min" data-f="w" inputmode="decimal" value="${escapeHtml(String(r.w ?? ""))}" placeholder="กว้าง" title="กว้าง (ม.)"><span class="mx">×</span>
+          <input class="min" data-f="l" inputmode="decimal" value="${escapeHtml(String(r.l ?? ""))}" placeholder="ยาว" title="ยาว (ม.)"><span class="mx">×</span>
+          <input class="min" data-f="t" inputmode="decimal" value="${escapeHtml(String(r.t ?? ""))}" placeholder="หนา" title="หนา (ม.)"><span class="mx">×</span>
+          <input class="min" data-f="count" inputmode="decimal" value="${escapeHtml(String(r.count ?? 1))}" placeholder="จำนวน" title="จำนวน">
+          <span class="meq">= <b class="mval">${fmt(methodRowValue(r))}</b> ลบ.ม.</span><button class="mdel" title="ลบ">✕</button></div>`;
+        else html += `<div class="mrow" data-i="${i}"><span class="mk">กรอกเอง</span>
+          <input class="min mwide" data-f="label" value="${escapeHtml(String(r.label ?? ""))}" placeholder="รายละเอียด/ที่มา">
+          <input class="min" data-f="qty" inputmode="decimal" value="${escapeHtml(String(r.qty ?? ""))}" placeholder="ปริมาณ">
+          <span class="meq">${escapeHtml(u)}</span><button class="mdel" title="ลบ">✕</button></div>`;
+      });
+      if (!rows.length) html += `<div class="mhint">ยังไม่มีวิธีถอด — กดปุ่มด้านล่างเพิ่มการคำนวณ · ผลรวมจะเด้งเข้าช่อง “ถอด” อัตโนมัติ</div>`;
+      html += `<div class="maddrow"><button class="maddbtn" data-add="rebar">+ เหล็ก</button><button class="maddbtn" data-add="vol">+ กว้าง×ยาว×หนา</button><button class="maddbtn" data-add="manual">+ กรอกเอง</button></div>`;
+      if (rows.length) { const eq = enteredQty(line); html += `<div class="msum"><span>รวมถอดได้</span><b>${fmt(eq != null ? eq : methodSum(line))} ${escapeHtml(u)}</b></div>`; }
+      box.innerHTML = html;
+      wireMethod(line);
+    }
+    function wireMethod(line) {
+      const box = $("#methodEditor"); const rows = getMethods(line);
+      box.querySelectorAll(".mrow").forEach(rowEl => {
+        const i = +rowEl.dataset.i; const r = rows[i]; if (!r) return;
+        rowEl.querySelectorAll("[data-f]").forEach(inp => {
+          inp.addEventListener(inp.tagName === "SELECT" ? "change" : "input", () => {
+            r[inp.dataset.f] = inp.value;
+            const mv = rowEl.querySelector(".mval"); if (mv) mv.textContent = fmt(methodRowValue(r));
+            applyMethodSum(line);   // แก้แถว → ตามวิธี (แก้เป็น 0 = ล้าง) · อัปเดต takeoff+msum+inspector ในที่เดียว
+          });
+        });
+        const del = rowEl.querySelector(".mdel");
+        if (del) del.addEventListener("click", () => { rows.splice(i, 1); if (!rows.length && activeProject.methods) delete activeProject.methods[line._id]; renderMethod(line); applyMethodSum(line); });
+      });
+      box.querySelectorAll("[data-add]").forEach(b => b.addEventListener("click", () => {
+        const k = b.dataset.add; const arr = lineMethods(line);   // สร้าง/ดึง array ที่เก็บจริง (เพิ่มแถวเท่านั้นถึงสร้าง — กัน [] เปล่าเต็ม localStorage)
+        arr.push(k === "rebar" ? { kind: "rebar", d: 16, count: "", length: "" } : k === "vol" ? { kind: "vol", label: "", w: "", l: "", t: "", count: 1 } : { kind: "manual", label: "", qty: "" });
+        renderMethod(line); applyMethodSum(line);
+        const mrows = box.querySelectorAll(".mrow"); const el = mrows.length ? mrows[mrows.length - 1].querySelector(".min, .msel") : null; if (el) el.focus();
+      }));
+    }
+    // ผลรวมวิธี → ปริมาณ (line.q) · methodDriven = บรรทัดที่วิธีเคยมีค่าจริง (เริ่มขับ) → ตามวิธีเสมอ (แก้/ลบเหลือ 0 = ล้าง) · บรรทัดกรอกมือ (เพิ่มแถวเปล่า sum=0) → ไม่ทับ · ลบวิธีจนหมด → คงค่า
+    function applyMethodSum(line) {
+      const rows = getMethods(line);
+      const sum = +methodSum(line).toFixed(3);
+      if (!activeProject.methodDriven) activeProject.methodDriven = {};
+      let driven = false;
+      if (!rows.length) delete activeProject.methodDriven[line._id];
+      else { if (sum > 0) activeProject.methodDriven[line._id] = true; driven = !!activeProject.methodDriven[line._id]; }
+      if (driven) setLineQty(line, sum > 0 ? sum : "");   // ขับปริมาณตามวิธี (คิดราคา+อัปเดตทุก view+save)
+      else { const msb = $("#methodEditor .msum b"); if (msb) msb.textContent = `${fmt(line.q != null ? line.q : sum)} ${line.u || "หน่วย"}`; updateHeaderProgress(); saveDebounced(); }
+    }
+
+    function renderActive() {
+      const line = activeLine, ctx = activeItem;
+      if (!line || !ctx) return;
+      const tk = ctx.synthetic ? null : ctx;                 // takeoff จริง หรือ null
+      // ---- plan viewer ----
+      planImage.src = ctx.image || "";
+      const size = ctx.size || [1400, 1000];
+      planMarkup.setAttribute("viewBox", `0 0 ${size[0]} ${size[1]}`);
+      planMarkup.style.setProperty("--active-color", ctx.color || "var(--teal)");
+      planMarkup.style.setProperty("--active-fill", ctx.fill || "transparent");
+      planMarkup.style.setProperty("--active-stroke", ctx.stroke || 4);
+      planMarkup.innerHTML = ctx.markup || "";
+      drawingLayer.style.transform = `scale(${zoom})`;
+      $("#zoomLabel").textContent = `${Math.round(zoom * 100)}%`;
+      $("#drawingChip").textContent = tk ? `${tk.drawing} • Rev.${tk.revision}` : `หมวด ${activeCat.no} • ยังไม่มีแบบอ้างอิง`;
+      $("#viewerRef").textContent = tk ? `${tk.evidence} • ${tk.location} • ${tk.source}` : `BOQ ${line.no} • ${line.d}`;
+      $("#legend").innerHTML = tk ? tk.legend.map(e => `<span class="legend-item"><span class="legend-swatch" style="--swatch:${e.color}"></span>${e.label}</span>`).join("") : `<span class="legend-item" style="color:var(--muted)">วางรูป (Ctrl+V) หรือเลือกเครื่องมือวาดเพื่อแนบหลักฐาน</span>`;
+      // ---- inspector head + qty ----
+      $("#inspectorCode").textContent = `BOQ ${line.no} • หมวด ${activeCat.no}. ${activeCat.name}`;
+      $("#inspectorTitle").textContent = line.d;
+      $("#statusBadge").textContent = tk ? tk.status : "รอถอด/แนบหลักฐาน";
+      $("#statusBadge").className = `mini-chip ${tk && tk.status === "ตรงกัน" ? "ok" : ""}`;
+      $("#evidenceBadge").textContent = tk ? tk.evidence : "ยังไม่มีหลักฐาน";
+      $("#revisionBadge").textContent = `฿ ${mny(line.tot)}`;
+      $("#boqQty").textContent = line.q != null ? `${fmt(line.q)} ${line.u || ""}` : "—";
+      const perUnit = (line.mu != null || line.lu != null) ? (numOf(line.mu) + numOf(line.lu)) : null;
+      $("#calcQty").textContent = perUnit != null ? `${mny(perUnit)}/${line.u || "หน่วย"}` : "—";
+      $("#variance").textContent = `฿ ${mny(line.tot)}`;
+      $("#variance").className = "qty-value";
+      // ประวัติ/สถานะจริงต่อบรรทัด (ไม่ใช่ข้อมูลปลอม)
+      { const nm2 = getMethods(line).length, hasImg = ctx && ctx.image;
+        $("#auditList").innerHTML = [[line.q != null, line.q != null ? "กรอกปริมาณแล้ว" : "ยังไม่กรอกปริมาณ"], [nm2 > 0, nm2 > 0 ? `มีวิธีถอด ${nm2} รายการ` : "ยังไม่มีวิธีถอด (ไม่บังคับ)"], [!!hasImg, hasImg ? "แนบหลักฐาน/แปลนแล้ว" : "ยังไม่แนบหลักฐาน"]].map(([ok, txt]) => `<div class="audit-row"><span class="audit-icon">${ok ? '<i data-lucide="check"></i>' : '<i data-lucide="x" style="color:var(--line-strong)"></i>'}</span><span>${escapeHtml(txt)}</span><span class="audit-time"></span></div>`).join(""); }
+      // ---- takeoff (if linked) or BOQ price detail ----
+      if (tk) {
+        $("#calcTable").hidden = false; $("#methodEditor").hidden = true;
+        $("#lineCount").textContent = `${tk.lines.length} บรรทัด`;
+        $("#calcRows").innerHTML = tk.lines.map(l => `<tr><td><b>${l.zone}</b></td><td>${l.method}</td><td class="num">${fmt(l.gross)}</td><td class="num"><b>${fmt(l.final)}</b></td></tr>`).join("");
+        $("#sourceCell").textContent = tk.source;
+        $("#formulaText").innerHTML = `${tk.formula}<br><span style="color:var(--muted)">${tk.formulaDetail}</span>`;
+        $("#formulaResult").textContent = `${fmt(tk.calc)} ${line.u || ""}`;
+        $("#drawingRef").textContent = `${tk.drawing} • ${tk.location}`;
+        $("#assumptions").innerHTML = tk.assumptions.map(([label, value]) => `<div class="assumption"><span>${label}</span><b>${value}</b></div>`).join("");
+      } else {
+        $("#calcTable").hidden = true; $("#methodEditor").hidden = false;
+        const nm = getMethods(line).length;   // read-only (อย่าใช้ lineMethods ที่สร้าง [] เปล่าแค่เปิดดู)
+        $("#lineCount").textContent = nm ? `${nm} วิธี` : "";
+        renderMethod(line);
+        $("#sourceCell").textContent = `'${activeCat.no}.${activeCat.name}'`;
+        $("#formulaText").innerHTML = `ราคาต่อหน่วย — ค่าวัสดุ <b>${mny(line.mu) || "—"}</b> + ค่าแรง <b>${mny(line.lu) || "—"}</b> บาท/${line.u || "หน่วย"}`;
+        const eqUser = enteredQty(line);
+        $("#formulaResult").textContent = eqUser != null ? `${fmt(eqUser)} ${line.u || ""}` : `${mny(line.tot)} บาท`;
+        $("#drawingRef").textContent = "—";
+        $("#assumptions").innerHTML = `<div class="assumption"><span>ปริมาณ (BOQ)</span><b>${fmt(line.q)} ${line.u || ""}</b></div><div class="assumption"><span>ค่าวัสดุรวม</span><b>${mny(line.ms)}</b></div><div class="assumption"><span>ค่าแรงรวม</span><b>${mny(line.ls)}</b></div><div class="assumption"><span>ราคารวม</span><b>${mny(line.tot)}</b></div>`;
+      }
+      renderClient();
+      renderAnno();
+      createIcons();
+    }
+
+    // ===== ตาราง = BOQ ต่อหมวด (แก้ไข/เพิ่ม/ลบแถวได้ · ลำดับ+รายการ+ปริมาณ+หน่วย+ค่าวัสดุ+ค่าแรง+ราคารวม) =====
+    const scheduleSidebar = (() => { let t; return () => { clearTimeout(t); t = setTimeout(() => { const ae = document.activeElement; if (ae && ae.closest && ae.closest("#itemList")) { updateHeaderProgress(); return; } renderItems(); updateHeaderProgress(); }, 220); }; })();
+    const gv = v => (v == null ? "" : v);   // ค่าดิบสำหรับ input (ไม่ format)
+    // recompute subtotal "รวมงาน X.X" (t:'s') = ผลรวม tot ของ line ตั้งแต่ขอบกลุ่ม/subtotal ก่อนหน้า (display-only · catTotal ไม่รวม s)
+    function recalcSubtotals(cat) {
+      let acc = 0;
+      for (const r of cat.rows) {
+        if (r.t === "l") acc += (typeof r.tot === "number" ? r.tot : 0);
+        else if (r.t === "s") { r.tot = acc; acc = 0; }   // กลุ่มที่ลบ line หมด → subtotal = 0 (ไม่ค้างค่าเก่าให้ขัดกับยอดรวม)
+        else if (r.t === "g") acc = 0;
+      }
+    }
+    function refreshSubtotalCells() {
+      const cat = boqCat(activeCat.key); recalcSubtotals(cat);
+      const cells = [...$("#gridBody").querySelectorAll("tr.sub td.subtot")];   // เฉพาะ t:'s' (t:'lb' ไม่มี td.subtot)
+      let k = 0;
+      for (const r of cat.rows) if (r.t === "s") { const c = cells[k++]; if (c) c.textContent = mny(r.tot); }
+    }
+    function renderGrid() {
+      const cat = boqCat(activeCat.key);
+      recalcSubtotals(cat);
+      let body = "";
+      cat.rows.forEach((r, i) => {
+        if (r.t === "g") {
+          body += `<tr class="group" data-i="${i}"><td class="ecell egroup" colspan="4" contenteditable="true" data-f="title" data-i="${i}">${escapeHtml(r.code ? r.code + " · " + (r.title || "") : (r.title || ""))}</td><td class="col-price"></td><td class="col-price"></td><td class="col-price"></td><td></td><td class="gact"><button class="rowdel" data-i="${i}" title="ลบหัวข้อ">✕</button></td></tr>`;
+          return;
+        }
+        if (r.t === "lb") { body += `<tr class="sub" data-i="${i}"><td></td><td class="ecell" colspan="3" contenteditable="true" data-f="d" data-i="${i}">${escapeHtml(r.d || "")}</td><td class="col-price"></td><td class="col-price"></td><td class="col-price"></td><td></td><td class="gact"><button class="rowdel" data-i="${i}">✕</button></td></tr>`; return; }
+        if (r.t === "s") { body += `<tr class="sub" data-i="${i}"><td></td><td>${escapeHtml(r.d || "")}</td><td class="n"></td><td class="c"></td><td class="n col-price"></td><td class="n col-price"></td><td class="n col-price"></td><td class="n subtot">${mny(r.tot)}</td><td></td></tr>`; return; }
+        const neg = (typeof r.tot === "number" && r.tot < 0) ? "neg" : "";
+        const sel = activeLine && activeLine._id === r._id;
+        body += `<tr class="boq-line ${linkedTakeoff(r.no) ? "has-ev" : ""} ${sel ? "sel" : ""}" data-id="${r._id}" data-i="${i}">
+          <td class="code" data-i="${i}"><span class="codewrap"><span class="rgrip" title="ลากเพื่อย้ายลำดับ" aria-label="ลากเพื่อย้ายลำดับ">⠿</span><span class="ecell" contenteditable="true" data-f="no" data-i="${i}">${escapeHtml(r.no || "")}</span></span></td>
+          <td class="ecell" contenteditable="true" data-f="d" data-i="${i}">${escapeHtml(r.d || "")}</td>
+          <td class="n"><input class="gin qin" inputmode="decimal" data-f="q" data-i="${i}" value="${gv(r.q)}" title="ปริมาณ (ถอด)"></td>
+          <td class="c ecell" contenteditable="true" data-f="u" data-i="${i}">${escapeHtml(r.u || "")}</td>
+          <td class="n col-price"><input class="gin" inputmode="decimal" data-f="mu" data-i="${i}" value="${gv(r.mu)}"></td>
+          <td class="n gcomp col-price">${mny(r.ms)}</td>
+          <td class="n col-price"><input class="gin" inputmode="decimal" data-f="lu" data-i="${i}" value="${gv(r.lu)}"></td>
+          <td class="n ${neg}"><input class="gin gtot" inputmode="decimal" data-f="tot" data-i="${i}" value="${gv(r.tot)}" title="ราคารวม"></td>
+          <td class="gact"><button class="rowdel" data-i="${i}" title="ลบแถว">✕</button></td></tr>`;
+      });
+      body += `<tr class="addrow"><td colspan="4"><button class="addbtn" data-add="line"><span>＋</span> เพิ่มรายการ</button> <button class="addbtn" data-add="group"><span>＋</span> เพิ่มหัวข้อกลุ่ม</button></td><td class="col-price"></td><td class="col-price"></td><td class="col-price"></td><td></td><td></td></tr>`;
+      body += `<tr class="grand"><td colspan="4">รวมราคา ${cat.no}. ${cat.name}</td><td class="col-price"></td><td class="col-price"></td><td class="col-price"></td><td class="n grandtot">${mny(catTotal(cat))}</td><td></td></tr>`;
+      $("#gridBody").innerHTML = body;
+      wireGrid();
+    }
+    function updateGrand() { const g = $("#gridBody").querySelector("tr.grand td.grandtot"); if (g) g.textContent = mny(catTotal(boqCat(activeCat.key))); }
+    function onGridNumEdit(i, field, valStr, inputEl) {
+      const r = boqCat(activeCat.key).rows[i]; if (!r) return;
+      r[field] = parseNum(valStr);   // strip comma · "" → null · non-number → null (ไม่ปล่อย NaN)
+      if (field === "tot") { r._totManual = r.tot != null; }   // แก้ราคารวมเอง = override (ไม่ให้ q/mu/lu มาทับ)
+      if (field === "q" || field === "mu" || field === "lu") {
+        r.ms = (r.q != null && r.mu != null) ? numOf(r.q) * numOf(r.mu) : null;
+        r.ls = (r.q != null && r.lu != null) ? numOf(r.q) * numOf(r.lu) : null;
+        const tr = inputEl.closest("tr");
+        const comp = tr.querySelector(".gcomp"); if (comp) comp.textContent = mny(r.ms);
+        if (!r._totManual) {   // เคารพ override ราคารวมที่ผู้ใช้พิมพ์เอง
+          r.tot = (r.ms || 0) + (r.ls || 0);
+          const totIn = tr.querySelector(".gtot"); if (totIn && document.activeElement !== totIn) totIn.value = gv(r.tot);
+        }
+      }
+      updateGrand(); refreshSubtotalCells();
+      if (activeLine && activeLine._id === r._id) refreshInspectorQty(r);   // แก้ปริมาณ/ราคาในตาราง → อัปเดตแผงขวาด้วย (เหมือน setLineQty)
+      saveDebounced(); scheduleSidebar();
+    }
+    function onGridTextEdit(i, field, text) {
+      const r = boqCat(activeCat.key).rows[i]; if (!r) return;
+      text = text.replace(/\s+/g, " ").trim();
+      if (field === "title") { const m = text.split(" · "); if (m.length > 1) { r.code = m[0].trim(); r.title = m.slice(1).join(" · "); } else { r.code = ""; r.title = text; } }
+      else r[field] = text;
+      saveDebounced(); scheduleSidebar();
+    }
+    function addLine() { const cat = boqCat(activeCat.key); cat.rows.push({ t: "l", _id: newLineId(), no: "", d: "", q: null, u: "", mu: null, ms: null, lu: null, ls: null, tot: null }); saveProjects(); renderGrid(); renderItems(); updateHeaderProgress(); const inputs = $("#gridBody").querySelectorAll("tr.boq-line .ecell[data-f='no']"); inputs[inputs.length - 1] && inputs[inputs.length - 1].focus(); }
+    function addGroup() { const cat = boqCat(activeCat.key); cat.rows.push({ t: "g", code: "", title: "หัวข้อกลุ่มใหม่" }); saveProjects(); renderGrid(); }
+    function delRow(i) { const cat = boqCat(activeCat.key); const r = cat.rows[i]; if (!r) return; if (r.t === "l" && (r.no || r.d)) { if (!confirm(`ลบรายการ "${r.no || ""} ${r.d || ""}"?`)) return; } if (r.t === "l" && r._id) { delete takeoffQty[r._id]; if (activeProject.methods) delete activeProject.methods[r._id]; if (activeProject.methodDriven) delete activeProject.methodDriven[r._id]; }  cat.rows.splice(i, 1); saveProjects(); renderGrid(); renderItems(); updateHeaderProgress(); }
+    // ตั้งค่า "ปริมาณ" (line.q) จากช่องกรอก sidebar / วิธีถอด — คิดราคาใหม่ + อัปเดตทุก view (ไม่เขียนทับ srcEl ที่โฟกัส)
+    function setLineQty(line, val, srcEl) {
+      line.q = (val === "" || val == null) ? null : parseNum(val);
+      recalcRow(line);
+      const tr = $(`#gridBody tr.boq-line[data-id="${line._id}"]`);
+      if (tr) {
+        const qi = tr.querySelector('.gin[data-f="q"]'); if (qi && qi !== srcEl && document.activeElement !== qi) qi.value = gv(line.q);
+        const comp = tr.querySelector(".gcomp"); if (comp) comp.textContent = mny(line.ms);
+        const ti = tr.querySelector(".gtot"); if (ti && ti !== srcEl && document.activeElement !== ti) ti.value = gv(line.tot);
+      }
+      updateGrand(); refreshSubtotalCells();
+      const sinp = $(`#itemList .rin input[data-id="${line._id}"]`); if (sinp && sinp !== srcEl && document.activeElement !== sinp) sinp.value = line.q == null ? "" : line.q;
+      refreshInspectorQty(line);
+      updateHeaderProgress(); saveDebounced();
+    }
+    // อัปเดตแผงขวา (ปริมาณ/ราคารวม/msum) เมื่อ line.q เปลี่ยน — เรียกจาก setLineQty และ onGridNumEdit (แก้ปริมาณในตาราง)
+    function refreshInspectorQty(line) {
+      if (!activeLine || activeLine._id !== line._id) return;
+      $("#boqQty").textContent = line.q != null ? `${fmt(line.q)} ${line.u || ""}` : "—";
+      const perUnit = (line.mu != null || line.lu != null) ? (numOf(line.mu) + numOf(line.lu)) : null;
+      $("#calcQty").textContent = perUnit != null ? `${mny(perUnit)}/${line.u || "หน่วย"}` : "—";
+      $("#variance").textContent = `฿ ${mny(line.tot)}`;
+      $("#variance").className = "qty-value";
+      $("#revisionBadge").textContent = `฿ ${mny(line.tot)}`;
+      const asum = $("#assumptions"); if (asum) $("#assumptions").innerHTML = `<div class="assumption"><span>ปริมาณ</span><b>${fmt(line.q)} ${line.u || ""}</b></div><div class="assumption"><span>ค่าวัสดุรวม</span><b>${mny(line.ms)}</b></div><div class="assumption"><span>ค่าแรงรวม</span><b>${mny(line.ls)}</b></div><div class="assumption"><span>ราคารวม</span><b>${mny(line.tot)}</b></div>`;
+      const msb = $("#methodEditor .msum b"); if (msb && !$("#methodEditor").hidden) msb.textContent = `${fmt(line.q != null ? line.q : 0)} ${line.u || "หน่วย"}`;
+    }
+    function wireGrid() {
+      const gb = $("#gridBody");
+      gb.querySelectorAll("tr.boq-line").forEach(tr => tr.addEventListener("focusin", () => selectLineSoft(tr.dataset.id)));
+      gb.querySelectorAll("input.gin").forEach(inp => {
+        inp.addEventListener("input", () => onGridNumEdit(+inp.dataset.i, inp.dataset.f, inp.value, inp));
+        inp.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); inp.blur(); } });
+      });
+      gb.querySelectorAll(".ecell").forEach(cell => {
+        cell.addEventListener("blur", () => onGridTextEdit(+cell.dataset.i, cell.dataset.f, cell.textContent));
+        cell.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); cell.blur(); } });
+      });
+      gb.querySelectorAll(".rowdel").forEach(b => b.addEventListener("click", e => { e.stopPropagation(); delRow(+b.dataset.i); }));
+      gb.querySelectorAll("[data-add]").forEach(b => b.addEventListener("click", () => (b.dataset.add === "line" ? addLine() : addGroup())));
+      wireRowDrag(gb);
+    }
+    // ลากจัดลำดับแถวด้วยที่จับ ⠿ บนช่อง "ลำดับ" (pointer = mouse + touch/iPad) · ย้ายใน cat.rows แล้ว re-render
+    function wireRowDrag(gb) {
+      let dragI = null;
+      const clearMarks = () => gb.querySelectorAll(".drop-before,.drop-after,.dragging").forEach(el => el.classList.remove("drop-before", "drop-after", "dragging"));
+      const targetIndex = clientY => { const cat = boqCat(activeCat.key); for (const tr of gb.querySelectorAll("tr[data-i]")) { const rc = tr.getBoundingClientRect(); if (clientY < rc.top + rc.height / 2) return +tr.dataset.i; } return cat.rows.length; };
+      gb.querySelectorAll(".rgrip").forEach(grip => {
+        grip.addEventListener("pointerdown", e => {
+          const ae = document.activeElement; if (ae && typeof ae.blur === "function" && gb.contains(ae)) ae.blur();   // commit ช่องที่กำลังพิมพ์ก่อน (preventDefault จะกันไม่ให้ blur เอง → แก้ค้าง/เขียนผิดแถว)
+          e.preventDefault(); e.stopPropagation();
+          const tr = grip.closest("tr[data-i]"); if (!tr) return;
+          dragI = +tr.dataset.i; tr.classList.add("dragging");
+          try { grip.setPointerCapture(e.pointerId); } catch (_) {}
+        });
+        grip.addEventListener("pointermove", e => {
+          if (dragI == null) return;
+          e.preventDefault();
+          gb.querySelectorAll(".drop-before,.drop-after").forEach(el => el.classList.remove("drop-before", "drop-after"));
+          const rows = [...gb.querySelectorAll("tr[data-i]")];
+          let marked = false;
+          for (const tr of rows) { const rc = tr.getBoundingClientRect(); if (e.clientY < rc.top + rc.height / 2) { tr.classList.add("drop-before"); marked = true; break; } }
+          if (!marked && rows.length) rows[rows.length - 1].classList.add("drop-after");
+        });
+        grip.addEventListener("pointerup", e => {
+          if (dragI == null) { clearMarks(); return; }
+          const from = dragI; dragI = null;
+          let to = targetIndex(e.clientY);
+          clearMarks();
+          const cat = boqCat(activeCat.key);
+          if (from >= 0 && from < cat.rows.length && to !== from && to !== from + 1) {
+            const [moved] = cat.rows.splice(from, 1);
+            if (to > from) to--;
+            to = Math.max(0, Math.min(to, cat.rows.length));
+            cat.rows.splice(to, 0, moved);
+            saveProjects(); renderGrid(); renderItems(); updateHeaderProgress();
+          }
+        });
+        grip.addEventListener("pointercancel", () => { dragI = null; clearMarks(); });
+      });
+    }
+
+    function renderClient() {
+      const line = activeLine, ctx = activeItem, tk = ctx && !ctx.synthetic ? ctx : null;
+      if (!line) return;
+      $("#clientCode").textContent = `BOQ ${line.no} • หมวด ${activeCat.no}. ${activeCat.name}`;
+      $("#clientTitle").textContent = line.d;
+      $("#clientMeta").textContent = tk ? `${tk.drawing} Rev.${tk.revision} • ${tk.location} • ตรวจโดย ENG-01` : `ราคารวม ฿${mny(line.tot)} • ยังไม่ได้แนบหลักฐาน`;
+      $("#clientBoq").textContent = line.q != null ? `${fmt(line.q)} ${line.u || ""}` : "—";
+      const perU = (line.mu != null || line.lu != null) ? (numOf(line.mu) + numOf(line.lu)) : null;
+      $("#clientCalc").textContent = perU != null ? `${mny(perU)}/${line.u || "หน่วย"}` : "—";
+      $("#clientVar").textContent = `฿ ${mny(line.tot)}`;
+      const meths = getMethods(line);
+      $("#clientRows").innerHTML = (tk && tk.lines)
+        ? tk.lines.map(l => `<tr><td><b>${escapeHtml(l.zone)}</b></td><td>${escapeHtml(l.method)}</td><td class="num">${fmt(l.final)} ${line.u || ""}</td></tr>`).join("")
+        : meths.length
+          ? meths.map(r => `<tr><td><b>${escapeHtml(r.kind === "rebar" ? "เหล็ก" : r.kind === "vol" ? "ปริมาตร" : "กรอกเอง")}</b></td><td>${escapeHtml(r.kind === "rebar" ? `${r.d <= 9 ? "RB" : "DB"}${r.d} × ${r.count || 0} × ${r.length || 0} ม.` : r.kind === "vol" ? `${r.w || 0}×${r.l || 0}×${r.t || 0}×${r.count ?? 1}` : (r.label || "—"))}</td><td class="num">${fmt(methodRowValue(r))} ${line.u || ""}</td></tr>`).join("")
+          : `<tr><td colspan="3" style="color:var(--muted)">ค่าวัสดุ ${mny(line.ms)} + ค่าแรง ${mny(line.ls)} = ฿${mny(line.tot)}</td></tr>`;
+      $("#clientSummary").innerHTML = (tk && tk.summary) ? `${tk.summary}<br><br><span style="color:var(--muted)">${tk.formulaDetail}</span>` : `รายการ <strong>${escapeHtml(line.no || "")} ${escapeHtml(line.d || "")}</strong> ปริมาณ ${fmt(line.q)} ${escapeHtml(line.u || "")} · ราคารวม ฿${mny(line.tot)}`;
+      $("#clientImage").src = ctx ? (ctx.image || "") : "";
+      const size = ctx && ctx.size ? ctx.size : [1400, 1000];
+      $("#clientMarkup").setAttribute("viewBox", `0 0 ${size[0]} ${size[1]}`);
+      $("#clientMarkup").style.setProperty("--active-color", ctx ? (ctx.color || "var(--teal)") : "var(--teal)");
+      $("#clientMarkup").style.setProperty("--active-fill", ctx ? (ctx.fill || "transparent") : "transparent");
+      $("#clientMarkup").style.setProperty("--active-stroke", ctx ? (ctx.stroke || 4) : 4);
+      $("#clientMarkup").innerHTML = ctx ? (ctx.markup || "") : "";
+    }
+
+    function setMode(mode) {
+      document.querySelectorAll(".seg-btn").forEach(button => button.classList.toggle("active", button.dataset.mode === mode));
+      $("#planView").hidden = mode !== "plan";
+      $("#sheetView").hidden = mode !== "sheet";
+      $("#drawTools").style.display = mode === "plan" ? "" : "none";
+    }
+
+    function showToast(message) {
+      const toast = $("#toast"); toast.textContent = message; toast.hidden = false;
+      clearTimeout(showToast.timer); showToast.timer = setTimeout(() => toast.hidden = true, 2400);
+    }
+
+    // (event wiring รวมอยู่ใน "===== wiring =====" ด้านล่าง — กันผูกซ้ำ)
+    // ===== inline icons (no CDN — CSP-safe / offline) =====
+    const ICONS = {
+      "file-spreadsheet": '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h8M11 13v4"/>',
+      "shield-check": '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+      "moon": '<path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/>',
+      "sun": '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+      "image-plus": '<path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/><path d="M16 5h6M19 2v6"/><circle cx="9" cy="9" r="1.6"/><path d="m3 17 5-5 4 4 3-3 6 6"/>',
+      "presentation": '<path d="M2 3h20M4 3v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V3M12 15v6M9 21h6M8 10l3-3 2 2 3-4"/>',
+      "printer": '<path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/>',
+      "search": '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
+      "map": '<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/>',
+      "table-2": '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/>',
+      "mouse-pointer-2": '<path d="M4 3l7 17 2.4-6.6L20 11 4 3z"/>',
+      "highlighter": '<path d="M9 11l5-5 4 4-5 5z"/><path d="M5 19l3.5-3.5 2.5 2.5L7.5 21 5 21z"/><path d="M4 22h16"/>',
+      "square": '<rect x="4" y="4" width="16" height="16" rx="2"/>',
+      "arrow-up-right": '<path d="M7 17 17 7M8 7h9v9"/>',
+      "pen-line": '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+      "map-pin": '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+      "undo-2": '<path d="M9 14 4 9l5-5"/><path d="M4 9h11a6 6 0 0 1 0 12h-3"/>',
+      "eraser": '<path d="M20 20H8.5L3 14.5a2 2 0 0 1 0-3l8-8a2 2 0 0 1 3 0l6 6a2 2 0 0 1 0 3L14 20"/><path d="M14 8 8 14"/>',
+      "contrast": '<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z"/>',
+      "zoom-out": '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M8 11h6"/>',
+      "zoom-in": '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/>',
+      "maximize-2": '<path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>',
+      "check": '<path d="M20 6 9 17l-5-5"/>',
+      "scan-search": '<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="11.5" cy="11.5" r="2.5"/><path d="m15 15-1.4-1.4"/>',
+      "x": '<path d="M18 6 6 18M6 6l12 12"/>',
+      "triangle-alert": '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
+      "folder": '<path d="M4 20a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2z"/>',
+      "chevron-down": '<path d="m6 9 6 6 6-6"/>',
+      "plus": '<path d="M12 5v14M5 12h14"/>',
+      "trash-2": '<path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/>',
+      "pencil": '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+    };
+    function createIcons(root = document) {
+      root.querySelectorAll("i[data-lucide]").forEach(el => {
+        const name = el.getAttribute("data-lucide"); const path = ICONS[name]; if (!path) return;
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("viewBox", "0 0 24 24"); svg.setAttribute("class", "lucide");
+        svg.setAttribute("data-lucide", name); svg.setAttribute("aria-hidden", "true");
+        svg.innerHTML = path; el.replaceWith(svg);
+      });
+    }
+
+    // ===== theme toggle (auto + manual, persists) =====
+    const THEME_KEY = "boq_trace_theme";
+    function themeNow() { return document.documentElement.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+    function applyTheme(t) {
+      document.documentElement.setAttribute("data-theme", t);
+      try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
+      const btn = $("#themeToggle"); btn.innerHTML = `<i data-lucide="${t === "dark" ? "sun" : "moon"}"></i>`; createIcons(btn);
+    }
+    try { const s = localStorage.getItem(THEME_KEY); if (s) document.documentElement.setAttribute("data-theme", s); } catch (e) {}
+
+    // ===== annotation on plan (paste/draw own highlights, per-item) =====
+    const planAnno = $("#planAnno");
+    const annoTextInput = $("#annoText");
+    let tool = "off";
+    let annoColor = "oklch(60% 0.2 350)";
+    let drawing = false, preview = null, pendingPin = null;
+
+    const escapeHtml = s => String(s).replace(/[&<>"]/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m]));
+
+    function annoSVG(a) {
+      const c = a.color, w = 3, W = (activeItem.size && activeItem.size[0]) || 1600;
+      const x = Math.min(a.x0, a.x1), y = Math.min(a.y0, a.y1), ww = Math.abs(a.x1 - a.x0), hh = Math.abs(a.y1 - a.y0);
+      if (a.type === "highlight") return `<rect class="a-fill" x="${x}" y="${y}" width="${ww}" height="${hh}" rx="6" style="--a-c:${c}"/>`;
+      if (a.type === "rect") return `<rect class="a-stroke" x="${x}" y="${y}" width="${ww}" height="${hh}" rx="4" style="--a-c:${c};--a-w:${w}"/>`;
+      if (a.type === "arrow") {
+        const ang = Math.atan2(a.y1 - a.y0, a.x1 - a.x0), hl = W * 0.022;
+        const hx1 = a.x1 - hl * Math.cos(ang - 0.42), hy1 = a.y1 - hl * Math.sin(ang - 0.42);
+        const hx2 = a.x1 - hl * Math.cos(ang + 0.42), hy2 = a.y1 - hl * Math.sin(ang + 0.42);
+        return `<line class="a-stroke" x1="${a.x0}" y1="${a.y0}" x2="${a.x1}" y2="${a.y1}" style="--a-c:${c};--a-w:${w}"/><polygon class="a-arrowhead" points="${a.x1},${a.y1} ${hx1},${hy1} ${hx2},${hy2}" style="--a-c:${c}"/>`;
+      }
+      if (a.type === "pen") return `<polyline class="a-stroke" points="${a.pts.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ")}" style="--a-c:${c};--a-w:${w}"/>`;
+      if (a.type === "pin") {
+        const r = W / 92, fs = W / 46;
+        return `<circle class="a-pinbg" cx="${a.x0}" cy="${a.y0}" r="${r}" style="--a-c:${c}"/><text class="a-pintext" x="${a.x0 + r * 1.5}" y="${a.y0 + fs * 0.34}" font-size="${fs}" style="--a-c:${c}">${escapeHtml(a.text)}</text>`;
+      }
+      return "";
+    }
+    function renderAnno() {
+      if (!planAnno) return;
+      const it = activeItem; if (!it.userAnno) it.userAnno = [];
+      planAnno.setAttribute("viewBox", `0 0 ${it.size[0]} ${it.size[1]}`);
+      const list = preview ? it.userAnno.concat([preview]) : it.userAnno;
+      planAnno.innerHTML = list.map(annoSVG).join("");
+    }
+    function annoPoint(e) {
+      const ctm = planAnno.getScreenCTM(); if (!ctm) return null;
+      const pt = planAnno.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+      const p = pt.matrixTransform(ctm.inverse()); return { x: p.x, y: p.y };
+    }
+    function setTool(t) {
+      tool = t;
+      document.querySelectorAll("#drawTools [data-tool]").forEach(b => b.classList.toggle("active", b.dataset.tool === t));
+      viewer.classList.toggle("arming", t !== "off");
+      const hint = $("#annoHint");
+      if (t === "off") { hint.hidden = true; }
+      else { hint.hidden = false; hint.textContent = t === "pin" ? "คลิกบนแปลนเพื่อปักหมุด แล้วพิมพ์ข้อความ" : "ลากบนแปลนเพื่อวาด • Undo ย้อนได้"; }
+    }
+    document.querySelectorAll("#drawTools [data-tool]").forEach(b => b.addEventListener("click", () => setTool(b.dataset.tool)));
+    document.querySelectorAll("#drawTools .color-dot").forEach(b => b.addEventListener("click", () => {
+      annoColor = b.dataset.color;
+      document.querySelectorAll("#drawTools .color-dot").forEach(x => x.classList.toggle("active", x === b));
+      planAnno.style.setProperty("--a-c", annoColor);
+    }));
+    $("#annoUndo").addEventListener("click", () => { if (activeItem.userAnno && activeItem.userAnno.length) { activeItem.userAnno.pop(); renderAnno(); ensureEvidenceStored(activeItem); } });
+    $("#annoClear").addEventListener("click", () => { if (activeItem.userAnno && activeItem.userAnno.length && confirm("ล้างที่วาดเองทั้งหมดของรายการนี้?")) { activeItem.userAnno = []; renderAnno(); ensureEvidenceStored(activeItem); } });
+
+    planAnno.addEventListener("pointerdown", e => {
+      if (tool === "off") return;
+      if (tool === "pin") { startPin(e); return; }
+      if (drawing) return;               // single active pointer (ignore multi-touch)
+      const p = annoPoint(e); if (!p) return;
+      e.preventDefault(); try { planAnno.setPointerCapture(e.pointerId); } catch (_) {}
+      drawing = true;
+      preview = { type: tool, color: annoColor, x0: p.x, y0: p.y, x1: p.x, y1: p.y, pts: [[p.x, p.y]] };
+    });
+    planAnno.addEventListener("pointermove", e => {
+      if (!drawing || !preview) return;
+      const p = annoPoint(e); if (!p) return;
+      if (preview.type === "pen") preview.pts.push([p.x, p.y]); else { preview.x1 = p.x; preview.y1 = p.y; }
+      renderAnno();
+    });
+    function finishDraw() {
+      if (!drawing) return; drawing = false;
+      const a = preview; preview = null;
+      if (a) {
+        const minv = ((activeItem.size && activeItem.size[0]) || 1600) * 0.006;
+        const big = a.type === "pen" ? a.pts.length > 2 : (Math.abs(a.x1 - a.x0) > minv || Math.abs(a.y1 - a.y0) > minv);
+        if (big) { (activeItem.userAnno = activeItem.userAnno || []).push(a); ensureEvidenceStored(activeItem); }
+      }
+      renderAnno();
+    }
+    planAnno.addEventListener("pointerup", finishDraw);
+    planAnno.addEventListener("pointercancel", finishDraw);
+
+    function startPin(e) {
+      const p = annoPoint(e); if (!p) return;
+      pendingPin = { x: p.x, y: p.y, color: annoColor };
+      const rect = $("#planView").getBoundingClientRect();
+      annoTextInput.value = ""; annoTextInput.hidden = false; annoTextInput.style.color = annoColor;
+      annoTextInput.style.left = (e.clientX - rect.left) + "px";
+      annoTextInput.style.top = (e.clientY - rect.top - 12) + "px";
+      setTimeout(() => annoTextInput.focus(), 0);
+    }
+    function commitPin() {
+      if (pendingPin && annoTextInput.value.trim()) {
+        (activeItem.userAnno = activeItem.userAnno || []).push({ type: "pin", color: pendingPin.color, x0: pendingPin.x, y0: pendingPin.y, text: annoTextInput.value.trim() });
+        ensureEvidenceStored(activeItem);
+      }
+      pendingPin = null; annoTextInput.hidden = true; renderAnno();
+    }
+    annoTextInput.addEventListener("keydown", ev => {
+      if (ev.key === "Enter") { ev.preventDefault(); commitPin(); }
+      else if (ev.key === "Escape") { ev.preventDefault(); pendingPin = null; annoTextInput.hidden = true; }   // cancel, not commit
+    });
+    annoTextInput.addEventListener("blur", commitPin);
+
+    // ===== evidence attach (upload / paste / drag) — capture target item synchronously =====
+    function attachEvidence(blob) {
+      if (!blob || !blob.type || !blob.type.startsWith("image/")) { showToast("รองรับเฉพาะไฟล์รูปภาพ (PNG/JPG)"); return; }
+      const target = activeItem, proj = activeProject;   // capture item + project (async decode — กันสลับโปรเจกต์ระหว่างถอดรูป)
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => {
+        // ย่อ + แปลงเป็น dataURL เพื่อ persist (blob URL หายตอน reload) · JPEG คุมขนาด localStorage
+        const MAX = 1600, w = img.naturalWidth || 1600, h = img.naturalHeight || 1200;
+        const sc = Math.min(1, MAX / Math.max(w, h)), cw = Math.max(1, Math.round(w * sc)), ch = Math.max(1, Math.round(h * sc));
+        let dataUrl;
+        try { const cv = document.createElement("canvas"); cv.width = cw; cv.height = ch; cv.getContext("2d").drawImage(img, 0, 0, cw, ch); dataUrl = cv.toDataURL("image/jpeg", 0.82); }
+        catch (e) { dataUrl = url; }   // canvas ล้มเหลว (tainted) → ใช้ blob (โชว์ได้ในเซสชัน ไม่ persist)
+        if (dataUrl !== url) URL.revokeObjectURL(url);   // ถ้า fallback ใช้ blob อยู่ ห้าม revoke (ไม่งั้นรูปว่าง)
+        target.image = dataUrl;
+        target.size = [cw, ch];
+        target.markup = "";
+        target.userAnno = [];
+        target.status = "รอตรวจ";
+        ensureEvidenceStored(target, proj);   // 🔴 เก็บลงโปรเจกต์ที่วางรูป (ไม่ใช่ที่สลับไป)
+        if (target === activeItem) renderActive();
+        renderItems();
+        showToast("แนบภาพแล้ว (บันทึกในโปรเจกต์) • เลือกเครื่องมือแล้ววาดไฮไลต์ได้เลย");
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); showToast("เปิดรูปไม่ได้ — ลองไฟล์ PNG/JPG อื่น"); };
+      img.src = url;
+    }
+    $("#uploadButton").addEventListener("click", () => $("#fileInput").click());
+    $("#fileInput").addEventListener("change", event => { const f = event.target.files[0]; attachEvidence(f); event.target.value = ""; });
+    window.addEventListener("paste", e => {
+      if ($("#exportDialog").open) return;
+      const ae = document.activeElement;
+      if (ae && (ae.tagName === "INPUT" || ae.tagName === "TEXTAREA" || ae.isContentEditable)) return;   // let text fields paste normally
+      const items = e.clipboardData ? [...e.clipboardData.items] : [];
+      const imgItem = items.find(it => it.type && it.type.startsWith("image/"));
+      if (imgItem) { const b = imgItem.getAsFile(); if (b) { e.preventDefault(); attachEvidence(b); } }
+    });
+    viewer.addEventListener("dragover", e => { e.preventDefault(); });
+    viewer.addEventListener("drop", e => {
+      e.preventDefault();
+      const f = [...(e.dataTransfer ? e.dataTransfer.files : [])].find(x => x.type.startsWith("image/"));
+      if (f) attachEvidence(f);
+    });
+
+    // ===== Export BOQ workbook (real data from BOQ On Nuch 8.5.69.xlsx) =====
+    const fmtB = v => v == null ? "" : Number(v).toLocaleString("en-US", { maximumFractionDigits: 0 });
+    const q0 = v => v == null ? "" : Number(v).toLocaleString("en-US", { maximumFractionDigits: Math.abs(v) % 1 ? 2 : 0 });
+    const WB = {
+      cover: {
+        cats: [
+          { no: "1.", name: "หมวดงานเตรียมการ", mat: 25000, lab: 0, total: 25000, key: "prep" },
+          { no: "2.", name: "หมวดงานวิศวกรรมโครงสร้าง", mat: 2101382.93, lab: 533873.44, total: 2635256.38, key: "struct" },
+          { no: "3.", name: "หมวดงานสถาปัตยกรรม", mat: 1510380, lab: 267560, total: 1777940, key: "arch" },
+          { no: "4.", name: "หมวดงานระบบไฟฟ้า", mat: 308350, lab: 90300, total: 398650, key: "elec" },
+          { no: "5.", name: "หมวดงานสุขาภิบาล", mat: 202445, lab: 58000, total: 260445, key: "san" },
+          { no: "6.", name: "หมวดงานเฟอร์นิเจอร์บิ้วอิน", mat: 0, lab: 0, total: 0, key: "built" },
+        ],
+        subMat: 4147557.93, subLab: 949733.44, subTotal: 5097291.38, overhead: 509729.14, grand: 5607020.51, net: 5607000,
+        words: "ห้าล้านหกแสนเจ็ดพันบาทถ้วน",
+      },
+      sheets: {
+        prep: { title: "1. หมวดงานเตรียมการ", total: 25000, groups: [{ title: "1.1 งานเตรียมการ", sub: 25000, rows: [["1.1.1", "งานจัดทำที่พักคนงาน", 1, "เหมา", 25000, null, 25000]] }] },
+        struct: { title: "2. หมวดงานวิศวกรรมโครงสร้าง", total: 2635256.38, condensed: true, groups: [
+          { title: "2.1 งานชั้น ฐานราก · เสาเข็ม · ตอม่อ", rows: [
+            ["2.1.1", "เสาเข็มเจาะ Ø 0.35×0.35×21.00 ม.", 24, "ต้น", 21500, 1000, 540000],
+            ["2.1.2", "ค่าตัดเสาเข็ม", 25, "ต้น", null, 500, 12500],
+            ["2.1.3", "งานไม้แบบทั่วไป (ฐานราก+ตอม่อ)", 91, "ตร.ม.", 300, 100, 36400],
+            ["2.1.4", "คอนกรีตโครงสร้าง 240 (Cube)", 17, "ลบ.ม.", 3000, 500, 59500],
+            ["2.1.9", "เหล็กกลม RB6 (SR24)", 80.88, "กก.", 35, 15, 4043.95],
+            ["2.1.10", "เหล็กกลม RB9 (SR24)", 53.90, "กก.", 35, 15, 2695.10],
+          ] },
+          { title: "2.2 งานเสา ชั้น 1", sub: 251010.62, rows: [
+            ["2.2.7", "เหล็กกลม RB (SR24)", 1027.76, "กก.", 35, 15, 51388.02],
+            ["2.2.8", "เหล็กข้ออ้อย DB (SD40)", 1228.25, "กก.", 35, 15, 61412.60],
+            ["…", "ไม้แบบ · คอนกรีต · ลวด · ตะปู (ย่อ)", null, "", null, null, 138210.00],
+          ] },
+          { title: "2.3 งานพื้น ชั้น 1 · คาน · บันได · หลังคา (ย่อ)", rows: [
+            ["2.3.1", "งานไม้แบบพื้น ชั้น 1", 213, "ตร.ม.", 300, 100, 85200],
+            ["2.3.2", "คอนกรีตพื้น 240 (กันซึม)", 25, "ตร.ม.", 3000, 500, 87500],
+            ["…", "รายการโครงสร้างส่วนที่เหลือ (ย่อ)", null, "", null, null, 1552986.61],
+          ] },
+        ] },
+        arch: { title: "3. หมวดงานสถาปัตยกรรม", total: 1777940, condensed: true, groups: [
+          { title: "3.1 งานประตู และหน้าต่าง", sub: 625000, rows: [["3.1", "ชั้น 1 ประตู 12 + หน้าต่าง 6 (เหมารวม)", 1, "ชุด", 625000, null, 625000], ["-", "ชั้น 2 ประตู 7 + หน้าต่าง 13", "—", "", null, null, 0]] },
+          { title: "3.2 งานสุขภัณฑ์", sub: 200000, rows: [["3.2.1", "งานสุขภัณฑ์ (เหมารวม)", 1, "ชุด", 200000, null, 200000]] },
+          { title: "3.3 งานฝ้า", sub: 198710, rows: [["3.3.1", "ฝ้ายิปซั่ม ฉาบเรียบ 9 มม. (C1)", 284, "ตร.ม.", null, null, 119280], ["3.3.2", "ฝ้ายิปซั่ม กันชื้น 9 มม.", 169, "ตร.ม.", null, null, 79430]] },
+          { title: "3.4 งานผนัง · กระเบื้อง (ย่อ)", sub: 134800, rows: [["3.4.4", "กระเบื้องผนังห้องน้ำ ชั้น 1", 38, "ตร.ม.", null, null, 36100], ["3.4.6", "กระเบื้องผนังห้องน้ำ มาสเตอร์", 50, "ตร.ม.", null, null, 65000], ["3.4.1", "ปรับลดผนังก่ออิฐ ชั้น 1", -25, "ตร.ม.", null, null, -13750]] },
+          { title: "3.5 งานสี + งานพื้น (ย่อ)", rows: [["3.5.2", "สีฝ้า C1", 284, "ตร.ม.", null, null, 56800], ["…", "งานสี/พื้น/รายการที่เหลือ (ย่อ)", null, "", null, null, 562550]] },
+        ] },
+        elec: { title: "4. หมวดงานระบบไฟฟ้า", total: 398650, groups: [{ title: "4.1 งานเต้ารับ และไฟแสงสว่าง", sub: 398650, rows: [
+          ["4.1.1", "งานเดินสายไฟแสงสว่าง", 122, "ชุด", 800, 400, 146400],
+          ["4.1.2", "งานเดินสายไฟเต้ารับ", 55, "ชุด", 800, 400, 66000],
+          ["4.1.9", "หลอดไฟ LED CL", 195, "ม.", 300, 100, 78000],
+          ["4.1.4", "หลอดไฟ L2", 34, "ชุด", 700, null, 23800],
+          ["4.1.14", "เต้ารับคู่", 45, "ชุด", 350, 0, 15750],
+          ["4.1.10", "สวิตซ์ 1 ทาง", 40, "ชุด", 300, 0, 12000],
+          ["…", "หลอด L1/L3/L4 · สวิตซ์ 2/3 ทาง · LAN/HDMI · JB (ย่อ)", null, "", null, null, 56700],
+        ] }] },
+        san: { title: "5. หมวดงานสุขาภิบาล", total: 260445, groups: [
+          { title: "5.1 งานระบบท่อน้ำดี", sub: 60870, rows: [["5.1.5", "ถังน้ำดี 1,500 ลิตร", 1, "ชุด", 10900, null, 10900], ["5.1.7", "ปั้มน้ำแรงดันคงที่ 300W (Hitachi)", 1, "ชุด", 11500, null, 11500], ["5.1.9", "ค่าแรงติดตั้งท่อ", 1, "เหมา", null, 15000, 15000], ["…", "ท่อ PVC/PPR · ก๊อก · ฐานถัง · ข้อต่อ (ย่อ)", null, "", null, null, 23470]] },
+          { title: "5.2 งานระบบท่อน้ำทิ้ง", sub: 46175, rows: [["5.2.4", "Roof Drain", 7, "ชุด", 1500, null, 10500], ["5.2.5", "ข้อต่อ + วัสดุสิ้นเปลือง", 1, "เหมา", 15000, null, 15000], ["5.2.6", "ค่าแรงติดตั้งท่อ", 1, "เหมา", null, 15000, 15000], ["…", "ท่อ PVC 2/4 นิ้ว · FCO (ย่อ)", null, "", null, null, 5675]] },
+          { title: "5.3 งานระบบท่อน้ำทิ้งภายนอก", sub: 153400, rows: [["5.3.2", "บ่อพัก 40×50 ซม.", 48, "ชุด", 800, null, 38400], ["5.3.4", "ถังบำบัด DOS 1,000 ล.", 3, "ชุด", 6500, null, 19500], ["5.3.7", "ค่าแบคโฮ", 3, "เหมา", 8500, null, 25500], ["…", "ท่อใยหิน · ฝาบ่อ · ถังดักไขมัน · ฐาน · ค่าแรง (ย่อ)", null, "", null, null, 70000]] },
+        ] },
+        built: { title: "6. หมวดงานเฟอร์นิเจอร์บิ้วอิน", total: 0, zero: true, groups: [
+          { title: "6.1 บิ้วอิน ชั้น 1", sub: 0, rows: [["6.1.1", "BF101.1 ตู้ 1.80×2.60×0.55 ม.", 1, "ชุด", null, null, 0], ["6.1.6", "BF105 ตู้ 4.50×2.60×0.60 ม.", 1, "ชุด", null, null, 0], ["…", "BF102–111 · BF301–302 (รวม 15 รายการ)", null, "", null, null, 0]] },
+          { title: "6.2 บิ้วอิน ชั้น 2", sub: 0, rows: [["6.2.3", "BF203 ตู้ 4.00×2.70×0.55 ม.", 1, "ชุด", null, null, 0], ["6.2.9", "BF209 โต๊ะ 1.80×0.75×1.00 ม.", 1, "ชุด", null, null, 0], ["…", "BF201–216 · BF401–405 (รวม 21 รายการ)", null, "", null, null, 0]] },
+          { title: "6.3 งานผนังตกแต่ง ชั้น 2", sub: 0, rows: [["6.3.1", "WD201 ขนาด 3.80×2.60 ม.", 1, "ชุด", null, null, 0]] },
+        ] },
+      },
+    };
+    const XTABS = [
+      { key: "cover", label: "หน้าปก" }, { key: "prep", label: "งานเตรียมการ" }, { key: "struct", label: "งานโครงสร้าง" },
+      { key: "arch", label: "งานสถาปัตย์" }, { key: "elec", label: "งานไฟฟ้า" }, { key: "san", label: "งานสุขาภิบาล" }, { key: "built", label: "งานบิ้วอิน" },
+    ];
+    let xTab = "cover";
+    function renderXCover() {
+      const cats = CAT_DEFS.map(c => { const cat = boqCat(c.key); const ml = catMatLab(cat); return { no: c.no + ".", name: "หมวด" + (cat.name || CAT_LABEL[c.key] || ""), key: c.key, mat: ml.mat, lab: ml.lab, total: catTotal(cat) }; });
+      const subMat = cats.reduce((s, c) => s + c.mat, 0), subLab = cats.reduce((s, c) => s + c.lab, 0), subTotal = cats.reduce((s, c) => s + c.total, 0);
+      const overhead = Math.round(subTotal * 0.10), grand = Math.round(subTotal) + overhead;   // ปัดเป็นบาทเต็ม → ตัวเลข = ตัวหนังสือ (ไม่มีสตางค์ค้าง)
+      const p = activeProject;
+      const rows = cats.map(c => `<tr class="link" data-goto="${c.key}"><td><span class="export-cn">${c.no}</span>${escapeHtml(c.name)}</td><td class="n">${fmtB(c.mat)}</td><td class="n">${fmtB(c.lab)}</td><td class="n"><b>${fmtB(c.total)}</b></td></tr>`).join("");
+      return `<div class="export-panel">
+          <div class="export-head">
+            <div class="eyebrow">ใบสรุปราคารวมทุกหมวดงาน · BOQ</div>
+            <h2>${escapeHtml(p.name || "งานก่อสร้าง")}</h2>
+            <div class="export-meta">
+              ${p.owner ? `<span class="mini-chip">เจ้าของ: ${escapeHtml(p.owner)}</span>` : ""}
+              ${p.location ? `<span class="mini-chip">${escapeHtml(p.location)}</span>` : ""}
+              ${p.code ? `<span class="mini-chip">${escapeHtml(p.code)}</span>` : ""}
+              ${p.date ? `<span class="mini-chip">${escapeHtml(p.date)}</span>` : ""}
+            </div>
+          </div>
+          <div class="export-gridwrap">
+            <table class="data-grid" style="width:100%">
+              <thead><tr><th>ลำดับ · หมวดงาน</th><th class="n">ค่าวัสดุ</th><th class="n">ค่าแรงงาน</th><th class="n">ราคารวม</th></tr></thead>
+              <tbody>${rows}</tbody>
+              <tfoot>
+                <tr class="total"><td>รวมราคางานก่อสร้าง</td><td class="n">${fmtB(subMat)}</td><td class="n">${fmtB(subLab)}</td><td class="n">${fmtB(subTotal)}</td></tr>
+                <tr class="total"><td colspan="3">ค่าดำเนินการ 10%</td><td class="n">${fmtB(overhead)}</td></tr>
+                <tr class="grand"><td colspan="3">รวมราคางานก่อสร้างทั้งสิ้น</td><td class="n">${fmtB(grand)}</td></tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="export-words">(${escapeHtml(bahtText(grand))})</div>
+        <div class="export-note">👆 คลิกที่หมวดงานเพื่อเปิดแผ่นรายละเอียด · ยอดคำนวณจาก ปริมาณ × ราคาต่อหน่วย ที่กรอกในโปรเจกต์นี้</div>`;
+    }
+    function renderXSheet(key) {
+      const cat = boqCat(key); let body = "";
+      for (const r of cat.rows) {
+        if (r.t === "g") { body += `<tr class="group"><td colspan="8">${escapeHtml((r.code ? r.code + " · " : "") + (r.title || ""))}</td></tr>`; continue; }
+        if (r.t === "lb") { body += `<tr class="sub"><td></td><td colspan="7">${escapeHtml(r.d || "")}</td></tr>`; continue; }
+        if (r.t === "s") { body += `<tr class="sub"><td></td><td>${escapeHtml(r.d || "")}</td><td colspan="5"></td><td class="n">${fmtB(r.tot)}</td></tr>`; continue; }
+        const neg = (typeof r.tot === "number" && r.tot < 0) ? "neg" : "";
+        body += `<tr><td class="code">${escapeHtml(r.no || "")}</td><td>${escapeHtml(r.d || "")}</td><td class="n">${r.q != null ? q0(r.q) : ""}</td><td class="c">${escapeHtml(r.u || "")}</td><td class="n">${fmtB(r.mu)}</td><td class="n">${fmtB(r.ms)}</td><td class="n">${fmtB(r.lu)}</td><td class="n ${neg}">${fmtB(r.tot)}</td></tr>`;
+      }
+      const meta = CAT_DEFS.find(c => c.key === key) || { no: "", name: key };
+      const title = `${meta.no}. หมวด${cat.name || CAT_LABEL[key] || meta.name || ""}`;
+      const hasRows = cat.rows.some(r => r.t === "l");
+      return `<div class="export-panel">
+          <div class="export-head"><div class="eyebrow">แบบแสดงรายการ ปริมาณงาน และราคา</div><h2>${escapeHtml(title)}</h2></div>
+          ${!hasRows ? `<div class="export-banner"><i data-lucide="triangle-alert"></i> หมวดนี้ยังไม่มีรายการ</div>` : ""}
+          <div class="export-gridwrap">
+            <table class="data-grid" style="min-width:100%">
+              <thead><tr><th>ลำดับ</th><th>รายการ</th><th class="n">ปริมาณ</th><th class="c">หน่วย</th><th class="n">ค่าวัสดุ/หน่วย</th><th class="n">ค่าวัสดุรวม</th><th class="n">ค่าแรง/หน่วย</th><th class="n">ราคารวม</th></tr></thead>
+              <tbody>${body}</tbody>
+              <tfoot><tr class="grand"><td colspan="7">รวมราคา ${escapeHtml(title)}</td><td class="n">${fmtB(catTotal(cat))}</td></tr></tfoot>
+            </table>
+          </div>
+        </div>`;
+    }
+    function renderExport() {
+      $("#exportTabs").innerHTML = XTABS.map(t => `<button class="trade-btn ${t.key === xTab ? "active" : ""}" data-xtab="${t.key}">${t.label}</button>`).join("");
+      document.querySelectorAll("[data-xtab]").forEach(b => b.addEventListener("click", () => { xTab = b.dataset.xtab; renderExport(); }));
+      const scroll = $("#exportScroll");
+      scroll.innerHTML = xTab === "cover" ? renderXCover() : renderXSheet(xTab);
+      scroll.scrollTop = 0;
+      if (xTab === "cover") scroll.querySelectorAll("[data-goto]").forEach(tr => tr.addEventListener("click", () => { xTab = tr.dataset.goto; renderExport(); }));
+      createIcons(scroll);
+    }
+
+    // ===== project management =====
+    function projProgress(p) {
+      let total = 0, done = 0;
+      for (const c of (p.boq || [])) for (const r of c.rows) if (r.t === "l") { total++; if (r.q != null && r.q !== "") done++; }   // ถอดแล้ว = มีปริมาณ (line.q)
+      return { total, done };
+    }
+    function updateHeaderProgress() { const { total, done } = projProgress(activeProject); $("#psProgress").textContent = `ถอดแล้ว ${done}/${total}`; const tc = $("#projectTotalChip"); if (tc) tc.textContent = `฿ ${mny(projectTotal())}`; updateSummaryBand(); }
+    function updateHeader() {
+      $("#psName").textContent = activeProject.name;
+      $("#projectMeta").textContent = [activeProject.code, activeProject.location].filter(Boolean).join(" · ") || "—";
+      updateHeaderProgress();
+    }
+    function lineCtxReset() { for (const k in lineCtx) delete lineCtx[k]; }
+    function renderProjectList() {
+      $("#projectList").innerHTML = projects.map(p => {
+        const { total, done } = projProgress(p);
+        return `<div class="project-card ${p.id === activeProject.id ? "active" : ""}" data-id="${p.id}">
+          <div><div class="pc-name">${escapeHtml(p.name)}${p.isDemo ? '<span class="pc-demo">เดโม</span>' : ""}</div>
+            <div class="pc-meta"><span>${escapeHtml(p.code || "—")}</span><span>${escapeHtml(p.location || "—")}</span><span class="pc-prog">ถอดแล้ว ${done}/${total}</span></div></div>
+          <div class="pc-tools">
+            <button class="icon-btn" data-act="rename" data-id="${p.id}" title="เปลี่ยนชื่อ"><i data-lucide="pencil"></i></button>
+            ${p.isDemo ? "" : `<button class="icon-btn danger" data-act="delete" data-id="${p.id}" title="ลบ"><i data-lucide="trash-2"></i></button>`}
+          </div></div>`;
+      }).join("");
+      $("#projectList").querySelectorAll(".project-card").forEach(card => card.addEventListener("click", e => { if (e.target.closest("[data-act]")) return; openProject(card.dataset.id); }));
+      $("#projectList").querySelectorAll("[data-act]").forEach(b => b.addEventListener("click", e => { e.stopPropagation(); const p = projects.find(x => x.id === b.dataset.id); if (!p) return; b.dataset.act === "rename" ? renameProject(p) : deleteProject(p); }));
+      createIcons($("#projectList"));
+    }
+    function openProject(id) {
+      const p = projects.find(x => x.id === id); if (!p) return;
+      activeProject = p; takeoffQty = p.takeoff; lineCtxReset();
+      activeCat = CATS.find(c => c.key === "struct") || CATS[0];
+      const first = catLines(activeCat)[0]; activeLine = first || null; activeItem = first ? ctxFor(first) : null; zoom = 1;
+      try { localStorage.setItem(ACTIVE_KEY, id); } catch (e) {}
+      $("#projectDialog").close();
+      updateHeader(); renderTrades(); renderItems(); renderGrid(); renderActive(); updateSummaryBand();
+      showToast(`เปิดโปรเจกต์: ${p.name}`);
+    }
+    const newProjId = () => "p" + Date.now().toString(36) + Math.floor(Math.random() * 1e4).toString(36);
+    function createProject(data) {
+      const id = newProjId();
+      projects.push({ id, name: data.name, code: data.code, owner: data.owner, location: data.location, date: new Date().toLocaleDateString("th-TH"), isDemo: false, takeoff: {}, boq: data.blank ? emptyBoq() : templateBoq() });
+      saveProjects(); $("#projectForm").hidden = true; openProject(id);
+    }
+    // ส่งออก/นำเข้าไฟล์โปรเจกต์ (.json) — สำรอง/ย้ายเครื่อง/แชร์ (รวมปริมาณ+วิธีถอด+หลักฐาน)
+    function exportProject() {
+      const p = activeProject; if (!p) return;
+      const blob = new Blob([JSON.stringify({ _type: "boqproj", version: 1, exported: new Date().toISOString(), project: p }, _serReplacer, 2)], { type: "application/json" });
+      const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+      a.download = String(p.name || "boq-project").replace(/[\\/:*?"<>|]+/g, "_").slice(0, 60) + ".boqproj.json";
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      showToast(`ส่งออก "${p.name}" แล้ว`);
+    }
+    function importProjectFile(file) {
+      if (!file) return;
+      const rd = new FileReader();
+      rd.onload = () => {
+        let obj; try { obj = JSON.parse(rd.result); } catch (e) { showToast("ไฟล์ไม่ถูกต้อง (อ่าน JSON ไม่ได้)"); return; }
+        const p = (obj && obj.project && typeof obj.project === "object") ? obj.project : (obj && Array.isArray(obj.boq) ? obj : null);
+        if (!p || !Array.isArray(p.boq)) { showToast("ไฟล์นี้ไม่ใช่โปรเจกต์ BOQ"); return; }
+        p.id = newProjId(); p.isDemo = false; if (!p.name) p.name = "โปรเจกต์นำเข้า";
+        migrateProject(p);
+        projects.push(p); saveProjects(); renderProjectList(); openProject(p.id);
+        showToast(`นำเข้า "${p.name}" แล้ว`);
+      };
+      rd.onerror = () => showToast("อ่านไฟล์ไม่ได้");
+      rd.readAsText(file);
+    }
+    function renameProject(p) { const n = prompt("ชื่อโปรเจกต์ใหม่:", p.name); if (n && n.trim()) { p.name = n.trim(); saveProjects(); renderProjectList(); if (p.id === activeProject.id) updateHeader(); } }
+    function deleteProject(p) {
+      if (!confirm(`ลบโปรเจกต์ "${p.name}"? ปริมาณที่ถอดของโปรเจกต์นี้จะหายด้วย`)) return;
+      projects = projects.filter(x => x.id !== p.id);
+      saveProjects();
+      if (activeProject.id === p.id) { openProject(projects[0].id); }
+      renderProjectList();
+    }
+
+    // ===== wiring =====
+    $("#projectSwitch").addEventListener("click", () => { $("#projectForm").hidden = true; renderProjectList(); $("#projectDialog").showModal(); });
+    $("#closeProject").addEventListener("click", () => $("#projectDialog").close());
+    $("#projectDialog").addEventListener("click", e => { if (e.target === $("#projectDialog")) $("#projectDialog").close(); });
+    $("#newProjectBtn").addEventListener("click", () => { const f = $("#projectForm"); f.hidden = false; f.reset(); $("#pfName").focus(); });
+    $("#pfCancel").addEventListener("click", () => { $("#projectForm").hidden = true; });
+    $("#projectForm").addEventListener("submit", e => { e.preventDefault(); const name = $("#pfName").value.trim(); if (!name) { $("#pfName").focus(); return; } createProject({ name, code: $("#pfCode").value.trim(), owner: $("#pfOwner").value.trim(), location: $("#pfLoc").value.trim(), blank: $("#pfBlank").checked }); });
+    $("#exportProjectBtn").addEventListener("click", exportProject);
+    $("#importProjectBtn").addEventListener("click", () => $("#projFileInput").click());
+    $("#projFileInput").addEventListener("change", e => { const f = e.target.files[0]; importProjectFile(f); e.target.value = ""; });
+    $("#searchInput").addEventListener("input", renderItems);
+    document.querySelectorAll(".seg-btn").forEach(button => button.addEventListener("click", () => setMode(button.dataset.mode)));
+    $("#zoomIn").addEventListener("click", () => { zoom = Math.min(1.8, zoom + 0.1); renderActive(); });
+    $("#zoomOut").addEventListener("click", () => { zoom = Math.max(0.7, zoom - 0.1); renderActive(); });
+    $("#fitPlan").addEventListener("click", () => { zoom = 1; renderActive(); });
+    $("#mutePlan").addEventListener("click", () => viewer.classList.toggle("muted-plan"));
+    $("#openImage").addEventListener("click", () => { if (activeItem && activeItem.image) window.open(activeItem.image, "_blank"); else showToast("บรรทัดนี้ยังไม่มีหลักฐานแปลน — วางรูป (Ctrl+V) เพื่อแนบ"); });
+    $("#presentItem").addEventListener("click", () => $("#presentationDialog").showModal());
+    $("#openPresentation").addEventListener("click", () => $("#presentationDialog").showModal());
+    $("#closeDialog").addEventListener("click", () => $("#presentationDialog").close());
+    $("#dialogPrint").addEventListener("click", () => window.print());
+    $("#printReport").addEventListener("click", () => { $("#presentationDialog").showModal(); setTimeout(() => window.print(), 120); });
+    $("#presentationDialog").addEventListener("click", event => { if (event.target === $("#presentationDialog")) $("#presentationDialog").close(); });
+    $("#themeToggle").addEventListener("click", () => applyTheme(themeNow() === "dark" ? "light" : "dark"));
+    $("#openExport").addEventListener("click", () => { renderExport(); $("#exportDialog").showModal(); });
+    $("#closeExport").addEventListener("click", () => $("#exportDialog").close());
+    $("#exportPrint").addEventListener("click", () => window.print());
+    $("#exportDialog").addEventListener("click", event => { if (event.target === $("#exportDialog")) $("#exportDialog").close(); });
+    // toggle คอลัมน์ราคา (compact) — จำค่า
+    function applyPriceCols(show) { const t = $("#gridTable"); if (!t) return; t.classList.toggle("hide-prices", !show); const b = $("#priceToggle"); if (b) { b.setAttribute("aria-pressed", show ? "true" : "false"); b.textContent = show ? "ซ่อนราคา ◂" : "แสดงราคา ▸"; } }
+    $("#priceToggle").addEventListener("click", () => { const show = $("#gridTable").classList.contains("hide-prices"); applyPriceCols(show); try { localStorage.setItem("boq_show_prices", show ? "1" : "0"); } catch (e) {} });
+    try { if (localStorage.getItem("boq_show_prices") === "1") applyPriceCols(true); } catch (e) {}
+    // flush ทันทีก่อนปิด/สลับแท็บ — กันแก้ครั้งสุดท้ายหายในช่วง debounce 400ms
+    const flushSave = () => { if (activeProject) saveProjects(); };
+    window.addEventListener("pagehide", flushSave);
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") flushSave(); });
+
+    applyTheme(themeNow());
+    projects = loadProjects();
+    activeProject = projects.find(p => { try { return p.id === localStorage.getItem(ACTIVE_KEY); } catch (e) { return false; } }) || projects[0];
+    takeoffQty = activeProject.takeoff;
+    { const first = catLines(activeCat)[0]; if (first) { activeLine = first; activeItem = ctxFor(first); } }   // เลือกบรรทัดแรกของหมวด
+    updateHeader(); renderTrades(); renderItems(); renderGrid(); renderActive(); updateSummaryBand();
+    createIcons();
+  </script>
+</body>
+</html>

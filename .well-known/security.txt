@@ -1,0 +1,5 @@
+Contact: https://xn--72cfk9b5b2c3bc8mxbf.com/
+Preferred-Languages: th,en
+Canonical: https://xn--72cfk9b5b2c3bc8mxbf.com/.well-known/security.txt
+Policy: https://xn--72cfk9b5b2c3bc8mxbf.com/security-hardening.html
+Expires: 2027-05-30T00:00:00Z
