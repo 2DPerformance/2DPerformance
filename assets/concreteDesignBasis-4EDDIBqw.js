@@ -1,0 +1,16 @@
+import{c as a}from"./main-BPErrmAw.js";import{K as m}from"./index-4HEHYhHZ.js";/**
+ * @license lucide-react v0.460.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const M=a("Gauge",[["path",{d:"m12 14 4-4",key:"9kzdfg"}],["path",{d:"M3.34 19a10 10 0 1 1 17.32 0",key:"19p75a"}]]);/**
+ * @license lucide-react v0.460.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const O=a("Minus",[["path",{d:"M5 12h14",key:"1ays0h"}]]);/**
+ * @license lucide-react v0.460.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const E=a("ScanLine",[["path",{d:"M3 7V5a2 2 0 0 1 2-2h2",key:"aa7l1z"}],["path",{d:"M17 3h2a2 2 0 0 1 2 2v2",key:"4qcy5o"}],["path",{d:"M21 17v2a2 2 0 0 1-2 2h-2",key:"6vwrx8"}],["path",{d:"M7 21H5a2 2 0 0 1-2-2v-2",key:"ioqczr"}],["path",{d:"M7 12h10",key:"b7w52i"}]]),l="basis_pending_clause_verification",g="eit-concrete-basis-v1",S="kgf-kn-display-v1",b=Object.freeze({WSD:Object.freeze({id:"eit_011007_19",label:"วสท. 011007-19",name:"มาตรฐานสำหรับอาคารคอนกรีตเสริมเหล็ก โดยวิธีหน่วยแรงใช้งาน",methodLabel:"WSD · Working Stress"}),SDM:Object.freeze({id:"eit_011008_21",label:"วสท. 011008-21",name:"มาตรฐานสำหรับอาคารคอนกรีตเสริมเหล็ก โดยวิธีกำลัง",methodLabel:"SDM · Strength Design"})}),p=Object.freeze({beam:Object.freeze({SDM:"supported",WSD:"supported"}),column:Object.freeze({SDM:"supported",WSD:"engineering-hold"}),slab:Object.freeze({SDM:"supported",WSD:"engineering-hold"})});function s(e){return String(e||"").toUpperCase()==="WSD"?"WSD":"SDM"}function N(e){return b[s(e)]}function h(e,n){var t;const r=String(e||"").toLowerCase(),o=s(n);return((t=p[r])==null?void 0:t[o])||"engineering-hold"}function c(e){return String(e||"").toLowerCase()==="kn"?"kN":"kgf"}function k(e,n="force"){return c(e)==="kN"?n==="moment"?"kN·m":n==="line-load"?"kN/m":n==="area-load"?"kN/m²":"kN":n==="moment"?"kgf·m":n==="line-load"?"kgf/m":n==="area-load"?"kgf/m²":"kgf"}function u(e,n){if(e===""||e===null||e===void 0)return e;const r=Number(e);return Number.isFinite(r)?c(n)==="kN"?r/m:r:Number.NaN}function z(e,n){if(e===""||e===null||e===void 0)return e;const r=Number(e);return Number.isFinite(r)?c(n)==="kN"?r*m:r:Number.NaN}function T(e,n,r=3){const o=u(e,n);if(!Number.isFinite(o))return o;const t=10**r;return Math.round(o*t)/t}function L(e,n,{quantity:r="force",fractionDigits:o=1,locale:t="th-TH",includeUnit:i=!0}={}){const f=u(e,n),d=Number.isFinite(f)?f.toLocaleString(t,{minimumFractionDigits:0,maximumFractionDigits:o}):"—";return i?`${d} ${k(n,r)}`:d}function C(e){return String(e||"")==="aci_318_19"?"ACI 318-19 · local engine cross-check":"ACI 318-99 / มยผ. · legacy engine cross-check"}function y({memberType:e,designMethod:n,codeStandard:r,displayForceUnit:o}){const t=s(n),i=N(t);return{method:t,designCode:i.id,designCodeLabel:i.label,designCodeName:i.name,methodLabel:i.methodLabel,support:h(e,t),basisStatus:l,basisVersion:g,complianceClaim:!1,engineReference:C(r),displayForceUnit:c(o),canonicalUnits:"kgf · kgf·m · ksc",unitConversionVersion:S}}export{b as C,M as G,O as M,E as S,L as a,N as b,u as c,y as d,C as e,k as f,z as g,T as h};
