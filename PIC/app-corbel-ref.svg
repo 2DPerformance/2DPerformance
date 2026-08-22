@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="t d">
+  <title id="t">แบบจำลองสามมิติหูช้างคอนกรีตเสริมเหล็ก</title><desc id="d">เสาคอนกรีต หูช้าง แผ่นรอง ผนัง เหล็กเสริม และลูกศรแรง</desc>
+  <rect width="720" height="420" fill="#eef2f6"/><path d="M0 330 350 145l370 112v163H0Z" fill="#dfe6ed"/>
+  <path d="M130 62 272 103v270l-142-43Z" fill="#cbd5df"/><path d="M272 103 338 70v268l-66 35Z" fill="#aebac7"/><path d="m130 62 64-34 144 42-66 33Z" fill="#e4e9ee"/>
+  <path d="m272 171 230 66v74l-230-68Z" fill="#d5dce3"/><path d="m272 243 230 68-230 59Z" fill="#aeb9c4"/><path d="m502 237 52-27v74l-52 27Z" fill="#98a6b4"/>
+  <path d="m391 196 116 33-48 24-116-34Z" fill="#505c6a"/><path d="m405 101 113 32v91l-113-33Z" fill="#d8c49f"/><path d="m518 133 34-18v91l-34 18Z" fill="#bca57b"/>
+  <path d="M298 185 471 235" stroke="#2563eb" stroke-width="9" stroke-linecap="round"/><path d="M302 207 462 253" stroke="#2563eb" stroke-width="7" stroke-linecap="round"/>
+  <path d="M338 203v58M382 215v58M426 228v56" stroke="#7c3aed" stroke-width="5"/>
+  <path d="M462 230 292 302" stroke="#d97706" stroke-width="11" stroke-linecap="round" opacity=".9"/>
+  <path d="M463 61v105" stroke="#dc2626" stroke-width="9"/><path d="m463 178-18-28h36Z" fill="#dc2626"/>
+  <rect x="31" y="31" width="132" height="34" rx="5" fill="#111827"/><text x="97" y="53" fill="#f8fafc" font-family="Segoe UI,Tahoma,sans-serif" text-anchor="middle" font-weight="700" font-size="15">CORBEL 3D</text>
+  <text x="31" y="389" fill="#475569" font-family="Segoe UI,Tahoma,sans-serif" font-size="16" font-weight="700">ผนัง → แผ่นรอง → หูช้าง → เสา</text>
+</svg>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="th">
+<head>
+<script>
+/* ด่านกันเปิดตรง · SV-20260807-02 — กติกาเดียวกับ Concrete-design/footing-1pile.html
+   shell นี้เป็นประตูของการ์ด F1 ถ้าไม่ปิดด้วย เปิด URL นี้ตรง ๆ ก็จะได้เอนจินผ่าน iframe ลูก */
+(function () {
+  var allowed = false;
+  try {
+    allowed = window.parent !== window.self
+      && window.parent.location.origin === window.location.origin;
+  } catch (e) { allowed = false; }
+  if (allowed) return;
+  try { document.documentElement.style.visibility = 'hidden'; } catch (e) {}
+  try { window.stop(); } catch (e) {}
+  location.replace('/card-locked.html');
+})();
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <title>ฐานราก 1 เสาเข็ม · F1 Mother-card Full Workbench</title>
+  <link rel="stylesheet" href="/fonts/sarabun/sarabun.css?v=20260730-07" />
+  <link rel="stylesheet" href="/one-pile-mother-card-mockup.css?v=20260808-01" />
+</head>
+<body data-one-pile-shell="engine-preserved-responsive">
+  <main class="engine-host" aria-labelledby="engineHostTitle">
+    <h1 id="engineHostTitle" class="sr-only">ฐานราก 1 เสาเข็ม F1 Engine เดิม ใน Mother-card Responsive UI</h1>
+    <div class="engine-host__loading" id="engineLoading" role="status" aria-live="polite">
+      <span class="engine-host__mark" aria-hidden="true">F1</span>
+      <div>
+        <strong>กำลังเปิด F1 Engine เดิม</strong>
+        <span>โหลด Input, ผลคำนวณ, รายงาน, แบบ และ 3D ชุดเดิมทั้งหมด</span>
+      </div>
+    </div>
+    <div class="engine-host__error" id="engineError" role="alert" hidden>
+      <strong>เปิด F1 Engine ไม่สำเร็จ</strong>
+      <span>Mockup จะไม่สร้างผลลัพธ์ทดแทน กรุณาโหลดหน้านี้ใหม่</span>
+    </div>
+    <iframe
+      id="f1EngineFrame"
+      class="engine-host__frame"
+      title="F1 ฐานราก 1 เสาเข็ม · Engine เดิมพร้อม Mother-card presentation"
+      src="/Concrete-design/footing-1pile.html?presentation=mother-card-responsive-v4"
+      data-engine-file="public/Concrete-design/footing-1pile.html"
+      data-engine-sha256="fc43f782836098b67e863171056349558df3576f0b1487ef85eac2cd7a4e04ef"
+    ></iframe>
+  </main>
+  <script src="/one-pile-mother-card-redesign.js?v=20260808-01"></script>
+  <script src="/one-pile-mother-card-mockup.js?v=20260808-01"></script>
+</body>
+</html>
