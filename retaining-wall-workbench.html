@@ -1,0 +1,2684 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="description" content="Workbench ออกแบบกำแพงกันดิน ตรวจเสถียรภาพ หน้าตัด แบบ 3D รายงาน และ DXF ของนายช่างใหญ่ Civil Apps" />
+  <title>ออกแบบกำแพงกันดิน | นายช่างใหญ่ Civil Apps</title>
+  <script>
+    (function guardRetainingWallCustomerEntry() {
+      var params = new URLSearchParams(window.location.search || '');
+      var loopback = ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname);
+      var qa = loopback && params.get('qa') === '1';
+      var framed = window.parent !== window;
+      var memberRoute = false;
+      if (framed) {
+        try {
+          memberRoute = window.parent.location.origin === window.location.origin
+            && /\/retaining-wall\/?$/.test(window.parent.location.pathname);
+        } catch (error) { memberRoute = false; }
+      }
+      window.__rwCustomerEntryAuthorized = qa || memberRoute;
+      if (!window.__rwCustomerEntryAuthorized) {
+        window.location.replace(new URL('retaining-wall', window.location.origin + '/').href);
+      }
+    }());
+  </script>
+  <style>
+    :root {
+      --navy-950:#04152e;
+      --navy-900:#072449;
+      --navy-800:#0b3263;
+      --blue-700:#0958d9;
+      --blue-600:#0b68f0;
+      --blue-500:#2f80ff;
+      --blue-100:#e9f2ff;
+      --orange:#ff4b12;
+      --green:#16a66a;
+      --green-bg:#eaf9f1;
+      --red:#d64545;
+      --red-bg:#fff0f0;
+      --amber:#c47d00;
+      --amber-bg:#fff7df;
+      --ink:#172033;
+      --muted:#6d7890;
+      --line:#dfe5ee;
+      --line-2:#edf1f6;
+      --panel:#ffffff;
+      --page:#f5f7fb;
+      --shadow:0 8px 30px rgba(22,36,64,.08);
+      --radius:14px;
+      --sidebar:240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      min-width:320px;
+      color:var(--ink);
+      background:var(--page);
+      font-family: "Tahoma", "Noto Sans Thai", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height:1.4;
+    }
+    button, input, select { font:inherit; }
+    button { cursor:pointer; }
+    svg { display:block; }
+
+    /* ตัดแถบด้านซ้ายออกตามที่เจ้าของงานสั่ง — โลโก้ย้ายไปมุมซ้ายบนของหัวแทน
+       เหลือคอลัมน์เดียว พื้นที่ทำงานจึงกว้างขึ้นราว 240 พิกเซล */
+    .app { min-height:100vh; display:block; }
+
+    .sidebar {
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:auto;
+      color:#fff;
+      background:
+        radial-gradient(circle at 16% 8%, rgba(47,128,255,.22), transparent 24%),
+        linear-gradient(180deg, var(--navy-950), #032141 68%, #04182f);
+      border-right:1px solid rgba(255,255,255,.08);
+      padding:18px 14px 16px;
+      z-index:30;
+    }
+    /* หัวข้อกับแถบปุ่มต้องขึ้นบรรทัดใหม่เมื่อจอแคบ ไม่ใช่บีบชื่อหน้าจนอ่านไม่ออก */
+    .topbar { flex-wrap:wrap; row-gap:8px; }
+    .top-left { min-width:min(100%,320px); }
+    .page-title h1 { white-space:normal; }
+    .page-title p { display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+    @media (max-width:1180px){ .top-actions { width:100%; justify-content:flex-start; } }
+
+    .top-logo {
+      width:38px; height:38px; flex:0 0 auto;
+      border-radius:9px; object-fit:contain;
+      background:#fff; box-shadow:0 1px 4px rgba(22,36,64,.12);
+    }
+    @media (max-width:640px){ .top-logo { width:32px; height:32px; } }
+
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:4px 4px 15px;
+      border-bottom:1px solid rgba(255,255,255,.11);
+      margin-bottom:16px;
+    }
+    .brand-logo {
+      width:84px;
+      height:84px;
+      object-fit:contain;
+      background:#fff;
+      border-radius:14px;
+      padding:3px;
+      box-shadow:0 8px 22px rgba(0,0,0,.18);
+    }
+    .brand-copy strong { display:block; font-size:15px; letter-spacing:.1px; }
+    .brand-copy span { color:#9fb4d2; font-size:11px; }
+
+    .nav-group-title {
+      margin:18px 9px 7px;
+      font-size:11px;
+      font-weight:700;
+      color:#829ab9;
+      text-transform:uppercase;
+      letter-spacing:.8px;
+    }
+    .nav-item {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-height:42px;
+      padding:9px 11px;
+      border-radius:9px;
+      color:#dce8f7;
+      text-decoration:none;
+      font-size:13px;
+      transition:.18s ease;
+      margin:2px 0;
+      border:1px solid transparent;
+    }
+    .nav-item:hover { background:rgba(255,255,255,.07); color:#fff; }
+    .nav-item.active {
+      color:#fff;
+      background:linear-gradient(90deg, var(--blue-700), var(--blue-600));
+      box-shadow:0 10px 24px rgba(0,92,230,.28);
+    }
+    .nav-item.sub { padding-left:32px; color:#bfd0e7; }
+    .nav-item.sub.active { color:#fff; }
+    .nav-icon { width:18px; height:18px; flex:0 0 auto; opacity:.96; }
+
+    .package {
+      margin-top:26px;
+      border:1px solid rgba(126,180,255,.24);
+      background:linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.025));
+      border-radius:12px;
+      padding:13px;
+      font-size:12px;
+    }
+    .package small { color:#9eb3cf; }
+    .package strong { display:block; margin:4px 0 2px; font-size:14px; }
+    .package .pkg-btn {
+      width:100%;
+      margin-top:11px;
+      border:0;
+      color:#fff;
+      border-radius:8px;
+      padding:9px 10px;
+      background:linear-gradient(90deg, var(--blue-700), #1479ff);
+      font-weight:700;
+    }
+    .version { margin-top:16px; padding:0 5px; color:#6e87a8; font-size:10px; }
+
+    .main { min-width:0; }
+    .topbar {
+      position:sticky;
+      top:0;
+      z-index:20;
+      min-height:70px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding:11px 22px;
+      background:rgba(255,255,255,.94);
+      border-bottom:1px solid var(--line);
+      backdrop-filter:blur(14px);
+    }
+    .top-left { display:flex; align-items:center; gap:12px; min-width:0; }
+    .menu-btn { display:none; }
+    .page-title { min-width:0; }
+    .page-title h1 { margin:0; font-size:20px; letter-spacing:-.25px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .page-title p { margin:2px 0 0; color:var(--muted); font-size:11px; }
+    .top-actions { display:flex; align-items:center; gap:8px; flex:0 0 auto; }
+    .btn {
+      min-height:38px;
+      border-radius:8px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--ink);
+      padding:8px 13px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+      font-weight:700;
+      font-size:12px;
+      transition:.18s ease;
+      box-shadow:0 1px 2px rgba(20,35,60,.03);
+    }
+    .btn:hover { transform:translateY(-1px); border-color:#b9c9df; box-shadow:0 6px 16px rgba(20,35,60,.08); }
+    .btn.primary { background:linear-gradient(90deg, var(--blue-700), var(--blue-600)); color:#fff; border-color:transparent; }
+    .btn.outline-blue { color:var(--blue-700); border-color:#8eb8ff; }
+    .btn.ghost { border-color:transparent; box-shadow:none; background:transparent; padding:8px; }
+    .btn .ico { width:16px; height:16px; }
+
+    .content { padding:14px 18px 22px; max-width:1920px; margin:0 auto; }
+
+    .stepper {
+      display:grid;
+      grid-template-columns:repeat(5, minmax(0,1fr));
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:0 4px 14px rgba(22,36,64,.04);
+      margin-bottom:12px;
+      padding:10px 12px;
+      overflow:hidden;
+    }
+    .step {
+      position:relative;
+      display:flex;
+      align-items:center;
+      gap:9px;
+      padding:3px 8px;
+      min-width:0;
+      cursor:pointer;
+    }
+    .step:not(:last-child)::after {
+      content:"";
+      position:absolute;
+      height:1px;
+      width:28px;
+      right:-14px;
+      top:50%;
+      background:#d8dee8;
+    }
+    .step-no {
+      width:30px;
+      height:30px;
+      flex:0 0 auto;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      font-size:12px;
+      font-weight:800;
+      background:#eef1f5;
+      color:#445067;
+      border:1px solid #e4e8ee;
+    }
+    .step.active .step-no { background:var(--blue-700); color:#fff; border-color:var(--blue-700); box-shadow:0 5px 14px rgba(9,88,217,.25); }
+    .step-copy { min-width:0; }
+    .step-copy strong { display:block; font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .step-copy span { display:block; font-size:9px; color:#8893a7; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .step.active .step-copy strong { color:var(--blue-700); }
+
+    .workspace {
+      display:grid;
+      grid-template-columns:minmax(315px, 390px) minmax(450px, 1fr) minmax(290px, 340px);
+      gap:12px;
+      align-items:start;
+    }
+    .column { min-width:0; display:grid; gap:12px; }
+    .card {
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:0 5px 18px rgba(22,36,64,.045);
+      overflow:hidden;
+    }
+    .card-head {
+      min-height:46px;
+      padding:12px 14px 9px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      border-bottom:1px solid var(--line-2);
+    }
+    .card-head h2, .card-head h3 { margin:0; font-size:14px; }
+    .card-head p { margin:2px 0 0; font-size:10px; color:var(--muted); }
+    .card-body { padding:13px 14px 15px; }
+    .section-label { font-size:12px; font-weight:800; margin:0 0 8px; }
+    .divider { height:1px; background:var(--line-2); margin:14px 0; }
+
+    .type-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+    .type-card {
+      min-height:106px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:9px;
+      padding:8px 6px;
+      text-align:center;
+      transition:.18s ease;
+    }
+    .type-card:hover { border-color:#8eb8ff; transform:translateY(-1px); }
+    .type-card.active { border:2px solid var(--blue-500); background:linear-gradient(180deg,#fff,#f2f7ff); box-shadow:0 5px 14px rgba(47,128,255,.12); }
+    .type-card svg { width:58px; height:58px; margin:0 auto 4px; }
+    .type-card strong { display:block; font-size:11px; }
+    .type-card span { display:block; color:var(--muted); font-size:9px; margin-top:1px; }
+    .type-card[disabled] { opacity:.45; cursor:not-allowed; filter:grayscale(1); }
+    .type-card[disabled]:hover { transform:none; box-shadow:none; border-color:var(--line); }
+    .section-label .hint { color:#9aa4b5; font-weight:400; font-size:10px; }
+    .view-label { font-size:11px; font-weight:600; color:var(--muted); }
+
+    .form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px 12px; }
+    .field { min-width:0; }
+    .field.full { grid-column:1/-1; }
+    .field label {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      font-size:10px;
+      color:#465169;
+      font-weight:700;
+      margin-bottom:5px;
+    }
+    .field label .hint { color:#9aa4b5; font-weight:400; }
+    .input-wrap { position:relative; }
+    .input-wrap input, .input-wrap select, .plain-select {
+      width:100%;
+      min-height:36px;
+      border:1px solid #d8e0eb;
+      border-radius:7px;
+      background:#fff;
+      color:var(--ink);
+      padding:7px 47px 7px 10px;
+      outline:none;
+      transition:.16s ease;
+      font-size:12px;
+    }
+    .input-wrap select, .plain-select { padding-right:30px; }
+    .input-wrap input:focus, .input-wrap select:focus, .plain-select:focus { border-color:var(--blue-500); box-shadow:0 0 0 3px rgba(47,128,255,.12); }
+    .unit { position:absolute; right:10px; top:50%; transform:translateY(-50%); color:#8994a7; font-size:10px; pointer-events:none; }
+
+    .toggle-row { display:flex; align-items:center; gap:9px; font-size:11px; font-weight:700; }
+    .switch { position:relative; width:38px; height:22px; display:inline-block; flex:0 0 auto; }
+    .switch input { opacity:0; width:0; height:0; }
+    .slider { position:absolute; inset:0; border-radius:999px; background:#d7dee8; transition:.2s; }
+    .slider::before { content:""; position:absolute; width:16px; height:16px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 4px rgba(0,0,0,.18); }
+    .switch input:checked + .slider { background:var(--blue-600); }
+    .switch input:checked + .slider::before { transform:translateX(16px); }
+
+    .soil-strip { display:flex; height:70px; border-radius:8px; overflow:hidden; border:1px solid var(--line); margin-top:9px; }
+    .soil-art { width:35%; min-width:105px; background:
+      radial-gradient(circle at 15% 20%, rgba(80,48,20,.45) 0 1px, transparent 2px),
+      radial-gradient(circle at 70% 65%, rgba(80,48,20,.35) 0 1px, transparent 2px),
+      linear-gradient(#d7b37e,#a86f38); background-size:17px 17px, 22px 22px, auto; }
+    .soil-table { flex:1; display:grid; grid-template-columns:1.4fr .7fr .7fr; font-size:9px; }
+    .soil-table div { padding:5px 6px; border-left:1px solid var(--line); border-bottom:1px solid var(--line); display:flex; align-items:center; }
+    .soil-table div:nth-last-child(-n+3) { border-bottom:0; }
+    .soil-table .h { font-weight:800; background:#f8fafc; }
+
+    .calc-bar { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; margin-top:13px; }
+    .calc-btn { min-height:44px; font-size:13px; }
+
+    .viewer-card .card-body { padding:0; }
+    .viewer-toolbar {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-bottom:1px solid var(--line-2);
+    }
+    .tabs { display:flex; gap:5px; flex-wrap:wrap; }
+    .tab {
+      border:1px solid var(--line);
+      border-radius:7px;
+      background:#fff;
+      color:#465169;
+      min-height:31px;
+      padding:6px 10px;
+      font-size:10px;
+      font-weight:800;
+    }
+    .tab.active { color:#fff; background:var(--blue-700); border-color:var(--blue-700); }
+    .tool-buttons { display:flex; gap:5px; }
+    .tool-icon { width:31px; height:31px; border:1px solid var(--line); border-radius:7px; background:#fff; display:grid; place-items:center; color:#526079; }
+    .tool-icon:hover { color:var(--blue-700); border-color:#a9c7fb; }
+    .tool-icon svg { width:15px; height:15px; }
+    .canvas {
+      position:relative;
+      min-height:485px;
+      background:
+        linear-gradient(rgba(17,55,98,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17,55,98,.025) 1px, transparent 1px),
+        #fff;
+      background-size:24px 24px;
+      overflow:hidden;
+    }
+    #wallSvg { width:100%; height:485px; }
+    .view-pane[hidden] { display:none !important; }
+
+    .three-d-scene {
+      min-height:485px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(180deg,#fbfcfe,#f5f7fb);
+      perspective:900px;
+      overflow:hidden;
+    }
+    .model3d {
+      position:relative;
+      width:330px;
+      height:310px;
+      transform:rotateX(59deg) rotateZ(-34deg) translateY(-12px);
+      transform-style:preserve-3d;
+      transition:transform .35s ease;
+    }
+    .model3d:hover { transform:rotateX(54deg) rotateZ(-28deg) translateY(-12px) scale(1.02); }
+    .base3d { position:absolute; width:270px; height:112px; left:25px; top:168px; background:linear-gradient(135deg,#e7e9eb,#b9bec6); border:1px solid #9da5ae; box-shadow:28px 28px 28px rgba(35,49,69,.16); }
+    .base3d::before { content:""; position:absolute; left:0; top:-22px; width:270px; height:22px; background:linear-gradient(#f7f8f8,#d7dade); transform-origin:bottom; transform:skewX(-45deg); }
+    .base3d::after { content:""; position:absolute; right:-22px; top:0; width:22px; height:112px; background:#9aa1aa; transform-origin:left; transform:skewY(-45deg); }
+    .stem3d { position:absolute; left:123px; top:8px; width:31px; height:190px; background:linear-gradient(90deg,#c8ccd1,#f2f3f4 60%,#b7bcc2); border:1px solid #9ba3ad; transform:rotateX(-90deg); transform-origin:bottom; }
+    .stem3d::after { content:""; position:absolute; right:-16px; top:8px; width:16px; height:190px; background:#929aa4; transform:skewY(-45deg); transform-origin:left; }
+    .soil3d { position:absolute; width:139px; height:165px; left:155px; top:28px; background:
+      radial-gradient(circle at 20% 30%, rgba(69,44,20,.3) 0 1px, transparent 2px),
+      radial-gradient(circle at 70% 68%, rgba(69,44,20,.25) 0 1px, transparent 2px),
+      linear-gradient(135deg,#bc8b55,#8d5d30); background-size:17px 17px,23px 23px,auto; transform:rotateX(-90deg); transform-origin:bottom; border:1px solid #77502c; }
+    .ground3d { position:absolute; width:310px; height:190px; left:6px; top:138px; background:linear-gradient(135deg,#6b492d,#452e1e); transform:translateZ(-26px); opacity:.86; box-shadow:24px 30px 24px rgba(29,22,16,.17); }
+    .model-caption { position:absolute; left:14px; top:14px; color:#607089; font-size:10px; background:rgba(255,255,255,.86); border:1px solid var(--line); border-radius:7px; padding:6px 8px; }
+
+    .mini-info-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .mini-card { border:1px solid var(--line); border-radius:10px; padding:11px; background:#fbfcfe; }
+    .mini-card h4 { margin:0 0 8px; font-size:11px; }
+    .kv { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:center; padding:5px 0; border-bottom:1px dashed #e5e9ef; font-size:10px; }
+    .kv:last-child { border-bottom:0; }
+    .kv span { color:#667188; }
+    .kv strong { font-size:11px; text-align:right; }
+
+    .status-pill {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:52px;
+      min-height:25px;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:900;
+      color:var(--green);
+      background:var(--green-bg);
+      border:1px solid #9cddbf;
+    }
+    .status-pill.fail { color:var(--red); background:var(--red-bg); border-color:#f0aaaa; }
+    .status-pill.warn { color:var(--amber); background:var(--amber-bg); border-color:#ead08d; }
+    .result-overall { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+
+    .check-list { display:grid; }
+    .check {
+      display:grid;
+      grid-template-columns:22px minmax(0,1fr) auto;
+      gap:8px;
+      align-items:start;
+      padding:11px 0;
+      border-bottom:1px solid var(--line-2);
+    }
+    .check:last-child { border-bottom:0; }
+    .check-mark { width:19px; height:19px; border-radius:50%; display:grid; place-items:center; color:#fff; background:var(--green); font-size:11px; font-weight:900; margin-top:1px; }
+    .check-mark.fail { background:var(--red); }
+    .check-title { font-size:10px; color:#4b566c; }
+    .check-value { font-size:16px; font-weight:900; line-height:1.15; margin-top:2px; }
+    .check-limit { color:#8b95a7; font-size:9px; margin-top:2px; }
+
+    .rebar-group + .rebar-group { margin-top:14px; padding-top:13px; border-top:1px solid var(--line-2); }
+    .rebar-group h4 { margin:0 0 7px; font-size:11px; }
+    .rebar-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:7px; align-items:center; padding:4px 0; font-size:10px; }
+    .rebar-value { min-width:112px; background:#f7f9fc; border:1px solid var(--line); border-radius:6px; padding:6px 8px; text-align:center; font-weight:700; }
+
+    .pressure-tabs { display:flex; gap:5px; margin-bottom:8px; }
+    .pressure-tabs .tab { flex:1; padding-left:4px; padding-right:4px; }
+    #pressureSvg { width:100%; height:240px; }
+
+    .notice {
+      margin-top:12px;
+      display:flex;
+      gap:9px;
+      color:#7c5d12;
+      background:#fff9e9;
+      border:1px solid #f1d58c;
+      border-radius:10px;
+      padding:10px 11px;
+      font-size:10px;
+    }
+    .notice strong { display:block; color:#6c4e08; margin-bottom:2px; }
+
+    .footer { display:flex; justify-content:space-between; gap:14px; color:#8b95a7; font-size:9px; padding:14px 2px 0; }
+
+    .toast {
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      z-index:80;
+      min-width:260px;
+      max-width:420px;
+      display:flex;
+      align-items:center;
+      gap:9px;
+      color:#fff;
+      background:#14243c;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:11px;
+      box-shadow:0 16px 40px rgba(0,0,0,.22);
+      padding:12px 14px;
+      font-size:12px;
+      opacity:0;
+      transform:translateY(14px);
+      pointer-events:none;
+      transition:.25s ease;
+    }
+    .toast.show { opacity:1; transform:translateY(0); }
+
+    .modal-backdrop {
+      position:fixed;
+      inset:0;
+      z-index:90;
+      display:none;
+      place-items:center;
+      padding:20px;
+      background:rgba(4,21,46,.56);
+      backdrop-filter:blur(3px);
+    }
+    .modal-backdrop.open { display:grid; }
+    .modal { width:min(560px,100%); background:#fff; border-radius:16px; box-shadow:0 24px 80px rgba(0,0,0,.28); overflow:hidden; }
+    .modal .card-head { padding:15px 16px; }
+    .modal .card-body { font-size:12px; color:#505b70; }
+    .modal h4 { color:var(--ink); margin:13px 0 5px; }
+    .close-x { width:32px; height:32px; border:1px solid var(--line); border-radius:8px; background:#fff; font-size:18px; }
+
+    body.dark {
+      --ink:#eaf0f8;
+      --muted:#9da9bb;
+      --line:#2d394c;
+      --line-2:#273346;
+      --panel:#152034;
+      --page:#0d1625;
+      --shadow:0 8px 30px rgba(0,0,0,.18);
+    }
+    body.dark .topbar { background:rgba(16,25,41,.94); }
+    body.dark .stepper,
+    body.dark .card,
+    body.dark .input-wrap input,
+    body.dark .input-wrap select,
+    body.dark .plain-select,
+    body.dark .type-card,
+    body.dark .tab,
+    body.dark .tool-icon,
+    body.dark .btn:not(.primary) { background:#152034; color:var(--ink); }
+    body.dark .type-card.active { background:linear-gradient(180deg,#152034,#142943); }
+    body.dark .canvas { background:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px), #111b2b; background-size:24px 24px; }
+    body.dark .three-d-scene { background:linear-gradient(180deg,#121d2d,#0e1725); }
+    body.dark .mini-card, body.dark .rebar-value { background:#111b2b; }
+    body.dark .step-no { background:#283449; color:#c9d4e4; border-color:#344158; }
+    body.dark .soil-table .h { background:#1c283a; }
+    body.dark .model-caption { background:rgba(17,27,43,.9); }
+    body.dark .modal { background:#152034; }
+    body.dark .close-x { background:#152034; color:#fff; }
+
+    @media (max-width:1450px) {
+      :root { --sidebar:218px; }
+      .workspace { grid-template-columns:minmax(300px, 355px) minmax(430px,1fr) minmax(275px,315px); }
+      .brand-logo { width:70px; height:70px; }
+    }
+    @media (max-width:1180px) {
+      .workspace { grid-template-columns:minmax(320px, .85fr) minmax(480px,1.15fr); }
+      .right-col { grid-column:1/-1; grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .right-col .notice { grid-column:1/-1; }
+    }
+    @media (max-width:900px) {
+      .app { display:block; }
+      .sidebar { position:fixed; left:-260px; width:240px; transition:.25s ease; box-shadow:20px 0 40px rgba(0,0,0,.25); }
+      .sidebar.open { left:0; }
+      .menu-btn { display:inline-grid; width:38px; height:38px; place-items:center; border:1px solid var(--line); border-radius:8px; background:#fff; }
+      body.dark .menu-btn { background:#152034; color:#fff; }
+      .workspace { grid-template-columns:1fr; }
+      .right-col { grid-column:auto; grid-template-columns:1fr 1fr; }
+      .right-col .notice { grid-column:1/-1; }
+      .step-copy span { display:none; }
+      .top-actions .hide-mobile { display:inline-flex; }
+    }
+    @media (max-width:640px) {
+      .content { padding:10px; }
+      .topbar { padding:9px 10px; min-height:62px; }
+      .page-title h1 { font-size:15px; }
+      .page-title p { display:none; }
+      .top-actions .btn { padding:8px 9px; }
+      .top-actions .btn span { display:none; }
+      .stepper { grid-template-columns:repeat(5, 44px); justify-content:space-between; }
+      .step { padding:2px; justify-content:center; }
+      .step-copy, .step:not(:last-child)::after { display:none; }
+      .right-col { grid-template-columns:1fr; }
+      .right-col .notice { grid-column:auto; }
+      .form-grid, .mini-info-grid { grid-template-columns:1fr; }
+      .field.full { grid-column:auto; }
+      .canvas, #wallSvg, .three-d-scene { min-height:400px; height:400px; }
+      .type-grid { grid-template-columns:1fr; }
+      .type-card { min-height:88px; display:grid; grid-template-columns:70px 1fr; text-align:left; align-items:center; }
+      .type-card svg { margin:0 auto; }
+      .footer { flex-direction:column; }
+      .calc-bar { grid-template-columns:1fr; }
+    }
+
+    @media print {
+      @page { size:A4 landscape; margin:8mm; }
+      body { background:#fff !important; color:#000 !important; }
+      .app { display:block; }
+      .sidebar, .topbar, .stepper, .calc-bar, .tool-buttons, .notice, .footer { display:none !important; }
+      .content { padding:0; max-width:none; }
+      .workspace { grid-template-columns:31% 42% 27%; gap:5mm; }
+      .card { box-shadow:none; break-inside:avoid; border-color:#bbb; }
+      .column { gap:5mm; }
+      .canvas, #wallSvg { min-height:370px; height:370px; }
+      .three-d-scene { min-height:330px; }
+    }
+
+
+    /* Calculation-equation extension */
+    .formula-modal .modal { width:min(1120px,100%); max-height:92vh; overflow:auto; }
+    .formula-modal .card-body { padding:16px; }
+    .equation-note {
+      border:1px solid #f0cf79;
+      background:#fff8df;
+      color:#695018;
+      border-radius:10px;
+      padding:11px 13px;
+      margin-bottom:12px;
+      font-size:12px;
+    }
+    .equation-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .equation-section {
+      border:1px solid var(--line);
+      background:var(--panel);
+      border-radius:12px;
+      padding:13px;
+      min-width:0;
+    }
+    .equation-section.full { grid-column:1/-1; }
+    .equation-section h3 { margin:0 0 8px; font-size:14px; color:var(--ink); }
+    .equation-section p { margin:6px 0; }
+    .equation {
+      overflow:auto;
+      border:1px solid var(--line-2);
+      background:#f7f9fc;
+      border-radius:8px;
+      padding:9px 10px;
+      margin:7px 0;
+      color:#273247;
+      font-family:"Cambria Math","Times New Roman",serif;
+      font-size:13px;
+      line-height:1.65;
+      white-space:normal;
+    }
+    .equation b { color:var(--blue-700); }
+    .equation-table { width:100%; border-collapse:collapse; margin-top:7px; font-size:11px; }
+    .equation-table th,.equation-table td { border-bottom:1px solid var(--line-2); padding:6px 5px; text-align:right; }
+    .equation-table th:first-child,.equation-table td:first-child { text-align:left; }
+    .assumption-list { margin:7px 0 0; padding-left:19px; }
+    .assumption-list li { margin:4px 0; }
+    .formula-inline-btn { min-height:32px; padding:6px 10px; }
+    .calc-basis {
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      margin-top:10px;
+      padding:9px 10px;
+      border-radius:9px;
+      background:var(--blue-100);
+      color:#174b92;
+      font-size:11px;
+    }
+    .calc-basis strong { display:block; color:#123a71; }
+    .micro { color:var(--muted); font-size:10px; }
+    body.dark .equation-note { background:#3a311b; border-color:#66562c; color:#f3d889; }
+    body.dark .equation { background:#111b2b; color:#dfe7f3; }
+    body.dark .calc-basis { background:#142943; color:#b8d2f4; }
+    body.dark .calc-basis strong { color:#d7e8ff; }
+    @media (max-width:760px) { .equation-grid { grid-template-columns:1fr; } .equation-section.full { grid-column:auto; } }
+
+
+    /* ── ส่วนที่เพิ่มเพื่อแสดงผลจาก engine ── */
+    .rw-note{display:grid;gap:3px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:13px}
+    .rw-note b{font-size:13.5px}
+    .rw-note span{font-size:11.5px;color:var(--muted)}
+    .rw-note ul{margin:4px 0 0;padding-left:18px;font-size:12px;color:var(--red)}
+    .rw-ok{border-color:#a9e0c6;background:var(--green-bg)}
+    .rw-ok b{color:#0f7a4e}
+    .rw-bad{border-color:#f0b9b9;background:var(--red-bg)}
+    .rw-bad b{color:var(--red)}
+    .rw-stale{border-color:#e8cf95;background:var(--amber-bg)}
+    .rw-stale b{color:var(--amber)}
+    .rw-checks{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px}
+    .rw-checks th,.rw-checks td{padding:5px 7px;border-bottom:1px solid var(--line-2);text-align:right;font-variant-numeric:tabular-nums}
+    .rw-checks th:first-child,.rw-checks td:first-child{text-align:left}
+    .rw-checks th{font-size:10.5px;color:var(--muted);border-bottom:2px solid var(--line)}
+    .rw-checks tr.bad td{background:var(--red-bg)}
+    .rw-checks tr.bad td b{color:var(--red)}
+    .rw-warn{margin-top:10px;padding:9px 11px;border:1px solid #e8cf95;border-radius:10px;background:var(--amber-bg)}
+    .rw-warn b{display:block;font-size:12px;color:var(--amber);margin-bottom:3px}
+    .rw-warn ol{margin:0;padding-left:18px;font-size:11.5px;line-height:1.5}
+    .rw-fixrow td{padding-top:0!important}
+    .rw-fixwrap{display:flex;flex-wrap:wrap;gap:6px;align-items:center;text-align:left;padding:2px 0 6px}
+    .rw-fixtext{flex:1 1 220px;font-size:11px;color:#8a4a4a;line-height:1.45}
+    .rw-fixbtns{display:flex;flex-wrap:wrap;gap:5px}
+    .rw-fixbtn{border:1px solid var(--red);border-radius:999px;background:#fff;color:var(--red);
+      padding:3px 11px;font:700 11px inherit;cursor:pointer;white-space:nowrap}
+    .rw-fixbtn:hover{background:var(--red);color:#fff}
+    .rw-fixbtn:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+    .rw-fixinline{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+      margin-top:7px;padding-top:7px;border-top:1px dashed #f0b9b9}
+    .rw-fixinline span{flex:1 1 200px;font-size:11px;color:#8a4a4a;line-height:1.45}
+    /* ช่องที่ถูกพาไป ต้องเห็นชัดว่าคือช่องไหน */
+    .rw-flash{position:relative;border-radius:10px;animation:rwFlash 2.6s ease-out}
+    @keyframes rwFlash{
+      0%,18%{box-shadow:0 0 0 3px rgba(214,69,69,.55);background:rgba(255,240,240,.9)}
+      100%{box-shadow:0 0 0 0 rgba(214,69,69,0);background:transparent}
+    }
+    @media(prefers-reduced-motion:reduce){.rw-flash{animation:none;box-shadow:0 0 0 3px rgba(214,69,69,.55)}}
+    .rw-headtools{display:flex;align-items:center;gap:8px}
+    .rw-3dbtn{padding:5px 12px;font-size:11.5px;min-height:32px}
+    .rw-3dbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:10px;font-size:12px}
+    .rw-3dbar label{display:flex;align-items:center;gap:5px;cursor:pointer}
+    .rw-3dbar .btn{margin-left:auto;padding:5px 12px;font-size:11px}
+    .rw-3dstage{position:relative;width:100%;height:min(62vh,560px);border:1px solid var(--line);
+      border-radius:12px;overflow:hidden;background:#f3f6fb}
+    .rw-3dstage canvas{display:block;width:100%;height:100%}
+    .rw-3dhint{margin:9px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5}
+    .modal-wide{width:min(1180px,calc(100vw - 40px));max-height:92vh;overflow:auto}
+    .rw-doc{margin:0 0 14px}
+    .rw-doc figcaption{font-size:11px;color:var(--muted);margin-bottom:5px}
+    .rw-docpaper{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;color:#111}
+    .rw-docpaper svg{display:block;width:100%;height:auto}
+
+    /* ── ช่องที่ปิดใช้งานพร้อมเหตุผล และการ์ดผลเก่าที่ถูกพราง ── */
+    .rw-dead{opacity:.5}
+    .rw-dead input,.rw-dead select{cursor:not-allowed}
+    .rw-masked .card-body{filter:blur(4px) saturate(.5);opacity:.45;pointer-events:none;user-select:none;transition:filter .2s}
+
+    /* ── โหมดมืดของส่วนที่เพิ่มใหม่ — เดิมใช้สีฝั่งสว่างตายตัว เปิดโหมดมืดแล้วขาวจ้าทั้งแผง ── */
+    body.dark .rw-note{background:#152034;border-color:#2a3b57;color:#dbe4f2}
+    body.dark .rw-note span,body.dark .rw-note li{color:#9fb0ca}
+    body.dark .rw-ok{background:#12291f;border-color:#1f5c40}
+    body.dark .rw-ok b{color:#5fd39a}
+    body.dark .rw-bad{background:#2b1717;border-color:#6b2a2a}
+    body.dark .rw-bad b{color:#ff8f85}
+    body.dark .rw-stale{background:#2a2310;border-color:#6b5a1e}
+    body.dark .rw-stale b{color:#e8c15a}
+    body.dark .rw-checks th{color:#9fb0ca;border-bottom-color:#2a3b57}
+    body.dark .rw-checks td{border-bottom-color:#22314a}
+    body.dark .rw-checks tr.bad td{background:#2b1717}
+    body.dark .rw-checks tr.bad td b{color:#ff8f85}
+    body.dark .rw-warn{background:#2a2310;border-color:#6b5a1e}
+    body.dark .rw-warn b{color:#e8c15a}
+    body.dark .rw-fixtext,body.dark .rw-fixinline span{color:#e4a9a3}
+    body.dark .rw-fixbtn{background:#152034;color:#ff8f85;border-color:#6b2a2a}
+    body.dark .rw-fixbtn:hover{background:#6b2a2a;color:#fff}
+    body.dark .rw-fixinline{border-top-color:#6b2a2a}
+    body.dark .rw-3dstage{background:#0d1626;border-color:#2a3b57}
+    body.dark .rw-3dhint,body.dark #wallModeNote,body.dark .rw-doc figcaption{color:#9fb0ca}
+    /* เอกสาร A4/A3 คือกระดาษ — ขาวเสมอแม้ในโหมดมืด ให้ตรงกับของที่พิมพ์จริง */
+    body.dark .rw-docpaper{background:#fff;border-color:#2a3b57;color:#111}
+
+    /* ตารางผลตรวจบนจอแคบเลื่อนข้างได้ ไม่บีบจนอ่านไม่ออก */
+    #engineState{overflow-x:auto}
+    .rw-3dbar label{min-height:24px;align-items:center}
+    /* โหมดมืด: รายการ error ต้องยังเป็นสีเตือน ไม่ถูกกฎ li ทั่วไปทับ */
+    body.dark .rw-bad ul,body.dark .rw-bad li{color:#ff8f85}
+    body.dark .modal .card-body{color:#b8c4d8}
+    body.dark .rw-flash{animation-name:rwFlashDark}
+    @keyframes rwFlashDark{
+      0%,18%{box-shadow:0 0 0 3px rgba(255,143,133,.6);background:rgba(107,42,42,.55)}
+      100%{box-shadow:0 0 0 0 transparent;background:transparent}
+    }
+
+    /* ════════ นายช่างใหญ่ Workbench 2026 · The Calculation Bench ════════
+       เปลี่ยนเฉพาะ presentation hierarchy — input ids, Snapshot lifecycle และ output contract คงเดิม */
+    :root{
+      --navy-950:oklch(22% .055 253);
+      --navy-900:oklch(28% .07 253);
+      --navy-800:oklch(36% .085 253);
+      --blue-700:var(--navy-800);
+      --blue-600:oklch(45% .11 253);
+      --blue-500:oklch(55% .12 253);
+      --blue-100:oklch(96% .018 253);
+      --orange:oklch(69% .205 43);
+      --green:oklch(58% .13 157);
+      --green-bg:oklch(96% .035 157);
+      --red:oklch(57% .19 28);
+      --red-bg:oklch(96% .035 28);
+      --amber:oklch(58% .12 78);
+      --amber-bg:oklch(96% .045 86);
+      --ink:oklch(27% .035 253);
+      --muted:oklch(51% .025 253);
+      --line:oklch(88% .012 253);
+      --line-2:oklch(93% .008 253);
+      --panel:oklch(99% .003 253);
+      --page:oklch(96.5% .008 253);
+      --shadow:0 10px 28px rgba(7,28,58,.08);
+      --radius:8px;
+      --font-ui:"Prompt","Sarabun","Noto Sans Thai","Leelawadee UI","Segoe UI",sans-serif;
+    }
+    html{scroll-padding-top:138px}
+    body{font-family:var(--font-ui);font-feature-settings:"tnum" 1;background:var(--page)}
+    button,input,select{font-family:inherit}
+    button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{
+      outline:3px solid oklch(77% .14 72);outline-offset:2px
+    }
+    body.modal-open{overflow:hidden}
+    .topbar{
+      min-height:76px;padding:10px 18px;background:var(--navy-950);color:oklch(96% .01 253);
+      border:0;border-bottom:3px solid var(--orange);backdrop-filter:none;box-shadow:0 5px 18px rgba(4,21,46,.16)
+    }
+    .top-logo{width:44px;height:44px;border-radius:7px;padding:4px;box-shadow:none;background:oklch(98% .004 253)}
+    .page-title{display:grid;gap:1px}
+    .page-eyebrow{display:flex;align-items:center;gap:7px;color:oklch(76% .035 253);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .tool-code{display:inline-flex;min-height:20px;align-items:center;padding:2px 6px;border:1px solid oklch(70% .07 48);border-radius:4px;color:oklch(82% .13 62);letter-spacing:.04em}
+    .rw-lifecycle-badge{display:inline-flex;align-items:center;min-height:20px;padding:2px 6px;border:1px solid oklch(72% .16 58);border-radius:4px;color:oklch(86% .14 66);font-size:9px;font-weight:900;letter-spacing:.035em;white-space:nowrap}
+    .page-title h1{font-size:19px;line-height:1.25;color:oklch(98% .005 253);letter-spacing:-.01em}
+    .page-title p{color:oklch(74% .025 253);font-size:10.5px}
+    .top-actions{min-width:0;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;padding:2px 1px}
+    .btn{min-height:44px;border-radius:6px;border-color:var(--line);box-shadow:none;padding:8px 13px;transition:background-color .14s ease,border-color .14s ease,color .14s ease}
+    .btn:hover{transform:none;box-shadow:none;border-color:oklch(70% .04 253);background:oklch(96% .012 253)}
+    .btn.primary{background:var(--orange);border-color:var(--orange);color:var(--navy-950)}
+    .btn.primary:hover{background:oklch(74% .19 52);border-color:oklch(74% .19 52)}
+    .btn.outline-blue{color:var(--navy-800);border-color:oklch(68% .07 253)}
+    .topbar .btn:not(.primary){background:oklch(29% .055 253);border-color:oklch(43% .045 253);color:oklch(94% .012 253)}
+    .topbar .btn:not(.primary):hover{background:oklch(35% .065 253);border-color:oklch(58% .06 253)}
+    .topbar .btn.ghost{min-width:44px;padding:8px}
+    .instrument-strip{
+      display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:54px;padding:8px 18px;
+      background:oklch(98.5% .004 253);border-bottom:1px solid var(--line)
+    }
+    .instrument-project{min-width:0;display:grid;gap:1px}
+    .instrument-project span{font-size:9px;font-weight:800;letter-spacing:.08em;color:var(--muted)}
+    .instrument-project strong{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .instrument-ledger{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap}
+    .instrument-chip{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:5px 9px;border:1px solid var(--line);border-radius:5px;background:var(--panel);font-size:10px;color:var(--muted)}
+    .instrument-chip b{font-size:10.5px;color:var(--ink)}
+    .instrument-chip.state::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 3px var(--amber-bg)}
+    .instrument-chip.state[data-state="READY"]::before{background:var(--green);box-shadow:0 0 0 3px var(--green-bg)}
+    .instrument-chip.state[data-state="ERROR"]::before{background:var(--red);box-shadow:0 0 0 3px var(--red-bg)}
+    .content{padding:14px 16px 24px;max-width:1920px}
+    .workspace{grid-template-columns:minmax(320px,370px) minmax(500px,1fr) minmax(300px,330px);gap:10px}
+    .column{gap:10px}
+    .card{border-radius:var(--radius);box-shadow:none;background:var(--panel)}
+    .card-head{min-height:50px;padding:11px 13px;border-bottom-color:var(--line)}
+    .card-head h2,.card-head h3{font-size:13px;color:var(--navy-900)}
+    .card-head p{font-size:10px}
+    .card-body{padding:12px 13px 14px}
+    .section-label{color:var(--navy-900);letter-spacing:.01em}
+    .divider{background:var(--line);margin:13px 0}
+    .type-grid{gap:6px}
+    .type-card{min-height:112px;border-radius:6px;background:var(--panel);padding:8px 5px;box-shadow:none}
+    .type-card:hover{transform:none;border-color:oklch(61% .09 253)}
+    .type-card.active{border:2px solid var(--navy-800);background:var(--blue-100);box-shadow:inset 0 -3px 0 var(--orange)}
+    .type-card svg{width:62px;height:56px}
+    .input-wrap input,.input-wrap select,.plain-select{min-height:44px;border-radius:6px;background:var(--panel);border-color:var(--line);font-size:12px}
+    .input-wrap input:focus,.input-wrap select:focus,.plain-select:focus{border-color:var(--navy-800);box-shadow:0 0 0 3px oklch(88% .035 253)}
+    .profile-detail{border:1px solid var(--line);border-radius:6px;background:oklch(98% .005 253);overflow:hidden}
+    .profile-detail summary{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:8px 10px;cursor:pointer;color:var(--navy-900);font-size:10.5px;font-weight:750;list-style-position:inside}
+    .profile-detail summary span{color:var(--muted);font-size:9px;font-weight:600}
+    .profile-detail-grid{padding:10px;border-top:1px solid var(--line)}
+    .profile-detail input[readonly]{background:oklch(95.5% .006 253);color:var(--muted)}
+    .toggle-row{min-height:44px}
+    .calc-btn{min-height:48px}
+    .viewer-toolbar{min-height:52px;padding:7px 10px;background:oklch(98% .005 253);border-bottom-color:var(--line)}
+    .tab{min-height:44px}
+    .tool-buttons{gap:6px}
+    .tool-icon{width:44px;height:44px;border-radius:6px;background:var(--panel)}
+    .tool-icon svg{width:17px;height:17px}
+    .canvas{min-height:540px;background-size:24px 24px}
+    #wallSvg{height:540px}
+    .mini-card,.rebar-value{border-radius:6px;background:oklch(98% .005 253)}
+    .status-pill{border-radius:5px;min-height:28px}
+    .notice,.rw-note,.rw-warn{border-radius:6px}
+    .footer{color:var(--muted)}
+    .modal-backdrop{padding:18px;background:rgba(4,21,46,.7);backdrop-filter:blur(2px)}
+    .modal{border-radius:8px;border:1px solid oklch(72% .025 253);box-shadow:0 24px 72px rgba(4,21,46,.35)}
+    .close-x{width:44px;height:44px;border-radius:6px;display:grid;place-items:center}
+
+    /* 3D เป็น engineering viewer: viewport ใหญ่ เครื่องมือแบ่งกลุ่ม และ trace อยู่ข้างฉาก */
+    .rw-3dmodal{width:min(1460px,calc(100vw - 28px));max-height:calc(100vh - 28px);overflow:hidden;display:flex;flex-direction:column}
+    .rw-3dmodal>.card-head{flex:0 0 auto;background:var(--navy-950);border-bottom:3px solid var(--orange);color:oklch(96% .01 253)}
+    .rw-3dmodal>.card-head h2{color:oklch(98% .005 253);font-size:15px}
+    .rw-3dmodal>.card-head p{color:oklch(75% .025 253);max-width:940px}
+    .rw-3dmodal>.card-head .close-x{background:oklch(29% .055 253);border-color:oklch(48% .045 253);color:oklch(96% .01 253)}
+    .rw-3dmodal>.card-body{padding:0;min-height:0;overflow:auto}
+    .rw-3dworkspace{display:grid;grid-template-columns:minmax(0,1fr) 286px;min-height:0}
+    .rw-3dmain{min-width:0;padding:10px;background:oklch(95.5% .01 253)}
+    .rw-3dtoolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;overflow-x:auto;scrollbar-width:thin}
+    .rw-toolcluster{display:flex;align-items:center;gap:5px;flex:0 0 auto}
+    .rw-toolcluster+.rw-toolcluster{padding-left:8px;border-left:1px solid var(--line)}
+    .rw-tool-label{font-size:9px;font-weight:800;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-right:2px}
+    .rw-3dtool{min-height:44px;padding:7px 10px;border:1px solid var(--line);border-radius:5px;background:var(--panel);color:var(--ink);font-size:10.5px;font-weight:750;white-space:nowrap}
+    .rw-3dtool:hover{border-color:oklch(62% .08 253);background:var(--blue-100)}
+    .rw-3dtool.is-active,.rw-3dtool[aria-pressed="true"]{background:var(--navy-800);border-color:var(--navy-800);color:oklch(98% .005 253)}
+    .rw-3dtool:disabled{opacity:.58;cursor:not-allowed;background:var(--red-bg);border-color:oklch(74% .09 28);color:oklch(40% .12 28)}
+    .rw-viewstate{min-height:28px;display:flex;align-items:center;padding:4px 8px;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--muted);font-size:9px;font-weight:750;white-space:nowrap}
+    .rw-3dstage{height:min(69vh,720px);min-height:440px;border-radius:6px;background:oklch(96% .012 253);border-color:oklch(82% .025 253)}
+    .rw-3dstage:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+    .rw-axis-key{position:absolute;right:12px;top:12px;display:grid;gap:2px;min-width:142px;padding:7px 9px;border:1px solid oklch(78% .03 253);border-radius:4px;background:oklch(99% .004 253 / .9);color:var(--navy-900);pointer-events:none;box-shadow:0 4px 14px rgba(4,21,46,.12);font-size:8px;line-height:1.45}
+    .rw-axis-key strong{font-size:8.5px;letter-spacing:.04em}.rw-axis-key b{display:inline-block;min-width:13px;color:var(--orange)}
+    .rw-3dwatermark{position:absolute;left:12px;bottom:12px;padding:5px 8px;border:1px solid oklch(76% .03 253);border-radius:4px;background:oklch(99% .004 253 / .86);color:var(--navy-900);font-size:9px;font-weight:800;letter-spacing:.04em;pointer-events:none}
+    .rw-3dhint{margin:7px 2px 0}
+    .rw-3dinspector{border-left:1px solid var(--line);background:var(--panel);padding:13px;overflow:auto}
+    .rw-3dinspector h3{margin:0;font-size:13px;color:var(--navy-900)}
+    .rw-3dinspector>p{margin:3px 0 12px;color:var(--muted);font-size:10px}
+    .rw-trace{display:grid;grid-template-columns:1fr;gap:0;margin:0}
+    .rw-trace div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:7px 0;border-bottom:1px solid var(--line-2)}
+    .rw-trace dt{font-size:9.5px;color:var(--muted)}
+    .rw-trace dd{margin:0;max-width:155px;text-align:right;font-size:10px;font-weight:750;color:var(--ink);overflow-wrap:anywhere}
+    #trace3dVerdict[data-pass="false"]{color:var(--red);font-weight:850}
+    .rw-traceblock{margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+    .rw-traceblock h4{margin:0 0 5px;color:var(--navy-900);font-size:10px}
+    .rw-traceblock p{margin:0;font-size:10px;line-height:1.55;color:var(--muted);overflow-wrap:anywhere}
+    .rw-projection-hold{margin-top:12px;padding:9px;border:1px solid oklch(68% .17 30);border-radius:5px;background:var(--red-bg);color:oklch(39% .14 28);font-size:10px;font-weight:750;line-height:1.5}
+    .rw-authority3d{margin-top:12px;padding:9px;border:1px solid oklch(79% .075 82);border-radius:5px;background:var(--amber-bg);color:oklch(40% .075 72);font-size:10px;font-weight:750;line-height:1.5}
+    .rw-layerpanel{display:grid;gap:3px;margin-top:14px}
+    .rw-layerpanel h4{margin:0 0 4px;color:var(--navy-900);font-size:10px}
+    .rw-layerpanel label{display:flex;align-items:center;gap:8px;min-height:44px;padding:5px 7px;border:1px solid var(--line-2);border-radius:5px;font-size:10.5px;cursor:pointer}
+    .rw-layerpanel label:has(input:disabled){opacity:.58;cursor:not-allowed}
+    .rw-layerpanel input{width:18px;height:18px;accent-color:var(--navy-800)}
+    .rw-3dmodal:fullscreen{width:100vw;max-height:100vh;height:100vh;border-radius:0;border:0}
+    .rw-3dmodal:fullscreen .rw-3dstage{height:calc(100vh - 174px);max-height:none}
+
+    body.dark{
+      --ink:oklch(91% .012 253);--muted:oklch(72% .018 253);--line:oklch(38% .025 253);
+      --line-2:oklch(32% .02 253);--panel:oklch(25% .035 253);--page:oklch(18% .028 253);
+      --blue-100:oklch(30% .045 253);--green-bg:oklch(26% .045 157);--red-bg:oklch(25% .05 28);--amber-bg:oklch(27% .045 78)
+    }
+    body.dark .topbar{background:var(--navy-950)}
+    body.dark .instrument-strip,body.dark .viewer-toolbar,body.dark .rw-3dmain{background:var(--page)}
+    body.dark .instrument-chip,body.dark .type-card,body.dark .input-wrap input,body.dark .input-wrap select,body.dark .plain-select,body.dark .tool-icon,body.dark .rw-3dtool{background:var(--panel);color:var(--ink)}
+    body.dark .profile-detail,body.dark .profile-detail input[readonly]{background:var(--panel)}
+    body.dark .card-head h2,body.dark .card-head h3,body.dark .section-label,body.dark .rw-3dinspector h3,body.dark .rw-traceblock h4,body.dark .rw-layerpanel h4{color:oklch(92% .018 253)}
+    body.dark .field label,body.dark .check-title,body.dark .kv span{color:oklch(73% .018 253)}
+    body.dark .rw-axis-key,body.dark .rw-3dwatermark{background:oklch(22% .035 253 / .88);color:oklch(90% .015 253)}
+    body.dark .rw-projection-hold{color:oklch(86% .08 28)}
+    body.dark #wallSvg text[fill="#273247"],body.dark #wallSvg text[fill="#344053"],body.dark #wallSvg text[fill="#69758a"]{fill:oklch(87% .02 253)}
+    body.dark #wallSvg [stroke="#384357"],body.dark #wallSvg [stroke="#333d4d"],body.dark #wallSvg [stroke="#8892a3"]{stroke:oklch(74% .025 253)}
+    body.dark #wallSvg g[stroke="#111827"]{stroke:oklch(83% .02 253)}
+    body.dark #wallSvg marker#arrow path{fill:oklch(74% .025 253)}
+
+    @media(max-width:1450px){.workspace{grid-template-columns:minmax(300px,340px) minmax(470px,1fr) minmax(285px,310px)}}
+    @media(max-width:1180px){
+      .topbar{align-items:flex-start}.top-actions{width:100%;justify-content:flex-start}
+      .workspace{grid-template-columns:minmax(310px,.8fr) minmax(470px,1.2fr)}
+      .right-col{grid-column:1/-1;grid-template-columns:repeat(3,minmax(0,1fr))}
+    }
+    @media(max-width:900px){
+      .top-actions .hide-mobile{display:inline-flex!important}
+      .instrument-strip{align-items:flex-start}.instrument-ledger{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;max-width:68%}
+      .workspace{grid-template-columns:1fr}.center-col{order:-1}.right-col{grid-column:auto;grid-template-columns:1fr 1fr}
+      .rw-3dworkspace{grid-template-columns:1fr}.rw-3dinspector{border-left:0;border-top:1px solid var(--line)}
+      .rw-3dstage{height:58vh;min-height:400px}
+    }
+    @media(max-width:640px){
+      .topbar{padding:8px 10px}.top-logo{width:40px;height:40px}.page-title h1{font-size:15px}.page-eyebrow{font-size:8px}
+      .top-left{width:100%;min-width:0;align-items:flex-start}.page-title{width:calc(100% - 52px);min-width:0}
+      .page-eyebrow{max-width:100%;flex-wrap:wrap;gap:4px}.rw-lifecycle-badge{max-width:100%;white-space:normal;line-height:1.25}
+      .top-actions{gap:5px}.top-actions .btn{min-width:44px;padding:8px 10px}.top-actions .btn span{display:none}
+      .instrument-strip{display:grid;gap:7px;padding:7px 10px}.instrument-ledger{max-width:100%;justify-content:flex-start}
+      .instrument-chip{flex:0 0 auto}.content{padding:8px}.canvas,#wallSvg{height:430px;min-height:430px}
+      .type-grid{grid-template-columns:1fr}.type-card{min-height:82px;grid-template-columns:72px 1fr}
+      .viewer-card .card-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start}.viewer-card .card-head>div:first-child{min-width:0}
+      .rw-headtools{display:flex!important;min-width:44px;flex:0 0 44px}.rw-headtools .status-pill{display:none}.rw-3dbtn{display:inline-flex!important;width:44px;min-width:44px;padding:8px}.rw-3dbtn span{display:none}
+      .viewer-toolbar{flex-wrap:wrap}.tool-buttons{flex:1 0 100%;width:auto;justify-content:flex-end}
+      .rw-3dmodal{width:calc(100vw - 12px);max-height:calc(100vh - 12px)}
+      .rw-3dmain{padding:7px}.rw-3dtoolbar{align-items:flex-start}.rw-3dstage{height:52vh;min-height:350px}
+      .rw-axis-key{right:8px;top:8px;min-width:126px;padding:6px 7px}
+    }
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition-duration:0s!important;animation-duration:0s!important}}
+  </style>
+</head>
+<body data-rw-workbench="rw01-beta">
+  <div class="app">
+
+    <main class="main" id="mainWorkspace">
+      <header class="topbar">
+        <div class="top-left">
+          <img class="top-logo" src="/brand/ncy-mark.svg" alt="โลโก้ นายช่างใหญ่ Civil Apps" />
+          <div class="page-title">
+            <div class="page-eyebrow"><span class="tool-code">RW-01</span><span>Concrete Design Workbench</span><span class="rw-lifecycle-badge">BETA · SHEAR-TOE NOT EVALUATED · REBAR HOLD · NOT FOR CONSTRUCTION</span></div>
+            <h1>ออกแบบกำแพงกันดิน</h1>
+            <p>Retaining Wall Design · ชุดผลคำนวณเดียวเชื่อมผล แบบ 3D รายงาน และ DXF · MARK ⑧ BBS↔A3 HOLD</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="btn outline-blue" type="button" data-rw-back aria-label="กลับหน้ารวมเครื่องมือ">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg>
+            <span>เครื่องมือทั้งหมด</span>
+          </button>
+          <button class="btn outline-blue hide-mobile" id="saveBtn" type="button" aria-label="บันทึกโครงการ">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h12l2 2v14H5zM8 4v6h8V4M8 20v-6h8v6"/></svg>
+            <span>บันทึกโครงการ</span>
+          </button>
+          <button class="btn primary" id="printBtn" type="button" aria-label="ปริ้นแบบ A3">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4V9h16v9h-2M7 14h10v7H7z"/></svg>
+            <span>ปริ้นแบบ A3</span>
+          </button>
+          <button class="btn outline-blue" id="btnSheets" type="button" aria-label="ดูชุดแบบ A3">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18v14H3z"/><path d="M3 9h18M9 9v10"/></svg>
+            <span>ชุดแบบ A3</span>
+          </button>
+          <button class="btn outline-blue" id="btnReport" type="button" aria-label="ดูรายการคำนวณ A4">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+            <span>รายการคำนวณ</span>
+          </button>
+          <button class="btn outline-blue hide-mobile" id="btnDxf" type="button" aria-label="บันทึกไฟล์ DXF">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 19h16"/></svg>
+            <span>DXF</span>
+          </button>
+          <button class="btn outline-blue" id="formulaBtn" type="button" aria-label="ดูสมการคำนวณ">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h7M4 18h16"/><path d="m15 9 2 3-2 3M20 9l-2 3 2 3"/></svg>
+            <span>สมการคำนวณ</span>
+          </button>
+          <button class="btn ghost" id="themeBtn" type="button" aria-label="สลับโหมดสี">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+          </button>
+          <button class="btn ghost" id="helpBtn" type="button" aria-label="คู่มือ">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.3 2.3 0 1 1 3.7 1.8c-.9.65-1.5 1.1-1.5 2.2M12 17h.01"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="instrument-strip" aria-label="บริบทชุดคำนวณปัจจุบัน">
+        <div class="instrument-project">
+          <span>PROJECT / โครงการ</span>
+          <strong id="instrumentProject">ยังไม่ได้ระบุชื่อโครงการ</strong>
+        </div>
+        <div class="instrument-ledger">
+          <span class="instrument-chip"><span>ชนิด</span><b id="instrumentType">Cantilever</b></span>
+          <span class="instrument-chip"><span>หน่วย</span><b id="instrumentUnit">SI · kN</b></span>
+          <span class="instrument-chip state" id="instrumentState" data-state="LOADING"><span>ชุดผล</span><b id="instrumentStateText">กำลังโหลด</b></span>
+        </div>
+      </section>
+
+      <div class="content">
+
+        <div class="workspace">
+          <section class="column left-col">
+            <article class="card">
+              <div class="card-head"><div><h2>1. ข้อมูลกำแพงกันดิน</h2><p>กำหนดรูปแบบและขนาดหน้าตัด</p></div></div>
+              <div class="card-body">
+                <div class="field full" style="margin-bottom:10px"><label for="projectName">ชื่อโครงการ <span class="hint">พิมพ์ลงกรอบชื่อแบบและหัวรายการคำนวณ · เว้นว่างระบบจะพิมพ์ขีด</span></label><div class="input-wrap"><input id="projectName" data-input type="text" placeholder="เช่น กำแพงกันดินบ้านพัก อ.ปากช่อง" maxlength="80"></div></div>
+                <div class="section-label">รูปแบบกำแพง <span class="hint">รองรับ Cantilever · Counterfort · Gravity</span></div>
+                <div class="type-grid" id="wallTypes">
+                  <button class="type-card active" data-type="cantilever" type="button">
+                    <svg viewBox="0 0 80 70" fill="none"><rect x="10" y="57" width="60" height="8" fill="#d5d9df" stroke="#707985"/><path d="M38 10h8l4 47H34z" fill="#d8dce1" stroke="#6f7882"/><path d="M10 57h60" stroke="#1468ee" stroke-width="2"/></svg>
+                    <div><strong>Cantilever</strong><span>คานยื่นฐานแผ่</span></div>
+                  </button>
+                  <button class="type-card" data-type="counterfort" type="button" title="กำแพงมีครีบ — ผนังพาดราบระหว่างครีบ เหมาะกับกำแพงสูง">
+                    <svg viewBox="0 0 80 70" fill="none"><rect x="10" y="57" width="60" height="8" fill="#d5d9df" stroke="#707985"/><path d="M38 10h8l4 47H34z" fill="#d8dce1" stroke="#6f7882"/><path d="M48 26 67 57H48z" fill="#c6cbd2" stroke="#707985"/></svg>
+                    <div><strong>Counterfort</strong><span>กำแพงมีครีบยึด</span></div>
+                  </button>
+                  <button class="type-card" data-type="gravity" type="button" title="กำแพงมวล/กึ่งมวล — คำนวณด้วย Coulomb พร้อมมุมเสียดทานผนัง δ">
+                    <svg viewBox="0 0 80 70" fill="none"><path d="M26 10h18l17 47H14z" fill="#cdd1d7" stroke="#6f7882"/><path d="M18 50h38M20 43h34M23 36h28M25 29h23M27 22h20" stroke="#9299a2"/></svg>
+                    <div><strong>Gravity Wall</strong><span>รองรับในรุ่นนี้ · Coulomb + δw</span></div>
+                  </button>
+                </div>
+
+                <div class="divider"></div>
+                <div class="section-label">ขนาดและมิติ</div>
+                <div class="form-grid">
+                  <div class="field"><label for="H">ความสูงกำแพง (H)</label><div class="input-wrap"><input id="H" data-input type="number" min="0.5" step="0.05" value="3.50"><span class="unit">m</span></div></div>
+                  <div class="field"><label for="B">ความกว้างฐาน (B)</label><div class="input-wrap"><input id="B" data-input type="number" min="0.5" step="0.05" value="3.00"><span class="unit">m</span></div></div>
+                  <div class="field"><label for="baseT">ความหนาฐาน (t<sub>f</sub>)</label><div class="input-wrap"><input id="baseT" data-input type="number" min="0.15" step="0.05" value="0.35"><span class="unit">m</span></div></div>
+                  <div class="field"><label for="toe">ยื่นหน้า (Toe)</label><div class="input-wrap"><input id="toe" data-input type="number" min="0.1" step="0.05" value="0.80"><span class="unit">m</span></div></div>
+                  <div class="field"><label for="stemT">ความหนาคอกำแพง (t<sub>w</sub>)</label><div class="input-wrap"><input id="stemT" data-input type="number" min="0.15" step="0.05" value="0.30"><span class="unit">m</span></div></div>
+                  <div class="field"><label for="heel">ยื่นหลัง (Heel)</label><div class="input-wrap"><input id="heel" data-input type="number" min="0.1" step="0.05" value="1.90"><span class="unit">m</span></div></div>
+                  <div class="field full"><label for="wallLength">ความยาวกำแพง <span class="hint">ใช้ประมาณปริมาณ</span></label><div class="input-wrap"><input id="wallLength" data-input type="number" min="1" step="0.5" value="10.00"><span class="unit">m</span></div></div>
+                  <div class="field cf-only"><label for="cfSpan">ช่วงว่างระหว่างครีบ (L)</label><div class="input-wrap"><input id="cfSpan" data-input type="number" min="0.5" max="8" step="0.1" value="3.00" title="โมเมนต์พนังแปรผันตาม L² — ช่วงสั้นผนังบางลงได้"><span class="unit">m</span></div></div>
+                  <div class="field cf-only"><label for="cfThick">ความหนาครีบ (bₛ)</label><div class="input-wrap"><input id="cfThick" data-input type="number" min="0.15" max="1" step="0.05" value="0.30"><span class="unit">m</span></div></div>
+                  <div class="field cf-only"><label for="cfDepth">ความลึกครีบ <span class="hint">0 = เต็ม heel</span></label><div class="input-wrap"><input id="cfDepth" data-input type="number" min="0" max="8" step="0.05" value="0"><span class="unit">m</span></div></div>
+                  <div class="field cf-only"><label for="cfHeight">ความสูงครีบ <span class="hint">0 = เต็มพนัง</span></label><div class="input-wrap"><input id="cfHeight" data-input type="number" min="0" max="12" step="0.05" value="0"><span class="unit">m</span></div></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head"><div><h2>2. ข้อมูลดินและน้ำ</h2><p>ค่าพารามิเตอร์สำหรับแรงดันดิน</p></div></div>
+              <div class="card-body">
+                <div class="form-grid">
+                  <div class="field"><label for="phi">มุมเสียดทานภายใน (φ′)</label><div class="input-wrap"><input id="phi" data-input type="number" min="1" max="50" step="1" value="30"><span class="unit">°</span></div></div>
+                  <div class="field"><label for="gamma">หน่วยน้ำหนักดินชื้น (γ)</label><div class="input-wrap"><input id="gamma" data-input type="number" min="0.1" step="0.5" value="18"><span class="unit" data-uw="UW">kN/m³</span></div></div>
+                  <div class="field"><label for="gammaSat">หน่วยน้ำหนักดินอิ่มตัว (γ<sub>sat</sub>)</label><div class="input-wrap"><input id="gammaSat" data-input type="number" min="0.1" step="0.5" value="20"><span class="unit" data-uw="UW">kN/m³</span></div></div>
+                  <div class="field"><label for="delta">มุมเสียดทานใต้ฐาน (δ<sub>b</sub>)</label><div class="input-wrap"><input id="delta" data-input type="number" min="0" max="45" step="1" value="28"><span class="unit">°</span></div></div>
+                  <div class="field"><label for="wallDelta">มุมเสียดทานดิน–ผนัง (δ<sub>w</sub>) <span class="hint">เฉพาะกำแพงมวล</span></label><div class="input-wrap"><input id="wallDelta" data-input type="number" min="0" max="45" step="1" value="15" title="ใช้กับทฤษฎี Coulomb ของกำแพงมวลเท่านั้น — เกณฑ์ USACE EM 1110-2-2502 จำกัด δw ≤ φ/2"><span class="unit">°</span></div></div>
+                  <div class="field"><label for="qa">กำลังรับน้ำหนักดินยอมให้</label><div class="input-wrap"><input id="qa" data-input type="number" min="1" step="1" value="250"><span class="unit" data-uw="P">kPa</span></div></div>
+                  <div class="field"><label for="frontDepth">ดินถมหน้าฐาน (D<sub>f</sub>)</label><div class="input-wrap"><input id="frontDepth" data-input type="number" min="0" step="0.05" value="0"><span class="unit">m</span></div></div>
+                  <div class="field full"><label for="passiveFactor">สัดส่วนแรงดันดินรับหน้าฐาน (η<sub>p</sub>) <span class="hint">ยังไม่ใช้ในการคำนวณ · รอ Owner/PE</span></label><div class="input-wrap"><input id="passiveFactor" data-input type="number" min="0" max="0" step="0.05" value="0" disabled aria-disabled="true" title="ล็อกที่ 0 — ยังไม่ใช้ในการคำนวณ"><span class="unit">×Pp</span></div></div>
+                </div>
+
+
+                <div class="divider"></div>
+                <div class="toggle-row">
+                  <label class="switch"><input id="waterEnabled" data-input type="checkbox" checked><span class="slider"></span></label>
+                  พิจารณาแรงดันน้ำใต้ดิน
+                </div>
+                <div class="form-grid" style="margin-top:10px">
+                  <div class="field full"><label for="waterH">ความสูงน้ำเหนือฐาน (H<sub>w</sub>)</label><div class="input-wrap"><input id="waterH" data-input type="number" min="0" step="0.1" value="1.00"><span class="unit">m</span></div></div>
+                </div>
+                <div class="toggle-row" style="margin-top:10px">
+                  <label class="switch"><input id="includeSurchargeWeight" data-input type="checkbox"><span class="slider"></span></label>
+                  นำ q บน Heel มาช่วยเป็นน้ำหนักต้านทาน <span class="hint">ปิดไว้เพื่อความอนุรักษ์นิยม</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head"><div><h2>3. โหลดและแรงกระทำ</h2><p>โหลดบรรทุกด้านหลังกำแพง</p></div></div>
+              <div class="card-body">
+                <div class="form-grid">
+                  <div class="field"><label for="surcharge">น้ำหนักบรรทุกกระจาย (q)</label><div class="input-wrap"><input id="surcharge" data-input type="number" min="0" step="0.5" value="10"><span class="unit" data-uw="P">kN/m²</span></div></div>
+                  <div class="field"><label for="lineLoad">แรงด้านข้างเพิ่มเติม (P<sub>h</sub>)</label><div class="input-wrap"><input id="lineLoad" data-input type="number" min="0" step="1" value="0"><span class="unit">kN/m</span></div></div>
+                  <div class="field"><label for="lineLoadHeight">ระดับแรง P<sub>h</sub> เหนือฐาน</label><div class="input-wrap"><input id="lineLoadHeight" data-input type="number" min="0" step="0.1" value="2.60"><span class="unit">m</span></div></div>
+                  <div class="field"><label for="gammaC">น้ำหนักคอนกรีต</label><div class="input-wrap"><input id="gammaC" data-input type="number" min="1" step="0.5" value="24"><span class="unit" data-uw="UW">kN/m³</span></div></div>
+                  <div class="field full"><label for="gammaW">น้ำหนักน้ำ</label><div class="input-wrap"><input id="gammaW" data-input type="number" min="0.9" step="0.01" value="9.81"><span class="unit" data-uw="UW">kN/m³</span></div></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head"><div><h2>4. วัสดุและกำลัง</h2><p>เลือกเกรดคอนกรีตและเหล็ก</p></div></div>
+              <div class="card-body">
+                <div class="form-grid">
+                  <div class="field"><label for="fc">คอนกรีต f′c</label><select id="fc" data-input class="plain-select"><option value="21">≈ 210 ksc (21 MPa)</option><option value="24" selected>≈ 240 ksc (24 MPa)</option><option value="28">≈ 280 ksc (28 MPa)</option><option value="32">≈ 320 ksc (32 MPa)</option></select></div>
+                  <div class="field"><label for="fy">เหล็กเสริม f<sub>y</sub></label><select id="fy" data-input class="plain-select"><option value="235">SR24 · RB (235 MPa)</option><option value="295">SD30 · DB (295 MPa)</option><option value="390" selected>SD40 · DB (390 MPa)</option><option value="490">SD50 · DB (490 MPa)</option></select></div>
+                  <div class="field"><label for="cover">ระยะหุ้มถึงผิวเหล็ก</label><div class="input-wrap"><input id="cover" data-input type="number" min="25" step="5" value="50"><span class="unit">mm</span></div></div>
+                  <details class="profile-detail field full">
+                    <summary>รายละเอียดค่าคงที่ของโปรไฟล์ <span>อ่านอย่างเดียว</span></summary>
+                    <div class="form-grid profile-detail-grid">
+                      <div class="field"><label for="loadFactor">ตัวคูณโมเมนต์ γ<sub>u</sub></label><div class="input-wrap"><input id="loadFactor" type="number" value="1.60" readonly aria-readonly="true" title="มาจากโปรไฟล์มาตรฐานที่เลือก"><span class="unit">×</span></div></div>
+                      <div class="field"><label for="rhoMin">อัตราเหล็กขั้นต่ำ ρ<sub>min</sub></label><div class="input-wrap"><input id="rhoMin" type="number" value="0.0018" readonly aria-readonly="true" title="อัตราเหล็กกันร้าวตามมาตรฐาน — ค่าคงที่ของชุดคำนวณ ไม่ผูกกับโปรไฟล์"><span class="unit">Ag</span></div></div>
+                      <div class="field"><label for="phiFlex">ตัวคูณกำลังดัด φ</label><div class="input-wrap"><input id="phiFlex" type="number" value="0.90" readonly aria-readonly="true" title="มาจากโปรไฟล์มาตรฐานที่เลือก"><span class="unit">×</span></div></div>
+                    </div>
+                  </details>
+                  <div class="field full" id="wallModeNote" style="grid-column:1/-1;font-size:11px;color:var(--muted);margin:-2px 0 4px"></div>
+                  <div class="field full"><label for="unitMode">ระบบหน่วยออกแบบ <span class="hint">แปลงค่าบนจอเท่านั้น · ค่า SI ต้นฉบับไม่ถูกปัดทิ้ง</span></label><select id="unitMode" data-input class="plain-select"><option value="si" selected>SI — kN · kPa · kN/m³</option><option value="mks">ไทย (MKS) — ตัน·kgf · ตัน/ม² · ตัน/ม³</option></select></div>
+                  <div class="field full"><label for="code">ชุดสมการที่ใช้คำนวณจริง <span class="hint">เลือกได้ 3 โปรไฟล์ · ใช้ชุดที่เลือกจริง</span></label><select id="code" data-input class="plain-select"><option value="thai2566" selected>กฎกระทรวง 2566 + มยผ. 1101-64 (SDM)</option><option value="aci318">ACI 318-14 (SDM)</option><option value="wsd">วิธีหน่วยแรงใช้งาน (WSD)</option></select></div>
+                </div>
+                <div class="calc-basis"><span>∑</span><div><strong>คำนวณด้วยชุดคำนวณที่ตรวจแล้ว</strong>แรงดันดิน แรงดันน้ำ เสถียรภาพ แรงกดใต้ฐาน โมเมนต์ Stem/Toe/Heel แรงเฉือนตาม ACI 318-14 Eq.22.5.5.1 และเสถียรภาพรวมวงสไลด์ (Bishop) · เทียบกับ Das ตัวอย่าง 13.1 · FHWA NHI-01-094 · USACE EM 1110-2-2502</div></div>
+                <div class="calc-bar">
+                  <button class="btn primary calc-btn" id="calculateBtn" type="button">
+                    <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/></svg>
+                    คำนวณและตรวจสอบ
+                  </button>
+                  <button class="btn" id="resetBtn" type="button">รีเซ็ต</button>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="column center-col">
+            <article class="card viewer-card">
+              <div class="card-head"><div><h2>รูปแบบและมิติ</h2><p>ภาพหน้าตัดอัปเดตตามข้อมูลที่กรอก</p></div><div class="rw-headtools"><button class="btn outline-blue rw-3dbtn" id="btn3d" type="button" aria-label="ดูแบบจำลองสามมิติ"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="m3 7 9 5 9-5M12 12v10"/></svg><span>ดู 3D</span></button><span class="status-pill" id="liveBadge">LIVE</span></div></div>
+              <div class="card-body">
+                <div class="viewer-toolbar">
+                  <span class="view-label">รูปตัดขวาง 2D · Cross Section</span>
+                  <div class="tool-buttons">
+                    <button class="tool-icon" id="zoomOut" type="button" title="ย่อ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M8 11h6"/></svg></button>
+                    <button class="tool-icon" id="zoomIn" type="button" title="ขยาย"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></svg></button>
+                    <button class="tool-icon" id="fitView" type="button" title="พอดีหน้าจอ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg></button>
+                  </div>
+                </div>
+                <div class="canvas view-pane" id="view2d">
+                  <svg id="wallSvg" viewBox="0 0 720 500" role="img" aria-label="ภาพหน้าตัดกำแพงกันดิน"></svg>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head"><div><h2>แรงกระทำหลักและค่าที่ใช้</h2><p>สรุปค่าจากแบบจำลองต่อความยาวกำแพง 1 เมตร</p></div><button class="btn outline-blue formula-inline-btn" id="formulaInlineBtn" type="button">ดูสมการ</button></div>
+              <div class="card-body">
+                <div class="mini-info-grid">
+                  <div class="mini-card">
+                    <h4>แรงดันด้านข้าง</h4>
+                    <div class="kv"><span>สัมประสิทธิ์แรงดันดิน K<sub>a</sub></span><strong id="kaOut">—</strong></div>
+                    <div class="kv"><span>สัมประสิทธิ์แรงดินรับ K<sub>p</sub></span><strong id="kpOut">—</strong></div>
+                    <div class="kv"><span>แรงดันดินประสิทธิผล (P<sub>a</sub>)</span><strong id="paOut">—</strong></div>
+                    <div class="kv"><span>แรงดันจาก q</span><strong id="pqOut">—</strong></div>
+                    <div class="kv"><span>แรงดันน้ำ (P<sub>w</sub>)</span><strong id="pwOut">—</strong></div>
+                    <div class="kv"><span>แรงดินรับด้านหน้า (P<sub>p</sub>)</span><strong id="ppOut">—</strong></div>
+                  </div>
+                  <div class="mini-card">
+                    <h4>น้ำหนักและโมเมนต์</h4>
+                    <div class="kv"><span>แรงด้านข้างรวม (P)</span><strong id="pTotalOut">—</strong></div>
+                    <div class="kv"><span>น้ำหนักแนวดิ่งรวม (V)</span><strong id="vOut">—</strong></div>
+                    <div class="kv"><span>โมเมนต์ต้านทาน (M<sub>r</sub>)</span><strong id="mrOut">—</strong></div>
+                    <div class="kv"><span>โมเมนต์คว่ำ (M<sub>o</sub>)</span><strong id="moOut">—</strong></div>
+                    <div class="kv"><span>ตำแหน่งแรงลัพธ์จาก Toe</span><strong id="xrOut">—</strong></div>
+                    <div class="kv"><span>แรงกดต่ำสุด q<sub>min</sub></span><strong id="qMinOut">—</strong></div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head">
+                <div><h2>ผลตรวจที่ Engine ลงทะเบียน</h2><p>SHEAR-TOE ยังไม่อยู่ในคำตัดสินหลัก · การ์ดสถานะทางขวาแสดงเพียงสี่รายการแรก</p></div>
+              </div>
+              <div class="card-body" id="engineState" data-state="LOADING" role="status" aria-live="polite">
+                <div class="rw-note">กำลังโหลดชุดคำนวณ…</div>
+              </div>
+            </article>
+          </section>
+
+          <section class="column right-col">
+            <article class="card">
+              <div class="card-head">
+                <div><h2>สรุปผลการตรวจสอบ</h2><p>เกณฑ์เสถียรภาพเบื้องต้น</p></div>
+                <span class="status-pill" id="overallStatus">ยังไม่คำนวณ</span>
+              </div>
+              <div class="card-body">
+                <div class="check-list">
+                  <div class="check">
+                    <div class="check-mark" id="otMark">·</div>
+                    <div><div class="check-title">การพลิกคว่ำ (Overturning)</div><div class="check-value" id="fsOt">—</div><div class="check-limit">เกณฑ์ ≥ 2.00</div></div>
+                    <span class="status-pill" id="otStatus">รอคำนวณ</span>
+                  </div>
+                  <div class="check">
+                    <div class="check-mark" id="slMark">·</div>
+                    <div><div class="check-title">การเลื่อนตัว (Sliding)</div><div class="check-value" id="fsSl">—</div><div class="check-limit">เกณฑ์ ≥ 1.50</div></div>
+                    <span class="status-pill" id="slStatus">รอคำนวณ</span>
+                  </div>
+                  <div class="check">
+                    <div class="check-mark" id="beMark">·</div>
+                    <div><div class="check-title">การรับน้ำหนักของดิน (Bearing)</div><div class="check-value" id="qMax">—</div><div class="check-limit">q<sub>max</sub> ≤ <span id="qaLimit">—</span> <span data-uw="P0">kPa</span> · FS<sub>b</sub> = <span id="bearingFsOut">—</span></div></div>
+                    <span class="status-pill" id="beStatus">รอคำนวณ</span>
+                  </div>
+                  <div class="check">
+                    <div class="check-mark" id="ecMark">·</div>
+                    <div><div class="check-title">ตำแหน่งแรงลัพธ์ / ไม่เกิดแรงดึง</div><div class="check-value" id="eccOut">—</div><div class="check-limit">|e| ≤ B/6 = <span id="b6Out">—</span> m</div></div>
+                    <span class="status-pill" id="ecStatus">รอคำนวณ</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head"><div><h2>แรงภายในและเหล็กเสริม</h2><p>ข้อเสนอแนะเพื่อจัดทำแบบรายละเอียด</p></div></div>
+              <div class="card-body">
+                <div class="rebar-group">
+                  <h4>ผนัง (Stem)</h4>
+                  <div class="rebar-row"><span>โมเมนต์ดัดออกแบบ (M<sub>u</sub>)</span><span class="rebar-value" id="muStem">—</span></div>
+                  <div class="rebar-row"><span>พื้นที่เหล็กที่ต้องการ A<sub>s,req</sub></span><span class="rebar-value" id="asStem">—</span></div>
+                  <div class="rebar-row"><span>เหล็กหลักแนวตั้ง</span><span class="rebar-value" id="stemMain">—</span></div>
+                  <div class="rebar-row"><span>φM<sub>n</sub> ของเหล็กที่เลือก</span><span class="rebar-value" id="stemCapacity">—</span></div>
+                </div>
+                <div class="rebar-group">
+                  <h4>ฐานราก (Base Slab)</h4>
+                  <div class="rebar-row"><span>โมเมนต์ออกแบบ Toe</span><span class="rebar-value" id="muToe">—</span></div>
+                  <div class="rebar-row"><span>A<sub>s,req</sub> Toe · <span id="toeFace">—</span></span><span class="rebar-value" id="asToe">—</span></div>
+                  <div class="rebar-row"><span>เหล็ก Toe</span><span class="rebar-value" id="toeRebar">—</span></div>
+                  <div class="rebar-row"><span>โมเมนต์ออกแบบ Heel</span><span class="rebar-value" id="muHeel">—</span></div>
+                  <div class="rebar-row"><span>A<sub>s,req</sub> Heel · <span id="heelFace">—</span></span><span class="rebar-value" id="asHeel">—</span></div>
+                  <div class="rebar-row"><span>เหล็ก Heel</span><span class="rebar-value" id="heelRebar">—</span></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head"><div><h2>แผนภาพแรงดันดิน</h2><p>Earth Pressure Diagram</p></div></div>
+              <div class="card-body">
+                <div class="pressure-tabs">
+                  <button class="tab active pressure-tab" data-pressure="active" type="button">Active</button>
+                  <button class="tab pressure-tab" data-pressure="water" type="button">Water</button>
+                  <button class="tab pressure-tab" data-pressure="total" type="button">Total</button>
+                </div>
+                <svg id="pressureSvg" viewBox="0 0 320 240" role="img" aria-label="แผนภาพแรงดันดิน"></svg>
+              </div>
+            </article>
+
+            <div class="notice">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.8 2.6 18a2 2 0 0 0 1.8 3h15.2a2 2 0 0 0 1.8-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/></svg>
+              <div><strong>มีสมการคำนวณจริงภายใต้สมมติฐานที่ระบุ</strong>รวมการตรวจเสถียรภาพรวมวงสไลด์ด้วยวิธี Bishop ตามแบบจำลองและข้อมูลดินที่กรอก · ยังไม่รวมแรงแผ่นดินไหว การทรุดตัว แรงยกใต้ฐาน การเจาะทะลุ และรายละเอียดระยะพัฒนาเหล็ก ต้องให้วิศวกรตรวจสอบข้อมูลดินและชุดแรงก่อนใช้ก่อสร้าง</div>
+            </div>
+          </section>
+        </div>
+
+        <footer class="footer">
+          <span>หมายเหตุ: ผลการคำนวณนี้เป็นงานออกแบบเบื้องต้น ควรให้วิศวกรตรวจสอบและรับรองก่อนนำแบบไปก่อสร้าง</span>
+          <span>© 2026 Naichangyai.com — Civil Apps Engineering Workbench</span>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"><span id="toastIcon">✓</span><span id="toastText">บันทึกเรียบร้อย</span></div>
+
+  <div class="modal-backdrop" id="helpModal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle" tabindex="-1">
+      <div class="card-head"><div><h2 id="helpTitle">คู่มือใช้งาน</h2><p>Retaining Wall Design Workbench</p></div><button class="close-x" id="closeHelp" type="button" aria-label="ปิดวิธีใช้งาน">×</button></div>
+      <div class="card-body">
+        <h4>1. กรอกข้อมูลหน้าตัด</h4>
+        ปรับความสูง ความกว้างฐาน Toe, Heel และความหนาส่วนต่าง ๆ ภาพ 2D จะเปลี่ยนตามค่าที่กรอกทันที
+        <h4>2. กำหนดข้อมูลดิน น้ำ และโหลด</h4>
+        ระบุมุมเสียดทาน น้ำหนักจำเพาะดิน กำลังรับน้ำหนักยอมให้ ระดับน้ำ และ Surcharge
+        <h4>3. กด “คำนวณและตรวจสอบ”</h4>
+        ระบบใช้ทฤษฎีตามชนิดกำแพงและโปรไฟล์ที่เลือก ตรวจเสถียรภาพ แรงกดใต้ฐาน หน้าตัด และสร้าง Snapshot สำหรับผลทุกช่องทาง
+        <h4>4. ตรวจชุดผลและส่งออก</h4>
+        ตรวจสถานะ READY และ authority ก่อนเปิด 3D ชุดแบบ A3 รายการคำนวณ A4 หรือบันทึก DXF; เมื่อแก้ข้อมูลต้องกดคำนวณใหม่ก่อนส่งออก
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="modal-backdrop" id="docModal">
+    <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="docTitle" tabindex="-1">
+      <div class="card-head">
+        <div><h2 id="docTitle">เอกสาร</h2><p>สร้างจากชุดผลเดียวกับที่แสดงบนหน้าจอ</p></div>
+        <button class="close-x" id="closeDoc" type="button" aria-label="ปิดหน้าต่างเอกสาร">×</button>
+      </div>
+      <div class="card-body" id="docViewer"></div>
+    </div>
+  </div>
+
+  <script src="marketplace-demo-storage.js"></script>
+  <script type="importmap">
+    {"imports":{"three":"/vendor/three/three.module.js","three/addons/":"/vendor/three/addons/"}}
+  </script>
+
+  <div class="modal-backdrop" id="modal3d">
+    <div class="modal modal-wide rw-3dmodal" role="dialog" aria-modal="true" aria-labelledby="title3d" tabindex="-1">
+      <div class="card-head">
+        <div><h2 id="title3d">3D Engineering Viewer</h2><p id="note3d">BETA · ENGINE COVERAGE HOLD · SHEAR-TOE NOT EVALUATED · PRESENTATION ONLY · NOT FOR CONSTRUCTION</p></div>
+        <button class="close-x" id="close3d" type="button" aria-label="ปิดแบบจำลองสามมิติ">×</button>
+      </div>
+      <div class="card-body">
+        <div class="rw-3dworkspace">
+          <section class="rw-3dmain" aria-label="พื้นที่แบบจำลองสามมิติ">
+            <div class="rw-3dtoolbar">
+              <div class="rw-toolcluster" role="group" aria-label="มุมมองกล้อง">
+                <span class="rw-tool-label">View</span>
+                <button type="button" class="rw-3dtool is-active" data-view3d="iso" aria-pressed="true">ISO</button>
+                <button type="button" class="rw-3dtool" data-view3d="end" aria-pressed="false">มองจาก +Z · Perspective</button>
+                <button type="button" class="rw-3dtool" data-view3d="elevation" aria-pressed="false">มองจาก +X · Perspective</button>
+                <button type="button" class="rw-3dtool" data-view3d="top" aria-pressed="false">มองจาก +Y · Perspective</button>
+              </div>
+              <div class="rw-toolcluster" role="group" aria-label="รูปแบบการแสดงผล">
+                <span class="rw-tool-label">Display</span>
+                <button type="button" class="rw-3dtool is-active" data-mode3d="overview" aria-pressed="true">ภาพรวม</button>
+                <button type="button" class="rw-3dtool" data-mode3d="rebar" aria-pressed="false" disabled title="รอ Owner/PE อนุมัติ placement contract ร่วม BBS ↔ A3 ↔ 3D">ชั้นเหล็ก · HOLD</button>
+              </div>
+              <div class="rw-toolcluster" role="group" aria-label="คำสั่งมุมมอง">
+                <button type="button" class="rw-3dtool" id="fit3d">พอดีจอ</button>
+                <button type="button" class="rw-3dtool" id="png3d">บันทึก PNG</button>
+                <button type="button" class="rw-3dtool" id="fullscreen3d" aria-pressed="false">เต็มจอ</button>
+              </div>
+              <span class="rw-viewstate" id="view3dState" aria-live="polite">มุมปัจจุบัน: ไอโซเมตริก · ระยะ/ระดับเปิด</span>
+            </div>
+            <div class="rw-3dstage" id="stage3d" tabindex="0" aria-label="แบบจำลอง 3D ลากเพื่อหมุนและเลื่อนล้อเพื่อซูม">
+              <canvas id="canvas3d"></canvas>
+              <div class="rw-axis-key" role="img" aria-label="คำอธิบายแกนคงที่ของโมเดล ไม่ใช่เข็มทิศตามกล้อง">
+                <strong>แกนโมเดล · ไม่หมุนตามกล้อง</strong>
+                <span><b>X</b> ความกว้างฐาน</span><span><b>Y</b> ความสูง</span><span><b>Z</b> แนวยาวกำแพง</span>
+              </div>
+              <div class="rw-3dwatermark">BETA · SHEAR-TOE NOT EVALUATED · PRESENTATION ONLY · ตรวจ OMITTED / HOLD ก่อนใช้</div>
+            </div>
+            <p class="rw-3dhint" id="hint3d" aria-live="polite"></p>
+          </section>
+          <aside class="rw-3dinspector" aria-label="หลักฐานและชั้นข้อมูลของแบบจำลอง">
+            <h3>หลักฐานภาพ 3D</h3>
+            <p>อ่านจาก Snapshot และ BBS โดยตรง</p>
+            <dl class="rw-trace">
+              <div><dt>Snapshot</dt><dd id="trace3dSnapshot">—</dd></div>
+              <div><dt>Engine</dt><dd id="trace3dEngine">—</dd></div>
+              <div><dt>Fingerprint</dt><dd id="trace3dFingerprint">—</dd></div>
+              <div><dt>คำตัดสิน Engine</dt><dd id="trace3dVerdict">—</dd></div>
+              <div><dt>เหล็กที่เปิดแสดง</dt><dd id="trace3dBars">—</dd></div>
+              <div><dt>การฉายระยะเรียงเหล็ก</dt><dd id="trace3dSpacing">—</dd></div>
+              <div><dt>แหล่ง BBS</dt><dd id="trace3dSource">—</dd></div>
+              <div><dt>ระยะหุ้มฐาน</dt><dd id="trace3dCover">—</dd></div>
+            </dl>
+            <div class="rw-traceblock"><h4>มาร์ค geometry ที่เปิดใช้</h4><p id="trace3dRepresented">—</p></div>
+            <div class="rw-traceblock"><h4>มาร์คที่มองเห็นในภาพนี้</h4><p id="trace3dVisible">—</p></div>
+            <div class="rw-traceblock"><h4>มาร์คที่ละเว้น</h4><p id="trace3dOmitted">—</p></div>
+            <div class="rw-projection-hold" id="trace3dProjectionHold" hidden>HOLD</div>
+            <div class="rw-authority3d" id="trace3dAuthority">BETA · ENGINE COVERAGE HOLD · SHEAR-TOE NOT EVALUATED · PRESENTATION ONLY · NOT FOR CONSTRUCTION</div>
+            <div class="rw-layerpanel" role="group" aria-label="ชั้นข้อมูล 3D">
+              <h4>ชั้นข้อมูล</h4>
+              <label><input type="checkbox" id="l3dConcrete" checked> คอนกรีต</label>
+              <label><input type="checkbox" id="l3dSoil" checked> ดินและน้ำ</label>
+              <label title="รอ Owner/PE อนุมัติ placement contract ร่วม BBS ↔ A3 ↔ 3D"><input type="checkbox" id="l3dRebar" disabled> เหล็กเสริม · REBAR GEOMETRY HOLD</label>
+              <label title="ระยะและระดับแสดงเฉพาะมุม ISO เพื่อไม่ให้มิติที่ตั้งฉากกับกล้องยุบหรือซ้อน"><input type="checkbox" id="l3dDims" checked> ระยะ / ระดับ · ISO เท่านั้น</label>
+              <label><input type="checkbox" id="l3dGrid" checked> เส้นกริดอ้างอิง</label>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const inputs = [...document.querySelectorAll('[data-input]')];
+    let zoom = 1;
+    let pressureMode = 'active';
+    let selectedWallType = 'cantilever';
+
+    const defaults = {
+      /* ต้องตรงกับ option ที่มีจริง — เดิม fy:'400' และ code เก่าไม่ตรงตัวเลือกไหนเลย
+         กดรีเซ็ตแล้ว select ค้างค่าที่ไม่มีอยู่ */
+      v:3, projectName:'', wallType:'cantilever', unitMode:'si',
+      H:3.5, B:3.0, baseT:.35, toe:.80, stemT:.30, heel:1.90, wallLength:10,
+      cfSpan:3, cfThick:.3, cfDepth:0, cfHeight:0,
+      phi:30, gamma:18, gammaSat:20, delta:28, wallDelta:15, qa:250, frontDepth:0, passiveFactor:0,
+      waterEnabled:true, waterH:1, includeSurchargeWeight:false,
+      surcharge:10, lineLoad:0, lineLoadHeight:2.60, gammaC:24, gammaW:9.81,
+      fc:'24', fy:'390', cover:50, loadFactor:1.70, rhoMin:.0018, phiFlex:.90,
+      code:'thai2566',
+      unitCanonicalSi:{gamma:18, gammaSat:20, surcharge:10, qa:250, gammaC:24, gammaW:9.81},
+    };
+
+    const WALL_TYPE_LABEL = Object.freeze({
+      cantilever:'Cantilever', counterfort:'Counterfort · PE HOLD', gravity:'Gravity · Coulomb',
+    });
+    function syncInstrumentContext() {
+      const project = ($('projectName') && $('projectName').value.trim()) || 'ยังไม่ได้ระบุชื่อโครงการ';
+      $('instrumentProject').textContent = project;
+      $('instrumentType').textContent = WALL_TYPE_LABEL[selectedWallType] || selectedWallType;
+      $('instrumentUnit').textContent = $('unitMode') && $('unitMode').value === 'mks'
+        ? 'ไทย · ตัน / kgf' : 'SI · kN / kPa';
+    }
+    function syncInstrumentState(state) {
+      const labels = {
+        LOADING:'กำลังโหลด', RUNNING:'กำลังคำนวณ', READY:'READY · ชุดผลสด',
+        STALE:'STALE · คำนวณใหม่', ERROR:'ERROR · ตรวจข้อมูล',
+      };
+      $('instrumentState').dataset.state = state;
+      $('instrumentStateText').textContent = labels[state] || state;
+      syncInstrumentContext();
+    }
+
+    function n(id, fallback=0) {
+      const el=$(id); const v=parseFloat(el?.value);
+      return Number.isFinite(v) ? v : fallback;
+    }
+    const fmt = (value, digits=2) => Number.isFinite(value) ? value.toLocaleString('en-US',{minimumFractionDigits:digits,maximumFractionDigits:digits}) : '—';
+    const deg = d => d*Math.PI/180;
+    const esc = s => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+
+    function normalizedGeometry() {
+      const H=Math.max(.5,n('H',3.5));
+      const B=Math.max(.8,n('B',2.5));
+      const baseT=Math.max(.15,n('baseT',.3));
+      const stemT=Math.max(.15,n('stemT',.25));
+      const toe=Math.max(.1,n('toe',1));
+      const heel=Math.max(.1,n('heel',1.25));
+      /* ฟังก์ชันวาดภาพต้องเป็น pure projection: ห้ามเขียนค่ากลับลงฟอร์ม
+         ความสัมพันธ์ B = toe + stem + heel จัดการโดย transaction ของช่องกรอกด้านล่าง */
+      return {H,B,baseT,stemT,toe,heel};
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       compute() เดิมมีสูตรย่อของตัวเอง ตอนนี้ถูกแทนที่ด้วย engine ที่ตรวจแล้ว
+       engine อยู่ที่ /retaining-wall/engine.mjs ผ่านชุดทดสอบ 92 ข้อ
+       เทียบกับ Das ตัวอย่าง 13.1 · FHWA NHI-01-094 · USACE EM 1110-2-2502
+       และมี ACI 318-14 Eq.22.5.5.1 สำหรับแรงเฉือน
+
+       หน้าจอนี้ไม่คำนวณค่าทางวิศวกรรมเองอีกต่อไป — อ่านจากชุดผลอย่างเดียว
+       ══════════════════════════════════════════════════════════════ */
+    let RW = null;              // สะพานไป engine (โหลดแบบโมดูล)
+    let lastSnapshot = null;    // ชุดผลล่าสุดที่แช่แข็งแล้ว
+    let lastFingerprint = null; // ลายนิ้วมือของค่าที่ใช้คำนวณครั้งล่าสุด
+
+    function readUi() {
+      /* ★ ส่งค่าดิบไปให้ด่านตรวจของชุดคำนวณ — ช่องว่างส่ง '' ให้ถูกทวงว่า "ต้องกรอก"
+         เดิม n(id, ค่าตั้งต้น) แทนช่องว่างด้วยค่าตั้งต้นเงียบ ๆ ตั้งแต่หน้าจอ
+         ผู้ใช้ลบค่าทิ้งแล้วระบบคำนวณด้วยเลขที่ผู้ใช้ไม่เคยเห็น */
+      const rv = (id) => { const el = $(id); return el && el.value !== '' ? Number(el.value) : ''; };
+      const displayUnitMode = ($('unitMode') && $('unitMode').value) || 'si';
+      return {
+        /* ค่าแรง/น้ำหนักที่ส่งต่อเป็น canonical SI จาก ledger เสมอ ส่วนโหมดที่ผู้ใช้เลือก
+           เป็น presentationUnitMode เท่านั้น จึงสลับหน่วยได้โดยไม่เปลี่ยน physical input */
+        unitMode: 'si',
+        presentationUnitMode: displayUnitMode,
+        wtype: selectedWallType === 'gravity' ? 'gravity'
+          : selectedWallType === 'counterfort' ? 'counterfort' : 'cant',
+        wallDelta: rv('wallDelta'),
+        cfSpan: rv('cfSpan'), cfThick: rv('cfThick'),
+        cfDepth: rv('cfDepth'), cfHeight: rv('cfHeight'),
+        H: rv('H'), B: rv('B'), baseT: rv('baseT'), toe: rv('toe'),
+        stemT: rv('stemT'), heel: rv('heel'), wallLength: rv('wallLength'),
+        phi: rv('phi'), gamma: readCanonicalUnitValue('gamma'), gammaSat: readCanonicalUnitValue('gammaSat'),
+        delta: rv('delta'), qa: readCanonicalUnitValue('qa'), frontDepth: rv('frontDepth'),
+        passiveFactor: 0,
+        waterEnabled: $('waterEnabled').checked, waterH: rv('waterH'),
+        includeSurchargeWeight: $('includeSurchargeWeight').checked,
+        surcharge: readCanonicalUnitValue('surcharge'), gammaC: readCanonicalUnitValue('gammaC'),
+        cover: rv('cover'), fc: rv('fc'), fy: rv('fy'),
+      };
+    }
+
+    const currentProfile = () => ($('code') && $('code').value) || 'thai2566';
+
+    /* ══════════════════════════════════════════════════════════════
+       engine บอกมาด้วยว่า "ถ้าข้อนี้ไม่ผ่าน ให้ไปแก้ตัวแปรไหน" (ฟิลด์ to)
+       ตรงนี้แปลชื่อตัวแปรของ engine เป็น id ของช่องกรอกบนหน้าจอ
+       ตัวแปรที่หน้าจอรุ่นนี้ยังไม่มีช่องให้กรอก จะไม่ถูกใส่ปุ่ม แต่ยังขึ้นข้อความแนะนำ
+       ══════════════════════════════════════════════════════════════ */
+    const FIX_TARGET = {
+      heel: 'heel', toe: 'toe', t: 'stemT', hz: 'baseT', hp: 'H', B: 'B',
+      qa: 'qa', q: 'surcharge', zw: 'waterH', Df: 'frontDepth',
+      usePp: 'passiveFactor', mu: 'delta', wallDelta: 'wallDelta', phi: 'phi', gs: 'gamma', gsat: 'gammaSat',
+      fc: 'fc', fy: 'fy', cov: 'cover', Lw: 'wallLength',
+      L: 'cfSpan', bs: 'cfThick', cfL: 'cfDepth', cfH: 'cfHeight',
+    };
+    /* ชื่อไทยของช่อง ใช้เขียนบนปุ่มให้รู้ว่าจะพาไปไหน */
+    const FIX_LABEL = {
+      heel: 'ส้นหลัง', toe: 'ส้นหน้า', stemT: 'ความหนาพนัง', baseT: 'ความหนาฐาน',
+      H: 'ความสูงพนัง', B: 'ความกว้างฐาน', qa: 'กำลังแบกทาน', surcharge: 'น้ำหนักจร',
+      waterH: 'ระดับน้ำ', frontDepth: 'ระดับฝังฐาน', passiveFactor: 'ตัวคูณ Passive',
+      delta: 'มุมเสียดทานใต้ฐาน', wallDelta: 'มุม δ ผนัง', phi: 'มุม φ ของดิน', gamma: 'หน่วยน้ำหนักดิน',
+      gammaSat: 'หน่วยน้ำหนักอิ่มตัว', fc: "f′c", fy: 'ชั้นเหล็ก', cover: 'ระยะหุ้ม',
+      wallLength: 'ความยาวกำแพง',
+      cfSpan: 'ช่วงครีบ', cfThick: 'ความหนาครีบ',
+      cfDepth: 'ความลึกครีบ', cfHeight: 'ความสูงครีบ',
+    };
+
+    /** แปลงรายการตัวแปรของ engine เป็น id ช่องกรอกที่มีจริงบนหน้าจอ (ไม่ซ้ำ เรียงตามที่ engine ให้มา) */
+    const fixTargetsOf = (check) => {
+      const out = [];
+      for (const key of (check.to || [])) {
+        const id = FIX_TARGET[key];
+        const el = id ? $(id) : null;
+        /* ช่องที่ถูก authority gate ล็อกไว้ต้องไม่มีปุ่มชวนผู้ใช้ไปแก้สิ่งที่แก้ไม่ได้ */
+        if (id && el && !el.disabled && !el.readOnly && !out.includes(id)) out.push(id);
+      }
+      return out;
+    };
+
+    const fixTextOf = (check) => {
+      const passiveLocked = (check.to || []).some((key) => {
+        const id = FIX_TARGET[key];
+        const el = id ? $(id) : null;
+        return id === 'passiveFactor' && el && el.disabled;
+      });
+      if (passiveLocked) {
+        return 'Passive ถูกล็อกที่ 0 ระหว่างรอ Owner/PE — ทางเลือกที่ใช้ได้ตอนนี้คือขยายส้น heel หรือปรับรูปทรงตามรายการตรวจ';
+      }
+      return String(check.fix || '').replace(/<[^>]*>/g, '');
+    };
+
+    /** พาไปที่ช่องที่ต้องแก้ แล้วทำให้เห็นชัดว่าเป็นช่องไหน */
+    function goFix(ids) {
+      const list = ids.filter((id) => $(id));
+      if (!list.length) return;
+      document.querySelectorAll('.rw-flash').forEach((el) => el.classList.remove('rw-flash'));
+      list.forEach((id) => {
+        const el = $(id);
+        const box = el.closest('.field') || el.parentElement;
+        if (box) { box.classList.add('rw-flash'); setTimeout(() => box.classList.remove('rw-flash'), 2600); }
+      });
+      const first = $(list[0]);
+      first.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      /* ช่องที่แก้ไม่ได้ (อ่านอย่างเดียว) ก็ยังพาไปดูได้ แต่ไม่ต้องโฟกัส */
+      if (!first.readOnly && !first.disabled) setTimeout(() => first.focus({ preventScroll: true }), 320);
+
+    }
+
+    /* คลิกปุ่ม "ไปแก้" ที่ไหนก็ได้ในหน้า */
+    document.addEventListener('click', (ev) => {
+      const btn = ev.target.closest('[data-fix]');
+      if (!btn) return;
+      goFix(String(btn.dataset.fix).split(',').filter(Boolean));
+    });
+
+    function compute() {
+      if (!RW) return null;
+      const out = RW.computeForUi(readUi(), currentProfile(), { project: ($('projectName') && $('projectName').value.trim()) || '' });
+      if (out.ok) {
+        /* ตัวคูณที่โชว์ต้องเป็นตัวที่ engine ใช้จริง ไม่ใช่ค่าที่พิมพ์ค้างไว้ */
+        const f = out.snapshot.designBasis.factors;
+        if ($('loadFactor')) $('loadFactor').value = f.gL.toFixed(2);
+        if ($('phiFlex')) $('phiFlex').value = f.phib.toFixed(2);
+      }
+      lastSnapshot = out.snapshot;
+      lastFingerprint = out.snapshot.fingerprint;
+      return out.ok ? out.c : { __errors: out.errors };
+    }
+
+    function statusSet(base, pass, warn=false, check=null) {
+      const pill=$(base+'Status');
+      const mark=$(base+'Mark');
+      if (!pill || !mark) return;
+      pill.textContent=pass?'PASS':(warn?'CHECK':'FAIL');
+      pill.className='status-pill'+(pass?'':warn?' warn':' fail');
+      mark.textContent=pass?'✓':'!';
+      mark.className='check-mark'+(pass?'':' fail');
+
+      /* ★ ข้อที่ไม่ผ่านต้องมีทางไปแก้ทันทีจากตรงนี้ ไม่ต้องให้ผู้ใช้ไล่หาเองว่าช่องไหน */
+      const row = mark.closest('.check');
+      if (!row) return;
+      const old = row.querySelector('.rw-fixinline');
+      if (old) old.remove();
+      if (pass || !check) return;
+      const ids = fixTargetsOf(check);
+      const box = document.createElement('div');
+      box.className = 'rw-fixinline';
+      box.innerHTML = '<span>' + esc(fixTextOf(check).slice(0, 160)) + '</span>'
+        + ids.map(id => '<button type="button" class="rw-fixbtn" data-fix="' + id + '">ไปแก้ '
+          + esc(FIX_LABEL[id] || id) + '</button>').join('');
+      row.appendChild(box);
+    }
+
+    function barText(design) {
+      if(!design || !design.selected) return '— · รอผลออกแบบ';
+      const s=design.selected;
+      if(typeof s.prefix!=='string' || !s.prefix.trim()
+        || !Number.isFinite(s.db) || s.db<=0
+        || !Number.isFinite(s.spacing) || s.spacing<=0) return '— · ข้อมูลเหล็กไม่ครบ';
+      /* ระยะเรียงจากชุดคำนวณเป็นมิลลิเมตรอยู่แล้ว และมาตรฐานเขียนแบบไทยเขียนเป็น มม.
+         เดิมหารพันแล้วแสดงเป็นเมตร ทำให้อ่านเป็น "DB16 @ 0.125 m" ซึ่งช่างอ่านแบบไม่ใช้ */
+      return `${s.prefix.trim()}${s.db} @ ${Math.round(s.spacing)} มม.`;
+    }
+
+    function updateResults(c) {
+      $('kaOut').textContent=fmt(c.Ka,3);
+      $('kpOut').textContent=fmt(c.Kp,3);
+      /* ป้ายหน่วยมาจากสะพาน (c.uL) — สลับตามโหมดหน่วยที่คำนวณจริง ไม่ hardcode */
+      const uL=c.uL||{F:' kN/m',M:' kN·m/m',P:' kPa',UW:'kN/m³'};
+      $('paOut').textContent=fmt(c.Pa)+uL.F;
+      $('pqOut').textContent=fmt(c.Pq)+uL.F;
+      $('pwOut').textContent=fmt(c.Pw)+uL.F;
+      $('ppOut').textContent=fmt(c.Pp)+uL.F;
+      $('pTotalOut').textContent=fmt(c.P)+uL.F;
+      $('vOut').textContent=fmt(c.V)+uL.F;
+      $('mrOut').textContent=fmt(c.Mr)+uL.M;
+      $('moOut').textContent=fmt(c.Mo)+uL.M;
+      $('xrOut').textContent=fmt(c.xR)+' m';
+      $('qMinOut').textContent=Number.isFinite(c.qMin)?fmt(c.qMin)+uL.P:'—';
+
+      $('fsOt').textContent=fmt(c.fsOt);
+      $('fsSl').textContent=fmt(c.fsSl);
+      $('qMax').textContent=Number.isFinite(c.qMax)?fmt(c.qMax):'—';
+      $('qaLimit').textContent=fmt(c.qa,c.units==='mks'?1:0);
+      document.querySelectorAll('[data-uw="P0"]').forEach(el=>{el.textContent=uL.P.trim();});
+      $('bearingFsOut').textContent=fmt(c.bearingFs);
+      $('eccOut').textContent=Number.isFinite(c.e)?fmt(c.e)+' m':'—';
+      $('b6Out').textContent=Number.isFinite(c.kern)?fmt(c.kern):'—';
+      const pick=(re)=>(c.checks||[]).find(k=>re.test(String(k.k)));
+      statusSet('ot',c.otPass,false,pick(/OVERTURNING/i));
+      statusSet('sl',c.slPass,false,pick(/SLIDING/i));
+      statusSet('be',c.bePass,false,pick(/BEARING/i));
+      statusSet('ec',c.ecPass,false,pick(/ECCENTRICITY/i));
+      /* ★ pill นี้เคยดูแค่ 4 ดวง — แรงเฉือนหรือวงสไลด์ตกก็ยังขึ้น "ผ่านเกณฑ์"
+         ขัดกับคำตัดสินของชุดผลที่พิมพ์ "ห้ามใช้" อยู่การ์ดข้าง ๆ · ต้องมาจาก verdict เดียวกัน */
+      const pass = !!(c.verdict && c.verdict.pass);
+      const authority = c.authority;
+      const coverage = c.engineeringCoverage;
+      const authoritySuffix = authority && authority.constructionAuthority === false
+        ? (authority.status === 'PE_HOLD' ? 'PE HOLD · NOT FOR CONSTRUCTION' : 'NOT FOR CONSTRUCTION')
+        : 'AUTHORITY ERROR';
+      const coverageLabel = coverage && coverage.releaseAuthority === false
+        && coverage.status === 'HOLD_MISSING_SHEAR_TOE'
+        && Array.isArray(coverage.excludedChecks) && coverage.excludedChecks.includes('SHEAR-TOE')
+        ? 'ENGINE COVERAGE HOLD · SHEAR-TOE NOT EVALUATED'
+        : 'ENGINE COVERAGE ERROR';
+      $('overallStatus').textContent = (pass ? 'REGISTERED CHECKS PASS'
+        : 'ไม่ผ่าน ' + (c.verdict ? c.verdict.failedCount : '?') + ' รายการ')
+        + ' · ' + coverageLabel + ' · ' + authoritySuffix;
+      $('overallStatus').className = 'status-pill' + (pass ? ' warn' : ' fail');
+
+      $('muStem').textContent=fmt(c.muStem)+uL.M;
+      $('muToe').textContent=fmt(c.muToe)+uL.M;
+      $('muHeel').textContent=fmt(c.muHeel)+uL.M;
+      $('asStem').textContent=Number.isFinite(c.stemDesign.asReq)?fmt(c.stemDesign.asReq,0)+' mm²/m':'—';
+      $('asToe').textContent=Number.isFinite(c.toeDesign.asReq)?fmt(c.toeDesign.asReq,0)+' mm²/m':'—';
+      $('asHeel').textContent=Number.isFinite(c.heelDesign.asReq)?fmt(c.heelDesign.asReq,0)+' mm²/m':'—';
+      $('stemMain').textContent=barText(c.stemDesign);
+      $('toeRebar').textContent=barText(c.toeDesign);
+      $('heelRebar').textContent=barText(c.heelDesign);
+      $('stemCapacity').textContent=c.stemDesign.selected?fmt(c.stemDesign.selected.phiMn)+' kN·m/m':'—';
+      $('toeFace').textContent=typeof c.toeFace==='string'&&c.toeFace?c.toeFace:'—';
+      $('heelFace').textContent=typeof c.heelFace==='string'&&c.heelFace?c.heelFace:'—';
+    }
+
+    function wallSvg(c) {
+      const W=720,Hsvg=500;
+      const uL=c.uL||{F:' kN/m',M:' kN·m/m',P:' kPa',UW:'kN/m³'};
+      const pressureUnit=esc(String(uL.P||'kPa').trim());
+      const left=92,right=610,top=55,bottom=422;
+      const hPx=290;
+      const bPx=Math.min(430,Math.max(260,c.B/c.H*hPx*1.05));
+      const s=Math.min(hPx/c.H,bPx/c.B)*zoom;
+      const baseW=c.B*s;
+      const baseH=c.baseT*s;
+      const stemW=c.stemT*s;
+      const stemH=c.H*s;
+      const x0=(W-baseW)/2;
+      const yBase=bottom-baseH;
+      const xStem=x0+c.toe*s;
+      const yStem=yBase-stemH;
+      const xHeel=xStem+stemW;
+      const soilTop=yStem;
+      const soilRight=Math.min(right,x0+baseW+48);
+      const waterY=yBase-c.Hw*s;
+      const toeEnd=xStem;
+      const heelEnd=x0+baseW;
+      const dimY=bottom+34;
+      const typeLabel={cantilever:'Cantilever Wall',counterfort:'Counterfort Wall',gravity:'Gravity Wall'}[selectedWallType];
+      const counterfort=selectedWallType==='counterfort' ? `<path d="M ${xHeel+5} ${yBase} L ${Math.min(soilRight-20,xHeel+90)} ${yBase} L ${xHeel+5} ${Math.max(soilTop+65,yBase-170)} Z" fill="#c6cbd1" stroke="#6b7480"/>` : '';
+      const gravityStem=selectedWallType==='gravity'
+        ? `<path d="M ${xStem-stemW*.7} ${yBase} L ${xStem+stemW*.25} ${yStem} L ${xStem+stemW*1.3} ${yStem} L ${xHeel+stemW*2.2} ${yBase} Z" fill="url(#concrete)" stroke="#46505d" stroke-width="2"/>`
+        : `<path d="M ${xStem} ${yBase} L ${xStem+stemW*.17} ${yStem} L ${xStem+stemW*.83} ${yStem} L ${xStem+stemW} ${yBase} Z" fill="url(#concrete)" stroke="#46505d" stroke-width="2"/>`;
+
+      return `
+        <defs>
+          <pattern id="dots" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".8" fill="#7b542f" opacity=".34"/><circle cx="9" cy="10" r=".7" fill="#6a4325" opacity=".25"/></pattern>
+          <linearGradient id="soil" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#d8b88c"/><stop offset="1" stop-color="#b47d47"/></linearGradient>
+          <linearGradient id="concrete" x1="0" x2="1"><stop stop-color="#ebedef"/><stop offset=".55" stop-color="#c9cdd2"/><stop offset="1" stop-color="#aeb4bb"/></linearGradient>
+          <pattern id="concDots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="4" cy="5" r=".8" fill="#777" opacity=".22"/><circle cx="12" cy="14" r=".7" fill="#555" opacity=".18"/></pattern>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="#384357"/></marker>
+          <marker id="blueArrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="#176ff0"/></marker>
+        </defs>
+        <rect x="0" y="0" width="720" height="500" fill="transparent"/>
+        <text x="20" y="27" font-size="12" font-weight="700" fill="#69758a">${typeLabel} • Section Preview</text>
+
+        <path d="M ${xHeel} ${soilTop} L ${soilRight} ${soilTop} L ${soilRight} ${yBase} L ${xHeel} ${yBase} Z" fill="url(#soil)" stroke="#8b6239" stroke-width="1"/>
+        <path d="M ${xHeel} ${soilTop} L ${soilRight} ${soilTop} L ${soilRight} ${yBase} L ${xHeel} ${yBase} Z" fill="url(#dots)" opacity=".95"/>
+        <rect x="${x0}" y="${yBase}" width="${baseW}" height="${baseH}" rx="1" fill="url(#concrete)" stroke="#46505d" stroke-width="2"/>
+        <rect x="${x0}" y="${yBase}" width="${baseW}" height="${baseH}" fill="url(#concDots)"/>
+        ${gravityStem}
+        ${counterfort}
+
+        <line x1="${xHeel}" y1="${soilTop}" x2="${soilRight+38}" y2="${soilTop}" stroke="#333d4d" stroke-width="1.4"/>
+        <text x="${soilRight+8}" y="${soilTop-8}" font-size="11" fill="#344053">ระดับดิน ±0.00</text>
+        <g stroke="#111827" stroke-width="1.1">
+          ${[0,1,2,3,4,5].map(i=>{const x=xHeel+15+i*((soilRight-xHeel-30)/5);return `<line x1="${x}" y1="${soilTop-22}" x2="${x}" y2="${soilTop-4}" marker-end="url(#arrow)"/>`;}).join('')}
+        </g>
+        <text x="${(xHeel+soilRight)/2-38}" y="${soilTop-30}" font-size="11" font-weight="700" fill="#273247">q = ${fmt(c.q)} ${pressureUnit}</text>
+
+        ${c.waterEnabled && c.Hw>0 ? `
+          <line x1="${xHeel-5}" y1="${waterY}" x2="${soilRight+25}" y2="${waterY}" stroke="#176ff0" stroke-width="2" stroke-dasharray="7 5"/>
+          <path d="M ${soilRight+25} ${waterY} l 8 -8 l 8 8 z" fill="none" stroke="#176ff0" stroke-width="2"/>
+          <text x="${soilRight+45}" y="${waterY+4}" font-size="11" fill="#176ff0" font-weight="700">ระดับน้ำ Hₓ = ${fmt(c.Hw)} m</text>
+        `:''}
+
+        <line x1="${x0-40}" y1="${yStem}" x2="${x0-40}" y2="${yBase}" stroke="#384357" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <line x1="${x0-48}" y1="${yStem}" x2="${xStem-5}" y2="${yStem}" stroke="#8892a3"/>
+        <line x1="${x0-48}" y1="${yBase}" x2="${xStem-5}" y2="${yBase}" stroke="#8892a3"/>
+        <text x="${x0-88}" y="${(yStem+yBase)/2}" font-size="12" font-weight="700" fill="#273247">H = ${fmt(c.H)} m</text>
+
+        <line x1="${x0}" y1="${dimY}" x2="${heelEnd}" y2="${dimY}" stroke="#384357" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <line x1="${x0}" y1="${yBase+baseH+3}" x2="${x0}" y2="${dimY+7}" stroke="#8892a3"/>
+        <line x1="${heelEnd}" y1="${yBase+baseH+3}" x2="${heelEnd}" y2="${dimY+7}" stroke="#8892a3"/>
+        <text x="${x0+baseW/2-28}" y="${dimY+23}" font-size="12" font-weight="700" fill="#273247">B = ${fmt(c.B)} m</text>
+
+        <line x1="${x0}" y1="${dimY-18}" x2="${toeEnd}" y2="${dimY-18}" stroke="#384357" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <text x="${x0+(toeEnd-x0)/2-25}" y="${dimY-25}" font-size="10" fill="#273247">Toe ${fmt(c.toe)} m</text>
+        <line x1="${xHeel}" y1="${dimY-18}" x2="${heelEnd}" y2="${dimY-18}" stroke="#384357" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <text x="${xHeel+(heelEnd-xHeel)/2-27}" y="${dimY-25}" font-size="10" fill="#273247">Heel ${fmt(c.heel)} m</text>
+
+        <line x1="${xStem}" y1="${yStem+55}" x2="${xStem+stemW}" y2="${yStem+55}" stroke="#176ff0" marker-start="url(#blueArrow)" marker-end="url(#blueArrow)"/>
+        <text x="${xStem-82}" y="${yStem+59}" font-size="10" fill="#176ff0" font-weight="700">tₓ = ${fmt(c.stemT)} m</text>
+        <line x1="${x0-8}" y1="${yBase}" x2="${x0-8}" y2="${yBase+baseH}" stroke="#176ff0" marker-start="url(#blueArrow)" marker-end="url(#blueArrow)"/>
+        <text x="${x0-71}" y="${yBase+baseH/2+4}" font-size="10" fill="#176ff0" font-weight="700">tᶠ = ${fmt(c.baseT)} m</text>
+      `;
+    }
+
+    function updatePressure(c) {
+      const svg=$('pressureSvg');
+      const uL=c.uL||{F:' kN/m',M:' kN·m/m',P:' kPa',UW:'kN/m³'};
+      const forceUnit=esc(String(uL.F||'kN/m').trim());
+      const pressureUnit=esc(String(uL.P||'kPa').trim());
+      const x0=75,y0=198,top=28,h=165;
+      const max=Math.max(c.Pa,c.Pw,c.P,1);
+      const wActive=95*(c.Pa/max);
+      const wWater=95*(c.Pw/max);
+      const wTotal=115;
+      const label=pressureMode==='active'?`Pₐ = ${fmt(c.activePressure)} ${forceUnit}`:pressureMode==='water'?`Pᵥ = ${fmt(c.Pw)} ${forceUnit}`:`Ptotal = ${fmt(c.P)} ${forceUnit}`;
+      const activeShape=`<path d="M${x0} ${top} L ${x0+wActive} ${y0} L ${x0} ${y0} Z" fill="rgba(23,111,240,.09)" stroke="#176ff0" stroke-width="2"/>`;
+      const waterShape=`<path d="M${x0} ${y0-c.Hw/c.H*h} L ${x0+wWater} ${y0} L ${x0} ${y0} Z" fill="rgba(24,170,218,.12)" stroke="#16a9d9" stroke-width="2"/>`;
+      const totalShape=`<path d="M${x0} ${top} L ${x0+wTotal} ${y0} L ${x0} ${y0} Z" fill="rgba(230,68,68,.08)" stroke="#e64444" stroke-width="2"/>`;
+      const shape=pressureMode==='active'?activeShape:pressureMode==='water'?waterShape:totalShape;
+      const arrows=Array.from({length:6},(_,i)=>{const y=top+18+i*27; const frac=(y-top)/(y0-top); const ww=(pressureMode==='total'?wTotal:pressureMode==='water'?wWater:wActive)*frac; return `<line x1="${x0+ww}" y1="${y}" x2="${x0+5}" y2="${y}" stroke="${pressureMode==='total'?'#e64444':pressureMode==='water'?'#16a9d9':'#176ff0'}" stroke-width="1.2" marker-end="url(#pArrow)"/>`;}).join('');
+      svg.innerHTML=`
+        <defs><marker id="pArrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M7 0 0 3.5 7 7z" fill="${pressureMode==='total'?'#e64444':pressureMode==='water'?'#16a9d9':'#176ff0'}"/></marker></defs>
+        <line x1="${x0}" y1="${top-6}" x2="${x0}" y2="${y0+12}" stroke="#566177" stroke-width="1.4"/>
+        <line x1="${x0-7}" y1="${y0}" x2="${x0+130}" y2="${y0}" stroke="#a6afbd"/>
+        ${shape}${arrows}
+        <line x1="45" y1="${top}" x2="45" y2="${y0}" stroke="#566177" marker-start="url(#pArrow)" marker-end="url(#pArrow)"/>
+        <text x="10" y="116" font-size="10" fill="#566177">H = ${fmt(c.H)} m</text>
+        <text x="210" y="75" font-size="11" font-weight="800" fill="#303a4e">${label}</text>
+        <text x="210" y="98" font-size="10" fill="#68748a">Kₐ = ${fmt(c.Ka,3)}</text>
+        <text x="210" y="119" font-size="10" fill="#68748a">q = ${fmt(c.q)} ${pressureUnit}</text>
+        <text x="210" y="140" font-size="10" fill="#68748a">Hᵥ = ${fmt(c.Hw)} m</text>
+      `;
+    }
+
+    /* ผลจอชุดล่าสุด — ปุ่มแท็บแรงดัน/ซูม/ธีม วาดซ้ำจากตัวนี้ ไม่คำนวณใหม่เงียบ ๆ
+       (เดิมพวกมันเรียก compute() เอง ซึ่งไปทับ lastSnapshot/ลายนิ้วมือ
+        ทำให้ด่านความสดเข้าใจว่าผลตรงกับจอทั้งที่แบนเนอร์ยังขึ้น STALE) */
+    let lastC = null;
+    let refreshing = false;
+
+    function refresh(silent=true) {
+      syncWallTypeUI();
+      if (typeof applyUnitMode === 'function' && $('unitMode')) applyUnitMode($('unitMode').value, false);
+      if (!RW) { setEngineState('LOADING'); return; }
+      if (refreshing) return;
+      refreshing = true;
+      /* มาตรฐานการ์ดข้อ 8: ต้องมีสถานะ RUNNING จริง — คำนวณหนึ่งครั้งสร้างทั้งชุดแบบ
+         และรายงาน กินเวลาเป็นวินาที เดิมปุ่มไม่ล็อกและจอนิ่งเหมือนค้าง */
+      setEngineState('RUNNING');
+      const btn = $('calculateBtn');
+      if (btn) btn.disabled = true;
+      /* ★ ห้ามใช้ requestAnimationFrame เลื่อนงาน — แท็บที่ถูกซ่อน (พับจอ/สลับแท็บ)
+         rAF ไม่ยิงเลย งานคำนวณจะค้างสถานะ RUNNING ตลอดกาล · setTimeout ยิงเสมอ */
+      window.setTimeout(() => {
+        try {
+          const c = compute();
+          if (!c) { setEngineState('LOADING'); return; }
+          if (c.__errors) { setEngineState('ERROR', c.__errors); return; }
+          lastC = c;
+          setEngineState('READY', null, c);
+          $('wallSvg').innerHTML = wallSvg(c);
+          updateResults(c);
+          updatePressure(c);
+          if (!silent) toast('คำนวณและตรวจสอบเรียบร้อย');
+        } finally {
+          refreshing = false;
+          if (btn) btn.disabled = false;
+        }
+      });
+    }
+
+    /* ── ภาพหน้าตัด 2D ต้องสดตามช่องกรอก (การ์ดเขียนว่า LIVE) ──
+       ตอนเปลี่ยน input ให้เป็นแค่ STALE เราเผลอทำให้ภาพค้างไปด้วย — แยกภาพเรขาคณิต
+       (จาก input ล้วน ไม่มีค่าวิศวกรรม) ออกจากผลคำนวณ จึงสดได้โดยไม่ละเมิดกติกา Snapshot */
+    function previewC() {
+      const g = (id, d) => { const v = Number($(id).value); return Number.isFinite(v) ? v : d; };
+      const H = g('H', 3.5), baseT = g('baseT', .35), toe = g('toe', .8),
+        stemT = g('stemT', .3), heel = g('heel', 1.9);
+      const waterEnabled = $('waterEnabled').checked;
+      const Hw = waterEnabled ? Math.max(0, Math.min(g('waterH', 0), H)) : 0;
+      const mode = ($('unitMode') && $('unitMode').value) || 'si';
+      return { H, B: toe + stemT + heel, baseT, stemT, toe, heel,
+        waterEnabled, Hw, zw: H - Hw, q: g('surcharge', 0), uL: { P: UNIT_LABEL.P[mode] } };
+    }
+    function drawPreview() {
+      try { $('wallSvg').innerHTML = wallSvg(previewC()); } catch (e) { /* ค่าครึ่ง ๆ ระหว่างพิมพ์ */ }
+    }
+
+    /* ── แผงสถานะชุดผล · รายการตรวจครบทุกข้อ · ปุ่มออกเอกสาร ──
+       หน้าจอเดิมมีไฟสถานะ 4 ดวง (พลิกคว่ำ เลื่อนไถล แบกทาน เยื้องศูนย์)
+       แต่ engine ตรวจ 7 รายการ — แรงเฉือนพนัง แรงเฉือน heel และเสถียรภาพรวมวงสไลด์
+       ยังไม่มีที่โชว์ ถ้าปล่อยไว้ ผู้ใช้จะเห็น "ผ่านหมด" ทั้งที่มีข้อที่ตก */
+    /* ★ มาตรฐานการ์ดข้อ 8: สถานะที่ไม่ใช่ READY ห้ามเหลือค่าเก่าให้อ่านได้ ทั้งบนตาและใน
+       accessibility DOM — เดิมแบนเนอร์ขึ้น STALE แต่ Ka, F.S., เหล็ก และไฟสถานะ ยังโชว์ค่าเก่าเฉย ๆ */
+    const MASK_CARD_IDS = ['kaOut', 'fsOt', 'muStem'];
+    function maskResults(on) {
+      MASK_CARD_IDS.forEach((id) => {
+        const el = $(id);
+        const card = el && el.closest('.card');
+        if (!card) return;
+        card.classList.toggle('rw-masked', on);
+        if (on) card.setAttribute('aria-hidden', 'true');
+        else card.removeAttribute('aria-hidden');
+      });
+    }
+
+    function setEngineState(state, errors, c) {
+      const host = $('engineState');
+      if (!host) return;
+      syncInstrumentState(state);
+      host.dataset.state = state;
+      if (window.parent !== window) {
+        try {
+          window.parent.postMessage({ type: 'rw:workbench-state', state, marker: document.body.dataset.rwWorkbench }, window.location.origin);
+        } catch (error) { /* parent shell has its own timeout/error surface */ }
+      }
+      maskResults(state !== 'READY');
+      if (state !== 'READY') {
+        const overall = $('overallStatus');
+        if (overall) {
+          overall.textContent = state === 'ERROR' ? 'คำนวณไม่ได้'
+            : state === 'STALE' ? 'ข้อมูลเปลี่ยน · ต้องคำนวณใหม่'
+              : state === 'RUNNING' ? 'กำลังคำนวณ' : 'กำลังโหลด';
+          overall.className = 'status-pill' + (state === 'ERROR' ? ' fail' : ' warn');
+        }
+      }
+      if (state === 'LOADING') {
+        host.innerHTML = '<div class="rw-note">กำลังโหลดชุดคำนวณ…</div>';
+        return;
+      }
+      if (state === 'RUNNING') {
+        host.innerHTML = '<div class="rw-note"><b>กำลังคำนวณ…</b>'
+          + '<span>สร้างชุดผล ชุดแบบ A3 และรายการคำนวณ A4 จากข้อมูลปัจจุบัน</span></div>';
+        return;
+      }
+      if (state === 'ERROR') {
+        host.innerHTML = '<div class="rw-note rw-bad"><b>ข้อมูลยังคำนวณไม่ได้</b><ul>'
+          + (errors || []).map(e => '<li>' + esc(e.message) + '</li>').join('') + '</ul></div>';
+        return;
+      }
+      if (state === 'STALE') {
+        host.innerHTML = '<div class="rw-note rw-stale"><b>ข้อมูลถูกแก้หลังคำนวณ — ผลที่แสดงเป็นของเก่า</b>'
+          + '<span>กด “คำนวณ” อีกครั้งเพื่อให้ผล แบบ และรายงานตรงกับข้อมูลปัจจุบัน</span></div>';
+        return;
+      }
+      const v = c.verdict;
+      const authority = c.authority;
+      const coverage = c.engineeringCoverage;
+      if (!authority || authority.constructionAuthority !== false
+          || typeof authority.label !== 'string' || !authority.label.trim()) {
+        host.innerHTML = '<div class="rw-note rw-bad"><b>AUTHORITY ERROR</b>'
+          + '<span>ชุดผลไม่มีสถานะอนุญาตใช้งานที่ปิดการก่อสร้างอย่างถูกต้อง</span></div>';
+        return;
+      }
+      if (!coverage || coverage.releaseAuthority !== false
+          || coverage.status !== 'HOLD_MISSING_SHEAR_TOE'
+          || !Array.isArray(coverage.excludedChecks)
+          || !coverage.excludedChecks.includes('SHEAR-TOE')
+          || typeof coverage.label !== 'string' || !coverage.label.trim()) {
+        host.innerHTML = '<div class="rw-note rw-bad"><b>ENGINE COVERAGE ERROR</b>'
+          + '<span>ชุดผลไม่มี Coverage HOLD สำหรับ SHEAR-TOE อย่างถูกต้อง จึงปิดผลแบบ fail-closed</span></div>';
+        return;
+      }
+      const rows = c.checks.map(k => {
+        const head = '<tr class="' + (k.ok ? '' : 'bad') + '">'
+          + '<td>' + esc(String(k.k).replace(/<[^>]*>/g, '')) + '</td>'
+          + '<td>' + esc(String(k.v).replace(/<[^>]*>/g, '')) + '</td>'
+          + '<td>' + esc(String(k.req).replace(/<[^>]*>/g, '')) + '</td>'
+          + '<td>' + (Number.isFinite(k.u) ? k.u.toFixed(2) : '—') + '</td>'
+          + '<td><b>' + (k.ok ? 'ผ่าน' : 'ไม่ผ่าน') + '</b></td></tr>';
+        if (k.ok) return head;
+        /* ★ ข้อที่ไม่ผ่าน ต้องบอกด้วยว่าไปแก้ตรงไหน ไม่ใช่บอกแค่ว่าตก
+           ปุ่มพาไปที่ช่องกรอกจริง ๆ ตามตัวแปรที่ engine ระบุมาเอง */
+        const ids = fixTargetsOf(k);
+        const buttons = ids.map(id =>
+          '<button type="button" class="rw-fixbtn" data-fix="' + id + '">ไปแก้ ' + esc(FIX_LABEL[id] || id) + '</button>').join('');
+        return head + '<tr class="bad rw-fixrow"><td colspan="5">'
+          + '<div class="rw-fixwrap">'
+          + '<span class="rw-fixtext">' + esc(fixTextOf(k)) + '</span>'
+          + (buttons ? '<span class="rw-fixbtns">' + buttons + '</span>' : '')
+          + '</div></td></tr>';
+      }).join('');
+      host.innerHTML =
+        '<div class="rw-note ' + (v.pass ? 'rw-stale' : 'rw-bad') + '">'
+        + '<b>' + esc(v.pass ? 'REGISTERED CHECKS PASS' : v.statement) + '</b>'
+        + '<span>' + esc(coverage.label) + ' · ' + esc(authority.label) + '</span>'
+        + '<span>ชุดผล ' + esc(c.snapshotId) + ' · ' + esc(c.profileShort) + '</span></div>'
+        + '<table class="rw-checks"><thead><tr><th>รายการตรวจสอบ</th><th>ค่าที่ได้</th>'
+        + '<th>เกณฑ์</th><th>อัตราส่วน</th><th>ผล</th></tr></thead><tbody>' + rows + '</tbody></table>'
+        + (c.warnings && c.warnings.length
+          ? '<div class="rw-warn"><b>คำเตือนจากการคำนวณ</b><ol>'
+            + c.warnings.map(w => '<li>' + esc(String(w).replace(/<[^>]*>/g, '')) + '</li>').join('')
+            + '</ol></div>'
+          : '');
+    }
+
+    /** เปิดเอกสารพร้อมพิมพ์ — ชุดแบบ A3 กับรายการคำนวณ A4 ในไฟล์เดียว ขนาดจริง 100% */
+    async function openPrintable() {
+      const snap = freshSnapshotOrWarn();
+      if (!snap) return;
+      const sheets = drawingPackOrWarn(snap);
+      if (!sheets) return;
+      const { printableDocument } = await import('/retaining-wall/drafting/rwPrintDocument.js');
+      if (!snapshotStillCurrentOrWarn(snap, 'เปิดเอกสารพิมพ์')) return;
+      const items = [
+        ...sheets.map(d => ({ drawing: d, size: 'A3' })),
+        ...snap.report.map(d => ({ drawing: d, size: 'A4P' })),
+      ];
+      const html = printableDocument(items, {
+        title: 'กำแพงกันดิน คสล. · ' + snap.id,
+        fontHref: '/fonts/sarabun/sarabun.css',
+      });
+      const w = window.open('', '_blank');
+      if (!w) { toast('เบราว์เซอร์บล็อกหน้าต่างใหม่', '!'); return; }
+      w.document.write(html); w.document.close();
+    }
+
+    /** บันทึกชุดแบบเป็น DXF ทีละแผ่น — เปิดใน AutoCAD แล้วแก้ต่อได้ */
+    async function saveDxf() {
+      const snap = freshSnapshotOrWarn();
+      if (!snap) return;
+      const sheets = drawingPackOrWarn(snap);
+      if (!sheets) return;
+      const { toDxf, dxfFileName } = await import('/retaining-wall/drafting/dxfWriter.js');
+      if (!snapshotStillCurrentOrWarn(snap, 'บันทึก DXF')) return;
+      if (sheets.length > 1) {
+        toast('กำลังบันทึก ' + sheets.length + ' ไฟล์ — ถ้าเบราว์เซอร์ถาม ให้อนุญาตดาวน์โหลดหลายไฟล์', '↓');
+      }
+      for (const sheet of sheets) {
+        if (!snapshotStillCurrentOrWarn(snap, 'บันทึก DXF')) return;
+        const blob = new Blob([toDxf(sheet, { scale: 1 })], { type: 'application/dxf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = dxfFileName(sheet); a.click();
+        URL.revokeObjectURL(url);
+        /* เบราว์เซอร์บล็อกดาวน์โหลดรัว ๆ ในคลิกเดียว — เว้นจังหวะให้แต่ละไฟล์ถูกนับแยก */
+        await new Promise((res) => setTimeout(res, 700));
+      }
+      toast('บันทึก DXF ' + sheets.length + ' แผ่นแล้ว');
+    }
+
+    /* ★ ด่านความสดของชุดผล — เอกสารทุกชนิดต้องออกจากผลที่ตรงกับข้อมูลบนจอ ณ ตอนนี้
+       เดิมแค่เช็กว่า "เคยคำนวณแล้ว" ผู้ใช้จึงแก้ค่าแล้วสั่งพิมพ์ได้เอกสารของค่าเก่า
+       โดยไม่มีอะไรเตือนเลย — แบบของค่าเก่าที่หน้างานอันตรายกว่าไม่มีแบบ */
+    function freshSnapshotOrWarn() {
+      if (!RW || !lastSnapshot || !lastSnapshot.ok) {
+        toast('ยังไม่มีชุดผล กด "คำนวณ" ก่อน', '!');
+        return null;
+      }
+      const fp = RW.draftFingerprint(RW.uiToEngineInput(readUi()), currentProfile());
+      if (fp !== lastFingerprint) {
+        setEngineState('STALE');
+        toast('ข้อมูลถูกแก้หลังคำนวณ — กด "คำนวณ" ใหม่ก่อนออกเอกสาร', '!');
+        return null;
+      }
+      /* ชื่อโครงการไม่กระทบตัวเลข แต่พิมพ์ลงเอกสาร — เปลี่ยนแล้วต้องคำนวณใหม่ก่อนออกเอกสาร
+         ไม่งั้นกรอบชื่อแบบจะเป็นชื่อเก่าโดยผู้ใช้ไม่รู้ตัว */
+      const nameNow = ($('projectName') && $('projectName').value.trim()) || '';
+      if (nameNow !== (lastSnapshot.info.project || '')) {
+        setEngineState('STALE');
+        toast('ชื่อโครงการเปลี่ยน — กด "คำนวณ" เพื่อให้เอกสารใช้ชื่อใหม่', '!');
+        return null;
+      }
+      return lastSnapshot;
+    }
+
+    /** ปิด race หลัง await: output ต้องใช้ object Snapshot เดิมและ input/project ต้องยังสด */
+    function snapshotStillCurrentOrWarn(snap, action) {
+      const current = freshSnapshotOrWarn();
+      if (!current) return false;
+      if (current !== snap) {
+        toast('ชุดผลเปลี่ยนระหว่าง' + action + ' — ยกเลิกเพื่อกันเอกสารคนละ Snapshot ปะปนกัน', '!');
+        return false;
+      }
+      return true;
+    }
+
+    /** ทุก output ที่อ้าง Drawing Pack ต้องปิดผลเมื่อ A3 ไม่ครบ ห้ามเปิด modal/print/download บางส่วน */
+    function drawingPackOrWarn(snap = lastSnapshot) {
+      if (!snap || snap.sheetError
+          || !Array.isArray(snap.sheets) || snap.sheets.length === 0) {
+        const detail = snap && snap.sheetError ? ' — ' + snap.sheetError : '';
+        toast('ชุดแบบ A3 ยังจัดไม่สำเร็จ' + detail, '!');
+        return null;
+      }
+      return snap.sheets;
+    }
+
+    /* ── แบบจำลองสามมิติ ──
+       โหลด three.js เมื่อกดปุ่มครั้งแรกเท่านั้น หน้าจอจึงไม่ต้องแบกไลบรารีตั้งแต่เปิดเว็บ */
+    let viewer3d = null;
+    let viewer3dSnapshot = null;
+    let active3dView = 'iso';
+    let active3dMode = 'overview';
+    const VIEW_3D_LABELS = Object.freeze({
+      iso: 'ไอโซเมตริก · Perspective', end: 'มองจาก +Z · Perspective',
+      elevation: 'มองจาก +X · Perspective', top: 'มองจาก +Y · Perspective',
+      custom: 'มุมอิสระจากการลาก · Perspective',
+    });
+    const LAYER_3D = Object.freeze([
+      ['l3dConcrete', 'concrete'], ['l3dSoil', 'soil'], ['l3dRebar', 'rebar'], ['l3dDims', 'dims'],
+    ]);
+
+    function setPressed3d(selector, value, attribute) {
+      document.querySelectorAll(selector).forEach((button) => {
+        const on = button.dataset[attribute] === value;
+        button.classList.toggle('is-active', on);
+        button.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    }
+
+    function render3dInspector(meta, snap) {
+      const put = (id, value) => { $(id).textContent = value == null || value === '' ? '—' : String(value); };
+      const trace = meta.trace || {};
+      const fingerprint = trace.fingerprint ? String(trace.fingerprint) : '';
+      put('trace3dSnapshot', trace.snapshotId || snap.id);
+      put('trace3dEngine', trace.engineVersion || snap.engineVersion);
+      put('trace3dFingerprint', fingerprint.length > 20 ? fingerprint.slice(0, 20) + '…' : fingerprint);
+      const verdict = meta.verdict;
+      if (!verdict || typeof verdict.pass !== 'boolean'
+          || !Number.isInteger(verdict.failedCount) || typeof verdict.statement !== 'string') {
+        throw new TypeError('3D inspector: Snapshot verdict ขาด/ไม่สอดคล้อง');
+      }
+      const verdictNode = $('trace3dVerdict');
+      verdictNode.dataset.pass = verdict.pass ? 'true' : 'false';
+      put('trace3dVerdict', (verdict.pass ? 'PASS' : 'FAIL') + ' · FAILED '
+        + verdict.failedCount + ' · ' + verdict.statement);
+      put('trace3dBars', Number.isFinite(meta.bars) ? meta.bars + ' เส้น' : null);
+      put('trace3dSpacing', Array.isArray(meta.geometryMarks) && meta.geometryMarks.length
+        ? (meta.simplified ? 'SIMPLIFIED · ตรวจ BBS' : 'ตาม projection ที่ยืนยันได้')
+        : 'REBAR GEOMETRY HOLD');
+      put('trace3dSource', trace.quantitySource);
+      put('trace3dCover', Number.isFinite(trace.baseCoverMm)
+        ? trace.baseCoverMm + ' mm · ' + (trace.baseCoverSource || 'Snapshot') : null);
+      put('trace3dRepresented', Array.isArray(meta.geometryMarks) && meta.geometryMarks.length
+        ? meta.geometryMarks.join(' · ') : 'ไม่มี · ชั้นเหล็กถูก HOLD ทั้งชุด');
+      put('trace3dVisible', Array.isArray(meta.visibleMarks) && meta.visibleMarks.length
+        ? meta.visibleMarks.join(' · ') : 'ไม่มี · REBAR GEOMETRY HOLD');
+      const holds = Array.isArray(meta.projectionHolds) ? meta.projectionHolds : [];
+      put('trace3dOmitted', Array.isArray(meta.omittedMarks) && meta.omittedMarks.length
+        ? meta.omittedMarks.join(' · ') + (holds.length
+          ? ' — ทุกมาร์คที่ HOLD ห้ามใช้ 3D ตัดสินแทน BBS/A3' : ' — ตรวจ BBS / แบบ') : 'ไม่มี');
+      const holdBox = $('trace3dProjectionHold');
+      holdBox.hidden = holds.length === 0;
+      const holdGroups = new Map();
+      holds.forEach((item) => {
+        const key = item.code + '\u0000' + item.reason;
+        if (!holdGroups.has(key)) holdGroups.set(key, []);
+        holdGroups.get(key).push(item.mark);
+      });
+      holdBox.textContent = holds.length ? 'HOLD ข้ามผิวงาน · ' + [...holdGroups].map(([key, marks]) => {
+        const [code, reason] = key.split('\u0000');
+        return marks.join(', ') + ' · ' + code + ' — ' + reason;
+      }).join(' | ') : '';
+      put('trace3dAuthority', meta.authority && meta.authority.label
+        ? meta.authority.label : 'PRESENTATION ONLY · ' + snap.authority.label);
+    }
+
+    function sync3dViewPresentation() {
+      const iso = active3dView === 'iso';
+      $('view3dState').textContent = 'มุมปัจจุบัน: ' + (VIEW_3D_LABELS[active3dView] || active3dView)
+        + (iso ? ' · ระยะ/ระดับเปิดตามตัวเลือก' : ' · ซ่อนระยะ/ระดับที่ยุบตามแนวมอง');
+      $('l3dDims').disabled = !iso;
+      if (viewer3d) viewer3d.setLayer('dims', iso && $('l3dDims').checked);
+    }
+
+    function syncViewer3dControls() {
+      if (!viewer3d) return;
+      LAYER_3D.filter(([, layer]) => layer !== 'dims')
+        .forEach(([id, layer]) => viewer3d.setLayer(layer, $(id).checked));
+      viewer3d.setGrid($('l3dGrid').checked);
+      viewer3d.setDisplayMode(active3dMode);
+      active3dView = viewer3d.setView(active3dView);
+      sync3dViewPresentation();
+      setPressed3d('[data-view3d]', active3dView, 'view3d');
+      setPressed3d('[data-mode3d]', active3dMode, 'mode3d');
+    }
+
+    function disposeViewer3d() {
+      if (!viewer3d) return;
+      viewer3d.dispose();
+      viewer3d = null;
+      viewer3dSnapshot = null;
+    }
+
+    async function open3d() {
+      const snap = freshSnapshotOrWarn();
+      if (!snap) return;
+      openModal('modal3d');
+      $('hint3d').textContent = 'กำลังโหลดแบบจำลอง…';
+      try {
+        const [THREE, ctrl, model] = await Promise.all([
+          import('three'),
+          import('three/addons/controls/OrbitControls.js'),
+          import('/retaining-wall/model3d.mjs'),
+        ]);
+        if (!$('modal3d').classList.contains('open')) return;
+        if (!snapshotStillCurrentOrWarn(snap, 'โหลด 3D')) {
+          closeModal('modal3d');
+          return;
+        }
+        disposeViewer3d();
+        viewer3d = model.mountWall3D(THREE, ctrl.OrbitControls, $('canvas3d'), snap, {
+          background: document.body.classList.contains('dark') ? 0x0d1626 : 0xf3f6fb,
+          onViewStateChange: (state) => {
+            active3dView = state.view;
+            sync3dViewPresentation();
+            setPressed3d('[data-view3d]', active3dView, 'view3d');
+          },
+        });
+        viewer3dSnapshot = snap;
+        const m = viewer3d.meta;
+        if (m.snapshotId !== snap.id || !m.trace || m.trace.snapshotId !== snap.id) {
+          throw new Error('3D trace ไม่ตรง Snapshot ที่เปิด — ปิดการแสดงผล');
+        }
+        const authority3d = snap.authority;
+        if (!authority3d || authority3d.constructionAuthority !== false
+            || typeof authority3d.label !== 'string' || !authority3d.label.trim()) {
+          throw new Error('Snapshot ไม่มี 3D authority ที่ปิดการก่อสร้างอย่างถูกต้อง');
+        }
+        const omitted3d = Array.isArray(m.omittedMarks) && m.omittedMarks.length
+          ? ' · 3D ละเว้น ' + m.omittedMarks.join(', ')
+          : '';
+        const projectionHolds = Array.isArray(m.projectionHolds) ? m.projectionHolds : [];
+        const hold3d = projectionHolds.length
+          ? ' · REBAR HOLD ' + projectionHolds.map((item) => item.mark).join(', ')
+            + ' — รอ placement contract ร่วม BBS/A3/3D'
+          : '';
+        $('note3d').textContent = 'ชุดผล ' + snap.id + ' · เหล็ก ' + m.bars + ' เส้น'
+          + ' · PRESENTATION ONLY · ' + authority3d.label + omitted3d + hold3d;
+        /* ★ 3D เป็นภาพสัญลักษณ์ แม้จำนวนเส้นไม่ถูกลดก็ห้ามกล่าวอ้างว่าเป็นแบบเหล็กก่อสร้าง */
+        $('hint3d').textContent = projectionHolds.length
+          ? 'ภาพสัญลักษณ์ · ชั้นเหล็ก 3D ถูก HOLD ทั้งชุด เพราะ centerline / cover / layer placement'
+            + ' ระหว่าง BBS, A3 และ 3D ยังไม่มี contract ที่ Owner/PE อนุมัติ — ห้ามใช้ 3D ตัดสินเหล็ก'
+            + ' · ลากเพื่อหมุน เลื่อนล้อเพื่อซูม'
+          : (m.simplified
+            ? 'ภาพลดจำนวนเส้นเพื่อให้แสดงผลไหว; ค่าขนาดและระยะจริงให้ตรวจ BBS และแบบ · PRESENTATION ONLY'
+            : 'ภาพสัญลักษณ์; ค่าขนาดและระยะจริงให้ตรวจ BBS และแบบ · ลากเพื่อหมุน เลื่อนล้อเพื่อซูม');
+        render3dInspector(m, snap);
+        syncViewer3dControls();
+        setTimeout(() => {
+          if (!viewer3d) return;
+          viewer3d.fit();
+          active3dView = viewer3d.setView(active3dView);
+          sync3dViewPresentation();
+        }, 30);
+      } catch (err) {
+        disposeViewer3d();
+        $('hint3d').textContent = 'เปิดแบบจำลองไม่สำเร็จ — ' + err.message;
+      }
+    }
+
+    /** แสดงชุดแบบ A3 และรายการคำนวณ A4 บนหน้าจอ */
+    async function showDocs(kind) {
+      const snap = freshSnapshotOrWarn();
+      if (!snap) return;
+      const sheets = kind === 'sheets' ? drawingPackOrWarn(snap) : null;
+      if (kind === 'sheets' && !sheets) return;
+      const { renderSvg } = await import('/retaining-wall/drafting/svgRenderer.js');
+      if (!snapshotStillCurrentOrWarn(snap, 'เปิดเอกสาร')) return;
+      const pages = kind === 'sheets' ? sheets : snap.report;
+      const host = $('docViewer');
+      host.innerHTML = pages.map((p, k) => '<figure class="rw-doc">'
+        + '<figcaption>' + (kind === 'sheets' ? 'แผ่นที่ ' : 'หน้า ') + (k + 1) + ' / ' + pages.length + '</figcaption>'
+        + '<div class="rw-docpaper">'
+        + renderSvg(p, { scale: 1, padPaper: 0, page: { w: p.meta.sheetW, h: p.meta.sheetH } })
+        + '</div></figure>').join('');
+      openModal('docModal');
+      $('docTitle').textContent = kind === 'sheets' ? 'ชุดแบบ A3' : 'รายการคำนวณ A4';
+    }
+
+    /* ★ กล่องซ้อนทับกันได้เพราะไม่มีใครสั่งปิดตัวอื่น
+       ผลคือเปิดแบบจำลองสามมิติทับกล่องเอกสารแล้วเห็นแต่พื้นว่าง
+       เปิดกล่องไหนก็ตาม ต้องปิดที่เหลือให้หมดก่อนเสมอ */
+    let modalReturnFocus = null;
+    const MODAL_FOCUSABLE = 'button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+    function closeModal(id, restoreFocus = true) {
+      const backdrop = $(id);
+      if (!backdrop || !backdrop.classList.contains('open')) return;
+      if (id === 'modal3d') disposeViewer3d();
+      const dialog = backdrop.querySelector('.modal');
+      if (document.fullscreenElement && dialog && document.fullscreenElement === dialog
+          && typeof document.exitFullscreen === 'function') {
+        document.exitFullscreen().catch(() => {});
+      }
+      backdrop.classList.remove('open');
+      if (!document.querySelector('.modal-backdrop.open')) document.body.classList.remove('modal-open');
+      if (restoreFocus && modalReturnFocus && typeof modalReturnFocus.focus === 'function') modalReturnFocus.focus();
+      if (restoreFocus) modalReturnFocus = null;
+    }
+
+    function openModal(id) {
+      const backdrop = $(id);
+      if (!backdrop) return;
+      document.querySelectorAll('.modal-backdrop.open').forEach((m) => {
+        if (m.id !== id) closeModal(m.id, false);
+      });
+      modalReturnFocus = document.activeElement;
+      backdrop.classList.add('open');
+      document.body.classList.add('modal-open');
+      window.requestAnimationFrame(() => {
+        const focusTarget = backdrop.querySelector(MODAL_FOCUSABLE) || backdrop.querySelector('.modal');
+        if (focusTarget) focusTarget.focus();
+      });
+    }
+
+    function toast(text, icon='✓') {
+      $('toastText').textContent=text;
+      $('toastIcon').textContent=icon;
+      $('toast').classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2200);
+    }
+
+    function serialize() {
+      /* v:3 = เพิ่ม canonical SI ledger; v:2 ปัดเลขตอนสลับหน่วยและอาจพลิกผลชายขอบ
+         จึงห้ามกู้คืนเป็นชุดคำนวณใหม่แบบเงียบ ๆ */
+      const data={v:3, wallType:selectedWallType};
+      inputs.forEach(el=>data[el.id]=el.type==='checkbox'?el.checked:el.value);
+      /* เก็บ SI เต็มความละเอียดแยกจากค่าปัดบนจอ เพื่อ save/load ไม่เปลี่ยน physical input */
+      data.unitCanonicalSi=canonicalUnitsForSave();
+      data.passiveFactor='0';
+      return data;
+    }
+    function savedUnitLedgerIsValid(data) {
+      if (!data || !data.unitCanonicalSi || typeof data.unitCanonicalSi !== 'object') return false;
+      for (const id of UNIT_FIELDS) {
+        const si = Number(data.unitCanonicalSi[id]);
+        const display = Number(data[id]);
+        if (!Number.isFinite(si) || !Number.isFinite(display)) return false;
+        const physical = data.unitMode === 'mks' ? si / G_UNIT : si;
+        const tol = Math.max(1e-12, Math.abs(physical) * 1e-12);
+        if (Math.abs(display - physical) > tol && display !== sig4(physical)) return false;
+      }
+      return true;
+    }
+    function syncWaterInputState() {
+      const on = $('waterEnabled').checked;
+      $('waterH').disabled = !on;
+      $('waterH').style.opacity = on ? '1' : '.45';
+      $('gammaSat').style.opacity = on ? '1' : '.65';
+    }
+    function applyData(data) {
+      if (!data || data.v !== 3 || !savedUnitLedgerIsValid(data)) {
+        toast('ข้ามข้อมูลที่บันทึกจากรุ่นเก่าหรือ ledger หน่วยไม่ครบ — กันผลคำนวณเปลี่ยนจากเลขปัด', '!');
+        refresh();
+        return;
+      }
+      inputs.forEach(el=>{
+        if(!(el.id in data)) return;
+        if(el.type==='checkbox') el.checked=Boolean(data[el.id]); else el.value=data[el.id];
+      });
+      resetUnitCanonicalFromDisplay(data.unitMode === 'mks' ? 'mks' : 'si', data.unitCanonicalSi);
+      syncWaterInputState();
+      /* ηp ยังไม่ได้รับ Owner/PE approval — ชุดบันทึกเก่าห้ามเปิด passive กลับมา */
+      if ($('passiveFactor')) { $('passiveFactor').value='0'; $('passiveFactor').disabled=true; }
+      if(['cantilever','gravity','counterfort'].includes(data.wallType)){
+        selectedWallType=data.wallType;
+        document.querySelectorAll('.type-card').forEach(x=>x.classList.toggle('active',x.dataset.type===selectedWallType));
+      }
+      /* ข้อมูลที่กู้คืนคือ input เท่านั้น ชุดผลเดิมห้ามถูกนำไปใช้ต่อแม้ fingerprint จะบังเอิญตรงกัน */
+      lastSnapshot=null;
+      lastFingerprint=null;
+      lastC=null;
+      refresh();
+    }
+
+    /* ★ เดิมหน้าจอคำนวณใหม่ทุกครั้งที่พิมพ์ตัวเลข
+       เปลี่ยนเป็น "ทำเครื่องหมายว่าผลเก่าใช้ไม่ได้ แล้วรอให้กดคำนวณ" ด้วยสองเหตุผล
+       1. มาตรฐานการ์ดคอนกรีตข้อ 4 กำหนดว่าต้องมีปุ่มคำนวณครั้งเดียว แล้วได้ชุดผลที่แช่แข็ง
+          ชุดแบบ รายงาน และตัวเลขบนจอ จึงอ้างชุดผลเดียวกันได้จริง
+       2. การคำนวณหนึ่งครั้งสร้างชุดแบบ A3 กับรายการคำนวณ A4 ด้วย ทำทุกครั้งที่พิมพ์
+          จะหน่วงและเปลืองเปล่า */
+    inputs.forEach(el => {
+      const evt = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
+      el.addEventListener(evt, () => {
+        syncInstrumentContext();
+        if (el.id === 'code') return;                 // เปลี่ยนมาตรฐานคำนวณใหม่ทันที
+        drawPreview();                                 // ภาพเรขาคณิตสดเสมอ
+        if (!RW || !lastSnapshot || !lastSnapshot.ok) return;
+        const fp = RW.draftFingerprint(RW.uiToEngineInput(readUi()), currentProfile());
+        const projectChanged = el.id === 'projectName'
+          && (($('projectName') && $('projectName').value.trim()) || '') !== (lastSnapshot.info.project || '');
+        if (fp !== lastFingerprint || projectChanged) setEngineState('STALE');
+      });
+    });
+
+    /* ติ๊กน้ำแล้วช่องระดับน้ำต้องเปิดทันที — เดิมไปเปิดใน refresh ผู้ใช้ติ๊กแล้วช่องยังล็อก */
+    $('waterEnabled').addEventListener('change', syncWaterInputState);
+
+    document.querySelectorAll('.type-card:not([disabled])').forEach(btn=>btn.addEventListener('click',()=>{
+      selectedWallType=btn.dataset.type;
+      document.querySelectorAll('.type-card').forEach(x=>x.classList.remove('active'));
+      btn.classList.add('active');
+      syncWallTypeUI();
+      if (typeof applyUnitMode === 'function' && $('unitMode')) applyUnitMode($('unitMode').value, false);
+      /* เปลี่ยนชนิดกำแพง = เปลี่ยนทฤษฎีที่ใช้ (Rankine ↔ Coulomb) ต้องคำนวณใหม่ทั้งชุด */
+      refresh(false);
+    }));
+
+    document.querySelectorAll('.pressure-tab').forEach(btn=>btn.addEventListener('click',()=>{
+      pressureMode=btn.dataset.pressure;
+      document.querySelectorAll('.pressure-tab').forEach(x=>x.classList.remove('active'));
+      btn.classList.add('active');
+      /* วาดซ้ำจากผลที่แคชไว้ — ห้าม compute() ตรงนี้ เพราะจะทับลายนิ้วมือของด่านความสดเงียบ ๆ */
+      if (lastC) updatePressure(lastC);
+    }));
+
+    /* ซูมเป็นเรื่องของภาพ ไม่ใช่เรื่องของการคำนวณ */
+    $('zoomIn').addEventListener('click',()=>{zoom=Math.min(1.35,zoom+.08);drawPreview();});
+    $('zoomOut').addEventListener('click',()=>{zoom=Math.max(.72,zoom-.08);drawPreview();});
+    $('fitView').addEventListener('click',()=>{zoom=1;drawPreview();});
+    $('calculateBtn').addEventListener('click',()=>refresh(false));
+    $('resetBtn').addEventListener('click',()=>{applyData(defaults);toast('คืนค่าเริ่มต้นแล้ว','↺');});
+    $('saveBtn').addEventListener('click',()=>{localStorage.setItem('naichangyai-retaining-wall',JSON.stringify(serialize()));toast('บันทึกข้อมูลไว้ในเบราว์เซอร์แล้ว');});
+    $('themeBtn').addEventListener('click',()=>{document.body.classList.toggle('dark');localStorage.setItem('naichangyai-theme',document.body.classList.contains('dark')?'dark':'light');drawPreview();if(lastC)updatePressure(lastC);});
+    $('helpBtn').addEventListener('click',()=>openModal('helpModal'));
+    $('closeHelp').addEventListener('click',()=>closeModal('helpModal'));
+    $('helpModal').addEventListener('click',e=>{if(e.target===$('helpModal'))closeModal('helpModal');});
+    /* "สมการคำนวณ" เปิดรายการคำนวณ A4 ซึ่งมีสูตร การแทนค่า และผลลัพธ์ครบทุกขั้น
+       เดิมมีชีตสมการแยกอีกชุดที่คำนวณเองในหน้า — สองแหล่งเพี้ยนจากกันได้ จึงรวมเหลือแหล่งเดียว */
+    $('formulaBtn').addEventListener('click',()=>showDocs('report'));
+    $('formulaInlineBtn').addEventListener('click',()=>showDocs('report'));
+
+    /* ปุ่มกลับ — ถ้ามีเปลือกครอบให้ส่งสัญญาณ; ถ้าเปิด workbench โดยตรง
+       ให้กลับฐานเว็บเดียวกัน เพื่อไม่ทิ้งผู้ใช้ค้างอยู่ที่ static runtime */
+    document.querySelectorAll('[data-rw-back]').forEach((b) => b.addEventListener('click', () => {
+      if (window.parent && window.parent !== window) {
+        try { window.parent.postMessage({ type: 'rw:workbench-back' }, window.location.origin); } catch (e) {}
+        return;
+      }
+      window.location.assign(new URL('./', window.location.href).href);
+    }));
+
+    // Keep B consistent with Toe + stem + Heel when those values are edited.
+    ['toe','stemT','heel'].forEach(id=>$(id).addEventListener('input',()=>{
+      const sum=n('toe')+n('stemT')+n('heel');
+      if(Number.isFinite(sum)) {
+        $('B').value=sum.toFixed(2);
+        drawPreview();
+      }
+    }));
+    $('B').addEventListener('input',()=>{
+      const available=Math.max(.2,n('B')-n('toe')-n('stemT'));
+      $('heel').value=available.toFixed(2);
+      /* แก้ heel ผ่านเส้นทางเดียวกับพิมพ์เอง → ภาพสด + STALE · ไม่ลัดไปคำนวณใหม่เอง */
+      $('heel').dispatchEvent(new Event('input',{bubbles:true}));
+    });
+
+    /* ★ ช่องที่ชุดคำนวณยังไม่ใช้ — ปิดไว้พร้อมบอกเหตุผล
+       ปล่อยให้กรอกแล้วถูกทิ้งเงียบ ๆ คือการหลอกผู้ใช้ และบางช่อง (แรงเส้น) ทิ้งแล้ว "ไม่อนุรักษ์" ด้วย */
+    [
+      ['lineLoad', 'ยังไม่อยู่ในขอบเขตชุดคำนวณที่ตรวจแล้ว — จะเปิดเมื่อเพิ่มสมการพร้อมหลักฐานอ้างอิง'],
+      ['lineLoadHeight', 'ยังไม่อยู่ในขอบเขตชุดคำนวณที่ตรวจแล้ว'],
+      ['includeSurchargeWeight', 'ชุดคำนวณตัดสินให้เอง: q บน heel นับในแรงกดใต้ฐาน แต่ไม่นับช่วยต้านพลิกคว่ำ (ฝั่งอนุรักษ์)'],
+      ['gammaW', 'ชุดคำนวณใช้ 9.81 kN/m³ ตายตัว'],
+    ].forEach(([id, why]) => {
+      const el = $(id);
+      if (!el) return;
+      el.disabled = true;
+      el.title = why;
+      const box = el.closest('.field') || el.closest('label') || el.parentElement;
+      if (box) { box.classList.add('rw-dead'); box.title = why; }
+    });
+    if ($('gammaW')) $('gammaW').value = '9.81';
+
+    /* ── ระบบหน่วย — input ที่เห็นยังปัดเพื่ออ่านง่าย แต่ค่ากายภาพของ engine เก็บใน
+       canonical SI ledger เต็มความละเอียด การสลับหน่วยจึงเป็น presentation-only ── */
+    const G_UNIT = 9.80665;
+    const UNIT_FIELDS = ['gamma', 'gammaSat', 'surcharge', 'qa', 'gammaC', 'gammaW'];
+    const UNIT_LABEL = {
+      UW: { si: 'kN/m³', mks: 'ตัน/ม³' },
+      P:  { si: 'kPa',   mks: 'ตัน/ม²' },
+    };
+    let unitModeApplied = 'si';
+    const unitCanonicalSi = Object.create(null);
+    const sig4 = (v) => Number(v.toPrecision(4));
+
+    function rememberCanonicalUnitValue(id, mode=unitModeApplied) {
+      const el = $(id);
+      if (!el || el.value === '' || !Number.isFinite(Number(el.value))) {
+        delete unitCanonicalSi[id];
+        if (el) el.dataset.unitRendered = el.value;
+        return '';
+      }
+      /* ค่าเดิมที่เรา render เองต้องไม่ถูกอ่านกลับจากเลขปัด มิฉะนั้น SI จะค่อย ๆ เพี้ยน
+         แต่ถ้าผู้ใช้แก้ value จริง dataset จะต่างและต้องรับค่าที่แก้เป็นเจตนาใหม่ */
+      if (!Object.prototype.hasOwnProperty.call(unitCanonicalSi, id)
+          || el.dataset.unitRendered !== el.value) {
+        const display = Number(el.value);
+        unitCanonicalSi[id] = mode === 'mks' ? display * G_UNIT : display;
+      }
+      el.dataset.unitRendered = el.value;
+      return unitCanonicalSi[id];
+    }
+
+    function readCanonicalUnitValue(id) {
+      return rememberCanonicalUnitValue(id, unitModeApplied);
+    }
+
+    function resetUnitCanonicalFromDisplay(mode, savedCanonical=null) {
+      unitModeApplied = mode === 'mks' ? 'mks' : 'si';
+      for (const id of UNIT_FIELDS) {
+        const el = $(id);
+        const saved = savedCanonical && Number(savedCanonical[id]);
+        if (Number.isFinite(saved)) unitCanonicalSi[id] = saved;
+        else {
+          delete unitCanonicalSi[id];
+          rememberCanonicalUnitValue(id, unitModeApplied);
+        }
+        if (el) el.dataset.unitRendered = el.value;
+      }
+    }
+
+    function canonicalUnitsForSave() {
+      const out = {};
+      for (const id of UNIT_FIELDS) {
+        const value = readCanonicalUnitValue(id);
+        if (Number.isFinite(value)) out[id] = value;
+      }
+      return out;
+    }
+
+    function applyUnitMode(mode, convertValues) {
+      if (convertValues && mode !== unitModeApplied) {
+        /* เก็บ manual edit ในโหมดเดิมก่อน แล้ว render โหมดใหม่จาก SI ต้นฉบับ */
+        for (const id of UNIT_FIELDS) rememberCanonicalUnitValue(id, unitModeApplied);
+        for (const id of UNIT_FIELDS) {
+          const el = $(id);
+          const si = unitCanonicalSi[id];
+          if (el && Number.isFinite(si)) {
+            el.value = String(sig4(mode === 'mks' ? si / G_UNIT : si));
+            el.dataset.unitRendered = el.value;
+          }
+        }
+      }
+      document.querySelectorAll('[data-uw]').forEach((el) => {
+        const kind = el.dataset.uw === 'P0' ? 'P' : el.dataset.uw;
+        if (UNIT_LABEL[kind]) el.textContent = UNIT_LABEL[kind][mode];
+      });
+      unitModeApplied = mode;
+    }
+    resetUnitCanonicalFromDisplay(unitModeApplied);
+    if ($('unitMode')) {
+      $('unitMode').addEventListener('change', () => {
+        applyUnitMode($('unitMode').value, true);
+        drawPreview();
+      });
+    }
+
+    /* δw ใช้ได้เฉพาะกำแพงมวล — เปิดปิดตามการ์ดชนิดกำแพงที่เลือก */
+    function syncWallTypeUI() {
+      const g = selectedWallType === 'gravity';
+      const note = $('wallModeNote');
+      if (note) {
+        note.textContent = g
+          ? 'กำแพงมวล — คำนวณแรงดันดินด้วย Coulomb · มุมเสียดทานผนัง δ มีผลต่อผลลัพธ์โดยตรง'
+          : selectedWallType === 'counterfort'
+            ? 'กำแพงมีครีบ (Counterfort) — คำนวณแรงดันดินด้วย Rankine · PE HOLD · NOT FOR CONSTRUCTION'
+            : 'กำแพงยื่น — คำนวณแรงดันดินด้วย Rankine · δ ใช้เป็นแรงเสียดทานใต้ฐานเท่านั้น';
+      }
+      const wd = $('wallDelta');
+      if (wd) {
+        wd.disabled = !g;
+        const box = wd.closest('.field') || wd.parentElement;
+        if (box) box.classList.toggle('rw-dead', !g);
+      }
+      /* ช่องครีบใช้เฉพาะ Counterfort — ซ่อนทั้งช่องเมื่อไม่ใช่ (ไม่ใช่แค่ disable
+         เพราะช่องที่โผล่แต่กรอกไม่ได้ทำให้เข้าใจผิดว่าเกี่ยวกับชนิดอื่น) */
+      const isCf = selectedWallType === 'counterfort';
+      document.querySelectorAll('.cf-only').forEach((el) => {
+        el.style.display = isCf ? '' : 'none';
+        el.querySelectorAll('input').forEach((inp) => { inp.disabled = !isCf; });
+      });
+    }
+
+    /* ── ผูกปุ่มที่เพิ่มเข้ามา ── */
+    /* ★ ปุ่มนี้เคยมี listener สองตัว: ของเดิมสั่ง window.print() พิมพ์ "หน้าจอ" ออกมา
+       ส่วนของใหม่เปิดเอกสาร A3 ทั้งคู่ทำงานพร้อมกัน ผู้ใช้จึงได้กล่องพิมพ์ที่เป็นภาพหน้าเว็บ
+       ตัดของเดิมออก เหลือทางเดียวคือเปิดเอกสารชุดแบบที่ขนาดจริง */
+    $('printBtn').addEventListener('click', openPrintable);
+    $('btn3d').addEventListener('click', open3d);
+    $('close3d').addEventListener('click', () => closeModal('modal3d'));
+    $('modal3d').addEventListener('click', e => { if (e.target === $('modal3d')) closeModal('modal3d'); });
+    $('fit3d').addEventListener('click', () => {
+      if (!viewer3d) return;
+      active3dView = 'iso';
+      viewer3d.fit();
+      sync3dViewPresentation();
+      setPressed3d('[data-view3d]', active3dView, 'view3d');
+    });
+    document.querySelectorAll('[data-view3d]').forEach((button) => button.addEventListener('click', () => {
+      if (!viewer3d) return;
+      active3dView = viewer3d.setView(button.dataset.view3d);
+      sync3dViewPresentation();
+      setPressed3d('[data-view3d]', active3dView, 'view3d');
+    }));
+    document.querySelectorAll('[data-mode3d]').forEach((button) => button.addEventListener('click', () => {
+      if (!viewer3d) return;
+      active3dMode = viewer3d.setDisplayMode(button.dataset.mode3d);
+      setPressed3d('[data-mode3d]', active3dMode, 'mode3d');
+    }));
+    $('png3d').addEventListener('click', () => {
+      const snap = freshSnapshotOrWarn();
+      if (!viewer3d || !snap) return;
+      if (viewer3dSnapshot !== snap || !snapshotStillCurrentOrWarn(snap, 'บันทึก PNG')) {
+        toast('3D ไม่ตรงกับชุดผลปัจจุบัน — เปิด 3D ใหม่ก่อนบันทึก PNG', '!');
+        return;
+      }
+      const link = document.createElement('a');
+      try {
+        link.href = viewer3d.toPng();
+      } catch (err) {
+        toast('ปิดการส่งออก PNG — ' + err.message, '!');
+        return;
+      }
+      link.download = 'retaining-wall-' + String(snap.id || 'snapshot').replace(/[^a-z0-9_-]+/gi, '-') + '.png';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      toast('บันทึก PNG พร้อม BETA, SHEAR-TOE NOT EVALUATED, Snapshot, authority, omitted marks และ HOLD แล้ว');
+    });
+    $('fullscreen3d').addEventListener('click', async () => {
+      const dialog = $('modal3d').querySelector('.rw-3dmodal');
+      try {
+        if (document.fullscreenElement === dialog) await document.exitFullscreen();
+        else if (dialog.requestFullscreen) await dialog.requestFullscreen();
+        else toast('เบราว์เซอร์นี้ไม่รองรับโหมดเต็มจอ — ใช้ปุ่ม “พอดีจอ” แทน', '!');
+      } catch (err) {
+        toast('เปิดเต็มจอไม่ได้ — ' + err.message, '!');
+      }
+    });
+    document.addEventListener('fullscreenchange', () => {
+      const dialog = $('modal3d').querySelector('.rw-3dmodal');
+      const on = document.fullscreenElement === dialog;
+      $('fullscreen3d').setAttribute('aria-pressed', on ? 'true' : 'false');
+      $('fullscreen3d').textContent = on ? 'ออกจากเต็มจอ' : 'เต็มจอ';
+      if (viewer3d) window.setTimeout(() => {
+        if (!viewer3d) return;
+        viewer3d.fit();
+        active3dView = viewer3d.setView(active3dView);
+        sync3dViewPresentation();
+      }, 80);
+    });
+    for (const [id, layer] of LAYER_3D) {
+      $(id).addEventListener('change', (e) => viewer3d && viewer3d.setLayer(layer, e.target.checked));
+    }
+    $('l3dGrid').addEventListener('change', (e) => viewer3d && viewer3d.setGrid(e.target.checked));
+    $('btnSheets').addEventListener('click', () => showDocs('sheets'));
+    $('btnReport').addEventListener('click', () => showDocs('report'));
+    $('btnDxf').addEventListener('click', saveDxf);
+    $('closeDoc').addEventListener('click', () => closeModal('docModal'));
+    $('docModal').addEventListener('click', e => { if (e.target === $('docModal')) closeModal('docModal'); });
+
+    /* ด่านสำรอง: คงล้าง output ทุกช่องก่อนโหลด module แม้ markup ปัจจุบันเป็นกลางแล้ว
+       เพื่อป้องกันค่าเก่าถูกใส่กลับมาใน HTML แล้วค้างเมื่อ module โหลดไม่สำเร็จ */
+    (function presetOutputs() {
+      ['kaOut','kpOut','paOut','pqOut','pwOut','ppOut','pTotalOut','vOut','mrOut','moOut',
+       'xrOut','qMinOut','fsOt','fsSl','qMax','qaLimit','bearingFsOut','eccOut','b6Out',
+       'muStem','muToe','muHeel','asStem','asToe','asHeel','stemMain','toeRebar','heelRebar',
+       'stemCapacity','toeFace','heelFace'].forEach((id) => { const el = $(id); if (el) el.textContent = '—'; });
+      ['ot','sl','be','ec'].forEach((k) => {
+        const p = $(k + 'Status'), m = $(k + 'Mark');
+        if (p) { p.textContent = '—'; p.className = 'status-pill'; }
+        if (m) { m.textContent = '·'; m.className = 'check-mark'; }
+      });
+      const ov = $('overallStatus');
+      if (ov) { ov.textContent = 'ยังไม่คำนวณ'; ov.className = 'status-pill'; }
+    })();
+    setEngineState('LOADING');
+    drawPreview();
+
+    /* Esc + focus trap: ผู้ใช้คีย์บอร์ดต้องเข้า/ออก modal ได้ครบและกลับไปปุ่มเดิม */
+    document.addEventListener('keydown', (ev) => {
+      const open = [...document.querySelectorAll('.modal-backdrop.open')].pop();
+      if (!open) return;
+      if (ev.key === 'Escape') {
+        ev.preventDefault();
+        closeModal(open.id);
+        return;
+      }
+      if (ev.key !== 'Tab') return;
+      const focusable = [...open.querySelectorAll(MODAL_FOCUSABLE)].filter((el) => el.offsetParent !== null);
+      if (!focusable.length) {
+        ev.preventDefault();
+        open.querySelector('.modal').focus();
+        return;
+      }
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
+      else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+    });
+
+    /* ── โหลดชุดคำนวณ แล้วค่อยเริ่มทำงาน ── */
+    /* เปลี่ยนมาตรฐานออกแบบ = คำนวณใหม่ทั้งชุด */
+    $('code').addEventListener('change', () => refresh(false));
+
+    import('/retaining-wall/workbench.mjs')
+      .then((mod) => {
+        RW = mod;
+        const saved2 = localStorage.getItem('naichangyai-retaining-wall');
+        if (saved2) { try { applyData(JSON.parse(saved2)); } catch (e) { refresh(); } } else refresh();
+      })
+      .catch((err) => {
+        setEngineState('ERROR', [{ message: 'โหลดชุดคำนวณไม่สำเร็จ — ' + err.message }]);
+      });
+
+    const savedTheme=localStorage.getItem('naichangyai-theme');
+    if(savedTheme==='dark') document.body.classList.add('dark');
+    /* การเริ่มทำงานย้ายไปอยู่หลังโมดูลโหลดเสร็จแล้ว ดูด้านบน */
+  </script>
+</body>
+</html>

@@ -1,0 +1,1179 @@
+/*
+ * NCY P1 Compact Workshop shell
+ *
+ * Presentation only: this file reflows the existing P1 controls. It does not
+ * add authoring commands or alter plan geometry, records, snapping, analysis,
+ * PASS/HOLD semantics, or the parent bridge.
+ */
+
+:root[data-active-phase="P1"] {
+  --p1-shell-navy: #062650;
+  --p1-shell-navy-strong: #041d3f;
+  --p1-shell-blue: #1769e8;
+  --p1-shell-orange: #f36b21;
+  --p1-shell-line: color-mix(in oklch, var(--line) 86%, #b8c8dc);
+  --p1-shell-canvas: #f7faff;
+}
+
+:root[data-active-phase="P1"] .app {
+  grid-template-rows: 58px 34px minmax(0, 1fr) 32px;
+}
+
+:root.guided-v2-embedded[data-active-phase="P1"] .app {
+  grid-template-rows: 58px minmax(0, 1fr) 32px 0;
+}
+
+/*
+ * P1 has one authoring navigator: the left tool rail.  The former guided
+ * step strip duplicated the same tools, looked like a destructive wizard,
+ * and encouraged users to jump back to Level.  Keep the DOM as an internal
+ * state/status source for compatibility, but remove it from layout and the
+ * accessibility tree through the native hidden attribute in the HTML shell.
+ */
+:root[data-active-phase="P1"] .workspace > .guide { display: none !important; }
+
+/* The only visible commit surface is the status-aware action at bottom right. */
+:root[data-active-phase="P1"] .inspector-action #primary-action { display: none !important; }
+:root[data-active-phase="P1"] #guided-flow-next { display: none !important; }
+
+:root[data-active-phase="P1"] .p1-workshop-3d {
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+:root[data-active-phase="P1"] .p1-workshop-filters {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  min-width: 0;
+  padding: 5px 7px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--p1-shell-line);
+  background: #f8fbff;
+  scrollbar-width: thin;
+}
+:root[data-active-phase="P1"] .p1-workshop-filters > div { display: inline-flex; gap: 3px; flex: 0 0 auto; }
+:root[data-active-phase="P1"] .p1-workshop-filters button {
+  min-height: 28px;
+  padding: 4px 7px;
+  border: 1px solid #cbd8e7;
+  border-radius: 6px;
+  background: #fff;
+  color: #41566f;
+  font: 800 9px/1.2 var(--font);
+  cursor: pointer;
+}
+:root[data-active-phase="P1"] .p1-workshop-filters button.active {
+  border-color: #2f7fe6;
+  background: #eaf3ff;
+  color: #075ec8;
+}
+
+:root[data-active-phase="P1"] .topbar {
+  min-width: 0;
+  gap: 10px;
+  padding: 0 14px;
+  color: #f7fbff;
+  background: var(--p1-shell-navy);
+  border-bottom-color: #173f70;
+  box-shadow: 0 2px 8px rgb(6 38 80 / 18%);
+}
+
+:root[data-active-phase="P1"] .brand { gap: 9px; }
+:root[data-active-phase="P1"] .brand-mark {
+  width: 34px;
+  height: 34px;
+  padding: 4px;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 96%);
+}
+:root[data-active-phase="P1"] .brand-copy strong {
+  color: #fff;
+  font-size: 13px;
+}
+:root[data-active-phase="P1"] .brand-copy small {
+  display: block;
+  margin-top: 2px;
+  color: #b9cbe1;
+  font-size: 8px;
+  letter-spacing: .035em;
+}
+:root[data-active-phase="P1"] .brand-accent { color: #ff7a2d; }
+:root[data-active-phase="P1"] .divider { height: 28px; background: rgb(255 255 255 / 18%); }
+:root[data-active-phase="P1"] .project-switcher {
+  max-width: 420px;
+  min-height: 38px;
+  padding-inline: 10px;
+  border-color: rgb(255 255 255 / 14%);
+  background: rgb(255 255 255 / 5%);
+  color: #f7fbff;
+}
+:root[data-active-phase="P1"] .project-switcher:hover { background: rgb(255 255 255 / 9%); }
+:root[data-active-phase="P1"] .project-name strong { color: #fff; font-size: 11px; }
+:root[data-active-phase="P1"] .project-name small { color: #b9cbe1; }
+:root[data-active-phase="P1"] .project-dot {
+  width: 8px;
+  height: 8px;
+  background: #59a3ff;
+  box-shadow: 0 0 0 3px rgb(89 163 255 / 18%);
+}
+
+:root[data-active-phase="P1"] .mode-switch {
+  padding: 3px;
+  border-color: rgb(255 255 255 / 16%);
+  background: rgb(255 255 255 / 7%);
+}
+:root[data-active-phase="P1"] .mode-switch button {
+  min-height: 30px;
+  color: #c9d7e8;
+}
+:root[data-active-phase="P1"] .mode-switch button:hover { color: #fff; background: rgb(255 255 255 / 8%); }
+:root[data-active-phase="P1"] .mode-switch button.active {
+  background: #fff;
+  color: var(--p1-shell-navy);
+  box-shadow: none;
+}
+:root[data-active-phase="P1"] .mode-switch button[data-mode="workshop"] {
+  border: 1px solid rgb(243 107 33 / 56%);
+  color: #ffd3b8;
+}
+:root[data-active-phase="P1"] .mode-switch button[data-mode="workshop"]:hover {
+  border-color: var(--p1-shell-orange);
+  background: rgb(243 107 33 / 18%);
+  color: #fff;
+}
+:root[data-active-phase="P1"] .mode-switch button[data-mode="workshop"].active {
+  border-color: var(--p1-shell-orange);
+  background: var(--p1-shell-orange);
+  color: #fff;
+  box-shadow: 0 3px 10px rgb(243 107 33 / 24%);
+}
+:root:not([data-active-phase="P1"]) #p1-draft-save { display: none; }
+:root[data-active-phase="P1"] .topbar #p1-draft-save {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: min(176px, 20vw);
+}
+
+/* Select is a property drawer, never the former one-line CAD ribbon. */
+:root[data-active-phase="P1"] .app[data-active-tool="select"] .cad-command-strip {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 6px;
+}
+:root[data-active-phase="P1"] .app[data-active-tool="select"] .cad-command-button {
+  width: 100%;
+  min-width: 0;
+  min-height: 54px;
+}
+:root[data-active-phase="P1"] .app[data-active-tool="select"] .cad-selection-readout {
+  grid-column: 1 / -1;
+  min-width: 0;
+  padding: 9px 4px 2px;
+  border-top: 1px solid var(--p1-shell-line);
+  border-left: 0;
+}
+:root[data-active-phase="P1"] .app[data-active-tool="select"] .cad-window-legend {
+  flex-wrap: wrap;
+  white-space: normal;
+}
+
+:root[data-active-phase="P1"] .guided-flow-compact summary {
+  min-height: 34px;
+  border-color: rgb(255 255 255 / 22%);
+  background: rgb(255 255 255 / 96%);
+  color: var(--p1-shell-navy);
+}
+:root[data-active-phase="P1"] .guided-flow-next {
+  min-height: 36px;
+  padding-inline: 15px;
+  border-color: var(--p1-shell-orange);
+  background: var(--p1-shell-orange);
+  color: #fff;
+  box-shadow: 0 3px 10px rgb(243 107 33 / 22%);
+}
+:root[data-active-phase="P1"] .guided-flow-next:hover:not(:disabled) {
+  border-color: #d95210;
+  background: #d95210;
+}
+
+/* Desktop authoring shell: workflow / compact toolbar / maximum canvas. */
+@media (min-width: 1101px) {
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .workspace {
+    grid-template-columns: 64px minmax(0, 1fr) 280px;
+    grid-template-rows: 46px minmax(0, 1fr);
+    gap: 0;
+    padding: 0;
+    background: #edf3fa;
+  }
+
+  :root[data-active-phase="P1"] .app:not(.full-workshop).inspector-collapsed .workspace {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .commandbar {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+    width: calc(100% - 16px);
+    height: 38px;
+    min-width: 0;
+    margin: 0;
+    padding: 0 8px;
+    overflow-x: auto;
+    border: 1px solid var(--p1-shell-line);
+    border-radius: 9px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgb(32 63 102 / 7%);
+  }
+  :root[data-active-phase="P1"] .app:not(.full-workshop).inspector-collapsed .commandbar {
+    grid-column: 2;
+  }
+  :root[data-active-phase="P1"] .commandbar :is(button, .level-tabs) { flex: 0 0 auto; }
+  :root[data-active-phase="P1"] .crumb strong { font-size: 11px; }
+  :root[data-active-phase="P1"] .p1-draft-save,
+  :root[data-active-phase="P1"] .grid-edit-shortcut,
+  :root[data-active-phase="P1"] .inspector-toggle,
+  :root[data-active-phase="P1"] .tool-guide-toggle { min-height: 30px; }
+
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .toolrail {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    width: 64px;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 3px;
+    padding: 7px 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 0;
+    border-right: 1px solid var(--p1-shell-line);
+    background: #fff;
+    box-shadow: 2px 0 7px rgb(32 63 102 / 5%);
+    scrollbar-width: thin;
+  }
+  :root[data-active-phase="P1"] .toolrail .tool-section { display: contents; }
+  :root[data-active-phase="P1"] .toolrail .tool-section-label { display: none; }
+  :root[data-active-phase="P1"] .toolrail .tool {
+    order: 1;
+    flex: 0 0 49px;
+    width: 52px;
+    min-height: 49px;
+    grid-template-rows: 21px auto;
+    gap: 2px;
+    padding: 4px 2px;
+    border-radius: 8px;
+    color: #51657c;
+    font-size: 9px;
+  }
+  :root[data-active-phase="P1"] .toolrail .tool:hover {
+    border-color: #c8d7e8;
+    background: #f1f6fd;
+    color: var(--p1-shell-navy);
+  }
+  :root[data-active-phase="P1"] .toolrail .tool.active {
+    border-color: var(--p1-shell-navy);
+    background: var(--p1-shell-navy);
+    color: #fff;
+    box-shadow: none;
+  }
+  :root[data-active-phase="P1"] .toolrail .tool-glyph,
+  :root[data-active-phase="P1"] .toolrail .tool-glyph svg { width: 20px; height: 20px; }
+  :root[data-active-phase="P1"] .toolrail .ribbon-quick {
+    order: 2;
+    width: 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    margin-top: 4px;
+    padding: 7px 0 0;
+    border: 0;
+    border-top: 1px solid var(--p1-shell-line);
+  }
+  :root[data-active-phase="P1"] .toolrail .ribbon-tool {
+    width: 44px;
+    min-height: 38px;
+    border-radius: 8px;
+  }
+
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .viewport-wrap {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    min-height: 0;
+    margin: 0 0 8px 8px;
+    overflow: hidden;
+    border: 1px solid var(--p1-shell-line);
+    border-radius: 10px;
+    background: var(--p1-shell-canvas);
+    box-shadow: 0 4px 14px rgb(32 63 102 / 6%);
+  }
+
+  /* Restore the real dynamic inspector as a readable right dock. */
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .inspector {
+    position: relative;
+    z-index: 4;
+    inset: auto;
+    grid-column: 3;
+    grid-row: 1 / 3;
+    align-self: stretch;
+    justify-self: stretch;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    height: auto;
+    max-height: none;
+    margin: 0 8px 8px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    transform: none;
+    overflow: hidden;
+    border: 1px solid var(--p1-shell-line);
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgb(32 63 102 / 8%);
+  }
+  :root[data-active-phase="P1"] .app.inspector-collapsed .inspector { display: none; }
+  :root[data-active-phase="P1"] .inspector-head {
+    position: relative;
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+    padding: 12px 56px 11px 13px;
+    border: 0;
+    border-bottom: 1px solid #173f70;
+    background: var(--p1-shell-navy);
+    color: #fff;
+  }
+  :root[data-active-phase="P1"] .inspector-head .eyebrow { display: block; color: #a9c2de; }
+  :root[data-active-phase="P1"] .inspector-head h2 {
+    margin: 2px 0 0;
+    overflow: visible;
+    color: #fff;
+    font-size: 13px;
+    line-height: 1.35;
+    text-overflow: clip;
+    white-space: normal;
+  }
+  :root[data-active-phase="P1"] .inspector-head p {
+    display: block;
+    margin: 5px 0 0;
+    color: #c5d5e7;
+    font-size: 10px;
+    line-height: 1.45;
+  }
+  :root[data-active-phase="P1"] .inspector-boundary {
+    margin-top: 7px;
+    border-color: rgb(255 194 108 / 54%);
+    background: rgb(255 194 108 / 14%);
+    color: #ffd293;
+  }
+  :root[data-active-phase="P1"] .inspector-close {
+    top: 4px;
+    right: 4px;
+    width: 44px;
+    height: 44px;
+    border-color: rgb(255 255 255 / 22%);
+    background: rgb(255 255 255 / 8%);
+    color: #dce9f7;
+  }
+  :root[data-active-phase="P1"] .inspector-close:hover {
+    border-color: rgb(255 255 255 / 45%);
+    background: rgb(255 255 255 / 14%);
+    color: #fff;
+  }
+  :root[data-active-phase="P1"] .selection-summary {
+    grid-column: 1;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-bottom: 1px solid var(--p1-shell-line);
+  }
+  :root[data-active-phase="P1"] .inspector-body {
+    grid-column: 1;
+    grid-row: 3;
+    display: block;
+    min-width: 0;
+    width: auto;
+    padding: 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #fff;
+    scrollbar-width: thin;
+  }
+  :root[data-active-phase="P1"] .inspector-body > * {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none;
+    margin-inline: 0;
+  }
+  :root[data-active-phase="P1"] .inspector-body > .field-group {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 0 12px;
+    padding: 0 0 12px;
+    border: 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  :root[data-active-phase="P1"] .inspector-body .field-label { margin-bottom: 6px; font-size: 10.5px; }
+  :root[data-active-phase="P1"] .inspector-body .field,
+  :root[data-active-phase="P1"] .inspector-body select.field { min-height: 36px; padding: 6px 8px; font-size: 11px; }
+  :root[data-active-phase="P1"] .inspector-body .segmented button { min-height: 38px; font-size: 10.5px; }
+  :root[data-active-phase="P1"] .inspector-body :is(.helper, .trace-box, .technical-details) {
+    display: block;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  :root[data-active-phase="P1"] .inspector-action {
+    grid-column: 1;
+    grid-row: 4;
+    display: block;
+    min-width: 0;
+    padding: 7px 12px 9px;
+    border: 0;
+    border-top: 1px solid var(--p1-shell-line);
+    background: #fff;
+  }
+  :root[data-active-phase="P1"] .inspector-action .primary-button,
+  :root[data-active-phase="P1"] .inspector-action .outline-button {
+    min-height: 40px;
+    width: 100%;
+    padding: 7px 10px;
+    font-size: 10.5px;
+  }
+  :root[data-active-phase="P1"] .action-note {
+    display: block;
+    margin-top: 7px;
+    font-size: 9px;
+    line-height: 1.45;
+  }
+}
+
+/* Medium desktop: preserve the canvas and open the same inspector as a drawer. */
+@media (min-width: 901px) and (max-width: 1100px) {
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .workspace {
+    grid-template-columns: 58px minmax(0, 1fr);
+    grid-template-rows: 44px minmax(0, 1fr);
+    padding: 0;
+  }
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .commandbar { grid-column: 2; grid-row: 1; width: 100%; height: 44px; }
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .toolrail {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    width: 58px;
+    height: auto;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 5px 3px;
+  }
+  :root[data-active-phase="P1"] .toolrail .tool-section { display: contents; }
+  :root[data-active-phase="P1"] .toolrail .tool-section-label { display: none; }
+  :root[data-active-phase="P1"] .toolrail .tool { flex: 0 0 48px; width: 50px; min-height: 48px; }
+  :root[data-active-phase="P1"] .toolrail .ribbon-quick { display: flex; flex-direction: column; width: 50px; padding: 6px 0 0; border: 0; border-top: 1px solid var(--line); }
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .viewport-wrap { grid-column: 2; grid-row: 2; }
+  :root[data-active-phase="P1"] .app:not(.full-workshop):not([data-active-tool="grid"]) .inspector {
+    position: absolute;
+    z-index: 30;
+    grid-column: auto;
+    grid-row: auto;
+    top: 44px;
+    right: 8px;
+    bottom: 8px;
+    left: auto;
+    width: min(320px, calc(100% - 76px));
+    height: auto;
+    max-height: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    overflow: hidden;
+    border: 1px solid var(--p1-shell-line);
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgb(6 38 80 / 18%);
+  }
+  :root[data-active-phase="P1"] .app.inspector-collapsed .inspector { display: none; }
+}
+
+/* Full Workshop keeps its real plan/3D pair. Inspector, when requested, is an overlay. */
+@media (min-width: 901px) {
+  :root[data-active-phase="P1"] .app.full-workshop {
+    grid-template-rows: 58px minmax(0, 1fr) 32px var(--phase-dock-height);
+  }
+  :root[data-active-phase="P1"] .app.full-workshop .workspace,
+  :root[data-active-phase="P1"] .app.full-workshop.workshop-3d-hidden .workspace {
+    grid-template-columns: 64px minmax(0, 3fr) minmax(320px, 2fr);
+    grid-template-rows: 46px minmax(0, 1fr);
+    padding: 0;
+  }
+  :root[data-active-phase="P1"] .app.full-workshop.workshop-3d-hidden .workspace {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+  :root[data-active-phase="P1"] .app.full-workshop .guide { display: none; }
+  :root[data-active-phase="P1"] .app.full-workshop .commandbar {
+    grid-column: 2 / -1;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+    width: calc(100% - 16px);
+    height: 38px;
+    border: 1px solid var(--p1-shell-line);
+    border-radius: 9px;
+    background: #fff;
+  }
+  :root[data-active-phase="P1"] .app.full-workshop .toolrail {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    width: 64px;
+    height: auto;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 7px 5px;
+    border-right: 1px solid var(--p1-shell-line);
+    background: #fff;
+  }
+  :root[data-active-phase="P1"] .app.full-workshop .tool-section { display: contents; }
+  :root[data-active-phase="P1"] .app.full-workshop .tool-section-label { display: none; }
+  :root[data-active-phase="P1"] .app.full-workshop .tool { flex: 0 0 49px; width: 52px; min-height: 49px; }
+  :root[data-active-phase="P1"] .app.full-workshop .ribbon-quick { order: 2; display: flex; flex-direction: column; width: 52px; padding: 7px 0 0; border: 0; border-top: 1px solid var(--line); }
+  :root[data-active-phase="P1"] .app.full-workshop .viewport-wrap { grid-column: 2; grid-row: 2; margin: 0 0 8px 8px; border: 1px solid var(--p1-shell-line); border-radius: 10px; }
+  :root[data-active-phase="P1"] .app.full-workshop .p1-workshop-3d { grid-column: 3; grid-row: 2; margin: 0 8px 8px; border: 1px solid var(--p1-shell-line); border-radius: 10px; }
+  :root[data-active-phase="P1"] .app.full-workshop .inspector {
+    position: absolute;
+    z-index: 32;
+    top: 52px;
+    right: 8px;
+    bottom: 8px;
+    left: auto;
+    width: 280px;
+    height: auto;
+    max-height: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 12px 30px rgb(6 38 80 / 18%);
+  }
+  :root[data-active-phase="P1"] .app.full-workshop.inspector-collapsed .inspector { display: none; }
+
+  /* Neutralize the former 64px horizontal property ribbon at every desktop width. */
+  :root[data-active-phase="P1"] .inspector-head {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+    padding: 12px 42px 11px 13px;
+    border: 0;
+    border-bottom: 1px solid #173f70;
+    background: var(--p1-shell-navy);
+    color: #fff;
+  }
+  :root[data-active-phase="P1"] .inspector-head .eyebrow { display: block; color: #a9c2de; }
+  :root[data-active-phase="P1"] .inspector-head h2 {
+    margin: 2px 0 0;
+    overflow: visible;
+    color: #fff;
+    font-size: 13px;
+    line-height: 1.35;
+    text-overflow: clip;
+    white-space: normal;
+  }
+  :root[data-active-phase="P1"] .inspector-head p {
+    display: block;
+    margin: 5px 0 0;
+    color: #c5d5e7;
+    font-size: 10px;
+    line-height: 1.45;
+  }
+  :root[data-active-phase="P1"] .selection-summary {
+    grid-column: 1;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  :root[data-active-phase="P1"] .inspector-body {
+    grid-column: 1;
+    grid-row: 3;
+    display: block;
+    min-width: 0;
+    width: auto;
+    padding: 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #fff;
+  }
+  :root[data-active-phase="P1"] .inspector-body > * {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none;
+  }
+  :root[data-active-phase="P1"] .inspector-body > .field-group {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 0 12px;
+    padding: 0 0 12px;
+    border: 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  :root[data-active-phase="P1"] .inspector-body .field-label { margin-bottom: 6px; font-size: 10.5px; }
+  :root[data-active-phase="P1"] .inspector-body .field,
+  :root[data-active-phase="P1"] .inspector-body select.field { min-height: 36px; padding: 6px 8px; font-size: 11px; }
+  :root[data-active-phase="P1"] .inspector-body .segmented button { min-height: 38px; font-size: 10.5px; }
+  :root[data-active-phase="P1"] .inspector-body :is(.helper, .trace-box, .technical-details) {
+    display: block;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  :root[data-active-phase="P1"] .inspector-action {
+    grid-column: 1;
+    grid-row: 4;
+    display: block;
+    min-width: 0;
+    padding: 10px 12px 12px;
+    border: 0;
+    border-top: 1px solid var(--p1-shell-line);
+    background: #fff;
+  }
+  :root[data-active-phase="P1"] .inspector-action .primary-button,
+  :root[data-active-phase="P1"] .inspector-action .outline-button {
+    width: 100%;
+    min-height: 40px;
+    padding: 7px 10px;
+    font-size: 10.5px;
+  }
+  :root[data-active-phase="P1"] .action-note { display: block; margin-top: 7px; font-size: 9px; line-height: 1.45; }
+}
+
+/* Touch layouts retain the existing stacked model, but keep tools usable. */
+@media (max-width: 900px) {
+  :root.guided-v2-embedded[data-active-phase="P1"] .app {
+    grid-template-rows: 50px minmax(0, 1fr) auto 0;
+  }
+  :root[data-active-phase="P1"] .topbar { min-height: 50px; padding-inline: 8px; }
+  :root.guided-v2-embedded[data-active-phase="P1"] .mode-switch { padding: 2px; }
+  :root.guided-v2-embedded[data-active-phase="P1"] .topbar #p1-draft-save { min-height: 44px; }
+  :root.guided-v2-embedded[data-active-phase="P1"] .topbar #p1-draft-save > small { display: none; }
+  :root[data-active-phase="P1"] .brand-mark { width: 30px; height: 30px; }
+  :root[data-active-phase="P1"] .toolrail {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+  :root[data-active-phase="P1"] .toolrail :is(.tool, .ribbon-tool) {
+    flex: 0 0 48px;
+    width: 48px;
+    min-height: 44px;
+  }
+  :root[data-active-phase="P1"] .statusbar { min-height: 44px; }
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .workspace {
+    grid-template-rows: 44px minmax(0, 1fr);
+  }
+  :root[data-active-phase="P1"] .app.full-workshop .workspace {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 44px 50px minmax(420px, 1fr) minmax(260px, 42vh);
+  }
+  :root[data-active-phase="P1"] .app.full-workshop.workshop-3d-hidden .workspace {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 44px 50px minmax(420px, 1fr);
+  }
+  :root[data-active-phase="P1"] .app.full-workshop .commandbar { grid-column: 1; grid-row: 1; }
+  :root[data-active-phase="P1"] .app.full-workshop .toolrail {
+    grid-column: 1;
+    grid-row: 2;
+    width: auto;
+    height: 50px;
+    max-height: 50px;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 3px 5px;
+    border-right: 0;
+    border-bottom: 1px solid var(--p1-shell-line);
+  }
+  :root[data-active-phase="P1"] .app.full-workshop .toolrail .tool { flex: 0 0 48px; width: 48px; min-height: 44px; }
+  :root[data-active-phase="P1"] .app.full-workshop .toolrail .ribbon-quick {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 auto;
+    width: auto;
+    padding: 0 0 0 5px;
+    border: 0;
+    border-left: 1px solid var(--line);
+  }
+  :root[data-active-phase="P1"] .app.full-workshop .viewport-wrap { grid-column: 1; grid-row: 3; }
+  :root[data-active-phase="P1"] .app.full-workshop .p1-workshop-3d { grid-column: 1; grid-row: 4; }
+  :root[data-active-phase="P1"] .commandbar {
+    min-height: 44px;
+    height: 44px;
+  }
+  :root[data-active-phase="P1"] .commandbar :is(
+    .grid-edit-shortcut,
+    .inspector-toggle,
+    .p1-workshop-visibility,
+    .tool-guide-toggle,
+    .level-tabs button
+  ) { min-height: 44px; }
+  :root[data-active-phase="P1"] .app.grid-editing .commandbar .crumb,
+  :root[data-active-phase="P1"] .app.grid-editing .commandbar .p1-draft-status { display: none; }
+  :root[data-active-phase="P1"] .app.grid-editing .grid-draft-exit {
+    position: sticky;
+    left: 0;
+    z-index: 8;
+    order: -1;
+    height: 44px;
+    min-height: 44px;
+    padding-block: 0;
+    border-block: 0;
+    flex: 0 0 auto;
+  }
+  :root[data-active-phase="P1"] .grid-draft-exit button { min-height: 44px; }
+  :root[data-active-phase="P1"] .grid-draft-status {
+    max-width: 112px;
+    line-height: 1.2;
+    white-space: normal;
+  }
+  :root[data-active-phase="P1"] .p1-workshop-camera button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  :root[data-active-phase="P1"] .p1-workshop-filters button { min-height: 44px; }
+  :root.guided-v2-embedded[data-active-phase="P1"] .mode-switch button {
+    min-height: 44px;
+    padding-inline: 9px;
+  }
+
+  /* The same dynamic inspector becomes an overlay instead of a 64px ribbon. */
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .inspector {
+    z-index: 32;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    width: min(340px, calc(100% - 16px));
+    height: auto;
+    max-height: none;
+    overflow: hidden;
+    border: 1px solid var(--p1-shell-line);
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgb(6 38 80 / 20%);
+  }
+  :root[data-active-phase="P1"] .app.inspector-collapsed .inspector { display: none; }
+  :root[data-active-phase="P1"] .inspector-head {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 11px 42px 10px 12px;
+    border: 0;
+    border-bottom: 1px solid #173f70;
+    background: var(--p1-shell-navy);
+    color: #fff;
+  }
+  :root[data-active-phase="P1"] .inspector-head .eyebrow { display: block; color: #a9c2de; }
+  :root[data-active-phase="P1"] .inspector-head h2 {
+    margin: 2px 0 0;
+    overflow: visible;
+    color: #fff;
+    font-size: 13px;
+    line-height: 1.35;
+    text-overflow: clip;
+    white-space: normal;
+  }
+  :root[data-active-phase="P1"] .inspector-head p {
+    display: block;
+    margin: 4px 0 0;
+    color: #c5d5e7;
+    font-size: 10px;
+    line-height: 1.4;
+  }
+  :root[data-active-phase="P1"] .selection-summary {
+    grid-column: 1;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  :root[data-active-phase="P1"] .inspector-body {
+    grid-column: 1;
+    grid-row: 3;
+    display: block;
+    min-width: 0;
+    width: auto;
+    padding: 11px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #fff;
+  }
+  :root[data-active-phase="P1"] .inspector-body > * {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none;
+  }
+  :root[data-active-phase="P1"] .inspector-body > .field-group {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 0 11px;
+    padding: 0 0 11px;
+    border: 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  :root[data-active-phase="P1"] .inspector-body .field-label { margin-bottom: 5px; font-size: 10.5px; }
+  :root[data-active-phase="P1"] .inspector-body .field,
+  :root[data-active-phase="P1"] .inspector-body select.field { min-height: 44px; padding: 7px 8px; font-size: 11px; }
+  :root[data-active-phase="P1"] .inspector-body .segmented button { min-height: 44px; font-size: 10.5px; }
+  :root[data-active-phase="P1"] .inspector-body :is(.helper, .trace-box, .technical-details) { display: block; font-size: 10px; line-height: 1.5; }
+  :root[data-active-phase="P1"] .inspector-close {
+    top: 4px;
+    right: 4px;
+    width: 44px;
+    height: 44px;
+  }
+  :root[data-active-phase="P1"] .inspector-action {
+    grid-column: 1;
+    grid-row: 4;
+    display: block;
+    padding: 9px 11px 11px;
+    border: 0;
+    border-top: 1px solid var(--p1-shell-line);
+    background: #fff;
+  }
+  :root[data-active-phase="P1"] .inspector-action .primary-button,
+  :root[data-active-phase="P1"] .inspector-action .outline-button { width: 100%; min-height: 44px; font-size: 10.5px; }
+  :root[data-active-phase="P1"] .action-note { display: block; margin-top: 6px; font-size: 9px; line-height: 1.4; }
+}
+
+@media (pointer: coarse) {
+  :root[data-active-phase="P1"] .grid-draft-exit button { min-height: 44px; }
+  :root[data-active-phase="P1"] .app.grid-editing .grid-draft-exit {
+    min-height: 44px;
+    padding-block: 0;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 900px) {
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .workspace {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 44px minmax(0, 1fr);
+  }
+  :root[data-active-phase="P1"] .app:not(.full-workshop) .viewport-wrap { grid-column: 1; grid-row: 2; }
+  :root[data-active-phase="P1"] .app:not(.full-workshop):not([data-active-tool="grid"]) .inspector {
+    position: absolute;
+    grid-column: auto;
+    grid-row: auto;
+    top: 52px;
+    right: 8px;
+    bottom: 8px;
+    left: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  :root[data-active-phase="P1"] .app:not(.full-workshop):not([data-active-tool="grid"]) .inspector {
+    position: fixed;
+    inset: auto 6px 50px;
+    width: auto;
+    height: min(70vh, 620px);
+  }
+}
+
+/*
+ * Below 1180px the P1 inventory is wider than a single footer row.  Give the
+ * inventory its own horizontally scrollable lane so the final roof / ENGINE 0
+ * counts remain reachable, while keeping the single workflow action in a
+ * separate control lane.  The app row must be auto-sized with the two-row
+ * footer; otherwise the second lane would paint over the workspace.
+ */
+@media (min-width: 901px) and (max-width: 1180px) {
+  :root.guided-v2-embedded[data-active-phase="P1"] .app {
+    grid-template-rows: 58px minmax(0, 1fr) auto 0;
+  }
+  :root[data-active-phase="P1"] .app.full-workshop {
+    grid-template-rows: 58px minmax(0, 1fr) auto var(--phase-dock-height);
+  }
+  :root[data-active-phase="P1"] .statusbar {
+    min-height: 78px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 260px) auto;
+    grid-template-rows: minmax(26px, auto) minmax(44px, auto);
+    align-items: center;
+    gap: 2px 8px;
+    padding: 3px 10px 5px;
+    overflow: visible;
+  }
+  :root[data-active-phase="P1"] .object-counts {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: 100%;
+    padding-block: 3px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+  :root[data-active-phase="P1"] .save-state { grid-column: 1; grid-row: 2; }
+  :root[data-active-phase="P1"] .status-spacer { grid-column: 2; grid-row: 2; }
+  :root[data-active-phase="P1"] .statusbar > .quiet-button { grid-column: 3; grid-row: 2; }
+  :root[data-active-phase="P1"] .workflow-action {
+    grid-column: 4;
+    grid-row: 2;
+    width: 100%;
+    max-width: 260px;
+    min-height: 44px;
+  }
+  :root[data-active-phase="P1"] .preflight {
+    grid-column: 5;
+    grid-row: 2;
+    min-height: 44px;
+  }
+}
+
+/* Touch widths use a full-width CTA row and keep every footer control tappable. */
+@media (max-width: 900px) {
+  :root[data-active-phase="P1"] .app:not(.full-workshop) {
+    grid-template-rows: 50px 34px minmax(0, 1fr) auto;
+  }
+  :root[data-active-phase="P1"] .app.full-workshop {
+    grid-template-rows: 50px auto auto var(--phase-dock-height);
+  }
+  :root.guided-v2-embedded[data-active-phase="P1"] .app:not(.full-workshop) {
+    grid-template-rows: 50px minmax(0, 1fr) auto 0;
+  }
+  :root.guided-v2-embedded[data-active-phase="P1"] .app.full-workshop {
+    grid-template-rows: 50px auto auto 0;
+  }
+  :root[data-active-phase="P1"] .app.full-workshop .statusbar:has(.workflow-action:not([hidden])) {
+    position: static;
+    bottom: auto;
+  }
+  :root[data-active-phase="P1"] .statusbar {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(44px, auto);
+    align-items: stretch;
+    gap: 6px;
+    padding: 6px 8px;
+    overflow: visible;
+  }
+  :root[data-active-phase="P1"] .save-state {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    align-self: center;
+    max-width: 100%;
+  }
+  :root[data-active-phase="P1"] .object-counts {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: flex;
+    width: 100%;
+    padding: 5px 0;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+  :root[data-active-phase="P1"] .status-spacer { display: none; }
+  :root[data-active-phase="P1"] .statusbar > .quiet-button {
+    grid-column: 1;
+    grid-row: 3;
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+  }
+  :root[data-active-phase="P1"] .preflight {
+    grid-column: 2;
+    grid-row: 3;
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    justify-content: center;
+    overflow: hidden;
+  }
+  :root[data-active-phase="P1"] .preflight > span:last-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  :root.guided-v2-embedded[data-active-phase="P1"] .preflight { grid-column: 1 / -1; }
+  :root[data-active-phase="P1"] .workflow-action {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    width: 100%;
+    max-width: none;
+    min-height: 44px;
+  }
+}
+
+/*
+ * Guided P1-P3 runtime safety.
+ *
+ * The embedded flow hides the legacy guide strip, so its command bar can use
+ * the complete workspace row. Keep HOLD state at the leading edge and let
+ * secondary level/view controls remain reachable through local scrolling.
+ * P2/P3 evidence is allowed to grow; the workbench owns vertical scrolling so
+ * a persistent Run outcome or recovery action is never clipped by the 132px
+ * desktop presentation height from the base mockup.
+ */
+:root.guided-v2-embedded .commandbar {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  justify-self: stretch;
+  overscroll-behavior-inline: contain;
+  scroll-padding-inline: 8px;
+  scrollbar-width: thin;
+}
+:root.guided-v2-embedded .commandbar > * { flex-shrink: 0; }
+:root.guided-v2-embedded .commandbar .command-spacer {
+  flex: 1 1 12px;
+  min-width: 0;
+}
+:root.guided-v2-embedded #p1-draft-save {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: min(176px, 20vw);
+}
+:root.guided-v2-embedded #p1-draft-save > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:root.guided-v2-embedded #p1-draft-save > small { flex: 0 0 auto; }
+:root.guided-v2-embedded #p1-draft-status {
+  flex: 0 1 min(240px, 34vw);
+  min-width: 104px;
+  max-width: 240px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  overflow: hidden;
+}
+:root.guided-v2-embedded #p1-draft-status > span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:root.guided-v2-embedded #p1-draft-status > span:last-child {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+:root.guided-v2-embedded .p2-load-workbench {
+  max-height: min(48vh, 420px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  pointer-events: auto;
+}
+:root.guided-v2-embedded .p2-load-dock {
+  height: auto;
+  min-height: 132px;
+  overflow: visible;
+}
+:root.guided-v2-embedded .p2-dock-status strong,
+:root.guided-v2-embedded .p2-contract-line {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+:root.guided-v2-embedded .p2-contract-line { line-height: 1.35; }
+:root.guided-v2-embedded .p3-check-grid > .p3-check.hold[style*="grid-column"] :is(b, span) {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+:root.guided-v2-embedded :is(.commandbar, .p2-load-workbench) :is(button, input, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -2px;
+}
+
+@media (max-width: 900px) {
+  :root.guided-v2-embedded .commandbar .crumb {
+    flex: 0 1 78px;
+    min-width: 0;
+  }
+  :root.guided-v2-embedded .commandbar .crumb strong {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  :root.guided-v2-embedded .p2-load-workbench {
+    inset: auto 6px 6px;
+    max-height: min(56dvh, 520px);
+  }
+  :root.guided-v2-embedded :is(.p2-load-dock, .p3-load-check-dock) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  :root.guided-v2-embedded .p2-dock-block {
+    border-right: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  :root.guided-v2-embedded .p2-dock-actions {
+    grid-column: 1 / -1;
+    order: -1;
+    border-right: 0;
+  }
+  :root.guided-v2-embedded .p2-load-dock :is(button, input, select) { min-height: 44px; }
+}
+
+@media (max-width: 560px) {
+  :root.guided-v2-embedded .commandbar {
+    min-height: 56px;
+    height: 56px;
+  }
+  :root.guided-v2-embedded .commandbar .crumb { display: none; }
+  :root.guided-v2-embedded[data-active-phase="P1"] .topbar #p1-draft-save {
+    flex: 0 0 96px;
+    min-width: 96px;
+    max-width: 96px;
+  }
+  :root.guided-v2-embedded #p1-draft-save > small { display: none; }
+  :root.guided-v2-embedded #p1-draft-status {
+    flex: 0 0 150px;
+    min-width: 150px;
+    max-width: 150px;
+  }
+  :root.guided-v2-embedded .p2-load-workbench { max-height: min(62dvh, 560px); }
+  :root.guided-v2-embedded :is(.p2-load-dock, .p3-load-check-dock) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :root.guided-v2-embedded .p2-dock-block,
+  :root.guided-v2-embedded .p2-dock-actions {
+    grid-column: 1;
+    border-right: 0;
+  }
+  :root.guided-v2-embedded .p3-check-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (forced-colors: active) {
+  :root[data-active-phase="P1"] .topbar,
+  :root[data-active-phase="P1"] .inspector-head { background: Canvas; color: CanvasText; }
+  :root[data-active-phase="P1"] .toolrail .tool.active { border: 2px solid Highlight; background: Canvas; color: CanvasText; }
+}
