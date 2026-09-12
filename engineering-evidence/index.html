@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="description" content="อธิบาย Calculation Snapshot, Demand/Capacity, trace, A4 และสถานะ NOT EVALUATED ของนายช่างใหญ่ เพื่อให้ผลคำนวณย้อนตรวจได้โดยไม่กล่าวอ้างเกินขอบเขต" />
+    <link rel="canonical" href="https://naichangyai.com/engineering-evidence/" />
+    <link rel="alternate" hreflang="th-TH" href="https://naichangyai.com/engineering-evidence/" />
+    <link rel="alternate" hreflang="x-default" href="https://naichangyai.com/engineering-evidence/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-2d.png" />
+    <link rel="stylesheet" href="/tools/seo-pages.css?v=20260726" />
+    <meta name="theme-color" content="#073476" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="นายช่างใหญ่ Civil Apps" />
+    <meta property="og:title" content="Calculation Snapshot และหลักฐานผลคำนวณที่ย้อนตรวจได้" />
+    <meta property="og:description" content="หลักการเชื่อม Input, Demand, Capacity, Section/Rebar, verdict และ A4 ให้อ่านจากผลชุดเดียว พร้อมขอบเขต NOT EVALUATED" />
+    <meta property="og:url" content="https://naichangyai.com/engineering-evidence/" />
+    <meta property="og:image" content="https://naichangyai.com/og-image.png?v=20260722" />
+    <meta property="og:locale" content="th_TH" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Calculation Snapshot และหลักฐานผลคำนวณที่ย้อนตรวจได้ | นายช่างใหญ่</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Article",
+            "@id": "https://naichangyai.com/engineering-evidence/#article",
+            "headline": "Calculation Snapshot และหลักฐานผลคำนวณที่ย้อนตรวจได้",
+            "description": "หลักการเชื่อม input, analysis, demand/capacity, geometry, verdict และรายงานให้มาจากผลชุดเดียว",
+            "image": ["https://naichangyai.com/og-image.png"],
+            "datePublished": "2026-07-26",
+            "dateModified": "2026-08-01",
+            "inLanguage": "th-TH",
+            "mainEntityOfPage": "https://naichangyai.com/engineering-evidence/",
+            "author": { "@id": "https://naichangyai.com/#organization" },
+            "publisher": { "@id": "https://naichangyai.com/#organization" }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "หน้าแรก", "item": "https://naichangyai.com/" },
+              { "@type": "ListItem", "position": 2, "name": "หลักฐานผลคำนวณ", "item": "https://naichangyai.com/engineering-evidence/" }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">ข้ามไปเนื้อหาหลัก</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="นายช่างใหญ่ Civil Apps หน้าแรก">
+          <img src="/brand/ncy-mark.svg" width="52" height="40" alt="" />
+          <span><strong>นายช่างใหญ่ Civil Apps</strong><small>ENGINEERING WORKSPACE</small></span>
+        </a>
+        <nav class="top-nav" aria-label="เมนูหลัก">
+          <a href="/#apps">เปิดหน้าเครื่องมือ</a>
+          <a href="/tools/">คู่มือเครื่องมือ</a>
+          <a href="/engineering-evidence/" aria-current="page">หลักฐานผลคำนวณ</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="page-shell">
+      <nav class="breadcrumb" aria-label="เส้นทางหน้า">
+        <a href="/">หน้าแรก</a><span aria-hidden="true">/</span><span>หลักฐานผลคำนวณ</span>
+      </nav>
+
+      <article>
+        <section class="hero">
+          <div>
+            <p class="eyebrow">ENGINEERING EVIDENCE METHOD</p>
+            <h1>Calculation Snapshot ทำให้ผลคำนวณหนึ่งครั้งย้อนตรวจได้ทั้งหน้าจอและรายงาน</h1>
+            <p class="lead">เครื่องมือวิศวกรรมที่น่าเชื่อถือไม่ควรคำนวณค่าเดียวกันซ้ำหลายจุดแล้วหวังว่าผลจะตรงกัน นายช่างใหญ่จึงใช้ Snapshot เป็นขอบเขตระหว่าง Input/Run กับผล Demand, Capacity, geometry, verdict, trace และ A4 ใน Concrete Workbench ที่รองรับ</p>
+            <div class="hero-actions">
+              <a class="button" href="/tools/">ดูเครื่องมือที่ใช้หลักการนี้</a>
+              <a class="button secondary" href="#states">อ่านสถานะหลักฐาน</a>
+            </div>
+          </div>
+          <figure class="hero-visual">
+            <img src="/og-image.png" width="1200" height="630" alt="ภาพรวม workflow วิศวกรรมของนายช่างใหญ่ Civil Apps จากข้อมูลต้นทางสู่ผลและเอกสาร" />
+          </figure>
+        </section>
+
+        <dl class="proof-strip" aria-label="หลักการสำคัญ">
+          <div><dt>Source</dt><dd>Input ที่ตรวจสอบได้</dd></div>
+          <div><dt>Boundary</dt><dd>Run Analysis หนึ่งครั้ง</dd></div>
+          <div><dt>Projection</dt><dd>Screen · 3D · Trace · A4</dd></div>
+        </dl>
+
+        <section class="section">
+          <h2>Snapshot คืออะไรในบริบทของเครื่องมือ</h2>
+          <p class="section-intro">Snapshot คือชุดข้อมูลผลลัพธ์ที่ถูกตรึงหลังการวิเคราะห์ ไม่ใช่ภาพหน้าจอ แต่เป็น contract ที่เก็บ input normalized, วิธีคำนวณ, operands, demand, capacity, verdict, geometry ที่ตรวจ และ fingerprint ตามสิ่งที่โมดูลนั้นรองรับ</p>
+          <div class="workflow">
+            <article><h3>Normalize</h3><p>แปลง input และหน่วยเข้าสู่รูปแบบที่ engine ใช้ พร้อมตรวจค่าที่ขาดหรืออยู่นอกขอบเขต</p></article>
+            <article><h3>Analyze</h3><p>คำนวณตาม topology และ method ของโมดูล โดยไม่ให้ UI แอบสร้างกำลังหรือ verdict เอง</p></article>
+            <article><h3>Freeze</h3><p>เก็บผลที่จำเป็นและ fingerprint เพื่อแยกผลล่าสุดออกจาก input ที่ถูกแก้ภายหลัง</p></article>
+            <article><h3>Project</h3><p>หน้าจอ Diagram, 3D, Section/Rebar, trace และ A4 อ่านค่าจาก snapshot ชุดเดียวกัน</p></article>
+          </div>
+        </section>
+
+        <section class="section" id="states">
+          <h2>สถานะหลักฐานต้องสื่อด้วยข้อความ ไม่ใช่สีอย่างเดียว</h2>
+          <table class="comparison">
+            <thead><tr><th>สถานะ</th><th>ความหมาย</th><th>พฤติกรรมที่ปลอดภัย</th></tr></thead>
+            <tbody>
+              <tr><td>No snapshot</td><td>ยังไม่มีผลจาก Run Analysis</td><td>ไม่แสดงผลเก่าหรือเปิด export ให้เข้าใจว่าเป็นผลปัจจุบัน</td></tr>
+              <tr><td>Running</td><td>engine กำลังสร้างผลใหม่</td><td>ล็อกการใช้งานหลักฐานที่อาจเปลี่ยนระหว่างคำนวณ</td></tr>
+              <tr><td>Stale</td><td>input เปลี่ยนหลัง snapshot ล่าสุด</td><td>แสดงว่าต้อง Run ใหม่และไม่ใช้ fingerprint เดิมแทนข้อมูลใหม่</td></tr>
+              <tr><td>Ready</td><td>ผลและ input ยังสัมพันธ์กัน</td><td>เปิด evidence ตามสิ่งที่โมดูลประเมินจริง</td></tr>
+              <tr><td>FAIL / REVIEW</td><td>มีผลไม่ผ่านหรือมีรายการต้องพิจารณา</td><td>เปิดหลักฐานเพื่อแก้ input ได้ แต่คงข้อความไม่พร้อมก่อสร้าง</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="section">
+          <h2>หลักฐานที่ดีต้องตอบได้มากกว่าคำว่า PASS</h2>
+          <div class="fact-grid">
+            <article>
+              <h3>Demand และ Capacity</h3>
+              <p>แสดงค่าทั้งสองฝั่ง หน่วย อัตราส่วนและ governing case เพื่อให้ตรวจการเปรียบเทียบได้ ไม่แสดงเฉพาะ badge</p>
+            </article>
+            <article>
+              <h3>Operands และ trace</h3>
+              <p>เก็บตัวประกอบหรือค่ากลางที่มีความหมาย เพื่อให้ผู้ตรวจย้อนจากผลไปยังสมมติฐานและวิธีที่ใช้</p>
+            </article>
+            <article>
+              <h3>Section/Rebar geometry</h3>
+              <p>รูปหน้าตัดและเหล็กต้องอ่านชุด geometry ที่ engine ตรวจจริง ไม่สร้างภาพประกอบอีกชุดที่อาจคลาดเคลื่อน</p>
+            </article>
+            <article data-kind="boundary">
+              <h3>NOT EVALUATED</h3>
+              <p>สิ่งที่ engine ยังไม่ได้ประเมินต้องอยู่ในรายงานอย่างชัดเจน ห้ามเปลี่ยนเป็น OK เพราะค่า governing อื่นผ่าน</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>A4 หนึ่งหน้าใช้เพื่อสรุปการตรวจ ไม่ใช่ลดหลักฐานจนหาย</h2>
+          <p class="section-intro">รายงาน A4 ของ Concrete Workbench จัดลำดับ Readiness, engineering evidence, exact status, Demand/Capacity, trace และข้อจำกัดบนหน้าเดียว โดยคง typography ที่อ่านได้และไม่ย่อด้วย transform เพื่อซ่อนข้อมูล</p>
+          <ul class="plain-list">
+            <li>หัวรายงานระบุโมดูล วิธีคำนวณ เวอร์ชันและ fingerprint</li>
+            <li>Diagram หรือ interaction evidence แสดงร่วมกับหน้าตัดและเหล็กที่ตรวจ</li>
+            <li>ค่าควบคุมและ verdict มีข้อความร่วมกับสี</li>
+            <li>ข้อจำกัดและ NOT EVALUATED ไม่ถูกลบเพื่อทำให้รายงานดูผ่าน</li>
+            <li>ช่องลงนามและ NOT FOR CONSTRUCTION แยกการสรุปผลออกจากการอนุมัติงาน</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>ใครจัดทำเนื้อหานี้ และตรวจจากอะไร</h2>
+          <p class="section-intro">หน้านี้จัดทำโดยทีมผลิตภัณฑ์นายช่างใหญ่ Civil Apps จาก architecture contract, regression tests และขอบเขตของ Workbench ที่เผยแพร่ อัปเดตเมื่อ 26 กรกฎาคม 2569 เนื้อหาอธิบายวิธีจัดหลักฐานของซอฟต์แวร์ ไม่ใช่คำรับรองผลของโครงการใดโครงการหนึ่ง</p>
+          <div class="callout">
+            <strong>เหตุผลที่เผยแพร่ขอบเขตนี้</strong>
+            ผู้ใช้ควรรู้ทั้งสิ่งที่ระบบทำและสิ่งที่ระบบยังไม่ทำก่อนตัดสินใจใช้ผล งานที่กระทบความปลอดภัยต้องได้รับการตรวจจากผู้มีหน้าที่รับผิดชอบตามข้อมูลและข้อกำหนดของโครงการ
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>ดูตัวอย่าง workflow ของเครื่องมือ</h2>
+          <nav class="guide-nav" aria-label="คู่มือเครื่องมือ">
+            <a href="/tools/">เลือกโปรแกรมโครงสร้าง</a>
+            <a href="/tools/rc-beam/">คานคอนกรีต</a>
+            <a href="/tools/rc-column/">เสาคอนกรีต</a>
+            <a href="/tools/foundation/">ฐานราก</a>
+          </nav>
+        </section>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p>เนื้อหานี้อธิบายแนวทางจัดหลักฐานของซอฟต์แวร์ ไม่ใช่มาตรฐานการออกแบบหรือคำรับรองความปลอดภัยของโครงการ</p>
+        <nav aria-label="ลิงก์ท้ายหน้า"><a href="/">หน้าแรก</a><a href="/#apps">เครื่องมือทั้งหมด</a><a href="https://www.facebook.com/NaichangyaiCivilAppsTH">ข่าวสาร</a></nav>
+      </div>
+    </footer>
+  </body>
+</html>

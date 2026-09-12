@@ -1,0 +1,40 @@
+/* Report-only styling; existing app flow and engineering state colours retained. */
+.sc01-report-trace { padding:8px 10px; margin:8px 0; border-left:3px solid #2576ac; background:#f1f7fc; color:#173d60; overflow-wrap:anywhere; }
+.sc01-report-trace b,.sc01-report-trace span,.sc01-report-trace small { display:block; }
+.sc01-report-trace span { margin-top:4px; font-variant-numeric:tabular-nums; }
+.sc01-report-trace small { margin-top:4px; color:#46617c; }
+.sc01-report-state { color:#843400; font-weight:600; }
+.compact-a4 .sc01-report-trace { padding:1.6mm 2mm; margin:1.5mm 0; font-size:9pt; line-height:1.45; }
+.compact-a4 .sc01-report-trace small { font-size:8.5pt; }
+.compact-a4 .c4-header { flex-basis:24mm; min-height:24mm; height:24mm; }
+.compact-a4 .c4-doc { flex:0 0 76mm; min-width:76mm; max-width:76mm; }
+.compact-a4 .c4-doc em { max-width:none; width:auto; }
+.compact-a4 .sc01-output-retained { max-width:none!important; font-size:inherit!important; line-height:inherit!important; }
+/* Reserve space for the post-pagination authority/footer projection, without
+   shrinking text or clipping any calculation content. */
+.c4-measure-host .c4-flow { padding-bottom:4mm; }
+.compact-a4 .sc01-report-evidence,.compact-a4 .sc01-report-missing { table-layout:fixed; width:100%; }
+.compact-a4 .sc01-report-evidence th:nth-child(1),.compact-a4 .sc01-report-missing th:nth-child(1) { width:31%; }
+.compact-a4 .sc01-report-evidence th:nth-child(2),.compact-a4 .sc01-report-missing th:nth-child(2) { width:20%; }
+.compact-a4 .sc01-report-evidence td,.compact-a4 .sc01-report-missing td { white-space:normal; overflow-wrap:anywhere; }
+.sc01-report-section,.sc01-selected-steel { break-inside:avoid; }
+.sc01-section-layout { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:4mm; }
+.sc01-section-layout svg { display:block; width:100%; height:48mm; color:#173d60; }
+.sc01-section-steel { fill:#d4e2ee; stroke:#173d60; stroke-width:1; }
+.sc01-section-layout dl { display:grid; grid-template-columns:24mm minmax(0,1fr); gap:1.5mm 2mm; margin:0; font:8.5pt/1.5 'Sarabun',sans-serif; }
+.sc01-section-layout dt { color:#46617c; }
+.sc01-section-layout dd { margin:0; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+.sc01-selected-steel { border:1px solid #b4c5d2; padding:3mm; font:9pt/1.5 'Sarabun',sans-serif; }
+.sc01-selected-steel-row + .sc01-selected-steel-row { border-top:1px solid #d5e0e8; margin-top:2mm; padding-top:2mm; }
+.sc01-selected-steel-row h4 { margin:0; font-size:9pt; }
+.sc01-selected-steel-row p { margin:1mm 0; font-size:10pt; font-weight:600; }
+.sc01-selected-steel-row small { display:block; font-size:8pt; color:#46617c; }
+.sc01-section-status { display:inline-block; padding:.3mm 2mm; border:1px solid currentColor; white-space:nowrap; }
+.sc01-section-status.ok { color:#17683f; background:#edf8f0; }
+.sc01-section-status.fail { color:#9c2a25; background:#fff1f0; }
+.sc01-section-status.unknown { color:#805100; background:#fff7e5; }
+.sc01-selected-steel > .c4-note { margin:2mm 0 0; }
+@media screen {
+  body.sc01-r12 #mainContent:has(.a4-preview) #sc01DocumentCenter { position:relative; top:auto; }
+}
+@media print { .sc01-report-trace,.sc01-section-status,.sc01-section-steel { print-color-adjust:exact; -webkit-print-color-adjust:exact; } }

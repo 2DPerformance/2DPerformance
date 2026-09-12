@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Slab on Ground crack-control workbench</title>
+  <desc id="desc">Isometric concrete slab with wire mesh, panel marks and control joint</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#e6edf6"/>
+    </linearGradient>
+    <linearGradient id="side" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c7d3e2"/>
+      <stop offset="1" stop-color="#93a7bd"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#0b1d33" flood-opacity=".18"/>
+    </filter>
+    <clipPath id="top-clip">
+      <polygon points="90,112 416,76 558,176 232,214"/>
+    </clipPath>
+  </defs>
+  <rect width="640" height="420" rx="38" fill="url(#bg)"/>
+  <g opacity=".32" stroke="#8ea2b8" stroke-width="1">
+    <path d="M28 64H612M28 112H612M28 160H612M28 208H612M28 256H612M28 304H612M28 352H612"/>
+    <path d="M64 28V392M112 28V392M160 28V392M208 28V392M256 28V392M304 28V392M352 28V392M400 28V392M448 28V392M496 28V392M544 28V392M592 28V392"/>
+  </g>
+  <g filter="url(#shadow)">
+    <polygon points="232,214 558,176 558,246 232,286" fill="url(#side)" stroke="#102d50" stroke-width="7"/>
+    <polygon points="90,112 232,214 232,286 90,184" fill="#aebed0" stroke="#102d50" stroke-width="7"/>
+    <polygon points="90,112 416,76 558,176 232,214" fill="#eef3f8" stroke="#102d50" stroke-width="8"/>
+    <g clip-path="url(#top-clip)" stroke="#6d28d9" stroke-width="3" opacity=".82">
+      <path d="M40 104L270 269M74 100L304 265M108 96L338 261M142 92L372 257M176 88L406 253M210 84L440 249M244 80L474 245M278 76L508 241M312 72L542 237M346 68L576 233M380 64L610 229"/>
+      <path d="M55 148L480 100M72 164L497 116M89 180L514 132M106 196L531 148M123 212L548 164M140 228L565 180M157 244L582 196"/>
+    </g>
+    <g clip-path="url(#top-clip)" fill="none" stroke="#f97316" stroke-width="5" stroke-dasharray="13 9">
+      <path d="M205 92L348 194"/>
+      <path d="M345 84L488 186"/>
+      <path d="M154 172L480 134"/>
+    </g>
+    <path d="M337 85L479 185" fill="none" stroke="#dc2626" stroke-width="8"/>
+  </g>
+  <g font-family="Sarabun,Arial,sans-serif">
+    <rect x="40" y="320" width="560" height="68" rx="18" fill="#0b1d33"/>
+    <text x="66" y="348" fill="#f97316" font-size="15" font-weight="700" letter-spacing="1.2">SL-04 · IMMUTABLE SNAPSHOT</text>
+    <text x="66" y="374" fill="#fff" font-size="22" font-weight="700">WIRE MESH · JOINT · A4 EVIDENCE</text>
+    <rect x="492" y="333" width="82" height="40" rx="20" fill="#fff"/>
+    <text x="533" y="359" text-anchor="middle" fill="#0b1d33" font-size="16" font-weight="800">3D</text>
+  </g>
+</svg>

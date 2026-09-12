@@ -1,0 +1,62 @@
+.sc01-tour {
+  --tour-ink: oklch(26% 0.055 257);
+  --tour-muted: oklch(43% 0.035 254);
+  --tour-surface: oklch(99.4% 0.004 250);
+  --tour-line: oklch(80% 0.035 252);
+  position: fixed;
+  z-index: 130;
+  right: 20px;
+  bottom: 20px;
+  width: 370px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 180px);
+  overflow: auto;
+  color: var(--tour-ink);
+  background: var(--tour-surface);
+  border: 1px solid var(--tour-line);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px oklch(26% 0.055 257 / 0.16);
+  font-family: Prompt, Sarabun, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  text-align: left;
+}
+.sc01-tour[data-dock="top"] { top: 136px; bottom: auto; }
+.sc01-tour[data-side="left"] { left: 20px; right: auto; }
+.sc01-tour * { box-sizing: border-box; }
+.sc01-tour .sc01-tour-head { display: flex; justify-content: space-between; align-items: start; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--tour-line); }
+.sc01-tour .sc01-tour-head span { font-size: 13px; color: var(--tour-muted); }
+.sc01-tour h2 { margin: 3px 0 0; font: 700 20px/1.4 Prompt, Sarabun, system-ui, sans-serif; color: var(--tour-ink); }
+.sc01-tour .sc01-tour-tools { display: flex; flex-shrink: 0; gap: 4px; }
+.sc01-tour .sc01-tour-body { padding: 0 16px 14px; }
+.sc01-tour p { margin: 14px 0; font-size: 16px; line-height: 1.6; }
+.sc01-tour .sc01-tour-status { padding: 10px 12px; background: oklch(96.2% 0.015 252); font-size: 14px; border-radius: 4px; }
+.sc01-tour button { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 8px 12px; font: 600 16px/1.4 Prompt, Sarabun, system-ui, sans-serif; color: var(--tour-ink); background: var(--tour-surface); border: 1px solid var(--tour-line); border-radius: 6px; cursor: pointer; white-space: normal; }
+.sc01-tour button:hover:not(:disabled) { background: oklch(95% 0.02 252); border-color: oklch(60% 0.09 258); }
+.sc01-tour button:focus-visible { outline: 3px solid oklch(54% 0.18 258); outline-offset: 2px; }
+.sc01-tour button:disabled { opacity: 0.5; cursor: not-allowed; }
+.sc01-tour .sc01-tour-locate { width: 100%; border-color: oklch(42% 0.12 258); }
+.sc01-tour .sc01-tour-navigation { display: flex; gap: 8px; margin-top: 12px; }
+.sc01-tour .sc01-tour-navigation button { flex: 1; }
+.sc01-tour .sc01-tour-next { background: oklch(25% 0.105 258); color: var(--tour-surface); border-color: oklch(25% 0.105 258); }
+.sc01-tour .sc01-tour-next:hover:not(:disabled) { background: oklch(34% 0.125 258); }
+.sc01-tour footer { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+.sc01-tour footer button { flex-shrink: 0; border: 0; padding-inline: 0; font-size: 14px; }
+.sc01-tour footer span { color: var(--tour-muted); font-size: 12px; }
+.sc01-tour.is-minimized { width: 280px; }
+.sc01-tour.is-minimized .sc01-tour-head { border-bottom: 0; align-items: center; padding: 8px 12px; }
+.sc01-tour.is-minimized h2 { font-size: 16px; margin: 0; }
+.sc01-tour.is-minimized #sc01TourCount { display: none; }
+.sc01-tour-target { outline: 3px solid oklch(54% 0.18 258) !important; outline-offset: 3px !important; }
+@media (max-width: 680px) {
+  /* The project title still identifies the sample; its duplicate action strip
+     yields space to the real fields only while the teaching popup is active. */
+  body.sc01-tour-active #sc01DemoBanner { display: none !important; }
+  .sc01-tour { right: 8px; bottom: 8px; width: calc(100vw - 16px); max-width: none; max-height: 46dvh; }
+  .sc01-tour[data-dock="top"] { top: 8px; }
+  .sc01-tour[data-side="left"] { left: 8px; }
+  .sc01-tour h2 { font-size: 18px; }
+  .sc01-tour.is-minimized { max-width: calc(100vw - 16px); }
+}
+@media (prefers-reduced-motion: reduce) { .sc01-tour, .sc01-tour * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+@media print { .sc01-tour { display: none !important; } .sc01-tour-target { outline: none !important; } }

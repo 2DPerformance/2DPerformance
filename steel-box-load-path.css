@@ -1,0 +1,32 @@
+/* Calculation bench: a bright desk, readable printed equations, restrained ink. */
+#sc01LoadPathSummary { color:oklch(26% .055 257); margin:12px 0; }
+#sc01LoadPathSummary h3 { font-size:15px; margin:0 0 8px; }
+#sc01LoadPathSummary ol { list-style:none; margin:0; padding:0; }
+#sc01LoadPathSummary li { border-bottom:1px solid oklch(86% .025 252); padding:8px 0; }
+#sc01LoadPathSummary b, #sc01LoadPathSummary span { display:block; font-size:13px; line-height:1.65; }
+#sc01LoadPathSummary small { display:block; margin:6px 0; font-size:12px; }
+#sc01LoadPathSummary button { min-height:44px; margin:4px 0; width:100%; }
+body[data-sc01-load-path="r24"] .compact-a4 { font-family:'Sarabun',sans-serif; font-size:8.5pt; color:oklch(24% .008 257); }
+body[data-sc01-load-path="r24"] .compact-a4 .c4-header { height:25mm; min-height:25mm; flex-basis:25mm; }
+body[data-sc01-load-path="r24"] .compact-a4 .c4-header h2 { font:700 11pt/1.35 'Sarabun',sans-serif; }
+body[data-sc01-load-path="r24"] .compact-a4 .c4-doc { min-width:60mm; max-width:60mm; flex-basis:60mm; }
+body[data-sc01-load-path="r24"] .compact-a4 :is(.c4-doc,.c4-doc em,.c4-brand span,.c4-footer,.c4-footer>span:nth-child(2)) { font-family:'Sarabun',sans-serif; font-size:7.5pt; }
+body[data-sc01-load-path="r24"] .compact-a4 :is(.c4-table,.c4-note,.c4-section,.c4-pairs td,.c4-checks td,.c4-cases td,.c4-table th) { font-family:'Sarabun',sans-serif; font-size:8.5pt; }
+body[data-sc01-load-path="r24"] .compact-a4 .c4-section { font-size:10pt; padding-top:1mm; color:inherit; }
+body[data-sc01-load-path="r24"] .compact-a4 .c4-table :is(td,th) { padding:1mm 1.2mm; }
+body[data-sc01-load-path="r24"] .compact-a4 .c4-table :is(small,.c4-state) { font-size:7.5pt; white-space:normal; }
+body[data-sc01-load-path="r24"] .compact-a4 .c4-note { line-height:1.5; }
+body[data-sc01-load-path="r24"] .compact-a4 .c4-figure { margin:0; padding:1.5mm; }
+body[data-sc01-load-path="r24"] .compact-a4 .c4-figure figcaption { font:700 8.5pt/1.4 'Sarabun',sans-serif; }
+body[data-sc01-load-path="r24"] .compact-a4 .c4-figure svg { max-height:66mm; width:100%; }
+.sc01-equation-columns { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:4mm; align-items:start; break-inside:avoid; }
+.sc01-worked-equation { min-width:0; padding:2mm 0; border-top:1px solid oklch(78% .008 257); font:8.5pt/1.5 'Sarabun',sans-serif; overflow-wrap:anywhere; }
+.sc01-worked-equation h4 { margin:0 0 .6mm; font-size:9pt; }
+.sc01-worked-equation small { font-size:7.5pt; }
+.sc01-worked-equation dl { display:grid; grid-template-columns:12mm minmax(0,1fr); gap:1mm; margin:1.5mm 0 0; }
+.sc01-worked-equation dt { color:oklch(41% .008 257); }
+.sc01-worked-equation dd { margin:0; }
+.sc01-material-advice { border:1px solid oklch(78% .015 50); padding:2mm; font:8.5pt/1.5 'Sarabun',sans-serif; }
+.sc01-material-advice p { margin:1mm 0 0; }
+body[data-sc01-load-path="r24"] .compact-a4 .sc01-service-curve { max-height:42mm; }
+@media print { body[data-sc01-load-path="r24"] .compact-a4 { color:oklch(22% .006 257); } }

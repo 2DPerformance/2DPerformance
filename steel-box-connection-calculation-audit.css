@@ -1,0 +1,21 @@
+/* R18: progressive detail; no status or engineering result is hidden. */
+dialog.sc01-audit-dialog { width:min(1280px,calc(100vw - 24px)); max-width:none; max-height:calc(100dvh - 24px); padding:0; border:1px solid #b6cce0; border-radius:12px; color:#163954; background:#f8fbff; font:15px/1.65 Sarabun,sans-serif; box-shadow:0 18px 60px #061b3b55; }
+.sc01-audit-dialog::backdrop { background:#0a203ba6; }
+.sc01-audit-dialog[open] { display:flex; flex-direction:column; }
+.sc01-audit-dialog header { display:flex; justify-content:space-between; gap:16px; padding:14px 20px; background:linear-gradient(110deg,#092956,#235775); color:#fff; align-items:center; }
+.sc01-audit-dialog h2 { margin:0; font:600 21px/1.5 Prompt,Sarabun,sans-serif; }
+.sc01-audit-dialog small { display:block; font-size:12px; }
+.sc01-audit-dialog button { min-height:42px; border:1px solid #9eb9d5; background:#fff; border-radius:6px; padding:8px 13px; color:#0d3b68; cursor:pointer; font:600 14px/1.5 Sarabun,sans-serif; }
+.sc01-audit-dialog button:hover { background:#eaf3fd; }
+.sc01-audit-dialog :is(button,select,summary,canvas):focus-visible { outline:3px solid #1375e7; outline-offset:2px; }
+.sc01-audit-body { padding:16px 20px; overflow:auto; }
+.sc01-audit-note { padding:12px; background:#fff5db; border:1px solid #e8c784; border-radius:6px; color:#714b12; }
+.sc01-audit-body details { margin:12px 0; border:1px solid #c6d8e8; border-radius:6px; }
+.sc01-audit-body summary { padding:12px; font-weight:700; cursor:pointer; }
+.sc01-audit-table { overflow:auto; }
+.sc01-audit-table table { border-collapse:collapse; width:100%; min-width:650px; font-size:14px; }
+.sc01-audit-table :is(th,td) { text-align:left; vertical-align:top; padding:10px 12px; border-top:1px solid #dbe5ee; }
+.sc01-audit-table td:first-of-type { min-width:125px; }
+.sc01-audit-table button { display:block; margin-top:8px; }
+.sc01-audit-table small { font-weight:400; color:#537088; }
+@media (max-width:600px) { .sc01-audit-dialog header,.sc01-audit-body { padding:12px; } .sc01-audit-dialog h2 { font-size:18px; } }

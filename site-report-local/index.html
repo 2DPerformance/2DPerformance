@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>นายช่างใหญ่ | รายงานหน้างาน Local Beta</title>
+<link rel="stylesheet" href="./assets/fonts.css">
+<link rel="stylesheet" href="./styles.css">
+<link rel="manifest" href="./manifest.webmanifest">
+<script defer src="./assets/lucide.js"></script>
+<script defer src="./documents.js"></script>
+<script defer src="./catalog.js"></script>
+<script defer src="./full-report.js"></script>
+<script defer src="./storage.js"></script>
+<script defer src="./archive.js"></script>
+<script defer src="./full-report-ui.js"></script>
+<script defer src="./backup-status.js"></script>
+<script defer src="./photo-input.js"></script>
+<script defer src="./app.js"></script>
+</head>
+<body>
+<div id="site-report-mobile" lang="th" aria-label="รายงานหน้างาน Local Beta บนมือถือ">
+  <div class="sr-app" aria-label="นายช่างใหญ่ รายงานหน้างาน">
+    <header class="sr-brand">
+      <span class="sr-logo"><i data-lucide="hard-hat" class="sr-icon" aria-hidden="true"></i></span>
+      <div class="sr-brand-name">นายช่างใหญ่<small>รายงานหน้างาน</small></div>
+      <span class="sr-demo">LOCAL BETA</span>
+    </header>
+    <nav class="sr-nav" aria-label="ขั้นตอนรายงาน">
+      <button type="button" data-go="setup" aria-current="step"><span class="sr-step-num">01</span><i data-lucide="folder-open" class="sr-icon" aria-hidden="true"></i> โครงการ</button>
+      <button type="button" data-go="entry" disabled><span class="sr-step-num">02</span><i data-lucide="camera" class="sr-icon" aria-hidden="true"></i> หน้างาน</button>
+      <button type="button" data-go="report" disabled><span class="sr-step-num">03</span><i data-lucide="file-check-2" class="sr-icon" aria-hidden="true"></i> รายงาน</button>
+    </nav>
+    <div class="sr-pilot-tools"><button type="button" class="sr-link-button" data-action="history"><i data-lucide="history" class="sr-icon" aria-hidden="true"></i>ร่าง / ประวัติรายงาน</button><button type="button" class="sr-link-button" data-action="save-now"><i data-lucide="save" class="sr-icon" aria-hidden="true"></i>บันทึกตอนนี้</button></div>
+    <div class="sr-save-status" role="status" aria-live="polite">กำลังเปิดข้อมูลในเครื่อง…</div>
+    <div class="sr-storage-actions"></div>
+    <div class="sr-backup-status" data-backup-status hidden>
+      <div class="sr-backup-copy" role="status" aria-live="polite"><strong data-backup-summary></strong><span data-backup-reason></span></div>
+      <button type="button" class="sr-link-button" data-action="backup-now"><i data-lucide="download" class="sr-icon" aria-hidden="true"></i>สำรองข้อมูล</button>
+      <div class="sr-backup-pending" data-backup-pending hidden></div>
+    </div>
+    <div class="sr-shell-update sr-alert" data-shell-update role="status" aria-live="polite" hidden></div>
+    <div class="sr-toast" role="status" aria-live="polite"></div>
+    <div class="sr-undo-bar"></div>
+    <div class="sr-screen">
+      <main class="sr-main">
+        <div class="sr-heading"><p class="sr-eyebrow">เริ่มต้นเพียง 2 ช่อง</p><h1>วันนี้อยู่ไซต์ไหน?</h1><p class="sr-sub">ชื่อโครงการและสถานที่ใช้เป็นหัวรายงานทุกครั้ง</p></div>
+        <p>กำลังเปิดข้อมูลในเบราว์เซอร์นี้</p>
+      </main>
+    </div>
+    <div class="sr-session-note">Local Beta · เก็บในเบราว์เซอร์และเครื่องนี้ ไม่ผูกบัญชี ไม่ซิงก์คลาวด์<br>ผู้ใช้โปรไฟล์เบราว์เซอร์เดียวกันเห็นข้อมูลได้ แม้เปลี่ยนบัญชีเว็บ<br>ล้างข้อมูลเว็บหรือเครื่องหาย ข้อมูลอาจหาย ควรสำรองไฟล์<br>ออฟไลน์ได้เฉพาะเครื่องมือนี้ ไม่ใช่ทั้งเว็บไซต์ การกลับเข้าจากหน้าเว็บหลักต้องมีเครือข่าย<br><a href="./index.html" target="_blank" rel="noopener">เปิดหน้าเครื่องมือแยกเพื่อเก็บบุ๊กมาร์กออฟไลน์</a></div>
+  </div>
+</div>
+</body>
+</html>

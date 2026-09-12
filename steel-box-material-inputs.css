@@ -1,0 +1,85 @@
+/* R19: restrained input-only presentation; no viewer/flow/layout overrides. */
+body .sc01-material-picker {
+  min-width: 0; margin: 12px 0 18px; padding: 14px 0;
+  border: 0; border-block: 1px solid #c5d5e7; border-radius: 0;
+  color: #133b65; background: transparent; font-size: 14px; line-height: 1.55;
+}
+body #inputGroups > .sc01-material-picker { padding: 14px; }
+body .sc01-material-picker h4, body .sc01-material-picker > summary {
+  margin: 0; font-size: 16px; font-weight: 700; color: #082c57;
+}
+body .sc01-material-picker summary { cursor: pointer; min-height: 44px; align-content: center; font-size: 13px; }
+body .sc01-material-picker p { margin: 6px 0 12px; font-size: 13px; line-height: 1.65; overflow-wrap: anywhere; }
+body .sc01-material-field { margin: 16px 0; min-width: 0; }
+body .sc01-material-field label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 700; }
+body .sc01-material-field select {
+  display: block; width: 100%; max-width: 100%; min-width: 0; height: auto;
+  min-height: 44px; padding: 10px 30px 10px 10px; font: inherit; font-size: 14px;
+  border: 1px solid #b3c9e2; background-color: #fff; color: #12395d; border-radius: 6px;
+}
+body .sc01-material-field [data-material-current] { color: #51677e; font-size: 12px; margin-top: 5px; }
+body .sc01-material-preview { border: 1px solid oklch(82% .04 250); padding: 12px; background: oklch(97% .015 250); }
+body .sc01-material-preview dl { margin: 10px 0; font-size: 13px; }
+body .sc01-material-preview dt { font-weight: 600; margin-top: 10px; }
+body .sc01-material-preview dd { margin: 2px 0 8px; overflow-wrap: anywhere; }
+body .sc01-material-preview dd b { display: block; }
+body .sc01-material-picker button {
+  min-height: 44px; max-width: 100%; padding: 10px 12px; font-size: 14px; line-height: 1.5;
+  white-space: normal; border: 1px solid #afc7e1; border-radius: 6px; color: #103961; background: #fff;
+}
+body .sc01-material-picker .sc01-material-apply {
+  width: 100%; color: #fff; background: #103963; border-color: #103963;
+  box-shadow: 0 3px 0 #061d37; font-weight: 700;
+}
+body .sc01-material-picker .sc01-material-apply:hover:not(:disabled) { background: #1c527e; }
+body .sc01-material-picker .sc01-material-apply:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #061d37; }
+body .sc01-material-picker button:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
+body .sc01-material-picker :is(button,select,a,summary):focus-visible { outline: 3px solid #0073d0; outline-offset: 3px; }
+body .sc01-material-picker a { color: #135b91; text-decoration: underline; text-underline-offset: 3px; }
+body .sc01-material-picker .sc01-material-note { padding: 9px; background: #fff5e2; color: #694511; }
+body .sc01-material-picker .sc01-material-error { border: 1px solid oklch(70% .12 28); padding: 8px; color: oklch(39% .15 28); background: oklch(97% .015 28); }
+body .sc01-material-picker [data-material-status]:not(:empty) { margin-top: 14px; padding: 12px 0; border-top: 1px solid #c5d5e7; }
+body .sc01-material-catalog-note { margin-top: 12px; }
+body .sc01-material-unknown-note { margin: 10px 14px; padding: 10px; font-size: 13px; line-height: 1.65; color: #694511; background: #fff5e2; }
+body #sc01-material-capacity-notice { border: 1px solid oklch(72% .11 70); }
+body #sc01-material-capacity-notice strong { display: block; font-size: 14px; }
+body #sc01-material-capacity-notice p { margin: 8px 0 0; font-size: 13px; }
+body #sc01MaterialPendingNotice:not([hidden]) {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
+  flex-basis: 100%; min-width: 0; padding: 10px 12px;
+  border: 1px solid oklch(77% .055 250); border-radius: 6px;
+  color: oklch(29% .08 255); background: oklch(96% .022 250);
+  font-size: 14px; line-height: 1.6;
+}
+body #sc01MaterialPendingNotice span { flex: 1 1 240px; }
+body #sc01MaterialPendingNotice button {
+  min-height: 44px; padding: 8px 12px; border: 1px solid oklch(75% .035 250);
+  border-radius: 6px; background: oklch(99% .004 250); color: inherit; font: inherit;
+}
+body #sc01MaterialPendingNotice button:focus-visible { outline: 3px solid oklch(52% .16 250); outline-offset: 2px; }
+/* The retained skin has higher-specificity/important layout rules. Scope
+   these overrides to the uncommitted state, including its mobile header. */
+body.sc01-material-pending #ncy670StageBar { flex-wrap: wrap !important; }
+body.sc01-material-pending #ncy670StageBar .ncy670-stage-meta { display: none !important; }
+body.sc01-material-pending .statusline { visibility: hidden; }
+body.sc01-material-pending :is(#viewerArea, #mainContent, #overallCard, #checks, #forceMetrics, #advisorEntry) { visibility: hidden; pointer-events: none; }
+@media print {
+  body #sc01MaterialPendingNotice { display: none; }
+}
+@media (max-width: 920px) {
+  body.sc01-material-pending #ncy670StageBar { flex-wrap: nowrap !important; }
+  body #sc01MaterialPendingNotice:not([hidden]) { flex: 0 0 auto; width: 100%; box-sizing: border-box; }
+}
+@media (max-width: 600px) {
+  body .sc01-material-field select { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body .sc01-material-picker button { transition: none; }
+}
+/* Direct editors for the retained Truss member/root/Space input groups. */
+#sc01TrussInputs { width:min(560px,calc(100vw - 24px)); }
+#sc01TrussInputs form { display:flex; flex-direction:column; min-height:0; max-height:calc(100dvh - 26px); }
+#sc01TrussInputs header { flex:none; }
+#sc01TrussInputs label { display:block; margin:12px 0; }
+#sc01TrussInputs input { display:block; box-sizing:border-box; width:100%; padding:8px; }
+#sc01TrussInputs button[type="submit"] { background:#103e66; color:white; }

@@ -1,0 +1,11 @@
+.sc01-purlin-inputs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:12px 0; }
+.sc01-purlin-inputs label { display:grid; gap:6px; font-size:13px; }
+.sc01-purlin-inputs input { width:100%; min-width:0; min-height:44px; }
+.sc01-purlin-inputs p { grid-column:1/-1; margin:0; line-height:1.6; }
+.sc01-purlin-detail { font-size:15px; line-height:1.7; }
+.sc01-purlin-detail article { padding:12px 0; border-bottom:1px solid oklch(85% .025 250); }
+.sc01-purlin-detail p { overflow-wrap:anywhere; }
+.sc01-section-legend { margin:4px 10px; font-size:12px; line-height:1.6; color:oklch(32% .09 253); }
+.sc01-purlin-diagram { width:100%; height:auto; max-height:160px; color:oklch(32% .09 253); font:12px Sarabun,sans-serif; break-inside:avoid; }
+.c4-flow .sc01-purlin-diagram { max-height:36mm; }
+@media(max-width:480px) { .sc01-purlin-inputs { grid-template-columns:1fr; } }
