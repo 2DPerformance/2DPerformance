@@ -1,0 +1,14 @@
+{
+  "id": "./",
+  "name": "นายช่างใหญ่ · รายงานหน้างาน Local Beta",
+  "short_name": "รายงานหน้างาน",
+  "description": "Local Beta เก็บร่าง รูป และประวัติในเบราว์เซอร์และเครื่องนี้ ไม่ซิงก์คลาวด์หรือส่ง LINE อัตโนมัติ",
+  "lang": "th",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f8",
+  "theme_color": "#142c46",
+  "icons": [{"src":"assets/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"}]
+}
