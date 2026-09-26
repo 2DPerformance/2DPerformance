@@ -1,0 +1,56 @@
+/* R27 immediate roof preview; calculation and draft retain separate canvases. */
+body #sc01DraftSections {
+  display: flex; flex-direction: column; gap: 8px;
+  margin: 12px; padding: 12px; min-width: 0; min-height: 0; overflow: auto; flex: 1 1 auto;
+  border: 1px solid oklch(82% .03 250); border-radius: 6px;
+  background: oklch(98% .008 250); color: oklch(29% .05 250);
+}
+body #sc01DraftSections[hidden], body #sc01CurrentFeedback[hidden] { display: none !important; }
+body.sc01-material-pending #viewerArea, body.sc01-material-pending #mainContent { display: none !important; }
+body.sc01-geometry-pending #viewerArea, body.sc01-geometry-pending #mainContent { display: none !important; }
+body.sc01-geometry-pending .workspace::after, body.sc01-geometry-pending #pageTabs { display: none !important; }
+body.sc01-material-pending #pageTabs,
+body.sc01-material-pending.ncy670-stage-model #sc01MaterialPendingNotice { display: none !important; }
+body #sc01DraftSections h2 { margin: 0; font-size: 16px; }
+body #sc01DraftSections h2 span { margin-inline-start: 8px; font-size: 13px; color: oklch(43% .09 65); }
+body #sc01DraftSections p { margin: 4px 0; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+body .sc01-draft-camera, body .sc01-draft-actions { display: flex; gap: 6px; flex-wrap: wrap; flex: 0 0 auto; }
+body .sc01-draft-canvas-wrap { position: relative; flex: 1 1 320px; min-height: 230px; overflow: hidden; border: 1px solid oklch(84% .025 250); border-radius: 4px; }
+body #sc01DraftCanvas { display: block; width: 100%; height: 100%; min-height: 230px; touch-action: none; }
+body #sc01DraftCanvas[hidden] { display: none; }
+body .sc01-draft-badge { position: absolute; top: 10px; left: 12px; padding: 3px 8px; background: oklch(96% .05 85); color: oklch(36% .07 65); font-size: 12px; pointer-events: none; }
+body #sc01Draft3DError { padding: 40px 16px; }
+body :is(#sc01DraftSections,#sc01CurrentFeedback) button {
+  border: 1px solid oklch(74% .04 250); border-radius: 5px; padding: 8px 12px;
+  min-height: 44px; font: inherit; color: oklch(31% .07 250); background: oklch(99% .004 250);
+  white-space: normal;
+}
+body #sc01DraftSections [data-sc01-calculate] { background: oklch(34% .1 250); color: oklch(99% .004 250); }
+body :is(#sc01DraftSections,#sc01CurrentFeedback) :is(button,summary):focus-visible { outline: 3px solid oklch(54% .17 250); outline-offset: 3px; }
+body.sc01-r12.ncy670.ncy660 #viewerArea #sc01CurrentFeedback {
+  order: 3; flex: 0 0 auto; margin: 0 12px 8px; padding: 9px 12px;
+  border: 1px solid oklch(83% .025 250); border-radius: 5px;
+  background: oklch(98% .008 250); color: oklch(31% .05 250); font-size: 13px;
+}
+body .sc01-current-head { display: flex; flex-wrap: wrap; gap: 5px 14px; }
+body #sc01CurrentFeedback p { margin: 5px 0; line-height: 1.5; overflow-wrap: anywhere; }
+body #sc01CurrentFeedback details[open] { max-height: 28vh; overflow: auto; }
+body #sc01CurrentFeedback summary { min-height: 32px; align-content: center; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+body #sc01CurrentFeedback ul { padding-left: 20px; }
+body #sc01CurrentFeedback li { margin: 10px 0; }
+body #sc01RevealSteel { min-height: 32px; }
+body #sc01PreviewInputs { display:none; }
+@media (max-width: 900px) {
+  body #sc01PreviewInputs:not([hidden]) { display:inline-flex;min-height:44px;flex-shrink:0;margin-left:auto; }
+}
+@media (max-width: 600px) {
+  body.sc01-engineer-only #ncy670StageBar { flex-wrap:nowrap!important; }
+  body.sc01-engineer-only #sc01FlowFeedback { flex:none!important;max-width:100%;box-sizing:border-box; }
+  body #sc01DraftSections { margin: 8px; padding: 12px; }
+  body .sc01-draft-camera { flex-wrap: nowrap; overflow-x: auto; }
+  body .sc01-draft-camera button { flex: 0 0 auto; }
+  body .sc01-draft-canvas-wrap { flex-basis: 240px; }
+  body.sc01-r12.ncy670.ncy660 #viewerArea #sc01CurrentFeedback { margin-inline: 8px; }
+  body #sc01RevealSteel, body #sc01CurrentFeedback summary { min-height: 44px; }
+}
+@media print { body #sc01DraftSections, body #sc01CurrentFeedback, body #sc01RevealSteel { display:none !important; } }

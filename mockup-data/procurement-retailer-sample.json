@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 2,
+  "capturedAt": "2026-07-22T12:30:00+07:00",
+  "currency": "THB",
+  "freshnessPolicyHours": 24,
+  "purpose": "Source-backed catalog seed for local presentation and integration testing",
+  "disclaimer": "Prices, promotions, availability, and delivery eligibility vary by branch, delivery area, member status, and checkout time. A PR or PO is blocked after 24 hours until a user re-confirms the official source.",
+  "imageUsage": "Retailer images are referenced for UX review. Production must use an authorized feed, licensed media, or retailer-approved integration.",
+  "items": [
+    {
+      "retailer": "Global House",
+      "discipline": "งานโครงสร้าง",
+      "sku": "8852437304938",
+      "name": "ดูร่าวัน ปูนก่อทั่วไป 50 กก.",
+      "unit": "ถุง",
+      "price": 149,
+      "sourceUrl": "https://globalhouse.co.th/product/%E0%B8%94%E0%B8%B9%E0%B8%A3%E0%B9%88%E0%B8%B2%E0%B8%A7%E0%B8%B1%E0%B8%99-%E0%B8%9B%E0%B8%B9%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%97%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B9%84%E0%B8%9B-50-%E0%B8%81%E0%B8%81.-i.8852437304938",
+      "imageUrl": "https://www.image-gbh.com/uploads/thumbnail/1k9LQJM7_Cuc.jpg"
+    },
+    {
+      "retailer": "Global House",
+      "discipline": "งานระบบ",
+      "sku": "30023018",
+      "name": "ท่อน้ำไทย ท่อพีวีซี 1/2 นิ้ว ชั้น 8.5 ยาว 4 เมตร",
+      "unit": "ท่อน",
+      "price": 51,
+      "sourceUrl": "https://globalhouse.co.th/product/%E0%B8%97%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%97%E0%B9%88%E0%B8%AD%E0%B8%9E%E0%B8%B5%E0%B8%A7%E0%B8%B5%E0%B8%8B%E0%B8%B5-12-%E0%B8%99%E0%B8%B4%E0%B9%89%E0%B8%A7-18-%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99-8.5-%E0%B8%9B%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%9A-i.30023018",
+      "imageUrl": "https://www.image-gbh.com/uploads/thumbnail/CN03PR9cQkp6.png"
+    },
+    {
+      "retailer": "Global House",
+      "discipline": "งานไฟฟ้า",
+      "sku": "8854420006003",
+      "name": "BCC สายไฟ THW 1x2.5 ตร.มม. 50 เมตร สีขาว",
+      "unit": "ม้วน",
+      "price": 329,
+      "sourceUrl": "https://globalhouse.co.th/product/BCC-%E0%B8%AA%E0%B8%B2%E0%B8%A2%E0%B9%84%E0%B8%9F-THW-1x2.5-%E0%B8%95%E0%B8%A3.%E0%B8%A1%E0%B8%A1.-50-m.-%E0%B8%AA%E0%B8%B5%E0%B8%82%E0%B8%B2%E0%B8%A7-i.8854420006003",
+      "imageUrl": "https://www.image-gbh.com/uploads/thumbnail/VEN-188039_8854420006003_20220223033520.jpg"
+    },
+    {
+      "retailer": "DoHome",
+      "discipline": "งานโครงสร้าง",
+      "sku": "10253515",
+      "name": "เหล็กท่อกลมดำ 10 นิ้ว หนา 6 มม. (มอก.)",
+      "unit": "เส้น",
+      "price": 8970,
+      "sourceUrl": "https://www.dohome.co.th/product/black-round-steel-pipe-10-inches-thickness-6-mm-tis-10253515",
+      "imageUrl": "https://dh-media.dohome.technology/article-image/products/10253515/images/44ebc94b-5cb1-4022-bc6c-f17c7d283362/10253515_sen_1200_1.jpg"
+    },
+    {
+      "retailer": "DoHome",
+      "discipline": "งานระบบ",
+      "sku": "10402536",
+      "name": "THOR ข้อต่อยูเนี่ยน PVC แบบสวม 1/2 นิ้ว",
+      "unit": "ชิ้น",
+      "price": 17,
+      "sourceUrl": "https://www.dohome.co.th/product/thor-1-2-inch-threaded-pvc-union-coupling-10402536",
+      "imageUrl": "https://dh-media.dohome.technology/article-image/products/10402536/images/80b6c43f-61dc-430d-bab7-106e12cf3c18/10402536_ea_p1_1.jpg"
+    },
+    {
+      "retailer": "DoHome",
+      "discipline": "งานไฟฟ้า",
+      "sku": "10257727",
+      "name": "NNN สายไฟ IEC01 (THW) 1x2.5 ตร.มม. 100 เมตร สีเทา",
+      "unit": "ม้วน",
+      "price": 1368,
+      "sourceUrl": "https://www.dohome.co.th/product/nnn-thw-electrical-cable-2-5-x-100-m-grey-10257727",
+      "imageUrl": "https://dh-media.dohome.technology/article-image/products/10257727/7805a49a-dde5-4f86-8997-582106f12964/10257727_ROL_P1.jpg"
+    },
+    {
+      "retailer": "HomePro",
+      "discipline": "งานโครงสร้าง",
+      "sku": "1109470",
+      "name": "ปูนซีเมนต์ผสม TPI 197 50 กก. สีเขียว",
+      "unit": "ถุง",
+      "priceMin": 109,
+      "priceMax": 245,
+      "purchaseEstimate": 245,
+      "sourceUrl": "https://www.homepro.co.th/p/1109470",
+      "imageUrl": "https://statice.homepro.co.th/homepro/ART_IMAGE/11/094/1109470/447x447/17102025_1109470%24Imagec1.jpg"
+    },
+    {
+      "retailer": "HomePro",
+      "discipline": "งานระบบ",
+      "sku": "91161",
+      "name": "ท่อ PVC ท่อน้ำไทย CLASS 8.5 1/2 นิ้ว 4 ม. สีขาว",
+      "unit": "ท่อน",
+      "priceMin": 59,
+      "priceMax": 62,
+      "purchaseEstimate": 62,
+      "sourceUrl": "https://www.homepro.co.th/p/91161",
+      "imageUrl": "https://statice.homepro.co.th/homepro/ART_IMAGE/00/911/91161/447x447/31012023_91161%24Imagec1.jpg"
+    },
+    {
+      "retailer": "HomePro",
+      "discipline": "งานไฟฟ้า",
+      "sku": "1286399",
+      "name": "สายไฟ THW IEC01 THAIUNION 1X2.5 ตร.มม. 100 ม. สีน้ำตาล",
+      "unit": "ม้วน",
+      "price": 1490,
+      "sourceUrl": "https://www.homepro.co.th/p/1286399",
+      "imageUrl": "https://statice.homepro.co.th/homepro/ART_IMAGE/12/863/1286399/447x447/28022025_1286399%24Imagec1.jpg"
+    },
+    {
+      "retailer": "ไทวัสดุ",
+      "discipline": "งานโครงสร้าง",
+      "sku": "60268320",
+      "name": "เหล็กตัวซีมีขอบ มอก. 75 x 45 x 15 x 2.3 มม.",
+      "unit": "เส้น",
+      "price": 436,
+      "sourceUrl": "https://www.thaiwatsadu.com/th/product/%E0%B9%80%E0%B8%AB%E0%B8%A5%E0%B9%87%E0%B8%81%E0%B8%95%E0%B8%B1%E0%B8%A7%E0%B8%8B%E0%B8%B5%E0%B8%A1%E0%B8%B5%E0%B8%82%E0%B8%AD%E0%B8%9A-%E0%B8%A1%E0%B8%AD%E0%B8%81-%E0%B8%82%E0%B8%99%E0%B8%B2%E0%B8%94-75-x-45-x-15-x-23-%E0%B8%A1%E0%B8%A1-%E0%B8%9E%E0%B9%88%E0%B8%99%E0%B8%9B%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B8%AA%E0%B8%B5%E0%B8%8A%E0%B8%A1%E0%B8%9E%E0%B8%B9-60268320",
+      "officialImageUrl": "https://pim.thaiwatsadu.com/TWDPIM/web/Thumbnail/Image/0113/60268320.jpg",
+      "previewImageUrl": "https://images.weserv.nl/?url=pim.thaiwatsadu.com/TWDPIM/web/Thumbnail/Image/0113/60268320.jpg"
+    },
+    {
+      "retailer": "ไทวัสดุ",
+      "discipline": "งานระบบ",
+      "sku": "60311171",
+      "name": "ท่อ PVC น้ำไทย ชั้น 8.5 1/2 นิ้ว 4 ม. สีขาว",
+      "unit": "ท่อน",
+      "price": 60,
+      "sourceUrl": "https://www.thaiwatsadu.com/en/product/%E0%B8%97%E0%B9%88%E0%B8%AD-PVC-%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99-85-%E0%B8%82%E0%B8%99%E0%B8%B2%E0%B8%94-4-%E0%B8%A1-x-1%7C2-%E0%B8%99%E0%B8%B4%E0%B9%89%E0%B8%A7-%E0%B8%AA%E0%B8%B5%E0%B8%82%E0%B8%B2%E0%B8%A7-60311171",
+      "officialImageUrl": "https://pim.thaiwatsadu.com/TWDPIM/web/Thumbnail/Image/0114/60311171.jpg",
+      "previewImageUrl": "https://images.weserv.nl/?url=pim.thaiwatsadu.com/TWDPIM/web/Thumbnail/Image/0114/60311171.jpg"
+    },
+    {
+      "retailer": "ไทวัสดุ",
+      "discipline": "งานไฟฟ้า",
+      "sku": "60421015",
+      "name": "สายไฟ NNN IEC 01 THW 1 x 2.5 ตร.มม. 100 เมตร สีดำ",
+      "unit": "ม้วน",
+      "price": 1408,
+      "sourceUrl": "https://www.thaiwatsadu.com/th/product/%E0%B8%AA%E0%B8%B2%E0%B8%A2%E0%B9%84%E0%B8%9F-NNN-%E0%B8%A3%E0%B8%B8%E0%B9%88%E0%B8%99-IEC-01-THW-%E0%B8%82%E0%B8%99%E0%B8%B2%E0%B8%94-1-x-25-%E0%B8%95%E0%B8%A3%E0%B8%A1%E0%B8%A1-%E0%B8%A2%E0%B8%B2%E0%B8%A7-100-%E0%B9%80%E0%B8%A1%E0%B8%95%E0%B8%A3-%E0%B8%AA%E0%B8%B5%E0%B8%94%E0%B8%B3-60421015",
+      "officialImageUrl": "https://pim.thaiwatsadu.com/TWDPIM/web/Thumbnail/Image/0202/60421015.jpg",
+      "previewImageUrl": "https://images.weserv.nl/?url=pim.thaiwatsadu.com/TWDPIM/web/Thumbnail/Image/0202/60421015.jpg"
+    }
+  ]
+}
