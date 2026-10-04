@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="th">
+<head>
+<script>
+/* ด่านกันเปิดตรง · SV-20260808-01 (Owner สั่ง 2026-08-08)
+   หน้านี้เป็นเครื่องมือ/หลักฐานภายใน ต้องถูกเปิดผ่านหน้าเว็บของเราเองเท่านั้น
+   - เปิด URL ตรง ๆ  → parent === self            → ปิด
+   - เว็บอื่นเอาไปฝัง → อ่าน origin ของ parent ไม่ได้ → ปิด
+   ⚠️ โฮสต์เป็น static ตรวจสิทธิ์ฝั่งเซิร์ฟเวอร์ไม่ได้ นี่คือเครื่องกีดขวาง ไม่ใช่การป้องกันจริง */
+(function () {
+  var allowed = false;
+  try {
+    allowed = window.parent !== window.self
+      && window.parent.location.origin === window.location.origin;
+  } catch (e) { allowed = false; }
+  if (allowed) return;
+  try { document.documentElement.style.visibility = 'hidden'; } catch (e) {}
+  try { window.stop(); } catch (e) {}
+  location.replace('/card-locked.html');
+})();
+</script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive,noimageindex,nosnippet">
+  <title>ฐานรากแผ่ · โต๊ะคำนวณและตรวจวิศวกรรม</title>
+  <link rel="stylesheet" href="/fonts/sarabun/sarabun.css?v=20260730-07" />
+  <link rel="stylesheet" href="/spread-footing-workbench-mockup.css?v=20260801-08" />
+</head>
+<body data-sf-workbench="ft03-review" data-print-authorization="locked" data-print-scope="calculation-review-a4-only">
+  <a class="skip-link" href="#designResults">ข้ามไปผลการออกแบบ</a>
+  <header class="topbar">
+    <div class="topbar__identity">
+      <button class="back-button" type="button" aria-label="กลับไปหน้ารวมเครื่องมือ">←</button>
+      <span class="tool-code">FT-03</span>
+      <div>
+        <p class="topbar__eyebrow">โต๊ะทำงานคอนกรีต · ห้องปฏิบัติการฐานราก</p>
+        <h1>ฐานรากแผ่ <span>โต๊ะทำงานวิศวกรรม</span></h1>
+      </div>
+    </div>
+    <div class="topbar__actions">
+      <span class="lifecycle-chip">ระบบคำนวณฐานรากแผ่ · Owner อนุมัติรูปแบบแล้ว</span>
+      <span class="sr-only" id="documentAccessNote">รายงาน A4 และรายการคำนวณจะเปิดเมื่อคำนวณสำเร็จ</span>
+      <button class="button button--guide" id="tutorialStart" type="button" aria-controls="guidedTutorial" aria-expanded="false">วิธีใช้งาน</button>
+      <button class="button button--ghost button--document-shortcut" id="topReportShortcut" type="button" data-document-focus="report" data-label-locked="รายงาน A4 · คำนวณก่อน" data-label-ready="เปิดรายงาน A4" data-label-active="กลับโต๊ะคำนวณ" aria-pressed="false" aria-describedby="documentAccessNote" disabled><span data-document-focus-label>รายงาน A4 · คำนวณก่อน</span></button>
+      <button class="button button--ghost button--document-shortcut" id="topCalculationShortcut" type="button" data-document-focus="calc" data-label-locked="รายการคำนวณ · คำนวณก่อน" data-label-ready="เปิดรายการคำนวณ" data-label-active="กลับโต๊ะคำนวณ" aria-pressed="false" aria-describedby="documentAccessNote" disabled><span data-document-focus-label>รายการคำนวณ · คำนวณก่อน</span></button>
+
+    </div>
+  </header>
+
+  <section class="project-strip" aria-label="ข้อมูลโครงการ">
+    <strong>ข้อมูลโครงการ</strong>
+    <span>โต๊ะคำนวณฐานรากแผ่</span>
+    <span>ฐานรากเดี่ยวเสากลาง</span>
+    <span>รุ่นหน้าจอ SF-UI-21 · รุ่นรายงาน R10 · ผลคำนวณชุดเดียว</span>
+    <span class="project-strip__notice">ทุก Flow ใช้ผลคำนวณชุดเดียวกัน</span>
+  </section>
+
+  <main class="workbench">
+    <details class="input-advanced project-information project-information--workspace" data-tutorial-anchor="project" data-project-completion="attention">
+      <summary>
+        <span class="project-information__heading">
+          <b>ข้อมูลโครงการ · Project Information</b>
+          <small>ข้อมูลหัวรายงาน ผู้รับผิดชอบ และเลขที่เอกสาร</small>
+        </span>
+        <span class="project-information__summary-meta">
+          <span class="project-information__status" data-project-status data-state="attention" role="status" aria-live="polite" aria-atomic="true">
+            <i aria-hidden="true"></i>
+            <span data-project-status-label>ต้องกรอก 4 รายการ</span>
+          </span>
+          <em data-project-toggle-label>เปิดกรอกข้อมูล</em>
+        </span>
+      </summary>
+      <div class="input-advanced__body">
+        <div class="project-source-note">
+          <b>ข้อมูลเอกสารและผู้รับผิดชอบ</b>
+          <span>ข้อมูลชุดนี้ไม่เปลี่ยนกำลัง แต่เมื่อแก้ไขจะทำให้ผลคำนวณเดิมหมดอายุ เพื่อให้หัวรายงานและชุดแบบตรงกับข้อมูลล่าสุด</span>
+        </div>
+        <div class="field-grid project-information__grid">
+          <label class="field project-field--span-2">
+            <span class="project-field-label">ชื่อโครงการ <small class="project-field-required"><i aria-hidden="true"></i>จำเป็น</small></span>
+            <input form="spreadFootingForm" name="projectName" type="text" value="งานตัวอย่างฐานรากแผ่" data-project-required data-example-value="งานตัวอย่างฐานรากแผ่" />
+          </label>
+          <label class="field">
+            <span class="project-field-label">เจ้าของโครงการ <small class="project-field-required"><i aria-hidden="true"></i>จำเป็น</small></span>
+            <input form="spreadFootingForm" name="projectOwner" type="text" value="ข้อมูลตัวอย่างจากเจ้าของ" data-project-required data-example-value="ข้อมูลตัวอย่างจากเจ้าของ" />
+          </label>
+          <label class="field">
+            <span class="project-field-label">สถานที่ก่อสร้าง <small class="project-field-required"><i aria-hidden="true"></i>จำเป็น</small></span>
+            <input form="spreadFootingForm" name="projectLocation" type="text" value="ระบุสถานที่ก่อนออกเอกสารจริง" data-project-required data-example-value="ระบุสถานที่ก่อนออกเอกสารจริง" />
+          </label>
+          <label class="field">
+            <span>รหัสชิ้นส่วน (Mark)</span>
+            <input form="spreadFootingForm" name="memberMark" type="text" value="F-01" />
+          </label>
+          <label class="field">
+            <span>เลขที่รายการคำนวณ</span>
+            <input form="spreadFootingForm" name="calculationNumber" type="text" value="SF-CALC-001" />
+          </label>
+          <label class="field">
+            <span class="project-field-label">เลขที่แบบ <small class="project-field-required"><i aria-hidden="true"></i>จำเป็น</small></span>
+            <input form="spreadFootingForm" name="drawingNumber" type="text" value="รอกำหนด · ตัวอย่าง" data-project-required data-example-value="รอกำหนด · ตัวอย่าง" />
+          </label>
+          <label class="field">
+            <span>แก้ไขครั้งที่ (Revision)</span>
+            <input form="spreadFootingForm" name="revision" type="text" value="R10" />
+          </label>
+          <label class="field project-field--span-2">
+            <span>จัดทำโดย</span>
+            <input form="spreadFootingForm" name="preparedBy" type="text" value="นายช่างใหญ่ Civil Apps" />
+          </label>
+          <label class="field">
+            <span>ตรวจสอบโดย</span>
+            <input form="spreadFootingForm" name="checkedBy" type="text" value="รอผู้ตรวจสอบ" />
+          </label>
+          <label class="field">
+            <span>อนุมัติโดย</span>
+            <input form="spreadFootingForm" name="approvedBy" type="text" value="—" />
+          </label>
+          <label class="field">
+            <span>วันที่เอกสาร</span>
+            <input form="spreadFootingForm" name="documentDate" type="text" value="29 ก.ค. 2026" />
+          </label>
+        </div>
+      </div>
+    </details>
+
+    <aside class="input-rail" aria-label="ข้อมูลออกแบบ">
+      <div class="rail-heading">
+        <div class="rail-heading__icon" aria-hidden="true">✎</div>
+        <div>
+          <p>QUICK INPUT</p>
+          <h2>ข้อมูลออกแบบ</h2>
+          <span>กรอกค่าหลัก แล้วกดคำนวณครั้งเดียว</span>
+        </div>
+      </div>
+
+      <form id="spreadFootingForm" data-basis-surface="input" data-basis-profile="" data-basis-governing="OWNER_PE_PROJECT_REVIEW" data-basis-method="UNRESOLVED_PROFILE" data-basis-engine="STRUCTVAULT_SPREAD_FOOTING_1_0_0_REVIEW" data-basis-combination="" data-basis-status="owner_authorized_engineering_review" data-basis-support="calculation-review">
+        <input type="hidden" name="basisStatus" value="owner_authorized_engineering_review" />
+        <input type="hidden" name="methodSupport" value="calculation-review" />
+        <input type="hidden" name="designMethod" value="STRENGTH_DESIGN_REVIEW" />
+        <input type="hidden" name="engineReference" value="ACI_318_19_MEMBER_STRENGTH" />
+        <input type="hidden" name="supportType" value="interior" />
+        <input type="hidden" name="sbcBasis" value="gross" />
+        <input type="hidden" name="foundationTop" value="0.70" data-derived-field="foundationTop" />
+        <input type="hidden" name="barDiaA" value="DB16" data-derived-field="barDiaA" />
+        <input type="hidden" name="barDiaB" value="DB16" data-derived-field="barDiaB" />
+
+        <section class="design-profile-input" data-tutorial-anchor="basis" aria-labelledby="designProfileInputTitle">
+          <div class="input-section-label design-profile-input__heading">
+            <b id="designProfileInputTitle">มาตรฐานออกแบบ</b><span>DESIGN STANDARD</span>
+          </div>
+          <label class="field design-profile-field">
+            <span>โปรไฟล์มาตรฐานออกแบบ</span>
+            <select id="designStandardProfileId" name="designStandardProfileId" required aria-busy="true" aria-describedby="designStandardProfileHelp">
+              <option value="" selected disabled>กำลังโหลด Profile จาก Engine…</option>
+            </select>
+            <small class="field-help" id="designStandardProfileHelp">แสดงเฉพาะโปรไฟล์ที่ Engine คำนวณได้จริง ระบบจับคู่ชุดน้ำหนักและสูตรกำลังให้อัตโนมัติ</small>
+          </label>
+
+          <label class="design-profile-applicability" data-profile-applicability hidden>
+            <input
+              id="loadApplicabilityConfirmed"
+              name="loadApplicabilityConfirmed"
+              type="checkbox"
+              value="true"
+              aria-describedby="loadApplicabilityHelp"
+            />
+            <span>
+              <b>ยืนยันขอบเขต D + L</b>
+              <small id="loadApplicabilityHelp">ยืนยันว่า Lr, S และ R ไม่ใช้กับกรณีตรวจนี้ หากมี ต้องเลือกโปรไฟล์ที่รองรับก่อนคำนวณ</small>
+            </span>
+          </label>
+
+          <details class="design-profile-detail">
+            <summary>รายละเอียดโปรไฟล์และแหล่งอ้างอิง</summary>
+            <section class="design-profile-summary" data-profile-summary aria-live="polite" aria-label="รายละเอียดโปรไฟล์มาตรฐานที่เลือก">
+              <header>
+                <div>
+                  <span>โปรไฟล์ที่ระบบเลือกใช้/จับคู่แล้ว</span>
+                  <b data-profile-field="displayLabel">กำลังโหลด Profile จาก Engine…</b>
+                </div>
+                <em data-profile-field="profileOrigin">ยังไม่มีผลคำนวณ</em>
+              </header>
+              <dl>
+                <div><dt>รหัสโปรไฟล์</dt><dd data-profile-field="profileId">—</dd></div>
+                <div><dt>วิธีออกแบบ</dt><dd data-profile-field="method">—</dd></div>
+                <div><dt>แรงต้านชิ้นส่วน</dt><dd data-profile-field="memberStandard">—</dd></div>
+                <div><dt>ชุดน้ำหนัก + สมการ</dt><dd data-profile-field="loadStandardWithEquation">—</dd></div>
+                <div class="design-profile-summary__wide"><dt>ขอบเขต</dt><dd data-profile-field="scope">—</dd></div>
+                <div><dt>สถานะการตรวจ</dt><dd data-profile-field="verificationStatus">—</dd></div>
+                <div><dt>ขอบเขตการอ้างอิง</dt><dd data-profile-field="complianceStatus">—</dd></div>
+              </dl>
+            </section>
+
+            <details class="design-profile-catalog" data-profile-catalog>
+              <summary data-profile-catalog-summary>กำลังโหลดโปรไฟล์ที่ใช้คำนวณได้จาก Engine…</summary>
+              <div class="design-profile-catalog__body" data-profile-catalog-body aria-live="polite">
+                <p>กำลังโหลดโปรไฟล์มาตรฐานที่รองรับ…</p>
+              </div>
+            </details>
+          </details>
+        </section>
+
+        <section class="auto-design-mode" aria-labelledby="designModeTitle">
+          <div class="auto-design-mode__heading">
+            <div>
+              <span>DESIGN MODE</span>
+              <b id="designModeTitle">วิธีเลือกขนาดและเหล็ก</b>
+            </div>
+            <em id="designModeBadge">AUTO</em>
+          </div>
+          <div class="auto-design-mode__controls">
+            <label class="field">
+              <span>โหมดการออกแบบ</span>
+              <select id="designMode" name="designMode" aria-describedby="designModeHelp autoDesignReadout">
+                <option value="AUTO_UPSIZE" selected>Auto Design · เพิ่มขนาดและเลือกเหล็ก</option>
+                <option value="MANUAL_CHECK">ตรวจขนาดเดิม · ไม่แก้ค่าผู้ใช้</option>
+              </select>
+            </label>
+            <label class="field field--force-unit">
+              <span>หน่วยแรง</span>
+              <select id="forceDisplayUnit" aria-describedby="forceDisplayUnitHelp">
+                <option value="kg" selected>kg</option>
+                <option value="kN">kN</option>
+              </select>
+            </label>
+          </div>
+          <p id="designModeHelp">Auto ใช้ A × B × T เป็นขนาดขั้นต่ำ และเพิ่มทีละ 5 ซม.</p>
+          <div class="auto-design-mode__footer">
+            <output class="auto-design-readout" id="autoDesignReadout" role="status" aria-live="polite">
+              กรอกแรงและขนาดเริ่มต้น · ระบบเลือก T และเหล็กด้วยสมการเดิม
+            </output>
+            <small id="forceDisplayUnitHelp">ช่องแรง + P<sub>u</sub> · kg หมายถึง kgf · Engine ใช้ SI</small>
+          </div>
+        </section>
+
+        <fieldset class="input-group input-group--primary">
+          <legend><span>01</span> คุณสมบัติวัสดุ</legend>
+          <div class="field-grid">
+            <label class="field">
+              <span>f′c คอนกรีต</span>
+              <span class="input-with-unit"><input name="fc" type="number" required min="173.36" max="600" step="0.01" value="240" aria-describedby="fcHelp" /><b>ksc</b></span>
+              <small class="field-help" id="fcHelp">กำลังอัดคอนกรีตที่ใช้ตรวจออกแบบ</small>
+            </label>
+            <label class="field">
+              <span>fy เหล็กเสริม</span>
+              <span class="input-with-unit"><input name="fy" type="number" required min="2400" max="6000" value="4000" aria-describedby="fyHelp" /><b>ksc</b></span>
+              <small class="field-help" id="fyHelp">กำลังครากของเหล็กเสริม</small>
+            </label>
+          </div>
+
+          <div class="input-section-label"><b>ตัวคูณลดกำลัง</b><span>REDUCTION FACTORS</span></div>
+          <div class="profile-lock" role="note" aria-label="มาตรฐานและขอบเขตที่ Engine แก้ให้ตรงกับ Profile">
+            <span>โปรไฟล์ที่ Engine จับคู่ให้แล้ว</span>
+            <b data-basis-field="governingStandard" data-profile-field="displayLabel">กำลังโหลด Profile จาก Engine…</b>
+            <em class="profile-lock__scope">Calculation Review · เปิดหลักฐานด้านล่างเมื่อต้องการตรวจเลขข้อ</em>
+          </div>
+          <div class="field-grid field-grid--three profile-factor-grid">
+            <label class="field field--locked">
+              <span>φ ดัด (flexure)</span>
+              <input name="phiFlexure" type="number" required min="0.50" max="1.00" step="0.01" value="0.90" aria-describedby="profileFactorHelp" readonly />
+            </label>
+            <label class="field field--locked">
+              <span>φ เฉือน (shear)</span>
+              <input name="phiShear" type="number" required min="0.50" max="1.00" step="0.01" value="0.75" aria-describedby="profileFactorHelp" readonly />
+            </label>
+            <label class="field field--locked">
+              <span>β₁ (Whitney)</span>
+              <input id="beta1Display" type="number" min="0.65" max="0.85" step="0.01" value="0.85" aria-describedby="profileFactorHelp" readonly />
+            </label>
+          </div>
+          <small class="field-help field-help--group profile-factor-help" id="profileFactorHelp">
+            φ ล็อกตาม Profile · <span id="beta1Help">β1 คำนวณอัตโนมัติจาก f′c ตาม §22.2.2.4.3</span>
+          </small>
+
+          <details class="input-evidence-details">
+            <summary>เปิดหลักฐานมาตรฐานและสมมติฐานของ Engine</summary>
+            <section class="design-basis-ledger" aria-labelledby="basisLedgerTitle">
+              <header>
+                <div>
+                  <b id="basisLedgerTitle" data-profile-field="ledgerTitle">ฐานการออกแบบ · กำลังโหลด Profile</b>
+                  <span>สมการ เลขข้อ และที่มาจะถูกบันทึกไว้กับผลคำนวณ</span>
+                </div>
+                <em>TRACEABLE</em>
+              </header>
+              <dl>
+                <div>
+                  <dt>วิธีออกแบบ</dt>
+                  <dd data-basis-field="method" data-profile-field="method">Strength Design · รุ่นตรวจวิศวกรรม</dd>
+                </div>
+                <div>
+                  <dt>อ้างอิงกำลังชิ้นส่วน</dt>
+                  <dd data-basis-field="engineReference" data-profile-field="engineReference">ACI 318-19 · Chapters 13 / 21 / 22</dd>
+                </div>
+              </dl>
+              <div class="basis-candidates" data-profile-sources aria-label="เอกสารอ้างอิงหลักของ Profile">
+                <span>กำลังโหลด Source manifest จาก Engine…</span>
+              </div>
+              <p id="basisHoldNote" data-profile-field="evidence">ค่าคงที่ของรุ่น R1 อ่านจากโปรไฟล์ที่ Engine จับคู่ เพื่อให้ผลทุกแท็บอ้างอิงฐานการออกแบบเดียวกัน</p>
+            </section>
+          </details>
+        </fieldset>
+
+        <fieldset class="input-group input-group--primary" data-tutorial-anchor="soil" data-tutorial-anchor-secondary="loads">
+          <legend><span>02</span> ดินและน้ำหนักบรรทุก</legend>
+          <div class="input-section-label"><b>ดิน</b><span>SOIL</span></div>
+          <div class="field-grid">
+            <label class="field">
+              <span>γ<sub>soil</sub> หน่วยน้ำหนักดิน</span>
+              <span class="input-with-unit"><input name="soilWeight" type="number" required min="1000" max="2500" value="1800" aria-describedby="soilWeightHelp" /><b>kg/m³</b></span>
+              <small class="field-help" id="soilWeightHelp">ใช้คำนวณน้ำหนักดินเหนือฐาน</small>
+            </label>
+            <label class="field">
+              <span>SBC กำลังแบกของดิน</span>
+              <span class="input-with-unit"><input name="sbc" type="number" required min="0.1" max="1000" step="0.1" value="10" aria-describedby="sbcHelp" /><b>t/m²</b></span>
+              <small class="field-help" id="sbcHelp">Gross allowable · ใช้ค่าจากรายงานสำรวจดินหรือวิศวกรปฐพี</small>
+            </label>
+          </div>
+
+          <div class="input-section-label" data-tutorial-anchor="loads"><b>น้ำหนักบรรทุก</b><span>LOADS · SERVICE</span></div>
+          <div class="field-grid">
+            <label class="field">
+              <span>P<sub>D</sub> น้ำหนักคงที่</span>
+              <span class="input-with-unit"><input name="deadLoad" type="number" required min="0" max="1000000000" step="any" value="10000" aria-describedby="deadLoadHelp" data-force-input="force" /><b data-force-unit="force">kg</b></span>
+              <small class="field-help" id="deadLoadHelp">น้ำหนักประจำของโครงสร้างและวัสดุ</small>
+            </label>
+            <label class="field">
+              <span>P<sub>L</sub> น้ำหนักจร</span>
+              <span class="input-with-unit"><input name="liveLoad" type="number" required min="0" max="1000000000" step="any" value="5000" aria-describedby="liveLoadHelp" data-force-input="force" /><b data-force-unit="force">kg</b></span>
+              <small class="field-help" id="liveLoadHelp">น้ำหนักที่เปลี่ยนตามการใช้งาน</small>
+            </label>
+            <label class="field">
+              <span>M<sub>x</sub> โมเมนต์รอบแกน X</span>
+              <span class="input-with-unit"><input name="mx" type="number" required min="-1000000000" max="1000000000" step="any" value="0" aria-describedby="serviceMomentHelp" data-force-input="moment" /><b data-force-unit="moment">kg·m</b></span>
+            </label>
+            <label class="field">
+              <span>M<sub>y</sub> โมเมนต์รอบแกน Y</span>
+              <span class="input-with-unit"><input name="my" type="number" required min="-1000000000" max="1000000000" step="any" value="0" aria-describedby="serviceMomentHelp" data-force-input="moment" /><b data-force-unit="moment">kg·m</b></span>
+            </label>
+            <input id="loadCombinationId" name="combination" type="hidden" value="" data-derived-field="loadCombination" />
+          </div>
+          <p class="field-note" id="serviceMomentHelp"><b>Mx/My ใส่เครื่องหมาย + หรือ − ได้:</b> รุ่น R1 ใช้ตรวจสนามแรงดันดินใช้งาน แต่การคำนวณกำลังเมื่อ Mx/My ≠ 0 จะไม่สร้าง BMD/SFD จนมีวิธีแยกโมเมนต์ตามชุดน้ำหนักที่รองรับ</p>
+        </fieldset>
+
+        <fieldset class="input-group input-group--primary" data-tutorial-anchor="geometry">
+          <legend><span>03</span> ขนาดเสาและฐานราก</legend>
+          <div class="input-section-label"><b>ขนาดเสา</b><span>COLUMN SIZE</span></div>
+          <div class="field-grid">
+            <label class="field">
+              <span>a ขนาดเสาตามแกน X (ทิศ A)</span>
+              <span class="input-with-unit"><input name="columnX" type="number" required min="10" max="500" value="25" /><b>cm</b></span>
+            </label>
+            <label class="field">
+              <span>b ขนาดเสาตามแกน Y (ทิศ B)</span>
+              <span class="input-with-unit"><input name="columnY" type="number" required min="10" max="500" value="25" /><b>cm</b></span>
+            </label>
+          </div>
+
+          <div class="input-section-label"><b>ขนาดฐานราก</b><span>FOOTING SIZE</span></div>
+          <div class="field-grid field-grid--three geometry-grid">
+            <label class="field">
+              <span>A ขนาดฐานตามแกน X</span>
+              <span class="input-with-unit"><input name="footingX" type="number" required min="0.30" max="50" step="0.05" value="1.50" /><b>m</b></span>
+            </label>
+            <label class="field">
+              <span>B ขนาดฐานตามแกน Y</span>
+              <span class="input-with-unit"><input name="footingY" type="number" required min="0.30" max="50" step="0.05" value="1.50" /><b>m</b></span>
+            </label>
+            <label class="field">
+              <span id="thicknessInputLabel">T ความหนาเริ่มต้น</span>
+              <span class="input-with-unit"><input name="thickness" type="number" required min="10" max="500" value="30" aria-describedby="footingDepthHelp" /><b>cm</b></span>
+            </label>
+            <label class="field">
+              <span>H ลึกถึงท้องฐาน</span>
+              <span class="input-with-unit"><input name="foundationDepth" type="number" required min="0.10" max="50" step="0.05" value="1.00" aria-describedby="foundationDepthHelp" /><b>m</b></span>
+              <small class="field-help" id="foundationDepthHelp">ระดับผิวบนฐาน = H − T · <output id="foundationTopReadout">0.70 m</output></small>
+            </label>
+            <label class="field">
+              <span>ระยะหุ้ม</span>
+              <span class="input-with-unit"><input name="cover" type="number" required min="2" max="20" step="0.5" value="5" /><b>cm</b></span>
+              <small class="field-help">วัดจากผิวคอนกรีตถึงผิวเหล็ก</small>
+            </label>
+          </div>
+          <p class="field-note" id="footingDepthHelp">ACI 318-19 §13.3.1.2 กำหนด effective depth ของเหล็กล่างไม่น้อยกว่า 150 mm; Auto จะคำนวณ T ขั้นต่ำจากระยะหุ้มและชั้นเหล็ก แล้วเพิ่มเป็นช่วง 5 cm</p>
+        </fieldset>
+
+        <fieldset class="input-group input-group--primary" data-tutorial-anchor="rebar">
+          <legend><span>04</span> เหล็กเสริมล่าง</legend>
+          <div class="input-section-label"><b>ตะแกรงเหล็กล่าง</b><span>BOTTOM MAT REINFORCEMENT</span></div>
+          <div class="field-grid field-grid--three rebar-input-grid">
+            <label class="field">
+              <span>Ø เหล็กยืน</span>
+              <select name="commonBarDia" aria-describedby="rebarCatalogHelp" data-auto-rebar-control>
+                <option value="DB12">DB12</option>
+                <option value="DB16" selected>DB16</option>
+                <option value="DB20">DB20</option>
+                <option value="DB25">DB25</option>
+                <option value="DB28">DB28</option>
+                <option value="DB32">DB32</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>จำนวนเหล็กทิศ A / X</span>
+              <span class="input-with-unit"><input name="barsA" type="number" required min="2" max="100" value="8" data-auto-rebar-control /><b>เส้น</b></span>
+            </label>
+            <label class="field">
+              <span>จำนวนเหล็กทิศ B / Y</span>
+              <span class="input-with-unit"><input name="barsB" type="number" required min="2" max="100" value="8" data-auto-rebar-control /><b>เส้น</b></span>
+            </label>
+          </div>
+          <small class="field-help field-help--group" id="rebarCatalogHelp">Auto จะเลือกขนาด DB และจำนวนแยกทิศ A/B จากสมการเดิม; โหมดตรวจค่าที่กำหนดจึงจะเปิดให้แก้เหล็กเอง</small>
+        </fieldset>
+
+        <details class="input-advanced engine-assumptions">
+          <summary>
+            <span><b>ข้อมูลประกอบที่ Engine ต้องใช้</b><small>หน่วยน้ำหนักคอนกรีตและที่มาค่า SBC</small></span>
+            <em>2 ช่อง</em>
+          </summary>
+          <div class="input-advanced__body">
+            <div class="field-grid">
+              <label class="field">
+                <span>γ<sub>c</sub> หน่วยน้ำหนักคอนกรีต</span>
+                <span class="input-with-unit"><input name="concreteWeight" type="number" required min="2200" max="2600" value="2400" aria-describedby="concreteWeightHelp" /><b>kg/m³</b></span>
+                <small class="field-help" id="concreteWeightHelp">ใช้คำนวณน้ำหนักฐาน · รุ่น R1 รองรับ 2,200–2,600 kg/m³</small>
+              </label>
+              <label class="field">
+                <span>ที่มาค่า SBC / เลขรายงานดิน</span>
+                <input name="sbcSource" type="text" value="รอระบุรายงานสำรวจดิน / ผู้รับรองค่า SBC" aria-describedby="sbcSourceHelp" />
+                <small class="field-help" id="sbcSourceHelp">แสดงในรายงานเพื่อให้ตรวจสอบย้อนกลับได้</small>
+              </label>
+            </div>
+          </div>
+        </details>
+      </form>
+
+      <div class="rail-action">
+        <p class="form-validation" id="formValidationNote" role="status" aria-live="polite">ตรวจข้อมูลเพื่อเริ่มคำนวณ</p>
+        <button class="button button--run" id="runAnalysis" type="button" aria-describedby="runLockNote">
+          <span data-run-label>คำนวณฐานรากแผ่</span>
+          <span class="run-spinner" aria-hidden="true"></span>
+        </button>
+        <button class="button button--reset-tertiary" id="resetDefaults" type="button">↺ คืนค่าเริ่มต้น</button>
+        <p id="runLockNote">ระบบจะคำนวณและแช่แข็งผลทุกแท็บจากข้อมูลชุดเดียว</p>
+      </div>
+    </aside>
+
+    <section class="results" id="designResults" aria-label="ผลการออกแบบ" data-snapshot-state="empty-ready" data-controller-state="ready" aria-busy="false">
+      <nav class="tabs" role="tablist" aria-label="มุมมองผลการออกแบบ" data-tutorial-anchor="snapshot">
+        <button class="tab is-active" id="tab-summary" type="button" role="tab" aria-selected="true" aria-controls="panel-summary" tabindex="0" data-tab="summary"><b>01</b> ภาพรวม</button>
+        <button class="tab" id="tab-dc" type="button" role="tab" aria-selected="false" aria-controls="panel-dc" tabindex="-1" data-tab="dc"><b>02</b> ตรวจ D/C</button>
+        <button class="tab" id="tab-analysis" type="button" role="tab" aria-selected="false" aria-controls="panel-analysis" tabindex="-1" data-tab="analysis"><b>03</b> วิเคราะห์</button>
+        <button class="tab" id="tab-section" type="button" role="tab" aria-selected="false" aria-controls="panel-section" tabindex="-1" data-tab="section"><b>04</b> รูปตัดและเหล็ก</button>
+        <button class="tab" id="tab-three" type="button" role="tab" aria-selected="false" aria-controls="panel-three" tabindex="-1" data-tab="three"><b>05</b> 3D</button>
+        <button class="tab" id="tab-report" type="button" role="tab" aria-selected="false" aria-controls="panel-report" tabindex="-1" data-tab="report"><b>06</b> รายงาน A4</button>
+        <button class="tab" id="tab-calc" type="button" role="tab" aria-selected="false" aria-controls="panel-calc" tabindex="-1" data-tab="calc"><b>07</b> รายการคำนวณ</button>
+        <button class="tab" id="tab-drawing" type="button" role="tab" aria-selected="false" aria-controls="panel-drawing" tabindex="-1" data-tab="drawing"><b>08</b> ชุดแบบ</button>
+      </nav>
+
+      <div class="state-banner state-banner--idle" id="stateBanner" role="status" aria-live="polite" aria-atomic="true">
+        <span class="state-banner__icon" aria-hidden="true">!</span>
+        <div>
+          <strong id="stateTitle">พร้อมกรอกข้อมูล · ยังไม่มีผลคำนวณ</strong>
+          <p id="stateCopy">Flow 01–08 จะเปิดพร้อมกันเมื่อคำนวณสำเร็จ</p>
+        </div>
+      </div>
+
+      <section class="tab-panel is-active" id="panel-summary" role="tabpanel" aria-labelledby="tab-summary" aria-hidden="true" data-panel="summary" data-tutorial-anchor="summary" data-sf-flow-shell="summary" inert hidden>
+        <div class="metric-strip flow-slot-placeholder" data-sf-slot="summary-metrics" aria-label="ผลภาพรวมจากชุดผลคำนวณ"></div>
+        <div class="summary-grid summary-grid--snapshot">
+          <article class="evidence-panel evidence-panel--wide">
+            <header class="panel-heading">
+              <div><span>สนามแรงดันดิน</span><h3>ภาพสามมิติฐานรากและแรงดันดิน</h3></div>
+              <span class="reference-badge" data-sf-slot="summary-badge" data-sf-slot-mode="text">รอผลคำนวณ</span>
+            </header>
+            <div class="pressure-view">
+              <div class="bearing-stage sf-model-stage" data-bearing-model-view="iso">
+                <div class="bearing-webgl-toolbar" role="group" aria-label="เลือกมุมมองสามมิติของแรงดันดิน">
+                  <button class="is-active" type="button" aria-pressed="true" data-bearing-view="iso">ไอโซเมตริก</button>
+                  <button type="button" aria-pressed="false" data-bearing-view="top">ด้านบน</button>
+                  <button type="button" data-bearing-action="fit">จัดพอดี</button>
+                </div>
+                <div class="bearing-webgl-badge" data-sf-slot="summary-bearing-badge" data-sf-slot-mode="text">รอผลคำนวณ</div>
+                <div class="bearing-webgl-legend" aria-hidden="true">
+                  <span><i class="bearing-key bearing-key--field"></i>สนามแรงดันใต้ฐาน</span>
+                  <span><i class="bearing-key bearing-key--reaction"></i>แรงปฏิกิริยาดิน</span>
+                </div>
+                <div class="bearing-webgl-readout flow-slot-placeholder" data-sf-slot="summary-bearing-readout"></div>
+                <div class="bearing-webgl-hint">ลากเพื่อหมุน · ล้อเมาส์เพื่อซูม · ปุ่ม 0 เพื่อจัดพอดี</div>
+                <div class="bearing-fallback flow-slot-placeholder" data-sf-slot="summary-bearing-fallback" data-sf-slot-mode="replace" data-snapshot-3d-fallback></div>
+              </div>
+              <aside class="governing-rail">
+                <div class="governing-rail__heading">
+                  <div><span>รายการควบคุม</span><h4>ผลตรวจสำคัญ</h4></div>
+                  <b>D/C</b>
+                </div>
+                <ol class="flow-slot-placeholder" data-sf-slot="summary-governing" aria-label="รายการตรวจควบคุมจากผลคำนวณ"></ol>
+              </aside>
+            </div>
+          </article>
+          <article class="evidence-panel summary-section-card">
+            <header class="panel-heading">
+              <div><span>รูปตัดและเหล็กเสริม</span><h3>หน้าตัดที่กำลังตรวจ</h3></div>
+            </header>
+            <div class="flow-slot-placeholder" data-sf-slot="summary-section" data-sf-slot-mode="replace"></div>
+          </article>
+        </div>
+        <article class="coverage-panel flow-slot-placeholder" data-sf-slot="summary-coverage"></article>
+      </section>
+
+      <section class="tab-panel" id="panel-dc" role="tabpanel" aria-labelledby="tab-dc" aria-hidden="true" data-panel="dc" data-tutorial-anchor="dc" data-sf-flow-shell="dc" inert hidden>
+        <header class="panel-heading">
+          <div><span>Demand / Capacity</span><h3 data-sf-slot="dc-title" data-sf-slot-mode="text">รายการตรวจจากผลคำนวณ</h3></div>
+          <span class="reference-badge" data-sf-slot="dc-badge" data-sf-slot-mode="text">รอผลคำนวณ</span>
+        </header>
+        <div class="dc-table-wrap flow-slot-placeholder" data-sf-slot="dc-content" data-sf-slot-mode="replace" tabindex="-1" role="region" aria-label="ตาราง D/C จะสร้างจากผลคำนวณ"></div>
+      </section>
+
+      <section class="tab-panel" id="panel-analysis" role="tabpanel" aria-labelledby="tab-analysis" aria-hidden="true" data-panel="analysis" data-tutorial-anchor="analysis" data-sf-flow-shell="analysis" inert hidden>
+        <aside class="moment-sign-guide" aria-label="คู่มือเครื่องหมายโมเมนต์ดัดฐานราก">
+          <div class="moment-sign-guide__item is-bottom-tension">
+            <b>M+ · โมเมนต์ดัดหงาย</b>
+            <span>ผิวล่างดึง · รุ่น R1 แสดงขนาด |M| สำหรับตรวจเหล็กล่าง</span>
+          </div>
+          <div class="moment-sign-guide__item is-top-tension">
+            <b>M− · โมเมนต์ดัดคว่ำ</b>
+            <span>ผิวบนดึง · ยังไม่ประเมินในรุ่น R1 และไม่มีเส้นผลคำนวณ</span>
+          </div>
+          <p>ตำแหน่งเส้นเหนือหรือใต้แกนเป็นรูปแบบการเขียนกราฟ; ค่าในผลคำนวณปัจจุบันเป็นขนาดโมเมนต์ |M|</p>
+        </aside>
+        <div class="analysis-grid">
+          <article class="evidence-panel chart-panel flow-slot-placeholder" data-sf-slot="analysis-moment-a"></article>
+          <article class="evidence-panel chart-panel flow-slot-placeholder" data-sf-slot="analysis-shear-a"></article>
+          <article class="evidence-panel chart-panel flow-slot-placeholder" data-sf-slot="analysis-moment-b"></article>
+          <article class="evidence-panel chart-panel flow-slot-placeholder" data-sf-slot="analysis-shear-b"></article>
+          <article class="evidence-panel deflection-panel flow-slot-placeholder" data-sf-slot="analysis-deflection" aria-label="ภาพการโก่งตัวเชิงสัญลักษณ์จะสร้างจากผลคำนวณ"></article>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="panel-section" role="tabpanel" aria-labelledby="tab-section" aria-hidden="true" data-panel="section" data-tutorial-anchor="section" data-sf-flow-shell="section" inert hidden>
+        <div class="section-grid">
+          <article class="evidence-panel flow-slot-placeholder" data-sf-slot="section-geometry"></article>
+          <article class="evidence-panel flow-slot-placeholder" data-sf-slot="section-meta"></article>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="panel-report" role="tabpanel" aria-labelledby="tab-report" aria-hidden="true" data-panel="report" data-tutorial-anchor="report" data-sf-flow-shell="report" inert hidden>
+        <div class="document-review-toolbar" tabindex="-1">
+          <div class="document-review-toolbar__copy"><b>A4 สองหน้า · หลักฐานการคำนวณ</b><span>หน้า 1–2 ใช้ชุดผลคำนวณเดียวกัน</span></div>
+          <div class="document-review-toolbar__actions">
+            <button class="button button--focus" type="button" data-document-focus="report" data-label-locked="คำนวณก่อนเปิดเต็มหน้า" data-label-ready="ดูรายงานเต็มหน้า" data-label-active="กลับโต๊ะคำนวณ" aria-pressed="false" aria-describedby="documentAccessNote" disabled><span data-document-focus-label>คำนวณก่อนเปิดเต็มหน้า</span></button>
+            <button class="button button--print" id="printCalculationReport" type="button" aria-describedby="documentAccessNote printReportStatus" disabled>พิมพ์ / บันทึก PDF</button>
+          </div>
+        </div>
+        <div class="report-canvas flow-slot-placeholder" data-sf-slot="report-content" tabindex="-1" role="region" aria-label="รายงาน A4 จะสร้างจากผลคำนวณ"></div>
+        <span class="sr-only" id="printReportStatus" role="status" aria-live="polite" aria-atomic="true">คำนวณก่อนจึงจะพิมพ์รายงาน A4 ได้</span>
+      </section>
+
+      <section class="tab-panel" id="panel-calc" role="tabpanel" aria-labelledby="tab-calc" aria-hidden="true" data-panel="calc" data-tutorial-anchor="calc" data-sf-flow-shell="calc" data-basis-surface="calc" data-basis-profile="" data-basis-governing="PROJECT_OWNER_REVIEW" data-basis-method="UNRESOLVED_PROFILE" data-basis-engine="structvault.spread-footing" data-basis-combination="" data-basis-status="ENGINEERING_REVIEW_REQUIRED" data-basis-support="calculation-review" inert hidden>
+        <div class="document-review-toolbar" tabindex="-1">
+          <div><b>รายการคำนวณฉบับเต็ม</b><span>สมการ การแทนค่า หน่วย และ Trace ใช้ชุดผลคำนวณเดียวกัน</span></div>
+          <button class="button button--focus" type="button" data-document-focus="calc" data-label-locked="คำนวณก่อนเปิดเต็มหน้า" data-label-ready="ดูรายการเต็มหน้า" data-label-active="กลับโต๊ะคำนวณ" aria-pressed="false" aria-describedby="documentAccessNote" disabled><span data-document-focus-label>คำนวณก่อนเปิดเต็มหน้า</span></button>
+        </div>
+        <article class="evidence-panel calculation-book flow-slot-placeholder" data-sf-slot="calc-content" tabindex="-1" role="region" aria-label="รายการคำนวณและ Trace จะสร้างจากผลคำนวณ"></article>
+      </section>
+
+      <section class="tab-panel" id="panel-drawing" role="tabpanel" aria-labelledby="tab-drawing" aria-hidden="true" data-panel="drawing" data-tutorial-anchor="drawing" data-sf-flow-shell="drawing" data-basis-surface="drawing" data-basis-profile="" data-basis-governing="PROJECT_OWNER_REVIEW" data-basis-method="UNRESOLVED_PROFILE" data-basis-engine="structvault.spread-footing" data-basis-combination="" data-basis-status="ENGINEERING_REVIEW_REQUIRED" data-basis-support="calculation-review" inert hidden>
+        <div class="drawing-grid flow-slot-placeholder" data-sf-slot="drawing-content" tabindex="-1" role="region" aria-label="ชุดแบบจะสร้างจากผลคำนวณ"></div>
+      </section>
+
+      <section class="tab-panel" id="panel-three" role="tabpanel" aria-labelledby="tab-three" aria-hidden="true" data-panel="three" data-tutorial-anchor="three" data-sf-flow-shell="three" data-basis-surface="three" data-basis-profile="" data-basis-governing="PROJECT_OWNER_REVIEW" data-basis-method="UNRESOLVED_PROFILE" data-basis-engine="structvault.spread-footing" data-basis-combination="" data-basis-status="ENGINEERING_REVIEW_REQUIRED" data-basis-support="calculation-review" inert hidden>
+        <article class="evidence-panel model-panel">
+          <header class="panel-heading">
+            <div><span>Engineering 3D</span><h3>แบบจำลองจากผลคำนวณ</h3></div>
+            <span class="reference-badge" data-sf-slot="three-badge" data-sf-slot-mode="text">รอผลคำนวณ</span>
+          </header>
+          <div class="model-toolbar three-toolbar" aria-label="เครื่องมือมุมมองสามมิติ">
+            <div class="segmented-control view-buttons" role="group" aria-label="เลือกมุมมอง">
+              <button type="button" data-view="top" aria-pressed="false">บน</button>
+              <button type="button" data-view="front" aria-pressed="false">หน้า</button>
+              <button type="button" data-view="right" aria-pressed="false">ขวา</button>
+              <button type="button" class="is-active" data-view="iso" aria-pressed="true">ไอโซ</button>
+            </div>
+            <button type="button" class="button button--ghost" data-model-action="fit">จัดพอดี</button>
+            <span id="modelViewLabel">มุมมองไอโซเมตริก</span>
+          </div>
+          <div class="model-display-strip" data-model-display-shell="overview">
+            <div class="model-display-controls" role="group" aria-label="เลือกรูปแบบการแสดงโมเดลสามมิติ">
+              <button type="button" class="is-active" data-model-display="overview" aria-pressed="true" disabled>ภาพรวม</button>
+              <button type="button" data-model-display="rebar" aria-pressed="false" disabled>เปิดชั้นเหล็ก</button>
+            </div>
+            <div class="model-direction-key" aria-label="คำอธิบายทิศและชั้นเหล็ก">
+              <span class="is-a"><i aria-hidden="true"></i><b>A / X ↔</b> แนวนอน · ชั้นล่างสุด</span>
+              <span class="is-b"><i aria-hidden="true"></i><b>B / Y ↕</b> แนวตั้ง · ชั้นเหนือ A</span>
+            </div>
+            <span data-model-display-status role="status" aria-live="polite">รอผลคำนวณ</span>
+          </div>
+          <div class="model-workspace three-layout">
+            <div class="model-stage" data-model-view="iso" data-model-display-mode="overview">
+              <div class="model-webgl-badge" data-sf-slot="three-model-badge" data-sf-slot-mode="text">รอผลคำนวณ</div>
+              <div class="model-webgl-legend" aria-label="สีและตำแหน่งของชั้นเหล็ก">
+                <span><i class="legend-a" aria-hidden="true"></i><b>A / X ↔</b> ชั้นล่างสุด</span>
+                <span><i class="legend-b" aria-hidden="true"></i><b>B / Y ↕</b> ชั้นเหนือ A</span>
+                <span><i class="legend-d" aria-hidden="true"></i><b>ม่วง</b> แนววิกฤต</span>
+              </div>
+              <div class="model-fallback flow-slot-placeholder" data-sf-slot="three-fallback" data-sf-slot-mode="replace" data-snapshot-3d-fallback></div>
+              <p class="sr-only" id="modelKeyboardHelp">เมื่อมีผลคำนวณ ใช้ปุ่มมุมมอง โหมดภาพรวม เปิดชั้นเหล็ก และชั้นข้อมูลเพื่อตรวจแบบจำลอง</p>
+              <p class="sr-only" id="modelInspectorAnnouncement" role="status" aria-live="polite"></p>
+            </div>
+            <aside class="model-inspector">
+              <div class="model-layer-controls layer-buttons" role="group" aria-label="ชั้นข้อมูลจากผลคำนวณ">
+                <button type="button" data-layer="soil" aria-pressed="false" disabled>ดิน</button>
+                <button type="button" data-layer="pressure" aria-pressed="false" disabled>แรงดัน</button>
+                <button type="button" data-layer="concrete" aria-pressed="false" disabled>คอนกรีต</button>
+                <button type="button" data-layer="critical" aria-pressed="false" disabled>แนววิกฤต</button>
+                <button type="button" data-layer="barA" aria-pressed="false" disabled>เหล็กทิศ A</button>
+                <button type="button" data-layer="barB" aria-pressed="false" disabled>เหล็กทิศ B</button>
+                <button type="button" data-layer="dowel" aria-pressed="false" disabled>รอยต่อ</button>
+              </div>
+              <div class="model-inspector__evidence">
+                <div class="model-mark-buttons mark-list" role="group" aria-label="หลักฐานจากผลคำนวณ">
+                  <button type="button" data-select-mark="barA" aria-pressed="false" disabled>ทิศ A</button>
+                  <button type="button" data-select-mark="barB" aria-pressed="false" disabled>ทิศ B</button>
+                  <button type="button" data-select-mark="critical" aria-pressed="false" disabled>แนววิกฤต</button>
+                  <button type="button" data-select-mark="pressure" aria-pressed="false" disabled>แรงดันดิน</button>
+                  <button type="button" data-select-mark="dowel" aria-pressed="false" disabled>รอยต่อ</button>
+                </div>
+                <strong id="modelSelection">รอผลคำนวณ</strong>
+                <dl>
+                  <div><dt>ชั้น</dt><dd id="modelLayer">—</dd></div>
+                  <div><dt>รายละเอียด</dt><dd id="modelDetail">—</dd></div>
+                  <div><dt>ระยะหุ้ม / ความลึก</dt><dd id="modelDepth">—</dd></div>
+                  <div><dt>แรงที่ต้องการ / กำลังที่รับได้</dt><dd id="modelCheck">—</dd></div>
+                  <div><dt>Trace</dt><dd id="modelTrace">—</dd></div>
+                  <div><dt>สถานะข้อมูล</dt><dd id="modelAuth">—</dd></div>
+                </dl>
+              </div>
+            </aside>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <footer class="statusbar" data-basis-surface="footer" data-basis-profile="" data-basis-governing="PROJECT_OWNER_REVIEW" data-basis-method="UNRESOLVED_PROFILE" data-basis-engine="structvault.spread-footing" data-basis-combination="" data-basis-status="ENGINEERING_REVIEW_REQUIRED" data-basis-support="calculation-review">
+    <span data-profile-field="footerProfile">กำลังโหลด Profile · หน่วยแสดงผล kg · t · m · cm · ksc · Engine ใช้ SI ภายใน</span>
+    <span data-basis-field="pairingStatus">CALCULATION PROFILE · กำลังโหลด</span>
+    <strong id="footerState">พร้อมรับข้อมูล · ยังไม่มีผลคำนวณ</strong>
+    <span>นายช่างใหญ่ Civil Apps · FT-03</span>
+  </footer>
+
+  <aside class="guided-tutorial" id="guidedTutorial" aria-labelledby="tutorialTitle" hidden>
+    <header>
+      <div>
+        <span class="tutorial-sample-badge">วิธีใช้งาน</span>
+        <h2 id="tutorialTitle">วิธีใช้งานฐานรากแผ่</h2>
+      </div>
+      <button type="button" class="tutorial-close" data-tutorial-action="exit" aria-label="ออกจากวิธีใช้งาน">×</button>
+    </header>
+    <div class="tutorial-progress" aria-hidden="true"><i id="tutorialProgressBar"></i></div>
+    <div class="tutorial-body" id="tutorialLive" role="status" aria-live="polite" aria-atomic="true">
+      <span id="tutorialStepLabel">ขั้นที่ 1 จาก 10</span>
+      <h3 id="tutorialStepTitle">ข้อมูลโครงการ</h3>
+      <p id="tutorialStepCopy">กรอกข้อมูลโครงการให้ครบ ข้อมูลชุดนี้จะถูกบันทึกและใช้ตรงกันใน A4 กับชุดแบบ</p>
+      <small>บทเรียนจะนำทางและไฮไลต์ช่องที่เกี่ยวข้อง แต่ไม่กรอกค่าและไม่กดคำนวณแทนผู้ใช้</small>
+    </div>
+    <footer>
+      <button type="button" class="button button--ghost" data-tutorial-action="restart">เริ่มใหม่</button>
+      <span id="tutorialProgressText">1 / 10</span>
+      <button type="button" class="button button--ghost" data-tutorial-action="back">ย้อนกลับ</button>
+      <button type="button" class="button button--reference" data-tutorial-action="next">ถัดไป</button>
+    </footer>
+  </aside>
+  <span class="sr-only" id="documentFocusStatus" role="status" aria-live="polite" aria-atomic="true">โหมดตรวจเอกสารปิดอยู่</span>
+
+  <section class="native-print-lock" aria-label="เอกสารแจ้งว่ายังพิมพ์ไม่ได้">
+    <article>
+      <header>
+        <span>นายช่างใหญ่ Civil Apps · ฐานรากแผ่</span>
+        <b>ยังพิมพ์รายงานไม่ได้</b>
+      </header>
+      <div class="native-print-lock__status">
+        <strong>ยังไม่มีผลคำนวณปัจจุบัน</strong>
+        <span>คำนวณฐานรากแผ่ก่อนพิมพ์หรือบันทึก PDF</span>
+      </div>
+      <dl>
+        <dt>ชุดข้อมูล</dt><dd id="printLockSnapshot">ยังไม่มีผลคำนวณ</dd>
+        <dt>รุ่นหน้าจอ / รายงาน</dt><dd id="printLockRevision">SF-UI-21 / R10</dd>
+        <dt>ฐานการออกแบบ</dt><dd id="printLockBasis">UNRESOLVED PROFILE · ENGINEERING REVIEW</dd>
+        <dt>สถานะ</dt><dd id="printLockStatus">ยังไม่มีผลคำนวณ · NOT EVALUATED</dd>
+        <dt>วันที่</dt><dd id="printLockDate">29 ก.ค. 2026</dd>
+      </dl>
+      <section>
+        <h2>รายงาน A4 จะเปิดเมื่อผลคำนวณพร้อม</h2>
+        <p>กลับไปกด “คำนวณฐานรากแผ่” เพื่อสร้างผลคำนวณปัจจุบันให้ครบ แล้วใช้ปุ่ม “พิมพ์ / บันทึก PDF” ใน Flow 06</p>
+        <p>ไฟล์ที่พิมพ์เป็นรายงานการคำนวณจำนวน 2 หน้า ไม่ใช่บัญชีตัดเหล็กหรือเอกสารอนุญาตก่อสร้าง</p>
+      </section>
+      <footer id="printLockFooter">ยังไม่มีผลคำนวณ · ยังพิมพ์ไม่ได้</footer>
+    </article>
+  </section>
+
+  <script src="/spread-footing-workbench-mockup.js?v=20260801-08"></script>
+</body>
+</html>

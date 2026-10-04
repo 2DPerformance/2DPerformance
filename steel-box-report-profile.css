@@ -1,0 +1,16 @@
+body[data-sc01-load-path] .compact-a4 .sc01-profile-header { display:flex; flex-direction:column; gap:1.5mm; height:auto; min-height:25mm; flex:0 0 auto; padding-bottom:2mm; }
+body[data-sc01-load-path] .compact-a4 .sc01-profile-header h2 { margin:0; flex:none; font:700 11pt/1.4 Sarabun,sans-serif; }
+.sc01-report-identity { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); width:100%; gap:4mm; font:8pt/1.4 Sarabun,sans-serif; }
+.sc01-report-identity>div { display:flex; flex-direction:column; overflow-wrap:anywhere; }
+.sc01-report-identity>div:last-child { text-align:right; }
+.sc01-profile-dialog { width:min(660px,calc(100vw - 24px)); }
+.sc01-profile-dialog form { padding:16px; overflow:auto; }
+.sc01-profile-dialog form>p { margin:0 0 12px; }
+.sc01-profile-fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.sc01-profile-fields label { display:grid; gap:4px; font-size:14px; }
+.sc01-profile-fields input { width:100%; min-width:0; height:42px; padding:8px; border:1px solid #9db7ce; border-radius:5px; font:14px Sarabun,sans-serif; }
+.sc01-profile-dialog footer { display:flex; justify-content:end; gap:8px; margin-top:16px; }
+.sc01-profile-dialog [type=submit] { background:#123e70; color:white; }
+#sc01ProfileError { color:#9c2a25; }
+.sc01-profile-open { margin:8px 0; }
+@media(max-width:520px){ .sc01-profile-fields { grid-template-columns:1fr; } }

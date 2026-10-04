@@ -1,0 +1,57 @@
+/* R17: compact native control, separate non-calculating geometry study. */
+.sc01-support-bar[hidden] { display: none !important; }
+.sc01-support-bar { display: flex; align-items: center; gap: 12px; padding: 7px 10px; margin: 4px 10px; border: 1px solid #b5cde4; border-radius: 7px; background: #f4f9fd; color: #173f65; font: 13px/1.6 Sarabun, sans-serif; }
+.sc01-support-bar details { flex: 1; min-width: 0; }
+.sc01-support-bar summary { cursor: pointer; font-weight: 700; min-height: 32px; align-content: center; }
+.sc01-support-bar p { margin: 8px 0; max-width: 90ch; }
+.sc01-support-bar .sc01-support-errors { color: #922e22; }
+.sc01-support-bar .sc01-support-launch { flex-shrink: 0; min-height: 40px; padding: 8px 12px; background: #e5f1ff; border: 1px solid #97b9e0; color: #10396b; border-radius: 6px; font: 700 13px/1.5 Sarabun, sans-serif; }
+dialog.sc01-restraint-dialog { box-sizing: border-box; width: min(1480px, calc(100vw - 24px)); height: min(940px, calc(100dvh - 24px)); max-width: none; max-height: none; padding: 0; border: 1px solid #adc5dc; border-radius: 12px; color: #133451; background: #f8fbff; font: 15px/1.55 Sarabun, sans-serif; box-shadow: 0 16px 64px #00182e40; overflow: hidden; }
+dialog.sc01-restraint-dialog[open] { display: flex; flex-direction: column; }
+.sc01-restraint-dialog::backdrop { background: #071b32a6; }
+.sc01-restraint-dialog * { box-sizing: border-box; }
+.sc01-restraint-dialog header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; background: linear-gradient(110deg, #102f58, #25577c); color: white; }
+.sc01-restraint-dialog header small { color: #d0e6f8; font-size: 12px; }
+.sc01-restraint-dialog h2 { margin: 2px 0; font: 600 20px/1.5 Prompt, Sarabun, sans-serif; text-shadow: 0 1px 2px #0003; }
+.sc01-restraint-dialog h3 { font-size: 16px; margin: 0 0 16px; }
+.sc01-restraint-dialog button { min-height: 42px; padding: 8px 14px; background: #fff; color: #133e6a; border: 1px solid #b5c9df; border-radius: 6px; font: 600 14px/1.5 Sarabun, sans-serif; cursor: pointer; }
+.sc01-restraint-dialog button:hover { background: #edf5ff; border-color: #628cb6; }
+.sc01-restraint-dialog :is(button, input, select, canvas):focus-visible { outline: 3px solid #1269d2; outline-offset: 2px; }
+.sc01-study-scope { margin: 0; padding: 8px 18px; background: #fff2d3; color: #754505; font-weight: 600; font-size: 14px; border-bottom: 1px solid #e6c787; }
+.sc01-study-body { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: 0; flex: 1; }
+.sc01-study-controls { padding: 18px; border-right: 1px solid #c6d7e7; overflow-y: auto; background: #fff; }
+.sc01-study-controls label { display: block; margin-bottom: 14px; font-size: 14px; font-weight: 600; }
+.sc01-study-controls :is(input, select) { width: 100%; min-height: 44px; margin-top: 6px; padding: 9px 11px; border: 1px solid #abc4dd; border-radius: 6px; background: #fafdff; color: #133451; font: 16px/1.5 Sarabun, sans-serif; }
+.sc01-study-help { font-size: 13px; line-height: 1.65; color: #516779; }
+.sc01-study-controls .sc01-study-apply { width: 100%; margin: 8px 0 12px; background: linear-gradient(120deg, #ffc875, #ff963c); color: #233851; border-color: #db8b36; box-shadow: 0 3px 0 #a86529, 0 6px 10px #0002; transition: transform 120ms, box-shadow 120ms; }
+.sc01-study-controls .sc01-study-apply:hover { background: #ffba68; transform: translateY(-1px); }
+.sc01-study-controls .sc01-study-apply:active { transform: translateY(2px); box-shadow: 0 1px 0 #a86529; }
+.sc01-study-result { border-top: 1px solid #dae3ec; padding-top: 12px; color: #764b15; font-size: 14px; }
+.sc01-study-result[data-valid="false"] { color: #963b29; }
+.sc01-study-stage { display: flex; flex-direction: column; min-height: 0; min-width: 0; padding: 12px; gap: 8px; }
+.sc01-study-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+.sc01-study-canvas-wrap { position: relative; min-height: 220px; flex: 1; border: 1px solid #bdcfe1; border-radius: 6px; overflow: hidden; }
+.sc01-study-canvas-wrap canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+.sc01-study-watermark { position: absolute; top: 10px; left: 10px; right: 10px; width: fit-content; max-width: calc(100% - 20px); padding: 5px 9px; border: 1px solid #d4b776; border-radius: 4px; background: #fff8e8ef; color: #755020; font-size: 13px; pointer-events: none; }
+.sc01-study-pick { min-height: 44px; margin: 0; padding: 6px 3px; font-size: 13px; color: #465d70; }
+@media (max-width: 700px) {
+  .sc01-support-bar { align-items: stretch; flex-direction: column; gap: 4px; }
+  .sc01-support-bar .sc01-support-launch { min-height: 44px; }
+  dialog.sc01-restraint-dialog { width: calc(100vw - 8px); height: calc(100dvh - 8px); border-radius: 8px; }
+  .sc01-restraint-dialog header { padding: 10px; gap: 8px; }
+  .sc01-restraint-dialog h2 { font-size: 17px; }
+  .sc01-restraint-dialog header button { padding: 6px 9px; min-width: 92px; }
+  .sc01-study-scope { padding: 7px 10px; font-size: 13px; }
+  .sc01-study-body { display: flex; flex-direction: column; overflow: auto; }
+  .sc01-study-stage { order: -1; flex: none; height: 52dvh; min-height: 330px; padding: 8px; }
+  .sc01-study-controls { flex: none; overflow: visible; border: 0; border-top: 1px solid #c6d7e7; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; padding: 14px; }
+  .sc01-study-controls :is(h3, p, button) { grid-column: 1 / -1; margin: 0; }
+  .sc01-study-controls label { margin: 0; }
+  .sc01-study-controls select { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .sc01-study-controls .sc01-study-apply { transition: none; } }
+@media print {
+  .sc01-support-bar { display: none !important; }
+  body.sc01-upper-study-open > * { display: none !important; }
+  body.sc01-upper-study-open::before { display: block !important; content: "SC01 — Upper-restraint geometry study only. No calculated report. Close the study to return to the original project. / ภาพศึกษารั้งบน ยังไม่มีผลคำนวณ กลับสู่งานเดิมก่อนเปิดเอกสาร"; white-space: normal; font: 18pt sans-serif; padding: 25mm; color: black; }
+}

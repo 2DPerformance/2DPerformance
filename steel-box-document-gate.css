@@ -1,0 +1,40 @@
+.sc01-document-readiness {
+  margin: 0 0 12px;
+  padding: 14px;
+  border: 1px solid oklch(80% .06 65);
+  border-radius: 8px;
+  color: oklch(32% .06 55);
+  background: oklch(98% .016 75);
+  font-size: 14px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.sc01-document-readiness h3 { margin: 0 0 5px; font-size: 17px; }
+.sc01-document-readiness p { margin: 5px 0 10px; font-size: 14px; }
+.sc01-document-readiness summary { min-height: 44px; cursor: pointer; padding: 10px 0; font-weight: 700; }
+.sc01-document-readiness ul { list-style: none; padding: 0; margin: 0; }
+.sc01-document-readiness li { padding: 12px 0; border-top: 1px solid oklch(87% .025 65); }
+.sc01-document-readiness li > strong, .sc01-document-readiness li > span { display: block; }
+.sc01-document-readiness li > span { font-size: 13px; margin-top: 3px; }
+.sc01-document-readiness li > p { font-size: 13px; }
+.sc01-document-readiness button {
+  min-height: 44px; padding: 8px 10px; margin: 4px 4px 0 0;
+  border: 1px solid oklch(80% .03 251); border-radius: 6px;
+  color: oklch(29% .07 255); background: oklch(99.4% .004 250);
+  font: inherit; font-size: 14px; cursor: pointer;
+}
+.sc01-document-readiness button:hover { background: oklch(95% .02 251); }
+.sc01-document-readiness :focus-visible, .sc01-document-readiness:focus-visible {
+  outline: 3px solid oklch(55% .15 256); outline-offset: 2px;
+}
+[data-sc01-document-locked="true"] { cursor: help; }
+#sc01r12Report[data-sc01-document-locked="true"] { border-style: dashed; }
+#sc01DocumentPrintNotice { display: none; }
+@media print {
+  .sc01-document-readiness { display: none !important; }
+  body.sc01-document-print-blocked > * { display: none !important; }
+  body.sc01-document-print-blocked > #sc01DocumentPrintNotice {
+    display: block !important; padding: 24mm; color: oklch(20% .005 255);
+    background: oklch(99.4% .004 250); font: 16pt/1.6 Sarabun, sans-serif;
+  }
+}

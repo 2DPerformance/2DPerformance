@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+<script src="/group-member-entry.js" data-member-product="billboard-design"></script>
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'"><meta name="theme-color" content="#073476"><meta name="description" content="ออกแบบโครงสร้างป้ายโฆษณา · นายช่างใหญ่ Civil Apps">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>เสาป้ายแขวนยื่น RS-501–504 | NCY SIGN</title>
+  <script type="module" crossorigin src="./assets/overhang-C66biJJf.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-DaKOjhqt.js">
+  <link rel="stylesheet" crossorigin href="./assets/overhang-CDO3mhhm.css">
+</head>
+<body>
+<header class="ov-head">
+  <div><b>NCY SIGN</b> · เสาป้ายแขวนยื่น (Overhang) ตามแบบมาตรฐานกรมทางหลวง RS-501–504</div>
+  <div class="ov-authority">ถอดจากแบบมาตรฐาน · ไม่ได้ตรวจกำลัง · NOT FOR CONSTRUCTION</div>
+</header>
+<main class="ov-main">
+  <form id="ov-form" class="ov-panel" autocomplete="off" onsubmit="return false">
+    <h2>01 ข้อมูลป้าย</h2>
+    <label>ชนิดเสา
+      <select name="type"><option value="I">Type I · ยื่นข้างเดียว (RS-501)</option><option value="II">Type II · ป้ายใหญ่ (RS-502)</option><option value="III">Type III · สองข้าง (RS-503)</option></select>
+    </label>
+    <p id="ov-limits" class="note"></p>
+    <div class="ov-grid">
+      <label><span>ป้ายยาว<span class="lr"> (ขวา)</span></span><input name="signL" type="number" step="0.05" min="0" value="3.00"><i>m</i></label>
+      <label class="only-III">ป้ายซ้ายยาว<input name="signL2" type="number" step="0.05" min="0" value="3.00"><i>m</i></label>
+      <label>ป้ายสูง<input name="signW" type="number" step="0.05" min="0" value="1.70"><i>m</i></label>
+      <label>CL เสา → ขอบป้าย<input name="signOffset" type="number" step="0.05" min="0.75" value="0.75"><i>m</i></label>
+      <label>ช่องลอดใต้ป้าย<input name="clearance" type="number" step="0.05" min="5.5" value="5.50"><i>m</i></label>
+    </div>
+    <h2>02 ฐานราก (RS-504)</h2>
+    <div class="ov-grid">
+      <label class="check"><input name="pilesDrivable" type="checkbox" checked> ตอกเข็มได้</label>
+      <label>qa ดิน<input name="qa" type="number" step="5" min="0" placeholder="ไม่ทราบ"><i>kN/m²</i></label>
+      <label>เลือกฐาน
+        <select name="foundation"><option value="auto">ตามกติกา RS-504</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+      </label>
+      <label>ตอม่อสูง (ใต้ลบมุม 0.10)<input name="pedestalH" type="number" step="0.05" min="0" max="2" value="1.20"><i>m</i></label>
+      <label>ดินที่เสาต่ำกว่าผิวทาง<input name="groundBelowRoad" type="number" step="0.05" min="0" value="0"><i>m</i></label>
+      <label>ความยาวเข็ม<input name="pileLength" type="number" step="0.5" min="0" value="6.00"><i>m</i></label>
+    </div>
+    <div id="ov-status" class="ov-status"></div>
+  </form>
+  <section class="ov-panel ov-viewer">
+    <div class="ov-tools">
+      <button type="button" data-view="iso">3D</button><button type="button" data-view="front">มองหน้าป้าย</button>
+      <button type="button" data-view="side">มองข้าง</button><button type="button" data-view="footing">ฐานราก</button>
+      <label><input type="checkbox" data-toggle="xray"> โปร่งคอนกรีต</label>
+      <label><input type="checkbox" data-toggle="rebar"> เหล็กเสริม</label>
+      <label><input type="checkbox" data-toggle="sign" checked> แผ่นป้าย</label>
+    </div>
+    <canvas id="ov-canvas" aria-label="โมเดล 3 มิติ เสาป้ายแขวนยื่น"></canvas>
+    <div class="ov-watermark">REVIEW · NOT FOR CONSTRUCTION</div>
+    <p class="note">ลากเพื่อหมุน · Shift/คลิกขวาลากเพื่อเลื่อน · ล้อเมาส์ซูม</p>
+  </section>
+  <section class="ov-panel">
+    <h2>03 ขนาดตามแบบ</h2><div id="ov-dims"></div>
+    <h2>เหล็กเสริมฐานราก</h2><div id="ov-rebar"></div>
+    <h2>ประเด็นที่ยังต้องยืนยัน</h2><ul id="ov-open" class="note"></ul>
+  </section>
+</main>
+</body>
+</html>

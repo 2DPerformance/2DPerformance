@@ -1,0 +1,58 @@
+{
+  "authorization": "Owner confirmed ownership and requested a 1:1 port on 2026-07-12. Adjustment R1 authorized by Owner in chat on 2026-08-06 (baton SV-20260806-03): remove pile-vs-column and D-region verdict gates (report scope note retained), remove tie-beam row from construction summary (step 4b retained), add per-check D/C lines from single-source dcCheckRows, add factored-input load mode (U = D + L, self weight x1.4), add 3D bar-size-mode label. Adjustment R2 authorized by Owner in chat on 2026-08-06 (baton SV-20260806-06): remove final verdict banner from report, replace D/C utilization bars with OK/NOT pills (same rep-vd style as check lines), monochrome print stylesheet + uniform font-weight scale (400/600/700), rename factored option to 'ว.ส.ท. Working Design U=D+L' (behavior unchanged). Adjustment R3 authorized by Owner in chat on 2026-08-06 (same baton SV-20260806-06): drop '(default · ACI 318-99)' from wsl option label and add select text-overflow ellipsis (label/CSS only). Adjustment R4 authorized by Owner in chat on 2026-08-07 (baton SV-20260807-02): add a direct-open gate at the top of <head> so the sold card only runs when embedded by a same-origin shell that already passed the entitlement gate; opening the file URL directly redirects to /card-locked.html. Deterrent only — a static host cannot verify entitlement server-side. No engine, formula, verdict or presentation change.",
+  "sourcePage": "https://changkid-engapp.pages.dev/Concrete-design/footing-1pile",
+  "importedAt": "2026-07-11T18:11:43.997Z",
+  "integration": {
+    "removed": [
+      "source login guard",
+      "print paywall",
+      "calculation-report paywall"
+    ],
+    "localized": [
+      "Sarabun font",
+      "Three.js 0.150.1",
+      "print report",
+      "drawing sheet"
+    ],
+    "presentation": "Rebranded as นายช่างใหญ่ Civil Apps Foundation Lab with a local design override."
+  },
+  "files": [
+    {
+      "file": "footing-1pile.html",
+      "source": "https://changkid-engapp.pages.dev/Concrete-design/footing-1pile",
+      "sha256": "fc43f782836098b67e863171056349558df3576f0b1487ef85eac2cd7a4e04ef",
+      "priorSha256": "cbbfd2fafaad6ecd3b51b5b657b6adc8d75e97ba3388e997af0aa89742d9ff9e",
+      "adjustment": "R4 · SV-20260807-02 · Owner-authorized 2026-08-07 — direct-open gate in <head> only; engine, formulas and verdicts untouched"
+    },
+    {
+      "file": "ws-theme.css",
+      "source": "https://changkid-engapp.pages.dev/Concrete-design/ws-theme.css",
+      "sha256": "bb12a41742742823371a80b2fa51dd393a0f1ef834a364d1ca84d9bd80e5c328"
+    },
+    {
+      "file": "ws-layer.js",
+      "source": "https://changkid-engapp.pages.dev/Concrete-design/ws-layer.js",
+      "sha256": "a556aabf5a83afee7f15cd87c39d0d9e6970c90f246dbfa182e670092d7ec668"
+    },
+    {
+      "file": "ws-3d.js",
+      "source": "https://changkid-engapp.pages.dev/Concrete-design/ws-3d.js",
+      "sha256": "881d882039946781272d652f845fc622b4de2f7afc30ea160242bfba63e4b4b5"
+    },
+    {
+      "file": "ck-print-report.js",
+      "source": "https://changkid-engapp.pages.dev/ck-print-report.js",
+      "sha256": "4810651ba0bbc94ab303dcb73b12b391eab8a340cb69f71d6bd4dc676acf954f"
+    },
+    {
+      "file": "ck-drawing-sheet.js",
+      "source": "https://changkid-engapp.pages.dev/ck-drawing-sheet.js",
+      "sha256": "7851128251a0f1ad46248989fb836ef797f56cf0d468f1f02a88051974a33bbb"
+    },
+    {
+      "file": "three.min.js",
+      "source": "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js",
+      "sha256": "72c8a8302444fb39cb8e04be1f556b2fdca798e606a99b4b37c8cfe3e3ee3272"
+    }
+  ]
+}
