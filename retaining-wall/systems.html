@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="th" class="rw-workspace-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <link rel="icon" type="image/png" href="/favicon-2d.png">
+  <title>RW-01 · ระบบกำแพงกันดิน</title>
+  <link rel="stylesheet" href="/fonts/sarabun/sarabun.css">
+  <script>
+    (function () {
+      var qa = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)
+        && new URLSearchParams(location.search).get('qa') === '1';
+      var member = false;
+      try {
+        member = parent !== window && parent.location.origin === location.origin
+          && /\/retaining-wall\/?$/.test(parent.location.pathname);
+      } catch (_) {}
+      if (!qa && !member) location.replace(new URL('../retaining-wall', location.href));
+    }());
+  </script>
+  <script type="importmap">
+    {"imports":{"three":"/vendor/three/three.module.js","three/addons/":"/vendor/three/addons/"}}
+  </script>
+  <style>
+    :root{font-family:Prompt,Sarabun,"Segoe UI",sans-serif;color:#182a3a;background:#f2f5f8;
+      --navy:#173c5d;--ink:#182a3a;--muted:#5f7181;--line:#cfdae3;--panel:#f7f9fb;
+      --orange:#dc541e;--fail:#b63a37;--failbg:#fff0ed;--hold:#8b5712;--holdbg:#fff4dc;
+      --pass:#166f4c;--passbg:#e7f5ee}
+    *{box-sizing:border-box}
+    body{margin:0;font-size:13px}
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #4382ba;outline-offset:2px}
+    .top{min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 20px;background:#f9fbfc;border-bottom:1px solid var(--line)}
+    .identity{display:flex;align-items:center;gap:14px;min-width:0}
+    .mark{display:grid;place-items:center;background:var(--navy);color:#f8fafc;padding:8px 10px;border-radius:5px;font-size:12px;font-weight:800}
+    .identity h1{font-size:17px;margin:0;line-height:1.35}
+    .identity p{font-size:10px;color:var(--muted);margin:2px 0 0}
+    .top-actions{display:flex;align-items:center;gap:8px}
+    .button{min-height:40px;border:1px solid var(--line);background:#f9fbfc;color:var(--ink);border-radius:5px;padding:7px 12px;font-weight:700}
+    .button:hover{border-color:#5d809d;background:#edf3f7}
+    .button.primary{background:var(--navy);border-color:var(--navy);color:#f8fafc}
+    .button.primary:hover{background:#255574}
+    .button:disabled{opacity:.47;cursor:not-allowed}
+    .system-strip{display:flex;gap:0;overflow:auto;background:#e9eef2;border-bottom:1px solid var(--line);padding:0 18px}
+    .system-strip button{white-space:nowrap;min-height:47px;padding:9px 17px;border:0;border-bottom:3px solid transparent;background:transparent;color:#465a6a;font-weight:700}
+    .system-strip button[aria-selected=true]{background:#f9fbfc;border-bottom-color:var(--orange);color:var(--navy)}
+    .layout{display:grid;grid-template-columns:minmax(265px,320px) minmax(0,1fr);min-height:calc(100dvh - 113px)}
+    .inputs{background:#f9fbfc;border-right:1px solid var(--line);padding:16px 16px 28px;overflow:auto;max-height:calc(100dvh - 113px)}
+    .inputs h2{font-size:13px;color:var(--navy);margin:14px 0 8px}
+    .inputs h2:first-child{margin-top:0}
+    .system-guide{border-left:3px solid var(--navy);background:#edf3f7;padding:9px 11px;margin:0 0 13px;line-height:1.5;font-size:11px}
+    .system-guide p{margin:2px 0}
+    .system-guide b{color:var(--navy)}
+    .field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+    .field-grid label{display:block;color:#3e5262;font-size:11px;font-weight:700}
+    .field-grid label.wide{grid-column:1/-1}
+    .field-grid small{font-weight:400;color:var(--muted)}
+    .field-grid input,.field-grid select{display:block;width:100%;height:38px;margin-top:4px;padding:6px 8px;border:1px solid var(--line);border-radius:4px;background:#fdfefe;color:var(--ink)}
+    .input-note{font-size:11px;color:var(--muted);line-height:1.5;margin:11px 0}
+    .input-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+    .work{min-width:0;padding:17px 20px 32px}
+    .state{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:12px 15px;background:#eaf0f5;border:1px solid var(--line);border-radius:5px}
+    .state[data-status=FAIL]{background:var(--failbg);border-color:#e9b6b0}
+    .state[data-status=HOLD],.state[data-status=STALE]{background:var(--holdbg);border-color:#e6d2ab}
+    .state strong{font-size:13px}
+    .state span{color:#526577;font-size:11px}
+    .state p{margin:4px 0 0;line-height:1.5;font-size:11px}
+    .status-tag{white-space:nowrap;min-width:65px;text-align:center;border-radius:3px;padding:4px 7px;background:var(--navy);color:#f9fbfc;font-size:11px;font-weight:800}
+    .state[data-status=FAIL] .status-tag{background:var(--fail);color:#fff}
+    .state[data-status=HOLD] .status-tag,.state[data-status=STALE] .status-tag{background:var(--hold);color:#fff}
+    .tabs{display:flex;overflow:auto;border-bottom:1px solid var(--line);margin:14px 0 0;gap:4px}
+    .tabs button{min-height:42px;border:0;border-bottom:2px solid transparent;background:transparent;padding:8px 15px;color:#5b6b7a;font-weight:700;white-space:nowrap}
+    .tabs button[aria-selected=true]{border-bottom-color:var(--navy);color:var(--navy)}
+    .pane{display:none;min-width:0;padding-top:16px}
+    .pane.active{display:block}
+    .pane h2{font-size:14px;margin:0 0 10px;color:var(--navy)}
+    .pane h3{font-size:12px;margin:17px 0 7px;color:#3b5266}
+    .pane p{line-height:1.55}
+    .usage-line{background:#edf3f7;border-left:3px solid var(--navy);padding:9px 11px;font-size:11px}
+    .drawing-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .drawing{background:#fafcfd;border:1px solid var(--line);min-width:0}
+    .drawing header{padding:8px 11px;background:#eaf0f4;border-bottom:1px solid var(--line);font-size:11px;font-weight:800;color:#28445a}
+    .drawing svg{display:block;width:100%;height:310px}
+    .drawing p{padding:0 11px;color:var(--muted);font-size:11px}
+    .fbd{margin-top:12px}.drawing .fbd-svg{height:230px}
+    .support-note{border-left:3px solid #a65c15;padding:6px 10px;background:#fff8eb}
+    .load-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:14px}
+    .load-strip div{background:#f9fbfc;padding:10px 12px;min-width:0}
+    .load-strip small{display:block;color:var(--muted);font-size:10px}
+    .load-strip b{font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+    .viewport{height:min(62vh,590px);min-height:340px;position:relative;border:1px solid var(--line);background:#f2f5f8}
+    .viewport canvas{display:block;width:100%;height:100%}
+    .viewport .overlay{position:absolute;top:10px;left:10px;background:#f9fbfce8;border:1px solid var(--line);padding:7px 9px;font-size:10px;max-width:45ch}
+    .viewport-toolbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+    .viewport-toolbar button{min-height:38px}
+    .viewport-toolbar .spacer{flex:1}
+    .legend{color:var(--muted);font-size:11px;line-height:1.55}
+    .diagram-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .diagram-grid figure{margin:0;min-width:0;border:1px solid var(--line);background:#fafcfd}
+    .diagram-grid figcaption{padding:8px 11px;border-bottom:1px solid var(--line);font-weight:700;font-size:11px}
+    .diagram-grid svg{display:block;width:100%;height:250px}
+    .table-wrap{overflow:auto;border:1px solid var(--line);background:#fafcfd}
+    table{border-collapse:collapse;width:100%;font-size:11px}
+    th,td{border-bottom:1px solid #e2e9ef;padding:8px 10px;text-align:left;vertical-align:top}
+    th{background:#eaf0f4;color:#365167;font-size:10px;white-space:nowrap}
+    tr:last-child td{border-bottom:0}
+    td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+    tr.fail-row{background:#fff0ed}
+    tr.pass-row td:first-child{color:var(--pass)}
+    .badge{display:inline-block;padding:2px 5px;border-radius:3px;font-weight:800;font-size:10px;background:var(--passbg);color:var(--pass)}
+    .badge.fail{background:var(--failbg);color:var(--fail)}
+    .paper{max-width:820px;background:#fbfcfd;border:1px solid var(--line);padding:26px 32px;line-height:1.6}
+    .paper h2{font-size:18px}
+    .paper h3{border-top:1px solid var(--line);padding-top:12px}
+    .rw-final-section{margin-top:28px;border-top:3px solid #193e63;padding-top:16px;background:#fff}
+    .rw-final-heading h2{margin:4px 0}.rw-final-heading p{margin:0 0 8px}
+    .rw-final-identity{display:grid;gap:3px;font-size:12px;padding:8px 0;border-bottom:1px solid #c8d4df}
+    .rw-rb-section{margin:9px 0;border-top:1px solid var(--line);padding-top:7px}.rw-rb-section summary{cursor:pointer;font-size:12px;font-weight:700;padding:4px 0}.rw-rb-section .drawing{max-width:760px;margin:8px auto}.rw-rb-section .drawing svg{height:auto;aspect-ratio:140/90}
+    .rw-final-drawing{margin:12px 0 8px}.rw-final-drawing figcaption{font-weight:700;font-size:12px;margin-bottom:5px}
+    .rw-final-drawing svg{display:block;width:100%;height:340px}
+    .rw-final-support,.rw-final-caveat,.rw-final-authority{font-size:11px;line-height:1.4}
+    .rw-final-bars{width:100%;table-layout:fixed;font-size:11px;line-height:1.35}
+    .rw-final-bars th:nth-child(1){width:8%}.rw-final-bars th:nth-child(2){width:36%}
+    .rw-final-bars th:nth-child(3){width:15%}.rw-final-bars th:nth-child(4){width:41%}
+    .rw-final-bars th,.rw-final-bars td{overflow-wrap:anywhere;padding:4px 5px}
+    .rw-final-authority{border-top:1px solid #c8d4df;padding-top:6px;font-weight:600}
+    .rw-a4-cad-sheet{margin:20px auto;background:#fff;width:max-content;max-width:100%;border:1px solid #bcc9d6}
+    .rw-a4-cad-sheet svg{display:block;width:176mm;max-width:100%;height:auto}
+    .report-bars{margin:1em 0}
+    .report-bars>div{break-inside:avoid}
+    .equation{font-family:"IBM Plex Mono",Consolas,monospace;background:#edf2f6;padding:9px 11px;overflow:auto;white-space:normal}
+    .empty{min-height:210px;display:grid;place-content:center;text-align:center;color:var(--muted);background:#f6f9fb;border:1px dashed var(--line);padding:20px}
+    .empty b{color:var(--navy)}
+    .error{color:var(--fail);font-weight:700;margin-top:10px;min-height:1em}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}.inputs{max-height:none;border-right:0;border-bottom:1px solid var(--line)}.field-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.work{padding:14px}.drawing-row{grid-template-columns:1fr}}
+    @media(max-width:590px){.top{align-items:flex-start;flex-direction:column;padding:10px 14px}.system-strip{padding:0 8px}.inputs{padding:13px}.field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.load-strip,.diagram-grid{grid-template-columns:1fr 1fr}.load-strip b{font-size:12px}.drawing svg{height:250px}.state{flex-direction:column}.status-tag{align-self:flex-start}}
+    @page{size:A4 portrait;margin:12mm}
+    @media print{
+      :root{background:#fff}
+      html,body{height:auto!important;min-height:0!important;background:#fff;color:#111}
+      .top,.system-strip,.inputs,.tabs,.viewport-toolbar,.no-print{display:none!important}
+      .layout{display:block;min-height:0}.work{padding:0}.pane{display:none!important}
+      #reportPane{display:block!important;padding:0}
+      .paper{border:0;max-width:none;padding:0;background:#fff;line-height:1.45}
+      .paper p{margin:4px 0}.paper h3{margin:8px 0 4px;padding-top:6px}
+      .state{border:1px solid #777!important;background:#fff!important;print-color-adjust:exact}
+      .drawing-row{display:flex;flex-direction:column;gap:8px}
+      .drawing{break-inside:avoid}.drawing svg{height:165px}
+      .drawing .fbd-svg{height:125px}
+      .diagram-grid{display:flex;gap:8px}.diagram-grid figure{flex:1;break-inside:avoid}
+      .diagram-grid svg{height:150px}
+      .table-wrap{overflow:visible;break-inside:auto}
+      table{font-size:10px}th,td{padding:3px 7px}
+      thead{display:table-header-group}tr{break-inside:avoid}
+      .equation{overflow:visible;overflow-wrap:anywhere}
+      .print-keep{break-inside:avoid;page-break-inside:avoid}
+      h3{break-after:avoid}
+      .rw-final-section{break-before:page;page-break-before:always;break-inside:avoid;page-break-inside:avoid;margin-top:0;padding-top:2mm;border-top:2px solid #193e63}
+      .rw-final-heading h2{font-size:16px}.rw-final-heading p{font-size:12px}
+      .rw-final-identity{font-size:10.5px;padding:4px 0;gap:1px}
+      .rw-rb-section .drawing svg{width:176mm;height:auto}.rw-rb-section{break-inside:avoid}.rw-rb-section summary{font-size:10px}
+      .rw-final-drawing{margin:5px 0}.rw-final-drawing svg{height:80mm}
+      .rw-final-section h3{font-size:12px;margin:5px 0 3px}
+      .rw-final-bars{font-size:10px;line-height:1.25}.rw-final-bars th,.rw-final-bars td{padding:3px 4px}
+      .rw-final-support,.rw-final-caveat,.rw-final-authority{font-size:10px;line-height:1.3}
+      .rw-a4-cad-sheet{break-before:page;page-break-before:always;break-inside:avoid;page-break-inside:avoid;
+        margin:0 auto;padding:0;border:0;width:176mm;height:266mm;max-width:none;line-height:0}
+      .rw-a4-cad-sheet svg{width:176mm;height:266mm;max-width:none}
+    }
+  </style>
+  <link rel="stylesheet" href="./workflow.css?rwv=20261003-main-equations-1">
+  <link rel="stylesheet" href="./footingWorkflow.css?rwv=20261003-final-acceptance-1&fix=20261004-validation-1" data-rw-ft-style>
+  <script>setTimeout(() => { if (document.body?.classList.contains('rw-ft03') && !document.body.classList.contains('rw-ft-ready')) { document.body.classList.remove('rw-ft03','rw-unified'); document.documentElement.classList.remove('rw-workspace-root'); } }, 10000);</script>
+</head>
+<body class="rw-unified rw-ft03" data-rw-workbench="rw01-systems">
+  <header class="top">
+    <div class="identity"><div class="mark">RW-01</div><div><h1>ระบบกำแพงกันดิน</h1><p>Plan / Section · แรงภายใน · 3D · รายการคำนวณ</p></div></div>
+    <div class="top-actions"><button class="button" id="back" type="button">← โต๊ะคำนวณหลัก</button><button class="button" id="print" type="button" disabled>พิมพ์รายการคำนวณ</button></div>
+  </header>
+  <nav class="system-strip" aria-label="ชนิดระบบกำแพง">
+    <button type="button" data-type="pile" aria-selected="true">กำแพงยื่นบนเสาเข็ม</button>
+    <button type="button" data-type="pilecf" aria-selected="false">ครีบบนเสาเข็ม</button>
+    <button type="button" data-type="soldier" aria-selected="false">เสาเข็มพืด</button>
+    <button type="button" data-type="duckfoot" aria-selected="false">ฐานตีนเป็ด · เสาชิดเขต</button>
+  </nav>
+  <div class="layout">
+    <aside class="inputs">
+      <div id="systemFields"></div>
+      <section data-input-group="project" data-group-label="โครงการ">
+      <h2>โครงการและการใช้รูปแบบนี้</h2>
+      <div class="field-grid" id="commonFields"></div>
+      <div class="system-guide" id="systemGuide"></div>
+      <p class="input-note">ค่าตัวอย่างใช้เพื่อทดลองเท่านั้น ระบุข้อมูลดินและกำลังเสาเข็มจากโครงการก่อนนำผลไปตรวจแบบ</p>
+      </section>
+      <div class="input-actions">
+        <button class="button primary" id="calculate" type="button">คำนวณระบบนี้</button>
+        <button class="button" id="save" type="button">บันทึกร่าง</button>
+        <button class="button" id="open" type="button">เปิดร่าง</button>
+      </div>
+      <div class="error" id="error" role="alert"></div>
+    </aside>
+    <main class="work">
+      <div class="state" id="state" data-status="STALE" role="status">
+        <div><strong id="stateTitle">ยังไม่มีผลคำนวณ</strong><p id="stateReason">กรอกขนาดและแรงกระทำ แล้วกดคำนวณระบบนี้</p><span id="stateStamp"></span></div>
+        <div class="status-tag" id="stateTag">INPUT</div>
+      </div>
+      <nav class="tabs" aria-label="มุมมองผล">
+        <button type="button" data-pane="plan" aria-selected="true">Plan / Section</button>
+        <button type="button" data-pane="model" aria-selected="false">3D</button>
+        <button type="button" data-pane="forces" aria-selected="false">SFD / BMD</button>
+        <button type="button" data-pane="checks" aria-selected="false">ผลตรวจ D/C</button>
+        <button type="button" data-pane="bars" aria-selected="false">เหล็ก / รายการ</button>
+        <button type="button" data-pane="report" aria-selected="false">รายการคำนวณ</button>
+      </nav>
+      <section class="pane active" id="planPane"></section>
+      <section class="pane" id="modelPane">
+        <div class="viewport-toolbar">
+          <button class="button" data-view="iso" type="button">ISO</button>
+          <button class="button" data-view="plan" type="button">Plan</button>
+          <button class="button" data-view="section" type="button">Section</button>
+          <button class="button" data-view="elevation" type="button">Elevation</button>
+          <span class="spacer"></span>
+          <label><input type="checkbox" id="soilLayer" checked> แสดงดิน</label>
+          <label><input type="checkbox" id="rebarLayer"> เหล็กออกแบบ</label>
+          <label><input type="checkbox" id="stressLayer"> Stress Contour Plot</label>
+          <button class="button" id="png" type="button">บันทึกภาพ 3D</button>
+        </div>
+        <div class="viewport"><canvas id="systemCanvas" tabindex="0" aria-label="แบบจำลองสามมิติของระบบกำแพง" aria-description="ลูกศรเลื่อนภาพ; Shift และลูกศรหมุน; บวกและลบซูม; F หรือ Home พอดีจอ; 0 คืนมุม ISO"></canvas><div class="rw-camera-tools" role="group" aria-label="ควบคุมกล้องผลคำนวณ"><button type="button" data-model-camera="in" aria-label="ซูมเข้า" title="ซูมเข้า" disabled>+</button><button type="button" data-model-camera="out" aria-label="ซูมออก" title="ซูมออก" disabled>−</button><button type="button" data-model-camera="fit" aria-label="พอดีจอ · คงมุมเดิม" title="พอดีจอ · คงมุมเดิม" disabled>⤢</button><button type="button" data-model-camera="reset" aria-label="คืนมุม ISO" title="คืนมุม ISO" disabled>↺</button></div><div class="overlay">รูปทรงและเหล็กออกแบบจากผลคำนวณ · ไม่ใช่รายการตัดดัด</div></div>
+        <div id="stressLegend" hidden></div><p class="legend">ลากหมุน · คลิกขวาลากเลื่อน · สองนิ้วซูม · ลูกศรเลื่อน / Shift+ลูกศรหมุน · +/− ซูม · F พอดีจอ · 0 คืน ISO</p>
+      </section>
+      <section class="pane" id="forcesPane"></section>
+      <section class="pane" id="checksPane"></section>
+      <section class="pane" id="barsPane"></section>
+      <section class="pane" id="reportPane"></section>
+    </main>
+  </div>
+  <input type="file" id="draftFile" accept=".json,application/json" hidden>
+  <script type="module" src="./systemsPage.mjs?rwv=20261003-final-acceptance-1&apd=20261003-cast-together-1&toolbar=20261004-actions-1&material=20261004-realism-1&panel=20261004-pile-panel-1&stay=20261004-alternate-1"></script>
+</body>
+</html>

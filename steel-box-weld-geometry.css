@@ -1,0 +1,12 @@
+.sc01-weld-explanation{margin:12px 0;padding:14px;border:1px solid #c5d7e9;border-radius:10px;background:#f4f8fc;color:#123557;font-size:14px;line-height:1.55;min-width:0}
+.sc01-weld-explanation header{display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:space-between;margin-bottom:8px}
+.sc01-weld-explanation header strong{font-size:15px}.sc01-weld-explanation header span{color:#72460d;font-weight:700}
+.sc01-weld-explanation p{margin:8px 0}.sc01-weld-explanation small{font-size:12px;line-height:1.5;color:#49627a;display:block}
+.sc01-weld-explanation dl{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:8px 10px;margin:12px 0}
+.sc01-weld-explanation dt,.sc01-weld-explanation dd{margin:0;overflow-wrap:anywhere}.sc01-weld-explanation dd{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.sc01-weld-meaning{max-width:320px;margin:8px auto}.sc01-weld-meaning svg{width:100%;height:auto;display:block}.sc01-weld-meaning text{font:14px sans-serif;fill:#163755}
+.sc01-weld-range{border-left:3px solid #bd751e;padding:8px;background:#fff1d9}.sc01-weld-range[data-feasible="false"]{border-color:#b64335;background:#ffede9}
+#group-weld>.sc01-weld-explanation{margin:10px 12px}
+.sc01-weld-explanation summary{cursor:pointer;font-weight:700;padding:8px 0;color:#164a79}.sc01-weld-unit-hint{display:block;margin-top:6px;font-size:12px;color:#49627a;line-height:1.5}
+@media(max-width:420px){.sc01-weld-explanation{padding:10px}.sc01-weld-explanation dl{grid-template-columns:1fr}.sc01-weld-explanation dd{text-align:left;margin-top:-6px}}
+@media print{.sc01-weld-explanation{display:none!important}}

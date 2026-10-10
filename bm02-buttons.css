@@ -1,0 +1,177 @@
+/* SH-01 button vocabulary, scoped to this card and screen output only. */
+@media screen {
+  .app {
+    --bm02-face: oklch(98.8% .006 250);
+    --bm02-edge: oklch(73% .035 252);
+    --bm02-button-ink: oklch(28% .07 258);
+    --bm02-button-navy: oklch(35% .11 258);
+    --bm02-button-shadow: 0 2px 0 oklch(80% .025 252), 0 3px 5px oklch(28% .055 255 / .12);
+  }
+  .app button, .app .seg label, .app .sv-concrete-project > summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 44px;
+    min-height: 44px;
+    height: auto;
+    padding: 8px 11px;
+    border: 1px solid var(--bm02-edge);
+    border-radius: 7px;
+    background: var(--bm02-face);
+    color: var(--bm02-button-ink);
+    font-family: var(--sans);
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: clip;
+    box-shadow: var(--bm02-button-shadow);
+    cursor: pointer;
+    transition: background-color 150ms ease-out, color 150ms ease-out,
+      border-color 150ms ease-out, transform 150ms ease-out, box-shadow 150ms ease-out;
+  }
+  .app button[data-ncy-icon]::before, .app .sv-concrete-project > summary::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    background-color: currentColor;
+    mask: var(--bm02-button-icon) center / contain no-repeat;
+  }
+  .app button:is(.on, .active, [aria-selected="true"], [aria-pressed="true"]),
+  .app .seg label.on, .app #btnPrint, .app #btnGuideNext {
+    background: var(--bm02-button-navy);
+    border-color: oklch(28% .1 258);
+    color: var(--bm02-face);
+    --bm02-button-shadow: 0 2px 0 oklch(23% .075 258), 0 3px 5px oklch(28% .055 255 / .14);
+    box-shadow: var(--bm02-button-shadow);
+  }
+  .app .flowstep.active b { color: inherit; }
+  .app #btnRun, .app #btnAssistantConfirmRun {
+    background: oklch(59% .18 42);
+    border: 1px solid oklch(51% .16 42);
+    color: var(--bm02-face);
+    --bm02-button-shadow: 0 2px 0 oklch(47% .14 42), 0 3px 5px oklch(40% .1 42 / .15);
+    box-shadow: var(--bm02-button-shadow);
+  }
+  .app button:hover:not(:disabled):not([aria-busy="true"]),
+  .app .seg label:hover, .app .sv-concrete-project > summary:hover {
+    background: oklch(95% .017 250);
+    border-color: oklch(63% .045 252);
+  }
+  .app button:is(.on, .active, [aria-selected="true"], [aria-pressed="true"], #btnPrint, #btnGuideNext):hover:not(:disabled),
+  .app .seg label.on:hover { background: oklch(30% .1 258); }
+  .app #btnRun:hover:not(:disabled), .app #btnAssistantConfirmRun:hover:not(:disabled) {
+    background: oklch(54% .17 42);
+    border-color: oklch(47% .14 42);
+  }
+  .app button:active:not(:disabled):not([aria-busy="true"]),
+  .app .seg label:active, .app .sv-concrete-project > summary:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 oklch(28% .055 255 / .2);
+  }
+  .app button:focus-visible, .app .seg label:focus-within,
+  .app .sv-concrete-project > summary:focus-visible {
+    outline: 3px solid oklch(58% .16 247);
+    outline-offset: 2px;
+  }
+  .app button:disabled, .app button:disabled:hover,
+  .app button:is(#btnPrint, #btnGuideNext, #btnAssistantConfirmRun):disabled {
+    background: oklch(93% .015 250);
+    color: oklch(51% .025 252);
+    border-color: oklch(83% .025 252);
+    opacity: 1;
+    box-shadow: none;
+    transform: none;
+    cursor: not-allowed;
+  }
+  .app #btnRun[data-running="true"] {
+    background: oklch(54% .17 42);
+    border-color: oklch(47% .14 42);
+    color: var(--bm02-face);
+    opacity: 1;
+    cursor: progress;
+    box-shadow: 0 1px 0 oklch(47% .14 42);
+  }
+  .app #btnRun[data-running="true"]::before {
+    mask: none;
+    background: none;
+    border: 2px solid oklch(98.8% .006 250 / .35);
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: bm02-button-busy 700ms linear infinite;
+  }
+  @keyframes bm02-button-busy { to { transform: rotate(360deg); } }
+  .app .seg input {
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+  .app .plrow { grid-template-columns: 56px minmax(0,1fr) minmax(0,1fr) 44px; }
+  .app .plrow button { width: 44px; color: var(--bad); }
+  .app .manual-step-actions button { padding: 6px; }
+  .app button[data-ncy-icon-only] { font-size: 0; gap: 0; }
+  .app .app-actions { flex-wrap: wrap; align-items: center; gap: 7px; }
+  .app .sv-concrete-project > summary { list-style: none; font-size: 11px; }
+  .app .sv-concrete-project > summary::-webkit-details-marker { display: none; }
+  .app .sv-concrete-project[open] > summary { outline: 2px solid oklch(58% .16 247); outline-offset: 2px; }
+  .app .sv-concrete-project-body button { white-space: normal; }
+  .app .flownav, .app .section-span-tabs { gap: 6px; padding-block: 3px; }
+  .app .flownav { scroll-padding-inline: 3px; }
+  .app :is(.studio-camera-bar, .studio-layer-bar) button {
+    flex-direction: column;
+    gap: 3px;
+    padding: 5px 6px;
+    min-width: 54px;
+  }
+  .appbar { padding-inline: 20px; }
+  .app .brand-lockup {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+    padding: 4px 0;
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    text-align: left;
+  }
+  .app .brand-lockup:hover:not(:disabled) { background: transparent; border-color: transparent; }
+  .ncy-brand-lockup { display: inline-flex; align-items: center; gap: 9px; min-width: 0; }
+  .ncy-brand-mark { display: block; height: 30px; width: auto; object-fit: contain; flex: 0 0 auto; background: var(--bm02-face); border-radius: 3px; padding: 2px; }
+  .ncy-brand-copy { display: grid; gap: 2px; line-height: 1; text-align: left; }
+  .ncy-brand-copy strong { font-size: 16px; white-space: nowrap; color: oklch(96% .012 250); }
+  .ncy-brand-copy strong span { color: #ef7b35; }
+  .ncy-brand-copy small { color: #aab6c9; font-size: 8px; font-weight: 700; letter-spacing: .14em; }
+  .brand-lockup .identity { display: flex; align-items: baseline; gap: 7px; }
+  .brand-lockup .identity .cap { display: none; }
+  .brand-lockup .identity strong { overflow: visible; font-size: 10px; }
+  .brand-lockup .identity .en { font-size: 8px; }
+  @media (max-width: 1200px) {
+    .app .flowstep { padding-inline: 8px; gap: 5px; }
+    .app .studio-layer-bar { bottom: 84px; }
+  }
+  @media (max-width: 1080px) {
+    .appbar { grid-template-columns: minmax(0,1fr) auto; grid-template-rows: auto auto; padding-block: 8px; }
+    .flowwrap { grid-column: 1 / -1; justify-content: flex-start; }
+    .flownav { width: 100%; justify-content: flex-start; }
+    .ws-status { display: none; }
+  }
+  @media (max-width: 700px) {
+    .appbar { padding-inline: max(16px,env(safe-area-inset-left)); gap: 8px; }
+    .app .brand-lockup { grid-column: 1 / -1; justify-self: start; }
+    .app-actions { grid-column: 1 / -1; grid-row: 2; }
+    .flowwrap { grid-row: 3; }
+    .ncy-brand-mark { height: 26px; }
+    .ncy-brand-copy strong { font-size: 15px; }
+    .app .rail-actions button { padding-inline: 9px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .app button, .app .seg label, .app .sv-concrete-project > summary { transition: none; }
+    .app #btnRun[data-running="true"]::before { animation: none; }
+  }
+}

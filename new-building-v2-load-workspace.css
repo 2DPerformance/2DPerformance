@@ -1,0 +1,127 @@
+/* Desktop P2: the form and the plan own separate, non-overlapping space.
+   Existing input handlers, confirmations and output guards are unchanged. */
+@media screen and (min-width: 1000px) {
+  :root.guided-v2-embedded[data-active-phase="P2"] #viewport {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    grid-template-rows: minmax(0, 1fr);
+    gap: 10px;
+    padding: 8px;
+  }
+  :root.guided-v2-embedded[data-active-phase="P2"] #plan-svg {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  :root.guided-v2-embedded[data-active-phase="P2"] :is(#grid-span-insert-controls, #grid-line-remove-controls) { display: none; }
+  :root.guided-v2-embedded[data-active-phase="P2"] #p2-load-workbench {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    overflow: hidden;
+    scrollbar-gutter: auto;
+  }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-load-dock {
+    height: 100%;
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    overflow: hidden;
+  }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-dock-block {
+    min-height: 0;
+    padding: 10px 12px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-dock-block:nth-child(3) {
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+  }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-dock-label {
+    margin-bottom: 7px;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-level-button { height: 44px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-level-button b { font-size: 12px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] :is(.p2-level-button small, .p2-level-total) { font-size: 10px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-mode-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-mode-list.roof { grid-template-columns: 1fr; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-mode-button { min-height: 46px; height: auto; font-size: 12px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-compact-editor { gap: 12px 10px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-form-field { width: calc((100% - 10px) / 2); }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-form-field.wide { width: 100%; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-form-field label {
+    margin-bottom: 5px;
+    font-size: 12px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  :root.guided-v2-embedded[data-active-phase="P2"] :is(.p2-field-wrap input, .p2-form-field select) {
+    height: 38px;
+    font-size: 13px;
+  }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-field-wrap input { padding-right: 52px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-unit { font-size: 10px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-wall-actions { width: 100%; gap: 8px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] :is(.p2-mini-button, .p2-dock-actions button) { min-height: 36px; font-size: 12px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-wall-count { font-size: 11px; line-height: 1.5; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-stair-load-editor > strong { font-size: 12px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] :is(.p2-stair-load-editor > small, .p2-roof-structure-note) { font-size: 10px; overflow-wrap: anywhere; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-dock-actions {
+    grid-template-rows: auto auto auto;
+    gap: 8px;
+    border-bottom: 0;
+    background: var(--surface);
+  }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-dock-status { font-size: 11px; line-height: 1.4; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-engine-badge { flex-shrink: 0; font-size: 9px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-dock-evidence { font-size: 11px; }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-dock-evidence > summary { cursor: pointer; color: var(--muted); }
+  :root.guided-v2-embedded[data-active-phase="P2"] .p2-contract-line { max-height: 90px; overflow: auto; margin-top: 6px; font-size: 10px; }
+}
+
+/* P3 keeps its actions and expandable audits in the same desktop side pane. */
+@media screen and (min-width: 1000px) {
+  :root.guided-v2-embedded[data-active-phase="P3"] #viewport {
+    display: grid; grid-template-columns: minmax(0, 1fr) 420px;
+    grid-template-rows: minmax(0, 1fr); gap: 10px; padding: 8px;
+  }
+  :root.guided-v2-embedded[data-active-phase="P3"] #plan-svg {
+    grid-column: 1; grid-row: 1; width: 100%; height: 100%; min-width: 0; min-height: 0;
+    border: 1px solid var(--line); border-radius: 8px;
+  }
+  :root.guided-v2-embedded[data-active-phase="P3"] #p2-load-workbench {
+    grid-column: 2; grid-row: 1; position: relative; inset: auto;
+    height: 100%; max-height: none; min-height: 0; overflow: auto;
+  }
+  :root.guided-v2-embedded[data-active-phase="P3"] .p3-load-check-dock {
+    display: flex; flex-direction: column; min-height: 0; height: auto;
+  }
+  :root.guided-v2-embedded[data-active-phase="P3"] .p2-dock-block {
+    padding: 9px; border-right: 0; border-bottom: 1px solid var(--line-soft);
+  }
+  :root.guided-v2-embedded[data-active-phase="P3"] .p2-dock-actions {
+    order: -1; position: sticky; top: 0; z-index: 2; background: var(--surface);
+  }
+  :root.guided-v2-embedded[data-active-phase="P3"] .p3-secondary-review {
+    position: relative; inset: auto; z-index: auto; margin-top: 6px; box-shadow: none;
+  }
+  :root.guided-v2-embedded[data-active-phase="P3"] :is(.p3-check b, .p3-check span, .p3-admission-row b, .p3-admission-row small, .p2-dock-status, .p3-secondary-review summary, .p2-dock-label) {
+    font-size: 11px; line-height: 1.45; white-space: normal;
+  }
+  :root.guided-v2-embedded[data-active-phase="P3"] .p2-dock-actions button { min-height: 40px; font-size: 11px; }
+}

@@ -1,0 +1,258 @@
+/* ════════════════════════════════════════════════════════════════
+   ws-theme.css — Foundation Lab · Workstation Theme (override layer)
+   โหลด "ต่อท้าย" <style> เดิมของแต่ละเครื่องมือ เพื่อยกระดับเป็น UI
+   แบบโปรแกรมวิเคราะห์โครงสร้าง โดยไม่แตะ engine คำนวณ
+   — ห้ามใส่กฎที่ผูกกับ id เฉพาะของเครื่องมือใดเครื่องมือหนึ่ง —
+   ════════════════════════════════════════════════════════════════ */
+:root{
+  --navy:#0A1628; --navy2:#10233F; --navy3:#16304F;
+  --blue:#1B4F8C; --blue2:#2E6DB4;
+  --orange:#F58220; --orange2:#FF9D4D;
+  --bp-line:#A9C9F0; --bp-dim:#7FA8D9;
+  --ink:#15243B; --muted:#5B6C84; --line:#DCE5F0; --bg:#EFF3F8;
+  --ok:#15803D; --okbg:#E8F7EE; --bad:#C0392B; --badbg:#FDECEA;
+  --warn:#B45309; --warnbg:#FEF3E2;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+html{scroll-behavior:smooth}
+body{
+  background-color:var(--bg);
+  background-image:
+    linear-gradient(rgba(27,79,140,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(27,79,140,.045) 1px,transparent 1px);
+  background-size:26px 26px;
+}
+::selection{background:rgba(245,130,32,.28)}
+:focus-visible{outline:2px solid var(--orange); outline-offset:2px; border-radius:6px}
+
+/* ============ APP BAR — program title bar ============ */
+.appbar{
+  height:56px; gap:11px; padding:0 14px; color:#fff;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);
+  border-bottom:1px solid rgba(245,130,32,.35);
+  box-shadow:0 2px 12px rgba(10,22,40,.25);
+}
+.appbar .back{
+  color:var(--bp-line); font-size:13px;
+  border:1px solid rgba(127,168,217,.35); border-radius:9px;
+}
+.appbar .back:hover{background:rgba(127,168,217,.12); border-color:rgba(127,168,217,.6)}
+.appbar .sheet{
+  font-family:var(--mono); font-size:10.5px; font-weight:600; letter-spacing:1px;
+  color:var(--orange2); border:1px solid rgba(245,130,32,.5);
+  background:rgba(245,130,32,.1); border-radius:6px; padding:4px 8px; white-space:nowrap;
+}
+.appbar .ttl-wrap{display:flex; flex-direction:column; line-height:1.25; min-width:0}
+.appbar .appname{font-weight:800; font-size:14.5px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.appbar .appsub{font-family:var(--mono); font-size:9.5px; color:var(--bp-dim); letter-spacing:.8px}
+.appbar .ws-status{
+  margin-left:auto; display:inline-flex; align-items:center; gap:7px;
+  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.5px;
+  padding:5px 11px; border-radius:999px; white-space:nowrap;
+  border:1px solid rgba(127,168,217,.35); color:var(--bp-dim);
+}
+.appbar .ws-status::before{content:""; width:7px; height:7px; border-radius:50%; background:#7387A1}
+.appbar .ws-status.pass{color:#7BE3A4; border-color:rgba(34,160,90,.55); background:rgba(21,128,61,.18)}
+.appbar .ws-status.pass::before{background:#2FBF71; box-shadow:0 0 0 3px rgba(47,191,113,.2); animation:wsPulse 2.4s infinite}
+.appbar .ws-status.fail{color:#FF9C8E; border-color:rgba(192,57,43,.6); background:rgba(192,57,43,.2)}
+.appbar .ws-status.fail::before{background:#FF6B57; box-shadow:0 0 0 3px rgba(255,107,87,.2)}
+@keyframes wsPulse{0%,100%{box-shadow:0 0 0 3px rgba(47,191,113,.2)}50%{box-shadow:0 0 0 5px rgba(47,191,113,.06)}}
+.appbar .print{
+  display:inline-flex; align-items:center; gap:7px;
+  background:linear-gradient(135deg,var(--orange),var(--orange2)); border:0; border-radius:9px;
+  padding:8px 14px; font-weight:800; font-size:12.5px;
+  color:#fff; cursor:pointer; white-space:nowrap;
+  box-shadow:0 3px 10px rgba(245,130,32,.35);
+  transition:transform .12s, box-shadow .12s;
+}
+.appbar .print:hover{transform:translateY(-1px); box-shadow:0 5px 14px rgba(245,130,32,.45); background:linear-gradient(135deg,var(--orange),var(--orange2))}
+.appbar .brand{font-family:var(--mono); font-weight:600; font-size:10.5px; color:var(--orange2); letter-spacing:1.2px; white-space:nowrap}
+
+/* ============ LAYOUT — workstation ============ */
+.wrap{
+  max-width:1560px; gap:16px; padding:16px 16px 52px;
+  grid-template-columns:minmax(330px,400px) minmax(0,1fr);
+}
+.panel{min-width:0; border-radius:16px; box-shadow:0 4px 18px rgba(10,22,40,.07)}
+.wrap>.panel:first-child{
+  position:sticky; top:70px;
+  max-height:calc(100vh - 122px); overflow:auto;
+  scrollbar-width:thin; scrollbar-color:#C3D2E4 transparent;
+}
+.wrap>.panel:first-child::-webkit-scrollbar{width:8px}
+.wrap>.panel:first-child::-webkit-scrollbar-thumb{background:#C3D2E4; border-radius:99px}
+.wrap>.panel:first-child::-webkit-scrollbar-track{background:transparent}
+.wrap>.panel:first-child .panel-head{
+  position:sticky; top:0; background:#fff; z-index:5;
+  border-radius:16px 16px 0 0;
+}
+.panel-head .pico{box-shadow:0 3px 8px rgba(245,130,32,.3); border-radius:9px}
+@media(max-width:1024px){
+  .wrap{grid-template-columns:minmax(0,1fr)}
+  .wrap>.panel:first-child{position:static; max-height:none; overflow:visible}
+}
+
+/* ============ INPUTS ============ */
+.field label .u{font-family:var(--mono); font-size:10.5px}
+.ctrl input,.ctrl select{
+  font-family:var(--mono); font-size:13.5px; font-weight:500;
+  font-variant-numeric:tabular-nums;
+}
+.ctrl .suf{font-family:var(--mono); font-size:10.5px; font-weight:500; background:#F4F7FB}
+.seg label small{font-family:var(--mono); font-size:9px; font-weight:500; letter-spacing:.3px}
+.seg input:focus-visible + label{outline:2px solid var(--orange); outline-offset:2px}
+
+/* ============ RESULTS ============ */
+.summary{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))!important}
+.stat{
+  background:linear-gradient(180deg,#F8FAFD,#F2F6FB);
+  border-radius:12px; position:relative; overflow:hidden;
+}
+.stat::before{content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--orange); opacity:.85}
+.stat .v{font-family:var(--mono); font-weight:600; font-variant-numeric:tabular-nums}
+.chk.ok{border:1px solid #BFE8CE}
+.chk.bad{border:1px solid #F5C8C1}
+.sec-title{letter-spacing:.7px}
+.sec-title::after{content:""; flex:1; height:1px; background:linear-gradient(90deg,var(--line),transparent)}
+table.res th{
+  font-family:var(--mono); font-size:9.5px; font-weight:600; letter-spacing:.8px;
+  color:var(--bp-dim); background:var(--navy);
+}
+table.res td.val,table.res td.big{font-family:var(--mono); font-weight:600; font-size:12.5px}
+.spacing-row .lab .smax{font-family:var(--mono); font-weight:600; color:var(--blue)}
+.diagram{
+  position:relative; border:1px solid #CBD8E8; border-radius:10px;
+  box-shadow:0 2px 8px rgba(10,22,40,.04);
+}
+.diagram::before{
+  content:""; position:absolute; inset:6px; pointer-events:none; border-radius:6px;
+  border:1px solid rgba(27,79,140,.10);
+}
+.diag-h{font-family:var(--mono); font-size:10.5px; font-weight:600; letter-spacing:.5px}
+.rep-step .rn{
+  background:var(--navy); color:var(--orange2);
+  font-family:var(--mono); font-size:11px; font-weight:600;
+  min-width:21px; padding:0 4px; width:auto;
+}
+.rep-dd b{font-variant-numeric:tabular-nums}
+.viewer3d{border:1px solid #CBD8E8}
+
+/* ============ SECTION NAV — scrollspy ============ */
+.secnav{
+  position:sticky; top:56px; z-index:20;
+  display:flex; gap:2px; padding:8px 12px 0;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  overflow-x:auto; scrollbar-width:none;
+}
+.secnav::-webkit-scrollbar{display:none}
+.secnav a{
+  flex:0 0 auto; text-decoration:none;
+  font-size:12.5px; font-weight:700; color:var(--muted);
+  padding:8px 13px 10px; border-radius:8px 8px 0 0;
+  border-bottom:2.5px solid transparent;
+  transition:color .15s, border-color .15s, background .15s;
+  white-space:nowrap;
+}
+.secnav a:hover{color:var(--blue); background:#F4F7FB}
+.secnav a.on{color:var(--orange); border-bottom-color:var(--orange)}
+.ws-sec{scroll-margin-top:170px}
+
+/* ============ DESIGN CHECK — D/C ratio table ============ */
+.dc-wrap{border:1px solid var(--line); border-radius:12px; overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:6px}
+table.dc{width:100%; min-width:520px; border-collapse:collapse; font-size:12.5px}
+table.dc th{
+  font-family:var(--mono); font-size:9.5px; font-weight:600; letter-spacing:.8px;
+  color:var(--bp-dim); text-transform:uppercase; text-align:right;
+  background:var(--navy); padding:9px 10px; white-space:nowrap;
+}
+table.dc th:first-child{text-align:left}
+table.dc th.thbar{text-align:left}
+table.dc td{padding:8px 10px; border-bottom:1px solid #EEF2F7; text-align:right; vertical-align:middle}
+table.dc tr:last-child td{border-bottom:0}
+table.dc tr:nth-child(even) td{background:#FAFCFE}
+table.dc td.nm{text-align:left; font-weight:700; color:#33425C}
+table.dc td.nm small{display:block; font-family:var(--mono); font-size:9.5px; font-weight:500; color:var(--muted); margin-top:1px}
+table.dc td.num{font-family:var(--mono); font-size:12px; font-weight:500; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.dc td.num small{font-size:9.5px; color:var(--muted)}
+table.dc td.rat{font-family:var(--mono); font-size:12.5px; font-weight:600; font-variant-numeric:tabular-nums}
+table.dc td.rat.r-ok{color:var(--ok)}
+table.dc td.rat.r-warn{color:var(--warn)}
+table.dc td.rat.r-bad{color:var(--bad)}
+table.dc td.barcell{width:24%; min-width:120px}
+.dcbar{
+  position:relative; height:12px; border-radius:99px; background:#EDF1F7;
+  border:1px solid #E2E8F2; overflow:hidden;
+}
+.dcbar::after{
+  content:""; position:absolute; top:-1px; bottom:-1px; left:83.33%;
+  width:1.5px; background:#8FA3BD; opacity:.75;
+}
+.dcbar i{
+  position:absolute; left:0; top:0; bottom:0; border-radius:99px;
+  transition:width .35s cubic-bezier(.3,0,.2,1);
+}
+.dcbar i.r-ok{background:linear-gradient(90deg,#2FBF71,#15803D)}
+.dcbar i.r-warn{background:linear-gradient(90deg,#F5B041,#D97706)}
+.dcbar i.r-bad{background:linear-gradient(90deg,#F1948A,#C0392B)}
+.dc-chip{
+  display:inline-block; font-size:10.5px; font-weight:800;
+  padding:3px 9px; border-radius:999px; white-space:nowrap;
+}
+.dc-chip.ok{background:var(--okbg); color:var(--ok)}
+.dc-chip.bad{background:var(--badbg); color:var(--bad)}
+.dc-foot{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  font-family:var(--mono); font-size:10px; color:var(--muted);
+  padding:7px 2px 0; letter-spacing:.3px;
+}
+.dc-foot i{display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:4px; vertical-align:-1px}
+
+/* ============ STATUS BAR — CAD style ============ */
+footer.statusbar{
+  position:fixed; left:0; right:0; bottom:0; z-index:35;
+  height:32px; display:flex; align-items:center; gap:0;
+  padding:0 14px; color:var(--bp-dim); text-align:left;
+  background:linear-gradient(180deg,var(--navy2),var(--navy));
+  border-top:1px solid rgba(127,168,217,.25);
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.4px; line-height:1;
+  overflow:hidden; white-space:nowrap;
+}
+footer.statusbar .sb-item{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:0 13px; height:100%;
+  border-right:1px solid rgba(127,168,217,.16);
+}
+footer.statusbar .sb-item:first-child{padding-left:2px}
+footer.statusbar .sb-live{font-weight:600}
+footer.statusbar .sb-live::before{content:""; width:7px; height:7px; border-radius:50%; background:#7387A1; flex:0 0 auto}
+footer.statusbar .sb-live.pass{color:#7BE3A4}
+footer.statusbar .sb-live.pass::before{background:#2FBF71}
+footer.statusbar .sb-live.fail{color:#FF9C8E}
+footer.statusbar .sb-live.fail::before{background:#FF6B57}
+footer.statusbar .sb-brand{margin-left:auto; border-right:0; color:var(--orange2); font-weight:600}
+@media(max-width:760px){ footer.statusbar .sb-units, footer.statusbar .sb-combo{display:none} }
+
+/* ============ PRINT + MOBILE ============ */
+@media print{
+  .secnav, footer.statusbar, .appbar .ws-status{display:none}
+  body{background:#fff}
+  .wrap{display:block; max-width:none; padding:0}
+  .wrap>.panel:first-child{position:static; max-height:none; overflow:visible}
+  .panel-head{position:static}
+  .ws-sec{scroll-margin-top:0}
+  .diagram::before{display:none}
+}
+@media(max-width:520px){
+  .appbar{gap:8px; padding:0 10px}
+  .appbar .brand{display:none}
+  .appbar .sheet{display:none}
+  .appbar .ws-status{display:none}
+  .wrap{padding:12px 10px 48px}
+  table.dc td.barcell{min-width:84px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important}
+  html{scroll-behavior:auto}
+}

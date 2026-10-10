@@ -1,0 +1,3126 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<script id="sv-member-route-guard">
+(()=>{const p='/concrete-slab-on-ground';let ok=false;try{ok=self!==top&&parent.location.origin===location.origin&&parent.location.pathname.replace(/\/+$/,'')===p}catch(_error){}const local=['localhost','127.0.0.1'].includes(location.hostname)&&new URLSearchParams(location.search).has('qa');if(!ok&&!local){document.documentElement.style.display='none';location.replace(p)}})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive,noimageindex,nosnippet">
+<title>พื้นยื่น · Cantilever Slab — ช่างคิด</title>
+<meta name="description" content="ออกแบบพื้นยื่น Cantilever Slab ตามมาตรฐาน ACI 318 — ช่างคิด">
+<link rel="icon" href="/app-icon.png">
+<!-- ck-fnd.js — ACI 318-19 shared math (CKF) · โหลดแบบ sync ก่อน inline script (ต้องมี CKF ตอน parse) -->
+<script src="ck-fnd.js"></script>
+<script src="ck-slab-result-contract.js"></script>
+<script>/* ck-fnd dependency guard — สูตรกลาง (λs / punching / ld) อยู่ใน ck-fnd.js
+   ถ้าโหลดไม่ติด: หยุดคำนวณ + แจ้งชัด · ห้าม fallback ไปสูตรเดิมเงียบ ๆ (ประเมินกำลังเกินจริง = อันตราย) */
+(function(){if(window.CKF)return;var M='โหลดไฟล์สูตรกลาง ck-fnd.js ไม่สำเร็จ (เครือข่ายขัดข้องหรือถูกบล็อก) — ระบบหยุดคำนวณเพื่อความปลอดภัย และจะไม่ย้อนไปใช้สูตรเดิมที่ประเมินกำลังเกินจริง';
+try{window.CKF=new Proxy({},{get:function(_,k){throw new Error('CKF.'+String(k)+' ใช้ไม่ได้ — '+M)}})}catch(e){}
+function S(){if(!document.body||document.getElementById('ckDepErr'))return;var d=document.createElement('div');d.id='ckDepErr';d.setAttribute('role','alert');d.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(15,30,51,.97);color:#fff;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;font-family:Sarabun,-apple-system,"Segoe UI",sans-serif';d.innerHTML='<div style="max-width:540px"><div style="font-size:44px">&#9888;&#65039;</div><div style="font-size:18px;font-weight:800;margin:10px 0 8px">โหลดสูตรคำนวณไม่สำเร็จ — หยุดคำนวณเพื่อความปลอดภัย</div><div style="font-size:14px;line-height:1.75;color:#b9c6dc">'+M+'</div><button id="ckDepRl" style="margin-top:18px;background:#F58220;color:#fff;border:0;border-radius:10px;padding:11px 20px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer">รีเฟรชหน้า</button></div>';document.body.appendChild(d);var b=document.getElementById('ckDepRl');if(b)b.onclick=function(){location.reload()}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',S);else S();})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --navy:#0f1e33; --navy2:#16294a; --blue:#1B4F8C; --orange:#F58220;
+    --ink:#1f2937; --muted:#64748b; --line:#E2E8F0; --bg:#eef2f7;
+    --ok:#16794c; --okbg:#e7f6ec; --bad:#c0392b; --badbg:#fdecea;
+  }
+  html,body{height:100%}
+  body{
+    font-family:"Sarabun",-apple-system,"Segoe UI",sans-serif;
+    background:var(--bg); color:var(--ink);
+    display:flex; flex-direction:column; min-height:100%;
+  }
+  .appbar{
+    position:sticky; top:0; z-index:30;
+    height:54px; display:flex; align-items:center; gap:12px;
+    padding:0 14px; background:#fff;
+    border-bottom:1px solid var(--line);
+    box-shadow:0 1px 6px rgba(15,30,51,.08);
+  }
+  .appbar .back{
+    display:inline-flex; align-items:center; gap:6px;
+    text-decoration:none; font-weight:700; font-size:13.5px; color:var(--blue);
+    padding:7px 11px; border:1px solid var(--line); border-radius:9px;
+    transition:background .15s; white-space:nowrap;
+  }
+  .appbar .back:hover{background:#f1f5f9}
+  .appbar .appname{font-weight:800; font-size:15px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .appbar .brand{margin-left:auto; font-weight:800; font-size:12.5px; color:var(--orange); letter-spacing:.5px}
+  .appbar .print{
+    background:none; border:1px solid var(--line); border-radius:9px;
+    padding:7px 11px; font-family:inherit; font-weight:700; font-size:13px;
+    color:var(--blue); cursor:pointer;
+  }
+  .appbar .print:hover{background:#f1f5f9}
+
+  .wrap{
+    flex:1 1 auto; width:100%; max-width:1180px; margin:0 auto;
+    padding:20px 16px 44px;
+    display:grid; gap:18px; grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+    align-items:start;
+  }
+  @media(max-width:880px){ .wrap{grid-template-columns:1fr} }
+
+  .panel{
+    background:#fff; border:1px solid var(--line); border-radius:16px;
+    box-shadow:0 4px 16px rgba(15,30,51,.06);
+  }
+  .panel-head{
+    padding:14px 18px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:9px;
+  }
+  .panel-head .pico{
+    width:30px;height:30px;border-radius:8px;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,var(--orange),#ff9d4d);color:#fff;
+  }
+  .panel-head h2{font-size:15.5px;font-weight:800;color:var(--ink)}
+  .panel-head .hint{font-size:12px;color:var(--muted)}
+  .panel-body{padding:16px 18px}
+
+  /* input groups */
+  .group{margin-bottom:18px}
+  .group:last-child{margin-bottom:0}
+  .group-title{
+    font-size:12px; font-weight:800; color:var(--blue);
+    text-transform:uppercase; letter-spacing:.6px; margin-bottom:9px;
+    display:flex; align-items:center; gap:7px;
+  }
+  .group-title::before{content:"";width:14px;height:3px;border-radius:2px;background:var(--orange)}
+  .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .field{display:flex;flex-direction:column;gap:4px}
+  .field.full{grid-column:1 / -1}
+  .field label{font-size:12.5px;font-weight:600;color:#475569}
+  .field label .u{color:var(--muted);font-weight:500}
+  .fnote{font-size:11px;color:var(--muted);font-weight:600;line-height:1.55;margin-top:6px}
+  .fnote b{color:#475569}
+  .ctrl{
+    display:flex;align-items:center;
+    border:1px solid var(--line);border-radius:9px;background:#fff;
+    overflow:hidden; transition:border-color .12s, box-shadow .12s;
+  }
+  .ctrl:focus-within{border-color:var(--orange);box-shadow:0 0 0 3px rgba(245,130,32,.13)}
+  .ctrl input, .ctrl select{
+    flex:1 1 auto;width:100%;border:0;outline:0;background:none;
+    font-family:inherit;font-size:14.5px;font-weight:600;color:var(--ink);
+    padding:9px 10px;
+  }
+  .ctrl select{cursor:pointer;-webkit-appearance:none;appearance:none}
+  .ctrl .suf{
+    flex:0 0 auto;padding:0 10px;font-size:12px;color:var(--muted);
+    font-weight:600;background:#f6f8fb;align-self:stretch;
+    display:flex;align-items:center;border-left:1px solid var(--line);
+  }
+  .ctrl.sel::after{
+    content:"▾";color:var(--muted);font-size:11px;padding:0 10px;pointer-events:none;
+  }
+
+  /* section type toggle */
+  .seg-toggle{
+    display:flex; background:#f1f5f9; border:1px solid var(--line);
+    border-radius:10px; padding:3px; gap:3px; margin-bottom:12px;
+  }
+  .seg-btn{
+    flex:1; background:transparent; border:0; padding:8px 12px;
+    font-family:inherit; font-size:12.5px; font-weight:700; color:#64748b;
+    border-radius:8px; cursor:pointer; transition:.15s; white-space:nowrap;
+  }
+  .seg-btn:hover{ color:var(--ink) }
+  .seg-btn.on{
+    background:#fff; color:var(--orange);
+    box-shadow:0 1px 3px rgba(15,30,51,.10);
+  }
+
+  /* auto-sizing banner */
+  .auto-size{
+    background:linear-gradient(135deg,#eef6ff,#dbeafe);
+    border:1px solid #93c5fd; border-radius:12px;
+    padding:14px 16px; margin-bottom:14px;
+  }
+  .auto-size .ab-head{
+    display:flex; align-items:center; gap:9px; margin-bottom:9px;
+  }
+  .auto-size .ab-ico{
+    width:28px; height:28px; border-radius:7px;
+    background:linear-gradient(135deg,#1B4F8C,#3a7bd5); color:#fff;
+    display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+    font-size:14px; font-weight:800;
+  }
+  .auto-size .ab-title{
+    font-size:13px; font-weight:800; color:#1e40af;
+  }
+  .auto-size .ab-row{
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    margin-top:4px;
+  }
+  .auto-size .ab-val{
+    flex:1 1 auto; min-width:0;
+    font-size:14px; font-weight:600; color:#1e293b;
+  }
+  .auto-size .ab-val b{
+    font-size:18px; font-weight:800; color:#1B4F8C;
+    background:#fff; padding:3px 10px; border-radius:8px;
+    border:1px solid #93c5fd; margin:0 3px;
+  }
+  .auto-size .ab-btn{
+    flex:0 0 auto; cursor:pointer;
+    font-family:inherit; font-size:12.5px; font-weight:700;
+    background:#1B4F8C; color:#fff; border:0; border-radius:9px;
+    padding:9px 16px; box-shadow:0 2px 6px rgba(27,79,140,.25);
+    transition:transform .12s, box-shadow .12s;
+  }
+  .auto-size .ab-btn:hover{ transform:translateY(-1px); box-shadow:0 4px 10px rgba(27,79,140,.32); }
+  .auto-size .ab-btn:disabled{
+    background:#cbd5e1; color:#fff; cursor:not-allowed;
+    box-shadow:none; transform:none;
+  }
+  .auto-size .ab-note{
+    font-size:11.5px; color:#475569; margin-top:8px; line-height:1.5;
+  }
+  .auto-size .ab-note b{ color:#1e40af }
+  .auto-size.fail{
+    background:linear-gradient(135deg,#fef2f2,#fee2e2);
+    border-color:#fca5a5;
+  }
+  .auto-size.fail .ab-title{ color:#991b1b }
+  .auto-size.fail .ab-val b{ color:#991b1b; border-color:#fca5a5 }
+
+  /* results */
+  .summary{
+    display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;
+  }
+  .stat{
+    background:#f7f9fc;border:1px solid var(--line);border-radius:11px;
+    padding:11px 13px;
+  }
+  .stat .k{font-size:11.5px;color:var(--muted);font-weight:600}
+  .stat .v{font-size:19px;font-weight:800;color:var(--ink);margin-top:2px}
+  .stat .v small{font-size:12px;font-weight:600;color:var(--muted)}
+
+  .checks{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+  .chk{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:999px;
+  }
+  .chk.ok{background:var(--okbg);color:var(--ok)}
+  .chk.bad{background:var(--badbg);color:var(--bad)}
+  .chk svg{width:13px;height:13px}
+
+  .sec-title{
+    font-size:12px;font-weight:800;color:var(--blue);
+    text-transform:uppercase;letter-spacing:.6px;margin:18px 0 9px;
+    display:flex;align-items:center;gap:7px;
+  }
+  .sec-title:first-child{margin-top:0}
+  .sec-title::before{content:"";width:14px;height:3px;border-radius:2px;background:var(--orange)}
+
+  table.res{width:100%;border-collapse:collapse;font-size:13px}
+  table.res th,table.res td{padding:8px 9px;text-align:right;border-bottom:1px solid #eef1f5}
+  table.res th{
+    font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;
+    letter-spacing:.4px;background:#f7f9fc;
+  }
+  table.res th:first-child,table.res td:first-child{text-align:left}
+  table.res tr:last-child td{border-bottom:0}
+  table.res td.lbl{font-weight:700;color:#475569}
+  table.res td.val{font-weight:700;font-variant-numeric:tabular-nums}
+  table.res td.big{font-weight:800;color:var(--ink)}
+  .pos{font-size:11px;color:var(--muted);font-weight:600;display:block}
+
+  .spacing-row{
+    display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;
+    background:#f7f9fc;border:1px solid var(--line);border-radius:11px;
+    padding:11px 13px;margin-top:10px;
+  }
+  .spacing-row .lab{font-size:12.5px;font-weight:700;color:#475569}
+  .spacing-row .lab small{display:block;font-size:11px;color:var(--muted);font-weight:600}
+  .spacing-input{display:flex;align-items:center;gap:8px}
+  .spacing-input .ctrl{width:110px}
+  .verdict{font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;white-space:nowrap}
+  .verdict.ok{background:var(--okbg);color:var(--ok)}
+  .verdict.bad{background:var(--badbg);color:var(--bad)}
+
+  /* diagram */
+  .diagram{
+    background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:14px 10px 8px;margin-top:6px;
+  }
+  .diagram svg{width:100%;height:auto;display:block}
+  .diagram .cap{
+    font-size:11px;color:var(--muted);font-weight:600;
+    text-align:center;margin-top:4px;
+  }
+  .diag-row{display:flex;gap:12px}
+  .diag-row .diag-cell{flex:1;min-width:0}
+  .diag-h{font-size:11.5px;font-weight:800;color:var(--blue);margin-bottom:5px;text-align:center}
+
+  /* 3D rebar viewer */
+  .viewer3d{position:relative;height:400px;background:#fff;border:1px solid var(--line);border-radius:12px;margin-top:8px;overflow:hidden}
+  .viewer3d canvas{width:100%;height:100%;display:block;cursor:grab}
+  .viewer3d canvas:active{cursor:grabbing}
+  .v3d-hint{position:absolute;left:11px;top:10px;color:#475569;font-size:11px;font-weight:600;background:rgba(255,255,255,.86);border:1px solid var(--line);padding:3px 9px;border-radius:7px;pointer-events:none}
+  .v3d-legend{position:absolute;right:11px;top:10px;display:flex;flex-direction:column;gap:3px;background:rgba(255,255,255,.86);border:1px solid var(--line);padding:6px 9px;border-radius:8px;pointer-events:none}
+  .v3d-legend span{display:flex;align-items:center;gap:6px;color:#475569;font-size:10.5px;font-weight:600}
+  .v3d-legend i{width:11px;height:11px;border-radius:3px}
+  .v3d-msg{position:absolute;left:0;right:0;bottom:14px;text-align:center;color:#c0392b;font-size:11.5px;font-weight:600;pointer-events:none}
+  .v3d-toggles{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .v3d-toggles button{display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:700;border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:#fff;color:#9aa3af;transition:.12s}
+  .v3d-toggles button.on{background:#fff7f0;border-color:var(--orange);color:var(--ink)}
+  .v3d-toggles button i{width:10px;height:10px;border-radius:3px;opacity:.35}
+  .v3d-toggles button.on i{opacity:1}
+  .v3d-tone{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .v3d-tone>span{font-size:11.5px;font-weight:700;color:var(--muted)}
+  .v3d-tone button{cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:700;border:1px solid var(--line);border-radius:999px;padding:5px 13px;background:#fff;color:#9aa3af;transition:.12s}
+  .v3d-tone button.on{background:#fff7f0;border-color:var(--orange);color:var(--ink)}
+  .v3d-colors label{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--ink);background:#f4f6f9;border:1px solid var(--line);border-radius:999px;padding:3px 11px 3px 4px;cursor:pointer}
+  .v3d-colors input[type=color]{width:30px;height:21px;padding:0;border:1px solid var(--line);border-radius:999px;background:none;cursor:pointer}
+  @media(max-width:560px){ .diag-row{flex-direction:column} }
+
+  /* calculation report */
+  .rep-toggle{
+    width:100%; text-align:left; cursor:pointer;
+    background:#f7f9fc; border:1px solid var(--line); border-radius:10px;
+    padding:11px 14px; font-family:inherit; font-size:13px; font-weight:700; color:var(--blue);
+    transition:background .12s;
+  }
+  .rep-toggle:hover{ background:#eef3fa }
+  .rep-body{ margin-top:12px }
+  .rep-step{
+    border:1px solid var(--line); border-radius:11px;
+    padding:11px 13px 12px; margin-bottom:10px; background:#fff;
+  }
+  .rep-step .rh{ display:flex; align-items:center; gap:8px; margin-bottom:7px }
+  .rep-step .rn{
+    flex:0 0 auto; width:21px; height:21px; border-radius:6px;
+    background:var(--blue); color:#fff; font-size:11.5px; font-weight:800;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .rep-step .rt{ font-size:15.5px; font-weight:800; color:var(--ink) }
+  .rep-dd{
+    display:grid; grid-template-columns:1fr 1fr; gap:1px 18px; padding-left:29px;
+  }
+  .rep-dd div{
+    display:flex; justify-content:space-between; gap:8px;
+    font-size:12px; padding:3px 0; border-bottom:1px dotted var(--line);
+  }
+  .rep-dd span{ color:var(--muted) }
+  .rep-dd b{ color:var(--ink); font-weight:700; text-align:right }
+  .rep-f{ padding:5px 0 5px 29px; font-variant-numeric:tabular-nums }
+  .rep-f .ef{ font-size:15.5px; color:#1f2937; font-weight:700; line-height:1.7 }
+  .rep-f .ex{ font-size:15px; color:#475569; line-height:1.7; padding-left:13px }
+  .rep-f .ex b{ color:var(--blue); font-weight:800 }
+  .rep-f .eref{ font-size:12px; color:var(--muted); padding-left:13px; margin-top:2px }
+  .rep-sechd{
+    font-size:12px; font-weight:800; color:var(--blue);
+    padding:6px 0 1px 29px; margin-top:2px;
+  }
+  .rep-note{
+    font-size:11.5px; color:#475569; padding:4px 0 4px 29px;
+  }
+  .rep-note b{ color:var(--blue); font-weight:800 }
+  .rep-chk{
+    font-size:12px; color:#334155; font-weight:600;
+    padding:5px 0 5px 29px; margin-top:2px;
+    display:flex; align-items:center; gap:7px;
+  }
+  .rep-vd{
+    display:inline-block; font-size:11px; font-weight:800;
+    padding:3px 9px; border-radius:999px; margin-left:auto; white-space:nowrap;
+  }
+  .rep-vd.inl{ margin-left:0; flex:0 0 auto }
+  .rep-vd.ok{ background:var(--okbg); color:var(--ok) }
+  .rep-vd.bad{ background:var(--badbg); color:var(--bad) }
+  .rep-final{
+    border-radius:11px; padding:13px 15px; font-size:13.5px; font-weight:800; text-align:center;
+  }
+  .rep-final.ok{ background:var(--okbg); color:var(--ok) }
+  .rep-final.bad{ background:var(--badbg); color:var(--bad) }
+  @media print{
+    .rep-step{break-inside:auto}
+    .rep-f,.rep-chk,.rep-dd,.rep-note{break-inside:avoid}
+    .rh,.rep-sechd{break-after:avoid}
+  }
+
+  .note{
+    font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:14px;
+    padding-top:12px;border-top:1px dashed var(--line);
+  }
+  .callout{
+    margin-top:12px;background:#fff7f0;border:1px solid #f5d6b8;border-radius:10px;
+    padding:11px 13px;font-size:12.5px;color:#8a5018;line-height:1.55;font-weight:600;
+  }
+  .callout b{color:var(--orange)}
+
+  footer{
+    background:var(--navy);color:#9fb0c8;text-align:center;
+    padding:18px;font-size:12px;line-height:1.6;
+  }
+  footer strong{color:#fff}
+
+  @media print{
+    .appbar,footer,.callout{display:none}
+    .v3d-hint,#v3dTone,#v3dColors,#v3dSize,#v3dToggles{display:none}
+    .viewer3d{height:320px}
+    body{background:#fff}
+    .wrap{display:block;max-width:none;padding:0}
+    .panel{box-shadow:none;border-color:#ccc;margin-bottom:14px}
+  }
+  @media(max-width:520px){
+    .field-grid{grid-template-columns:1fr}
+    .summary{grid-template-columns:1fr}
+    .appbar .brand{display:none}
+  }
+  /* P1 shared: utilization + guards + focus */
+  .util-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+  @media(max-width:520px){.util-row{grid-template-columns:1fr}}
+  .util-bar{background:#f7f9fc;border:1px solid var(--line);border-radius:11px;padding:9px 12px 11px}
+  .util-bar .ulbl{display:flex;justify-content:space-between;align-items:baseline;font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:5px}
+  .util-bar .ulbl b{font-size:13.5px;font-weight:800}
+  .util-bar .ubar{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+  .util-bar .ufill{height:100%;border-radius:999px;transition:width .25s,background .25s}
+  .util-bar .ufill.green{background:linear-gradient(90deg,#16794c,#2bb673)}
+  .util-bar .ufill.yellow{background:linear-gradient(90deg,#e8a317,#f9c533)}
+  .util-bar .ufill.red{background:linear-gradient(90deg,#c0392b,#e74c3c)}
+  .util-bar .ufill.over{background:repeating-linear-gradient(45deg,#c0392b 0 8px,#8b2818 8px 16px)}
+  .util-bar .uval{margin-top:3px;font-size:10.5px;color:#475569;font-weight:600;display:flex;justify-content:space-between}
+  .util-bar .uval span.over{color:var(--bad);font-weight:800}
+  .nodata{background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px 16px;color:#991b1b;font-size:13px;font-weight:700;text-align:center;margin-bottom:12px}
+  :focus-visible{outline:2px solid var(--orange);outline-offset:2px;border-radius:4px}
+  .ctrl:focus-within input,.ctrl:focus-within select{outline:none}
+</style>
+<link rel="stylesheet" href="ws-theme.css">
+  <link rel="stylesheet" href="interaction-polish.css?v=20260720-elevated4">
+</head>
+<body>
+  <header class="appbar">
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Concrete Design
+    </a>
+    <span class="sheet">SL-03</span>
+    <div class="ttl-wrap">
+      <span class="appname">พื้นยื่น · Cantilever Slab</span>
+      <span class="appsub">ACI 318 · STRENGTH DESIGN</span>
+    </div>
+    <span class="ws-status" id="wsStatus">รอคำนวณ…</span>
+    <button class="print" onclick="window.print()">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      พิมพ์ / PDF
+    </button>
+    <span class="brand">ช่างคิด</span>
+  </header>
+
+  <div class="wrap">
+    <!-- ============ INPUT ============ -->
+    <section class="panel">
+      <div class="panel-head">
+        <span class="pico"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+        <div>
+          <h2>ข้อมูลออกแบบ</h2>
+          <div class="hint">กรอกข้อมูล — ผลคำนวณอัปเดตทันที</div>
+        </div>
+      </div>
+      <div class="panel-body">
+
+        <div class="group">
+          <div class="group-title">คุณสมบัติวัสดุ</div>
+          <div class="field-grid">
+            <div class="field">
+              <label>fy เหล็กหลัก <span class="u">(ksc.)</span></label>
+              <div class="ctrl"><input id="fy1" type="number" value="3000" step="100" aria-label="กำลังครากเหล็กหลัก" min="2400"></div>
+            </div>
+            <div class="field">
+              <label>fy เหล็กแจกแรง <span class="u">(ksc.)</span></label>
+              <div class="ctrl"><input id="fy2" type="number" value="2400" step="100" aria-label="กำลังครากเหล็กแจกแรง" min="2400"></div>
+            </div>
+            <div class="field">
+              <label>fc′ คอนกรีต <span class="u">(ksc.)</span></label>
+              <div class="ctrl"><input id="fc" type="number" value="240" step="10" aria-label="กำลังอัดคอนกรีต fc" min="180"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">ตัวคูณลดกำลัง φ — ป้อนเองได้</div>
+          <div class="field" style="margin-bottom:9px">
+            <label for="phiStd">มาตรฐานงานก่อสร้าง · กฎกระทรวง 2566 (ตาราง หน้า ๙)</label>
+            <div class="ctrl"><select id="phiStd" aria-label="การระบุมาตรฐานงานก่อสร้างและการควบคุมคุณภาพวัสดุ">
+              <option value="std">มีการระบุมาตรฐานงานก่อสร้าง + ควบคุมคุณภาพวัสดุอย่างดี</option>
+              <option value="nostd">ไม่มีการระบุ — ใช้ φ ต่ำตามกฎกระทรวง</option>
+            </select></div>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label>φ ต้านแรงดัด <span class="u">(φb)</span></label>
+              <div class="ctrl"><input id="phib" type="number" value="0.90" step="0.05" aria-label="ตัวคูณลดกำลังดัด" min="0.5"></div>
+            </div>
+            <div class="field">
+              <label>φ ต้านแรงเฉือน <span class="u">(φv)</span></label>
+              <div class="ctrl"><input id="phiv" type="number" value="0.85" step="0.05" aria-label="ตัวคูณลดกำลังเฉือน" min="0.5"></div>
+            </div>
+          </div>
+          <div class="fnote">ตัวคูณลดกำลังตาม <b>กฎกระทรวง 2566</b> (ตาราง หน้า ๙) — ดัด <b>φb = 0.90 | 0.75</b> · เฉือน <b>φv = 0.85 | 0.70</b> &nbsp;(<b>มี | ไม่มี</b> การระบุมาตรฐานงานก่อสร้าง · เลือกจากช่องด้านบน) — เป็น<b>เพดานตามกฎหมาย ห้ามกำหนดเกิน</b> · ค่าต่ำกว่าให้ผลปลอดภัยขึ้นและใช้ได้เสมอ</div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">ขนาดพื้น</div>
+          <div class="seg-toggle" role="tablist" aria-label="รูปแบบหน้าตัด">
+            <button type="button" class="seg-btn on" data-secmode="uniform">หน้าตัดสม่ำเสมอ · Uniform</button>
+            <button type="button" class="seg-btn" data-secmode="tapered">หน้าตัดเรียวลด · Tapered</button>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label>ความยาวยื่น L <span class="u">(m.)</span></label>
+              <div class="ctrl"><input id="L" type="number" value="1.6" step="0.1" aria-label="ความยาวยื่น L" min="0.3"></div>
+            </div>
+            <div class="field">
+              <label>ความกว้างพื้น B <span class="u">(m.)</span></label>
+              <div class="ctrl"><input id="B" type="number" value="3" step="0.5" aria-label="ความกว้าง B" min="0.5"></div>
+            </div>
+            <div class="field uniform-only">
+              <label>ความหนาขั้นต่ำ <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="tdef" type="number" value="25" step="1" aria-label="ความหนาขั้นต่ำ" min="5"></div>
+            </div>
+            <div class="field tapered-only" style="display:none">
+              <label>ความหนาที่ที่รองรับ h<sub>0</sub> <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="h_root" type="number" value="30" step="1" aria-label="ความหนาที่โคน h0" min="5"></div>
+            </div>
+            <div class="field tapered-only" style="display:none">
+              <label>ความหนาที่ปลายอิสระ h<sub>L</sub> <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="h_tip" type="number" value="12" step="1" aria-label="ความหนาที่ปลาย hL" min="5"></div>
+            </div>
+            <div class="field">
+              <label>ระยะหุ้ม Covering <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="cov" type="number" value="3" step="0.5" aria-label="ระยะหุ้ม" min="1"></div>
+            </div>
+          </div>
+          <div class="fnote uniform-only">พื้นยื่นออกแบบต่อความกว้าง 1 เมตร — <b>ความกว้าง B</b> ใช้สำหรับแสดงรูปและแบบจำลองเท่านั้น ไม่มีผลต่อค่าออกแบบ</div>
+          <div class="fnote tapered-only" style="display:none">หน้าตัดเรียวลดเชิงเส้น: ความหนาแปรจาก <b>h₀</b> ที่ที่รองรับ → <b>h<sub>L</sub></b> ที่ปลายอิสระ · ทั่วไป h₀ ≈ 2–3 × h<sub>L</sub> · ออกแบบต่อแถบกว้าง 1 ม. · B ใช้แสดงรูปเท่านั้น</div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">น้ำหนักบรรทุก</div>
+          <div class="field-grid">
+            <div class="field full">
+              <label>Load Combination — วิธีกำลัง (Strength Design)</label>
+              <div class="ctrl"><input type="text" value="U = 1.4DL + 1.7LL" disabled style="color:var(--ink);font-weight:700"></div>
+              <div class="fnote">กฎกระทรวงกำหนดให้วิธีกำลังใช้ค่าผสมน้ำหนัก <b>U = 1.4DL + 1.7LL</b> ค่าเดียวเท่านั้น</div>
+            </div>
+            <div class="field">
+              <label>SDL น้ำหนักคงที่เพิ่ม <span class="u">(kg/m²)</span></label>
+              <div class="ctrl"><input id="sdl" type="number" value="50" step="50" aria-label="น้ำหนักคงที่เพิ่ม SDL" min="0"></div>
+            </div>
+            <div class="field">
+              <label>LL น้ำหนักจร <span class="u">(kg/m²)</span></label>
+              <div class="ctrl"><input id="ll" type="number" value="400" step="50" aria-label="น้ำหนักจร LL" min="0"></div>
+            </div>
+            <div class="field full">
+              <label>น้ำหนักที่ปลายยื่น Fin Weight <span class="u">(kg/m.)</span></label>
+              <div class="ctrl"><input id="finw" type="number" value="0" step="50" aria-label="น้ำหนักปลายยื่น" min="0"></div>
+              <div class="fnote">น้ำหนักเส้นที่กระทำตามแนวปลายอิสระ เช่น ผนัง/ราวกันตก — <b>FIN = 1.4 × Fin Weight</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">เหล็กเสริม</div>
+          <div class="field-grid">
+            <div class="field">
+              <label>เหล็กหลัก Ø <span class="u">(mm.)</span></label>
+              <div class="ctrl sel">
+                <select id="mainDia">
+                  <option>6</option><option>9</option><option>12</option>
+                  <option selected>16</option><option>20</option><option>25</option>
+                  <option>28</option><option>32</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>เหล็กแจกแรง Ø <span class="u">(mm.)</span></label>
+              <div class="ctrl sel">
+                <select id="tempDia">
+                  <option>6</option><option selected>9</option><option>12</option>
+                  <option>16</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ RESULTS ============ -->
+    <section class="panel">
+      <div class="panel-head">
+        <span class="pico"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></span>
+        <div>
+          <h2>ผลการออกแบบ</h2>
+          <div class="hint">ตามวิธีกำลัง (Strength Design) — ACI 318</div>
+        </div>
+      </div>
+      <nav class="secnav" id="secnav">
+        <a href="#sec-sum" class="on">สรุปผล</a>
+        <a href="#sec-chk">ตรวจสอบ D/C</a>
+        <a href="#sec-ana">วิเคราะห์</a>
+        <a href="#sec-rep">รายงาน</a>
+        <a href="#sec-dwg">แบบ</a>
+        <a href="#sec-3d">3D</a>
+      </nav>
+      <div class="panel-body">
+
+        <div class="ws-sec" id="sec-sum"></div>
+
+        <!-- Nodata guard (P1-9) -->
+        <div id="o_nodata" style="display:none"></div>
+
+        <div class="summary">
+          <div class="stat"><div class="k">ความหนาพื้น t</div><div class="v" id="o_t">– <small>cm.</small></div></div>
+          <div class="stat"><div class="k">น้ำหนักบรรทุกประลัย Wu</div><div class="v" id="o_wu">– <small>kg/m²</small></div></div>
+          <div class="stat"><div class="k">ความลึกประสิทธิผล d (โคน)</div><div class="v" id="ws_d">– <small>cm.</small></div></div>
+          <div class="stat"><div class="k">โมเมนต์ที่จุดยึด Mu</div><div class="v" id="ws_mumax">– <small>kg·m</small></div></div>
+        </div>
+
+        <!-- Utilization bars -->
+        <div class="util-row" id="o_util"></div>
+
+        <div class="checks" id="checks"></div>
+
+        <div class="ws-sec" id="sec-chk"></div>
+        <div class="sec-title">ตารางตรวจสอบการออกแบบ · Design Check — D/C Ratio</div>
+        <div id="wsDash"></div>
+
+        <div class="sec-title">ระยะเรียงเหล็กที่จะใช้ (กรอกเพื่อตรวจสอบ)</div>
+        <div id="spacingRows"></div>
+
+        <div class="ws-sec" id="sec-ana"></div>
+        <div class="sec-title" style="margin-top:18px">การวิเคราะห์หน่วยแรง · Stress Analysis (วิธีสัมประสิทธิ์ ACI 318)</div>
+        <div class="diag-cell"><div class="diag-h">ภาพด้านข้าง · Side View — หน่วยแรงในหน้าตัด</div><div class="diagram" id="anaSide"></div></div>
+        <div class="diag-cell" style="margin-top:14px"><div class="diag-h">ภาพด้านบน · Top View — ผิวบน / ผิวล่าง</div><div class="diagram" id="anaHeat"></div></div>
+        <div class="diag-row" style="margin-top:12px">
+          <div class="diag-cell"><div class="diag-h">แผนภาพโมเมนต์ดัด · BMD</div><div class="diagram" id="anaBMD"></div></div>
+          <div class="diag-cell"><div class="diag-h">แผนภาพแรงเฉือน · SFD</div><div class="diagram" id="anaSFD"></div></div>
+        </div>
+
+        <div class="ws-sec" id="sec-rep"></div>
+        <div class="sec-title" style="margin-top:18px">วิธีคำนวณทีละขั้นตอน · Calculation Report</div>
+        <div class="rep-body" id="repBody"></div>
+
+        <div class="ws-sec" id="sec-dwg"></div>
+        <div class="sec-title" style="margin-top:18px">สรุปแบบ · แบบขยายการเสริมเหล็ก (Drawing)</div>
+        <div class="callout" id="bom"></div>
+
+        <div class="sec-title" style="margin-top:14px">สรุปปริมาณวัสดุโดยประมาณ · Material Take-off <small style="font-weight:600;color:#8aa0bf">(ต่อ 1 แผงยื่น L×B)</small></div>
+        <div id="takeoff"></div>
+
+        <div class="diag-cell" style="margin-top:12px"><div class="diag-h">เหล็กหลัก · Main Top Bars (Plan)</div><div class="diagram" id="diagTop"></div></div>
+        <div class="diag-cell" style="margin-top:14px"><div class="diag-h">เหล็กแจกแรง · Distribution Bars (Plan)</div><div class="diagram" id="diagBot"></div></div>
+        <div class="diag-cell" style="margin-top:14px"><div class="diag-h">หน้าตัดตามแนวยื่น · Section</div><div class="diagram" id="diagSec"></div></div>
+
+        <div class="ws-sec" id="sec-3d"></div>
+        <div class="sec-title" style="margin-top:18px">แบบเสริมเหล็ก 3 มิติ · 3D Rebar Model</div>
+        <div class="viewer3d" id="v3d">
+          <canvas id="cv3d"></canvas>
+          <div class="v3d-hint">ลากเพื่อหมุน · เลื่อนล้อเพื่อซูม</div>
+          <div class="v3d-legend">
+            <span><i data-leg="main" style="background:#e5392c"></i>เหล็กหลัก (บน)</span>
+            <span><i data-leg="temp" style="background:#2f7fe0"></i>เหล็กแจกแรง</span>
+          </div>
+          <div class="v3d-msg"></div>
+        </div>
+        <div class="v3d-tone" id="v3dTone">
+          <span>พื้นหลัง:</span>
+          <button data-tone="light" class="on">อ่อน</button>
+          <button data-tone="soft">จาง</button>
+          <button data-tone="dark">เข้ม</button>
+        </div>
+        <div class="v3d-tone v3d-colors" id="v3dColors">
+          <span>สี Layer:</span>
+          <label><input type="color" class="v3color" data-mat="slab" value="#b3b9c1">พื้นคอนกรีต</label>
+          <label><input type="color" class="v3color" data-mat="main" value="#e5392c">เหล็กหลัก (บน)</label>
+          <label><input type="color" class="v3color" data-mat="temp" value="#2f7fe0">เหล็กแจกแรง</label>
+          <label><input type="color" class="v3color" data-mat="sup" value="#b3b8c0">ที่รองรับ</label>
+        </div>
+        <div class="v3d-tone" id="v3dSize">
+          <span>ขนาดเหล็ก:</span>
+          <button data-size="show" class="on">ขยายให้เห็น</button>
+          <button data-size="real">ตามจริง</button>
+        </div>
+        <div class="v3d-toggles" id="v3dToggles">
+          <button data-layer="slab" class="on">พื้นคอนกรีต</button>
+          <button data-layer="main" class="on"><i style="background:#e5392c"></i>เหล็กหลัก (บน)</button>
+          <button data-layer="temp" class="on"><i style="background:#2f7fe0"></i>เหล็กแจกแรง</button>
+          <button data-layer="sup" class="on">ที่รองรับ</button>
+          <button data-layer="grid" class="on">กริด</button>
+        </div>
+        <div style="text-align:center;color:var(--muted);font-size:11px;font-weight:600;margin-top:5px">แบบจำลอง 3 มิติ — พื้นยื่นจากที่รองรับด้านเดียว + เหล็กเสริมตามผลคำนวณ · ขนาดเหล็กในภาพเป็นเชิงสัญลักษณ์เพื่อให้มองเห็นชัด · กดปุ่มด้านบนเพื่อเปิด-ปิดชั้น</div>
+
+        <div class="note">
+          คำนวณตามวิธีกำลัง (Strength Design Method) มาตรฐาน ACI 318 — พื้นยื่นรับโมเมนต์ลบ (hogging) สูงสุดที่ที่รองรับ
+          เหล็กหลักจึงเสริมที่ผิวบน ผลลัพธ์เป็นค่าประมาณเพื่อช่วยออกแบบเบื้องต้น วิศวกรผู้ออกแบบควรตรวจสอบและรับผิดชอบผลขั้นสุดท้าย
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SUPPORTING BEAM (Optional) ============ -->
+    <section class="panel" style="grid-column:1 / -1">
+      <div class="panel-head" id="beamHead" style="cursor:pointer;user-select:none">
+        <span class="pico" style="background:linear-gradient(135deg,#1B4F8C,#3a7bd5)">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="2" y="9" width="20" height="6" rx="1"/><line x1="6" y1="15" x2="6" y2="20"/><line x1="18" y1="15" x2="18" y2="20"/></svg>
+        </span>
+        <div style="flex:1">
+          <h2>ออกแบบคานรองรับพื้นยื่น · Supporting Edge Beam</h2>
+          <div class="hint">รับโหลดจากพื้นยื่นด้านบนโดยอัตโนมัติ — โหมดเสริม (Optional) คลิกเพื่อเปิด-ปิด</div>
+        </div>
+        <span id="beamToggleIcon" style="font-size:18px;color:var(--blue);font-weight:800">▾</span>
+      </div>
+      <div class="panel-body" id="beamBody" style="display:none">
+
+        <div class="callout">
+          <b>การถ่ายโหลด:</b> คานรองรับนี้ได้รับแรงดิ่งและโมเมนต์จากพื้นยื่นด้านบนโดยอัตโนมัติ — แรงดิ่งกลายเป็น UDL ของคาน · โมเมนต์ที่หัวยึดของพื้นยื่นจะกลายเป็น <b>แรงบิด (Torsion)</b> ตามแนวคาน
+        </div>
+
+        <!-- Auto-sizing recommendation -->
+        <div class="auto-size" id="b_autoSize">
+          <div class="ab-head">
+            <span class="ab-ico">⚡</span>
+            <span class="ab-title">ออกแบบขนาดคานขั้นต่ำอัตโนมัติ · Auto-Sizing</span>
+          </div>
+          <div class="ab-row">
+            <span class="ab-val">ขนาดที่แนะนำ: <b id="b_rec_dim">– × –</b> cm. (b × h)</span>
+            <button id="b_applyRec" class="ab-btn" disabled>ใช้ขนาดที่แนะนำ</button>
+          </div>
+          <div class="ab-note" id="b_rec_note">กำลังคำนวณ...</div>
+        </div>
+
+        <!-- Auto-imported loads display -->
+        <div class="summary" style="grid-template-columns:repeat(3,1fr);margin-top:14px">
+          <div class="stat"><div class="k">UDL ดิ่งจากพื้นยื่น</div><div class="v" id="b_w_slab">– <small>kg/m</small></div></div>
+          <div class="stat"><div class="k">แรงบิดต่อ m (จาก M<sub>slab</sub>)</div><div class="v" id="b_t_slab">– <small>kg·m/m</small></div></div>
+          <div class="stat"><div class="k">น้ำหนักคานเอง</div><div class="v" id="b_w_self">– <small>kg/m</small></div></div>
+        </div>
+
+        <!-- Beam dimensions -->
+        <div class="group" style="margin-top:18px">
+          <div class="group-title">ขนาดและวัสดุคาน</div>
+          <div class="field-grid">
+            <div class="field">
+              <label>ช่วงคาน L<sub>b</sub> (ระหว่างเสา) <span class="u">(m.)</span></label>
+              <div class="ctrl"><input id="b_L" type="number" value="4" step="0.5"></div>
+            </div>
+            <div class="field">
+              <label>fc′ คาน <span class="u">(ksc.)</span></label>
+              <div class="ctrl"><input id="b_fc" type="number" value="240" step="10"></div>
+            </div>
+            <div class="field">
+              <label>ความกว้างคาน b <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="b_b" type="number" value="25" step="5"></div>
+            </div>
+            <div class="field">
+              <label>ความสูงคาน h <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="b_h" type="number" value="50" step="5"></div>
+            </div>
+            <div class="field">
+              <label>ระยะหุ้ม Cover <span class="u">(cm.)</span></label>
+              <div class="ctrl"><input id="b_cov" type="number" value="3" step="0.5"></div>
+            </div>
+            <div class="field">
+              <label>fy เหล็กหลัก <span class="u">(ksc.)</span></label>
+              <div class="ctrl"><input id="b_fy" type="number" value="4000" step="100"></div>
+            </div>
+            <div class="field">
+              <label>fy เหล็กปลอก <span class="u">(ksc.)</span></label>
+              <div class="ctrl"><input id="b_fyv" type="number" value="2400" step="100"></div>
+            </div>
+            <div class="field">
+              <label>Ø เหล็กหลัก <span class="u">(mm.)</span></label>
+              <div class="ctrl sel">
+                <select id="b_mainDia">
+                  <option>12</option><option>16</option><option selected>20</option>
+                  <option>25</option><option>28</option><option>32</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>Ø เหล็กปลอก <span class="u">(mm.)</span></label>
+              <div class="ctrl sel">
+                <select id="b_stirDia">
+                  <option>6</option><option selected>9</option><option>12</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>จำนวนขาเหล็กปลอก <span class="u">(legs)</span></label>
+              <div class="ctrl sel">
+                <select id="b_nLegs">
+                  <option value="2" selected>2 ขา (1 ปลอก · มาตรฐาน)</option>
+                  <option value="4">4 ขา (1 ปลอก + 1 crosstie)</option>
+                  <option value="6">6 ขา (1 ปลอก + 2 crossties)</option>
+                </select>
+              </div>
+              <div class="fnote">ACI 318 Sec. 11.4.5.3: ระยะห่างขาปลอกตามแนวกว้าง ≤ d/2 — คานกว้าง b &gt; 30 cm มักต้อง 4 ขา · b &gt; 60 cm ต้อง 6 ขา · auto-sizer เลือกให้อัตโนมัติ</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional loads -->
+        <div class="group">
+          <div class="group-title">โหลดเพิ่มเติม (Optional) — เช่นน้ำหนักพื้นด้านในของอาคาร</div>
+          <div class="field-grid">
+            <div class="field">
+              <label>SDL คงที่เพิ่ม <span class="u">(kg/m)</span></label>
+              <div class="ctrl"><input id="b_sdl" type="number" value="0" step="50"></div>
+            </div>
+            <div class="field">
+              <label>LL จร <span class="u">(kg/m)</span></label>
+              <div class="ctrl"><input id="b_ll" type="number" value="0" step="50"></div>
+            </div>
+          </div>
+          <div class="fnote">น้ำหนักเส้นต่อความยาวคาน — ใช้กรณีคานเดียวกันรองรับพื้นภายในด้วย คำนวณเป็น w<sub>floor</sub>·trib_width</div>
+        </div>
+
+        <!-- Combination assumption -->
+        <div class="group">
+          <div class="group-title">วิธีการวิเคราะห์คาน</div>
+          <div class="field-grid">
+            <div class="field full">
+              <label>รูปแบบรองรับ</label>
+              <div class="ctrl sel">
+                <select id="b_support">
+                  <option value="ss" selected>คานช่วงเดียว ปลายยึดธรรมดา (Simply Supported)</option>
+                  <option value="fix">คานช่วงเดียว ปลายยึดแน่นทั้งสองด้าน (Fixed-Fixed)</option>
+                </select>
+              </div>
+              <div class="fnote">SS: M<sub>max</sub> = wL²/8, V<sub>max</sub> = wL/2, T<sub>max</sub> = tL/2 · Fixed: M<sub>max</sub> = wL²/12 (ปลาย), V<sub>max</sub> = wL/2</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results: forces -->
+        <div class="summary" style="grid-template-columns:repeat(3,1fr);margin-top:6px">
+          <div class="stat"><div class="k">Mu สูงสุด</div><div class="v" id="b_Mu">– <small>kg·m</small></div></div>
+          <div class="stat"><div class="k">Vu ที่ปลายรองรับ</div><div class="v" id="b_Vu">– <small>kg</small></div></div>
+          <div class="stat"><div class="k">Tu ที่ปลายรองรับ</div><div class="v" id="b_Tu">– <small>kg·m</small></div></div>
+        </div>
+
+        <div class="checks" id="b_checks"></div>
+
+        <!-- Reinforcement summary -->
+        <div class="sec-title" style="margin-top:14px">สรุปเหล็กเสริม</div>
+        <div class="callout" id="b_rebar">–</div>
+
+        <!-- Drawings -->
+        <div class="sec-title" style="margin-top:18px">แบบคานรองรับ · Beam Drawings</div>
+        <div class="diag-row">
+          <div class="diag-cell"><div class="diag-h">หน้าตัดคาน · Cross-section</div><div class="diagram" id="b_sec"></div></div>
+          <div class="diag-cell"><div class="diag-h">แผนภาพแรง · Force Diagrams</div><div class="diagram" id="b_force"></div></div>
+        </div>
+        <div class="diag-cell" style="margin-top:14px"><div class="diag-h">รูปด้านข้างคาน · Elevation (Rebar Layout)</div><div class="diagram" id="b_elev"></div></div>
+
+        <!-- Beam step-by-step -->
+        <div class="sec-title" style="margin-top:18px">วิธีคำนวณคาน · Beam Calculation Report</div>
+        <div class="rep-body" id="b_report"></div>
+
+        <div class="note">
+          คานนี้ออกแบบรับโหลดจากพื้นยื่นด้านบน (vertical reaction + torsion) บวกกับน้ำหนักตัวเองของคานและโหลดเพิ่มเติมที่กรอก
+          — ไม่ได้รวม slab อีกด้านของอาคาร (ถ้ามี) ให้ระบุในช่อง SDL/LL เพิ่มเติม ·
+          ตรวจการบิด (torsion) ตาม ACI 318 Sec. 11.5 ถ้าเกินเกณฑ์ต้องใส่เหล็กปลอกปิดและเหล็กตามยาวพิเศษ
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="statusbar">
+    <span class="sb-item">ACI 318 · STRENGTH DESIGN</span>
+    <span class="sb-item sb-combo">U = 1.4DL + 1.7LL</span>
+    <span class="sb-item sb-units">UNITS: kg · m · cm · ksc</span>
+    <span class="sb-item sb-live" id="wsSbStatus">รอคำนวณ…</span>
+    <span class="sb-item sb-brand">ช่างคิด · CONCRETE DESIGN · SL-03</span>
+  </footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+        integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+        onerror="window.__threeFailed=true;document.querySelectorAll('#v3dBox,#v3dToggles,#v3dTone,#v3dColors,#v3dSize').forEach(function(e){if(e)e.style.display='none'});document.querySelectorAll('.sec-title').forEach(function(h){if(/3\s*มิติ|3D/.test(h.textContent))h.style.display='none'});var n=document.createElement('div');n.className='callout';n.innerHTML='ℹ <b>โหลด Three.js ไม่สำเร็จ</b> — ซ่อนแบบจำลอง 3 มิติอย่างนุ่มนวล · ผลคำนวณ + รูปวาด 2 มิติยังทำงานครบ';var v=document.getElementById('v3dBox');if(v&&v.parentNode)v.parentNode.insertBefore(n,v);"></script>
+<script>
+/* ===== helper ===== */
+function xround(x,n){ if(!isFinite(x)) return NaN; var f=Math.pow(10,n); return Math.sign(x)*Math.round(Math.abs(x)*f)/f; }
+function rdown(x,n){ if(!isFinite(x)) return NaN; var f=Math.pow(10,n); return Math.sign(x)*Math.floor(Math.abs(x)*f)/f; }
+function num(id){ return parseFloat(document.getElementById(id).value); }
+function fmt(x,n){ return isFinite(x)? x.toLocaleString('en-US',{minimumFractionDigits:n,maximumFractionDigits:n}) : '–'; }
+
+var THICK_TABLE=[8,10,12.5,15,17.5,20,22.5,25,27.5,30];
+
+/* อัตราส่วนเหล็กกันร้าว/อุณหภูมิ ตาม fy (ใช้เป็นเหล็กขั้นต่ำพื้นยื่น) */
+function tempRatio(fy){
+  // ACI 318-19 Table 24.4.3.2 (เหล็กข้ออ้อย) · fy หน่วย ksc · 420 MPa ≈ 4,283 ksc
+  //   fy < 420 MPa → 0.0020   |   fy ≥ 420 MPa → max(0.0018×420/fy , 0.0014)
+  // ⚠ เดิม fy=4000 (SD40 = 392 MPa < 420) คืน 0.0018 → ต่ำกว่าที่ ACI กำหนด ~11%
+  //   และสาขา fy>4000 ขาดพื้น 0.0014 → fy=6000 เคยได้ 0.0012 (ต่ำกว่า ACI 17%)
+  // fy ≤ 2400 (SR24) = เหล็กกลม อยู่นอกขอบเขตตาราง ACI → คงค่าปฏิบัติเดิม 0.0025 (อนุรักษ์กว่า)
+  if(fy<=2400) return 0.0025;
+  if(fy<4283)  return 0.0020;
+  return Math.max(0.0018*4283/fy, 0.0014);
+}
+
+/* ===== คำนวณพื้นยื่น (Cantilever Slab) — วิธีกำลัง ACI 318 =====
+   รองรับ 2 รูปแบบหน้าตัด:
+     • uniform  — ความหนาคงที่ตลอดช่วงยื่น
+     • tapered  — ความหนาแปรเชิงเส้น h(x) = h0 + α·x  โดย α = (hL − h0)/L
+*/
+function compute(I){
+  var R={};
+  var fc=I.fc, fy1=I.fy1, fy2=I.fy2, phib=I.phib, phiv=I.phiv, L=I.L;
+
+  // beta1
+  R.b1 = xround(fc<=280?0.85:(fc>560?0.65:0.85-0.05*((fc-280)/70)),2);
+
+  // ความหนาขั้นต่ำควบคุมการแอ่นตัว — พื้นยื่น k = 10 (สำหรับ uniform)
+  // ⚠ เดิมเป็น (fy1>=4000)?1:… → SD50 (fy=5000) ได้ตัวคูณ 1.0 แทนที่จะเป็น 1.114 ⇒ t_min ต่ำไป ~11%
+  //   ที่ถูกคือ special-case เฉพาะ fy=4000 (เกรดอ้างอิง SD40) ให้เท่ากับ one-way-slab.html
+  //   ACI 318-19 Table 7.3.1.1 footnote: ตัวคูณ = 0.4 + fy/7000 (ksc) → fy>4000 ต้อง >1.0
+  var fac = (fy1===4000)?1:(0.4+fy1/7000);
+  R.jb73=fac;
+  R.tmin = (L*100/10)*fac;
+
+  // ----- กำหนดความหนา h(x) ตามรูปแบบหน้าตัด -----
+  R.mode = I.mode;
+  if(I.mode==='tapered'){
+    R.h_root = I.h_root;
+    R.h_tip  = I.h_tip;
+    // จัดให้ h_root ≥ h_tip (รูปแบบเรียวลด — หนาที่รองรับ บางที่ปลาย)
+    if(R.h_tip > R.h_root){ var tmp=R.h_root; R.h_root=R.h_tip; R.h_tip=tmp; R.swappedTaper=true; }
+    R.h_avg  = (R.h_root + R.h_tip)/2;
+    R.alpha  = (R.h_tip - R.h_root)/L;   // cm/m (≤ 0)
+    R.t      = R.h_root;                  // ใช้ค่าใหญ่สุดเป็นตัวแทน (สำหรับโค้ดที่ใช้ R.t)
+  } else {
+    var tTable=30;
+    for(var k=0;k<THICK_TABLE.length;k++){ if(R.tmin<=THICK_TABLE[k]){ tTable=THICK_TABLE[k]; break; } }
+    R.tTable=tTable;
+    R.t = Math.max(tTable, I.tdef);
+    R.h_root = R.t; R.h_tip = R.t; R.h_avg = R.t; R.alpha = 0;
+  }
+  // ฟังก์ชันช่วย — h(x) [cm], d(x) [cm]   (x เป็น m, นับจากที่รองรับ)
+  R.h_x = function(x){ return R.h_root + R.alpha*x; };
+  R.d_x = function(x){ return R.h_x(x) - I.cov - I.mainDia/20; };
+
+  // น้ำหนักบรรทุก — วิธีกำลัง U = 1.4DL + 1.7LL
+  /* Load factors come from the caller so a design code can be chosen.
+     Default 1.4/1.7 (มยผ./กฎกระทรวง) keeps every existing caller and the
+     standalone page on exactly the numbers they had. */
+  var fDL=(isFinite(I.fDL)&&I.fDL>0)?I.fDL:1.4, fLL=(isFinite(I.fLL)&&I.fLL>0)?I.fLL:1.7;
+  R.fDL=fDL; R.fLL=fLL;
+  R.w_const = fDL*I.sdl + fLL*I.ll;                    // ส่วนที่ไม่ขึ้นกับ x (kg/m²)
+  R.FIN     = fDL*I.finw;                              // kg/m (เส้นปลายอิสระ)
+
+  // น้ำหนักพื้นเอง — แบบจุดที่ x: w_self(x) [kg/m²] = 1.4·γc·h(x)/100
+  R.gamc = 2400;
+  R.selfWroot = R.gamc*(R.h_root/100);
+  R.selfWtip  = R.gamc*(R.h_tip /100);
+  R.selfWavg  = R.gamc*(R.h_avg /100);
+  R.Wu_root   = R.w_const + fDL*R.selfWroot;
+  R.Wu_tip    = R.w_const + fDL*R.selfWtip;
+  R.Wu_avg    = R.w_const + fDL*R.selfWavg;
+  // ใช้ค่าเฉลี่ยเป็น "Wu" แสดงผลรวม (เพื่อรักษาความหมายเชิงเปรียบเทียบกับโหมด uniform)
+  R.selfW = R.gamc*(R.t/100);
+  R.Wu    = (I.mode==='tapered') ? R.Wu_avg : (fDL*(R.selfW+I.sdl) + fLL*I.ll);
+
+  // ----- Mu(x) และ Vu(x) ตามสูตรกราฟิกอินทิเกรต  -----
+  // Mu(X) = (w_const + 33.6·h(X))·Y²/2 + 33.6·α·Y³/3 + FIN·Y   [kg·m]   (Y = L−X)
+  // Vu(X) = Y·[w_const + 33.6·(h(X)+h_tip)/2] + FIN            [kg/m strip]
+  //   33.6 = 1.4·γc/100  (γc=2400 kg/m³, h ใน cm → kg/m²)
+  R.Mu_x = function(x){
+    var Y=L-x, hx=R.h_x(x);
+    return (R.w_const + 33.6*hx)*Y*Y/2 + 33.6*R.alpha*Y*Y*Y/3 + R.FIN*Y;
+  };
+  R.Vu_x = function(x){
+    var Y=L-x, hx=R.h_x(x);
+    return Y*(R.w_const + 33.6*(hx + R.h_tip)/2) + R.FIN;
+  };
+
+  // คุณสมบัติหน้าตัด — ρb, ρmax, ρ design, Ru1
+  R.rb   = xround(0.85*R.b1*(fc/fy1)*(6120/(6120+fy1)),4);
+  R.rmax = xround(0.75*R.rb,4);
+  R.r    = xround(0.50*R.rb,4);
+  R.rhoMin = xround(14/fy1,4);
+  R.Ru1  = xround(R.r*fy1*(1-0.59*R.r*(fy1/fc)),2);
+  R.tempRatio1 = tempRatio(fy1);
+  R.tempRatio2 = tempRatio(fy2);
+
+  // ----- วิเคราะห์หน้าตัดวิกฤต — สแกนตามช่วงยื่น -----
+  R.sections = [];
+  // จุดสำคัญ: x = 0, L/4, L/2, 3L/4, L (เก็บละเอียดด้วยสำหรับการสแกนวิกฤต)
+  var keyXs=[0, L/4, L/2, 3*L/4, L];
+  var scanN=40;  // สแกน 40 จุดสำหรับหาวิกฤตจริง
+  var scan=[];
+  for(var s=0;s<=scanN;s++){
+    var xs=L*s/scanN, hs=R.h_x(xs), ds=R.d_x(xs);
+    var Ms=R.Mu_x(xs), Vs=R.Vu_x(xs);
+    // ใช้แฟกเตอร์ 1.15 เฉพาะที่ที่รองรับ (x=0) ตามแนวปฏิบัติ Excel เดิม
+    // (สอดคล้องโหมด uniform — เป็น overstrength เผื่อความไม่แน่นอนของแรงปฏิกิริยา)
+    var Vu_design = (s===0) ? 1.15*Vs : Vs;
+    // คำนวณเหล็กเสริมที่ส่วนนี้
+    var Ru = (ds>0) ? (Ms*100)/(phib*100*ds*ds) : 999;
+    var inner = 1-(2*Ru/(0.85*fc));
+    var rho = (inner<0) ? R.rmax : 0.85*(fc/fy1)*(1-Math.sqrt(inner));
+    var As_flex = rho*100*ds;
+    var As_min  = R.tempRatio1*100*hs;
+    var As_req  = Math.max(As_flex, As_min);
+    // ---- แรงเฉือนทางเดียว · ACI 318-19 Table 22.5.5.1(b) ----
+    // พื้นไม่มีเหล็กปลอก → Vc = 2.11·λs·λ·(ρw)^⅓·√fc′·b·d , λs = √(2/(1+d/250)) ≤ 1 [Sec. 22.5.5.1.3]
+    // ρw ที่สถานีนี้ใช้ As_req เพราะ "เหล็กที่จัดจริง" ยังไม่ทราบ ณ จุดนี้ —
+    // ระยะเรียงเหล็กหลักคำนวณจากผลสแกนนี้เอง (R.AsMain ← AsCritSec) จึงอ้างวนกลับไม่ได้
+    // และ As_prov ≥ As_req เสมอ (ปัดระยะเรียงลง) → ค่าที่ได้อยู่ฝั่งปลอดภัย
+    var _owX    = CKF.oneWayVcNoStirrup(fc, 100, ds, As_req, 1);
+    var phiVc   = phiv*_owX.Vc;
+    scan.push({x:xs,h:hs,d:ds,Mu:Ms,Vu:Vs,Vu_design:Vu_design,Ru:Ru,rho:rho,
+               As_flex:As_flex,As_min:As_min,As_req:As_req,phiVc:phiVc,shearRatio:Vu_design/phiVc,
+               ls:_owX.ls,rhoW:_owX.rho});
+  }
+  R.scan = scan;
+
+  // เก็บผลที่จุดสำคัญสำหรับรายงาน
+  keyXs.forEach(function(kx){
+    var best=scan[0], bd=Math.abs(scan[0].x-kx);
+    scan.forEach(function(p){ var dd=Math.abs(p.x-kx); if(dd<bd){ bd=dd; best=p; }});
+    R.sections.push(best);
+  });
+
+  // หาหน้าตัดวิกฤตเชิงเหล็กดัด (As_req สูงสุด) และเชิงเฉือน
+  R.AsCritSec = scan[0];
+  R.VuCritSec = scan[0];
+  scan.forEach(function(p){
+    if(p.As_req > R.AsCritSec.As_req) R.AsCritSec = p;
+    if(p.shearRatio > R.VuCritSec.shearRatio) R.VuCritSec = p;
+  });
+
+  // ----- ค่าออกแบบรวม (เลขที่ใช้ใน Drawing/Spacing) -----
+  R.d         = R.d_x(0);
+  R.Mu        = xround(R.Mu_x(0), 2);
+  R.Ru2       = xround(scan[0].Ru, 2);
+  R.rreq      = xround(scan[0].rho, 4);
+  R.Asflex    = xround(scan[0].As_flex, 2);
+  R.Ast1      = xround(scan[0].As_min, 2);
+  R.AsMain    = Math.max(R.AsCritSec.As_flex, R.AsCritSec.As_min);
+  R.dreq      = xround(Math.sqrt(R.Mu/(phib*R.Ru1)),2);
+
+  R.barArea = xround(Math.PI*I.mainDia*I.mainDia/400,2);
+  R.s1Main = rdown(R.barArea/R.AsMain,2);
+  // ขีดจำกัด 3t ของ uniform → สำหรับ tapered ใช้ความหนาน้อยสุด (เข้มงวดสุด)
+  R.s2Main = 3*R.h_tip/100;
+  R.SmaxMain = Math.min(R.s1Main, R.s2Main, 0.45);
+
+  // เหล็กแจกแรง / กันร้าว — ใช้ความหนาเฉลี่ย (เป็นเหล็กผิวกระจายตลอดความยาว)
+  var hRef = (I.mode==='tapered') ? R.h_avg : R.t;
+  R.Ast2 = xround(R.tempRatio2*100*hRef,2);
+  R.tempBarArea = xround(Math.PI*I.tempDia*I.tempDia/400,2);
+  R.s1Temp = rdown(R.tempBarArea/R.Ast2,2);
+  R.s2Temp = 5*R.h_tip/100;          // ใช้ h_tip เพื่อปลอดภัย
+  R.SmaxTemp = Math.min(R.s1Temp, R.s2Temp, 0.45);
+
+  // แรงเฉือน — Vu = 1.15(Vu_actual_at_support)
+  R.Vu    = xround(1.15*scan[0].Vu, 2);
+
+  // ---- แรงเฉือนทางเดียว · ACI 318-19 Table 22.5.5.1(b) ----
+  //   Vc = 2.11 · λs · λ · (ρw)^⅓ · √fc′ · b · d   (b = 100 cm ต่อ 1 ม.)
+  //   λs = √(2/(1+d/250))  (d หน่วย mm) ≤ 1        [Sec. 22.5.5.1.3]
+  // ที่ที่รองรับ (x=0) ρw ใช้ "เหล็กหลักผิวบนที่จัดจริง" ได้ตรง ๆ — พื้นยื่นเสริมเหล็กหลัก
+  // ผิวบนระยะเรียงเดียวตลอดช่วง และ ณ จุดนี้ R.SmaxMain/chosen[0] คำนวณเสร็จแล้ว
+  var _sM = (typeof chosen!=='undefined' && chosen && isFinite(chosen[0]) && chosen[0]>0)
+              ? chosen[0] : rdown(R.SmaxMain,2);
+  R.sShear  = _sM;                                  // m — ระยะเรียงเหล็กหลักที่ใช้จริง
+  R.AsShear = xround(R.barArea/_sM, 2);             // cm²/m — เหล็กบนที่จัดจริง (ผิวรับแรงดึง)
+  var _ow = CKF.oneWayVcNoStirrup(fc, 100, R.d, R.AsShear, 1);
+  R.phiVc = xround(phiv*_ow.Vc, 2);
+  R.ls = _ow.ls; R.rho = _ow.rho;
+
+  // ----- คำนวณการแอ่นตัวที่ปลายอิสระ (Tip Deflection) — วิธี Unit Load -----
+  //   ทั้ง uniform และ tapered ใช้สูตรเดียว: δ = ∫ Mr·m / (E·I(x)) dx
+  R.Ec = 15100*Math.sqrt(fc);
+  var b_cm=100;
+  // โหลดบริการ (unfactored)
+  var Wserv = I.sdl + I.ll;
+  var FINs  = I.finw;
+  var N=160, dx_m=L/N, defl=0;
+  // M_real(x) ใช้สูตรเดียวกับ Mu แต่ตัวคูณ = 1 ทุกตัว
+  function Mr_x(x){
+    var Y=L-x, hx=R.h_x(x);
+    return (Wserv + R.gamc*hx/100)*Y*Y/2 + R.gamc*(R.alpha/100)*Y*Y*Y/3 + FINs*Y;
+  }
+  // ใช้ Composite Simpson
+  for(var i=0;i<=N;i++){
+    var xi=L*i/N, hi=R.h_x(xi);
+    var Ii=b_cm*Math.pow(hi,3)/12;        // cm⁴
+    var EI=R.Ec*Ii;                        // kg·cm²
+    var Mreal=Mr_x(xi);                    // kg·m
+    var mvirt=L-xi;                        // m
+    var integrand=(Mreal*mvirt*10000)/EI;  // (kg·m)(m)→ kg·m² → ×10000 = kg·cm² / kg·cm² → dimensionless
+    var w=(i===0||i===N) ? 1 : (i%2===0 ? 2 : 4);
+    defl += w*integrand;
+  }
+  defl *= (dx_m*100)/3;  // dx ในหน่วย cm  (Simpson's 1/3)
+  R.delta_tip   = defl;             // cm — δ ทันที (instantaneous)
+  R.delta_limit = (L*100)/180;      // L/180 (cm) — เกณฑ์การแอ่นตัวทันที (ACI 318-19 Table 24.2.2)
+  R.chkDefl     = (R.delta_tip <= R.delta_limit);
+
+  // ----- การแอ่นตัวระยะยาว (Long-term) — ACI 318-19 Sec. 24.2.4.1.1 -----
+  //   λ_Δ = ξ / (1 + 50·ρ')  ;  ξ = 2.0 สำหรับ T ≥ 5 ปี  (ไม่มี compression steel จึงใช้ ξ ตรง)
+  R.lambdaDelta = 2.0;
+  R.delta_long  = R.delta_tip * (1 + R.lambdaDelta);   // total long-term (1+λ)·δ_instant
+  R.delta_long_limit = (L*100)/240;                     // L/240 — เกณฑ์ระยะยาว (ACI 318-19 Table 24.2.2)
+  R.chkDeflLong = R.delta_long <= R.delta_long_limit;
+
+  // ----- ผลของหน้าตัดเรียวต่อแรงเฉือน (Variable Depth Effect) — เก็บเป็นข้อมูล -----
+  //   V_concrete_demand ≈ V_external − (M/jd)·tan(α)  (เฉพาะ tapered ที่ผิวล่างเอียง)
+  //   jd ≈ 0.9·d (ค่าประมาณ)
+  if(I.mode==='tapered' && R.h_root !== R.h_tip){
+    var tanA = Math.abs(R.alpha)/100;     // α ใน cm/m → tan(angle) ของผิวล่าง
+    R.slopeAngleDeg = Math.atan(tanA)*180/Math.PI;
+    R.VuCrit_reduced = scan[0].Vu_design - (R.Mu_x(0)/(0.9*R.d))*tanA;
+    R.VuCrit_reduction_pct = (1 - R.VuCrit_reduced/scan[0].Vu_design)*100;
+  } else {
+    R.slopeAngleDeg = 0;
+    R.VuCrit_reduced = R.Vu;
+    R.VuCrit_reduction_pct = 0;
+  }
+
+  // ผลตรวจสอบ
+  R.chkThick = (I.mode==='tapered') ? R.chkDefl : (R.t >= R.tmin);
+  R.chkDepth = R.dreq <= R.d;
+  R.chkShear = R.phiVc >= R.Vu && R.VuCritSec.shearRatio <= 1.0;
+  return R;
+}
+
+/* ===== render ===== */
+var chosen = {};      // ระยะเรียงเหล็กหลัก
+var chosenTemp;       // ระยะเรียงเหล็กแจกแรง
+var sectionMode = 'uniform';   // 'uniform' | 'tapered'
+var beamEnabled = false;       // เปิด/ปิดส่วนออกแบบคานรองรับ
+function render(){
+  var fy1=num('fy1');
+  var I={
+    mode:sectionMode,
+    fc:num('fc'), fy1:fy1, fy2:num('fy2'),
+    L:num('L'), B:num('B'), tdef:num('tdef'),
+    h_root:num('h_root'), h_tip:num('h_tip'),
+    cov:num('cov'),
+    combo:'1.4DL+1.7LL', phib:num('phib'), phiv:num('phiv'),
+    sdl:num('sdl'), ll:num('ll'), finw:num('finw'),
+    mainDia:parseFloat(document.getElementById('mainDia').value),
+    tempDia:parseFloat(document.getElementById('tempDia').value)
+  };
+  // ค่าที่ไม่จำเป็นในโหมดปัจจุบันให้ตั้งเป็นค่ามาตรฐานเพื่อไม่ให้ตก isFinite
+  if(sectionMode==='uniform'){ I.h_root=I.tdef; I.h_tip=I.tdef; }
+  else { if(!isFinite(I.tdef)) I.tdef=I.h_root; }
+
+  // ----- INPUT GUARDS (P1-9) -----
+  var critical = ['fc','fy1','fy2','L','B','cov','phib','phiv'];
+  if(sectionMode==='tapered') critical.push('h_root','h_tip'); else critical.push('tdef');
+  var missing = [];
+  critical.forEach(function(k){
+    var v = I[k];
+    if(typeof v !== 'number' || !isFinite(v) || v <= 0) missing.push(k);
+  });
+  if(isFinite(I.sdl) && I.sdl < 0) missing.push('sdl');
+  if(isFinite(I.ll) && I.ll < 0) missing.push('ll');
+  if(!isFinite(I.finw) || I.finw < 0) I.finw = 0;
+  var nd = document.getElementById('o_nodata');
+  if(missing.length){
+    if(nd){
+      nd.className = 'nodata';
+      nd.style.display = '';
+      nd.innerHTML = '⚠ กรุณากรอกข้อมูลให้ครบ — ตรวจสอบ: <b>'+missing.join(', ')+'</b>';
+    }
+    return;
+  }
+  if(nd){ nd.style.display = 'none'; nd.innerHTML = ''; }
+  var bad=false;
+  for(var key in I){ if(typeof I[key]==='number' && !isFinite(I[key])) bad=true; }
+  if(bad) return;
+  var R=compute(I);
+  var barLbl  = fy1<3000?'RB':'DB';
+  var tempLbl = num('fy2')<3000?'RB':'DB';
+
+  if(I.mode==='tapered'){
+    document.getElementById('o_t').innerHTML  = fmt(R.h_root,1)+' / '+fmt(R.h_tip,1)+' <small>cm. (h₀ / h<sub>L</sub>)</small>';
+    document.getElementById('o_wu').innerHTML = fmt(R.Wu_avg,0)+' <small>kg/m² (เฉลี่ย)</small>';
+  } else {
+    document.getElementById('o_t').innerHTML  = fmt(R.t,1)+' <small>cm.</small>';
+    document.getElementById('o_wu').innerHTML = fmt(R.Wu,0)+' <small>kg/m²</small>';
+  }
+
+  // ----- Utilization bars (P1-10) -----
+  (function(){
+    var utilEl = document.getElementById('o_util'); if(!utilEl) return;
+    function utilBar(label, num_val, den_val, unit, allowLabel){
+      var ratio = (den_val>0) ? num_val/den_val : 0;
+      var pct = ratio*100, cls='green';
+      if(ratio>=1.0) cls='over'; else if(ratio>=0.85) cls='red'; else if(ratio>=0.65) cls='yellow';
+      var overTxt = (ratio>1.0)?'<span class="over">เกิน 100% — ไม่ผ่าน</span>':(allowLabel||'OK');
+      return '<div class="util-bar"><div class="ulbl"><span>'+label+'</span><b>'+fmt(pct,0)+'%</b></div>'
+        +'<div class="ubar"><div class="ufill '+cls+'" style="width:'+Math.min(pct,100).toFixed(1)+'%"></div></div>'
+        +'<div class="uval"><span>'+fmt(num_val,2)+' '+unit+'</span><span>'+overTxt+'</span></div></div>';
+    }
+    var ub = '';
+    if(I.mode==='tapered'){
+      ub += utilBar('แอ่นตัว δ<sub>tip</sub>/(L/180)', R.delta_tip, R.delta_limit, 'cm','ทันที');
+      ub += utilBar('แอ่นตัว δ<sub>long</sub>/(L/240)', R.delta_long, R.delta_long_limit, 'cm','ระยะยาว');
+    } else {
+      ub += utilBar('ความหนา t<sub>min</sub>/t', R.tmin, R.t, 'cm','ควบคุมแอ่นตัว');
+      ub += utilBar('ความลึก d<sub>req</sub>/d', R.dreq, R.d, 'cm','ดัด');
+    }
+    ub += utilBar('เฉือน V<sub>u</sub>/φV<sub>c</sub>', R.Vu, R.phiVc, 'kg','คอนกรีตล้วน');
+    utilEl.innerHTML = ub;
+  })();
+
+  function chip(ok,txt){
+    var ic = ok
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    return '<span class="chk '+(ok?'ok':'bad')+'">'+ic+txt+'</span>';
+  }
+  var checksHTML;
+  if(I.mode==='tapered'){
+    checksHTML = chip(R.chkDefl,'δ ทันที ≤ L/180')
+               + chip(R.chkDeflLong,'δ ระยะยาว ≤ L/240')
+               + chip(R.chkDepth,'ความลึก d')
+               + chip(R.chkShear,'แรงเฉือน');
+  } else {
+    checksHTML = chip(R.chkThick,'ความหนา') + chip(R.chkDepth,'ความลึก d') + chip(R.chkShear,'แรงเฉือน');
+  }
+  document.getElementById('checks').innerHTML = checksHTML;
+
+  // spacing rows — สร้าง DOM ครั้งเดียว, รอบถัดไปอัปเดตเฉพาะผลตรวจ
+  var rowsEl=document.getElementById('spacingRows');
+  var needBuild = rowsEl.querySelectorAll('.spacing-row').length!==2;
+  if(chosen[0]===undefined){ chosen[0]=rdown(R.SmaxMain,2); needBuild=true; }
+  if(chosenTemp===undefined){ chosenTemp=rdown(R.SmaxTemp,2); needBuild=true; }
+  function spRow(label,smax,val,cls,attr){
+    var ok=val<=smax+1e-9;
+    return '<div class="spacing-row">'
+      +'<div class="lab">'+label+' &nbsp;<small>เรียงได้สูงสุด <span class="smax">'+fmt(smax,2)+'</span> m.</small></div>'
+      +'<div class="spacing-input">'
+      +'<div class="ctrl"><input type="number" step="0.025" min="0" '+attr+' class="'+cls+'" value="'+val+'"><span class="suf">m.</span></div>'
+      +'<span class="verdict '+(ok?'ok':'bad')+'">'+(ok?'ผ่าน':'เกินระยะ')+'</span>'
+      +'</div></div>';
+  }
+  if(needBuild){
+    var sh='';
+    sh+=spRow('เหล็กหลัก (เสริมผิวบน)',R.SmaxMain,chosen[0],'spc','data-idx="0"');
+    sh+=spRow('เหล็กแจกแรง / กันร้าว',R.SmaxTemp,chosenTemp,'spct','id="spcTemp"');
+    rowsEl.innerHTML=sh;
+    rowsEl.querySelector('.spc').addEventListener('input',function(){
+      chosen[0]=parseFloat(this.value); render();
+    });
+    document.getElementById('spcTemp').addEventListener('input',function(){
+      chosenTemp=parseFloat(this.value); render();
+    });
+  } else {
+    var rows=rowsEl.querySelectorAll('.spacing-row');
+    function upd(row,smax,ok){
+      var smaxEl=row.querySelector('.smax'); if(smaxEl) smaxEl.textContent=fmt(smax,2);
+      var vd=row.querySelector('.verdict');
+      if(vd){ vd.className='verdict '+(ok?'ok':'bad'); vd.textContent=(ok?'ผ่าน':'เกินระยะ'); }
+    }
+    upd(rows[0],R.SmaxMain,chosen[0]<=R.SmaxMain+1e-9);
+    upd(rows[1],R.SmaxTemp,chosenTemp<=R.SmaxTemp+1e-9);
+  }
+
+  var thickTxt = (I.mode==='tapered')
+    ? ('พื้นหนา <b>'+fmt(R.h_root,0)+' → '+fmt(R.h_tip,0)+' cm.</b> (เรียวลด)')
+    : ('พื้นหนา <b>'+fmt(R.t,0)+' cm.</b>');
+  document.getElementById('bom').innerHTML =
+    'สรุปเหล็กเสริม: เหล็กหลัก (ผิวบน) <b>'+barLbl+I.mainDia+' @ '+fmt(chosen[0],2)+' m.</b> · '
+    +'เหล็กแจกแรง <b>'+tempLbl+I.tempDia+' @ '+fmt(chosenTemp,2)+' m.</b> · '
+    +thickTxt+' · ยื่น <b>'+fmt(I.L,2)+' m.</b>';
+
+  // ===== สรุปปริมาณวัสดุโดยประมาณ · Material Take-off (ต่อ 1 แผงยื่น L×B) =====
+  (function(){
+    var el=document.getElementById('takeoff'); if(!el) return;
+    var sM=chosen[0], sT=chosenTemp;
+    if(!(sM>0)||!(sT>0)||!(I.L>0)||!(I.B>0)){ el.innerHTML=''; return; }
+    var covM=I.cov/100;
+    var uwM=I.mainDia*I.mainDia/162, uwT=I.tempDia*I.tempDia/162;
+    // ความลึกฝัง ld ของเหล็กบนเข้าฐานรองรับ (ACI ksc, db ซม.)
+    var dbcm=I.mainDia/10, c=(I.mainDia>=22)?5.4:6.7, ldM=Math.max(0.30, (I.fy1*dbcm/(c*Math.sqrt(I.fc)))/100);
+    // เหล็กหลัก (ผิวบน) พาดทาง L : ยาว = ยื่น L − หุ้มปลาย + ฝัง ld เข้าฐาน ; เรียงตามกว้าง B
+    var nM=Math.floor(I.B/sM)+1, Lm=(I.L-covM)+ldM, wM=nM*Lm*uwM;
+    // เหล็กแจกแรง พาดทาง B : ยาว = B − 2หุ้ม + 2หางงอ 12db ; เรียงตามยื่น L
+    var hookT=12*I.tempDia/1000;
+    var nT=Math.floor(I.L/sT)+1, Lt=Math.max(0.1, I.B-2*covM+2*hookT), wT=nT*Lt*uwT;
+    var totW=wM+wT;
+    var hRef=(I.mode==='tapered')?R.h_avg:R.t, volC=I.L*I.B*(hRef/100);
+    var th='font-family:var(--mono,monospace);font-size:9.5px;font-weight:600;letter-spacing:.5px;color:#7FA8D9;background:#0A1628;padding:7px 9px;text-transform:uppercase';
+    var td='padding:6px 9px;border-bottom:1px solid #EEF2F7;text-align:right;font-family:var(--mono,monospace);font-size:11.5px;font-variant-numeric:tabular-nums';
+    function r(mk,bar,n,le,wt){
+      return '<tr><td style="'+td+';text-align:left">'+mk+'</td><td style="'+td+'">'+bar+'</td><td style="'+td+'">'+n+'</td>'
+        +'<td style="'+td+'">'+fmt(le,2)+'</td><td style="'+td+'">'+fmt(n*le,1)+'</td><td style="'+td+'">'+fmt(wt,1)+'</td></tr>';
+    }
+    var html='<div style="border:1px solid #DCE5F0;border-radius:12px;overflow-x:auto">'
+      +'<table style="width:100%;min-width:480px;border-collapse:collapse;font-size:12px">'
+      +'<thead><tr>'
+      +'<th style="'+th+';text-align:left">มาร์ก</th><th style="'+th+'">Ø @ ระยะ</th><th style="'+th+'">จำนวน</th>'
+      +'<th style="'+th+'">ยาว/เส้น (m)</th><th style="'+th+'">ยาวรวม (m)</th><th style="'+th+'">น้ำหนัก (kg)</th>'
+      +'</tr></thead><tbody>'
+      +r('เหล็กหลัก · ผิวบน (พาดยื่น L)', barLbl+I.mainDia+' @ '+fmt(sM,2), nM, Lm, wM)
+      +r('เหล็กแจกแรง/กันร้าว (พาด B)', tempLbl+I.tempDia+' @ '+fmt(sT,2), nT, Lt, wT)
+      +'</tbody>'
+      +'<tfoot><tr><td colspan="5" style="'+td+';text-align:right;font-weight:800;border-top:2px solid #DCE5F0;border-bottom:0">รวมเหล็กเสริม</td>'
+      +'<td style="'+td+';font-weight:800;color:#F58220;border-top:2px solid #DCE5F0;border-bottom:0">'+fmt(totW,1)+'</td></tr></tfoot>'
+      +'</table></div>';
+    html+='<div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:#33425C">'
+      +'<span>คอนกรีต ≈ <b>'+fmt(volC,3)+' m³</b></span>'
+      +'<span>เหล็กเสริม ≈ <b>'+fmt(totW,1)+' kg</b></span>'
+      +'<span>อัตราส่วนเหล็ก ≈ <b>'+fmt(volC>0?totW/volC:0,0)+' kg/m³</b></span>'
+      +'</div>'
+      +'<div style="margin-top:6px;font-size:10.5px;color:#8a5018;line-height:1.6">⚠ <b>ประมาณการต่อ 1 แผงยื่น</b> (ยื่น L × กว้าง B'+(I.mode==='tapered'?' · ใช้ความหนาเฉลี่ย':'')+') — '
+      +'เหล็กหลักผิวบนยาว = ยื่น + ฝังยึด l<sub>d</sub>≈'+fmt(ldM,2)+' m เข้าฐานรองรับ · น้ำหนัก = d<sub>b</sub>²/162 kg/m · '
+      +'<b>ไม่รวม</b> การทาบ (lap), เหล็กม้านั่ง (chair), และเศษเหลือ (waste) — ใช้ประเมินราคาเบื้องต้น ต้องยืนยันกับ shop drawing</div>';
+    el.innerHTML=html;
+  })();
+
+  var contract = window.CKSlabResultContract.cantilever(I,R,chosen[0],chosenTemp);
+  window.CUR=R;
+  window.CK_ENGINEERING_RESULT={version:contract.version,pageId:'cantilever-slab',inputs:I,result:R,bbs:contract.bbs,status:contract.ok?'CHECKED_SCOPE_PASS':'HOLD',issues:contract.issues};
+  drawDiagram(I,R,barLbl,tempLbl);
+  document.getElementById('repBody').innerHTML = buildReport(I,R,barLbl,tempLbl);
+  drawAnalysis(I,R);
+  try{ draw3D(I,R); }catch(e){}
+  // ----- คานรองรับ (ถ้าเปิดใช้งาน) -----
+  if(beamEnabled) renderBeam(I, R);
+}
+
+/* ===== แสดงผลคานรองรับ ===== */
+var lastBeamRec = null;   // เก็บคำแนะนำล่าสุดสำหรับปุ่ม "ใช้ขนาดที่แนะนำ"
+function renderBeam(I_slab, R_slab){
+  var Ib = {
+    L: num('b_L'), b: num('b_b'), h: num('b_h'),
+    cov: num('b_cov'), fc: num('b_fc'),
+    fy: num('b_fy'), fyv: num('b_fyv'),
+    mainDia: parseFloat(document.getElementById('b_mainDia').value),
+    stirDia: parseFloat(document.getElementById('b_stirDia').value),
+    nLegs:   parseInt(document.getElementById('b_nLegs').value, 10),
+    sdl: num('b_sdl'), ll: num('b_ll'),
+    support: document.getElementById('b_support').value,
+    phib: I_slab.phib, phiv: I_slab.phiv
+  };
+  var ok=true;
+  for(var k in Ib){ if(typeof Ib[k]==='number' && !isFinite(Ib[k])) ok=false; }
+  if(!ok) return;
+
+  // ----- AUTO-SIZING — หาขนาดขั้นต่ำที่แนะนำ -----
+  var baseIb = Object.assign({}, Ib);
+  delete baseIb.b; delete baseIb.h;
+  var autoRes = autoSizeBeam(I_slab, R_slab, baseIb);
+  var banner = document.getElementById('b_autoSize');
+  var recEl  = document.getElementById('b_rec_dim');
+  var noteEl = document.getElementById('b_rec_note');
+  var applyBtn = document.getElementById('b_applyRec');
+  if(autoRes.best){
+    var bR = autoRes.best.Rb;
+    lastBeamRec = autoRes.best;
+    banner.classList.remove('fail');
+    recEl.textContent = autoRes.best.b + ' × ' + autoRes.best.h;
+    applyBtn.disabled = false;
+    var bar=(Ib.fy<3000?'RB':'DB')+Ib.mainDia;
+    var stir=(Ib.fyv<3000?'RB':'DB')+Ib.stirDia;
+    var stirTxt = (bR.s_final>0) ? (stir+'@'+fmt(bR.s_final,1)+' cm') : '–';
+    var torsionFlag = bR.torsionSignificant ? '<b>มี</b> (ใช้ปลอกปิด+เหล็กตามยาวเพิ่ม)' : '<b>ละเว้นได้</b>';
+    var sideTxt = (bR.n_side_rows>0) ? ' + skin '+bR.n_side_rows*2+'-'+bar : '';
+    var legsTxt = bR.nLegs===2 ? '2 ขา' : (bR.nLegs===4 ? '4 ขา (1 crosstie)' : '6 ขา (2 crossties)');
+    noteEl.innerHTML = 'ขนาดเล็กสุดที่ผ่านทุกเกณฑ์ ACI 318 (ดัด+เฉือน+บิด+เหนียว+ระยะขาปลอก) · '
+      + 'เหล็กล่าง <b>'+bR.n_bars+'-'+bar+'</b> · เหล็กบน <b>'+bR.n_top_bars+'-'+bar+'</b>'+sideTxt
+      + ' · เหล็กปลอก <b>'+legsTxt+' '+stirTxt+'</b>'
+      + (bR.Al_total>0?' · A<sub>L,total</sub>='+fmt(bR.Al_total,2)+' cm² (กระจายรอบหน้าตัด)':'')
+      + ' · แรงบิด: '+torsionFlag
+      + ' · ระยะขาปลอกในแนวกว้าง = '+fmt(bR.legGap,1)+' cm ≤ d/2 = '+fmt(bR.legGapLimit,1)+' cm';
+  } else {
+    lastBeamRec = null;
+    banner.classList.add('fail');
+    recEl.textContent = '— ไม่พบ —';
+    applyBtn.disabled = true;
+    noteEl.innerHTML = '<b>หาขนาดในช่วง '+autoRes.hMin+'–150 cm ไม่พบที่ผ่านทุกเกณฑ์</b> · '
+      + 'แนะนำ: ใช้ fc′ สูงขึ้น (350+) · หรือเพิ่มขนาดเหล็กหลัก (Ø25–32) · หรือลดช่วงคาน L<sub>b</sub> · '
+      + 'หรือพิจารณาว่าในสภาพจริงพื้นด้านในของอาคารช่วยรับสมดุลของแรงบิด (ลด Tu จริง)';
+  }
+
+  var Rb = computeBeam(I_slab, R_slab, Ib);
+
+  // ---- summary tiles ----
+  document.getElementById('b_w_slab').innerHTML = fmt(Rb.w_slab_v,0)+' <small>kg/m</small>';
+  document.getElementById('b_t_slab').innerHTML = fmt(Rb.t_slab,1)+' <small>kg·m/m</small>';
+  document.getElementById('b_w_self').innerHTML = fmt(Rb.w_self,0)+' <small>kg/m</small>';
+  document.getElementById('b_Mu').innerHTML = fmt(Rb.Mu_max,0)+' <small>kg·m</small>';
+  document.getElementById('b_Vu').innerHTML = fmt(Rb.Vu_max,0)+' <small>kg</small>';
+  document.getElementById('b_Tu').innerHTML = fmt(Rb.Tu_max,1)+' <small>kg·m</small>';
+
+  // ---- checks chips ----
+  function chip(ok,txt){
+    var ic = ok
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    return '<span class="chk '+(ok?'ok':'bad')+'">'+ic+txt+'</span>';
+  }
+  var chips = chip(Rb.chkFlex,'ดัด')
+    + chip(Rb.chkShearOK,'เฉือน (Vs ≤ ขีดจำกัด)')
+    + chip(Rb.chkTorsion, Rb.torsionSignificant?'บิด (ออกแบบ)':'บิด (ละเว้นได้)')
+    + chip(!Rb.needTwoLayers,'เหล็กหลักแถวเดียว')
+    + chip(Rb.chkLegSpacing,'ระยะขาปลอก ≤ d/2');
+  document.getElementById('b_checks').innerHTML = chips;
+
+  // ---- rebar summary ----
+  var bar=(Ib.fy<3000?'RB':'DB')+Ib.mainDia;
+  var stir=(Ib.fyv<3000?'RB':'DB')+Ib.stirDia;
+  var stirTxt = (Rb.s_final>0) ? (stir+'@'+fmt(Rb.s_final,1)+' cm') : 'ไม่ต้องใส่';
+  var sideTxt = (Rb.torsionSignificant && Rb.n_side_rows>0)
+    ? ' · <b>'+Rb.n_side_rows+' แถวข้าง</b> ('+fmt(Rb.AL_per_side_row,2)+' cm²/แถว)'
+    : '';
+  var legCountTxt = (Rb.nLegs===2)?'2 ขา':(Rb.nLegs===4)?'4 ขา (+1 crosstie)':'6 ขา (+2 crossties)';
+  document.getElementById('b_rebar').innerHTML =
+    'เหล็กล่าง <b>'+Rb.n_bars+'-'+bar+'</b> (As='+fmt(Rb.As_prov,2)+' cm² ≥ ต้องการ '+fmt(Rb.As_bot_total,2)+' cm²'
+    +(Rb.torsionSignificant?' = As<sub>flex</sub>+A<sub>L</sub>/4':'')+') · '
+    +'เหล็กบน <b>'+Rb.n_top_bars+'-'+bar+'</b> ('+fmt(Rb.As_top_prov,2)+' cm²'+(Rb.torsionSignificant?' = A<sub>L</sub>/4 + corner':' นาม')+') · '
+    +'เหล็กปลอก <b>'+legCountTxt+' '+stirTxt+'</b>'
+    +(Rb.torsionSignificant?' (ปลอกนอกแบบปิด)':'')
+    +sideTxt
+    +(Rb.needTwoLayers?' · <b style="color:#c0392b">เหล็กไม่พอใน 1 แถว — ต้องเพิ่มความกว้างหรือใช้ 2 แถว</b>':'')
+    +(!Rb.chkLegSpacing?' · <b style="color:#c0392b">ระยะขาปลอก '+fmt(Rb.legGap,1)+' &gt; '+fmt(Rb.legGapLimit,1)+' cm — เพิ่มขาปลอก</b>':'');
+
+  // ---- drawings ----
+  drawBeamSection(Ib, Rb);
+  drawBeamForce(Ib, Rb);
+  drawBeamElevation(Ib, Rb);
+  document.getElementById('b_report').innerHTML = buildBeamReport(Ib, Rb, R_slab);
+}
+
+/* ===== ตัวเรนเดอร์ scatter — auto-scale + ขยายกรอบกันป้ายล้น ===== */
+function emitSVG(W,H,lines,dots,labels,opt){
+  opt=opt||{};
+  var m=opt.m||18, fs=opt.fs||12;
+  var aP=[];
+  lines.forEach(function(o){ o.p.forEach(function(p){ aP.push(p); }); });
+  dots.forEach(function(d){ aP.push([d.x,d.y]); });
+  labels.forEach(function(o){ aP.push([o.x,o.y]); });
+  var x0=Math.min.apply(0,aP.map(function(p){return p[0];}));
+  var x1=Math.max.apply(0,aP.map(function(p){return p[0];}));
+  var y0=Math.min.apply(0,aP.map(function(p){return p[1];}));
+  var y1=Math.max.apply(0,aP.map(function(p){return p[1];}));
+  var gx=(x1-x0)||1, gy=(y1-y0)||1;
+  x0-=gx*0.03; x1+=gx*0.03; y0-=gy*0.04; y1+=gy*0.04;
+  var pw=W-2*m, ph=H-2*m;
+  for(var pass=0;pass<2;pass++){
+    var sx=pw/(x1-x0), sy=ph/(y1-y0);
+    labels.forEach(function(o){
+      var fz=o.sz||fs, tw=String(o.t).length*fz*0.56, th=fz*1.2;
+      if(o.rot){ var tmp=tw; tw=th; th=tmp; }
+      var wd=tw/sx, hd=th/sy, lx=o.x, rx=o.x;
+      if(o.a==='start') rx=o.x+wd; else if(o.a==='end') lx=o.x-wd; else { lx=o.x-wd/2; rx=o.x+wd/2; }
+      if(lx<x0)x0=lx; if(rx>x1)x1=rx;
+      if(o.y-hd*0.85<y0)y0=o.y-hd*0.85; if(o.y+hd*0.4>y1)y1=o.y+hd*0.4;
+    });
+  }
+  if(opt.uniform){ H=pw*(y1-y0)/(x1-x0)+2*m; ph=H-2*m; }
+  var sX=pw/(x1-x0), sY=ph/(y1-y0);
+  function MX(x){ return m+(x-x0)*sX; }
+  function MY(y){ return m+(y1-y)*sY; }
+  var s='<svg viewBox="0 0 '+W+' '+H+'" font-family="Sarabun,sans-serif">';
+  s+='<rect width="'+W+'" height="'+H+'" fill="#fff"/>';
+  lines.forEach(function(o){
+    if(o.tip && o.p.length>=2){
+      var _A=o.p[0], _B=o.p[o.p.length-1];
+      var _ax=MX(_A[0]),_ay=MY(_A[1]),_bx=MX(_B[0]),_by=MY(_B[1]);
+      var _LAND=Math.max(7,Math.min(16,Math.abs(_bx-_ax)*0.45));
+      var _dir=(_ax<=_bx)?-1:1, _kx=_bx+_dir*_LAND, _ky=_by;
+      var _vx=_ax-_kx,_vy=_ay-_ky,_L=Math.sqrt(_vx*_vx+_vy*_vy)||1,_ux=_vx/_L,_uy=_vy/_L;
+      var _px=_ax-_ux*8.5,_py=_ay-_uy*8.5, _nx=-_uy,_ny=_ux;
+      s+='<polyline points="'+_bx.toFixed(1)+','+_by.toFixed(1)+' '+_kx.toFixed(1)+','+_ky.toFixed(1)+' '+_px.toFixed(1)+','+_py.toFixed(1)+'" fill="none" stroke="'+o.c+'" stroke-width="'+o.w+'"'+(o.d?' stroke-dasharray="'+o.d+'"':'')+' stroke-linecap="round" stroke-linejoin="round"/>';
+      s+='<polygon points="'+_ax.toFixed(1)+','+_ay.toFixed(1)+' '+(_px+_nx*3).toFixed(1)+','+(_py+_ny*3).toFixed(1)+' '+(_px-_nx*3).toFixed(1)+','+(_py-_ny*3).toFixed(1)+'" fill="'+o.c+'"/>';
+    } else {
+      var pts=o.p.map(function(p){ return MX(p[0]).toFixed(1)+','+MY(p[1]).toFixed(1); }).join(' ');
+      s+='<polyline points="'+pts+'" fill="none" stroke="'+o.c+'" stroke-width="'+o.w+'"'+(o.d?' stroke-dasharray="'+o.d+'"':'')+' stroke-linecap="round" stroke-linejoin="round"/>';
+    }
+  });
+  dots.forEach(function(d){
+    s+='<circle cx="'+MX(d.x).toFixed(1)+'" cy="'+MY(d.y).toFixed(1)+'" r="'+(d.r||3)+'" fill="'+d.f+'"'+(d.s?' stroke="'+d.s+'" stroke-width="0.7"':'')+'/>';
+  });
+  labels.forEach(function(o){
+    var x=MX(o.x), y=MY(o.y)+(o.dy||0);
+    var tr=o.rot?(' transform="rotate('+o.rot+' '+x.toFixed(1)+' '+y.toFixed(1)+')"'):'';
+    s+='<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" fill="'+o.c+'" font-size="'+(o.sz||fs)+'" font-weight="700" text-anchor="'+(o.a||'middle')+'"'+tr+'>'+o.t+'</text>';
+  });
+  return s+'</svg>';
+}
+
+/* ===== แบบขยายการเสริมเหล็ก — Plan + Section ===== */
+function drawDiagram(I,R,barLbl,tempLbl){
+  var BK='#222222', RED='#e00000', DRED='#c00000', BLUE='#0000d4', GRN='#1a7a3c';
+  var mainBar=barLbl+I.mainDia, tempBar=tempLbl+I.tempDia;
+  var L=I.L, B=I.B;
+  var cMain=mainBar+'@'+fmt(chosen[0],2), cTemp=tempBar+'@'+fmt(chosenTemp,2);
+
+  // ---------- เหล็กหลัก (Plan) — ที่รองรับอยู่ขอบล่าง พื้นยื่นขึ้นบน ----------
+  (function(){
+    var nMain=Math.min(26,Math.max(2,Math.round(B/(chosen[0]>0?chosen[0]:0.2))+1));
+    var nDist=Math.min(18,Math.max(2,Math.round(L/(chosenTemp>0?chosenTemp:0.1))+1));
+    var lines=[
+      {p:[[0,0],[B,0],[B,L],[0,L],[0,0]],c:BK,w:1.5}                  // ขอบพื้น
+    ];
+    // ที่รองรับ (ขอบล่าง) — เส้นหนา
+    lines.push({p:[[-0.05,0],[B+0.05,0]],c:BK,w:4.4});
+    // เหล็กแจกแรง (จาง) — ขนานที่รองรับ
+    for(var j=1;j<nDist-1;j++){
+      var yy=L*j/(nDist-1);
+      lines.push({p:[[0.04,yy],[B-0.04,yy]],c:'#bcccb6',w:1});
+    }
+    // เหล็กหลัก — ตั้งฉากที่รองรับ (พาดตามแนวยื่น)
+    for(var i=0;i<nMain;i++){
+      var xx=0.04+(B-0.08)*i/(nMain-1);
+      lines.push({p:[[xx,0.02],[xx,L-0.02]],c:DRED,w:2.4});
+    }
+    var labels=[
+      {x:B/2,y:-0.16,t:'ที่รองรับ (ผนัง / คาน) — ขอบยึดแน่น',c:BK,a:'middle',sz:11.5},
+      {x:B/2,y:L+0.14,t:'ปลายอิสระ (Free Edge)',c:'#475569',a:'middle',sz:11},
+      {x:B/2,y:L*0.55,t:cMain,c:DRED,a:'middle',sz:12},
+      {x:0.16,y:L*0.30,t:cTemp,c:GRN,a:'start',sz:10.5,rot:-90},
+      {x:-0.12,y:L/2,t:'L = '+fmt(L,2)+' m.',c:BLUE,a:'middle',sz:11.5,rot:-90},
+      {x:B/2,y:L+0.30,t:'B = '+fmt(B,2)+' m.',c:BLUE,a:'middle',sz:11.5}
+    ];
+    document.getElementById('diagTop').innerHTML=emitSVG(560,420,lines,[],labels,{m:30,fs:12,uniform:true})
+      +'<div class="cap">มุมมองแปลน · เหล็กหลักผิวบน พาดตามแนวยื่นเข้าสู่ที่รองรับ — สัดส่วนตามขนาดจริง B × L</div>';
+  })();
+
+  // ---------- เหล็กแจกแรง (Plan) ----------
+  (function(){
+    var nMain=Math.min(26,Math.max(2,Math.round(B/(chosen[0]>0?chosen[0]:0.2))+1));
+    var nDist=Math.min(22,Math.max(2,Math.round(L/(chosenTemp>0?chosenTemp:0.1))+1));
+    var lines=[
+      {p:[[0,0],[B,0],[B,L],[0,L],[0,0]],c:BK,w:1.5}
+    ];
+    lines.push({p:[[-0.05,0],[B+0.05,0]],c:BK,w:4.4});
+    // เหล็กหลัก (จาง)
+    for(var i=1;i<nMain-1;i++){
+      var xx=0.04+(B-0.08)*i/(nMain-1);
+      lines.push({p:[[xx,0.04],[xx,L-0.04]],c:'#e6b8b3',w:1});
+    }
+    // เหล็กแจกแรง — ขนานที่รองรับ
+    for(var j=0;j<nDist;j++){
+      var yy=0.03+(L-0.06)*j/(nDist-1);
+      lines.push({p:[[0.04,yy],[B-0.04,yy]],c:GRN,w:2.2});
+    }
+    var labels=[
+      {x:B/2,y:-0.16,t:'ที่รองรับ (ผนัง / คาน) — ขอบยึดแน่น',c:BK,a:'middle',sz:11.5},
+      {x:B/2,y:L+0.14,t:'ปลายอิสระ (Free Edge)',c:'#475569',a:'middle',sz:11},
+      {x:B/2,y:L*0.5,t:cTemp,c:GRN,a:'middle',sz:12},
+      {x:-0.12,y:L/2,t:'L = '+fmt(L,2)+' m.',c:BLUE,a:'middle',sz:11.5,rot:-90},
+      {x:B/2,y:L+0.30,t:'B = '+fmt(B,2)+' m.',c:BLUE,a:'middle',sz:11.5}
+    ];
+    document.getElementById('diagBot').innerHTML=emitSVG(560,420,lines,[],labels,{m:30,fs:12,uniform:true})
+      +'<div class="cap">มุมมองแปลน · เหล็กแจกแรง/กันร้าว ขนานที่รองรับ — สัดส่วนตามขนาดจริง B × L</div>';
+  })();
+
+  drawSection(I,R,barLbl,tempLbl);
+}
+
+/* หน้าตัดตามแนวยื่น — ที่รองรับด้านซ้าย พื้นยื่นออกขวา ปลายอิสระ
+   รองรับทั้ง uniform (สี่เหลี่ยม) และ tapered (สี่เหลี่ยมคางหมู)         */
+function drawSection(I,R,barLbl,tempLbl){
+  var meshMode=!!(window.CKWireMesh&&CKWireMesh.isActive&&CKWireMesh.isActive());
+  var cov=I.cov, L=I.L;
+  var BLACK='#222222', RED='#e00000', BLUE='#0000d4', GREEN='#1a7a3c';
+  var hRoot=R.h_root/100, hTip=R.h_tip/100;     // m
+  // ช่วงยื่น normalize 0..2  (x_draw = 2 × x/L  ใน world units)
+  var X0=0, X1=2;
+  function ytopAt(xd){ var f=xd/X1; var hh=hRoot + (hTip-hRoot)*f; return 0; }   // ผิวบนเรียบ
+  function ybotAt(xd){ var f=xd/X1; var hh=hRoot + (hTip-hRoot)*f; return -hh; } // ผิวล่างเรียวลง
+  var yMainAt = function(xd){ return ytopAt(xd) - cov/100; };           // ตามผิวบน
+  var mainBar=(meshMode?'WWR CDD':barLbl)+I.mainDia, tempBar=(meshMode?'WWR CDD':tempLbl)+I.tempDia;
+  // คาน/ผนังรองรับหล่อเป็นเนื้อเดียวกับพื้น (monolithic): ผิวบนที่รองรับเสมอผิวบนพื้น (y=0)
+  // และลึกต่อลงใต้ท้องพื้นถึง wallBot
+  var wallTop=0, wallBot=ybotAt(0)-0.34, wallL=-0.55;
+  var yBot0=ybotAt(0), yBotL=ybotAt(X1);
+
+  var lines=[
+    // ที่รองรับ: หน้านอก → ท้องคาน → หน้าในขึ้นชนท้องพื้น (ไม่มีรอยต่อกลางเนื้อคอนกรีต)
+    {p:[[wallL,wallTop],[wallL,wallBot],[0,wallBot],[0,yBot0]],c:BLACK,w:1.3},
+    // ผิวบนต่อเนื่องเส้นเดียว: หลังคาน → ผิวบนพื้น (เสมอกัน)
+    {p:[[wallL,0],[X1,0]],c:BLACK,w:1.5}
+  ];
+  // ผิวล่าง — โพลีไลน์ (ตรงสำหรับ uniform / เอียงสำหรับ tapered)
+  if(I.mode==='tapered'){
+    var botPts=[]; for(var k=0;k<=20;k++){ var xd=X0+(X1-X0)*k/20; botPts.push([xd,ybotAt(xd)]); }
+    lines.push({p:botPts,c:BLACK,w:1.5});
+  } else {
+    lines.push({p:[[X0,yBot0],[X1,yBotL]],c:BLACK,w:1.5});
+  }
+  // ปลายอิสระ (เส้นตั้ง)
+  lines.push({p:[[X1,0],[X1,yBotL]],c:BLACK,w:1.5});
+  // เหล็กหลัก (ผิวบน) — งอเข้าผนังด้านซ้าย + งอลงที่ปลายอิสระ
+  var yMainR=yMainAt(0), yMainT=yMainAt(X1);
+  lines.push(meshMode?{p:[[0.03,yMainR],[X1-0.03,yMainT]],c:RED,w:2.6}:{p:[[-0.30,yBot0+0.03],[-0.30,yMainR],[X1-0.07,yMainT],[X1-0.07,yBotL+0.08]],c:RED,w:2.6});
+  // hatch ANSI31 45° (DRAFTING-SPEC §7): ที่รองรับถูกระนาบตัดผ่า → แรเงาเต็มหน้าตัด
+  // (ผิวบน → ท้องคาน) + เนื้อพื้นที่ถูกตัด (trapezoid ตามผิวล่าง) — แทรกใต้เส้นอื่นทั้งหมด
+  (function(){
+    var hl=[], sp=0.06;
+    function h45(xa,ya,xb,yb2,clipBot){          // เส้นเฉียงครอบครัว y = c − x
+      for(var c2=xa+ya+sp;c2<xb+yb2;c2+=sp){
+        var xs=Math.max(xa,c2-yb2), xe=Math.min(xb,c2-ya);
+        if(clipBot) xe=Math.min(xe,clipBot(c2));
+        if(xe>xs+1e-4) hl.push({p:[[xs,c2-xs],[xe,c2-xe]],c:'#9aa3af',w:0.7});
+      }
+    }
+    h45(wallL,wallBot,0,0);                      // ที่รองรับเต็มหน้าตัด
+    var mSlope=(yBotL-yBot0)/X1;                 // ผิวล่างพื้น: y = yBot0 + m·x
+    h45(0,Math.min(yBot0,yBotL),X1,0,function(c2){ return (c2-yBot0)/(1+mSlope); });
+    lines.unshift.apply(lines,hl);
+  })();
+  // เม็ดเหล็กแจกแรง (ตัดขวาง) — ติดผิวบนเล็กน้อย เรียงตามผิวบน
+  var dots=[];
+  for(var i=0;i<11;i++){
+    var xd=0.10+i*0.18;
+    if(xd>X1-0.02) break;
+    dots.push({x:xd,y:yMainAt(xd)-0.04,f:GREEN,s:'#222',r:2.8});
+  }
+  // เส้นบอกระยะ — ความหนาที่ที่รองรับ
+  lines.push({p:[[-0.18,0],[-0.28,0]],c:BLUE,w:1});
+  lines.push({p:[[-0.18,yBot0],[-0.28,yBot0]],c:BLUE,w:1});
+  lines.push({p:[[-0.23,0],[-0.23,yBot0]],c:BLUE,w:1});
+  // เส้นบอกระยะ — ความหนาที่ปลายอิสระ
+  lines.push({p:[[X1+0.10,0],[X1+0.20,0]],c:BLUE,w:1});
+  lines.push({p:[[X1+0.10,yBotL],[X1+0.20,yBotL]],c:BLUE,w:1});
+  lines.push({p:[[X1+0.15,0],[X1+0.15,yBotL]],c:BLUE,w:1});
+  // เส้นบอกระยะ — ความยาวยื่น
+  var yd=Math.min(yBot0,yBotL)-0.52;
+  lines.push({p:[[X0,yd+0.04],[X0,yd-0.04]],c:BLUE,w:1});
+  lines.push({p:[[X1,yd+0.04],[X1,yd-0.04]],c:BLUE,w:1});
+  lines.push({p:[[X0,yd],[X1,yd]],c:BLUE,w:1});
+  // เส้นชี้
+  lines.push({p:[[1.0,yMainAt(1.0)],[1.0,yMainAt(1.0)+0.22]],c:BLUE,w:1,tip:1});
+  lines.push({p:[[0.64,yMainAt(0.64)-0.04],[0.64,yMainAt(0.64)-0.24]],c:BLUE,w:1,tip:1});
+
+  // แสดงค่า h ของหน้าตัดในรูป
+  var thRootCm = R.h_root, thTipCm = R.h_tip;
+  var titleTxt = (I.mode==='tapered')
+    ? 'หน้าตัดตามแนวยื่น (เรียวลด) · Tapered Cantilever Section'
+    : 'หน้าตัดตามแนวยื่น · Cantilever Section';
+  var thickLabelL = (I.mode==='tapered') ? fmt(thRootCm,0)+' cm.' : fmt(thRootCm,0)+' cm.';
+  var thickLabelR = fmt(thTipCm,0)+' cm.';
+
+  var labels=[
+    {x:1.0,y:yMainAt(1.0)+0.22,t:'เหล็กหลัก '+mainBar+'@'+fmt(chosen[0],2),a:'middle',c:BLUE,sz:11.5,dy:-3},
+    {x:0.64,y:yMainAt(0.64)-0.24,t:'เหล็กแจกแรง '+tempBar+'@'+fmt(chosenTemp,2),a:'middle',c:BLUE,sz:11,dy:11},
+    {x:-0.38,y:yBot0/2,t:thickLabelL,a:'end',c:BLUE,sz:11},
+    {x:X1+0.30,y:yBotL/2,t:thickLabelR,a:'start',c:BLUE,sz:11},
+    {x:1,y:yd,t:'ความยาวยื่น L = '+fmt(L,2)+' m.',a:'middle',c:BLUE,sz:11.5,dy:-4},
+    {x:wallL/2,y:wallBot-0.14,t:'ที่รองรับ (หล่อเป็นเนื้อเดียว — ผิวบนเสมอพื้น)',a:'middle',c:'#475569',sz:10.5},
+    {x:X1,y:0.30,t:'ปลายอิสระ',a:'middle',c:'#475569',sz:10.5},
+    {x:1,y:0.34,t:titleTxt,a:'middle',c:GREEN,sz:12.5}
+  ];
+  if(I.mode==='tapered'){
+    labels.push({x:-0.45,y:yBot0+0.05,t:'h₀',a:'end',c:'#1f57a0',sz:11});
+    labels.push({x:X1+0.36,y:yBotL+0.05,t:'h<tspan font-size="8" baseline-shift="sub">L</tspan>',a:'start',c:'#1f57a0',sz:11});
+  }
+  var capTxt = meshMode
+    ? 'Wire Mesh พื้นยื่นแสดงเป็นแผงตรง วางเกยและผูกลวด ไม่มีของอ 90° · <b style="color:#c0392b">HOLD:</b> ต้องพิสูจน์ระยะฝังตรงเข้าที่รองรับหรือเพิ่มเหล็กเส้นเฉพาะจุดก่อนใช้ก่อสร้าง'
+    : (I.mode==='tapered')
+    ? 'หน้าตัดเรียวลด — พื้นหล่อเป็นเนื้อเดียวกับที่รองรับ (ผิวบนเสมอกัน · ที่รองรับถูกตัดแรเงาเต็มหน้าตัด) · ผิวบนเรียบ ผิวล่างเอียงจาก h₀='+fmt(thRootCm,0)+' cm ที่รองรับ → h<sub>L</sub>='+fmt(thTipCm,0)+' cm ที่ปลายอิสระ · เหล็กหลักเสริมที่ผิวบน (รับโมเมนต์ลบ) ของอลงฝังในที่รองรับ · เม็ดเขียว = เหล็กแจกแรง'
+    : 'พื้นหล่อเป็นเนื้อเดียวกับที่รองรับ (ผิวบนเสมอกัน · ที่รองรับถูกตัดแรเงาเต็มหน้าตัด) · เหล็กหลักเสริมที่ผิวบน (รับโมเมนต์ลบ) งอยึด 90° ลงฝังในที่รองรับ · เม็ดเขียว = เหล็กแจกแรงตัดขวาง — ปรับอัตโนมัติตามผลคำนวณ';
+  // ระยะฝังเหล็กหลักเข้าที่รองรับ — จุดวิกฤตของพื้นยื่น (ACI 318-19 · หน่วย ksc, db เป็น cm)
+  // ld แบบตรง Sec. 25.4.2.3 (×1.3 เหล็กบน Sec. 25.4.2.5) · ldh ของอ 90° Sec. 25.4.3 + หาง 12db Sec. 25.3.1
+  var _sq=Math.sqrt(I.fc), _db=I.mainDia/10;
+  var _k=(I.mainDia<=19)?6.7:5.4;
+  var _ldTop=Math.max(1.3*I.fy1*_db/(_k*_sq),30);
+  var _ldh=Math.max(0.075*I.fy1*_db/_sq, 8*_db, 15);
+  capTxt += meshMode?' · ห้ามใช้ค่าระยะฝังของเหล็กเส้นแทน WWR โดยอัตโนมัติ':' · <b style="color:#c0392b">ระยะฝังเข้าที่รองรับ (ACI 318-19):</b> แบบตรง ≥ 1.3·ld = <b>'+fmt(_ldTop,0)+' cm</b> (Sec. 25.4.2.3/.5) หรือ ของอ 90° ≥ ldh = <b>'+fmt(_ldh,0)+' cm</b> + หางงอ 12db = '+fmt(12*_db,0)+' cm (Sec. 25.4.3/Sec. 25.3.1)';
+  document.getElementById('diagSec').innerHTML=emitSVG(680,330,lines,dots,labels,{m:24,fs:11.5})
+    +'<div class="cap">'+capTxt+'</div>';
+}
+
+/* ===== รายงานวิธีคำนวณ ===== */
+function buildReport(I,R,barLbl,tempLbl){
+  var bar=barLbl+I.mainDia, tbar=tempLbl+I.tempDia;
+  var _M=(window.CKR&&window.CKR.mathify)?window.CKR.mathify:function(x){return x==null?'':String(x);};   // ราก √ มีขีดคลุม + สัญลักษณ์คณิต
+  function vd(ok){ return '<span class="rep-vd '+(ok?'ok':'bad')+'">'+(ok?'ผ่าน':'ไม่ผ่าน')+'</span>'; }
+  function head(n,t,ok){ return '<div class="rh"><span class="rn">'+n+'</span><span class="rt">'+t+'</span>'+(ok===undefined?'':vd(ok))+'</div>'; }
+  function step(inner){ return '<div class="rep-step">'+inner+'</div>'; }
+  function F(sym,sr,ref){
+    return '<div class="rep-f"><div class="ef">'+_M(sym)+'</div>'
+      +(sr?'<div class="ex">'+_M(sr)+'</div>':'')
+      +(ref?'<div class="eref">'+_M(ref)+'</div>':'')+'</div>';
+  }
+  function chk(text,ok){
+    return '<div class="rep-chk"><span class="rep-vd inl '+(ok?'ok':'bad')+'">'+(ok?'ผ่าน':'ไม่ผ่าน')+'</span> '+_M(text)+'</div>';
+  }
+  function note(s){ return '<div class="rep-note">'+s+'</div>'; }
+  var H='';
+
+  // D — ข้อมูลออกแบบ
+  var modeLbl = (I.mode==='tapered')
+    ? 'หน้าตัดเรียวลด · h₀='+fmt(R.h_root,1)+' / h_L='+fmt(R.h_tip,1)+' cm'
+    : 'หน้าตัดสม่ำเสมอ · t='+fmt(R.t,1)+' cm';
+  var dd=[['fy เหล็กหลัก',fmt(I.fy1,0)+' ksc'],['fy เหล็กแจกแรง',fmt(I.fy2,0)+' ksc'],
+    ['fc′ คอนกรีต',fmt(I.fc,0)+' ksc'],['ตัวคูณลดกำลัง','φb '+fmt(I.phib,2)+' · φv '+fmt(I.phiv,2)],
+    ['ความยาวยื่น L',fmt(I.L,2)+' m'],['ความกว้าง B',fmt(I.B,2)+' m'],
+    ['รูปแบบหน้าตัด',modeLbl],['ระยะหุ้ม covering',fmt(I.cov,1)+' cm'],
+    ['Load Combination',I.combo||'U = 1.4DL + 1.7LL'],['SDL / LL',fmt(I.sdl,0)+' / '+fmt(I.ll,0)+' kg/m²'],
+    ['Fin Weight',fmt(I.finw,0)+' kg/m'],['เหล็กหลัก / แจกแรง',bar+' / '+tbar]];
+  H+=step(head('D','ข้อมูลออกแบบ (Design Data)')
+    +'<div class="rep-dd">'+dd.map(function(r){return '<div><span>'+r[0]+'</span><b>'+r[1]+'</b></div>';}).join('')+'</div>');
+
+  // 1 — ความหนา / การแอ่นตัว
+  if(I.mode==='tapered'){
+    H+=step(head(1,'การแอ่นตัวที่ปลายอิสระ — Tip Deflection',R.chkDefl)
+      +note('หน้าตัดเรียวลด — ใช้ <b>วิธี Unit Load (Virtual Work)</b> แทนเกณฑ์ความหนาขั้นต่ำ L/10 ของหน้าตัดสม่ำเสมอ')
+      +F('h(x) = h₀ + α·x ; α = (h<sub>L</sub> − h₀) / L',
+         '= '+fmt(R.h_root,1)+' + '+fmt(R.alpha,3)+'·x &nbsp; (x ใน m, h ใน cm)',
+         'ที่มา: ความหนาแปรเชิงเส้นจาก h₀ ที่ที่รองรับ ถึง h<sub>L</sub> ที่ปลายอิสระ')
+      +F('I(x) = b · h(x)³ / 12  &nbsp; (b = 100 cm/m)',
+         '= 100 × h(x)³ / 12 &nbsp; — โมเมนต์ความเฉื่อยแปรตาม x',
+         'ที่มา: สมการโมเมนต์ความเฉื่อยหน้าตัดสี่เหลี่ยมต่อความกว้าง 1 ม.')
+      +F('E<sub>c</sub> = 15100·√fc′',
+         '= 15100·√'+I.fc+' = <b>'+fmt(R.Ec,0)+' ksc</b>',
+         'โมดูลัสยืดหยุ่นคอนกรีต (สูตรปฏิบัติประเทศไทย)')
+      +F('δ<sub>tip,instant</sub> = ∫<sub>0</sub><sup>L</sup> [M<sub>r</sub>(x)·m(x) / (E<sub>c</sub>·I(x))] dx',
+         '= <b>'+fmt(R.delta_tip,3)+' cm</b> &nbsp; (Simpson 1/3, n=160)',
+         'M<sub>r</sub>(x) = โมเมนต์จากน้ำหนักบริการ ; m(x) = (L−x) จากแรงหน่วยที่ปลาย')
+      +F('δ<sub>allow</sub> = L / 180',
+         '= '+fmt(I.L*100,0)+' / 180 = <b>'+fmt(R.delta_limit,3)+' cm</b>',
+         'เกณฑ์ทั่วไปของพื้นยื่นที่ไม่รองรับองค์ประกอบไวต่อการแอ่น')
+      +chk('δ<sub>tip,instant</sub> = '+fmt(R.delta_tip,3)+' cm '+(R.chkDefl?'≤':'&gt;')+' L/180 = '+fmt(R.delta_limit,3)+' cm',R.chkDefl)
+      +F('δ<sub>long-term</sub> = (1 + λ<sub>Δ</sub>) · δ<sub>instant</sub>  ;  λ<sub>Δ</sub> = ξ/(1+50ρ′) ; ξ = 2.0',
+         '= (1 + 2.0) × '+fmt(R.delta_tip,3)+' = <b>'+fmt(R.delta_long,3)+' cm</b>',
+         'ACI 318-19 Sec. 24.2.4.1.1 — ไม่มีเหล็กเสริมรับแรงอัด (ρ′=0) ใช้ ξ=2.0 สำหรับ T ≥ 5 ปี (creep + shrinkage)')
+      +F('δ<sub>long,allow</sub> = L / 240',
+         '= '+fmt(I.L*100,0)+' / 240 = <b>'+fmt(R.delta_long_limit,3)+' cm</b>',
+         'ACI 318-19 Table 24.2.2 — เกณฑ์ระยะยาวสำหรับพื้นที่ไม่รองรับองค์ประกอบไวต่อการแอ่น')
+      +chk('δ<sub>long</sub> = '+fmt(R.delta_long,3)+' cm '+(R.chkDeflLong?'≤':'&gt;')+' L/240 = '+fmt(R.delta_long_limit,3)+' cm',R.chkDeflLong)
+      +note('<b>หมายเหตุทางวิชาการ:</b><br>① ใช้ I<sub>g</sub> (gross) — ไม่หัก crack section · กรณีเหล็กดึงน้อยและคอนกรีต fc′ สูง ค่านี้ใกล้เคียง I<sub>eff</sub> — สำหรับการคำนวณแม่นยำใช้ I<sub>eff</sub> ตาม Branson (M<sub>cr</sub>/M<sub>a</sub>)³<br>② สูตร Bernoulli (∫M·m/EI dx) สำหรับ tapered beam เป็นการประมาณ — แม่นยำเมื่อ slope ของผิวล่างไม่ชัน (typically &lt; 15°) ปัจจุบัน slope ≈ '+fmt(R.slopeAngleDeg,1)+'°<br>③ ใช้ <b>full service load (DL+SDL+LL)</b> ในการคำนวณ — เป็นค่าอนุรักษ์ ; กรณี LL อย่างเดียวจะได้ค่าน้อยกว่า'));
+  } else {
+    H+=step(head(1,'ความหนาพื้นขั้นต่ำ',R.chkThick)
+      +F('factor = 0.40 + fy / 7000','= 0.40 + '+I.fy1+' / 7000 = <b>'+fmt(R.jb73,3)+'</b>',
+         'ที่มา: ตัวคูณปรับความหนาตามกำลังครากเหล็กหลัก fy ('+(I.fy1>=4000?'fy ≥ 4000 → factor = 1':'fy < 4000')+')')
+      +F('t<sub>min</sub> = (L × 100 / 10) × factor',
+         '= ('+fmt(I.L,2)+'×100 / 10) × '+fmt(R.jb73,3)+' = <b>'+fmt(R.tmin,2)+' cm</b>',
+         'ที่มา: ความหนาขั้นต่ำพื้นยื่นควบคุมการแอ่นตัว — ตัวหาร 10 สำหรับพื้นยื่น (Cantilever)')
+      +F('t = max(ความหนาจากตาราง, ค่ากำหนด)',
+         '= max('+fmt(R.tTable,1)+', '+fmt(I.tdef,0)+') = <b>'+fmt(R.t,1)+' cm</b>')
+      +chk('t = '+fmt(R.t,2)+' cm '+(R.chkThick?'≥':'&lt;')+' t<sub>min</sub> = '+fmt(R.tmin,2)+' cm',R.chkThick));
+  }
+
+  // 2 — น้ำหนักบรรทุก
+  if(I.mode==='tapered'){
+    H+=step(head(2,'น้ำหนักบรรทุกประลัย — รูปสี่เหลี่ยมคางหมู (Trapezoidal)')
+      +note('หน้าตัดเรียวลด → <b>น้ำหนักพื้นเอง w<sub>self</sub>(x) แปรเชิงเส้นตาม h(x)</b> · เป็นน้ำหนักแบบสี่เหลี่ยมคางหมู')
+      +F('w<sub>self</sub>(x) = γ<sub>c</sub>·h(x)/100',
+         'ที่ x=0: 2400·'+fmt(R.h_root,1)+'/100 = <b>'+fmt(R.selfWroot,0)+' kg/m²</b> ; ที่ x=L: <b>'+fmt(R.selfWtip,0)+' kg/m²</b>',
+         'γ<sub>c</sub> = 2400 kg/m³ ; h ใน cm จึงหาร 100')
+      +F('Wu(x) = 1.4·(w<sub>self</sub>(x) + SDL) + 1.7·LL',
+         'ที่ที่รองรับ: <b>'+fmt(R.Wu_root,0)+' kg/m²</b> &nbsp;|&nbsp; ที่ปลาย: <b>'+fmt(R.Wu_tip,0)+' kg/m²</b> &nbsp;|&nbsp; เฉลี่ย: <b>'+fmt(R.Wu_avg,0)+' kg/m²</b>',
+         'ที่มา: การรวมน้ำหนักวิธีกำลัง (Strength Design) — U = 1.4DL + 1.7LL ตามจุด')
+      +F('FIN = 1.4 × Fin Weight','= 1.4 × '+fmt(I.finw,0)+' = <b>'+fmt(R.FIN,0)+' kg/m</b>',
+         'น้ำหนักเส้นประลัยที่ปลายอิสระ'));
+  } else {
+    H+=step(head(2,'น้ำหนักบรรทุกประลัย Wu')
+      +F('น้ำหนักพื้นเอง  DL = γ<sub>c</sub> · t = 2400 · (t/100)',
+         '= 2400 × '+fmt(R.t/100,2)+' = <b>'+fmt(R.selfW,0)+' kg/m²</b>',
+         'γ<sub>c</sub> = หน่วยน้ำหนักคอนกรีต 2400 kg/m³')
+      +F('Wu = '+fmt(R.fDL,1)+'(DL + SDL) + '+fmt(R.fLL,1)+'(LL)',
+         '= '+fmt(R.fDL,1)+'('+fmt(R.selfW,0)+' + '+fmt(I.sdl,0)+') + '+fmt(R.fLL,1)+'('+fmt(I.ll,0)+') = <b>'+fmt(R.Wu,0)+' kg/m²</b>',
+         'ที่มา: การรวมน้ำหนักวิธีกำลัง (Strength Design) — U = 1.4DL + 1.7LL')
+      +F('FIN = 1.4 × Fin Weight','= 1.4 × '+fmt(I.finw,0)+' = <b>'+fmt(R.FIN,0)+' kg/m</b>',
+         'น้ำหนักเส้นประลัยที่ปลายอิสระ'));
+  }
+
+  // 3 — ความลึกประสิทธิผล d
+  if(I.mode==='tapered'){
+    H+=step(head(3,'ความลึกประสิทธิผล d(x) — แปรตามช่วงยื่น')
+      +F('d(x) = h(x) − covering − Ø/2',
+         'ที่ที่รองรับ d(0) = '+fmt(R.h_root,1)+' − '+fmt(I.cov,1)+' − '+fmt(I.mainDia/20,2)+' = <b>'+fmt(R.d_x(0),2)+' cm</b>',
+         'Ø/2 = รัศมีเหล็กหลัก '+bar)
+      +F('ที่ปลายอิสระ d(L)',
+         '= '+fmt(R.h_tip,1)+' − '+fmt(I.cov,1)+' − '+fmt(I.mainDia/20,2)+' = <b>'+fmt(R.d_x(I.L),2)+' cm</b>')
+      +note('d แปรเชิงเส้นจาก d(0) ที่ที่รองรับ → d(L) ที่ปลายอิสระ — ต้องคำนวณเหล็กเสริมตามจุดของช่วงยื่น'));
+  } else {
+    H+=step(head(3,'ความลึกประสิทธิผล d')
+      +F('d = t − covering − Ø/2',
+         '= '+fmt(R.t,1)+' − '+fmt(I.cov,1)+' − '+fmt(I.mainDia/10,1)+'/2 = <b>'+fmt(R.d,2)+' cm</b>',
+         'Ø/2 = รัศมีเหล็กหลัก '+bar+' ('+I.mainDia+' มม. = '+fmt(I.mainDia/10,1)+' cm)'));
+  }
+
+  // 4 — โมเมนต์ดัด
+  if(I.mode==='tapered'){
+    var Y0=I.L;
+    H+=step(head(4,'โมเมนต์ดัดประลัย Mu(x) — รวมผลของ w_self(x) ที่แปรตาม x')
+      +note('พื้นยื่นยึดแน่นที่ที่รองรับ — <b>โมเมนต์ลบ (hogging) สูงสุดที่ที่รองรับ</b> ผิวบนรับแรงดึง · สำหรับ tapered สูตรอินทิเกรตน้ำหนัก trapezoidal')
+      +F('Mu(X) = (w<sub>const</sub> + 33.6·h(X))·Y²/2 + 33.6·α·Y³/3 + FIN·Y',
+         'Y = L−X ; 33.6 = 1.4·γ<sub>c</sub>/100 = 1.4·2400/100',
+         'ที่มา: ∫<sub>X</sub><sup>L</sup> w(s)(s−X)ds + FIN·(L−X) เมื่อ w(s) = w<sub>const</sub>+33.6·h(s)')
+      +F('ที่ที่รองรับ (X=0)',
+         '= ('+fmt(R.w_const,0)+'+33.6·'+fmt(R.h_root,1)+')·'+fmt(Y0,2)+'²/2 + 33.6·'+fmt(R.alpha,3)+'·'+fmt(Y0,2)+'³/3 + '+fmt(R.FIN,0)+'·'+fmt(Y0,2)+' = <b>'+fmt(R.Mu_x(0),2)+' kg·m</b>')
+      +F('ที่กึ่งกลาง (X=L/2)',
+         '= <b>'+fmt(R.Mu_x(I.L/2),2)+' kg·m</b>')
+      +F('ที่ปลายอิสระ (X=L)',
+         '= <b>'+fmt(R.Mu_x(I.L),2)+' kg·m</b>'));
+  } else {
+    H+=step(head(4,'โมเมนต์ดัดประลัย Mu')
+      +note('พื้นยื่นยึดแน่นที่ที่รองรับ — เกิด<b>โมเมนต์ลบ (hogging)</b> สูงสุดที่ที่รองรับ ผิวบนรับแรงดึง')
+      +F('Mu = Wu · L² / 2 + FIN · L',
+         '= '+fmt(R.Wu,0)+'×'+fmt(I.L,2)+'²/2 + '+fmt(R.FIN,0)+'×'+fmt(I.L,2)+' = <b>'+fmt(R.Mu,2)+' kg·m</b>',
+         'ที่มา: โมเมนต์ที่ฐานยึดของคานยื่นรับน้ำหนักแผ่สม่ำเสมอ + น้ำหนักเส้นที่ปลาย'));
+  }
+
+  // 4b — ไดอะแกรมโมเมนต์ดัด (BMD) — จากค่าจริง (Wu/FIN/L หรือ Mu(x) ของหน้าตัดเรียว)
+  if(window.CKR && window.CKR.chartSVG){
+    var _tap=(I.mode==='tapered' && typeof R.Mu_x==='function'), _bmd=[];
+    for(var _bi=0;_bi<=24;_bi++){ var _bx=I.L*_bi/24;
+      var _bm=_tap ? R.Mu_x(I.L-_bx) : (R.Wu*_bx*_bx/2 + R.FIN*_bx);   // kg·m ต่อความกว้าง 1 m ; x วัดจากปลายอิสระ
+      _bmd.push([_bx, _bm/1000]); }
+    H+=step(head('4b','ไดอะแกรมโมเมนต์ดัด (Bending-Moment Diagram)')
+      +'<div style="text-align:center;margin-top:4px">'+CKR.chartSVG({kind:'area',xlabel:'ระยะจากปลายอิสระ x (m)',ylabel:'M (t·m/m)',yunit:'t·m/m',
+        series:[{color:'#c2410c',points:_bmd}]})+'</div>'
+      +note('พื้นยื่น — โมเมนต์ลบ (hogging) เพิ่มจากปลายอิสระเข้าสู่ที่รองรับ · ยอดสูงสุดที่ที่รองรับ (x=L) = <b>'+fmt(_bmd[24][1],2)+' t·m/m</b>'
+        +(_tap?' · หน้าตัดเรียวลด (จาก Mu(x) จริงตามช่วงยื่น)':' · M(x) = Wu·x²/2 + FIN·x')));
+  }
+
+  // 5 — เหล็กเสริมหลัก
+  var m5=note('คุณสมบัติหน้าตัด — β1, ρ และค่า Ru')
+    +F('β1','= <b>'+fmt(R.b1,2)+'</b>','ตาม fc′ (≤280 → 0.85)')
+    +F('ρ<sub>b</sub> = 0.85 β1 (fc′/fy)(6120/(6120+fy))','= <b>'+fmt(R.rb,4)+'</b>')
+    +F('ρ<sub>max</sub> = 0.75 ρ<sub>b</sub> &nbsp;;&nbsp; ρ = 0.50 ρ<sub>b</sub>',
+       '= '+fmt(R.rmax,4)+' &nbsp;;&nbsp; '+fmt(R.r,4)+'')
+    +F('Ru1 = ρ · fy (1 − 0.59 ρ fy / fc′)','= <b>'+fmt(R.Ru1,2)+' ksc</b>',
+       'หน่วยแรงต้านทานที่อัตราส่วนเหล็ก ρ = 0.5ρ<sub>b</sub>')
+    +F('d<sub>req</sub> = √( Mu / (φb · Ru1) )',
+       '= √( '+fmt(R.Mu,2)+' / ('+fmt(I.phib,2)+'×'+fmt(R.Ru1,2)+') ) = <b>'+fmt(R.dreq,2)+' cm</b>')
+    +chk('d = '+fmt(R.d,2)+' cm '+(R.chkDepth?'≥':'&lt;')+' d<sub>req</sub> = '+fmt(R.dreq,2)+' cm',R.chkDepth)
+    +'<div class="rep-sechd">เหล็กเสริมหลัก (ผิวบน)</div>';
+  if(I.mode==='tapered'){
+    // ตารางสแกนตามจุดสำคัญ
+    var rows='';
+    R.sections.forEach(function(p,i){
+      var lblx = (i===0)?'x = 0 (ที่รองรับ)' : (i===4)?'x = L (ปลายอิสระ)' : 'x = '+fmt(p.x,2)+' m';
+      rows += '<tr><td style="text-align:left;padding:3px 6px">'+lblx+'</td>'
+            + '<td style="padding:3px 6px;text-align:right">'+fmt(p.h,1)+'</td>'
+            + '<td style="padding:3px 6px;text-align:right">'+fmt(p.d,2)+'</td>'
+            + '<td style="padding:3px 6px;text-align:right">'+fmt(p.Mu,1)+'</td>'
+            + '<td style="padding:3px 6px;text-align:right">'+fmt(p.As_flex,2)+'</td>'
+            + '<td style="padding:3px 6px;text-align:right">'+fmt(p.As_min,2)+'</td>'
+            + '<td style="padding:3px 6px;text-align:right"><b>'+fmt(p.As_req,2)+'</b></td>'
+            + '</tr>';
+    });
+    m5 += '<div class="rep-note"><b>การออกแบบเหล็กตามจุดของช่วงยื่น</b> — สำหรับ tapered ทั้ง M(x) และ d(x) ลดลงจากที่รองรับ → ปลายอิสระ จึงต้องตรวจสอบทุกจุด</div>'
+        + '<div style="padding-left:29px;overflow-x:auto"><table style="border-collapse:collapse;font-size:12px;width:100%"><thead>'
+        + '<tr style="background:#f7f9fc;color:#475569"><th style="padding:5px 6px;text-align:left">หน้าตัด</th>'
+        + '<th style="padding:5px 6px">h (cm)</th><th style="padding:5px 6px">d (cm)</th><th style="padding:5px 6px">Mu (kg·m)</th>'
+        + '<th style="padding:5px 6px">As<sub>flex</sub></th><th style="padding:5px 6px">As<sub>min</sub></th>'
+        + '<th style="padding:5px 6px">As<sub>req</sub> (cm²/m)</th></tr></thead><tbody>'+rows+'</tbody></table></div>'
+        + F('หน้าตัดวิกฤต — As ที่ต้องใช้ (Critical)',
+            'x = '+fmt(R.AsCritSec.x,2)+' m · h = '+fmt(R.AsCritSec.h,1)+' cm · d = '+fmt(R.AsCritSec.d,2)+' cm → As = <b>'+fmt(R.AsMain,2)+' cm²/m</b>',
+            'ใช้ค่า As ที่หน้าตัดวิกฤตสำหรับกำหนดระยะเรียงเหล็ก');
+  } else {
+    m5 += F('Ru2 = Mu / (φb · d²) &nbsp;(b = 100 cm)',
+       '= '+fmt(R.Mu,2)+' / ('+fmt(I.phib,2)+' × '+fmt(R.d,2)+'²) = <b>'+fmt(R.Ru2,2)+' ksc</b>')
+    +F('ρ<sub>req</sub> = 0.85 (fc′/fy) · [ 1 − √(1 − 2Ru2 / 0.85fc′) ]',
+       '= 0.85('+I.fc+'/'+I.fy1+')·[1−√(1−2×'+fmt(R.Ru2,2)+'/(0.85×'+I.fc+'))] = <b>'+fmt(R.rreq,4)+'</b>',
+       'ที่มา: จากสมดุลแรงดัดหน้าตัดสี่เหลี่ยมเสริมเหล็กเดี่ยว')
+    +F('As<sub>flex</sub> = ρ<sub>req</sub> · b · d &nbsp;(b = 100 cm)',
+       '= '+fmt(R.rreq,4)+' × 100 × '+fmt(R.d,2)+' = <b>'+fmt(R.Asflex,2)+' cm²/m</b>')
+    +F('As<sub>min</sub> = ρ<sub>temp</sub> · b · t',
+       '= '+fmt(R.tempRatio1,4)+' × 100 × '+fmt(R.t,1)+' = <b>'+fmt(R.Ast1,2)+' cm²/m</b>',
+       'เหล็กรับแรงดัดขั้นต่ำพื้นยื่น · ρ<sub>temp</sub> = '+fmt(R.tempRatio1,4)+' (ตาม fy เหล็กหลัก)')
+    +F('As = max(As<sub>flex</sub>, As<sub>min</sub>)',
+       '= max('+fmt(R.Asflex,2)+', '+fmt(R.Ast1,2)+') = <b>'+fmt(R.AsMain,2)+' cm²/m</b>');
+  }
+  H+=step(head(5,'เหล็กเสริมหลัก (เสริมผิวบน)')+m5);
+
+  // 6 — ระยะเรียงเหล็กหลัก
+  var okM=chosen[0]<=R.SmaxMain+1e-9;
+  var s2Ref = (I.mode==='tapered') ? R.h_tip : R.t;
+  var s2Note = (I.mode==='tapered') ? ' (ใช้ h<sub>L</sub> = ความหนาน้อยสุด เพื่อปลอดภัย)' : '';
+  H+=step(head(6,'ระยะเรียงเหล็กหลัก — ที่มาของระยะใน Drawing')
+    +F('A<sub>b</sub> = π · Ø² / 400','= π × '+I.mainDia+'² / 400 = <b>'+fmt(R.barArea,2)+' cm²</b>','พื้นที่หน้าตัดเหล็กหลัก 1 เส้น')
+    +F('S₁ = A<sub>b</sub> / As','= '+fmt(R.barArea,2)+' / '+fmt(R.AsMain,2)+' = <b>'+fmt(R.s1Main,2)+' m</b>')
+    +F('S₂ = 3·h','= 3 × '+fmt(s2Ref/100,2)+' = <b>'+fmt(R.s2Main,2)+' m</b>'+s2Note)
+    +F('S₃ = 0.45 m','(ขีดจำกัดระยะเรียงสูงสุดตามมาตรฐาน)')
+    +F('S<sub>max</sub> = min(S₁, S₂, S₃)',
+       '= min('+fmt(R.s1Main,2)+', '+fmt(R.s2Main,2)+', 0.45) = <b>'+fmt(R.SmaxMain,2)+' m</b>',
+       'ที่มาของระยะใน Drawing → '+bar+'@'+fmt(chosen[0],2))
+    +chk('ระยะที่ใช้ '+fmt(chosen[0],2)+' m '+(okM?'≤':'&gt;')+' S<sub>max</sub> '+fmt(R.SmaxMain,2)+' m',okM));
+
+  // 7 — เหล็กแจกแรง
+  var okT=chosenTemp<=R.SmaxTemp+1e-9;
+  var hRefT = (I.mode==='tapered') ? R.h_avg : R.t;
+  var hRefTLbl = (I.mode==='tapered') ? 'h<sub>avg</sub> = '+fmt(R.h_avg,1) : 't = '+fmt(R.t,1);
+  var s2Tnote = (I.mode==='tapered') ? ' (5·h<sub>L</sub> เพื่อปลอดภัย)' : '';
+  H+=step(head(7,'เหล็กแจกแรง / กันร้าว',okT)
+    +F('A<sub>st</sub> = ρ<sub>temp</sub> · b · h &nbsp;(b = 100 cm, h = '+hRefTLbl+' cm)',
+       '= '+fmt(R.tempRatio2,4)+' × 100 × '+fmt(hRefT,1)+' = <b>'+fmt(R.Ast2,2)+' cm²/m</b>',
+       'ที่มา: เหล็กแจกแรง/กันร้าว ขนานที่รองรับ · ρ<sub>temp</sub> = '+fmt(R.tempRatio2,4)+' (ตาม fy เหล็กแจกแรง)')
+    +F('A<sub>b</sub> = π · Ø² / 400','= π × '+I.tempDia+'² / 400 = <b>'+fmt(R.tempBarArea,2)+' cm²</b>')
+    +F('S<sub>max</sub> = min(A<sub>b</sub>/A<sub>st</sub>, 5h, 0.45)',
+       '= min('+fmt(R.s1Temp,2)+', '+fmt(R.s2Temp,2)+', 0.45) = <b>'+fmt(R.SmaxTemp,2)+' m</b>'+s2Tnote,
+       'ที่มาของระยะใน Drawing → '+tbar+'@'+fmt(chosenTemp,2))
+    +chk('ระยะที่ใช้ '+fmt(chosenTemp,2)+' m '+(okT?'≤':'&gt;')+' S<sub>max</sub> '+fmt(R.SmaxTemp,2)+' m',okT));
+
+  // 8 — แรงเฉือน
+  if(I.mode==='tapered'){
+    // ตารางสแกนการเฉือนตามจุด
+    var srows='';
+    R.sections.forEach(function(p,i){
+      var lblx = (i===0)?'x = 0 (ที่รองรับ)' : (i===4)?'x = L (ปลายอิสระ)' : 'x = '+fmt(p.x,2)+' m';
+      var Vu_chk = (i===0) ? p.Vu_design : p.Vu;
+      var ratio = Vu_chk/p.phiVc;
+      var ok=(ratio<=1);
+      srows += '<tr><td style="text-align:left;padding:3px 6px">'+lblx+'</td>'
+             + '<td style="padding:3px 6px;text-align:right">'+fmt(p.d,2)+'</td>'
+             + '<td style="padding:3px 6px;text-align:right">'+fmt(Vu_chk,1)+'</td>'
+             + '<td style="padding:3px 6px;text-align:right">'+fmt(p.phiVc,1)+'</td>'
+             + '<td style="padding:3px 6px;text-align:right"><b style="color:'+(ok?'#16794c':'#c0392b')+'">'+fmt(ratio,2)+'</b></td>'
+             + '</tr>';
+    });
+    var ratioCrit = (R.VuCritSec===R.scan[0]) ? R.VuCritSec.Vu_design/R.VuCritSec.phiVc : R.VuCritSec.shearRatio;
+    H+=step(head(8,'ตรวจสอบแรงเฉือน — สแกนตามช่วงยื่น (tapered)',R.chkShear)
+      +F('Vu(X) = (L−X)·[w<sub>const</sub> + 33.6·(h(X)+h<sub>L</sub>)/2] + FIN',
+         'สูตรอินทิเกรตของน้ำหนัก trapezoidal',
+         'ที่มา: ∫<sub>X</sub><sup>L</sup> w(s) ds + FIN เมื่อ w(s) แปรเชิงเส้นตาม h(s)')
+      +F('φVc(X) = φv · 2.11 · λs(X) · (ρw(X))^⅓ · √fc′ · b · d(X)',
+         'แปรตาม d(X) — ลดลงเมื่อเข้าหาปลายอิสระ · ที่ที่รองรับ x=0: λs = <b>'+fmt(R.scan[0].ls,3)+'</b> · ρw = <b>'+fmt(R.scan[0].rhoW,4)+'</b> → φVc = <b>'+fmt(R.scan[0].phiVc,1)+' kg</b>',
+         'ACI 318-19 Table 22.5.5.1(b) · Vc = 2.11·λs·(ρw)^⅓·√fc′·b·d · λs = √(2/(1+d/250)) — ใช้กรณีไม่มีเหล็กปลอก (พื้นไม่เสริมเหล็กรับแรงเฉือน) · b = 100 cm/m · ρw(X) ใช้ As ที่ต้องการที่สถานีนั้น (As ที่จัดจริง ≥ As ที่ต้องการ → ฝั่งปลอดภัย)')
+      +'<div style="padding-left:29px;overflow-x:auto"><table style="border-collapse:collapse;font-size:12px;width:100%"><thead>'
+      +'<tr style="background:#f7f9fc;color:#475569"><th style="padding:5px 6px;text-align:left">หน้าตัด</th>'
+      +'<th style="padding:5px 6px">d (cm)</th><th style="padding:5px 6px">Vu (kg)</th>'
+      +'<th style="padding:5px 6px">φVc (kg)</th><th style="padding:5px 6px">Vu/φVc</th></tr></thead><tbody>'+srows+'</tbody></table></div>'
+      +note('หมายเหตุ: ที่ที่รองรับ x=0 ใช้ <b>Vu = 1.15·V(0)</b> ตามแนวปฏิบัติเดิม · หน้าตัดอื่นใช้ V(x) ตรงจากสูตร')
+      +note('<b>Variable Depth Effect (Inclined Compression Chord):</b> สำหรับ tapered เรียวลง (h₀ &gt; h<sub>L</sub>) คอร์ดอัดผิวล่างเอียงเข้าหาปลาย — องค์ประกอบดิ่ง C·sin(α) <b>ช่วยรับเฉือน</b>: V<sub>concrete</sub> ≈ V<sub>external</sub> − (M/jd)·tan(α) · slope α ≈ '+fmt(Math.atan(Math.abs(R.alpha)/100)*180/Math.PI,1)+'° · สูตรในรายงานใช้ V<sub>external</sub> เต็ม จึงเป็น <b>ฝั่งปลอดภัย (conservative)</b> สำหรับเรียวลด')
+      +chk('หน้าตัดวิกฤต x ≈ '+fmt(R.VuCritSec.x,2)+' m → Vu/φVc = '+fmt(ratioCrit,2)+' '+(R.chkShear?'≤ 1.00':'&gt; 1.00'),R.chkShear));
+  } else {
+    H+=step(head(8,'ตรวจสอบแรงเฉือน',R.chkShear)
+      +F('Vu = 1.15 (Wu · L + FIN)',
+         '= 1.15 ('+fmt(R.Wu,0)+'×'+fmt(I.L,2)+' + '+fmt(R.FIN,0)+') = <b>'+fmt(R.Vu,2)+' kg</b>',
+         'แรงเฉือนประลัยที่ที่รองรับของพื้นยื่น')
+      +F('λs = √( 2 / (1 + d/250) ) ≤ 1 &nbsp;(d หน่วย mm)',
+         '= √( 2 / (1 + '+fmt(R.d*10,0)+'/250) ) = <b>'+fmt(R.ls,3)+'</b>',
+         'ตัวคูณผลของขนาดหน้าตัด (size effect) — ACI 318-19 Sec. 22.5.5.1.3')
+      +F('ρw = As / (b · d) &nbsp;(As = เหล็กหลักผิวบนที่จัดจริง ต่อ 1 ม.)',
+         '= '+fmt(R.AsShear,2)+' / (100 × '+fmt(R.d,2)+') = <b>'+fmt(R.rho,4)+'</b>',
+         'เหล็กหลักผิวบน '+bar+' @ '+fmt(R.sShear,2)+' m → As = '+fmt(R.AsShear,2)+' cm²/m (พื้นยื่นรับโมเมนต์ลบ ผิวบนเป็นผิวรับแรงดึงที่ที่รองรับ)')
+      +F('φVc = φv · 2.11 · λs · (ρw)^⅓ · √fc′ · b · d &nbsp;(b = 100 cm)',
+         '= '+fmt(I.phiv,2)+' × 2.11 × '+fmt(R.ls,3)+' × ('+fmt(R.rho,4)+')^⅓ × √'+I.fc+' × 100 × '+fmt(R.d,2)+' = <b>'+fmt(R.phiVc,2)+' kg</b>',
+         'ACI 318-19 Table 22.5.5.1(b) · Vc = 2.11·λs·(ρw)^⅓·√fc′·b·d · λs = √(2/(1+d/250)) — ใช้กรณีไม่มีเหล็กปลอก (พื้นไม่เสริมเหล็กรับแรงเฉือน) หน่วย ksc')
+      +chk('φVc = '+fmt(R.phiVc,0)+' kg '+(R.chkShear?'≥':'&lt;')+' Vu = '+fmt(R.Vu,0)+' kg',R.chkShear));
+  }
+
+  // ===== ควบคุมความกว้างรอยร้าว · Crack Control (ACI 318-19 §24.3.2) — P3 advisory =====
+  (function(){
+    var fs = (2/3)*I.fy1;                       // ksc — main (top) bars
+    var cc = I.cov*10;                          // mm
+    var s1 = 380*(2855/fs) - 2.5*cc, s2 = 300*(2855/fs);
+    var smax = Math.min(s1,s2)/10;             // cm
+    var sprov = (chosen[0]||0)*100;            // cm — main top bars (tension face @ support)
+    var ok = sprov>0 && sprov <= smax + 1e-6;
+    H+=step(head('9','ควบคุมความกว้างรอยร้าว · Crack Control (§24.3.2)',ok)
+      +F('f<sub>s</sub> ≈ ⅔·fy = <b>'+fmt(fs,0)+' ksc</b> · c<sub>c</sub> = <b>'+fmt(cc,0)+' mm</b>','ผิวรับแรงดึง = ผิวบน (โมเมนต์ลบที่ที่รองรับ)')
+      +F('s<sub>max</sub> = min[380(2855/f<sub>s</sub>)−2.5c<sub>c</sub>, 300(2855/f<sub>s</sub>)] = <b>'+fmt(smax,1)+' cm</b>','2855 ksc ≈ 280 MPa')
+      +chk('ระยะเหล็กหลัก(ผิวบน) s = '+fmt(sprov,1)+' cm '+(ok?'≤':'&gt;')+' s<sub>max</sub> = '+fmt(smax,1)+' cm',ok)
+      +note('<b>เชิงแนะนำ (advisory · SLS):</b> ควบคุมความกว้างรอยร้าว ~0.4 mm · ไม่ตัดสินผ่าน/ไม่ผ่านของกำลัง'));
+  })();
+
+  // มาตรฐานอ้างอิง
+  H+=step(head('Section','มาตรฐานอ้างอิง · References')
+    +'<div class="rep-note" style="line-height:1.9">'
+    +'<b>ACI 318-19</b> — '
+    +'Table 7.3.1.1 (ความหนาขั้นต่ำ — พื้นยื่น ℓ/10) · '
+    +'Sec. 24.3.2 (ควบคุมรอยร้าว · ระยะเหล็กสูงสุด) · '
+    +'Sec. 22.2.2.4 (กำลังดัด · Whitney stress block · β₁) — เหล็กหลักรับโมเมนต์ลบที่ผิวบน · '
+    +'Sec. 22.5.5.1 (กำลังรับแรงเฉือนคอนกรีต V<sub>c</sub>) · '
+    +'Sec. 24.2 (การแอ่นตัว — ทันที + ระยะยาว λ<sub>Δ</sub>) · '
+    +'Sec. 7.6.1 / Sec. 24.4.3.2 (เหล็กแจกแรง/กันร้าว) · '
+    +'Sec. 7.7.2.3 (ระยะเรียงสูงสุด) · '
+    +'Sec. 25.4.3 (งอยึดเข้าที่รองรับ ℓ<sub>dh</sub> — จุดวิกฤตของพื้นยื่น)'
+    +'<br><b>มยผ. 1101-64</b> · <b>กฎกระทรวง พ.ศ. 2566</b> — วิธีกำลัง (Strength Design) · U = 1.4DL + 1.7LL'
+    +'</div>');
+
+  // สรุปรายละเอียดแบบก่อสร้างจริง · Construction Detail Summary
+  (function(){
+    var thLbl=(I.mode==='tapered')
+      ? 'เรียวลด h₀ = '+fmt(R.h_root,1)+' cm → h<sub>L</sub> = '+fmt(R.h_tip,1)+' cm'
+      : fmt(R.t,1)+' cm (สม่ำเสมอ)';
+    // ระยะฝังเข้าที่รองรับ — สูตรเดียวกับ Drawing (ACI 318-19 Sec. 25.4.2.3/.5 · Sec. 25.4.3)
+    var _sq=Math.sqrt(I.fc), _db=I.mainDia/10;
+    var _k=(I.mainDia<=19)?6.7:5.4;
+    var _ldTop=Math.max(1.3*I.fy1*_db/(_k*_sq),30);
+    var _ldh=Math.max(0.075*I.fy1*_db/_sq, 8*_db, 15);
+    var cd=[['ช่วงยื่น L × ความกว้าง B',fmt(I.L,2)+' × '+fmt(I.B,2)+' m'],
+      ['ความหนาพื้น',thLbl],
+      ['คอนกรีต fc′',fmt(I.fc,0)+' ksc'],
+      ['เหล็กหลัก (ผิวบน)',bar+'@'+fmt(chosen[0],2)+' m (fy '+fmt(I.fy1,0)+' ksc)'],
+      ['เหล็กแจกแรง/กันร้าว',tbar+'@'+fmt(chosenTemp,2)+' m (fy '+fmt(I.fy2,0)+' ksc)'],
+      ['ระยะหุ้ม covering',fmt(I.cov,1)+' cm'],
+      ['ระยะฝังเข้าที่รองรับ','แบบตรง ≥ 1.3·ld = '+fmt(_ldTop,0)+' cm หรือ ของอ 90° ≥ ldh = '+fmt(_ldh,0)+' cm + หางงอ 12db = '+fmt(12*_db,0)+' cm']];
+    H+=step(head('Section','สรุปรายละเอียดแบบก่อสร้างจริง · Construction Detail Summary')
+      +'<div class="rep-dd">'+cd.map(function(r){return '<div><span>'+r[0]+'</span><b>'+r[1]+'</b></div>';}).join('')+'</div>'
+      +note('ระยะทาบ/งอ ให้เป็นไปตาม ACI 318-19 บทที่ 25 และแบบมาตรฐานโครงการ'));
+  })();
+
+  // สรุป
+  // ⚠ เดิมตกหล่น R.chkDeflLong ทั้งที่คำนวณและแสดงผลใน chip/dashboard/เล่มอยู่แล้ว
+  //   ร้ายเป็นพิเศษ: chkDeflLong (δ ≤ L/240) คือเกณฑ์เดียวในไฟล์ที่เข้มพอเทียบ ตาราง ๑ ประกาศ มท. 2567
+  //   ส่วนเกณฑ์ที่อยู่ใน allOk เดิม (L/180) หลวมกว่ากฎหมาย 33% ⇒ เล่มประทับ "ผ่าน" ได้ทั้งที่แอ่นเกินกฎหมาย
+  var allOk=R.chkThick&&R.chkDepth&&R.chkShear&&okM&&okT&&(R.chkDeflLong!==false);
+  H+='<div class="rep-final '+(allOk?'ok':'bad')+'">'
+    +(allOk?'✓ ผ่านการตรวจสอบทุกขั้นตอน — การออกแบบใช้งานได้'
+           :'✗ มีบางขั้นตอนไม่ผ่าน — ตรวจสอบและปรับแก้การออกแบบ')+'</div>';
+  return H;
+}
+
+/* ============================================================================
+   AUTO-SIZING — หาขนาดคานขั้นต่ำที่ผ่านเกณฑ์ทุกอย่างโดยอัตโนมัติ
+   ============================================================================
+   อัลกอริทึม:
+     1. กำหนดช่วงค้นหา: h ∈ [Lb/16, Lb/6] · b ∈ [20, h]
+     2. ก้าวทีละ 5 cm (มาตรฐานก่อสร้าง)
+     3. สำหรับแต่ละ (b, h): คำนวณ → ตรวจเกณฑ์
+         • ดัด: ρ_req ≤ 0.75·ρ_max (เพื่อความเหนียว)
+         • เฉือน: Vs_req ≤ 4√fc'·b·d
+         • แรงบิด: ระยะปลอก ≥ 10 cm (≥ 7.5 ถ้าไม่มีบิด) — เพื่อใส่ปลอกได้สะดวก
+         • เหล็กหลักใส่ได้ในแถวเดียว
+     4. คืนค่าขนาด (b, h) ที่ b·h น้อยที่สุด (พื้นที่หน้าตัดน้อยสุด)
+*/
+function autoSizeBeam(I_slab, R_slab, baseIb){
+  // baseIb คือ input คานที่ไม่มี b, h, nLegs (จะถูก override)
+  var Lcm = baseIb.L * 100;
+  var hMin = Math.max(30, Math.ceil(Lcm/16/5)*5);   // span/depth ≤ 16
+  var hMax = Math.min(150, Math.max(85, Math.ceil(Lcm/5/5)*5));
+  var bMin = 20, bMax = 80;
+  var legOptions = [2, 4, 6];
+
+  var best = null;
+  for(var legIdx=0; legIdx<legOptions.length; legIdx++){
+    var nL = legOptions[legIdx];
+    for(var h = hMin; h <= hMax; h += 5){
+      for(var b = bMin; b <= Math.min(bMax, h); b += 5){
+        if(b < h*0.3) continue;
+        // ขีดจำกัดเชิงปฏิบัติ: 2-leg ต้องคาน ≤ 30, 4-leg ≤ 60, 6-leg ≤ 100
+        if(nL===2 && b>30) continue;
+        if(nL===4 && (b<25 || b>60)) continue;
+        if(nL===6 && b<40) continue;
+
+        var Ib = Object.assign({}, baseIb, {b:b, h:h, nLegs:nL});
+        var Rb = computeBeam(I_slab, R_slab, Ib);
+
+        var stirReq = Rb.torsionSignificant ? 10 : 7.5;
+        var ok = !Rb.flexFails
+              && !Rb.shearOverLimit
+              && !Rb.needTwoLayers
+              && Rb.As_prov >= Rb.As_bot_total
+              && Rb.rho_req <= Rb.rmax * 0.75
+              && (Rb.s_final === 0 || Rb.s_final >= stirReq)
+              && (!Rb.torsionSignificant || Rb.Al_total <= 200)
+              && Rb.chkLegSpacing;
+
+        if(ok){
+          // เกณฑ์เลือก: พื้นที่หน้าตัดเล็กสุด, ถ้าเท่ากันใช้ nLegs น้อยกว่า
+          var score = b*h*1000 + nL;   // priority: area first, then legs
+          if(!best || score < best.score){
+            best = {b:b, h:h, nLegs:nL, Rb:Rb, score:score};
+          }
+          break;   // b เล็กสุดของ (nL, h) — ขึ้น h ถัดไป
+        }
+      }
+    }
+  }
+  return {best:best, hMin:hMin, hMax:hMax};
+}
+
+/* ============================================================================
+   SUPPORTING EDGE BEAM DESIGN — รับโหลดจากพื้นยื่นอัตโนมัติ
+   ============================================================================
+   โหลดจากพื้นยื่น (per m ของคาน):
+     R_v = Wu_avg · L_slab + FIN     (vertical reaction — kg/m)
+     M   = Mu_slab                    (hogging moment per m — kg·m/m = kg, กลายเป็น torsion ในคาน)
+   คาน Simply Supported หรือ Fixed-Fixed สแปน L_b
+*/
+function computeBeam(I_slab, R_slab, Ib){
+  var Rb={};
+  // ----- โหลดถ่ายจากพื้นยื่น (ต่อ m ของคาน) -----
+  // โหลดทั้งหมดบนพื้นยื่น = ∫w(x)dx + FIN — ตกเป็นแรงดิ่งที่ที่รองรับ (kg/m of beam)
+  // สำหรับ tapered: ∫w(x)dx = Wu_avg · L (เนื่องจาก h(x) เชิงเส้น → w_avg ใช้ได้)
+  Rb.w_slab_v = R_slab.Wu_avg * I_slab.L + R_slab.FIN;   // kg/m
+  // โมเมนต์ลบที่หัวพื้นยื่น (per m of beam) → เป็น torsion ในคาน (เนื่องจากแนวคานตั้งฉากกับแกนพื้นยื่น)
+  Rb.t_slab   = R_slab.Mu;                                // kg·m/m of beam = kg
+
+  // ----- น้ำหนักคานเอง (factored) -----
+  Rb.gamc = 2400;
+  Rb.w_self = 1.4 * Rb.gamc * (Ib.b/100) * (Ib.h/100);   // kg/m
+
+  // ----- โหลดเพิ่มเติม (factored) -----
+  Rb.w_extra = 1.4*Ib.sdl + 1.7*Ib.ll;                    // kg/m
+
+  // ----- รวม -----
+  Rb.w_total = Rb.w_slab_v + Rb.w_self + Rb.w_extra;      // kg/m vertical UDL
+  Rb.t_total = Rb.t_slab;                                  // kg torsion UDL (ไม่มี factor เพิ่ม — รับมาจาก slab factored แล้ว)
+
+  // ----- การวิเคราะห์แรง (Simply Supported หรือ Fixed-Fixed) -----
+  var Lb = Ib.L;
+  if(Ib.support==='fix'){
+    Rb.Mu_max = Rb.w_total * Lb * Lb / 12;   // ที่ปลาย (negative)
+    Rb.Mu_mid = Rb.w_total * Lb * Lb / 24;   // ที่กึ่งกลาง (positive)
+    Rb.Vu_max = Rb.w_total * Lb / 2;
+    Rb.Tu_max = Rb.t_total * Lb / 2;
+    Rb.supportLabel = 'Fixed-Fixed';
+  } else {
+    Rb.Mu_max = Rb.w_total * Lb * Lb / 8;    // ที่กึ่งกลาง (positive)
+    Rb.Mu_mid = Rb.Mu_max;
+    Rb.Vu_max = Rb.w_total * Lb / 2;
+    Rb.Tu_max = Rb.t_total * Lb / 2;
+    Rb.supportLabel = 'Simply Supported';
+  }
+
+  // ----- คุณสมบัติหน้าตัด -----
+  var fc=Ib.fc, fy=Ib.fy, fyv=Ib.fyv;
+  Rb.b1 = (fc<=280)?0.85:Math.max(0.65, 0.85 - 0.05*((fc-280)/70));
+  Rb.rb = 0.85*Rb.b1*(fc/fy)*(6120/(6120+fy));
+  Rb.rmax = 0.75*Rb.rb;
+  Rb.rhoMin_a = 14/fy;
+  Rb.rhoMin_b = 0.8*Math.sqrt(fc)/fy;
+  Rb.rhoMin   = Math.max(Rb.rhoMin_a, Rb.rhoMin_b);
+
+  // d effective (assume 1 layer of main bars)
+  Rb.d = Ib.h - Ib.cov - Ib.stirDia/10 - Ib.mainDia/20;
+
+  // ----- ออกแบบเหล็กดัด -----
+  Rb.Ru = Rb.Mu_max*100 / (Ib.phib * Ib.b * Rb.d * Rb.d);
+  var inner = 1 - 2*Rb.Ru/(0.85*fc);
+  if(inner < 0){
+    Rb.rho_req = Rb.rmax;
+    Rb.flexFails = true;
+  } else {
+    Rb.rho_req = 0.85*(fc/fy)*(1 - Math.sqrt(inner));
+    Rb.flexFails = (Rb.rho_req > Rb.rmax);
+  }
+  Rb.As_flex = Rb.rho_req * Ib.b * Rb.d;
+  Rb.As_min  = Rb.rhoMin * Ib.b * Rb.d;
+  Rb.As_req  = Math.max(Rb.As_flex, Rb.As_min);
+  Rb.barArea = Math.PI*Ib.mainDia*Ib.mainDia/400;
+  Rb.n_bars  = Math.ceil(Rb.As_req / Rb.barArea);
+  Rb.As_prov = Rb.n_bars * Rb.barArea;
+  // กระจายเหล็กในแถวเดียว — ตรวจว่าใส่ได้พอ
+  var spaceMin = Math.max(2.5, Ib.mainDia/10);   // ระยะระหว่างเหล็ก (ขอบถึงขอบ) ≥ db หรือ 2.5 cm
+  Rb.maxBarsInRow = Math.floor((Ib.b - 2*Ib.cov - 2*Ib.stirDia/10 - Ib.mainDia/10) / (spaceMin + Ib.mainDia/10)) + 1;
+  Rb.needTwoLayers = Rb.n_bars > Rb.maxBarsInRow;
+
+  // ----- ออกแบบเหล็กรับเฉือน -----
+  Rb.nLegs = Ib.nLegs || 2;
+  Rb.A_b_stir = Math.PI*Ib.stirDia*Ib.stirDia/400;
+  Rb.Av = Rb.nLegs * Rb.A_b_stir;   // ทุกขามีส่วนรับเฉือน
+  Rb.phiVc = Ib.phiv * 0.53 * Math.sqrt(fc) * Ib.b * Rb.d;
+  Rb.Vs_req = (Rb.Vu_max - Rb.phiVc) / Ib.phiv;
+  Rb.needStirrupMin = Rb.Vu_max > 0.5*Rb.phiVc;
+  Rb.needStirrupAdd = Rb.Vu_max > Rb.phiVc;
+  var Vs_limit_8 = 4*0.53*Math.sqrt(fc)*Ib.b*Rb.d;
+  var Vs_limit_4 = 2*0.53*Math.sqrt(fc)*Ib.b*Rb.d;
+  Rb.shearOverLimit = (Rb.Vs_req > Vs_limit_8);
+  if(Rb.needStirrupAdd){
+    Rb.s_shear = Rb.Av*fyv*Rb.d / Rb.Vs_req;
+    Rb.s_max   = (Rb.Vs_req <= Vs_limit_4) ? Math.min(Rb.d/2, 60) : Math.min(Rb.d/4, 30);
+    Rb.s_design = Math.min(Rb.s_shear, Rb.s_max);
+  } else if(Rb.needStirrupMin){
+    Rb.s_max = Math.min(Rb.d/2, 60);
+    Rb.s_design = Rb.s_max;
+  } else {
+    Rb.s_max = Math.min(Rb.d/2, 60);
+    Rb.s_design = 0;
+  }
+
+  // ----- ตรวจระยะห่างขาปลอกตามแนวกว้าง (ACI 318 Sec. 11.4.5.3) -----
+  // ระหว่างขาที่ติดกัน ตามแนวกว้างของหน้าตัด
+  var bInside = Ib.b - 2*Ib.cov - Ib.stirDia/10;  // ความกว้างด้านในปลอก
+  Rb.legGap = (Rb.nLegs > 1) ? (bInside/(Rb.nLegs-1)) : bInside;
+  // ถ้า Vs > 2√fc'·b·d → ระยะห่างขา ≤ d/4 มิฉะนั้น ≤ d/2
+  Rb.legGapLimit = Math.min(
+    (Rb.Vs_req > Vs_limit_4) ? Rb.d/4 : Rb.d/2,
+    60  // ขีดจำกัด 60 cm
+  );
+  Rb.chkLegSpacing = Rb.legGap <= Rb.legGapLimit;
+
+  // ----- ตรวจสอบแรงบิด (Torsion) ตาม ACI 318 Sec. 11.5 -----
+  Rb.Acp = Ib.b * Ib.h;                       // cm²
+  Rb.Pcp = 2*(Ib.b + Ib.h);                   // cm
+  Rb.Tu_kgcm = Rb.Tu_max * 100;               // kg·cm
+  // Threshold: Tu < φ·0.265·√fc'·Acp²/Pcp → ละเว้นการบิดได้
+  Rb.Tu_threshold = Ib.phiv * 0.265 * Math.sqrt(fc) * Rb.Acp*Rb.Acp / Rb.Pcp;   // kg·cm
+  Rb.torsionSignificant = Rb.Tu_kgcm > Rb.Tu_threshold;
+
+  if(Rb.torsionSignificant){
+    // ออกแบบเหล็กปลอกปิด (closed stirrup) สำหรับแรงบิด
+    Rb.Aoh = (Ib.b - 2*Ib.cov - Ib.stirDia/10) * (Ib.h - 2*Ib.cov - Ib.stirDia/10);   // cm²
+    Rb.Ao  = 0.85 * Rb.Aoh;
+    Rb.ph  = 2*((Ib.b - 2*Ib.cov - Ib.stirDia/10) + (Ib.h - 2*Ib.cov - Ib.stirDia/10));   // เส้นรอบรูปด้านในของปลอก
+    Rb.Tn  = Rb.Tu_max / Ib.phiv;              // kg·m
+    // At/s = Tn / (2·Ao·fyv·cot(θ)), θ=45° → cot=1
+    Rb.At_per_s = Rb.Tn*100 / (2*Rb.Ao*fyv);   // cm²/cm (per one leg)
+    // เหล็กตามยาวรับแรงบิด: Al = (At/s)·ph·(fyv/fy)·cot²θ
+    Rb.Al_torsion = Rb.At_per_s * Rb.ph * (fyv/fy);
+    Rb.Al_min = (5*Math.sqrt(fc)*Rb.Acp/fy) - Rb.At_per_s*Rb.ph*(fyv/fy);
+    if(Rb.Al_min<0) Rb.Al_min=0;
+    Rb.Al_total = Math.max(Rb.Al_torsion, Rb.Al_min);
+    // ระยะห่างของเหล็กปลอกแบบรวม shear + torsion (per-leg balance)
+    //   ขาปลอกด้านนอก (closed) ต้องรับทั้งเฉือนและบิด
+    //   s ≤ n_legs·A_b / [Vs/(fyv·d) + n_legs·At_per_s]
+    //   (เมื่อ n_legs=2 ลดรูปกลายเป็นสูตรเดิม 2·A_b/[Vs/(fyv·d) + 2·At_per_s])
+    var Av_per_s_shear = (Rb.needStirrupAdd) ? Rb.Vs_req/(fyv*Rb.d) : 0;
+    Rb.combined_per_s = Av_per_s_shear + Rb.nLegs * Rb.At_per_s;
+    Rb.s_combined = Rb.Av / Rb.combined_per_s;
+    Rb.s_torsion_max = Math.min(Rb.ph/8, 30);
+    Rb.s_final = Math.min(Rb.s_combined, Rb.s_torsion_max, Rb.s_max);
+
+    // ----- กระจาย A_L รอบหน้าตัด: 1/4 ที่บน, 1/4 ที่ล่าง, ที่เหลือกระจายข้าง -----
+    // สำหรับหน้าตัดสูง > 70 cm ต้องมีแถวกลาง (skin reinforcement)
+    Rb.n_side_rows = (Ib.h >= 70) ? Math.ceil((Ib.h - 2*Ib.cov)/30) - 1 : 0;
+    Rb.n_side_rows = Math.max(0, Rb.n_side_rows);
+    Rb.AL_per_face = Rb.Al_total / 4;
+    Rb.AL_per_side_row = (Rb.n_side_rows > 0) ? (Rb.Al_total/2) / Rb.n_side_rows : 0;
+  } else {
+    Rb.s_final = Rb.s_design;
+    Rb.Al_total = 0;
+    Rb.AL_per_face = 0;
+    Rb.n_side_rows = 0;
+    Rb.AL_per_side_row = 0;
+  }
+
+  // ----- ปรับเหล็กหลักให้รวม A_L ส่วนล่าง/บน -----
+  Rb.As_bot_total = Rb.As_req + Rb.AL_per_face;   // เหล็กล่าง (รับ +M + 1/4 A_L)
+  Rb.As_top_total = Math.max(2*Rb.barArea, Rb.AL_per_face);   // เหล็กบน (2 corner + 1/4 A_L)
+  Rb.n_bars     = Math.ceil(Rb.As_bot_total / Rb.barArea);
+  Rb.n_top_bars = Math.ceil(Rb.As_top_total / Rb.barArea);
+  Rb.As_prov    = Rb.n_bars * Rb.barArea;
+  Rb.As_top_prov = Rb.n_top_bars * Rb.barArea;
+  // ตรวจการใส่เหล็กในแถวเดียวอีกครั้ง
+  Rb.needTwoLayers = Rb.n_bars > Rb.maxBarsInRow || Rb.n_top_bars > Rb.maxBarsInRow;
+
+  // ----- ผลตรวจสอบรวม -----
+  Rb.chkFlex = !Rb.flexFails && Rb.As_prov >= Rb.As_bot_total;
+  Rb.chkShearOK = !Rb.shearOverLimit;
+  Rb.chkSpacing = (Rb.s_final===0) || (Rb.s_final >= 5);
+  Rb.chkTorsion = !Rb.torsionSignificant || (Rb.s_final >= 5 && Rb.Al_total <= 200);
+  Rb.chkAll = Rb.chkFlex && Rb.chkShearOK && Rb.chkSpacing && Rb.chkTorsion && !Rb.needTwoLayers && Rb.chkLegSpacing;
+
+  return Rb;
+}
+
+/* ===== วาดหน้าตัดคาน ===== */
+function drawBeamSection(Ib, Rb){
+  var b=Ib.b, h=Ib.h, cov=Ib.cov;
+  var BK='#222', RED='#c0392b', BLU='#1B4F8C', GRY='#9aa3af';
+  var lines=[], dots=[], labels=[];
+  // หน้าตัดคอนกรีต — สเกล normalize (b ขนาด 2)
+  var scale=2/b;
+  var W=b*scale, H=h*scale;
+  // กรอบคอนกรีต
+  lines.push({p:[[0,0],[W,0],[W,H],[0,H],[0,0]],c:BK,w:1.7});
+  // ปลอกด้านนอก (closed) — ด้านในระยะหุ้ม
+  var c=cov*scale, dia_s=Ib.stirDia/10*scale;
+  var xs=c, ys=c, xe=W-c, ye=H-c;
+  lines.push({p:[[xs,ys],[xe,ys],[xe,ye],[xs,ye],[xs,ys]],c:RED,w:1.4,d:'4 2'});
+  // crossties (สำหรับ 4-leg / 6-leg)
+  var nLegs = Rb.nLegs || 2;
+  var nCrossties = Math.max(0, (nLegs - 2)/2);   // 0, 1, 2
+  var hookSize = 0.04;
+  for(var ct=1; ct<=nCrossties; ct++){
+    var crossX = xs + (xe - xs) * ct / (nCrossties + 1);
+    // crosstie แนวตั้ง
+    lines.push({p:[[crossX, ys],[crossX, ye]], c:RED, w:1.4, d:'4 2'});
+    // hook สลับ — 135° ด้านบน 90° ด้านล่าง (สำหรับ ct คี่), สลับสำหรับ ct คู่
+    if(ct % 2 === 1){
+      // 135° hook ที่ด้านบน (สามเหลี่ยม)
+      lines.push({p:[[crossX-hookSize, ys+hookSize*1.2],[crossX, ys],[crossX+hookSize, ys+hookSize*1.2]], c:RED, w:1.4});
+      // 90° hook ที่ด้านล่าง (ขอเล็ก)
+      lines.push({p:[[crossX, ye],[crossX+hookSize*1.4, ye-hookSize*0.7]], c:RED, w:1.4});
+    } else {
+      // 90° ด้านบน, 135° ด้านล่าง
+      lines.push({p:[[crossX, ys],[crossX+hookSize*1.4, ys+hookSize*0.7]], c:RED, w:1.4});
+      lines.push({p:[[crossX-hookSize, ye-hookSize*1.2],[crossX, ye],[crossX+hookSize, ye-hookSize*1.2]], c:RED, w:1.4});
+    }
+  }
+  // เหล็กหลักล่าง (positive moment, อยู่ที่ล่างของหน้าตัด — แต่ในรูปเราคว่ำให้ y=0 อยู่ล่าง)
+  // y=0 = ผิวล่าง, y=H = ผิวบน
+  var dia_m = Ib.mainDia/10*scale;
+  var n = Rb.n_bars;
+  var nRow1 = Math.min(n, Rb.maxBarsInRow);
+  var nRow2 = n - nRow1;
+  var xMin = c + dia_s/2 + dia_m/2, xMax = W - c - dia_s/2 - dia_m/2;
+  for(var i=0;i<nRow1;i++){
+    var fx = (nRow1===1) ? 0.5 : i/(nRow1-1);
+    var xx = xMin + (xMax-xMin)*fx;
+    dots.push({x:xx, y:c+dia_s+dia_m/2, f:RED, s:'#600', r:dia_m*7});
+  }
+  if(nRow2>0){
+    for(var i=0;i<nRow2;i++){
+      var fx = (nRow2===1) ? 0.5 : i/(nRow2-1);
+      var xx = xMin + (xMax-xMin)*fx;
+      dots.push({x:xx, y:c+dia_s+dia_m*1.5+dia_m/2, f:RED, s:'#600', r:dia_m*7});
+    }
+  }
+  // เหล็กบน — รวม A_L/4 ที่ด้านบน
+  var topBars = Rb.n_top_bars || 2;
+  var nTopRow1 = Math.min(topBars, Rb.maxBarsInRow);
+  for(var i=0;i<nTopRow1;i++){
+    var xx = (nTopRow1===1)? W/2 : (xMin + (xMax-xMin)*i/(nTopRow1-1));
+    dots.push({x:xx, y:H-c-dia_s-dia_m/2, f:BLU, s:'#024', r:dia_m*7});
+  }
+  // เหล็กข้าง (สำหรับ tall beam มี side reinforcement)
+  if(Rb.n_side_rows>0){
+    var topY = H-c-dia_s-dia_m/2;
+    var botY = c+dia_s+dia_m/2;
+    for(var sr=1;sr<=Rb.n_side_rows;sr++){
+      var yy = botY + (topY-botY)*sr/(Rb.n_side_rows+1);
+      dots.push({x:c+dia_s+dia_m/2, y:yy, f:'#8a2be2', s:'#420', r:dia_m*6});
+      dots.push({x:W-c-dia_s-dia_m/2, y:yy, f:'#8a2be2', s:'#420', r:dia_m*6});
+    }
+  }
+  // เส้นบอกระยะ
+  lines.push({p:[[-0.3, 0],[-0.4, 0]],c:BLU,w:1});
+  lines.push({p:[[-0.3, H],[-0.4, H]],c:BLU,w:1});
+  lines.push({p:[[-0.35, 0],[-0.35, H]],c:BLU,w:1});
+  lines.push({p:[[0, -0.25],[0, -0.35]],c:BLU,w:1});
+  lines.push({p:[[W, -0.25],[W, -0.35]],c:BLU,w:1});
+  lines.push({p:[[0, -0.30],[W, -0.30]],c:BLU,w:1});
+  var barLbl = (Ib.fy<3000)?'RB':'DB';
+  var stirLbl = (Ib.fyv<3000)?'RB':'DB';
+  labels.push({x:-0.5, y:H/2, t:'h = '+fmt(h,0)+' cm', a:'end', c:BLU, sz:11});
+  labels.push({x:W/2, y:-0.30, t:'b = '+fmt(b,0)+' cm', a:'middle', c:BLU, sz:11, dy:-3});
+  // ป้ายเหล็ก
+  labels.push({x:W/2, y:c+dia_s+dia_m/2, t:n+'-'+barLbl+Ib.mainDia+' (ล่าง)', a:'middle', c:'#600', sz:11, dy:-dia_m*9});
+  labels.push({x:W/2, y:H-c-dia_s-dia_m/2, t:topBars+'-'+barLbl+Ib.mainDia+' (บน)', a:'middle', c:'#024', sz:10, dy:dia_m*10});
+  if(Rb.n_side_rows>0){
+    labels.push({x:W/2, y:H/2, t:Rb.n_side_rows*2+' '+barLbl+Ib.mainDia+' (skin)', a:'middle', c:'#8a2be2', sz:9.5});
+  }
+  var legCount = Rb.nLegs || 2;
+  var legsTxtSec = (legCount===2)?'2 ขา':(legCount===4)?'4 ขา (+1 crosstie)':'6 ขา (+2 crossties)';
+  var stirLabel = (Rb.s_final>0) ? (stirLbl+Ib.stirDia+'@'+fmt(Rb.s_final,1)+' cm ('+legsTxtSec+')') : 'ไม่ต้องใส่เหล็กปลอก';
+  labels.push({x:W+0.3, y:H/2, t:'เหล็กปลอก '+stirLabel, a:'start', c:RED, sz:10.5});
+  document.getElementById('b_sec').innerHTML = emitSVG(440, 380, lines, dots, labels, {m:50, fs:11, uniform:true})
+    + '<div class="cap">หน้าตัดคานรองรับ — เหล็กหลักรับโมเมนต์บวก ('+n+' เส้น) · เหล็กปลอก '+stirLabel+(Rb.torsionSignificant?' · ปลอกแบบ <b>ปิด</b> รับแรงบิด':'')+'</div>';
+}
+
+/* ===== วาด BMD/SFD ของคาน ===== */
+function drawBeamForce(Ib, Rb){
+  var Lb=Ib.L, w=Rb.w_total, t=Rb.t_total;
+  var W=560, H=300, mar=24;
+  var N=80;
+  var Ms=[], Vs=[], Ts=[];
+  for(var i=0;i<=N;i++){
+    var x=Lb*i/N;
+    if(Ib.support==='fix'){
+      // Fixed-Fixed: M(x) = -wL²/12 + wLx/2 - wx²/2
+      Ms.push(-w*Lb*Lb/12 + w*Lb*x/2 - w*x*x/2);
+    } else {
+      // SS: M(x) = wLx/2 - wx²/2  (positive throughout)
+      Ms.push(w*Lb*x/2 - w*x*x/2);
+    }
+    Vs.push(w*Lb/2 - w*x);
+    Ts.push(t*Lb/2 - t*x);
+  }
+  var Mmax=Math.max.apply(null,Ms.map(Math.abs))||1;
+  var Vmax=Math.max.apply(null,Vs.map(Math.abs))||1;
+  var Tmax=Math.max.apply(null,Ts.map(Math.abs))||1;
+  function strip(vals,label,vmax,col,y0,y1){
+    var base=(y0+y1)/2, amp=(y1-y0)/2-8;
+    var s='';
+    s+='<text x="'+mar+'" y="'+(y0+12)+'" font-size="10.5" font-weight="800" fill="#1f2937">'+label+'</text>';
+    var pts=vals.map(function(v,i){
+      var x=mar+(W-2*mar)*i/(vals.length-1);
+      var y=base - (v/vmax)*amp;
+      return x.toFixed(1)+','+y.toFixed(1);
+    }).join(' ');
+    s+='<polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="1.8"/>';
+    s+='<line x1="'+mar+'" y1="'+base+'" x2="'+(W-mar)+'" y2="'+base+'" stroke="#1f2937" stroke-width="1"/>';
+    var iM=0, im=0; vals.forEach(function(v,i){ if(v>vals[iM])iM=i; if(v<vals[im])im=i; });
+    if(Math.abs(vals[iM])>0.01){
+      var xM=mar+(W-2*mar)*iM/(vals.length-1), yM=base - (vals[iM]/vmax)*amp;
+      s+='<text x="'+xM+'" y="'+(yM-3)+'" font-size="9.5" font-weight="800" fill="'+col+'" text-anchor="middle">'+fmt(vals[iM],1)+'</text>';
+    }
+    if(Math.abs(vals[im])>0.01 && im!==iM){
+      var xm=mar+(W-2*mar)*im/(vals.length-1), ym=base - (vals[im]/vmax)*amp;
+      s+='<text x="'+xm+'" y="'+(ym+11)+'" font-size="9.5" font-weight="800" fill="'+col+'" text-anchor="middle">'+fmt(vals[im],1)+'</text>';
+    }
+    return s;
+  }
+  var s='<svg viewBox="0 0 '+W+' '+H+'" font-family="Sarabun,sans-serif">';
+  s+='<rect width="'+W+'" height="'+H+'" fill="#fff"/>';
+  s+=strip(Ms,'BMD · M(x) [kg·m]',Mmax,'#F58220',12,108);
+  s+=strip(Vs,'SFD · V(x) [kg]',Vmax,'#0E9F6E',112,200);
+  s+=strip(Ts,'Torsion · T(x) [kg·m]',Tmax,'#7c3aed',204,292);
+  s+='</svg>';
+  document.getElementById('b_force').innerHTML = s
+    + '<div class="cap">'+Rb.supportLabel+' · w='+fmt(w,0)+' kg/m · t='+fmt(t,0)+' kg/m · L<sub>b</sub>='+fmt(Lb,2)+' m</div>';
+}
+
+/* ===== วาดรูปด้านข้างคาน ===== */
+function drawBeamElevation(Ib, Rb){
+  var Lb=Ib.L, h=Ib.h, cov=Ib.cov;
+  var BK='#222', RED='#c0392b', BLU='#1B4F8C', GRY='#9aa3af';
+  // normalize: คาน Lb เป็น 4 หน่วย
+  var W=4, H=4*(h/100)/Lb;
+  if(H<0.2) H=0.2; if(H>1.2) H=1.2;
+  var lines=[], dots=[], labels=[];
+  // เส้นขอบคาน
+  lines.push({p:[[0,0],[W,0],[W,H],[0,H],[0,0]],c:BK,w:1.5});
+  // เสารองรับซ้าย-ขวา
+  var colW=0.08, colH=H+0.4;
+  lines.push({p:[[-colW,colH],[0,colH],[0,-0.3],[-colW,-0.3],[-colW,colH]],c:BK,w:1.4});
+  lines.push({p:[[W,colH],[W+colW,colH],[W+colW,-0.3],[W,-0.3],[W,colH]],c:BK,w:1.4});
+  // เหล็กหลักล่าง
+  var yMain=cov/100*W/Lb + 0.02;
+  lines.push({p:[[-0.15,yMain+0.04],[-0.15,yMain],[W+0.15,yMain],[W+0.15,yMain+0.04]],c:RED,w:2.2});
+  // เหล็กบน
+  var yTop = H - cov/100*W/Lb - 0.02;
+  lines.push({p:[[-0.15,yTop-0.04],[-0.15,yTop],[W+0.15,yTop],[W+0.15,yTop-0.04]],c:BLU,w:1.8});
+  // เหล็กปลอก — Rb.s_final อยู่ในหน่วย cm, Lb เป็น m
+  if(Rb.s_final>0){
+    var s_final_m = Rb.s_final/100;
+    var nStir = Math.min(40, Math.max(2, Math.floor(Lb/s_final_m)+1));
+    for(var i=0;i<nStir;i++){
+      var xx = (i+0.5)*W/nStir;
+      lines.push({p:[[xx, yMain-0.005],[xx, yTop+0.005]],c:RED,w:0.9,d:'3 2'});
+    }
+  }
+  // โหลด UDL
+  var arrowY = H+0.25;
+  for(var i=0;i<=10;i++){
+    var xx = i*W/10;
+    lines.push({p:[[xx, arrowY],[xx, H+0.03]],c:'#475569',w:0.8});
+    lines.push({p:[[xx-0.04, H+0.10],[xx, H+0.03],[xx+0.04, H+0.10]],c:'#475569',w:0.8});
+  }
+  lines.push({p:[[0, arrowY],[W, arrowY]],c:'#475569',w:1});
+
+  // เส้นบอกระยะ Lb
+  var yd = -0.35;
+  lines.push({p:[[0,yd+0.03],[0,yd-0.03]],c:BLU,w:1});
+  lines.push({p:[[W,yd+0.03],[W,yd-0.03]],c:BLU,w:1});
+  lines.push({p:[[0,yd],[W,yd]],c:BLU,w:1});
+  var barLbl = (Ib.fy<3000)?'RB':'DB';
+  labels.push({x:W/2, y:yd, t:'L<tspan font-size="8" baseline-shift="sub">b</tspan> = '+fmt(Lb,2)+' m', a:'middle', c:BLU, sz:11.5, dy:-4});
+  labels.push({x:0, y:arrowY+0.04, t:'w<sub>total</sub> = '+fmt(Rb.w_total,0)+' kg/m', a:'start', c:'#475569', sz:10.5});
+  labels.push({x:W/2, y:yMain+0.06, t:Rb.n_bars+'-'+barLbl+Ib.mainDia+' (ล่าง)', a:'middle', c:RED, sz:11, dy:-3});
+  labels.push({x:W/2, y:yTop-0.06, t:'2-'+barLbl+Ib.mainDia+' (บน · นาม)', a:'middle', c:BLU, sz:10, dy:11});
+  if(Rb.s_final>0){
+    var stirLbl=(Ib.fyv<3000)?'RB':'DB';
+    labels.push({x:W*0.18, y:H/2, t:stirLbl+Ib.stirDia+'@'+fmt(Rb.s_final,1)+'cm', a:'middle', c:RED, sz:9.5, rot:-90});
+  }
+  labels.push({x:-colW/2, y:colH+0.05, t:'เสา', a:'middle', c:'#475569', sz:9});
+  labels.push({x:W+colW/2, y:colH+0.05, t:'เสา', a:'middle', c:'#475569', sz:9});
+  document.getElementById('b_elev').innerHTML = emitSVG(600, 280, lines, dots, labels, {m:40, fs:11, uniform:false})
+    + '<div class="cap">รูปด้านข้างคาน '+Rb.supportLabel+' — เหล็กหลักรับ +M ทำงานที่ผิวล่าง · เหล็กปลอกระยะ '+(Rb.s_final>0?fmt(Rb.s_final,1)+' cm':'ไม่ต้องใส่')+'</div>';
+}
+
+/* ===== รายงานวิธีคำนวณคาน ===== */
+function buildBeamReport(Ib, Rb, R_slab){
+  var H='';
+  var _M=(window.CKR&&window.CKR.mathify)?window.CKR.mathify:function(x){return x==null?'':String(x);};   // ราก √ มีขีดคลุม + สัญลักษณ์คณิต
+  function vd(ok){ return '<span class="rep-vd '+(ok?'ok':'bad')+'">'+(ok?'ผ่าน':'ไม่ผ่าน')+'</span>'; }
+  function head(n,t,ok){ return '<div class="rh"><span class="rn">'+n+'</span><span class="rt">'+t+'</span>'+(ok===undefined?'':vd(ok))+'</div>'; }
+  function step(inner){ return '<div class="rep-step">'+inner+'</div>'; }
+  function F(sym,sr,ref){ return '<div class="rep-f"><div class="ef">'+_M(sym)+'</div>'+(sr?'<div class="ex">'+_M(sr)+'</div>':'')+(ref?'<div class="eref">'+_M(ref)+'</div>':'')+'</div>'; }
+  function chk(t,ok){ return '<div class="rep-chk"><span class="rep-vd inl '+(ok?'ok':'bad')+'">'+(ok?'ผ่าน':'ไม่ผ่าน')+'</span> '+_M(t)+'</div>'; }
+  function note(s){ return '<div class="rep-note">'+s+'</div>'; }
+  var bar=(Ib.fy<3000?'RB':'DB')+Ib.mainDia;
+  var stir=(Ib.fyv<3000?'RB':'DB')+Ib.stirDia;
+
+  // 1 — การถ่ายโหลด
+  H+=step(head(1,'การถ่ายโหลดจากพื้นยื่นสู่คาน')
+    +note('พื้นยื่นที่ออกแบบด้านบนถ่ายลงที่ขอบรองรับ → กลายเป็นโหลดดิ่ง <b>UDL บนคาน</b> และโมเมนต์ลบของพื้นยื่นกลายเป็น <b>แรงบิด (Torsion)</b> ตามแนวคาน')
+    +F('แรงดิ่งต่อความยาวคาน w<sub>slab</sub> = Wu<sub>avg</sub>·L<sub>slab</sub> + FIN',
+       '= '+fmt(R_slab.Wu_avg,0)+' × L<sub>slab</sub> + '+fmt(R_slab.FIN,0)+' = <b>'+fmt(Rb.w_slab_v,0)+' kg/m</b>',
+       'ที่มา: รวมแรงดิ่งทั้งหมดจากพื้นยื่นต่อความยาว 1 ม. ของคาน (L<sub>slab</sub> = ความยาวยื่น)')
+    +F('แรงบิดต่อความยาวคาน t<sub>slab</sub> = Mu<sub>slab</sub>',
+       '= <b>'+fmt(Rb.t_slab,1)+' kg·m/m</b>',
+       'ที่มา: โมเมนต์ลบ (hogging) ของพื้นยื่นที่หัวยึด → กลายเป็น torque ในคาน')
+    +F('น้ำหนักคานเอง w<sub>self</sub> = 1.4·γ<sub>c</sub>·b·h',
+       '= 1.4×2400×('+fmt(Ib.b,0)+'/100)×('+fmt(Ib.h,0)+'/100) = <b>'+fmt(Rb.w_self,0)+' kg/m</b>')
+    +F('โหลดเพิ่มเติม w<sub>extra</sub> = 1.4·SDL + 1.7·LL',
+       '= 1.4×'+fmt(Ib.sdl,0)+' + 1.7×'+fmt(Ib.ll,0)+' = <b>'+fmt(Rb.w_extra,0)+' kg/m</b>')
+    +F('UDL รวม w<sub>total</sub> = w<sub>slab</sub> + w<sub>self</sub> + w<sub>extra</sub>',
+       '= '+fmt(Rb.w_slab_v,0)+' + '+fmt(Rb.w_self,0)+' + '+fmt(Rb.w_extra,0)+' = <b>'+fmt(Rb.w_total,0)+' kg/m</b>'));
+
+  // 2 — โมเมนต์/เฉือน/บิด
+  var formulaM = (Ib.support==='fix') ? 'wL²/12 (ที่ปลาย)' : 'wL²/8 (กึ่งกลาง)';
+  H+=step(head(2,'โมเมนต์ดัด/แรงเฉือน/แรงบิดสูงสุด')
+    +note('รูปแบบรองรับ: <b>'+Rb.supportLabel+'</b>')
+    +F('Mu = '+formulaM,
+       '= '+fmt(Rb.w_total,0)+'×'+fmt(Ib.L,2)+'² / '+(Ib.support==='fix'?'12':'8')+' = <b>'+fmt(Rb.Mu_max,1)+' kg·m</b>')
+    +F('Vu = wL/2','= '+fmt(Rb.w_total,0)+'×'+fmt(Ib.L,2)+'/2 = <b>'+fmt(Rb.Vu_max,1)+' kg</b>')
+    +F('Tu = tL/2 (max ที่ปลาย)','= '+fmt(Rb.t_total,1)+'×'+fmt(Ib.L,2)+'/2 = <b>'+fmt(Rb.Tu_max,1)+' kg·m</b>',
+       'แรงบิดเป็น UDL ตามแนวคาน — กราฟเชิงเส้น สูงสุดที่ปลาย เป็นศูนย์ที่กึ่งกลาง'));
+
+  // 3 — เหล็กดัด
+  H+=step(head(3,'เหล็กรับแรงดัด',Rb.chkFlex)
+    +F('d = h − cov − Ø<sub>stir</sub> − Ø<sub>main</sub>/2',
+       '= '+fmt(Ib.h,0)+' − '+fmt(Ib.cov,1)+' − '+fmt(Ib.stirDia/10,1)+' − '+fmt(Ib.mainDia/20,2)+' = <b>'+fmt(Rb.d,2)+' cm</b>')
+    +F('ρ<sub>b</sub>, ρ<sub>max</sub>',
+       'ρ<sub>b</sub>='+fmt(Rb.rb,4)+' ; ρ<sub>max</sub>=0.75ρ<sub>b</sub>='+fmt(Rb.rmax,4))
+    +F('ρ<sub>min</sub> = max(14/fy, 0.8√fc′/fy)',
+       '= max('+fmt(Rb.rhoMin_a,4)+', '+fmt(Rb.rhoMin_b,4)+') = <b>'+fmt(Rb.rhoMin,4)+'</b>')
+    +F('Ru = Mu/(φb·b·d²)',
+       '= '+fmt(Rb.Mu_max,1)+'·100/('+fmt(Ib.phib,2)+'×'+fmt(Ib.b,0)+'×'+fmt(Rb.d,2)+'²) = <b>'+fmt(Rb.Ru,2)+' ksc</b>')
+    +F('ρ<sub>req</sub> = 0.85(fc′/fy)·[1 − √(1 − 2Ru/0.85fc′)]',
+       '= <b>'+fmt(Rb.rho_req,4)+'</b>')
+    +F('As<sub>flex</sub> = ρ·b·d','= '+fmt(Rb.rho_req,4)+'×'+fmt(Ib.b,0)+'×'+fmt(Rb.d,2)+' = <b>'+fmt(Rb.As_flex,2)+' cm²</b>')
+    +F('As<sub>min</sub> = ρ<sub>min</sub>·b·d','= <b>'+fmt(Rb.As_min,2)+' cm²</b>')
+    +F('As<sub>req</sub> = max(As<sub>flex</sub>, As<sub>min</sub>)','= <b>'+fmt(Rb.As_req,2)+' cm²</b>')
+    +F('A<sub>b</sub> = π·Ø²/400 (เหล็ก 1 เส้น)','= <b>'+fmt(Rb.barArea,2)+' cm²</b>')
+    +F('จำนวนเหล็ก n = ceil(As<sub>req</sub>/A<sub>b</sub>)',
+       '= ceil('+fmt(Rb.As_req,2)+'/'+fmt(Rb.barArea,2)+') = <b>'+Rb.n_bars+' เส้น</b> · ใช้ '+Rb.n_bars+'-'+bar
+       +(Rb.needTwoLayers?' · <b style="color:#c0392b">ต้องเสริม 2 แถว ('+Rb.maxBarsInRow+' เส้น/แถว)</b>':'')));
+
+  // 4 — เหล็กรับเฉือน
+  var legCountLbl = (Rb.nLegs===2)?'2 ขา (มาตรฐาน)':(Rb.nLegs===4)?'4 ขา (+1 crosstie)':'6 ขา (+2 crossties)';
+  H+=step(head(4,'เหล็กปลอกรับแรงเฉือน — '+legCountLbl,Rb.chkShearOK)
+    +F('A<sub>v</sub> = n · π·Ø²/4 · 100  ;  n = '+Rb.nLegs+' ขา',
+       '= '+Rb.nLegs+'×π×'+Ib.stirDia+'²/400 = <b>'+fmt(Rb.Av,3)+' cm²</b>',
+       'ขาทั้งหมดรวมทั้งปลอกนอกและ crossties ภายในมีส่วนรับแรงเฉือน')
+    +F('φVc = φv·0.53·√fc′·b·d','= '+fmt(Ib.phiv,2)+'×0.53×√'+Ib.fc+'×'+fmt(Ib.b,0)+'×'+fmt(Rb.d,2)+' = <b>'+fmt(Rb.phiVc,1)+' kg</b>')
+    +(Rb.needStirrupAdd
+      ? F('Vs<sub>req</sub> = (Vu − φVc)/φv','= ('+fmt(Rb.Vu_max,1)+' − '+fmt(Rb.phiVc,1)+')/'+fmt(Ib.phiv,2)+' = <b>'+fmt(Rb.Vs_req,1)+' kg</b>')
+        +F('s = A<sub>v</sub>·fy<sub>v</sub>·d/Vs<sub>req</sub>',
+           '= '+fmt(Rb.Av,3)+'×'+Ib.fyv+'×'+fmt(Rb.d,2)+'/'+fmt(Rb.Vs_req,1)+' = <b>'+fmt(Rb.s_shear,1)+' cm</b>')
+        +F('s<sub>max</sub> ตาม ACI','= <b>'+fmt(Rb.s_max,1)+' cm</b>')
+      : (Rb.needStirrupMin
+         ? F('Vu = '+fmt(Rb.Vu_max,1)+' &gt; φVc/2 = '+fmt(Rb.phiVc/2,1),'ต้องใส่เหล็กปลอกขั้นต่ำ · s<sub>max</sub> = <b>'+fmt(Rb.s_max,1)+' cm</b>')
+         : F('Vu = '+fmt(Rb.Vu_max,1)+' &lt; φVc/2','ไม่จำเป็นต้องใส่เหล็กปลอก'))
+      )
+    +F('ระยะห่างขาปลอกตามแนวกว้าง (ACI Sec. 11.4.5.3)',
+       '= b<sub>inside</sub>/(n−1) = '+fmt(Ib.b-2*Ib.cov-Ib.stirDia/10,1)+'/'+(Rb.nLegs-1)+' = <b>'+fmt(Rb.legGap,1)+' cm</b> ; ขีดจำกัด '+(Rb.Vs_req>Math.max(Rb.phiVc*0,0)*2?'d/4':'d/2')+' = <b>'+fmt(Rb.legGapLimit,1)+' cm</b>',
+       'ระยะห่างขาในแนวกว้างต้องไม่เกิน d/2 (หรือ d/4 ถ้า Vs สูง) เพื่อรับเฉือนได้สม่ำเสมอ')
+    +chk('ระยะขา '+fmt(Rb.legGap,1)+' cm '+(Rb.chkLegSpacing?'≤':'&gt;')+' '+fmt(Rb.legGapLimit,1)+' cm', Rb.chkLegSpacing)
+    +(Rb.shearOverLimit ? chk('Vs<sub>req</sub> เกิน 4√fc′·b·d → ต้องเพิ่มขนาดคาน', false) : ''));
+
+  // 5 — แรงบิด
+  H+=step(head(5,'การตรวจแรงบิด (Torsion) — ACI 318 Sec. 11.5')
+    +F('A<sub>cp</sub> = b·h','= '+fmt(Ib.b,0)+'×'+fmt(Ib.h,0)+' = <b>'+fmt(Rb.Acp,0)+' cm²</b>')
+    +F('P<sub>cp</sub> = 2(b+h)','= <b>'+fmt(Rb.Pcp,0)+' cm</b>')
+    +F('T<sub>threshold</sub> = φ·0.265·√fc′·A<sub>cp</sub>²/P<sub>cp</sub>',
+       '= <b>'+fmt(Rb.Tu_threshold/100,1)+' kg·m</b> ('+fmt(Rb.Tu_threshold,0)+' kg·cm)',
+       'ถ้า Tu &lt; ค่านี้ → ละเว้นการบิดได้ตาม ACI')
+    +chk('Tu = '+fmt(Rb.Tu_max,1)+' kg·m '+(Rb.torsionSignificant?'&gt;':'≤')+' T<sub>threshold</sub> = '+fmt(Rb.Tu_threshold/100,1)+' kg·m → '+(Rb.torsionSignificant?'<b>ต้องออกแบบเหล็กรับการบิด</b>':'ละเว้นการบิดได้'), !Rb.torsionSignificant)
+    +(Rb.torsionSignificant
+      ? F('At/s (ต่อขา) = Tn/(2·A<sub>o</sub>·fy<sub>v</sub>·cotθ) ; θ=45°',
+          '= '+fmt(Rb.Tn,1)+'·100/(2×'+fmt(Rb.Ao,1)+'×'+Ib.fyv+') = <b>'+fmt(Rb.At_per_s,5)+' cm²/cm</b>')
+         +F('A<sub>L</sub> = (At/s)·p<sub>h</sub>·fy<sub>v</sub>/fy',
+            '= '+fmt(Rb.At_per_s,5)+'×'+fmt(Rb.ph,1)+'×'+Ib.fyv+'/'+Ib.fy+' = <b>'+fmt(Rb.Al_total,2)+' cm²</b>',
+            'เหล็กตามยาวเพิ่มเติมสำหรับแรงบิด — กระจายรอบหน้าตัด')
+         +F('ระยะ s รวม (shear + torsion)',
+            '= <b>'+fmt(Rb.s_combined,1)+' cm</b> · s<sub>max,torsion</sub> = min(p<sub>h</sub>/8, 30) = <b>'+fmt(Rb.s_torsion_max,1)+' cm</b>')
+      : ''));
+
+  // 6 — สรุปเหล็กที่ใช้
+  var botExplain = Rb.torsionSignificant
+    ? 'As<sub>flex</sub>('+fmt(Rb.As_req,2)+') + A<sub>L</sub>/4('+fmt(Rb.AL_per_face,2)+') = '+fmt(Rb.As_bot_total,2)
+    : 'As<sub>req</sub> = '+fmt(Rb.As_req,2);
+  var topExplain = Rb.torsionSignificant
+    ? 'max(2·A<sub>b</sub>, A<sub>L</sub>/4) = max('+fmt(2*Rb.barArea,2)+', '+fmt(Rb.AL_per_face,2)+') = '+fmt(Rb.As_top_total,2)
+    : 'corner bars · 2-'+bar;
+  H+=step(head(6,'สรุปเหล็กที่ใช้ — รวมการกระจาย A_L รอบหน้าตัด')
+    +F('เหล็กหลักล่าง',
+       '<b>'+Rb.n_bars+'-'+bar+'</b> · A<sub>s,prov</sub> = '+fmt(Rb.As_prov,2)+' cm² ≥ '+botExplain+' cm²')
+    +F('เหล็กหลักบน',
+       '<b>'+Rb.n_top_bars+'-'+bar+'</b> · A<sub>s,prov</sub> = '+fmt(Rb.As_top_prov,2)+' cm² ('+topExplain+' cm²)')
+    +(Rb.n_side_rows>0 ? F('เหล็กข้าง (skin reinforcement)',
+       '<b>'+Rb.n_side_rows*2+' '+bar+'</b> ('+Rb.n_side_rows+' แถว × 2 เส้น) · '+fmt(Rb.AL_per_side_row,2)+' cm²/แถว',
+       'หน้าตัดสูง ≥ 70 cm ต้องมีเหล็กข้าง ระยะ ≤ 30 cm') : '')
+    +F('เหล็กปลอก',
+       (Rb.s_final>0 ? '<b>'+stir+'@'+fmt(Rb.s_final,1)+' cm</b>'+(Rb.torsionSignificant?' (ปลอก<b>ปิด</b>สำหรับแรงบิด)':'') : '<b>ไม่ต้องใส่</b>'))
+    +(Rb.torsionSignificant ? F('A<sub>L,total</sub> รับการบิด',
+       'รวม <b>'+fmt(Rb.Al_total,2)+' cm²</b> · กระจาย 4 ด้าน × '+fmt(Rb.AL_per_face,2)+' cm²/ด้าน'
+       +(Rb.n_side_rows>0?' (รวมในแถวบน-ล่าง-ข้าง)':' (รวมในแถวบน-ล่าง)'),
+       'ACI 318 Sec. 11.5.3.7 — เหล็กตามยาวรับแรงบิดต้องกระจายให้สม่ำเสมอรอบหน้าตัด') : ''));
+
+  // Final
+  H+='<div class="rep-final '+(Rb.chkAll?'ok':'bad')+'">'
+    +(Rb.chkAll?'✓ คานรองรับผ่านการตรวจสอบทุกขั้นตอน'
+              :'✗ มีบางขั้นตอนของคานไม่ผ่าน — ตรวจสอบและปรับขนาด/เหล็ก')+'</div>';
+  return H;
+}
+
+/* ===== การวิเคราะห์หน่วยแรง — Side / Top heatmap + BMD + SFD ===== */
+function drawAnalysis(I,R){
+  var L=I.L, w=R.Wu, FIN=R.FIN;
+  // x = 0 ที่ที่รองรับ , x = L ที่ปลายอิสระ — ใช้ฟังก์ชันรวมจาก compute()
+  function Mx(x){ return -R.Mu_x(x); }   // โมเมนต์ลบ (hogging)
+  function Vx(x){ return R.Vu_x(x); }
+  var N=120, Ms=[], Vs=[], Hs=[];
+  for(var i=0;i<=N;i++){
+    var xx=L*i/N;
+    Ms.push(Mx(xx)); Vs.push(Vx(xx)); Hs.push(R.h_x(xx));   // h_x ใน cm
+  }
+  var Mmax=1e-6; Ms.forEach(function(m){ Mmax=Math.max(Mmax,Math.abs(m)); });
+  // σ(x) = 6·|M(x)| / h(x)² — หาค่าสูงสุดตามแนวยื่น
+  var sigMax_x=0, sigMax_val=0;
+  for(var i=0;i<=N;i++){
+    var hx=Hs[i]; if(hx<=0) continue;
+    var sg = 6*Math.abs(Ms[i])/(hx*hx);
+    if(sg>sigMax_val){ sigMax_val=sg; sigMax_x=L*i/N; }
+  }
+  var sigMax = xround(sigMax_val,1);
+  var t = R.t;   // เก็บไว้สำหรับโค้ดเดิม
+
+  function jet(v){
+    v=Math.max(0,Math.min(1,v));
+    function c(z){ return Math.round(Math.max(0,Math.min(1,1.5-Math.abs(z)))*255); }
+    return 'rgb('+c(4*v-3)+','+c(4*v-2)+','+c(4*v-1)+')';
+  }
+
+  // ---------- ภาพด้านข้าง (Side View) — รองรับทั้ง uniform และ tapered ----------
+  (function(){
+    var W=680,H=240, x0=86,x1=600, xm=(x0+x1)/2;
+    // กำหนดกรอบความสูงตามอัตราส่วน h_root กับขนาดภาพ
+    var hRoot=R.h_root, hTip=R.h_tip, hMax=Math.max(hRoot,hTip);
+    var bandH=92;                                   // ความสูงสูงสุดของแถบในภาพ
+    var pxPerCm = bandH/hMax;
+    // หลักเขียน: ผิวบน "เรียบ" (เป็นพื้นใช้งาน) — เป็นเส้นแนวนอนคงที่
+    //          ผิวล่างเอียงจากที่รองรับ (ลึก h_root) → ปลายอิสระ (ลึก h_tip)
+    var ytopFlat = 80;
+    function ytop(x){ return ytopFlat; }
+    function ybot(x){ return ytopFlat + R.h_x(x)*pxPerCm; }
+    var yMid = ytopFlat + hRoot*pxPerCm/2;          // สำหรับวางป้าย (กึ่งกลางที่ที่รองรับ)
+    var y0Root=ytop(0), y1Root=ybot(0);
+    var nc=120,nr=50;
+    var g='<svg viewBox="0 0 '+W+' '+H+'" font-family="Sarabun,sans-serif">';
+    g+='<rect width="'+W+'" height="'+H+'" fill="#fff"/>';
+    var titleTxt = (I.mode==='tapered')
+      ? 'หน่วยแรงดัดในหน้าตัด — มุมมองด้านข้าง (Tapered) · σ(x) = 6·M(x) / h(x)²'
+      : 'หน่วยแรงดัดในหน้าตัด — มุมมองด้านข้าง (Side View) · σ = M·y / I';
+    var subTxt = (I.mode==='tapered')
+      ? 'พื้นยื่นเรียวลด h₀='+fmt(hRoot,0)+' → h<tspan font-size="7" baseline-shift="sub">L</tspan>='+fmt(hTip,0)+' cm · σ ขึ้นกับ M(x) และ h(x)'
+      : 'พื้นยื่น — ผิวบนรับแรงดึงตลอดช่วง สูงสุดที่ที่รองรับ · Wu = '+fmt(w,0)+' kg/m²';
+    g+='<text x="'+(W/2)+'" y="20" text-anchor="middle" font-size="12.5" font-weight="800" fill="#1f2937">'+titleTxt+'</text>';
+    g+='<text x="'+(W/2)+'" y="35" text-anchor="middle" font-size="9" fill="#64748b">'+subTxt+'</text>';
+    // เซลล์สี — ตาม σ จริง (ต้องอยู่ภายในขอบเขตหน้าตัด)
+    var sigMaxAll = Math.max(sigMax_val,1);
+    for(var ci=0;ci<nc;ci++){
+      var xc = L*(ci+0.5)/nc;
+      var Mv = Mx(xc), hc = R.h_x(xc), yT=ytop(xc), yB=ybot(xc);
+      var rowH=(yB-yT)/nr;
+      for(var ri=0;ri<nr;ri++){
+        var df=(ri+0.5)/nr-0.5;            // −0.5 ผิวบน .. +0.5 ผิวล่าง
+        // σ ที่ตำแหน่ง (xc, fiber df·h)
+        var sg = 6*Mv*df/(hc*hc);          // สามารถเป็นบวก/ลบ
+        var n  = sg / sigMaxAll;            // normalize ตาม σ จริง
+        n = Math.max(-1, Math.min(1, n));
+        g+='<rect x="'+(x0+(x1-x0)*ci/nc).toFixed(2)+'" y="'+(yT+ri*rowH).toFixed(2)+'" width="'+((x1-x0)/nc+0.6).toFixed(2)+'" height="'+(rowH+0.6).toFixed(2)+'" fill="'+jet((n+1)/2)+'"/>';
+      }
+    }
+    // ขอบหน้าตัด (โพลีไลน์ทำให้รองรับเทเปอร์)
+    var topPts='',botPts='';
+    for(var ci2=0;ci2<=nc;ci2++){
+      var xc2=L*ci2/nc, xpx=x0+(x1-x0)*ci2/nc;
+      topPts += (ci2?' ':'') + xpx.toFixed(1)+','+ytop(xc2).toFixed(1);
+      botPts += (ci2?' ':'') + xpx.toFixed(1)+','+ybot(xc2).toFixed(1);
+    }
+    g+='<polyline points="'+topPts+'" fill="none" stroke="#1f2937" stroke-width="1.7"/>';
+    g+='<polyline points="'+botPts+'" fill="none" stroke="#1f2937" stroke-width="1.7"/>';
+    g+='<line x1="'+x0+'" y1="'+y0Root+'" x2="'+x0+'" y2="'+y1Root+'" stroke="#1f2937" stroke-width="1.7"/>';
+    g+='<line x1="'+x1+'" y1="'+ytop(L)+'" x2="'+x1+'" y2="'+ybot(L)+'" stroke="#1f2937" stroke-width="1.7"/>';
+    // N.A. (โค้งตามกึ่งกลาง)
+    var naPts='';
+    for(var ci3=0;ci3<=nc;ci3++){
+      var xc3=L*ci3/nc, xpx3=x0+(x1-x0)*ci3/nc, yMidX=(ytop(xc3)+ybot(xc3))/2;
+      naPts += (ci3?' ':'') + xpx3.toFixed(1)+','+yMidX.toFixed(1);
+    }
+    g+='<polyline points="'+naPts+'" fill="none" stroke="#fff" stroke-width="1.1" stroke-dasharray="7 5" opacity=".9"/>';
+    g+='<text x="'+(x1-5)+'" y="'+(((ytop(L)+ybot(L))/2)-4)+'" text-anchor="end" font-size="9" fill="#fff" font-weight="700">แกนสะเทิน N.A.</text>';
+    g+='<text x="'+(x0+8)+'" y="'+((ytop(L/3)+yMid)/2)+'" font-size="9.5" font-weight="800" fill="#fff" stroke="#1f2937" stroke-width="2.4" paint-order="stroke">เขตบน · เหล็กหลัก (รับแรงดึง)</text>';
+    g+='<text x="'+(x0+8)+'" y="'+((ybot(L/3)+yMid)/2+3)+'" font-size="9.5" font-weight="800" fill="#fff" stroke="#1f2937" stroke-width="2.4" paint-order="stroke">เขตล่าง · รับแรงอัด</text>';
+    // ผนังรองรับด้านซ้าย (hatch)
+    for(var hh=0;hh<7;hh++){
+      var hy=y0Root+(y1Root-y0Root)*hh/6;
+      g+='<line x1="'+(x0-16)+'" y1="'+hy+'" x2="'+x0+'" y2="'+(hy-12)+'" stroke="#94a3b8" stroke-width="1"/>';
+    }
+    g+='<line x1="'+x0+'" y1="'+(y0Root-3)+'" x2="'+x0+'" y2="'+(y1Root+3)+'" stroke="#475569" stroke-width="2.4"/>';
+    g+='<text x="'+(x0-9)+'" y="'+(y1Root+24)+'" text-anchor="middle" font-size="9.5" fill="#475569" font-weight="700">ที่รองรับ</text>';
+    g+='<text x="'+(x1)+'" y="'+(ybot(L)+24)+'" text-anchor="end" font-size="9.5" fill="#475569" font-weight="700">ปลายอิสระ</text>';
+    // ลูกศรน้ำหนัก — ตามขอบบนของหน้าตัด (ตาม top profile)
+    for(var a=0;a<=12;a++){
+      var axx=x0+(x1-x0)*a/12, axt=ytop(L*a/12);
+      g+='<line x1="'+axx.toFixed(1)+'" y1="'+(axt-19)+'" x2="'+axx.toFixed(1)+'" y2="'+(axt-3)+'" stroke="#64748b" stroke-width="1.2"/>';
+      g+='<polygon points="'+axx.toFixed(1)+','+axt+' '+(axx-3).toFixed(1)+','+(axt-6)+' '+(axx+3).toFixed(1)+','+(axt-6)+'" fill="#64748b"/>';
+    }
+    // เส้นนำลูกศร (เส้นโค้งตาม top)
+    var arwPts='';
+    for(var ar=0;ar<=24;ar++){
+      var axx2=x0+(x1-x0)*ar/24, ayy=ytop(L*ar/24)-19;
+      arwPts += (ar?' ':'')+axx2.toFixed(1)+','+ayy.toFixed(1);
+    }
+    g+='<polyline points="'+arwPts+'" fill="none" stroke="#64748b" stroke-width="1.2"/>';
+    var wLbl = (I.mode==='tapered')
+      ? 'Wu(x) แปรตาม h(x) · เฉลี่ย '+fmt(R.Wu_avg,0)+' kg/m²'
+      : 'Wu = '+fmt(w,0)+' kg/m²';
+    g+='<text x="'+x0+'" y="'+(ytop(0)-24)+'" font-size="9.5" fill="#475569" font-weight="700">'+wLbl+'</text>';
+    g+='<text x="'+xm+'" y="'+(ybot(L/2)+38)+'" text-anchor="middle" font-size="9.5" fill="#475569" font-weight="700">ความยาวยื่น L = '+fmt(L,2)+' m</text>';
+    if(I.mode==='tapered'){
+      g+='<text x="'+(x0-9)+'" y="'+(y0Root-3)+'" text-anchor="end" font-size="8.5" fill="#1f57a0" font-weight="700">h₀ = '+fmt(hRoot,0)+' cm</text>';
+      g+='<text x="'+(x1+9)+'" y="'+(ytop(L)-3)+'" text-anchor="start" font-size="8.5" fill="#1f57a0" font-weight="700">h<tspan font-size="7" baseline-shift="sub">L</tspan> = '+fmt(hTip,0)+' cm</text>';
+    }
+    var cby2=Math.max(y1Root, ybot(L))+44, cbn2=60;
+    for(var k=0;k<cbn2;k++){
+      g+='<rect x="'+(x0+(x1-x0)*k/cbn2).toFixed(2)+'" y="'+cby2+'" width="'+((x1-x0)/cbn2+0.6).toFixed(2)+'" height="10" fill="'+jet(k/(cbn2-1))+'"/>';
+    }
+    g+='<rect x="'+x0+'" y="'+cby2+'" width="'+(x1-x0)+'" height="10" fill="none" stroke="#1f2937" stroke-width="0.8"/>';
+    g+='<text x="'+x0+'" y="'+(cby2+21)+'" font-size="9.5" fill="#1f57a0" font-weight="700">อัด −'+fmt(sigMax,1)+' ksc</text>';
+    g+='<text x="'+xm+'" y="'+(cby2+21)+'" text-anchor="middle" font-size="9.5" fill="#5b6b52" font-weight="700">0</text>';
+    g+='<text x="'+x1+'" y="'+(cby2+21)+'" text-anchor="end" font-size="9.5" fill="#c0392b" font-weight="700">ดึง +'+fmt(sigMax,1)+' ksc</text>';
+    g+='</svg>';
+    var capTxt = (I.mode==='tapered')
+      ? 'หน้าตัดเรียวลด — σ(x) แปรตามทั้ง M(x) และ h(x) · σ สูงสุด ≈ '+fmt(sigMax,1)+' ksc ที่ x ≈ '+fmt(sigMax_x,2)+' m จากที่รองรับ'
+      : 'พื้นยื่นรับโมเมนต์ลบ — ผิวบนรับแรงดึงทุกหน้าตัด (วางเหล็กหลักผิวบน) · σ สูงสุดที่ที่รองรับ ≈ '+fmt(sigMax,1)+' ksc';
+    document.getElementById('anaSide').innerHTML=g+'<div class="cap">'+capTxt+'</div>';
+  })();
+
+  // ---------- heatmap Top View — ผิวบน / ผิวล่าง ----------
+  var W=680, PX0=132, PX1=566, DW=PX1-PX0, xMid=(PX0+PX1)/2;
+  var DH=Math.max(58,Math.min(132, DW*L/I.B));
+  var yA0=64, yA1=yA0+DH, yB0=yA1+50, yB1=yB0+DH;
+  var cby=yB1+44, H=cby+32;
+  var nr=92;
+  var s='<svg viewBox="0 0 '+W+' '+H+'" font-family="Sarabun,sans-serif">';
+  s+='<rect width="'+W+'" height="'+H+'" fill="#fff"/>';
+  var topTitle = (I.mode==='tapered')
+    ? 'การกระจายหน่วยแรงดัด — มุมมองจากด้านบน (Tapered) · σ(x) = 6M(x) / h(x)²'
+    : 'การกระจายหน่วยแรงดัด — มุมมองจากด้านบน (Top View) · σ = 6M / t²';
+  var topSub = (I.mode==='tapered')
+    ? 'พื้นยื่นเรียวลด — แถบสี normalize ด้วย σ ที่ตำแหน่งแต่ละจุด · σ ของจริงคำนวณจากทั้ง M(x) และ h(x)'
+    : 'พื้นยื่นพาดทางช่วงยื่น L — แถบหน่วยแรงขนานที่รองรับ สม่ำเสมอตลอดความกว้าง B · Wu = '+fmt(w,0)+' kg/m²';
+  s+='<text x="'+(W/2)+'" y="20" text-anchor="middle" font-size="12.5" font-weight="800" fill="#1f2937">'+topTitle+'</text>';
+  s+='<text x="'+(W/2)+'" y="35" text-anchor="middle" font-size="9" fill="#64748b">'+topSub+'</text>';
+  function tag(x,y,txt){
+    return '<text x="'+x+'" y="'+y+'" text-anchor="middle" font-size="9" font-weight="800" fill="#fff" stroke="#1f2937" stroke-width="2.4" paint-order="stroke">'+txt+'</text>';
+  }
+  function panel(y0,y1,face,title){
+    var g='',i, rh=DH/nr;
+    var sigMaxAll2 = Math.max(sigMax_val,1);
+    for(i=0;i<nr;i++){
+      var xc=L*(i+0.5)/nr;
+      var M=Mx(xc), hc=R.h_x(xc);            // i=0 ที่รองรับ .. i=nr ปลายอิสระ
+      // σ extreme fiber: top = +6M/h² when M>0 (hogging, M<0 → top tension positive)
+      var sg = (face==='top'? -M : M)*6/(hc*hc);
+      var n  = sg / sigMaxAll2;
+      n = Math.max(-1, Math.min(1, n));
+      g+='<rect x="'+PX0+'" y="'+(y0+i*rh).toFixed(2)+'" width="'+DW+'" height="'+(rh+0.6).toFixed(2)+'" fill="'+jet((n+1)/2)+'"/>';
+    }
+    g+='<rect x="'+PX0+'" y="'+y0+'" width="'+DW+'" height="'+DH+'" fill="none" stroke="#1f2937" stroke-width="1.7"/>';
+    g+='<line x1="'+PX0+'" y1="'+y0+'" x2="'+PX1+'" y2="'+y0+'" stroke="#475569" stroke-width="3.6"/>';   // ขอบที่รองรับ
+    g+='<line x1="'+PX0+'" y1="'+y1+'" x2="'+PX1+'" y2="'+y1+'" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="6 4"/>'; // ปลายอิสระ
+    g+='<text x="'+PX0+'" y="'+(y0-14)+'" font-size="10.5" font-weight="800" fill="#1f2937">'+title+'</text>';
+    g+='<text x="'+(PX1+9)+'" y="'+(y0+4)+'" font-size="9" fill="#475569" font-weight="700">ที่รองรับ</text>';
+    g+='<text x="'+(PX1+9)+'" y="'+(y1+4)+'" font-size="9" fill="#475569" font-weight="700">ปลายอิสระ</text>';
+    return g;
+  }
+  s+=panel(yA0,yA1,'top','ผิวบนของพื้น (Top Face) — ตำแหน่งเหล็กหลัก');
+  s+=panel(yB0,yB1,'bot','ผิวล่างของพื้น (Bottom Face)');
+  s+=tag(xMid,yA0+DH*0.16,'แรงดึงสูงสุด · เหล็กหลัก')+tag(xMid,yA0+DH*0.78,'แรงดึง');
+  s+=tag(xMid,yB0+DH*0.16,'แรงอัดสูงสุด')+tag(xMid,yB0+DH*0.78,'แรงอัด');
+  // ลูกศรทิศทางพาด L
+  var ax=PX0-36;
+  s+='<line x1="'+ax+'" y1="'+yA0+'" x2="'+ax+'" y2="'+yA1+'" stroke="#1f57a0" stroke-width="1.4"/>';
+  s+='<polygon points="'+ax+','+yA0+' '+(ax-4)+','+(yA0+9)+' '+(ax+4)+','+(yA0+9)+'" fill="#1f57a0"/>';
+  s+='<polygon points="'+ax+','+yA1+' '+(ax-4)+','+(yA1-9)+' '+(ax+4)+','+(yA1-9)+'" fill="#1f57a0"/>';
+  s+='<text x="'+(ax-7)+'" y="'+((yA0+yA1)/2)+'" text-anchor="middle" font-size="9.5" fill="#1f57a0" font-weight="800" transform="rotate(-90 '+(ax-7)+' '+((yA0+yA1)/2)+')">ช่วงยื่น L = '+fmt(L,2)+' m</text>';
+  var yL=yB1+24;
+  s+='<line x1="'+PX0+'" y1="'+yL+'" x2="'+PX1+'" y2="'+yL+'" stroke="#64748b" stroke-width="1"/>';
+  s+='<line x1="'+PX0+'" y1="'+(yL-4)+'" x2="'+PX0+'" y2="'+(yL+4)+'" stroke="#64748b" stroke-width="1"/>';
+  s+='<line x1="'+PX1+'" y1="'+(yL-4)+'" x2="'+PX1+'" y2="'+(yL+4)+'" stroke="#64748b" stroke-width="1"/>';
+  s+='<text x="'+xMid+'" y="'+(yL-5)+'" text-anchor="middle" font-size="9.5" fill="#475569" font-weight="700">ความกว้าง B = '+fmt(I.B,2)+' m (หน่วยแรงสม่ำเสมอ)</text>';
+  var cbn=60;
+  for(var k=0;k<cbn;k++){
+    s+='<rect x="'+(PX0+DW*k/cbn).toFixed(2)+'" y="'+cby+'" width="'+(DW/cbn+0.6).toFixed(2)+'" height="10" fill="'+jet(k/(cbn-1))+'"/>';
+  }
+  s+='<rect x="'+PX0+'" y="'+cby+'" width="'+DW+'" height="10" fill="none" stroke="#1f2937" stroke-width="0.8"/>';
+  s+='<text x="'+PX0+'" y="'+(cby+21)+'" font-size="9.5" fill="#1f57a0" font-weight="700">อัด −'+fmt(sigMax,1)+' ksc</text>';
+  s+='<text x="'+xMid+'" y="'+(cby+21)+'" text-anchor="middle" font-size="9.5" fill="#5b6b52" font-weight="700">0</text>';
+  s+='<text x="'+PX1+'" y="'+(cby+21)+'" text-anchor="end" font-size="9.5" fill="#c0392b" font-weight="700">ดึง +'+fmt(sigMax,1)+' ksc</text>';
+  s+='</svg>';
+  document.getElementById('anaHeat').innerHTML=s
+    +'<div class="cap">มองจากด้านบนลงบนแผ่นพื้น (สัดส่วนจริง B × L) — ผิวบนรับแรงดึงตลอดช่วง สูงสุดที่ที่รองรับ (วางเหล็กหลัก) · ผิวล่างรับแรงอัด · σ สูงสุด ≈ '+fmt(sigMax,1)+' ksc</div>';
+
+  // ---------- BMD / SFD ----------
+  function strip(vals,title,unit,posCol,negCol,flip){
+    var w2=330,h2=178, mx0=22,mx1=w2-22, base=h2/2+8, amp=h2/2-42;
+    var vmax=1e-6; vals.forEach(function(v){ vmax=Math.max(vmax,Math.abs(v)); });
+    function px(i){ return mx0+(mx1-mx0)*i/(vals.length-1); }
+    function py(v){ return base + (flip?1:-1)*(v/vmax)*amp; }
+    var bw=(mx1-mx0)/vals.length+0.7;
+    var g='<svg viewBox="0 0 '+w2+' '+h2+'" font-family="Sarabun,sans-serif"><rect width="'+w2+'" height="'+h2+'" fill="#fff"/>';
+    g+='<text x="'+(w2/2)+'" y="15" text-anchor="middle" font-size="10.5" fill="#64748b">'+title+'  ('+unit+')</text>';
+    vals.forEach(function(v,i){
+      g+='<line x1="'+px(i).toFixed(1)+'" y1="'+base+'" x2="'+px(i).toFixed(1)+'" y2="'+py(v).toFixed(1)+'" stroke="'+(v>=0?posCol:negCol)+'" stroke-width="'+bw.toFixed(1)+'" opacity=".5"/>';
+    });
+    g+='<polyline points="'+vals.map(function(v,i){return px(i).toFixed(1)+','+py(v).toFixed(1);}).join(' ')+'" fill="none" stroke="#1f2937" stroke-width="1.5"/>';
+    g+='<line x1="'+mx0+'" y1="'+base+'" x2="'+mx1+'" y2="'+base+'" stroke="#1f2937" stroke-width="1.4"/>';
+    var iM=0,im=0; vals.forEach(function(v,i){ if(v>vals[iM])iM=i; if(v<vals[im])im=i; });
+    if(vals[iM]>1e-3) g+='<text x="'+px(iM).toFixed(1)+'" y="'+(py(vals[iM])+(flip?14:-6)).toFixed(1)+'" text-anchor="middle" font-size="10" font-weight="800" fill="#1f2937">'+fmt(vals[iM],1)+'</text>';
+    if(vals[im]<-1e-3) g+='<text x="'+px(im).toFixed(1)+'" y="'+(py(vals[im])+(flip?-6:14)).toFixed(1)+'" text-anchor="middle" font-size="10" font-weight="800" fill="#1f2937">'+fmt(vals[im],1)+'</text>';
+    g+='<text x="'+(mx0+2)+'" y="'+(h2-6)+'" font-size="8.5" fill="#94a3b8" font-weight="700">ที่รองรับ</text>';
+    g+='<text x="'+(mx1-2)+'" y="'+(h2-6)+'" text-anchor="end" font-size="8.5" fill="#94a3b8" font-weight="700">ปลายอิสระ</text>';
+    return g+'</svg>';
+  }
+  document.getElementById('anaBMD').innerHTML=strip(Ms,'แผนภาพโมเมนต์ดัด M(x)','kg·m','#F58220','#3a7bd5',false)
+    +'<div class="cap">โมเมนต์ลบ (hogging) สูงสุดที่ที่รองรับ = −'+fmt(Mmax,0)+' kg·m เป็นศูนย์ที่ปลายอิสระ</div>';
+  document.getElementById('anaSFD').innerHTML=strip(Vs,'แผนภาพแรงเฉือน V(x)','kg','#0E9F6E','#3a7bd5',false)
+    +'<div class="cap">แรงเฉือนสูงสุดที่ที่รองรับ ลดลงสู่ปลายอิสระ (เหลือเท่ากับ FIN)</div>';
+}
+
+/* ===== แบบเสริมเหล็ก 3 มิติ — Three.js ===== */
+var V3=null;
+var TONES={
+  light:{bg:['#ffffff','#e9edf2'],grid:[0xaeb4be,0xd6dae0],edge:0x5b6470},
+  soft :{bg:['#eef1f6','#ccd3dd'],grid:[0x9aa2af,0xbfc6cf],edge:0x4a5560},
+  dark :{bg:['#26354b','#0b1018'],grid:[0x46566d,0x2b3648],edge:0xe2e8f0}
+};
+function draw3D(I,R){
+  var host=document.getElementById('v3d');
+  if(typeof THREE==='undefined'){
+    var msg=host&&host.querySelector('.v3d-msg');
+    if(msg) msg.textContent='โหลดไลบรารี 3 มิติไม่สำเร็จ — ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต';
+    return;
+  }
+  var L=I.L, B=I.B, tm=R.t/100, cov=I.cov/100;
+  var big=Math.max(L,B,0.5);
+  var realM=I.mainDia/1000, realT=I.tempDia/1000;
+  var sizeMode=(V3&&V3.sizeMode)||'show', dMain, dTemp;
+  // ── ขนาดเหล็กในภาพแบบ "ไม่มีทางชนกัน" (clash-free) — พื้นยื่นเสริมผิวบน (เหล็กหลัก + เหล็กแจกแรง) ──
+  var _clear=Math.max(tm-2*cov,0.012);
+  var _spMin=Math.min((chosen[0]>0?chosen[0]:0.20),(chosenTemp>0?chosenTemp:0.15));
+  var _dCap=Math.max(0.003, Math.min(_clear*0.20, _spMin*0.46));
+  if(sizeMode==='real'){
+    dMain=Math.min(realM,_dCap); dTemp=Math.min(realT,_dCap);
+  }else{
+    dMain=Math.min(Math.max(realM*1.6,0.005),_dCap);
+    dTemp=Math.min(Math.max(realT*1.3,0.004),_dCap);
+  }
+  if(!V3){
+    var cv=document.getElementById('cv3d');
+    var renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    var scene=new THREE.Scene();
+    var camera=new THREE.PerspectiveCamera(40,1,0.01,1000);
+    scene.add(new THREE.HemisphereLight(0xffffff,0xc4cbd4,0.72));
+    var d1=new THREE.DirectionalLight(0xffffff,0.60); d1.position.set(4,7,5); scene.add(d1);
+    var d2=new THREE.DirectionalLight(0xdfe6ef,0.26); d2.position.set(-5,3,-4); scene.add(d2);
+    var group=new THREE.Group(); scene.add(group);
+    V3={renderer:renderer,scene:scene,camera:camera,group:group,grid:null,layers:null,
+        tone:'light',sizeMode:'show',gridSize:big*4.5,gridY:0,
+        az:-0.8,pol:0.92,r:big*1.95,drag:false,px:0,py:0,idle:0,
+        show:{slab:true,main:true,temp:true,sup:true,grid:true},
+        mats:{
+          slab:new THREE.MeshStandardMaterial({color:0xb3b9c1,transparent:true,opacity:0.62,roughness:.88,metalness:0,side:THREE.DoubleSide,depthWrite:false}),
+          edge:new THREE.LineBasicMaterial({color:0x5b6470,transparent:true,opacity:.6}),
+          sup :new THREE.MeshStandardMaterial({color:0xb3b8c0,roughness:.9,metalness:0}),
+          main:new THREE.MeshStandardMaterial({color:0xe5392c,roughness:.55,metalness:0,transparent:true,opacity:1}),
+          temp:new THREE.MeshStandardMaterial({color:0x2f7fe0,roughness:.55,metalness:0,transparent:true,opacity:1})
+        }};
+    var gradTex=function(c0,c1){
+      var bc=document.createElement('canvas'); bc.width=4; bc.height=256;
+      var g=bc.getContext('2d'), gr=g.createLinearGradient(0,0,0,256);
+      gr.addColorStop(0,c0); gr.addColorStop(1,c1);
+      g.fillStyle=gr; g.fillRect(0,0,4,256);
+      return new THREE.CanvasTexture(bc);
+    };
+    var setGrid=function(){
+      if(V3.grid){ V3.scene.remove(V3.grid); if(V3.grid.geometry) V3.grid.geometry.dispose(); }
+      var T=TONES[V3.tone]||TONES.light;
+      V3.grid=new THREE.GridHelper(V3.gridSize,30,T.grid[0],T.grid[1]);
+      V3.grid.position.y=V3.gridY; V3.grid.visible=V3.show.grid;
+      V3.scene.add(V3.grid);
+    };
+    var applyTone=function(t){
+      V3.tone=t; var T=TONES[t]||TONES.light;
+      V3.scene.background=gradTex(T.bg[0],T.bg[1]);
+      V3.mats.edge.color.set(T.edge);
+      setGrid();
+    };
+    applyTone('light');
+    var dragStart=function(x,y){ V3.drag=true; V3.px=x; V3.py=y; V3.idle=0; };
+    var dragMove=function(x,y){
+      if(!V3.drag) return;
+      V3.az-=(x-V3.px)*0.01; V3.pol-=(y-V3.py)*0.01;
+      V3.pol=Math.max(0.12,Math.min(1.52,V3.pol));
+      V3.px=x; V3.py=y; V3.idle=0;
+    };
+    cv.addEventListener('mousedown',function(e){ dragStart(e.clientX,e.clientY); });
+    window.addEventListener('mousemove',function(e){ dragMove(e.clientX,e.clientY); });
+    window.addEventListener('mouseup',function(){ V3.drag=false; });
+    cv.addEventListener('wheel',function(e){
+      e.preventDefault();
+      V3.r*=(e.deltaY>0?1.1:0.9);
+      V3.r=Math.max(big*0.35,Math.min(big*7,V3.r));
+    },{passive:false});
+    cv.addEventListener('touchstart',function(e){ if(e.touches[0]) dragStart(e.touches[0].clientX,e.touches[0].clientY); },{passive:true});
+    cv.addEventListener('touchmove',function(e){ if(e.touches[0]) dragMove(e.touches[0].clientX,e.touches[0].clientY); },{passive:true});
+    cv.addEventListener('touchend',function(){ V3.drag=false; });
+    document.querySelectorAll('#v3dToggles button').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var k=btn.dataset.layer;
+        V3.show[k]=!V3.show[k];
+        btn.classList.toggle('on',V3.show[k]);
+        if(V3.grid) V3.grid.visible=V3.show.grid;
+        if(V3.layers&&V3.layers[k]) V3.layers[k].visible=V3.show[k];
+      });
+    });
+    document.querySelectorAll('#v3dTone button').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        document.querySelectorAll('#v3dTone button').forEach(function(b){ b.classList.toggle('on',b===btn); });
+        applyTone(btn.dataset.tone);
+      });
+    });
+    document.querySelectorAll('#v3dColors input').forEach(function(inp){
+      inp.addEventListener('input',function(){
+        var mat=inp.dataset.mat;
+        if(V3.mats[mat]) V3.mats[mat].color.set(inp.value);
+        var lg=document.querySelector('.v3d-legend i[data-leg="'+mat+'"]'); if(lg) lg.style.background=inp.value;
+        var tb=document.querySelector('#v3dToggles button[data-layer="'+mat+'"] i'); if(tb) tb.style.background=inp.value;
+      });
+    });
+    document.querySelectorAll('#v3dSize button').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        document.querySelectorAll('#v3dSize button').forEach(function(b){ b.classList.toggle('on',b===btn); });
+        V3.sizeMode=btn.dataset.size; render();
+      });
+    });
+    (function loop(){
+      requestAnimationFrame(loop);
+      var c=V3.camera, cvv=V3.renderer.domElement;
+      var w=cvv.clientWidth||1, h=cvv.clientHeight||1;
+      if(cvv.width!==w||cvv.height!==h){ V3.renderer.setSize(w,h,false); c.aspect=w/h; c.updateProjectionMatrix(); }
+      if(!V3.drag){ V3.idle++; if(V3.idle>110) V3.az+=0.0022; }
+      var sp=Math.sin(V3.pol);
+      c.position.set(V3.r*sp*Math.sin(V3.az), V3.r*Math.cos(V3.pol), V3.r*sp*Math.cos(V3.az));
+      c.lookAt(0,0,0);
+      V3.renderer.render(V3.scene,V3.camera);
+    })();
+  }
+  // ----- สร้าง/รีบิลด์เรขาคณิต -----
+  var grp=V3.group, MAT=V3.mats;
+  grp.traverse(function(o){ if(o.geometry) o.geometry.dispose(); });
+  while(grp.children.length) grp.remove(grp.children[0]);
+  var Lg={slab:new THREE.Group(),sup:new THREE.Group(),main:new THREE.Group(),temp:new THREE.Group()};
+  V3.layers=Lg;
+  Object.keys(Lg).forEach(function(k){ Lg[k].visible=V3.show[k]; grp.add(Lg[k]); });
+  if(V3.grid) V3.grid.visible=V3.show.grid;
+  function bar(layer,len,dia,axis,x,y,z,mat){
+    if(!(len>0)) return;
+    var m=new THREE.Mesh(new THREE.CylinderGeometry(dia/2,dia/2,len,12),mat);
+    if(axis==='x') m.rotation.z=Math.PI/2; else if(axis==='z') m.rotation.x=Math.PI/2;
+    m.position.set(x,y,z); m.renderOrder=2;
+    layer.add(m);
+  }
+  // ----- แผ่นพื้น —  uniform: BoxGeometry, tapered: BufferGeometry (ทรงคล้ายลิ่ม) -----
+  // B ตามแกน X , L (ยื่น) ตามแกน Z , ที่รองรับอยู่ขอบ z = −L/2
+  var hRm=R.h_root/100, hTm=R.h_tip/100;       // ความหนาจริง (m)
+  var topY = R.t/100 / 2;                       // กึ่งกลางพื้นถูกตั้งให้ตรงกับ uniform เดิม
+  var isTapered = (I.mode==='tapered');
+  var slabGeo;
+  if(isTapered){
+    // ทรงลิ่ม: ผิวบนเรียบที่ y = topY ; ผิวล่างเอียงจาก y = topY-hRm (ที่ z=-L/2) → y = topY-hTm (ที่ z=+L/2)
+    var yT = topY;
+    var yBR = topY - hRm;   // ผิวล่างที่ที่รองรับ
+    var yBT = topY - hTm;   // ผิวล่างที่ปลาย
+    var xLft=-B/2, xRgt=B/2, zRt=-L/2, zTp=L/2;
+    // 8 จุด:
+    // 0: (xLft, yT, zRt), 1: (xRgt, yT, zRt), 2: (xRgt, yT, zTp), 3: (xLft, yT, zTp)
+    // 4: (xLft, yBR, zRt), 5: (xRgt, yBR, zRt), 6: (xRgt, yBT, zTp), 7: (xLft, yBT, zTp)
+    var v=new Float32Array([
+      xLft,yT,zRt,  xRgt,yT,zRt,  xRgt,yT,zTp,  xLft,yT,zTp,
+      xLft,yBR,zRt, xRgt,yBR,zRt, xRgt,yBT,zTp, xLft,yBT,zTp
+    ]);
+    // หน้า (CCW เมื่อมองจากนอก): top 0-1-2-3, bottom 7-6-5-4, +X 1-5-6-2, -X 0-3-7-4, +Z 3-2-6-7, -Z 0-4-5-1
+    var idx=[
+      0,1,2, 0,2,3,                  // top
+      7,6,5, 7,5,4,                  // bottom (CCW จากด้านล่าง)
+      1,5,6, 1,6,2,                  // +X
+      0,3,7, 0,7,4,                  // -X
+      3,2,6, 3,6,7,                  // +Z (ปลายอิสระ)
+      0,4,5, 0,5,1                   // -Z (ที่รองรับ)
+    ];
+    slabGeo=new THREE.BufferGeometry();
+    slabGeo.setAttribute('position',new THREE.BufferAttribute(v,3));
+    slabGeo.setIndex(idx);
+    slabGeo.computeVertexNormals();
+  } else {
+    slabGeo=new THREE.BoxGeometry(B,tm,L);
+  }
+  Lg.slab.add(new THREE.Mesh(slabGeo,MAT.slab));
+  Lg.slab.add(new THREE.LineSegments(new THREE.EdgesGeometry(slabGeo),MAT.edge));
+  // ผนัง/คานรองรับ ที่ขอบยึดแน่น — สูงพอครอบความหนาที่รองรับ (h_root)
+  var hRootM = isTapered ? hRm : tm;
+  var bh=Math.max(0.40,hRootM*2.6), bw=Math.max(0.22,hRootM*1.6);
+  var wallTopY = isTapered ? topY : tm/2;
+  var wall=new THREE.Mesh(new THREE.BoxGeometry(B+bw,bh,bw),MAT.sup);
+  wall.position.set(0, wallTopY-bh/2, -L/2);
+  Lg.sup.add(wall);
+  V3.gridY=wallTopY-bh-0.02; if(V3.grid) V3.grid.position.y=V3.gridY;
+  var ix=B-2*cov, iz=L-2*cov;
+  // ขอ 90° ปลายเหล็ก (ขาแนวดิ่ง) — ตามแบบรูปตัด + ACI 318-19 Sec. 25.3.1 (หาง 12db)
+  function hookY(layer,dia,x,y,z,len,dir,mat){
+    if(!(len>0)) return;
+    var r=Math.min(Math.max(3*dia,0.018),len*.45),alongX=Math.abs(x/(ix||1))>Math.abs(z/(iz||1));
+    var sx=x<0?-1:1,sz=z<0?-1:1,p0=new THREE.Vector3(x,y,z),p1,p2;
+    if(alongX){p0.x=x-sx*r;p1=new THREE.Vector3(x-sx*r*.28,y+dir*r*.28,z);p2=new THREE.Vector3(x,y+dir*r,z);}
+    else{p0.z=z-sz*r;p1=new THREE.Vector3(x,y+dir*r*.28,z-sz*r*.28);p2=new THREE.Vector3(x,y+dir*r,z);}
+    var bend=new THREE.Mesh(new THREE.TubeGeometry(new THREE.QuadraticBezierCurve3(p0,p1,p2),8,dia/2,8,false),mat);
+    bend.renderOrder=2;layer.add(bend);
+    var straight=Math.max(0,len-r);
+    if(straight>0){var m=new THREE.Mesh(new THREE.CylinderGeometry(dia/2,dia/2,straight,12),mat);m.position.set(x,y+dir*(r+straight/2),z);m.renderOrder=2;layer.add(m);}
+  }
+  var realMainM=I.mainDia/1000;
+  if(window.CKWireMesh&&CKWireMesh.isActive&&CKWireMesh.isActive()){
+    var wm=CKWireMesh.state.product||CKWireMesh.CATALOG[0],wmDia=wm.dia/1000,wmSp=wm.spacing/1000;
+    var wmLayout=CKWireMesh.sheetLayout(ix,iz,wm,CKWireMesh.state.sheet);
+    CKWireMesh.addThreePanels(THREE,Lg.main,MAT.main,wmLayout,{dia:wmDia,spacing:wmSp,y:topY-cov-wmDia/2});
+    Lg.main.userData.status='HOLD';
+    Lg.main.userData.reason='Cantilever support anchorage requires verified straight embedment or supplemental bars; do not field-bend WWR 90 degrees';
+    return;
+  }
+  // ขางอลงเข้าผนัง (ด้านที่รองรับ) — ยึดเหล็กหลักเข้า support ตามแบบ
+  var legSup=Math.min(Math.max(12*realMainM, hRootM*0.8), bh*0.9);
+  // ขางอลงที่ปลายอิสระ — จำกัดด้วยความหนาปลาย
+  var tipTh=(isTapered?hTm:tm);
+  var legTip=Math.min(12*realMainM, Math.max(tipTh-2*cov, 0.02));
+  // เหล็กหลัก (ผิวบน) — พาดตามแนวยื่น (แกน Z) — งอลงเข้าผนังที่รองรับ + งอลงปลายอิสระ
+  var spM=chosen[0]>0?chosen[0]:0.2;
+  var nM=Math.min(70,Math.max(2,Math.round(B/spM)+1));
+  var yMain=topY-cov-dMain/2;
+  for(var i=0;i<nM;i++){
+    var xb=-B/2+cov+ix*i/(nM-1);
+    bar(Lg.main,iz,dMain,'z',xb,yMain,0,MAT.main);
+    hookY(Lg.main,dMain,xb,yMain,-iz/2,legSup,-1,MAT.main);   // งอเข้าผนัง (support)
+    hookY(Lg.main,dMain,xb,yMain, iz/2,legTip,-1,MAT.main);   // งอลงปลายอิสระ
+  }
+  // เหล็กแจกแรง — ขนานที่รองรับ (แกน X) ใต้เหล็กหลัก
+  var spT=chosenTemp>0?chosenTemp:0.10;
+  var nT=Math.min(80,Math.max(2,Math.round(L/spT)+1));
+  var yTemp=topY-cov-dMain-dTemp/2;
+  for(i=0;i<nT;i++) bar(Lg.temp,ix,dTemp,'x',0,yTemp,-L/2+cov+iz*i/(nT-1),MAT.temp);
+}
+
+document.querySelectorAll('input,select').forEach(function(el){
+  el.addEventListener('input',function(){
+    if(el.classList.contains('v3color')) return;
+    if(!el.classList.contains('spc') && !el.classList.contains('spct')){ chosen={}; chosenTemp=undefined; }
+    render();
+  });
+});
+
+/* ===== สลับโหมดหน้าตัด (uniform / tapered) ===== */
+document.querySelectorAll('.seg-btn[data-secmode]').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.seg-btn[data-secmode]').forEach(function(b){
+      b.classList.toggle('on', b===btn);
+    });
+    sectionMode = btn.dataset.secmode;
+    document.querySelectorAll('.uniform-only').forEach(function(e){ e.style.display = (sectionMode==='uniform')?'':'none'; });
+    document.querySelectorAll('.tapered-only').forEach(function(e){ e.style.display = (sectionMode==='tapered')?'':'none'; });
+    chosen={}; chosenTemp=undefined;
+    render();
+  });
+});
+
+/* ===== เปิด/ปิดส่วนออกแบบคานรองรับ ===== */
+document.getElementById('beamHead').addEventListener('click',function(){
+  beamEnabled = !beamEnabled;
+  document.getElementById('beamBody').style.display = beamEnabled ? '' : 'none';
+  document.getElementById('beamToggleIcon').textContent = beamEnabled ? '▴' : '▾';
+  if(beamEnabled) render();
+});
+
+/* ===== ปุ่ม "ใช้ขนาดที่แนะนำ" ===== */
+document.getElementById('b_applyRec').addEventListener('click',function(e){
+  e.stopPropagation();
+  if(!lastBeamRec) return;
+  document.getElementById('b_b').value = lastBeamRec.b;
+  document.getElementById('b_h').value = lastBeamRec.h;
+  if(lastBeamRec.nLegs) document.getElementById('b_nLegs').value = lastBeamRec.nLegs;
+  render();
+  this.textContent = '✓ ใช้แล้ว';
+  var self=this;
+  setTimeout(function(){ self.textContent = 'ใช้ขนาดที่แนะนำ'; }, 1500);
+});
+
+/* ชุด φ ตามกฎกระทรวง 2566 (ตาราง หน้า ๙) — สลับคอลัมน์ "มี/ไม่มี การระบุมาตรฐานงานก่อสร้าง"
+   ตั้งค่าลง input φ ที่ compute() อ่านอยู่แล้ว (ผู้ใช้ยังพิมพ์ทับเองได้) · จำค่าร่วมทั้งชุดผ่าน CKF.phiStd() */
+(function(){
+  var sel = document.getElementById("phiStd");
+  if(!sel) return;
+  function apply(k){
+    var p = CKF.phiSet(k), b = document.getElementById("phib"), v = document.getElementById("phiv");
+    if(b) b.value = p.flex.toFixed(2);
+    if(v) v.value = p.shear.toFixed(2);
+  }
+  sel.value = CKF.phiStd();
+  apply(sel.value);
+  sel.addEventListener("change", function(){ CKF.phiStd(sel.value); apply(sel.value); render(); });
+})();
+render();
+</script>
+
+  <!-- ระบบช่างคิด: บังคับ login + presence -->
+  <script>
+  /* Workstation config — สร้างแถว D/C จาก compute() (pure function) ของเครื่องมือนี้
+     แสดงผลอย่างเดียว ไม่แตะ engine */
+  window.WS_CONFIG={
+    rows:function(){
+      var I={
+        mode:sectionMode,
+        fc:num('fc'), fy1:num('fy1'), fy2:num('fy2'),
+        L:num('L'), B:num('B'), tdef:num('tdef'),
+        h_root:num('h_root'), h_tip:num('h_tip'),
+        cov:num('cov'),
+        combo:'1.4DL+1.7LL', phib:num('phib'), phiv:num('phiv'),
+        sdl:num('sdl'), ll:num('ll'), finw:num('finw'),
+        mainDia:parseFloat(document.getElementById('mainDia').value),
+        tempDia:parseFloat(document.getElementById('tempDia').value)
+      };
+      if(sectionMode==='uniform'){ I.h_root=I.tdef; I.h_tip=I.tdef; }
+      else { if(!isFinite(I.tdef)) I.tdef=I.h_root; }
+      for(var k in I){ if(typeof I[k]==='number'&&!isFinite(I[k])) return null; }
+      var R=compute(I);
+      var d1=document.getElementById('ws_d'); if(d1)d1.innerHTML=fmt(R.d,2)+' <small>cm.</small>';
+      var d2=document.getElementById('ws_mumax'); if(d2)d2.innerHTML=fmt(R.Mu,0)+' <small>kg·m</small>';
+      var rows=[];
+      if(I.mode==='tapered'){
+        rows.push({name:'การแอ่นตัวทันที',sub:'δ·tip / (L/180)',dem:R.delta_tip,cap:R.delta_limit,unit:'cm',ratio:R.delta_tip/R.delta_limit,ok:R.chkDefl});
+        rows.push({name:'การแอ่นตัวระยะยาว',sub:'δ·long / (L/240)',dem:R.delta_long,cap:R.delta_long_limit,unit:'cm',ratio:R.delta_long/R.delta_long_limit,ok:R.chkDeflLong});
+      } else {
+        rows.push({name:'ความหนาพื้น',sub:'t·min / t',dem:R.tmin,cap:R.t,unit:'cm',ratio:R.tmin/R.t,ok:R.chkThick});
+      }
+      rows.push({name:'ความลึกประสิทธิผล',sub:'d·req / d',dem:R.dreq,cap:R.d,unit:'cm',ratio:R.dreq/R.d,ok:R.chkDepth});
+      rows.push({name:'แรงเฉือน',sub:'Vu / φVc',dem:R.Vu,cap:R.phiVc,unit:'kg',ratio:R.Vu/R.phiVc,ok:R.chkShear});
+      (function(){
+        var use=chosen[0], ok=isFinite(use)&&use<=R.SmaxMain+1e-9;
+        rows.push({name:'ระยะเรียงเหล็กหลัก (ผิวบน)',sub:'S·use / S·max',dem:use,cap:R.SmaxMain,unit:'m',ratio:use/R.SmaxMain,ok:ok});
+      })();
+      (function(){
+        var ok=isFinite(chosenTemp)&&chosenTemp<=R.SmaxTemp+1e-9;
+        rows.push({name:'ระยะเรียงเหล็กแจกแรง',sub:'S·use / S·max',dem:chosenTemp,cap:R.SmaxTemp,unit:'m',ratio:chosenTemp/R.SmaxTemp,ok:ok});
+      })();
+      return rows;
+    }
+  };
+  </script>
+  <script src="ws-layer.js"></script>
+  <script src="ws-3d.js"></script>
+  <script src="ck-report.js" defer></script>
+  <script src="/ck-guard.js" data-app="concrete-design" data-name="Concrete Design — Cantilever Slab"></script>
+  <script src="/ck-print-paywall.js" defer></script>
+  <script src="/ck-print-report.js?v=20260724-whitelabel2" defer></script>
+  <script src="/ck-report-paywall.js" defer></script>
+  <script src="ck-wire-mesh.js?v=20260724-wiremesh4" defer></script>
+  <script src="/ck-drawing-sheet.js?v=20260724-whitelabel2" defer></script>
+<script defer src="/ck-domain-notice.js?v=20260722-keepfix"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"51d44c46f0664993a85865a8f9efb4b8","r":1}' crossorigin="anonymous"></script>
+</body>
+</html>
