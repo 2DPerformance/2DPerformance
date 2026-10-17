@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="th" data-active-phase="P1" data-ui-comfort="v2">
+<head>
+    <meta name="robots" content="noindex, nofollow, noarchive" /><script src="/shared/account-workspace.js"></script><script src="/shared/account-frame-bootstrap.js" data-account-route="/new-building-v2"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>นายช่างใหญ่ Civil Apps · ออกแบบอาคารใหม่ V2</title>
+  <link rel="stylesheet" href="./fonts/sarabun/sarabun.css" />
+  <link rel="stylesheet" href="./guided-plan-workbench-mockup.d2c7d404fd.css">
+  <link rel="stylesheet" href="./guided-plan-compact-workshop.css?v=20260920-nbv2-floor-boundaries-v3" />
+  <link rel="stylesheet" href="./new-building-v2-load-workspace.css?v=20260920-nbv2-floor-boundaries-v3" media="screen" />
+  <link rel="stylesheet" href="./new-building-v2-overview.css?v=20260905-overview-v1" media="screen" />
+</head>
+<body>
+  <svg class="guided-icon-sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="guided-icon-project" viewBox="0 0 24 24"><path d="M3.5 7.5h6l2-2h9v13h-17z"/><path d="M3.5 9.5h17"/></symbol>
+      <symbol id="guided-icon-plan" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="1.5"/><path d="M3.5 10h17M10 3.5v17M15.5 10v10.5"/><circle cx="10" cy="10" r="1.35"/></symbol>
+      <symbol id="guided-icon-load" viewBox="0 0 24 24"><path d="M7 3.5v13M3.5 13 7 16.5 10.5 13M16.5 3.5v13M13 13l3.5 3.5L20 13"/><path d="M3.5 20.5h17"/></symbol>
+      <symbol id="guided-icon-analysis" viewBox="0 0 24 24"><path d="m6 7 6-3 6 4v8l-6 4-6-3zM6 7l6 5 6-4M12 12v8"/><circle cx="6" cy="7" r="1.5"/><circle cx="18" cy="8" r="1.5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+      <symbol id="guided-icon-design" viewBox="0 0 24 24"><path d="M4 5.5h16v13H4zM8 5.5v4M12 5.5v2.5M16 5.5v4"/><path d="M7 14h10M9.5 18.5v-4.5M14.5 18.5v-4.5"/></symbol>
+      <symbol id="guided-icon-result" viewBox="0 0 24 24"><path d="M4 19.5V5M4 19.5h16"/><path d="m6.5 15 3.2-4 3.2 2 4.6-6"/><circle cx="6.5" cy="15" r="1"/><circle cx="9.7" cy="11" r="1"/><circle cx="12.9" cy="13" r="1"/><circle cx="17.5" cy="7" r="1"/></symbol>
+      <symbol id="guided-icon-report" viewBox="0 0 24 24"><path d="M6 3.5h8l4 4v13H6zM14 3.5v4h4"/><path d="M9 11h6M9 14.5h6M9 18h4"/></symbol>
+      <symbol id="guided-icon-model" viewBox="0 0 24 24"><path d="m12 3.5 8 4.5-8 4.5L4 8zM4 12.5l8 4.5 8-4.5M4 17l8 4 8-4"/><path d="M12 12.5V17"/></symbol>
+    </defs>
+  </svg>
+  <main class="app inspector-collapsed" id="app" data-active-level="L_F1">
+    <header class="topbar">
+      <div class="brand" aria-label="นายช่างใหญ่ Civil Apps">
+        <img class="brand-mark" src="/brand/ncy-mark.svg" alt="" aria-hidden="true">
+        <div class="brand-copy"><strong>นายช่าง<span class="brand-accent">ใหญ่</span> Civil Apps</strong><small>ออกแบบอาคารใหม่ V2</small></div>
+      </div>
+      <div class="divider" aria-hidden="true"></div>
+      <button class="project-switcher" type="button" id="project-switcher" aria-label="เลือกโครงการ">
+        <span class="project-dot" aria-hidden="true"></span>
+        <span class="project-name"><strong>แบบก่อสร้าง ค.ส.ล. 2 ชั้น งานอ่อนนุช</strong><small>Project P4 · กรุงเทพฯ · fc' 240 ksc</small></span>
+        <span aria-hidden="true">⌄</span>
+      </button>
+      <div class="top-spacer"></div>
+      <span class="mockup-badge" title="แปลนเป็น Drawing Input · ผลวิศวกรรมมาจากการวิเคราะห์ภายใน"><span aria-hidden="true">◇</span> DRAWING INPUT</span>
+      <div class="p1-save-status-group">
+      <button class="p1-draft-save" type="button" id="p1-draft-save" title="บันทึก Drawing Record ปัจจุบันโดยอยู่หน้า P1 ต่อ"><span>บันทึกงาน</span><small id="p1-draft-save-count">เสา 0 ต้น</small></button>
+        <span id="nbv2-save-status-dock"></span>
+      </div>
+      <button class="p1-draft-save" type="button" id="p1-save-file" title="เลือกตำแหน่งบันทึกไฟล์ JSON รวมร่างที่ยังวาดไม่ครบ" disabled>บันทึกไฟล์…</button>
+      <button class="p1-draft-save" type="button" id="p1-download-draft" aria-label="ดาวน์โหลดสำรอง JSON" title="ดาวน์โหลดไฟล์ร่าง JSON โดยไม่ต้องเลือกตำแหน่ง" disabled>↓ JSON</button>
+      <div class="mode-switch" aria-label="โหมดการทำงาน">
+        <button type="button" class="active" data-mode="guided" aria-pressed="true" title="Guided · โหมดแนะนำ: ผู้ช่วยบอกขั้นถัดไปและแผงตั้งค่าเปิดอยู่">Guided</button>
+        <button type="button" data-mode="expert" aria-pressed="false" title="Expert · โหมดเต็มจอ: ซ่อนผู้ช่วย ใช้พื้นที่แปลนเต็ม เครื่องมือเหมือนเดิม">Expert</button>
+        <button type="button" data-mode="workshop" aria-pressed="false" title="แปลนซ้าย · 3D Drawing Input แบบเรียลไทม์ขวา">3D PLAN</button>
+      </div>
+      <button class="quiet-button" type="button" id="coach-open-button" aria-label="Demo authoring coach ถูกพักเพื่อความปลอดภัย" title="พักการใช้งานระหว่างปรับหลักสูตรคานซอย" hidden disabled aria-hidden="true">▶ Demo</button>
+      <div class="guided-flow-compact" id="guided-flow-compact" aria-label="ลำดับงานอาคารใหม่ V2 แบบย่อ">
+        <details id="guided-flow-details">
+          <summary aria-label="เปิดรายการขั้นตอน P0 ถึง P7">
+            <span class="guided-current-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use id="guided-flow-icon-use" href="#guided-icon-plan"></use></svg></span>
+            <span id="guided-flow-step">ขั้น 2/8</span>
+            <strong id="guided-flow-title">P1 · แปลน</strong>
+          </summary>
+          <div class="guided-flow-menu" role="menu">
+            <button type="button" data-guided-flow-phase="P0" role="menuitem"><span data-step="1"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-project"></use></svg></span><b>1</b><strong>โปรเจกต์</strong><small>ตั้งค่า</small></button>
+            <button type="button" data-guided-flow-phase="P1" role="menuitem"><span data-step="2"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-plan"></use></svg></span><b>2</b><strong>แปลน</strong><small>เขียนโครงสร้าง</small></button>
+            <button type="button" data-guided-flow-phase="P2" role="menuitem"><span data-step="3"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-load"></use></svg></span><b>3</b><strong>โหลด</strong><small>น้ำหนักใช้งาน</small></button>
+            <button type="button" data-guided-flow-phase="P3" role="menuitem"><span data-step="4"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-analysis"></use></svg></span><b>4</b><strong>วิเคราะห์+ออกแบบ</strong><small>คำสั่งเดียว</small></button>
+            <button type="button" data-guided-flow-phase="P4" role="menuitem" hidden><span data-step="4"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-design"></use></svg></span><b>4</b><strong>ทบทวนหน้าตัด</strong><small>ภายใน</small></button>
+            <button type="button" data-guided-flow-phase="P5" role="menuitem"><span data-step="5"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-result"></use></svg></span><b>5</b><strong>ผลออกแบบ + 3D</strong><small>ผลชุดเดียวกัน</small></button>
+            <button type="button" data-guided-flow-phase="P6" role="menuitem"><span data-step="6"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-report"></use></svg></span><b>6</b><strong>รายงาน</strong><small>A4</small></button>
+            <button type="button" data-guided-flow-phase="P7" role="menuitem" hidden><span data-step="5"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-model"></use></svg></span><b>5</b><strong>3D</strong><small>มุมมองภายใน</small></button>
+          </div>
+        </details>
+        <button class="guided-flow-next" id="guided-flow-next" type="button">ถัดไป · P2 <span aria-hidden="true">→</span></button><span class="guided-flow-next-reason" id="guided-flow-next-reason" role="status" hidden></span>
+      </div>
+    </header>
+
+    <nav class="phasebar" aria-label="ลำดับงานอาคารใหม่ V2">
+      <button class="phase active" type="button" data-phase="P1"><span class="phase-no"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-plan"></use></svg><span>2</span></span><span class="phase-copy"><strong>แปลน</strong><small>เขียนโครงสร้างทั้งหลัง</small></span></button>
+      <button class="phase" type="button" data-phase="P2" disabled><span class="phase-no"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-load"></use></svg><span>3</span></span><span class="phase-copy"><strong>โหลด</strong><small>รอขั้นแปลนก่อน</small></span></button>
+      <button class="phase" type="button" data-phase="P3" disabled><span class="phase-no"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-analysis"></use></svg><span>4</span></span><span class="phase-copy"><strong>วิเคราะห์+ออกแบบ</strong><small>คำสั่งเดียวถึงผล</small></span></button>
+      <button class="phase" type="button" data-phase="P4" hidden><span class="phase-no"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-design"></use></svg><span>4</span></span><span class="phase-copy"><strong>ทบทวนหน้าตัด</strong><small>ขั้นภายใน</small></span></button>
+      <button class="phase" type="button" data-phase="P5"><span class="phase-no"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-result"></use></svg><span>5</span></span><span class="phase-copy"><strong>ผลออกแบบ + 3D</strong><small>ผลชุดเดียวกัน</small></span></button>
+      <button class="phase" type="button" data-phase="P6"><span class="phase-no"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-report"></use></svg><span>6</span></span><span class="phase-copy"><strong>รายงาน</strong><small>จากผลชุดเดียวกัน</small></span></button>
+      <button class="phase" type="button" data-phase="P7" hidden><span class="phase-no"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#guided-icon-model"></use></svg><span>5</span></span><span class="phase-copy"><strong>3D</strong><small>มุมมองภายในผลออกแบบ</small></span></button>
+    </nav>
+
+    <section class="p1-start-screen" id="p1-start-screen" aria-labelledby="p1-start-title">
+      <div class="p1-start-shell">
+        <header class="p1-start-head">
+          <div>
+            <span class="p1-start-kicker">P1 · START FROM EMPTY</span>
+            <h1 id="p1-start-title">สร้างอาคารและ Level ก่อนเปิดหน้าแปลน</h1>
+            <p>กำหนดชั้นและระดับจริงก่อน ทุก Grid, เสา, คาน, พื้น และบันไดจะอ้างอิง Level ID ชุดนี้ รอบทดลองยังไม่สร้างวัตถุใดจนกด Commit</p>
+          </div>
+          <span class="p1-start-status" id="p1-start-status">DRAFT · 0 OBJECTS</span>
+        </header>
+        <div class="p1-start-layout">
+          <section class="level-section-preview" aria-label="ภาพช่วยตั้งระดับอาคาร">
+            <h2>ภาพช่วยตั้งระดับอาคาร</h2>
+            <p id="level-house-drag-help">กดค้างเส้น Level แล้วลากขึ้นลง ดับเบิลคลิกตัวเลขเพื่อพิมพ์ หรือปรับค่าด้านขวา</p>
+            <div class="level-house-frame">
+              <svg class="level-house-svg" id="level-house-svg" viewBox="0 0 420 330" role="img" aria-labelledby="level-house-title level-house-desc">
+                <title id="level-house-title">ภาพตัดบ้านจำลองจากค่า Level Draft</title>
+                <desc id="level-house-desc">แสดงฐานราก พื้นชั้นหนึ่ง พื้นชั้นสอง หลังคา และเส้นระดับศูนย์เป็นภาพช่วยตั้งค่า ไม่ใช่แบบก่อสร้างและไม่ใช่มาตราส่วนจริง</desc>
+                <g id="level-house-geometry"></g>
+              </svg>
+              <div class="level-house-inline-editor" id="level-house-inline-editor" hidden>
+                <input id="level-house-inline-input" type="number" step="0.05" inputmode="decimal" autocomplete="off" aria-label="แก้ระดับ Level เมตร" />
+                <span>ม.</span>
+              </div>
+              <div class="level-house-caption"><strong>SCHEMATIC · NOT TO SCALE</strong><span>รูปทรงหลังคา/ฐานเป็นสัญลักษณ์ ไม่กำหนดจุดอ้างอิงหรือขนาดสมาชิก</span></div>
+            </div>
+          </section>
+          <section class="level-editor" aria-label="กำหนด Level">
+            <h2>Level Draft</h2>
+            <p id="level-draft-description">เรียงจากหลังคาลงถึงฐานราก ค่าเริ่มต้นยังไม่เขียนเข้าโมเดลจริง</p>
+            <div class="level-preset-row" aria-label="วิธีกำหนด Level">
+              <button type="button" class="active" data-level-preset="2-storey" aria-pressed="true" aria-controls="level-draft-table">บ้าน 2 ชั้น</button>
+              <button type="button" data-level-preset="custom" aria-pressed="false" aria-controls="level-draft-table">กำหนดเอง</button>
+            </div>
+            <div class="level-add-actions" aria-label="เพิ่มระดับอาคาร">
+              <button type="button" id="add-floor-level">＋ เพิ่มชั้นด้านบน</button>
+              <button type="button" id="add-roof-level">＋ เพิ่มระดับรับหลังคา</button>
+            </div>
+            <div class="level-table" id="level-draft-table">
+              <div id="level-draft-rows"></div>
+            </div>
+            <div class="level-editor-note" id="level-editor-note" role="status" aria-live="polite"><strong>ยังไม่สร้างแปลน</strong> หลัง Commit ระบบจึงเปิดขั้น 1 Grid และแสดงเพียง Grid Preview บน canvas ว่าง</div>
+            <div class="p1-start-actions">
+              <button class="outline-button" type="button" id="cancel-level-edit" hidden>กลับหน้าแปลน</button>
+              <button class="primary-button" type="button" id="commit-levels">Commit Level แล้วเริ่มขั้น 1 · Grid</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="workspace" id="p1-workspace" hidden>
+      <aside class="guide" aria-label="ลำดับงาน P1" hidden aria-hidden="true">
+        <div class="guide-head">
+          <div class="guide-index">30</div>
+          <div><h2>ต้นแบบ P1 สำหรับเป้าหมาย 30 นาที</h2><p>รอบนี้สาธิตการเขียนแปลน 25 นาที ยังไม่รวมเวลาคำนวณ P2–P7</p></div>
+        </div>
+        <div class="time-budget">
+          <span>เวลาเป้าหมายตาม Commit</span><strong id="elapsed">00:00</strong>
+          <div class="progress-track" aria-label="ความคืบหน้า 33 เปอร์เซ็นต์"><i id="progress-fill"></i></div>
+        </div>
+        <div class="guide-list">
+          <button class="guide-step done" type="button" data-guide-tool="level" aria-label="เริ่มต้น สร้าง Level">
+            <span class="step-mark">✓</span><span class="step-copy"><strong>Level</strong><small id="guide-level-copy">4 Level · Commit แล้ว</small></span><span class="step-time">2 นาที</span>
+          </button>
+          <button class="guide-step current" type="button" data-guide-tool="grid" aria-label="ขั้น 1 สร้าง Grid">
+            <span class="step-mark">1</span><span class="step-copy"><strong>Grid</strong><small id="guide-grid-copy">กำหนดระยะ X/Y แล้ว Commit</small></span><span class="step-time">3 นาที</span>
+          </button>
+          <button class="guide-step" type="button" data-guide-tool="column" aria-label="ขั้น 2 เสาและคานหลัก" disabled>
+            <span class="step-mark">2</span><span class="step-copy"><strong>เสา/คาน</strong><small id="guide-frame-copy">LOCKED · รอ Commit Grid</small></span><span class="step-time">6 นาที</span>
+          </button>
+          <button class="guide-step" type="button" data-guide-tool="slab" aria-label="ขั้น 3 ระบบพื้น" disabled>
+            <span class="step-mark">3</span><span class="step-copy"><strong>ระบบพื้น</strong><small id="guide-floor-copy">LOCKED · รอ Commit เสา/คาน</small></span><span class="step-time">6 นาที</span>
+          </button>
+          <button class="guide-step" type="button" data-guide-tool="opening" aria-label="ขั้น 4 บันไดและช่องเปิด" disabled>
+            <span class="step-mark">4</span><span class="step-copy"><strong>บันได/ช่องเปิด</strong><small id="guide-stair-copy">LOCKED · รอ Commit ระบบพื้น</small></span><span class="step-time">4 นาที</span>
+          </button>
+          <button class="guide-step" type="button" data-guide-tool="roof" aria-label="ขั้น 5 Auto Roof Drawing Input" disabled>
+            <span class="step-mark">5</span><span class="step-copy"><strong>หลังคา</strong><small id="guide-roof-copy">LOCKED · รอ Commit Grid</small></span><span class="step-time">4 นาที</span>
+          </button>
+          <button class="guide-step" type="button" data-guide-tool="review" aria-label="ขั้น 6 ตรวจพร้อมไป P2" disabled>
+            <span class="step-mark">6</span><span class="step-copy"><strong>พร้อมไป P2</strong><small>LOCKED · หลัง Roof 2D/3D</small></span><span class="step-time">ภายหลัง</span>
+          </button>
+        </div>
+        <div class="guide-tip"><strong>หลักคิดของ Guided Mode</strong><p>เลือกสิ่งที่ต้องการสร้าง ระบบจะถามเฉพาะค่าที่จำเป็น พร้อมแสดงผลลัพธ์บนแปลนก่อนยืนยัน</p></div>
+      </aside>
+
+      <section class="canvas-shell" aria-label="พื้นที่เขียนแปลน">
+        <div class="commandbar">
+          <div class="crumb"><strong id="current-level-label">ชั้น 1</strong><span>/</span><span id="current-plan-context">แปลนโครงสร้าง</span></div>
+          <span class="p1-draft-status" id="p1-draft-status"><span>LOCAL DRAFT</span><span class="is-hold" title="ANALYSIS ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้">รอบันทึก P1 · ยังไม่วิเคราะห์</span></span>
+          <button class="p1-workshop-visibility" type="button" data-p1-workshop-visibility data-p1-workshop-visibility-location="toolbar" aria-controls="p1-workshop-3d" aria-expanded="true" hidden><span aria-hidden="true">▥</span><span data-p1-workshop-visibility-label>ซ่อน 3D</span></button>
+          <button class="grid-edit-shortcut" type="button" id="grid-edit-shortcut" aria-label="กลับไปแก้ Grid และแทรก Grid ย่อย" title="เปิด Grid Draft โดยเก็บงานเสาและคานเดิมไว้จนกด Re-Commit" hidden><span class="shortcut-symbol" aria-hidden="true">#</span><span>แก้ Grid</span></button>
+          <div class="grid-draft-exit" id="grid-draft-exit" hidden><span class="grid-draft-status" data-grid-draft-status role="status" aria-live="polite" aria-atomic="true">GRID DRAFT · ล็อกวัตถุชั่วคราว</span><span class="grid-draft-actions" role="group" aria-label="คำสั่งออกจาก Grid Draft"><button type="button" data-grid-draft-exit="cancel">ยกเลิก · กลับแก้แปลน</button><button type="button" data-grid-draft-exit="confirm">ยืนยัน Grid</button></span></div>
+          <button class="grid-edit-shortcut pdf-underlay-shortcut" type="button" id="pdf-underlay-shortcut" aria-label="แทรก PDF แปลนสแกนเป็นภาพอ้างอิงใน P1" title="ยืนยัน Level ก่อน แล้วนำเข้า PDF เพื่อกำหนดจุดเริ่มและ Calibration 2 จุด" disabled><span class="shortcut-symbol" aria-hidden="true">PDF</span><span>แทรกแปลนสแกน</span></button>
+          <label class="grid-edit-shortcut" style="display:flex;align-items:center;gap:4px;font-size:11px">ขอบเขต<select id="analysis-roof-mode" aria-label="ขอบเขตหลังคาในการคำนวณ"><option value="included">รวมหลังคา</option><option value="excluded">ไม่รวมหลังคา</option></select></label>
+          <label class="grid-edit-shortcut" style="display:flex;align-items:center;gap:4px;font-size:11px" title="3D: โครงข้อแข็ง คสล. หน้าตัดเต็ม ฐานยึดแน่น ν=0.20 · แรงโน้มถ่วงอันดับหนึ่ง · ไม่มี diaphragm สมมติ">โมเดล<select id="analysis-frame-model" aria-label="โมเดลวิเคราะห์โครงสร้าง"><option value="plane_frame">กรอบระนาบ</option><option value="space_frame_gravity">3D · ฐานยึดแน่น ν=.20</option></select></label>
+          <button class="grid-edit-shortcut" type="button" id="drawing-load-path-review" aria-label="ตรวจจุดต่อและทดสอบการถ่ายแรง" title="ตรวจคาน พื้น และจุดรับแรงจากแปลนปัจจุบัน"><span class="shortcut-symbol" aria-hidden="true">↳</span><span>ตรวจจุดต่อ</span></button>
+          <div class="command-spacer"></div>
+          <div class="level-tabs" id="level-tabs" aria-label="เลือกชั้น">
+            <button type="button" data-level-tab="L_FND" disabled title="รอบทดลองนี้ยังไม่เปิดฐานราก" role="tab" aria-selected="false">ฐานราก</button><button type="button" class="active" data-level-tab="L_F1" role="tab" aria-selected="true" title="ชั้น 1 · พื้น GS บนดิน">ชั้น 1</button><button type="button" data-level-tab="L_F2" role="tab" aria-selected="false">ชั้น 2</button><button type="button" data-level-tab="L_RF" disabled title="Auto Roof เปิดหลัง Commit Grid" role="tab" aria-selected="false">หลังคา</button>
+          </div>
+          <span class="zoom-readout">FIT</span>
+          <button class="plan-clarity-toggle" type="button" id="plan-clarity-toggle" aria-pressed="false" title="โหมดอ่านแบบ · ซ่อนป้ายที่ซ้ำและรวมขอบพื้นที่ติดกันให้อ่านแนวโครงสร้างง่ายขึ้น · แสดงผลอย่างเดียว ไม่เปลี่ยนข้อมูล"><span aria-hidden="true">▤</span><span id="plan-clarity-label">อ่านแบบ</span></button>
+          <button class="inspector-toggle" type="button" id="inspector-toggle" aria-controls="tool-inspector" aria-expanded="false" title="เปิดหรือซ่อนแผงตั้งค่าเครื่องมือด้านขวา">
+            <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 4.5h12M3 9h12M3 13.5h12"/><circle cx="6" cy="4.5" r="1.5" fill="var(--surface)"/><circle cx="12" cy="9" r="1.5" fill="var(--surface)"/><circle cx="8" cy="13.5" r="1.5" fill="var(--surface)"/></svg>
+            <span class="inspector-toggle-label">เปิดแผงตั้งค่า</span>
+          </button>
+          <button class="tool-guide-toggle" type="button" id="tool-guide-toggle" aria-label="วิธีใช้งานเครื่องมือ" aria-controls="tool-quick-guide" aria-expanded="false" title="เปิดวิธีใช้งานของเครื่องมือที่กำลังเลือก"><span aria-hidden="true">?</span><span class="tool-guide-label">วิธีใช้งานเครื่องมือ</span></button>
+        </div>
+
+        <div class="canvas-meta" hidden aria-hidden="true">
+          <div class="viewport-header">
+            <div class="view-title"><strong id="view-title-main">แปลนโครงสร้างชั้น 2 · Drawing Preview</strong><small id="view-title-meta">MODEL UNIT = m · ระดับ +4.30 ม. · ยังไม่มี Grid · CAD/PDF ต้องตรวจหน่วยก่อนสร้าง Grid</small></div>
+            <div class="view-legend"><span class="legend-item"><i class="legend-line"></i>คานกว้าง 0.20 ม.</span><span class="legend-item"><i class="legend-line secondary"></i>คานซอย INPUT</span><span class="legend-item"><i class="legend-circle">S</i>t = INPUT</span><span class="legend-item"><i class="legend-span">↔</i>PS กว้าง 0.35 ม. / AUTO แนวสั้น</span></div>
+          </div>
+          <div class="canvas-note" id="canvas-note"><strong>เริ่มจาก Level และยืนยัน Grid เพียงครั้งเดียว</strong> หลังจากนั้นวาง Geometry ได้อิสระและระบบเก็บเป็น Auto-save Draft จนกว่าจะตรวจพร้อมก่อนงานหลังคา</div>
+        </div>
+
+        <div class="canvas-stage">
+          <nav class="toolrail" aria-label="เครื่องมือเขียนแปลน">
+            <div class="tool-section" role="group" aria-label="CAD และลิฟท์ · Drawing Input">
+              <span class="tool-section-label">วาดอิสระ</span>
+              <button class="tool" type="button" data-tool="cad" disabled title="CAD Draft · วาดเส้นแล้วเลือกแปลงเป็นสมาชิก"><span class="tool-glyph">⌁</span><span>CAD</span></button>
+              <button class="tool" type="button" data-tool="shaft-outline" disabled title="กรอบปล่องอ้างอิง · ไม่ตัดพื้น"><span class="tool-glyph">▧</span><span>กรอบปล่อง</span></button>
+              <button class="tool" type="button" data-tool="lift-assembly" disabled title="ลิฟท์ · หลุม ปล่อง ห้องโดยสาร ประตู และรางอ้างอิง · ไม่ใช่แบบติดตั้ง"><span class="tool-glyph" aria-hidden="true">↕</span><span>ลิฟท์</span></button>
+            </div>
+            <div class="ribbon-quick" role="group" aria-label="คำสั่งด่วน">
+              <button class="ribbon-tool" type="button" id="edit-levels-button" aria-label="แก้ไข Level" title="แก้ไข Level"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7 12 3l8 4-8 4zM4 12l8 4 8-4M4 16l8 4 8-4"/><path d="M19 4v6"/></svg></button>
+              <button class="ribbon-tool" type="button" id="undo-button" aria-label="ย้อนกลับ" title="ย้อนกลับ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7 4 12l5 5"/><path d="M5 12h8a6 6 0 0 1 6 6"/></svg></button>
+              <button class="ribbon-tool" type="button" id="redo-button" aria-label="ทำซ้ำ" title="ทำซ้ำ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 7 5 5-5 5"/><path d="M19 12h-8a6 6 0 0 0-6 6"/></svg></button>
+              <button class="ribbon-tool ribbon-cancel" type="button" id="cancel-command-button" aria-label="ยกเลิกคำสั่งหนึ่งขั้น" aria-keyshortcuts="Escape" title="ยกเลิกคำสั่ง · Esc"><span class="ribbon-escape-key" aria-hidden="true">Esc</span></button>
+              <button class="ribbon-tool" type="button" id="fit-button" aria-label="พอดีจอ" title="พอดีจอ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg></button>
+            </div>
+            <div class="tool-section" role="group" aria-label="เครื่องมือทั่วไป">
+              <span class="tool-section-label">ทั่วไป</span>
+              <button class="tool" type="button" data-tool="select" aria-pressed="false" title="เลือก · คลิกหรือลากกรอบเพื่อเลือกและตรวจวัตถุบนแปลน"><span class="tool-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l12 8-6 1.5L8 19z"/><path d="m11 12.5 5 6"/></svg></span><span>เลือก</span></button>
+              <button class="tool" type="button" data-tool="level" aria-pressed="false" title="Level · กำหนดจำนวนชั้นและระดับความสูง ต้องยืนยันก่อนเริ่มแปลน"><span class="tool-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h14"/><path d="M8 4v16"/><circle cx="8" cy="6" r="1"/><circle cx="8" cy="12" r="1"/><circle cx="8" cy="18" r="1"/></svg></span><span>Level</span></button>
+              <button class="tool active" type="button" data-tool="grid" aria-pressed="true" title="Grid · เส้นแนวเสาและระยะช่วง เป็นแนวอ้างอิงของทุกชิ้นส่วน"><span class="tool-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 6 21M17 3l-2 18M3 9h18M2 16h18"/></svg></span><span>Grid</span></button>
+            </div>
+            <div class="tool-section" role="group" aria-label="เครื่องมือโครงสร้าง">
+              <span class="tool-section-label">โครง</span>
+              <button class="tool" type="button" data-tool="column" disabled><span class="tool-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8v18H8zM6 3h12M6 21h12"/><path d="M10.5 6h3v12h-3z"/></svg></span><span>เสา</span></button>
+              <button class="tool" type="button" data-tool="main-beam" disabled><span class="tool-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18v10H3zM5 11h14M5 14h14"/></svg></span><span>คาน</span></button>
+              <button class="tool" type="button" data-tool="cantilever" aria-label="สร้างคานยื่น" disabled><span class="tool-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5v14M4 8h7v8H4M11 12h9"/><path d="m17 9 3 3-3 3"/></svg></span><span>คานยื่น</span></button>
+              <button class="tool" type="button" data-tool="freehand" aria-label="สร้างโครงสร้างนอก Grid แบบ Free Hand" title="นอก Grid · Free Hand" disabled><span class="tool-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18 8 6l4 10 3-7 5 9"/><circle cx="4" cy="18" r="1.5"/><circle cx="8" cy="6" r="1.5"/><circle cx="12" cy="16" r="1.5"/><circle cx="15" cy="9" r="1.5"/><circle cx="20" cy="18" r="1.5"/></svg></span><span>นอก Grid</span></button>
+            </div>
+            <div class="tool-section" role="group" aria-label="เครื่องมือพื้นและช่องเปิด">
+              <span class="tool-section-label">พื้น</span>
+              <button class="tool" type="button" data-tool="slab" data-slab-entry="infill" disabled><span class="tool-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3zM9 5v14M15 5v14M3 10h18M3 15h18"/></svg></span><span>พื้น</span></button>
+              <button class="tool" type="button" data-tool="slab" data-slab-entry="cantilever" aria-label="สร้างพื้นยื่น เลือกแบบไร้คานหรือมีคาน" disabled><span class="tool-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v16M6 6h14v12H6zM10 6v12M15 6v12"/><path d="M20 8v8" stroke-dasharray="2 2"/></svg></span><span>พื้นยื่น</span></button>
+              <button class="tool" type="button" data-tool="opening" disabled title="ช่องเปิด · เจาะช่องในพื้น (บันได ท่อ ชาฟต์) เลือกขนาดแล้วลากวางในกรอบพื้น"><span class="tool-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1" stroke-dasharray="2.5 2"/><path d="m8 8 8 8M16 8l-8 8"/></svg></span><span>ช่องเปิด</span></button>
+            </div>
+            <div class="tool-section" role="group" aria-label="เครื่องมือพิเศษ">
+              <span class="tool-section-label">พิเศษ</span>
+              <button class="tool" type="button" data-tool="stair" disabled><span class="tool-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19h4v-4h4v-4h4V7h6"/><path d="m17 4 4 3-4 3"/></svg></span><span>บันได</span></button>
+              <button class="tool" type="button" data-tool="roof" disabled title="Auto Roof · ตรวจขอบจากแปลนแล้วปรับ Polygon"><span class="tool-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 13 9-8 9 8M6 11v8h12v-8M9 19v-5h6v5"/></svg></span><span>หลังคา</span></button>
+            </div>
+          </nav>
+
+          <div class="viewport-wrap" id="viewport">
+            <div class="cad-snap-controls" id="cad-snap-controls" role="group" aria-label="ตั้งค่า CAD Snap" hidden></div>
+            <div class="sr-only" id="plan-sr-description" role="img" aria-label="ยังไม่มีแปลน กำหนดและ Commit Level ก่อนเริ่มสร้าง Grid"></div>
+            <div class="pdf-underlay-screen-badge" id="pdf-underlay-screen-badge" role="status" aria-live="polite" hidden></div>
+            <div class="pdf-underlay-view-toolbar" id="pdf-underlay-view-toolbar" role="toolbar" aria-label="มุมมอง PDF แปลนอ้างอิง" hidden>
+              <button type="button" data-pdf-underlay-view-action="zoom-out" aria-label="ย่อมุมมอง PDF">−</button>
+              <output id="pdf-underlay-view-readout" aria-live="polite">100%</output>
+              <button type="button" data-pdf-underlay-view-action="zoom-in" aria-label="ขยายมุมมอง PDF">+</button>
+              <button type="button" data-pdf-underlay-view-action="fit">พอดี PDF</button>
+              <button type="button" data-pdf-underlay-view-action="pan" aria-label="เปิดโหมดลากเลื่อน PDF" aria-pressed="false">เลื่อน</button>
+              <button type="button" data-pdf-underlay-view-action="settings">ตั้งค่า</button>
+            </div>
+            <button class="grid-quick-add-control grid-quick-head-control grid-quick-add-control-x" id="grid-quick-add-x" type="button" data-grid-quick-add-axis="x" aria-label="เพิ่มแนว Grid X ต่อท้าย 1.00 เมตร" title="คลิกเพื่อเพิ่ม Grid แนวตั้งต่อท้าย 1.00 ม." hidden>
+              <svg viewBox="0 0 30 30" aria-hidden="true"><circle class="quick-badge" cx="15" cy="15" r="9"/><text class="quick-symbol" x="15" y="15.5">+X</text></svg>
+            </button>
+            <button class="grid-quick-add-control grid-quick-head-control grid-quick-remove-control grid-quick-remove-control-x" id="grid-quick-remove-x" type="button" data-grid-quick-remove-axis="x" aria-label="ลบแนว Grid X เส้นนอกสุด" title="คลิกเพื่อลบ Grid แนวตั้งเส้นนอกสุด" hidden>
+              <svg viewBox="0 0 30 30" aria-hidden="true"><circle class="quick-badge" cx="15" cy="15" r="9"/><text class="quick-symbol" x="15" y="15.5">−X</text></svg>
+            </button>
+            <button class="grid-quick-add-control grid-quick-head-control grid-quick-add-control-y" id="grid-quick-add-y" type="button" data-grid-quick-add-axis="y" aria-label="เพิ่มแนว Grid Y ต่อท้าย 1.00 เมตร" title="คลิกเพื่อเพิ่ม Grid แนวนอนต่อท้าย 1.00 ม." hidden>
+              <svg viewBox="0 0 30 30" aria-hidden="true"><circle class="quick-badge" cx="15" cy="15" r="9"/><text class="quick-symbol" x="15" y="15.5">+Y</text></svg>
+            </button>
+            <button class="grid-quick-add-control grid-quick-head-control grid-quick-remove-control grid-quick-remove-control-y" id="grid-quick-remove-y" type="button" data-grid-quick-remove-axis="y" aria-label="ลบแนว Grid Y เส้นนอกสุด" title="คลิกเพื่อลบ Grid แนวนอนเส้นนอกสุด" hidden>
+              <svg viewBox="0 0 30 30" aria-hidden="true"><circle class="quick-badge" cx="15" cy="15" r="9"/><text class="quick-symbol" x="15" y="15.5">−Y</text></svg>
+            </button>
+            <div class="tool-quick-guide" id="tool-quick-guide" role="status" aria-live="polite" hidden>
+              <strong class="tool-guide-name" id="tool-guide-name">Grid</strong>
+              <div class="tool-guide-steps" id="tool-guide-steps"></div>
+              <button class="tool-guide-demo" type="button" id="tool-guide-demo">▶ ดู 5 วิ</button>
+              <button class="tool-guide-close" type="button" id="tool-guide-close" aria-label="ปิดวิธีใช้">×</button>
+            </div>
+            <div id="grid-span-insert-controls" aria-label="แทรก Grid กึ่งกลางแต่ละช่วง"></div>
+            <div id="grid-line-remove-controls" aria-label="ลบ Grid แต่ละเส้น"></div>
+            <section class="p2-load-workbench" id="p2-load-workbench" aria-label="P2 ป้อนโหลดแยกตามระดับ" aria-live="polite" hidden></section>
+            <svg class="plan-svg" id="plan-svg" viewBox="5 -10 875 590" aria-labelledby="plan-title plan-desc" focusable="true" tabindex="0">
+              <title id="plan-title">แปลนโครงสร้างชั้นสองสำหรับ mockup</title>
+              <desc id="plan-desc">แสดงแนวกริด รหัสเสา คานหลักแบบเส้นคู่ คานซอย Visual Input ที่จับลากได้ พื้นแบบเลือก closed face และคานยื่นสี่รูปแบบที่ลากจากหัวเสาริมอาคารออกได้ทุกด้าน โดย Auto-beam ใช้เฉพาะคานหลัก วัตถุคานยื่นทั้งหมดเป็น Geometry Input และยังไม่เชื่อม engine</desc>
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" /></marker>
+                <marker id="span-start" viewBox="0 0 8 8" refX="1" refY="4" markerWidth="4" markerHeight="4" orient="auto"><path d="M 8 0 L 0 4 L 8 8 z" fill="oklch(55% .17 252)" /></marker>
+                <marker id="span-end" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="4" markerHeight="4" orient="auto"><path d="M 0 0 L 8 4 L 0 8 z" fill="oklch(55% .17 252)" /></marker>
+                <pattern id="gs-stipple" patternUnits="userSpaceOnUse" width="12" height="12" aria-label="ลายจุดพื้นบนดิน ไม่มีทิศพาด">
+                  <circle cx="3" cy="3" r=".75" fill="oklch(58% .08 80)"/><circle cx="9" cy="9" r=".55" fill="oklch(58% .08 80)"/>
+                </pattern>
+                <mask id="floor-openings-mask" maskUnits="userSpaceOnUse" x="-20000" y="-20000" width="40000" height="40000">
+                  <!-- The mask must cover any plan size: the owner's 13-line plan runs past the 875×560 default, and every slab fill outside the old box was masked away. --><rect x="-20000" y="-20000" width="40000" height="40000" fill="white"/>
+                  <g id="floor-openings-mask-cutouts"></g>
+                </mask>
+              </defs>
+
+              <g id="pdf-underlay-layer" aria-label="PDF Underlay · Reference only · ไม่เข้าผลวิเคราะห์"></g>
+              <g id="ground-slab-fill-layer" aria-label="ขอบเขตและลายพื้น GS ชั้น 1 · Drawing Input" mask="url(#floor-openings-mask)"></g>
+              <g class="build-layer layer-grid" id="grid-geometry-layer" aria-label="แนว Grid Preview"></g>
+
+              <g class="build-layer layer-floor" id="f2-demo-floor-layer" aria-label="พื้นชั้น 2" mask="url(#floor-openings-mask)">
+                <rect class="slab" data-auto-face="candidate" x="134" y="104" width="142" height="123.25"/><rect class="slab" data-auto-face="candidate" x="284" y="104" width="142" height="123.25"/><rect class="slab" data-auto-face="candidate" x="434" y="104" width="142" height="123.25"/><rect class="slab" data-auto-face="manual" x="584" y="104" width="142" height="123.25"/>
+                <rect class="slab" data-auto-face="manual" x="134" y="235.25" width="142" height="123.25"/><rect class="slab" data-auto-face="skip-open" x="284" y="235.25" width="142" height="123.25"/><rect class="slab selected" data-auto-face="candidate" x="434" y="235.25" width="142" height="123.25"/><rect class="slab" data-auto-face="candidate" x="584" y="235.25" width="142" height="123.25"/>
+                <rect class="slab" data-auto-face="candidate" x="134" y="366.5" width="142" height="123.25"/><rect class="slab" data-auto-face="candidate" x="284" y="366.5" width="142" height="123.25"/><rect class="slab" data-auto-face="candidate" x="434" y="366.5" width="142" height="123.25"/><rect class="slab" data-auto-face="candidate" x="584" y="366.5" width="142" height="123.25"/>
+                <g class="slab-symbol" transform="translate(205 165.625)" aria-label="S1 ความหนาตั้งต้น 10 เซนติเมตร"><circle class="slab-mark" r="19"/><text class="slab-code" y="-4">S1</text><text class="slab-meta" y="8">t=10 ซม.</text></g>
+                <g class="slab-symbol" transform="translate(355 165.625)" aria-label="PS1 ทิศพาด X แผ่นกว้าง 0.35 เมตร วิ่งเต็มถึงแนวคาน INPUT">
+                  <g aria-label="แนวรอยต่อแผ่น PS กว้าง 0.35 เมตร" data-plank-width-m="0.35"><line class="ps-plank-line" x1="-75" y1="-52.5" x2="75" y2="-52.5"/><line class="ps-plank-line" x1="-75" y1="-39.375" x2="75" y2="-39.375"/><line class="ps-plank-line" x1="-75" y1="-26.25" x2="75" y2="-26.25"/><line class="ps-plank-line" x1="-75" y1="-13.125" x2="75" y2="-13.125"/><line class="ps-plank-line" x1="-75" y1="0" x2="75" y2="0"/><line class="ps-plank-line" x1="-75" y1="13.125" x2="75" y2="13.125"/><line class="ps-plank-line" x1="-75" y1="26.25" x2="75" y2="26.25"/><line class="ps-plank-line" x1="-75" y1="39.375" x2="75" y2="39.375"/><line class="ps-plank-line" x1="-75" y1="52.5" x2="75" y2="52.5"/></g><line class="ps-span" x1="-58" y1="0" x2="58" y2="0"/>
+                  <circle class="slab-mark" r="18"/><text class="slab-code" y="-4">PS1</text><text class="slab-meta" y="8">ทิศ X</text>
+                </g>
+                <g class="slab-symbol" transform="translate(505 165.625)" aria-label="S1 ความหนาตั้งต้น 10 เซนติเมตร"><circle class="slab-mark" r="19"/><text class="slab-code" y="-4">S1</text><text class="slab-meta" y="8">t=10 ซม.</text></g>
+                <g class="slab-symbol floor-demo-existing directional-ps-symbol" transform="translate(655 165.625)" aria-label="พื้น Manual PS1 ทิศ X แผ่นกว้าง 0.35 เมตร">
+                  <g class="draft-ps-geometry draft-ps-x" data-plank-width-m="0.35"><line class="ps-plank-line" x1="-75" y1="-52.5" x2="75" y2="-52.5"/><line class="ps-plank-line" x1="-75" y1="-39.375" x2="75" y2="-39.375"/><line class="ps-plank-line" x1="-75" y1="-26.25" x2="75" y2="-26.25"/><line class="ps-plank-line" x1="-75" y1="-13.125" x2="75" y2="-13.125"/><line class="ps-plank-line" x1="-75" y1="0" x2="75" y2="0"/><line class="ps-plank-line" x1="-75" y1="13.125" x2="75" y2="13.125"/><line class="ps-plank-line" x1="-75" y1="26.25" x2="75" y2="26.25"/><line class="ps-plank-line" x1="-75" y1="39.375" x2="75" y2="39.375"/><line class="ps-plank-line" x1="-75" y1="52.5" x2="75" y2="52.5"/><line class="ps-span" x1="-58" y1="0" x2="58" y2="0"/></g>
+                  <g class="draft-ps-geometry draft-ps-y" data-plank-width-m="0.35"><rect class="ps-closure-strip" x="-75" y="-65.625" width="2.8125" height="131.25"/><rect class="ps-closure-strip" x="72.1875" y="-65.625" width="2.8125" height="131.25"/><line class="ps-plank-line" x1="-72.1875" y1="-65.625" x2="-72.1875" y2="65.625"/><line class="ps-plank-line" x1="-59.0625" y1="-65.625" x2="-59.0625" y2="65.625"/><line class="ps-plank-line" x1="-45.9375" y1="-65.625" x2="-45.9375" y2="65.625"/><line class="ps-plank-line" x1="-32.8125" y1="-65.625" x2="-32.8125" y2="65.625"/><line class="ps-plank-line" x1="-19.6875" y1="-65.625" x2="-19.6875" y2="65.625"/><line class="ps-plank-line" x1="-6.5625" y1="-65.625" x2="-6.5625" y2="65.625"/><line class="ps-plank-line" x1="6.5625" y1="-65.625" x2="6.5625" y2="65.625"/><line class="ps-plank-line" x1="19.6875" y1="-65.625" x2="19.6875" y2="65.625"/><line class="ps-plank-line" x1="32.8125" y1="-65.625" x2="32.8125" y2="65.625"/><line class="ps-plank-line" x1="45.9375" y1="-65.625" x2="45.9375" y2="65.625"/><line class="ps-plank-line" x1="59.0625" y1="-65.625" x2="59.0625" y2="65.625"/><line class="ps-plank-line" x1="72.1875" y1="-65.625" x2="72.1875" y2="65.625"/><line class="ps-span" x1="0" y1="-52.5" x2="0" y2="52.5"/></g>
+                  <circle class="slab-mark" r="18"/><text class="slab-code" id="auto-precast-code" y="-4">PS1</text><text class="slab-meta" id="auto-precast-meta" y="8">ทิศ X</text>
+                </g>
+                <g class="slab-symbol floor-demo-existing" transform="translate(205 296.875)" aria-label="S3 พื้นหล่อในที่ Manual ความหนา 10 เซนติเมตร"><circle class="slab-mark" r="19"/><text class="slab-code" y="-4">S3</text><text class="slab-meta" y="8">t=10 ซม.</text></g>
+                <g class="slab-symbol" transform="translate(655 296.875)" aria-label="S1 ความหนาตั้งต้น 10 เซนติเมตร"><circle class="slab-mark" r="19"/><text class="slab-code" y="-4">S1</text><text class="slab-meta" y="8">t=10 ซม.</text></g>
+                <g class="slab-symbol" transform="translate(205 428.125)" aria-label="PS2 ทิศพาด Y แผ่นกว้าง 0.35 เมตร วิ่งเต็มถึงแนวคาน มีแถบปิดเศษรวม 0.15 เมตร INPUT">
+                  <g aria-label="แนวรอยต่อแผ่น PS กว้าง 0.35 เมตร" data-plank-width-m="0.35"><rect class="ps-closure-strip" x="-75" y="-65.625" width="2.8125" height="131.25"/><rect class="ps-closure-strip" x="72.1875" y="-65.625" width="2.8125" height="131.25"/><line class="ps-plank-line" x1="-72.1875" y1="-65.625" x2="-72.1875" y2="65.625"/><line class="ps-plank-line" x1="-59.0625" y1="-65.625" x2="-59.0625" y2="65.625"/><line class="ps-plank-line" x1="-45.9375" y1="-65.625" x2="-45.9375" y2="65.625"/><line class="ps-plank-line" x1="-32.8125" y1="-65.625" x2="-32.8125" y2="65.625"/><line class="ps-plank-line" x1="-19.6875" y1="-65.625" x2="-19.6875" y2="65.625"/><line class="ps-plank-line" x1="-6.5625" y1="-65.625" x2="-6.5625" y2="65.625"/><line class="ps-plank-line" x1="6.5625" y1="-65.625" x2="6.5625" y2="65.625"/><line class="ps-plank-line" x1="19.6875" y1="-65.625" x2="19.6875" y2="65.625"/><line class="ps-plank-line" x1="32.8125" y1="-65.625" x2="32.8125" y2="65.625"/><line class="ps-plank-line" x1="45.9375" y1="-65.625" x2="45.9375" y2="65.625"/><line class="ps-plank-line" x1="59.0625" y1="-65.625" x2="59.0625" y2="65.625"/><line class="ps-plank-line" x1="72.1875" y1="-65.625" x2="72.1875" y2="65.625"/></g><line class="ps-span" x1="0" y1="-52.5" x2="0" y2="52.5"/>
+                  <circle class="slab-mark" r="18"/><text class="slab-code" y="-4">PS2</text><text class="slab-meta" y="8">ทิศ Y</text>
+                </g>
+                <g class="slab-symbol" transform="translate(355 428.125)" aria-label="S1 ความหนาตั้งต้น 10 เซนติเมตร"><circle class="slab-mark" r="19"/><text class="slab-code" y="-4">S1</text><text class="slab-meta" y="8">t=10 ซม.</text></g>
+                <g class="slab-symbol" transform="translate(505 428.125)" aria-label="S1 ความหนาตั้งต้น 10 เซนติเมตร"><circle class="slab-mark" r="19"/><text class="slab-code" y="-4">S1</text><text class="slab-meta" y="8">t=10 ซม.</text></g>
+                <g class="slab-symbol" transform="translate(655 428.125)" aria-label="PS1 ทิศพาด X แผ่นกว้าง 0.35 เมตร วิ่งเต็มถึงแนวคาน INPUT">
+                  <g aria-label="แนวรอยต่อแผ่น PS กว้าง 0.35 เมตร" data-plank-width-m="0.35"><line class="ps-plank-line" x1="-75" y1="-52.5" x2="75" y2="-52.5"/><line class="ps-plank-line" x1="-75" y1="-39.375" x2="75" y2="-39.375"/><line class="ps-plank-line" x1="-75" y1="-26.25" x2="75" y2="-26.25"/><line class="ps-plank-line" x1="-75" y1="-13.125" x2="75" y2="-13.125"/><line class="ps-plank-line" x1="-75" y1="0" x2="75" y2="0"/><line class="ps-plank-line" x1="-75" y1="13.125" x2="75" y2="13.125"/><line class="ps-plank-line" x1="-75" y1="26.25" x2="75" y2="26.25"/><line class="ps-plank-line" x1="-75" y1="39.375" x2="75" y2="39.375"/><line class="ps-plank-line" x1="-75" y1="52.5" x2="75" y2="52.5"/></g><line class="ps-span" x1="-58" y1="0" x2="58" y2="0"/>
+                  <circle class="slab-mark" r="18"/><text class="slab-code" y="-4">PS1</text><text class="slab-meta" y="8">ทิศ X</text>
+                </g>
+              </g>
+
+              <g class="build-layer layer-slab-cantilever" id="slab-cantilever-geometry-layer" aria-label="พื้นยื่นไร้คานจากคานริม ขอบนอกและขอบข้างเป็นอิสระ"></g>
+              <g class="build-layer frame-layer" id="frame-auto-preview-layer" aria-label="รายการ Auto Preview ที่ยังไม่ยืนยัน"></g>
+              <g class="build-layer layer-secondary" aria-label="คานซอยแบบเส้นคานจริงที่ลากย้ายได้ เป็น INPUT มีศูนย์ engine records ไม่ได้ประเมินและไม่เชื่อม engine">
+                <g id="secondary-host-cue-layer"></g>
+                <g id="secondary-member-layer"></g>
+              </g>
+
+              <g class="build-layer layer-step4" id="f2-access-layer" aria-label="ช่องเปิดและบันไดชั้น 2">
+                <g id="stair-layout">
+                  <g class="stair-group">
+                  <rect class="stair-opening-boundary" x="298" y="230" width="116" height="130"/>
+                  <line class="stair-support lower" x1="298" y1="360" x2="356" y2="360"/>
+                  <line class="stair-support upper" x1="356" y1="360" x2="414" y2="360"/>
+                  <rect class="stair-landing" x="302" y="230" width="108" height="32"/>
+                  <line class="stair-landing-beam" x1="298" y1="262" x2="414" y2="262"/>
+                  <rect class="stair-flight" x="302" y="262" width="50" height="98"/><rect class="stair-flight" x="360" y="262" width="50" height="98"/>
+                  <line class="stair-step" x1="302" y1="273" x2="352" y2="273"/><line class="stair-step" x1="302" y1="284" x2="352" y2="284"/><line class="stair-step" x1="302" y1="295" x2="352" y2="295"/><line class="stair-step" x1="302" y1="306" x2="352" y2="306"/><line class="stair-step" x1="302" y1="317" x2="352" y2="317"/><line class="stair-step" x1="302" y1="328" x2="352" y2="328"/><line class="stair-step" x1="302" y1="339" x2="352" y2="339"/><line class="stair-step" x1="302" y1="350" x2="352" y2="350"/>
+                  <line class="stair-step" x1="360" y1="273" x2="410" y2="273"/><line class="stair-step" x1="360" y1="284" x2="410" y2="284"/><line class="stair-step" x1="360" y1="295" x2="410" y2="295"/><line class="stair-step" x1="360" y1="306" x2="410" y2="306"/><line class="stair-step" x1="360" y1="317" x2="410" y2="317"/><line class="stair-step" x1="360" y1="328" x2="410" y2="328"/><line class="stair-step" x1="360" y1="339" x2="410" y2="339"/><line class="stair-step" x1="360" y1="350" x2="410" y2="350"/>
+                  <line class="stair-arrow" x1="327" y1="346" x2="327" y2="276"/><text class="stair-up-label" x="327" y="324">UP</text>
+                  <line class="stair-arrow" x1="385" y1="276" x2="385" y2="346"/><text class="stair-up-label" x="385" y="304">UP</text>
+                  <circle class="stair-support-node" cx="302" cy="262" r="3"/><circle class="stair-support-node" cx="410" cy="262" r="3"/><circle class="stair-support-node" cx="302" cy="360" r="3"/><circle class="stair-support-node" cx="352" cy="360" r="3"/><circle class="stair-support-node" cx="360" cy="360" r="3"/><circle class="stair-support-node" cx="410" cy="360" r="3"/>
+                  <rect class="stair-label-plate" x="322" y="238" width="68" height="18" rx="3"/><text class="stair-support-label" x="356" y="247">LB1 · ชานพัก</text>
+                  <rect class="stair-label-plate" x="294" y="366" width="62" height="18" rx="3"/><text class="stair-support-label" x="325" y="375">B10@F1</text>
+                  <rect class="stair-label-plate" x="356" y="366" width="62" height="18" rx="3"/><text class="stair-support-label" x="387" y="375">B10@F2</text>
+                    <text class="stair-preview-copy" x="356" y="218">เลือกจุดยึด 4 มุม</text>
+                  </g>
+                </g>
+                <g class="stair-point-picker" aria-label="เลือกจุดยึดสี่มุมของบันได">
+                  <polygon class="stair-draft-edge" id="stair-draft-polygon" points=""/>
+                  <g class="stair-pick-node" data-stair-node="2/B" transform="translate(280 231.25)"><title>Grid 2/B</title><circle class="stair-pick-target" r="24"/><circle class="stair-pick-hit" r="8"/><text class="stair-point-order">+</text></g>
+                  <g class="stair-pick-node" data-stair-node="3/B" transform="translate(430 231.25)"><title>Grid 3/B</title><circle class="stair-pick-target" r="24"/><circle class="stair-pick-hit" r="8"/><text class="stair-point-order">+</text></g>
+                  <g class="stair-pick-node" data-stair-node="3/C" transform="translate(430 362.5)"><title>Grid 3/C</title><circle class="stair-pick-target" r="24"/><circle class="stair-pick-hit" r="8"/><text class="stair-point-order">+</text></g>
+                  <g class="stair-pick-node" data-stair-node="2/C" transform="translate(280 362.5)"><title>Grid 2/C</title><circle class="stair-pick-target" r="24"/><circle class="stair-pick-hit" r="8"/><text class="stair-point-order">+</text></g>
+                </g>
+                <g class="stair-resize-ui" aria-label="จุดจับยืดหดขอบเขตบันได">
+                  <rect class="stair-resize-outline" id="stair-resize-outline" x="280" y="231.25" width="150" height="131.25"/>
+                  <text class="stair-size-label" id="stair-size-label" x="355" y="220.25">4.00 × 3.50 ม.</text>
+                  <g class="stair-resize-handle" data-stair-resize="nw"><circle class="stair-resize-hit" r="24"/><circle class="stair-resize-dot" r="4.5"/></g>
+                  <g class="stair-resize-handle" data-stair-resize="ne"><circle class="stair-resize-hit" r="24"/><circle class="stair-resize-dot" r="4.5"/></g>
+                  <g class="stair-resize-handle" data-stair-resize="se"><circle class="stair-resize-hit" r="24"/><circle class="stair-resize-dot" r="4.5"/></g>
+                  <g class="stair-resize-handle" data-stair-resize="sw"><circle class="stair-resize-hit" r="24"/><circle class="stair-resize-dot" r="4.5"/></g>
+                </g>
+                <rect class="focus-ring focus-stair" id="stair-focus-ring" x="274" y="225.25" width="162" height="143.25" rx="6"/>
+              </g>
+              <g class="build-layer layer-freehand" id="freehand-geometry-layer" aria-label="โครงสร้างนอก Grid แบบ Free Hand · Drawing Input"></g>
+
+              <g class="slab-zone-record-layer" id="slab-zone-record-layer" aria-label="Zone พื้นที่สร้างแล้วจากพื้นที่ปิด" mask="url(#floor-openings-mask)"></g>
+              <!-- Draw physical beams above slab fills, including cantilevers inside a panel. -->
+              <g class="build-layer layer-cantilever" id="cantilever-geometry-layer" aria-label="Preview และ records คานยื่นจากหัวเสา · คานเดี่ยวเข้า/ออกอาคาร"></g>
+              <g class="build-layer layer-ground-beams" id="ground-beam-layer" aria-label="คานคอดินและคานรัดรอบชั้น 1 · Drawing Input"></g>
+              <g class="build-layer frame-layer layer-main-beams" id="frame-beam-layer" aria-label="คานหลักแบบ record-based แยกทุกช่วงติดกัน"></g>
+              <g class="slab-zone-picker" id="slab-zone-picker" aria-label="คลิกภายในพื้นที่ปิดเพื่อเลือก Zone พื้น กด Shift เพื่อเลือกหลายช่อง" mask="url(#floor-openings-mask)"></g>
+              <g class="slab-topology-hold-layer" id="slab-topology-hold-layer" aria-label="พื้นที่ ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ จากกรอบคานที่ยังสร้างพื้นไม่ได้" mask="url(#floor-openings-mask)" pointer-events="none"></g>
+              <g class="build-layer layer-opening" id="opening-geometry-layer" aria-label="ช่องเปิดสี่เหลี่ยมที่ตัดลายพื้นจริง"></g>
+              <g class="build-layer layer-step4" id="ground-access-layer" aria-label="บันไดระหว่างชั้น · Geometry Input"></g>
+              <g id="upper-stair-projection-layer" aria-label="บันไดทางลง · ภาพฉายจากบันไดชั้นล่าง" pointer-events="none"></g>
+              <g class="slab-point-picker" id="f2-slab-point-picker" aria-label="ตัวเลือก node เดิมถูกแทนด้วยการคลิกในพื้นที่ปิด">
+                <polygon class="slab-draft-preview" id="slab-draft-polygon" points=""/>
+                <polyline class="slab-draft-edge" id="slab-draft-edge" points=""/>
+                <g class="slab-pick-node" data-slab-node="1/B" transform="translate(130 231.25)"><title>Grid 1/B</title><circle class="slab-pick-hit" r="8"/><text class="slab-point-order">+</text></g>
+                <g class="slab-pick-node" data-slab-node="2/B" transform="translate(280 231.25)"><title>Grid 2/B</title><circle class="slab-pick-hit" r="8"/><text class="slab-point-order">+</text></g>
+                <g class="slab-pick-node" data-slab-node="2/C" transform="translate(280 362.5)"><title>Grid 2/C</title><circle class="slab-pick-hit" r="8"/><text class="slab-point-order">+</text></g>
+                <g class="slab-pick-node" data-slab-node="1/C" transform="translate(130 362.5)"><title>Grid 1/C</title><circle class="slab-pick-hit" r="8"/><text class="slab-point-order">+</text></g>
+                <g class="manual-floor-created manual-cast-created" transform="translate(205 296.875)" aria-label="พื้น Manual S3 หนา 10 เซนติเมตร">
+                  <circle class="slab-mark" r="19"/><text class="slab-code" y="-4">S3</text><text class="slab-meta" y="8">t=10 ซม.</text>
+                </g>
+                <g class="manual-floor-created manual-precast-created directional-ps-symbol" transform="translate(655 165.625)" aria-label="พื้น Manual PS1 ทิศ X แผ่นกว้าง 0.35 เมตร">
+                  <g class="draft-ps-geometry draft-ps-x" data-plank-width-m="0.35"><line class="ps-plank-line" x1="-75" y1="-52.5" x2="75" y2="-52.5"/><line class="ps-plank-line" x1="-75" y1="-39.375" x2="75" y2="-39.375"/><line class="ps-plank-line" x1="-75" y1="-26.25" x2="75" y2="-26.25"/><line class="ps-plank-line" x1="-75" y1="-13.125" x2="75" y2="-13.125"/><line class="ps-plank-line" x1="-75" y1="0" x2="75" y2="0"/><line class="ps-plank-line" x1="-75" y1="13.125" x2="75" y2="13.125"/><line class="ps-plank-line" x1="-75" y1="26.25" x2="75" y2="26.25"/><line class="ps-plank-line" x1="-75" y1="39.375" x2="75" y2="39.375"/><line class="ps-plank-line" x1="-75" y1="52.5" x2="75" y2="52.5"/><line class="ps-span" x1="-58" y1="0" x2="58" y2="0"/></g>
+                  <g class="draft-ps-geometry draft-ps-y" data-plank-width-m="0.35"><rect class="ps-closure-strip" x="-75" y="-65.625" width="2.8125" height="131.25"/><rect class="ps-closure-strip" x="72.1875" y="-65.625" width="2.8125" height="131.25"/><line class="ps-plank-line" x1="-72.1875" y1="-65.625" x2="-72.1875" y2="65.625"/><line class="ps-plank-line" x1="-59.0625" y1="-65.625" x2="-59.0625" y2="65.625"/><line class="ps-plank-line" x1="-45.9375" y1="-65.625" x2="-45.9375" y2="65.625"/><line class="ps-plank-line" x1="-32.8125" y1="-65.625" x2="-32.8125" y2="65.625"/><line class="ps-plank-line" x1="-19.6875" y1="-65.625" x2="-19.6875" y2="65.625"/><line class="ps-plank-line" x1="-6.5625" y1="-65.625" x2="-6.5625" y2="65.625"/><line class="ps-plank-line" x1="6.5625" y1="-65.625" x2="6.5625" y2="65.625"/><line class="ps-plank-line" x1="19.6875" y1="-65.625" x2="19.6875" y2="65.625"/><line class="ps-plank-line" x1="32.8125" y1="-65.625" x2="32.8125" y2="65.625"/><line class="ps-plank-line" x1="45.9375" y1="-65.625" x2="45.9375" y2="65.625"/><line class="ps-plank-line" x1="59.0625" y1="-65.625" x2="59.0625" y2="65.625"/><line class="ps-plank-line" x1="72.1875" y1="-65.625" x2="72.1875" y2="65.625"/><line class="ps-span" x1="0" y1="-52.5" x2="0" y2="52.5"/></g>
+                  <circle class="slab-mark" r="19"/><text class="slab-code" id="manual-precast-code" y="-4">PS1</text><text class="slab-meta" id="manual-precast-meta" y="8">ทิศ X</text>
+                </g>
+                <rect class="focus-ring focus-slab" x="124" y="225.25" width="162" height="143.25" rx="6"/>
+              </g>
+
+              <g class="build-layer layer-roof" id="roof-geometry-layer" aria-label="Roof Zone Candidate Projection · Drawing Input"></g>
+              <g id="p2-roof-load-layer" aria-label="ลูกศร Raw DL และ LL ลงแนวแป Candidate · ไม่แปลงเป็นแรงเส้น"></g>
+              <g id="p2-floor-load-layer" aria-label="ค่า LL และ SDL รายพื้นจาก Raw Input · ยังไม่ได้คำนวณ — กด วิเคราะห์และออกแบบ"></g>
+              <g id="p2-wall-load-layer" aria-label="เลือกแนวคานเพื่อผูก Raw Wall Load · Drawing Input"></g>
+              <g id="p3-connectivity-layer" aria-label="P3 ตรวจ incidence จุดต่อ Roof ถึงเสาและฐานราก · ไม่ใช่ Reaction หรือ Load Transfer"></g>
+              <g id="pdf-plan-draft-layer" aria-label="PDF Scan-assisted Grid, column, beam and floor candidates · ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้"></g>
+              <!-- Keep authored column symbols above physical beam strokes. A GB/B core
+                   otherwise paints over the column square after a C-to-A run. -->
+              <g class="build-layer frame-layer layer-columns" id="frame-column-layer" aria-label="เสาแบบ record-based ผูก node และช่วงชั้น"></g>
+              <!-- Keep node hit targets above every painted member. Pointer input at the
+                   visible intersection must resolve under the cursor, not only around it. -->
+              <g class="frame-layer frame-interaction-layer" id="frame-interaction-layer" aria-label="จุด Grid สำหรับวางเสาและเลือกปลายคาน"></g>
+
+              <g class="drawing-label-layer" aria-label="รหัสสมาชิกวางชั้นบนสุดเพื่อไม่ให้พื้น ช่องเปิด หรือบันไดบัง">
+                <g class="frame-layer" id="frame-mark-layer" aria-label="รหัส C และ B จาก records วางบน label layer"></g>
+                <g id="ground-slab-mark-layer" aria-label="รหัส GS ชั้น 1 · ความหนาจาก Drawing Record"></g>
+                <g class="build-layer layer-slab-cantilever" id="slab-cantilever-label-layer" aria-label="รหัสพื้นยื่นไร้คานและหมายเหตุขอบอิสระ"></g>
+                <g class="build-layer layer-cantilever" id="cantilever-label-layer" aria-label="รหัส CB และ CS ของคานยื่น"></g>
+                <g id="architectural-program-layer" aria-label="ป้ายผังห้องตัวอย่างเพื่อการสอนเท่านั้น ไม่ใช่ผนังหรือขอบเขตโครงสร้าง"></g>
+              </g>
+
+              <g class="build-layer layer-grid" id="grid-dimension-layer" aria-label="มิติ Grid ศูนย์กลางถึงศูนย์กลาง ระยะรวม และระยะรายช่วง"></g>
+              <g id="slab-cantilever-marquee-layer" aria-label="กรอบเลือกคานริมสำหรับพื้นยื่นหลายแผ่น" pointer-events="none"></g>
+              <g id="cad-selection-layer" aria-label="กรอบเลือกวัตถุแบบ Window และ Crossing" pointer-events="none"></g>
+              <g class="on-nuch-sample-layer" id="on-nuch-sample-layer" aria-label="ตัวอย่างบ้านอ่อนนุชจากไฟล์ JSON · Drawing Input"></g>
+              <!-- ชิปยืนยันต้องชนะ hit-test เหนือทุกแถบจับล่องหน (เช่น grid-dimension-edit-hit)
+                   จึงเป็น layer สุดท้ายของ SVG เสมอ · ตัว layer ไม่รับ pointer เอง -->
+              <g id="plan-confirm-chip-layer" pointer-events="none" aria-label="ปุ่มยืนยัน/ยกเลิก draft บนแปลน"><g data-chip-slot="cantilever"></g><g data-chip-slot="ramp"></g><g data-chip-slot="bay"></g><g data-chip-slot="slab-cantilever"></g></g>
+            </svg>
+            <div class="grid-inline-editor" id="grid-inline-editor" hidden>
+              <label class="sr-only" id="grid-inline-label" for="grid-inline-input">แก้ค่า Grid บนแปลน</label>
+              <div class="grid-inline-control"><input class="grid-inline-input" id="grid-inline-input" aria-labelledby="grid-inline-label" autocomplete="off" spellcheck="false" /><span class="grid-inline-unit" id="grid-inline-unit">ม.</span></div>
+              <span class="grid-inline-message" id="grid-inline-message" role="status" aria-live="polite">Enter เก็บ Draft · Esc ยกเลิก</span>
+            </div>
+            <div class="grid-drag-readout" id="grid-drag-readout" role="status" aria-live="polite" hidden></div>
+          </div>
+          <aside class="p1-workshop-3d" id="p1-workshop-3d" aria-label="ภาพ 3D เรียลไทม์จาก Drawing Input" aria-hidden="true" hidden>
+            <header class="p1-workshop-head">
+              <div class="p1-workshop-title"><strong>Realtime 3D · P1 Drawing Model</strong><small>อัปเดตจากแปลนจริง · หน้าตัด/ความหนาที่มีข้อมูลครบเป็น Solid · รายการที่ยังไม่ครบคงแกนประ ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</small></div>
+              <div class="p1-workshop-camera" role="group" aria-label="มุมกล้องและการแสดงผล 3D"><button type="button" data-p1-workshop-camera="iso" title="มุมมองสามมิติเฉียง (Isometric)">ISO</button><button type="button" data-p1-workshop-camera="top" title="มองจากด้านบนเหมือนแปลน">TOP</button><button type="button" data-p1-workshop-camera="fit" title="จัดโมเดลทั้งหมดให้พอดีจอ">FIT</button><button class="p1-workshop-visibility" type="button" data-p1-workshop-visibility data-p1-workshop-visibility-location="panel" aria-controls="p1-workshop-3d" aria-expanded="true"><span data-p1-workshop-visibility-label>ซ่อน 3D</span></button></div>
+            </header>
+            <div class="p1-workshop-filters" aria-label="ตัวกรองโมเดล 3D">
+              <div role="group" aria-label="ขอบเขตชั้น"><button type="button" class="active" data-p1-workshop-level-scope="all" aria-pressed="true" title="แสดงทุกชั้นในโมเดลเดียว">ทุกชั้น</button><button type="button" data-p1-workshop-level-scope="active" aria-pressed="false" title="แสดงเฉพาะชั้นที่เปิดอยู่บนแปลนซ้าย">ชั้นที่เปิด</button></div>
+              <div role="group" aria-label="ชั้นข้อมูล 3D"><button type="button" class="active" data-p1-workshop-layer="column" aria-pressed="true" title="แสดง/ซ่อน เสา">เสา</button><button type="button" class="active" data-p1-workshop-layer="beam" aria-pressed="true" title="แสดง/ซ่อน คาน รวมคานยื่น">คาน</button><button type="button" class="active" data-p1-workshop-secondary-xray aria-pressed="true" aria-describedby="p1-workshop-xray-note p1-workshop-secondary-hold" title="แสดงเส้นขอบคานซอยตามรอยต่อจริง · ซ่อนเส้นภายในเนื้อคาน">ขอบคานซอย</button><button type="button" class="active" data-p1-workshop-layer="floor" aria-pressed="true" title="แสดง/ซ่อน พื้น พื้นยื่น และช่องเปิด">พื้น/ช่องเปิด</button><button type="button" class="active" data-p1-workshop-layer="stair" aria-pressed="true" title="แสดง/ซ่อน บันได">บันได</button><button type="button" class="active" data-p1-workshop-layer="roof" aria-pressed="true" title="แสดง/ซ่อน หลังคา">หลังคา</button></div>
+            </div>
+            <div class="p1-workshop-stage" id="p1-workshop-stage">
+              <div class="p1-workshop-empty" id="p1-workshop-empty"><strong>เริ่มจากเสา 4 ต้นได้</strong><span>วางเสาแล้ว 3D จะอัปเดตจาก state งานจริงทันที บันทึก P1 ได้โดยไม่ต้องวางครบทุกจุด Grid</span></div>
+            </div>
+            <footer class="p1-workshop-foot"><strong id="p1-workshop-counts">C 0 จุด · B 0 · S 0 · PS 0 · GS 0 · RF 0 ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</strong><span class="p1-workshop-coverage">SOLID = มิติ Drawing Input · AXIS = ต้องการข้อมูลเพิ่ม: หน้าตัด</span><span class="p1-workshop-xray-note" id="p1-workshop-xray-note">DRAWING RUN = รวมภาพผ่าน Grid อ้างอิงเท่านั้น · STRUCTURAL CONTINUITY ยังไม่ได้คำนวณ — กด วิเคราะห์และออกแบบ</span><span class="p1-workshop-secondary-hold" id="p1-workshop-secondary-hold" role="status" aria-live="polite" hidden></span><span class="p1-workshop-secondary-hold" id="p1-workshop-stair-hold" role="status" aria-live="polite" hidden></span><span class="p1-workshop-floor-legend" aria-label="สีชนิดพื้นในภาพ 3D"><span data-floor-kind="S"><i aria-hidden="true"></i>S หล่อในที่</span><span data-floor-kind="PS"><i aria-hidden="true"></i>PS สำเร็จรูป</span><span data-floor-kind="GS"><i aria-hidden="true"></i>GS พื้นบนดิน</span><span data-floor-kind="RAMP"><i aria-hidden="true"></i>RP ทางลาด</span></span><span class="p1-workshop-boundary" id="p1-workshop-roof-authority">ข้อมูลโครงหลังคา · MEMBER / WIND-UPLIFT / CONNECTION CAPACITY</span></footer>
+          </aside>
+        </div>
+      </section>
+
+      <aside class="inspector" id="tool-inspector" aria-label="เมนูย่อยของเครื่องมือ" aria-hidden="true">
+        <div class="inspector-head"><button class="inspector-close" type="button" id="inspector-close" aria-label="ปิดเมนูย่อย">×</button><div class="eyebrow">คำสั่งเครื่องมือ</div><h2 id="inspector-title">คาน · คานหลัก</h2><p id="inspector-description">คานหลักใช้ Manual หรือ Auto; Auto-beam ใช้เฉพาะคานหลัก ไม่สร้างคานซอย</p><span class="inspector-boundary">DRAWING INPUT</span></div>
+        <div class="selection-summary"><div><span>ขอบเขต</span><strong id="selection-scope">F2</strong></div><div><span>ตำแหน่ง</span><strong id="selection-target">3–4 / B–C</strong></div><div><span>สถานะ</span><strong id="selection-state">PREVIEW</strong></div></div>
+        <div class="inspector-body" id="inspector-body"></div>
+        <div class="inspector-action"><button class="primary-button" type="button" id="primary-action">Commit ขั้น 1 · Grid</button><div class="action-note" id="action-note">Mockup เท่านั้น ยังไม่เขียนลงโมเดลหรือคำนวณจริง</div></div>
+      </aside>
+    </section>
+
+    <footer class="statusbar">
+          <div class="save-state"><span class="save-dot"></span><span id="save-state" hidden></span><span id="p1-authoring-save-status" role="status">กำลังเปิดระบบบันทึกร่าง…</span></div>
+      <div class="object-counts" aria-label="จำนวนวัตถุในแปลน P1"><span>แปลน P1</span>
+        <span>เสา <strong id="count-columns">0</strong></span><span>คาน <strong id="count-main-beams">B F2 0 · B F1 0 · GB F1 0</strong></span><span>คานซอย <strong id="count-secondary-beams">Draft 0</strong></span><span>คานยื่น <strong id="count-cantilever-beams">0</strong></span><span>พื้น <strong id="count-slabs">0</strong></span><span>พื้นยื่น <strong id="count-cants">0</strong></span><span>ช่องเปิด <strong id="count-openings">0</strong></span><span>บันได <strong id="count-stairs">0</strong></span><span id="count-rooms-item" hidden>ห้อง <strong id="count-rooms">—</strong></span><span>หลังคา <strong id="count-roof">—</strong></span>
+      </div>
+      <div class="status-spacer"></div>
+      <button class="quiet-button" type="button" id="reset-button">รีเซ็ต Demo</button>
+      <button class="quiet-button" type="button" id="workflow-cancel" hidden>ยกเลิก · Esc</button>
+      <button class="workflow-action" type="button" id="workflow-action" hidden>
+        <span class="workflow-action-icon" id="workflow-action-icon" aria-hidden="true">✓</span>
+        <span class="workflow-action-copy"><strong id="workflow-action-title">ยืนยัน Grid</strong><small id="workflow-action-detail">ไปขั้น 2 · เสา/คาน</small></span>
+        <span class="workflow-action-arrow" aria-hidden="true">→</span>
+      </button>
+      <button class="preflight" type="button" id="preflight-button"><span aria-hidden="true">!</span><span id="preflight-label">Preflight: 5 จุดให้ตรวจ</span></button>
+    </footer>
+  </main>
+
+  <section class="coach-panel" id="coach-panel" hidden aria-label="ผู้ช่วยสอนอาคารใหม่ V2 จาก Level ถึงรายงานและ P7">
+    <div class="coach-head">
+      <div><span class="coach-kicker">HOUSE LESSON · REAL WORKFLOW</span><strong>Demo · บ้าน 2 ชั้นจาก P1 ถึง P7</strong></div>
+      <button type="button" id="coach-close-button" aria-label="ปิดผู้ช่วยสอน">×</button>
+    </div>
+    <div class="coach-house-program" aria-label="โจทย์บ้านตัวอย่างสองชั้น">
+      <span>ชั้น 1<b>3 ห้องนอน · 2 ห้องน้ำ · GB · บันได</b></span>
+      <span>ชั้น 2<b>2 ห้องนอน · 2 ห้องน้ำ · หลังคาจั่ว</b></span>
+    </div>
+    <div class="coach-chapters" aria-label="เลือกบทเรียน">
+      <button type="button" class="active" data-course-chapter="all">สร้างบ้าน 2 ชั้นครบ</button>
+      <button type="button" data-course-chapter="0">เริ่ม · Level</button>
+      <button type="button" data-course-chapter="1">1 · Grid</button>
+      <button type="button" data-course-chapter="2">2 · โครงสร้าง</button>
+      <button type="button" data-course-chapter="3">3 · ระบบพื้น</button>
+      <button type="button" data-course-chapter="4">4 · บันได/ช่องเปิด</button>
+      <button type="button" data-course-chapter="5">5 · หลังคา</button>
+      <button type="button" data-course-chapter="6">6 · โหลด→รายงาน/P7</button>
+    </div>
+    <div class="coach-progress"><i id="coach-progress-fill"></i></div>
+    <div class="coach-caption" aria-live="polite">
+      <div class="coach-caption-top"><span id="coach-step-chip">พร้อมเริ่ม · สร้าง Level จากศูนย์</span><span id="coach-step-count">0 / 0</span></div>
+      <strong id="coach-step-title">สร้างอาคารก่อนเปิดหน้าแปลน</strong>
+      <p id="coach-caption">ระบบจะพากำหนด Level, แปลน, หลังคา, โหลด และกดวิเคราะห์จริง จากนั้นตรวจ P4, ผลแรง P5, รายงาน P6 และ 3D/Trace ที่ P7</p>
+      <small id="coach-boundary">P1 DRAWING INPUT · P2 USER INPUT · P3 INTERNAL · P4–P7 ผลชุดเดียวกัน · FAIL CLOSED</small>
+    </div>
+    <div class="coach-actions">
+      <button type="button" class="outline-button" id="coach-teach-button" aria-label="สอนทีละคลิก">สอน</button>
+      <button type="button" class="primary-button" id="coach-play-button" aria-label="เล่นหรือหยุดชั่วคราว Demo">▶ Demo</button>
+      <button type="button" class="outline-button" id="coach-next-button" aria-label="ข้ามขั้น Demo" disabled>ข้าม</button>
+      <button type="button" class="quiet-button" id="coach-stop-button" aria-label="หยุด Demo" disabled>หยุด</button>
+    </div>
+  </section>
+  <div class="demo-cursor" id="demo-cursor" aria-hidden="true"><span></span></div>
+
+  <section class="issues-tray" id="issues-tray" aria-label="รายการที่ต้องตรวจ" aria-live="polite">
+    <div class="issues-head"><strong>รายการก่อนส่งต่อ P2 / Engineering</strong><button type="button" id="close-issues" aria-label="ปิดรายการ">×</button></div>
+    <button class="issue-row" type="button" data-focus="secondary"><span class="issue-icon">!</span><span class="issue-copy"><strong>ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ · SB Drawing Face / Junction ยัง</strong><small>คานซอยแบ่งพื้นเมื่อขอบเขตปิดครบ รองรับตัว T และจุดตัด; ปลายขาดหรือแนวซ้อนต้องแก้ก่อน · จุดตัดไม่ใช่ support หรือ structural node</small></span><span>ดูคาน</span></button>
+    <button class="issue-row" type="button" data-focus="opening"><span class="issue-icon">!</span><span class="issue-copy"><strong id="opening-issue-title">ช่องเปิดเป็น Geometry Input</strong><small id="opening-issue-copy">ยังไม่ประเมินคานขอบ เหล็กเสริม support หรือ load path รอบช่อง</small></span><span>พาไปดู</span></button>
+    <button class="issue-row" type="button" data-focus="stair"><span class="issue-icon">!</span><span class="issue-copy"><strong id="stair-issue-title">ยังไม่ได้วาง Geometry บันได</strong><small>Footprint, ช่องเปิดชั้นบน, support, reaction และ load path ต้องตรวจแยกก่อนเปิดขั้นถัดไป</small></span><span>พาไปแก้</span></button>
+    <button class="issue-row" type="button" data-focus="cant"><span class="issue-icon">!</span><span class="issue-copy"><strong>คานยื่น/พื้นยื่นยังไม่ผ่าน Engineering gate</strong><small>Geometry แสดงได้ แต่คานยื่นหรือพื้นยื่นไร้คานต้องมี support, backspan, anchorage, torsion และ load route จริงก่อน Analysis</small></span><span>พาไปแก้</span></button>
+    <div class="ready-row" id="issues-ready"><span class="issue-icon">○</span><span class="issue-copy"><strong>GEOMETRY DRAFT COMPLETE · PREFLIGHT REQUIRED</strong><small>Roof Zone วาดได้แล้ว แต่ topology และ Engineering authority ยังต้องตรวจแยกก่อน P2</small></span></div>
+    <div class="tray-foot"><span>ตรวจ topology จริงจากแปลนปัจจุบัน · ยังไม่ใช่ผลแรงหรือสิทธิ์ก่อสร้าง</span><button class="outline-button" type="button" data-guide-tool="review" id="issues-review-action">ตรวจทั้งแปลน</button><button class="outline-button" type="button" id="topology-schema-rerun-action" data-p56-return-source data-p56-recovery-phase="P3" hidden>วิเคราะห์อีกครั้ง</button></div>
+  </section>
+
+  <section class="calc-book-preview" id="calc-book-preview" aria-labelledby="calc-book-title" aria-modal="true" role="dialog" hidden>
+    <div class="calc-book-shell">
+      <header class="calc-book-head">
+        <div><strong id="calc-book-title">P4 · หน้าตัดและสถานะ D/C</strong><small>เลือกค่าร่าง → วิเคราะห์ใหม่ที่ P3 → ตรวจผลจาก Card Evidence</small></div>
+        <div class="calc-book-head-actions"><span class="calc-book-boundary" id="calc-book-boundary">เลือกหน้าตัดที่ P4 แล้ววิเคราะห์เพื่อดูผล</span><button type="button" id="calc-book-close" title="กลับไปตรวจโหลดและผลวิเคราะห์ P3 โดยไม่ลบค่าร่าง">← กลับ P3 <kbd>Esc</kbd></button><button type="button" id="p4-auto-design">ออกแบบอัตโนมัติ → P5</button><button type="button" id="p4-next-p5" title="ต้องมีผลวิเคราะห์ชุดปัจจุบันก่อนเปิด P5" disabled>ผลแรง P5 →</button></div>
+      </header>
+      <div class="calc-book-grid">
+        <nav class="calc-book-card-rail" aria-label="เลือกประเภทชิ้นส่วนเพื่อดูหน้าตัดและสถานะการตรวจ">
+          <strong>ถ่ายแรง · บน → ล่าง</strong>
+          <div class="calc-book-card-list" id="calc-book-card-list"></div>
+        </nav>
+        <main class="calc-book-workspace">
+          <section class="p4-design-bench" aria-label="โต๊ะเลือกเหล็กเสริม P4">
+            <small id="p4-auto-soil-attestation">ฐานรากแผ่: ตรวจและยืนยันข้อมูลดินก่อนออกแบบ</small><div id="p4-method-switch" role="status" hidden></div><div id="p4-auto-soil-confirmation" hidden></div><button type="button" id="p4-auto-cancel" hidden>ยกเลิก</button><div id="p4-auto-problems" role="status" aria-live="polite" hidden></div>
+            <section id="p4-beam-family-panel" hidden><label>จัดกลุ่มคาน <select id="p4-beam-grouping"><option value="family">ตามประเภทคาน</option><option value="individual">ละเอียดรายตัว (เดิม)</option></select></label><div id="p4-beam-family-table" class="p4-schedule-scroll"></div></section>
+            <div class="p4-context-strip" aria-label="ข้อมูลพื้นฐานที่รับมาจากโปรเจกต์และผลวิเคราะห์">
+              <div class="p4-context-cell is-secondary"><span>โครงการ</span><strong id="calc-book-project-summary">V2 · อาคารใหม่</strong><small id="calc-book-project-location">ไม่ระบุสถานที่</small></div>
+              <div class="p4-context-cell"><span>P0 · โปรไฟล์</span><strong id="calc-book-profile-summary">มยผ. · SDM · kgf</strong><small>กำหนดก่อนเริ่ม P1</small></div>
+              <div class="p4-context-cell"><span>วัสดุ</span><strong id="calc-book-materials-summary">fc′ 240 · fy 4,000 ksc</strong><small id="calc-book-cover-summary">ระยะหุ้มตามชิ้นส่วน</small></div>
+              <div class="p4-context-cell is-secondary"><span>ข้อมูลแปลน</span><strong id="calc-book-model-summary">0 รายการ</strong><small>ใช้ระบุตำแหน่งเท่านั้น</small></div>
+              <div class="p4-context-cell" id="calc-book-analysis-cell" data-state="hold"><span>ผลวิเคราะห์</span><strong id="calc-book-analysis-summary">ยังไม่มีผลที่ใช้ได้</strong><small id="calc-book-analysis-hint">ยังใช้ผลออกแบบไม่ได้</small></div>
+              <button type="button" id="p4-profile-back">กลับ P0 · โปรเจกต์</button>
+            </div>
+            <section class="p4-engine-readiness" id="p4-engine-readiness" aria-labelledby="p4-engine-readiness-title">
+              <header class="p4-engine-readiness-head">
+                <strong class="p4-engine-readiness-authority">ดูอย่างเดียว · ไม่ใช่แบบก่อสร้าง</strong>
+                <span>SECONDARY ENGINE READINESS</span>
+                <h2 id="p4-engine-readiness-title">บันไดและระบบโครงหลังคา</h2>
+                <p>อ่าน immutable evidence ชุดเดียวกับผล P3; รายการที่ไม่มี adapter จะแสดง ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ พร้อมรหัส</p>
+              </header>
+              <div class="p4-engine-readiness-groups">
+                <section class="p4-engine-readiness-group" aria-labelledby="p4-stair-readiness-title">
+                  <header>
+                    <span class="p4-engine-readiness-status" id="p4-stair-readiness-status" data-state="hold">! ตรวจข้อมูลบันไดที่ P1 และจุดรองรับที่ P4</span>
+                    <div><b id="p4-stair-readiness-title">01 · ผลคำนวณบันได</b><small>ผลราย flight/landing จาก Stair Record และ P3 authority ชุดเดียวกัน</small></div>
+                  </header>
+                  <div class="p4-engine-readiness-body" id="p4-stair-readiness-body" role="status" aria-live="polite">
+                    <div class="p4-engine-readiness-hold"><strong>ข้อมูลบันไดเปลี่ยนแล้ว · กลับ P3 วิเคราะห์ใหม่</strong><span>รอ immutable ผลคำนวณบันได evidence</span></div>
+                  </div>
+                </section>
+                <section class="p4-engine-readiness-group" aria-labelledby="p4-roof-readiness-title">
+                  <header>
+                    <span class="p4-engine-readiness-status" id="p4-roof-readiness-status" data-state="hold">! ENGINE ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</span>
+                    <div><b id="p4-roof-readiness-title">02 · Roof / King-post Readiness</b><small>แยก Gravity, Capacity, Wind, Uplift, Connection และ Reinforcement</small></div>
+                  </header>
+                  <div class="p4-engine-readiness-body" id="p4-roof-readiness-body" role="status" aria-live="polite">
+                    <div class="p4-engine-readiness-hold"><strong>ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</strong><span>รอ readiness projection จาก immutable P1/P2/P3</span></div>
+                  </div>
+                </section>
+              </div>
+            </section>
+            <div class="p4-workspace-grid">
+              <aside class="p4-member-source">
+                <div class="p4-source-intro"><span class="p4-panel-kicker">ชุดแบบชั่วคราว</span><h2>ตำแหน่งจากแปลน</h2><p id="calc-book-source-copy">ใช้ตำแหน่งจากแปลนเพื่อจัดหน้าทำงานเท่านั้น</p></div>
+                <div class="p4-source-empty"><strong id="calc-book-source-name">B-01 · คาน</strong><span id="calc-book-source-state">รอผลจัดกลุ่มจากระบบเดิม</span></div>
+                <div class="p4-set-list" id="calc-book-set-list" role="listbox" aria-label="เลือกชุดสมาชิกจากแปลน"></div>
+                <p class="p4-source-boundary">ชุดแบบชั่วคราวไม่ใช่กลุ่มออกแบบ<br>กลุ่มจริงต้องมาจากผลวิเคราะห์ที่ล็อกแล้ว</p>
+              </aside>
+              <section class="p4-candidate-editor">
+                <header class="p4-candidate-head">
+                  <div><span class="p4-panel-kicker" id="calc-book-card-code">BM · แบบร่างเหล็ก</span><h2 id="calc-book-card-title">คาน</h2><p id="calc-book-card-subtitle">เลือกหน้าตัด เหล็กบน เหล็กล่าง และเหล็กปลอก</p><strong class="p4-selected-set" id="calc-book-set-summary">B-01 · คาน · 0 ชิ้น</strong></div>
+                  <div class="calc-book-page-status" id="calc-book-page-status">แบบร่าง<br><b>ยังไม่ได้ตรวจ</b></div>
+                </header>
+                <div class="p4-candidate-body">
+                  <div class="p4-candidate-controls">
+                    <div class="p4-field-grid" id="calc-book-candidate-fields"></div>
+                    <div class="p4-candidate-summary"><b>ชุดที่เลือก</b><span id="calc-book-candidate-summary">—</span></div>
+                  </div>
+                  <div class="p4-evidence-stack">
+                    <section class="p4-plan-location" aria-labelledby="calc-book-plan-title">
+                      <header class="p4-section-head"><div><span>แปลนตามระดับ</span><strong id="calc-book-plan-title">ตำแหน่งจากแปลน</strong></div><em>ไฮไลท์ตำแหน่งที่เลือก</em></header>
+                      <div class="p4-plan-canvas" id="calc-book-plan-canvas" role="img" aria-label="ตำแหน่งผลออกแบบยังไม่พร้อม"></div>
+                      <p class="p4-plan-note" id="calc-book-plan-note">อ้างอิงตำแหน่งเท่านั้น · รอผลวิเคราะห์</p>
+                    </section>
+                    <section class="p4-section-preview" aria-labelledby="calc-book-section-title">
+                      <header class="p4-section-head"><div><span>รูปตัด</span><strong id="calc-book-section-title">หน้าตัดชิ้นส่วน</strong></div><em id="calc-book-section-scale">ลายเส้น CAD</em></header>
+                      <div class="p4-section-canvas" id="calc-book-section-canvas" role="img" aria-label="รูปตัดแบบร่างยังไม่พร้อม"></div>
+                      <p class="p4-section-note" id="calc-book-section-note">แบบร่าง · ยังไม่ใช่แบบก่อสร้าง</p>
+                    </section>
+                  </div>
+                  <details class="p4-schedule">
+                    <summary><span id="calc-book-schedule-title">ตารางชุดคานจากแปลน</span><small>กดเพื่อดูทั้งหมด</small></summary>
+                    <div class="p4-schedule-scroll">
+                      <table><thead><tr><th>ชุดแบบ</th><th>ชั้น</th><th>จำนวน</th><th>ค่าที่เลือก</th><th>สถานะ</th></tr></thead><tbody id="calc-book-schedule-body"></tbody></table>
+                    </div>
+                  </details>
+                </div>
+                <p class="p4-candidate-boundary" id="calc-book-candidate-boundary">ค่าที่เลือกในหน้านี้เป็นแบบร่าง ไม่ใช่เหล็กที่ออกแบบแล้ว และจะไม่ถูกใช้เป็นผลก่อสร้างจนกว่าระบบเดิมจะสร้างผลออกแบบที่เป็นปัจจุบันและตรวจสอบย้อนกลับได้</p>
+              </section>
+              <aside class="p4-check-panel">
+                <span class="p4-panel-kicker" id="calc-book-check-kicker">ส่งตรวจ</span>
+                <h2 id="calc-book-check-title">ตรวจความใช้ได้</h2>
+                <p id="calc-book-check-copy">ส่งแรง หน้าตัด และเหล็กชุดเดียวกันเพื่อตรวจ</p>
+                <div class="p4-check-state" id="calc-book-check-state" data-state="hold"><strong id="calc-book-check-status">ยังไม่ได้ส่งตรวจ</strong><span id="calc-book-check-detail">เลือกค่าได้ แต่ยังไม่มีผลวิเคราะห์ที่ใช้ตรวจได้</span></div>
+                <div class="p4-pile-basis" id="p4-pile-basis" hidden></div>
+                <div class="p4-pile-basis" id="p4-project-basis" hidden></div>
+                <details class="p4-gate-details">
+                  <summary><span>รายละเอียดการตรวจ</span><strong id="calc-book-gate-summary">ตรวจรายการที่ขาดและจุดแก้ด้านล่าง</strong></summary>
+                  <div class="p4-check-list" id="calc-book-gate-list" aria-label="สถานะ Trace และด่านตรวจ P4"></div>
+                </details>
+                <button class="p4-check-button" type="button" id="calc-book-check-button">ยืนยันค่าร่าง</button>
+                <button class="p4-lock-button" type="button" id="calc-book-lock-button" aria-pressed="false" disabled>ยืนยันแบบร่าง Candidate</button>
+                <small class="p4-candidate-authority-note" id="calc-book-candidate-authority-note">ไม่ใช่ผลออกแบบ</small>
+                <div class="p4-preview-next" aria-label="ดูตัวอย่างขั้นถัดไปโดยไม่ปลดล็อกผลจริง">
+                  <small>ไปดูขั้นถัดไปได้เลย · ไม่ปลดล็อกผลจริง</small>
+                  <div>
+                    <button type="button" id="p4-preview-p5">ผลออกแบบ + 3D<span>ตรวจรายการที่ยังขาดใน P4</span></button>
+                    <button type="button" id="p4-preview-p6">รายงาน<span>ตรวจรายการที่ยังขาดใน P4 ก่อนเปิดรายงาน</span></button>
+                  </div>
+                </div>
+                <div class="p4-engine-note">กดได้จริงเพื่อทดสอบจุดกั้นเท่านั้น โดยไม่สร้างอัตราส่วนกำลัง สถานะผ่านหรือไม่ผ่าน หรือเหล็กที่ผ่านการตรวจจาก</div>
+              </aside>
+            </div>
+          </section>
+        </main>
+      </div>
+      <section class="p56-demo" id="p56-demo" data-stage="p5" aria-labelledby="p56-demo-title" hidden>
+        <header class="p56-demo-head">
+          <div><strong id="p56-demo-title">ผลออกแบบและโมเดล 3D</strong><small id="p56-demo-subtitle">ผลแรง หน้าตัด และโมเดลอ้างอิงชุดผลเดียวกัน</small></div>
+          <div class="p56-demo-actions">
+            <button type="button" data-p56-technical-toggle aria-controls="p56-technical-drawer" aria-expanded="false">ข้อมูลเทคนิค</button>
+            <span class="p56-boundary" id="p56-demo-boundary">ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ UI · NO RESULT</span>
+            <button class="p56-stage-button" type="button" data-p56-stage="p5">ผลแรงและหน้าตัด</button>
+            <button class="p56-stage-button" type="button" data-p56-stage="p7">พรีเซนต์ 3D · P7</button>
+            <button class="p56-stage-button" type="button" data-p56-stage="p6">รายงาน A4</button>
+            <button class="p56-back-button" type="button" id="p56-back-p4">← ทบทวนหน้าตัด <kbd>Esc</kbd></button>
+          </div>
+        </header>
+        <aside id="p56-technical-drawer" class="p56-technical-drawer" aria-label="ข้อมูลเทคนิค" hidden>
+          <button type="button" data-p56-technical-close aria-label="ปิดข้อมูลเทคนิค">ปิด</button>
+              <aside class="p56-side" id="p56-p7-trace-rail">
+                <h2>Engine / Model Trace</h2>
+<div class="p56-result-trace" id="p56-result-trace">ANALYSIS · ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</div>
+<div class="p56-result-trace" id="p56-trace-model-trace">P7 · ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</div>
+<div><strong id="p56-trace-title">รอผลโครงข่าย</strong><p id="p56-trace-detail">เมื่อมีผลชุดปัจจุบัน จะแสดงอาคารทั้งหลังและเปิดปิดแต่ละชั้นได้</p></div>
+                <div class="p56-trace-list" id="p56-trace-list"><div class="p56-trace-row"><span>สถานะ</span><strong>รอผลวิเคราะห์ชุดปัจจุบัน</strong></div></div>
+                <section class="p56-presentation-panel" aria-labelledby="p56-presentation-title">
+                  <strong id="p56-presentation-title">สีสำหรับพรีเซนต์</strong>
+                  <div class="p56-presentation-modes" role="group" aria-label="เลือกวิธีแยกสีโมเดล">
+                    <button class="p56-presentation-mode active" type="button" data-p56-color-mode="group" aria-pressed="true">กลุ่ม / ขนาด</button>
+                    <button class="p56-presentation-mode" type="button" data-p56-color-mode="type" aria-pressed="false">ประเภทสมาชิก</button>
+                  </div>
+                  <div class="p56-presentation-legend" id="p56-presentation-legend"><p class="p56-presentation-note">รอกลุ่มจากผล P4 ชุดปัจจุบัน</p></div>
+                  <button class="p56-legend-reset" type="button" id="p56-presentation-reset">แสดงทุกกลุ่ม</button>
+                  <p class="p56-presentation-note" id="p56-presentation-note">PRESENTATION ONLY · สีไม่เปลี่ยน D/C, PASS/FAIL หรือกลุ่มออกแบบ</p>
+                </section>
+                <section class="p56-presentation-panel" aria-labelledby="p56-rebar-coverage-title">
+                  <strong id="p56-rebar-coverage-title">3D Rebar Coverage</strong>
+                  <div class="p56-rebar-coverage" id="p56-rebar-coverage"><div class="p56-gate" data-state="hold"><strong>REBAR ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</strong><span>รอผล P4 ชุดปัจจุบัน</span></div></div>
+                  <p class="p56-presentation-note">CARD-SELECTED EVIDENCE · แสดงเพื่อพรีเซนต์ ไม่ใช่ Shop Drawing / BBS</p>
+                </section>
+                <div class="p56-flow-note">อ่านผลชุดเดียวกับ P5 เท่านั้น · ปิดชั้นเพื่อช่วยมองภาพ ไม่ได้ตัดสมาชิกออกจากผลวิเคราะห์</div>
+              </aside>
+        </aside>
+        <div class="p56-demo-body">
+          <section class="p56-panel" data-p56-panel="p5" aria-label="ผลแรงและหลักฐานออกแบบจากผลชุดปัจจุบัน">
+            <div class="p56-result-grid">
+              <aside class="p56-side">
+                <h2>เลือกผลที่ต้องการดู</h2>
+                <div class="p56-mode-list" role="group" aria-label="โหมดแสดงผล P5">
+                  <button class="p56-mode-button active" type="button" data-p56-mode="reaction">แรงลงฐานรองรับ <b>R</b></button>
+                  <button class="p56-mode-button" type="button" data-p56-mode="axial">แรงตามแกน <b>N</b></button>
+                  <button class="p56-mode-button" type="button" data-p56-mode="shear">แรงเฉือน <b>SFD</b></button>
+                  <button class="p56-mode-button" type="button" data-p56-mode="moment">โมเมนต์ดัด <b>BMD</b></button>
+                  <button class="p56-mode-button" type="button" data-p56-mode="deformation" title="การแอ่นตัวทันทีของคาน RC จาก D และ D+L + เหล็ก Beam Card ชุดปัจจุบัน">การแอ่นตัว <b>δ · mm</b></button>
+                  <button class="p56-mode-button" type="button" data-p56-mode="section" title="เปิดดูหน้าตัดคอนกรีตและเหล็กจาก Card Evidence ของสมาชิกที่เลือก">หน้าตัดและเหล็ก <b>SECTION</b></button>
+                  <button class="p56-mode-button" type="button" data-p56-mode="three">มุมมองทั้งอาคาร <b>3D</b></button>
+                </div>
+                <div class="p56-flow-note">อ่านโครงข่ายและค่าแรงจากผลวิเคราะห์ชุดเดียวกันเท่านั้น · ตัวเลือกชั้นใช้ซ่อนภาพ ไม่ได้ตัดแรงออกจากผลวิเคราะห์</div>
+              </aside>
+              <section class="p56-result-view">
+                <header class="p56-view-head">
+                  <div><strong id="p56-result-mode">แรงลงฐานรองรับ</strong><span id="p56-result-source">ผลวิเคราะห์: ยังไม่มี</span></div>
+                  <div class="p56-view-head-actions">
+                    <div class="p56-label-controls" id="p56-label-controls" role="group" aria-label="จำนวนป้ายค่าบนโมเดล P5">
+                      <span class="p56-label-summary" id="p56-label-summary" aria-live="polite">รอผลเพื่อระบุจำนวนจุด</span>
+                      <button class="p56-label-button" type="button" data-p56-label-mode="off" aria-pressed="false">ซ่อนป้าย</button>
+                      <button class="p56-label-button active" type="button" data-p56-label-mode="critical" aria-pressed="true">เบอร์</button>
+                      <button class="p56-label-button" type="button" data-p56-label-mode="all" aria-pressed="false">ป้ายเต็ม</button>
+                    <span class="p56-hold-legend"><i aria-hidden="true">●</i>= ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ (ชี้/คลิกเพื่อดู)</span></div>
+                    <div class="p56-view-buttons" role="group" aria-label="กำหนดมุมมองผลสามมิติ">
+                      <button class="p56-view-button active" type="button" data-p56-view="iso">ISO</button>
+                      <button class="p56-view-button" type="button" data-p56-view="top">TOP</button>
+                      <button class="p56-view-button" type="button" data-p56-view="front">FRONT</button>
+                      <button class="p56-view-button" type="button" data-p56-view="side">SIDE</button>
+                    </div>
+                    <div class="p56-sketchup-actions" role="group" aria-label="ส่งออกโมเดลสำหรับรีวิวใน SketchUp">
+                      <button class="p56-sketchup-button is-primary" type="button" id="p56-p5-sketchup-package" data-p56-sketchup-package data-default-label="Full Review ZIP" aria-label="สร้าง ไฟล์โมเดล ZIP ที่มี DAE, manifest และ README จากผลวิเคราะห์ชุดปัจจุบัน" title="DAE + MANIFEST + README · NOT NATIVE SKP · ดูอย่างเดียว · ไม่ใช่แบบก่อสร้าง" disabled aria-disabled="true">ไฟล์โมเดล ZIP</button>
+                      <button class="p56-sketchup-button is-secondary" type="button" id="p56-p5-sketchup-dae" data-p56-sketchup-dae data-default-label="DAE โดยตรง · ไฟล์รอง" aria-label="ส่งออก DAE โดยตรงเป็นไฟล์รองสำหรับนำเข้า SketchUp" title="SECONDARY DIRECT DAE · PARTIAL ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ MODEL · ไม่ใช่แบบก่อสร้าง" disabled aria-disabled="true">DAE โดยตรง · ไฟล์รอง</button>
+                    </div>
+                  </div>
+                </header>
+                <div class="p56-layer-bar" id="p56-layer-bar" aria-label="เปิดปิดชั้นของโมเดล">
+                  <span>LAYER</span>
+                  <label class="p56-layer-toggle"><input type="checkbox" data-p56-level="L_F1" checked>ชั้น 1</label>
+                  <label class="p56-layer-toggle"><input type="checkbox" data-p56-level="L_F2" checked>ชั้น 2</label>
+                  <label class="p56-layer-toggle"><input type="checkbox" data-p56-level="L_RF" checked>หลังคา</label>
+                  <button class="p56-secondary-focus" type="button" data-p56-secondary-focus aria-pressed="false" title="โฟกัสแกนคานซอย Drawing Input โดยไม่สร้างหน้าตัดหรือผลวิเคราะห์แทน"><span>โฟกัสคานซอย</span><b data-p56-secondary-count>0</b><small>รออนุมัติ</small></button>
+                  <label class="p56-member-select" data-p56-rebar-control hidden><span>คานที่ตรวจ</span><select data-p56-member-select aria-label="เลือกคานเพื่อดูหน้าตัดและเหล็กจริงจาก Card Evidence"><option value="">รอ Card Evidence</option></select></label>
+                  <div class="p56-rebar-layers" data-p56-rebar-control role="group" aria-label="เปิดปิดชั้นข้อมูลหน้าตัดและเหล็ก" hidden>
+                    <button class="p56-rebar-layer active" type="button" data-p56-rebar-layer="concrete" aria-pressed="true">คอนกรีตโปร่ง</button>
+                    <button class="p56-rebar-layer active" type="button" data-p56-rebar-layer="top" aria-pressed="true">เหล็กบน</button>
+                    <button class="p56-rebar-layer active" type="button" data-p56-rebar-layer="bottom" aria-pressed="true">เหล็กล่าง</button>
+                    <button class="p56-rebar-layer active" type="button" data-p56-rebar-layer="stirrup" aria-pressed="true">ปลอก</button>
+                    <button class="p56-rebar-layer active" type="button" data-p56-rebar-layer="endZone" aria-pressed="true">ปลอกปลาย · เขียวอ่อน</button>
+                    <button class="p56-rebar-layer active" type="button" data-p56-rebar-layer="hanger" aria-pressed="true">ปลอกแขวน · ชมพู</button>
+                  </div>
+                </div>
+                <div class="p56-empty-view">
+                  <div class="p56-empty-card">
+                    <span class="p56-mode-chip" id="p56-mode-chip">REACTION · ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</span>
+                    <div class="p56-result-canvas" id="p56-result-canvas" role="img" aria-label="ผลวิเคราะห์สามมิติจากโครงข่ายในแปลน">
+                      <svg id="p56-result-svg" viewBox="0 0 920 560" aria-hidden="true"></svg>
+                      <div class="p56-three-host" id="p56-result-three" aria-hidden="true" hidden></div>
+                      <div class="p56-orbit-hint" id="p56-result-orbit-hint" hidden>ลากซ้ายหมุนรอบอาคาร · ล้อซูม · คลิกขวาเลื่อน</div>
+                      <div class="p56-canvas-hold" id="p56-canvas-hold"><div><strong>รอผลวิเคราะห์</strong><span>ต้องมีโครงข่าย สมาชิก และผลแรงจากรหัสชุดเดียวกันก่อน ระบบจึงวาดผลได้</span></div></div>
+
+                    </div>
+                    <div class="p56-result-caption"><strong id="p56-result-title">รอผลวิเคราะห์</strong><p id="p56-result-detail">ไม่สร้างเส้นแรงจากค่าสูงสุดหรือข้อมูลตัวอย่าง</p></div>
+                    <small data-p56-rebar-drawing-caption data-p56-rebar-control hidden>รูปเหล็กตามรายละเอียดการ์ด · ขอ ระยะฝัง และระยะทาบชุดเดียวกัน</small>
+                  </div>
+                </div>
+                <footer class="p56-result-foot p56-p5-footer"><div><span>ต้นทาง</span><strong id="p56-result-origin">ANALYSIS ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</strong></div><div><span>ผลสมาชิก</span><strong id="p56-result-count">ไม่มีข้อมูล</strong></div><div><span>สถานะ</span><strong id="p56-result-status">ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</strong></div></footer>
+              </section>
+              <aside class="p56-authority">
+                <div id="p56-roof-steel-results" aria-live="polite" hidden></div>
+                <div class="p56-gate-stack" id="p56-selected-member" aria-live="polite" hidden></div>
+                <details class="p56-gate-details" data-p56-gate-viewer="p5">
+                <summary class="p56-gate-summary" aria-controls="p56-gate-stack" aria-expanded="false">ด่านตรวจ 3 · <span data-state="hold">ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ 3</span> <span class="p56-gate-summary-action">▸ แสดงรายละเอียด</span></summary>
+                <div class="p56-gate-stack" id="p56-gate-stack">
+                  <div class="p56-gate" data-state="hold"><strong>ผลวิเคราะห์ยังไม่ครบ</strong><span>ไม่มี reaction / member force / displacement</span></div>
+                  <div class="p56-gate" data-state="hold"><strong>ยังไม่มีผลชุดเดียว</strong><span>ไม่มีรหัสชุดผลและ fingerprint สำหรับตรวจความตรงกัน</span></div>
+                  <div class="p56-gate" data-state="hold"><strong>P6 ยังส่งออกไม่ได้</strong><span>ข้อมูลหาย ล้าสมัย หรือไม่ตรงกันต้องปิดกั้นทั้งชุด</span></div>
+                </div>
+                </details>
+                <div class="p56-critical-list" id="p56-critical-list" aria-label="ค่าวิกฤตที่แสดงในผล P5"></div>
+              </aside>
+            </div>
+          </section>
+          <section class="p56-panel" id="p56-p7-panel" data-p56-panel="p7" aria-label="โมเดลสามมิติของผลออกแบบชุดปัจจุบันแบบอ่านอย่างเดียว">
+            <div class="p56-result-grid">
+              <div class="p56-full-toolbar" aria-label="เครื่องมือ Full Presentation">
+
+                <button type="button" data-p56-drawer="right" aria-controls="p56-p7-authority-rail" aria-expanded="false">ผลตรวจ</button>
+                <button class="p56-full-exit" type="button" data-p56-full-exit>ออกเต็มจอ · Esc</button>
+              </div>
+
+              <section class="p56-result-view">
+                <header class="p56-view-head">
+                  <div><strong id="p56-trace-mode">3D ทั้งอาคาร</strong><span id="p56-trace-source">ผลวิเคราะห์: ยังไม่มี</span></div>
+                  <div class="p56-view-head-actions">
+                    <div class="p56-label-controls" id="p56-trace-label-controls" role="group" aria-label="ความหนาแน่นของป้ายบนโมเดลพรีเซนต์ P7">
+                      <span class="p56-label-caption">ป้าย</span>
+                      <button class="p56-label-button" type="button" data-p56-label-mode="off" aria-pressed="false">ซ่อนป้าย</button>
+                      <button class="p56-label-button active" type="button" data-p56-label-mode="critical" aria-pressed="true">เบอร์</button>
+                      <button class="p56-label-button" type="button" data-p56-label-mode="all" aria-pressed="false">ป้ายเต็ม</button>
+                    <span class="p56-hold-legend"><i aria-hidden="true">●</i>= ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ (ชี้/คลิกเพื่อดู)</span></div>
+                    <div class="p56-visual-modes" role="group" aria-label="โหมดพรีเซนต์โมเดลและเหล็กเสริม">
+                      <button class="p56-visual-button active" type="button" data-p56-visual="model" aria-pressed="true">โครงสร้าง</button>
+                      <button class="p56-visual-button" type="button" data-p56-visual="material" aria-pressed="false">ผิววัสดุ</button>
+                      <button class="p56-visual-button" type="button" data-p56-visual="xray" aria-pressed="false">X-RAY + เหล็ก</button>
+                      <button class="p56-visual-button" type="button" data-p56-visual="rebar" aria-pressed="false">หน้าตัด + เหล็ก</button>
+                      <button class="p56-visual-button" type="button" data-p56-visual="levels" aria-pressed="false">ระดับพื้น</button>
+                      <button class="p56-visual-button" type="button" data-p56-realistic-rebar aria-pressed="false">ผิวเหล็กสมจริง</button>
+                    </div>
+                    <div class="p56-view-buttons" role="group" aria-label="กำหนดมุมมองอาคาร P7">
+                      <button class="p56-view-button active" type="button" data-p56-view="iso">ISO</button>
+                      <button class="p56-view-button" type="button" data-p56-view="top">TOP</button>
+                      <button class="p56-view-button" type="button" data-p56-view="front">FRONT</button>
+                      <button class="p56-view-button" type="button" data-p56-view="side">SIDE</button>
+                    </div>
+                    <div class="p56-camera-actions" role="group" aria-label="กู้และจัดมุมกล้อง">
+                      <button class="p56-camera-button" type="button" data-p56-camera-action="previous" data-p56-camera-host="trace" disabled aria-label="กลับมุมกล้องก่อนหน้า"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5 3 9l4 4"/><path d="M4 9h7a5 5 0 1 1 0 10h-1"/></svg><span>มุมก่อน</span></button>
+                      <button class="p56-camera-button" type="button" data-p56-camera-action="fit" data-p56-camera-host="trace" aria-label="จัดโมเดลให้พอดีจอ"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3H3v4M13 3h4v4M7 17H3v-4M13 17h4v-4"/></svg><span>พอดีจอ</span></button>
+                    </div>
+                    <div class="p56-sketchup-actions" role="group" aria-label="ส่งออกโมเดลสำหรับรีวิวใน SketchUp">
+                      <button class="p56-sketchup-button is-primary" type="button" id="p56-p7-sketchup-package" data-p56-sketchup-package data-default-label="Full Review ZIP" aria-label="สร้าง ไฟล์โมเดล ZIP ที่มี DAE, manifest และ README จากผลวิเคราะห์ชุดปัจจุบัน" title="DAE + MANIFEST + README · NOT NATIVE SKP · ดูอย่างเดียว · ไม่ใช่แบบก่อสร้าง" disabled aria-disabled="true">ไฟล์โมเดล ZIP</button>
+                      <button class="p56-sketchup-button is-secondary" type="button" id="p56-p7-sketchup-dae" data-p56-sketchup-dae data-default-label="DAE โดยตรง · ไฟล์รอง" aria-label="ส่งออก DAE โดยตรงเป็นไฟล์รองสำหรับนำเข้า SketchUp" title="SECONDARY DIRECT DAE · PARTIAL ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ MODEL · ไม่ใช่แบบก่อสร้าง" disabled aria-disabled="true">DAE โดยตรง · ไฟล์รอง</button>
+                    </div>
+                    <button class="p56-full-button" type="button" id="p56-p7-full-button" aria-controls="p56-p7-panel" aria-pressed="false">FULL PRESENTATION</button>
+                  </div>
+                </header>
+                <div class="p56-layer-bar" id="p56-trace-layer-bar" aria-label="เปิดปิดชั้นของอาคาร P7">
+                  <span>LAYER</span>
+                  <label class="p56-layer-toggle"><input type="checkbox" data-p56-level="L_F1" checked>ชั้น 1</label>
+                  <label class="p56-layer-toggle"><input type="checkbox" data-p56-level="L_F2" checked>ชั้น 2</label>
+                  <label class="p56-layer-toggle"><input type="checkbox" data-p56-level="L_RF" checked>หลังคา</label>
+                  <button class="p56-secondary-focus" type="button" data-p56-secondary-focus aria-pressed="false" title="โฟกัสแกนคานซอย Drawing Input โดยลดความเด่นของพื้นและสมาชิกอื่น"><span>โฟกัสคานซอย</span><b data-p56-secondary-count>0</b><small>รออนุมัติ</small></button>
+                  <label class="p56-member-select" data-p56-rebar-control hidden><span>คานที่ตรวจ</span><select data-p56-member-select aria-label="เลือกคานเพื่อดูหน้าตัดและเหล็กจริงจาก Card Evidence"><option value="">รอ Card Evidence</option></select></label>
+                  <div class="p56-rebar-layers" data-p56-rebar-control role="group" aria-label="เปิดปิดชั้นข้อมูลหน้าตัดและเหล็ก" hidden>
+                    <button class="p56-rebar-layer active" type="button" data-p56-rebar-layer="concrete" aria-pressed="true">คอนกรีตโปร่ง</button>
+                    <button class="p56-rebar-layer active" type="button" data-p56-rebar-layer="top" aria-pressed="true">เหล็กบน</button>
+                    <button class="p56-rebar-layer active" type="button" data-p56-rebar-layer="bottom" aria-pressed="true">เหล็กล่าง</button>
+                    <button class="p56-rebar-layer active" type="button" data-p56-rebar-layer="stirrup" aria-pressed="true">ปลอก</button>
+                    <button class="p56-rebar-layer active" type="button" data-p56-rebar-layer="endZone" aria-pressed="true">ปลอกปลาย · เขียวอ่อน</button>
+                    <button class="p56-rebar-layer active" type="button" data-p56-rebar-layer="hanger" aria-pressed="true">ปลอกแขวน · ชมพู</button>
+                  </div>
+                </div>
+                <div class="p56-empty-view">
+                  <div class="p56-empty-card">
+                    <span class="p56-mode-chip" id="p56-trace-chip">ดูอย่างเดียว · ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</span>
+                    <div class="p56-result-canvas" role="img" aria-label="โมเดลสามมิติทั้งอาคารจากผลวิเคราะห์ชุดปัจจุบัน">
+                      <svg id="p56-trace-svg" viewBox="0 0 920 560" aria-hidden="true"></svg>
+                      <div class="p56-three-host" id="p56-trace-three" aria-hidden="true" hidden></div>
+                      <div class="p56-orbit-hint" id="p56-trace-orbit-hint" hidden>ลากซ้ายหมุนรอบอาคาร · ล้อซูม · คลิกขวาเลื่อน · พอดีจอเพื่อกู้มุม</div>
+                      <div class="p56-canvas-hold" id="p56-trace-canvas-hold"><div><strong>รอผลโครงข่าย</strong><span>หน้านี้ไม่สร้างโครงสร้างหรือแรงทดแทนข้อมูลที่ขาด</span></div></div>
+                      <div class="p56-p7-live-status" id="p56-p7-live-status" data-state="hold" role="status" aria-live="polite"><b>P7 · ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</b><span>รอผลวิเคราะห์ชุดปัจจุบัน</span></div>
+                      <div class="p56-elevation-rail" id="p56-elevation-rail" role="status" aria-live="polite" hidden></div>
+
+                    </div>
+                    <p class="p56-rebar-plain-caption">โมเดลเหล็กเสริมจากแบบที่ล็อกแล้ว · คลิกชิ้นส่วนเพื่อดูเหล็ก</p>
+                    <small data-p56-rebar-drawing-caption data-p56-rebar-control hidden>รูปเหล็กตามรายละเอียดการ์ด · ขอ ระยะฝัง และระยะทาบชุดเดียวกัน</small>
+                  </div>
+                </div>
+                <footer class="p56-result-foot"><div><span>ต้นทาง</span><strong id="p56-trace-origin">ANALYSIS ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</strong></div><div><span>สมาชิก</span><strong id="p56-trace-count">ไม่มีข้อมูล</strong></div><div><span>สถานะ</span><strong id="p56-trace-status">ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</strong></div></footer>
+              </section>
+              <aside class="p56-authority" id="p56-p7-authority-rail">
+                <div class="p56-gate-stack" id="p56-trace-selected-member" aria-live="polite" hidden></div>
+                <details class="p56-gate-details" data-p56-gate-viewer="p7">
+                <summary class="p56-gate-summary" aria-controls="p56-trace-gate-stack" aria-expanded="false">ด่านตรวจ 1 · <span data-state="hold">ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ 1</span> <span class="p56-gate-summary-action">▸ แสดงรายละเอียด</span></summary>
+                <div class="p56-gate-stack" id="p56-trace-gate-stack">
+                  <div class="p56-gate" data-state="hold"><strong>P7 · ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</strong><span>ยังไม่มีรหัสผลที่ตรวจสอบร่วมกันได้</span></div>
+                </div>
+                </details>
+              </aside>
+            </div>
+          </section>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section class="roof-designer" id="roof-designer" data-mode="guided" data-advanced="false" aria-label="Auto Roof Polygon Designer" aria-modal="true" role="dialog" hidden>
+    <div class="roof-designer-shell">
+      <header class="roof-designer-head">
+        <div><strong>⌂ สร้างหลังคาอัตโนมัติ</strong><small id="roof-designer-subtitle">ระบบจับขอบหลังคาจากหัวเสาและเลือกระบบโครงให้แล้ว · เลือกทรง → ดูภาพ 3D → กดบันทึก</small></div>
+        <div class="roof-designer-head-actions"><span class="roof-boundary-chip roof-adv" id="roof-member-boundary-chip">CANDIDATE 0</span><button class="roof-delete" type="button" id="roof-designer-delete" hidden>ลบ Roof Zone</button><button type="button" id="roof-advanced-toggle" aria-pressed="false" aria-controls="roof-designer">⚙ ปรับละเอียด</button><button type="button" id="roof-designer-close">กลับแปลน · Esc</button><button class="roof-confirm" type="button" id="roof-designer-confirm">บันทึกหลังคา</button></div>
+      </header>
+      <div class="roof-zone-toolbar" id="roof-zone-toolbar"><label>Roof Zone <select id="roof-zone-selector" aria-label="เลือก Roof Zone"></select></label><button type="button" id="roof-zone-new">+ เพิ่ม Zone</button><span id="roof-zone-help"></span></div>
+      <div class="roof-head-setup" id="roof-head-setup" hidden>
+        <div><strong id="roof-head-setup-title"></strong><p id="roof-head-setup-copy"></p></div>
+        <button type="button" class="primary-button" id="roof-setup-heads">เลือกตำแหน่งเสารับหลังคา</button>
+      </div>
+      <div class="roof-designer-grid">
+        <aside class="roof-designer-controls" aria-label="ตั้งค่า Auto Roof">
+          <div class="roof-simple-status" id="roof-simple-status"><p class="roof-framing-help" id="roof-framing-help" role="status"></p></div>
+          <div class="roof-control-group roof-source-group roof-adv"><b>ขอบหลังคาจากแปลนเดิม</b><button class="roof-source-button active" type="button" data-roof-source="columns">Auto-detect ขอบนอกเสา</button><button class="roof-source-button" type="button" data-roof-source="loose">Auto L/T/U เพิ่มจุดเว้า</button><button class="roof-source-button" type="button" data-roof-source="beams">Auto จากคานรอบนอก</button><button class="roof-source-button" type="button" data-roof-source="bbox">Fit bbox</button><small id="roof-source-note">อ่าน Geometry ปัจจุบันโดยไม่อนุมาน support หรือ load path</small></div>
+          <div class="roof-control-group roof-adv"><b>Template สำเร็จรูป</b><div class="roof-template-grid"><button type="button" data-roof-template="rect">สี่เหลี่ยม</button><button type="button" data-roof-template="square">จัตุรัส</button><button type="button" data-roof-template="l_tl">L ซ้ายบน</button><button type="button" data-roof-template="l_tr">L ขวาบน</button><button type="button" data-roof-template="l_br">L ขวาล่าง</button><button type="button" data-roof-template="l_bl">L ซ้ายล่าง</button><button type="button" data-roof-template="t">T</button><button type="button" data-roof-template="u">U</button><button type="button" data-roof-template="plus">+</button></div></div>
+          <div class="roof-control-group"><b>1 · เลือกทรงหลังคา</b><div class="roof-type-grid"><button type="button" data-roof-type="hip">⌂ ปั้นหยา</button><button type="button" data-roof-type="gable">△ จั่ว</button><button type="button" data-roof-type="lean">◩ เพิง</button><button type="button" data-roof-type="flat" disabled>แบน · ยังไม่รองรับ</button></div><b class="roof-step-label roof-adv">ระบบโครง<small>เลือกให้แล้ว · เปลี่ยนได้</small></b><div class="roof-framing-choices roof-adv" id="roof-framing-choices" role="group" aria-label="2 เลือกระบบโครงหลังคา"></div><label class="roof-framing-row roof-adv"><span>2 · ระบบโครง</span><select id="roof-framing-system" aria-label="เลือกระบบโครงหลังคา"><option value="">เลือกระบบโครงหลังคา</option><option value="SHED_RAFTER" data-roof-shape="lean">เพิง · จันทันบนแนวรับจริง</option><option value="SHED_PORTAL_FRAME" data-roof-shape="lean">เพิง · Portal Frame</option><option value="GABLE_STEEL_TRUSS" data-roof-shape="gable">จั่ว · Steel Truss (ไม่มีดั้ง/อกไก่ยาว)</option><option value="GABLE_KING_POST" data-roof-shape="gable">จั่ว · King Post (มีดั้ง + อกไก่)</option><option value="GABLE_RIDGE_BEAM" data-roof-shape="gable" data-roof-availability="hold">จั่ว · Ridge Beam · ต้องกำหนดแนวรองรับ (ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้)</option><option value="GABLE_PORTAL_FRAME" data-roof-shape="gable">จั่ว · Portal Frame</option><option value="HIP_RECTANGULAR_EQUAL_SLOPE" data-roof-shape="hip">ปั้นหยา · Rectangle / Equal Slope</option><option value="HIP_KING_POST_COMPLETE" data-roof-shape="hip">ปั้นหยา · ดั้ง + ขื่อ · โครงครบชุด</option></select><small class="roof-framing-note" id="roof-framing-note">ต้องเลือกแยกจากรูปทรง · ต้องการดั้งและอกไก่ให้เลือก King Post</small></label><button class="roof-layout-action roof-adv" type="button" id="roof-detect-layout">Auto Detect แนวหลังคา</button><div class="roof-layout-summary roof-adv" id="roof-layout-summary"><strong>ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ Polygon</strong>เลือกทรงและระบบโครง แล้วกด Auto Detect เพื่อสร้าง Support Graph + Roof Framing แบบ Drawing Input</div></div>
+          <div class="roof-control-group" id="roof-head-selection"><b>2 · เลือกหัวเสาที่รับหลังคา</b><p class="roof-head-selection-note">คลิกจุดหัวเสาใน Top View เพื่อเลือกหรือยกเลิก · ขอบนอกเลือกไว้ให้แล้ว</p><p class="roof-head-selection-note" id="roof-head-selection-status" role="status" aria-live="polite"></p></div>
+          <div class="roof-control-group"><b>3 · ทิศทางและความชัน</b><div class="roof-high-side" id="roof-high-side" hidden><small>ทิศด้านสูง</small><div><button type="button" data-roof-high-side="auto">อัตโนมัติ</button><button type="button" data-roof-high-side="N">↑ N</button><button type="button" data-roof-high-side="E">→ E</button><button type="button" data-roof-high-side="S">↓ S</button><button type="button" data-roof-high-side="W">← W</button></div></div><div class="roof-high-side" id="roof-ridge-direction" hidden><small>ทิศสันหลังคา</small><div><button type="button" data-roof-ridge-along="auto">อัตโนมัติ</button><button type="button" data-roof-ridge-along="x">แนว X</button><button type="button" data-roof-ridge-along="y">แนว Y</button></div></div><label><span>ความชัน (°)</span><input id="roof-slope-number" type="number" min="5" max="60" step="1" value="30" inputmode="decimal"></label></div>
+          <div class="roof-control-group roof-adv roof-parameters"><b>ชายคาและระยะสมาชิก</b><label><span>ความชัน <strong id="roof-slope-readout">30°</strong></span><input id="roof-slope" type="range" min="5" max="60" step="1" value="30"></label><label><span>ชายคายื่น <strong id="roof-eave-readout">0.00 ม.</strong></span><input id="roof-eave" type="range" min="0" max="2" step="0.05" value="0"></label><div id="roof-edge-overhang" class="roof-section-inputs" role="group" aria-label="ชายคารายด้าน 0 ถึง 2 เมตร"><label>เหนือ N (ม.)<input data-roof-edge-overhang="N" type="number" min="0" max="2" step="0.05" inputmode="decimal"></label><label>ใต้ S (ม.)<input data-roof-edge-overhang="S" type="number" min="0" max="2" step="0.05" inputmode="decimal"></label><label>ตะวันออก E (ม.)<input data-roof-edge-overhang="E" type="number" min="0" max="2" step="0.05" inputmode="decimal"></label><label>ตะวันตก W (ม.)<input data-roof-edge-overhang="W" type="number" min="0" max="2" step="0.05" inputmode="decimal"></label></div><small class="roof-spacing-note" id="roof-edge-overhang-note">ชายคาแยกรายด้าน 0–2 ม. · จันทันและแปยื่นตามระนาบหลังคา</small><label class="roof-adv"><span>ระยะจันทันในแปลน (ม.)</span><input id="roof-rafter-spacing" type="number" min="0.30" max="2.00" step="0.05" value="1.00" inputmode="decimal"></label><label class="roof-adv"><span>ระยะแปตามลาด (ม.)</span><input id="roof-purlin-spacing" type="number" min="0.30" max="2.00" step="0.05" value="1.00" inputmode="decimal"></label><small class="roof-spacing-note roof-adv">DRAWING SPACING · ผู้ใช้กำหนด · ยังไม่ได้คำนวณ — กด วิเคราะห์และออกแบบ</small></div>
+          <div class="roof-control-group"><b>ชนิดแปสำหรับเมทัลชีท</b><div class="roof-purlin-family" role="radiogroup" aria-label="ชนิดแป"><label><input type="radio" name="roof-purlin-family" value="C" checked>แปเหล็กรูปตัวซี</label><label><input type="radio" name="roof-purlin-family" value="TOP_HAT">แปสำเร็จรูป</label></div><small>Top-hat แบบทั่วไป (generic) · คำนวณจากรูปทรง · ใช้ค่าผู้ผลิตจริงเมื่อมี</small></div>
+          <div class="roof-control-group roof-adv"><b>ชนิดจันทัน</b><div class="roof-purlin-family" role="radiogroup" aria-label="ชนิดจันทัน"><label><input type="radio" name="roof-rafter-family" value="C" checked>เหล็ก C / 2C</label><label><input type="radio" name="roof-rafter-family" value="H">เหล็ก H</label></div><small>อัตโนมัติเลือกเหล็ก C / 2C · เลือกเหล็ก H เพื่อเพิ่มตัวเลือกและตรวจน้ำหนักโครงใหม่</small></div>
+          <div class="roof-auto-actions"><button type="button" class="primary-button" id="roof-auto-design">ออกแบบหลังคาอัตโนมัติ</button><button type="button" id="roof-auto-reset">เริ่มใหม่แบบอัตโนมัติ</button></div>
+          <div id="roof-auto-result" role="status" aria-live="polite" hidden></div>
+          <div class="roof-control-group roof-adv"><b>เพลทหัวเสา · SS400 / เหล็กหนวดกุ้ง SD40</b><div class="roof-section-inputs">
+            <label>กว้างเพลท (มม.)<input data-roof-head-plate="widthMm" type="number" min="1" step="5" value="150"></label>
+            <label>ยาวเพลท (มม.)<input data-roof-head-plate="depthMm" type="number" min="1" step="5" value="150"></label>
+            <label>หนาเพลท (มม.)<input data-roof-head-plate="thicknessMm" type="number" min="1" step="1" value="9"></label>
+            <label>จำนวนเหล็กยึด (เส้น/หัว)<input data-roof-head-plate="anchorCount" type="number" min="1" step="1" value="4"></label>
+            <label>ขนาดเหล็กยึด DB (มม.)<input data-roof-head-plate="anchorDiaMm" type="number" min="6" step="1" value="12"></label>
+            <label>ระยะฝังเหล็ก (มม.)<input data-roof-head-plate="anchorEmbedmentMm" type="number" min="1" step="10" value="300"></label>
+            <label>ขารอยเชื่อมรอบ (มม.)<input data-roof-head-plate="weldSizeMm" type="number" min="1" step="1" value="6"></label>
+          </div><small>เพลทไม่เกินหน้าตัดเสาหักระยะหุ้มด้านละ 25 มม. · เหล็กยึดแสดงรายละเอียดรับน้ำหนักแนวดิ่งเท่านั้น ไม่อ้างกำลังรับแรงดึง</small></div>
+          <div class="roof-control-group roof-adv"><b>หน้าตัดเหล็กที่ผู้ใช้ระบุ · มิติจริงใน 3D</b><div class="roof-section-inputs">
+            <label>อะเส<select id="roof-eave-section" data-roof-section-role="eave"><option value="RHS50x100x2.3">RHS 50×100×2.3</option><option value="RHS50x100x3.2" selected>RHS 50×100×3.2</option><option value="RHS75x150x3.2">RHS 75×150×3.2</option><option value="2C100x50x20x2.3">2C100×50×20×2.3 · ปาก C เข้าหากัน · RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</option></select></label>
+            <label>ขื่อรับดั้ง<select id="roof-tie-section" data-roof-section-role="tie"><option value="RHS50x100x2.3">RHS 50×100×2.3</option><option value="RHS50x100x3.2" selected>RHS 50×100×3.2</option><option value="RHS75x150x3.2">RHS 75×150×3.2</option><option value="2C100x50x20x2.3">2C100×50×20×2.3 · ปาก C เข้าหากัน · RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</option></select></label>
+            <label>อกไก่ / ตะเข้<select id="roof-primary-section" data-roof-section-role="primary"><option value="RHS50x100x2.3">RHS 50×100×2.3</option><option value="RHS50x100x3.2">RHS 50×100×3.2</option><option value="RHS75x150x3.2" selected>RHS 75×150×3.2</option><option value="2C100x50x20x2.3">2C100×50×20×2.3 · ปาก C เข้าหากัน · RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</option><option value="2C125x50x20x2.3">2C125×50×20×2.3 · ปาก C เข้าหากัน · RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</option></select></label>
+            <label>จันทัน<select id="roof-rafter-section" data-roof-section-role="rafter"><option value="C100x50x20x2.0">C100×50×20×2.0</option><option value="C100x50x20x2.3" selected>C100×50×20×2.3</option><option value="C125x50x20x2.3">C125×50×20×2.3</option><option value="C150x50x20x2.3">C150×50×20×2.3</option><option value="RHS50x100x2.3">RHS 50×100×2.3</option></select></label>
+            <label>ปั้นลม / เชิงชาย<select id="roof-fascia-section" data-roof-section-role="fascia"><option value="C100x50x20x2.3" selected>C100×50×20×2.3</option><option value="C125x50x20x2.3">C125×50×20×2.3</option><option value="C150x50x20x2.3">C150×50×20×2.3</option><option value="C150x65x20x3.2">C150×65×20×3.2</option></select></label>
+            <label>แป<select id="roof-purlin-section" data-roof-section-role="purlin"><option value="C75x45x15x1.6" selected>C75×45×15×1.6</option><option value="C75x45x15x2.0">C75×45×15×2.0</option><option value="C100x50x20x1.6">C100×50×20×1.6</option><option value="2C75x45x15x1.6">2C75×45×15×1.6 · ปาก C เข้าหากัน · RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</option><option value="2C75x45x15x2.0">2C75×45×15×2.0 · ปาก C เข้าหากัน · RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</option><option value="2C100x50x20x1.6">2C100×50×20×1.6 · ปาก C เข้าหากัน · RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</option><option value="2C100x50x20x2.3">2C100×50×20×2.3 · ปาก C เข้าหากัน · RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</option><option value="SCG_PURLIN_70x400x0.55">SCG แป 7 ซม. × 4 ม. · 0.55 · RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</option><option value="SCG_PURLIN_70x400x0.70">SCG แป 7 ซม. × 4 ม. · 0.70 · RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</option><option value="SCG_PURLIN_70x600x0.70">SCG แป 7 ซม. × 6 ม. · 0.70 · RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</option></select></label>
+            <label>ดั้ง / เสารับ / ค้ำยัน<select id="roof-kingpost-section" data-roof-section-role="kingpost"><option value="RHS50x100x3.2" selected>RHS 50×100×3.2 · CANDIDATE</option><option value="RHS75x150x3.2">RHS 75×150×3.2 · CANDIDATE</option><option value="2C100x50x20x2.3">2C100×50×20×2.3 · ปาก C เข้าหากัน · RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</option></select></label>
+          </div><div class="roof-section-input-note">USER SELECTED · ยังไม่ได้คำนวณ — กด วิเคราะห์และออกแบบ · แสดงรูปหน้าตัด B/H/lip/t ตามค่าที่เลือก แต่ไม่ตรวจ span, capacity, connection หรือ PASS/FAIL · 2C แสดงปาก C เข้าหากันเท่านั้น โดยช่องประกบ/สลัก/เชื่อมยัง ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ · ตัวเลือก RUN ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ ใช้ดู 3D ได้ แต่ระบบทดสอบจะไม่รันจนกว่าจะมี A/Iy/Iz/J/น้ำหนักที่ยืนยัน</div></div>
+          <div class="roof-control-group" id="roof-added-posts-control"><b>ดั้งเพิ่มบนแนวรับ</b><small>คลิก + เพิ่มดั้ง แล้วเลือกแนวอะเสยกสูงหรือคานรับ · ต้องมีคานรองรับด้านล่างและยึดรั้งสองทิศ</small><div id="roof-added-posts-list" role="list" aria-label="ดั้งที่เพิ่ม"></div></div><div class="roof-control-group roof-boundary roof-adv"><b>ขอบเขตรอบนี้</b><p>เก็บ Polygon, ทรง, ทิศ, slope, ชายคา และหน้าตัดที่ผู้ใช้เลือก; สมาชิก 3D เป็น Candidate ไม่ใช่ Engine member</p><small id="roof-boundary-graph-summary">Support Graph ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้ · capacity/PASS-FAIL ไม่ถูกประเมิน · analysis excluded</small></div>
+        </aside>
+        <main class="roof-designer-plan">
+          <div class="roof-pane-head"><span>Top View · เลือกหัวเสาที่ขึ้นถึงหลังคา</span><div class="roof-boundary-toolbar"><button type="button" id="roof-auto-boundary">ตรวจขอบนอกเสา</button><button type="button" id="roof-draw-boundary" aria-pressed="false">กำหนดขอบเขตเอง</button><button type="button" id="roof-boundary-undo" hidden>ย้อนจุด</button><button type="button" id="roof-boundary-close" hidden>ปิดรูป / ยืนยัน</button><button type="button" id="roof-boundary-cancel" hidden>ยกเลิกการเลือก</button><button type="button" id="roof-save-boundary" class="roof-adv">บันทึกขอบเขตร่าง</button><button type="button" id="roof-simplify" class="roof-adv">Simplify</button><button type="button" id="roof-orthogonal" class="roof-adv">Snap orthogonal</button><button type="button" id="roof-add-king-post" aria-pressed="false">+ เพิ่มดั้ง</button><button type="button" id="roof-add-vertex" aria-pressed="false">+ เพิ่มจุด V</button><label>จุด <select id="roof-vertex-choice" aria-label="เลือกจุด V ที่จะลบ"></select></label><button type="button" id="roof-remove-vertex">ลบจุด V</button></div></div>
+          <svg id="roof-designer-svg" tabindex="0" viewBox="50 35 690 500" aria-label="แก้ Polygon หลังคาบนแปลน"><g id="roof-designer-grid-layer"></g><g id="roof-designer-reference-layer"></g><g id="roof-designer-polygon-layer"></g></svg>
+          <div class="roof-designer-help" id="roof-boundary-help" role="status" aria-live="polite">เพิงเลือกหัวเสาเรียงรอบพื้นที่ได้ 4–12 จุด · ลาก V เพื่อย้าย · เพิ่มหรือลบ V ได้</div>
+        </main>
+        <aside class="roof-designer-preview">
+          <div class="roof-pane-head"><span>3D Isometric Preview · Layer ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</span><div><button type="button" id="roof-result-expand" aria-expanded="false">ขยาย 3D + Result</button><strong id="roof-preview-status">POLYGON CURRENT</strong></div></div>
+          <p id="roof-interior-support-note" class="roof-section-input-note" hidden>จันทันต้องขาดช่วง (วางพาดช่วงเดียว) ที่แนวรองรับกลาง · แรงที่แนวรองรับกลางเผื่อกรณีต่อเนื่อง (1.25wL)</p>
+          <div class="roof-layer-console roof-adv" aria-label="Layers สำหรับตรวจโมเดลหลังคา 3D">
+            <div class="roof-layer-console-head"><strong>LAYERS</strong><span id="roof-layer-status" role="status" aria-live="polite">เปิด 12 / 12</span><div class="roof-layer-actions"><button type="button" data-roof-layer-preset="all">คืนทั้งหมด</button><button type="button" data-roof-layer-preset="roof">เฉพาะโครง</button><button type="button" data-roof-layer-preset="none">ปิดทั้งหมด</button></div></div>
+            <div class="roof-layer-groups">
+              <div class="roof-layer-group"><b>บริบท</b><div class="roof-preview-layers"><label data-roof-layer-chip="surface"><input type="checkbox" data-roof-preview-layer="surface" checked><span>ผิวหลังคา</span><b data-roof-layer-count="surface">0</b></label><label data-roof-layer-chip="columns"><input type="checkbox" data-roof-preview-layer="columns" checked><span>เสา</span><b data-roof-layer-count="columns">0</b></label><label data-roof-layer-chip="beams"><input type="checkbox" data-roof-preview-layer="beams" checked><span>คาน</span><b data-roof-layer-count="beams">0</b></label><label data-roof-layer-chip="floors"><input type="checkbox" data-roof-preview-layer="floors" checked><span>พื้น</span><b data-roof-layer-count="floors">0</b></label></div></div>
+              <div class="roof-layer-group"><b>โครงเหล็ก</b><div class="roof-preview-layers"><label data-roof-layer-chip="eave"><input type="checkbox" data-roof-preview-layer="eave" checked><span>อะเส</span><b data-roof-layer-count="eave">0</b></label><label data-roof-layer-chip="tie"><input type="checkbox" data-roof-preview-layer="tie" checked><span>ขื่อ</span><b data-roof-layer-count="tie">0</b></label><label data-roof-layer-chip="ridge"><input type="checkbox" data-roof-preview-layer="ridge" checked><span>อกไก่</span><b data-roof-layer-count="ridge">0</b></label><label data-roof-layer-chip="hip"><input type="checkbox" data-roof-preview-layer="hip" checked><span>ตะเข้สัน</span><b data-roof-layer-count="hip">0</b></label><label data-roof-layer-chip="valley"><input type="checkbox" data-roof-preview-layer="valley" checked><span>ตะเข้ราง</span><b data-roof-layer-count="valley">0</b></label><label data-roof-layer-chip="rafter"><input type="checkbox" data-roof-preview-layer="rafter" checked><span>จันทัน</span><b data-roof-layer-count="rafter">0</b></label><label data-roof-layer-chip="purlin"><input type="checkbox" data-roof-preview-layer="purlin" checked><span>แป</span><b data-roof-layer-count="purlin">0</b></label><label data-roof-layer-chip="kingpost"><input type="checkbox" data-roof-preview-layer="kingpost" checked><span>ดั้ง/เสารับ</span><b data-roof-layer-count="kingpost">0</b></label></div></div>
+            </div>
+          </div>
+          <div class="roof-preview-stage" id="roof-preview-stage">
+            <div id="roof-preview-three" hidden aria-label="3D Roof Drawing Input ลากเพื่อหมุน ใช้ล้อเมาส์เพื่อซูม"></div>
+            <svg id="roof-preview-svg" viewBox="0 0 480 310" aria-label="Preview รูปทรงหลังคาและโครงคอนกรีต Drawing Input"><g id="roof-preview-layer"></g></svg>
+            <div class="roof-preview-section-key roof-adv" id="roof-preview-section-key"><b>SECTION-SHAPED PREVIEW</b><span>รอข้อมูลหน้าตัดจากผู้ใช้</span></div>
+            <div class="roof-preview-orbitbar" aria-label="มุมมอง 3D"><button type="button" id="roof-3d-iso">ISO</button><button type="button" id="roof-3d-top">TOP</button><button type="button" id="roof-3d-fit">FIT</button></div>
+            <div class="roof-preview-orbit-hint" id="roof-preview-orbit-hint">ลากเพื่อหมุน · ล้อเมาส์ซูม · ตำแหน่งสมาชิกเป็น Candidate / หน้าตัด USER SELECTED</div>
+          </div>
+          <div class="roof-preview-inspector" id="roof-preview-inspector">
+            <div class="roof-analysis-gate" id="roof-analysis-gate" role="status" aria-live="polite"><div class="roof-analysis-head"><strong id="roof-analysis-title">ROOF MODEL TEST · CHECKING</strong><button type="button" id="roof-run-analysis" disabled>ทดสอบโมเดลหลังคา · Self-weight</button></div><p id="roof-analysis-copy">Expert preview เท่านั้น · ไม่ส่งผลไป P3/P5/P7 · ไม่มีวัสดุมุง, live, wind, combination หรือ PASS/FAIL</p><div class="roof-analysis-gate-grid" id="roof-analysis-gate-grid"></div><div class="roof-analysis-results" id="roof-analysis-results" hidden><div class="roof-analysis-mode-strip" id="roof-analysis-mode-strip" role="toolbar" aria-label="เลือกผลทดสอบโมเดลหลังคา"><button type="button" data-roof-analysis-mode="reaction" title="แรงถ่ายจากหลังคาลงหัวเสา เท่ากับลบของ Solver Reaction">REACTION</button><button type="button" data-roof-analysis-mode="deformed" title="Deformed shape รวม Global XYZ">DEF</button><button type="button" data-roof-analysis-mode="ux" title="Global displacement X">UX</button><button type="button" data-roof-analysis-mode="uy" title="Global displacement Y">UY</button><button type="button" data-roof-analysis-mode="uz" title="Global displacement Z แนวดิ่ง">UZ</button><button type="button" data-roof-analysis-mode="n" title="Axial force ตาม member local x">N</button><button type="button" data-roof-analysis-mode="vy" title="Shear Force Diagram ตาม member local y">SFD-y</button><button type="button" data-roof-analysis-mode="vz" title="Shear Force Diagram ตาม member local z">SFD-z</button><button type="button" data-roof-analysis-mode="t" title="Torsion รอบ member local x">T</button><button type="button" data-roof-analysis-mode="my" title="Bending Moment Diagram รอบ member local y">BMD-y</button><button type="button" data-roof-analysis-mode="mz" title="Bending Moment Diagram รอบ member local z">BMD-z</button></div><div class="roof-analysis-member-row"><select id="roof-analysis-member" aria-label="เลือกสมาชิกผลทดสอบโมเดลหลังคา"></select><span id="roof-analysis-axis-note">GLOBAL XYZ / MEMBER LOCAL xyz</span></div><div class="roof-analysis-chart" id="roof-analysis-chart" aria-label="ตารางแรงลงหัวเสา หรือกราฟแรงภายในและการเสียรูปสำหรับทดสอบโมเดลหลังคา"></div><div class="roof-analysis-result-meta" id="roof-analysis-result-meta"></div></div><small class="roof-analysis-result-note" id="roof-analysis-note">ROOF MODEL TEST · EXPERT PREVIEW ONLY · NOT FOR DESIGN OR CONSTRUCTION</small></div>
+            <div class="roof-preview-stats roof-adv"><span><small>vertices</small><b id="roof-stat-vertices">4</b></span><span><small>roof type</small><b id="roof-stat-type">ปั้นหยา</b></span><span><small>หัวเสาที่อ้างอิง</small><b id="roof-stat-heads">0</b></span><span><small>roof zones</small><b id="roof-stat-zones">0</b></span><span><small>concrete refs</small><b id="roof-stat-concrete">0</b></span><span><small>authority</small><b>ต้องการข้อมูลเพิ่ม: ข้อมูลสำหรับรายการนี้</b></span></div>
+            <details class="roof-member-register roof-adv"><summary>สมาชิกและทางถ่ายแรง · Candidate</summary><div class="roof-load-path" id="roof-load-path">วัสดุมุง → แป → จันทัน/จันทันซอย ↘ อะเส → คาน/เสา | ↘ อกไก่/ตะเข้ → ดั้ง/โครงถัก → ขื่อหรือคานรับ → เสา<small>ตำแหน่งเป็น Drawing Candidate เท่านั้น · ทุก node, support และ connection ต้องตรวจด้วยผลคำนวณ</small></div><div class="roof-member-register-grid" id="roof-member-register-grid"><span><b>รอ Auto Detect</b>ยังไม่มีชุดสมาชิก</span></div></details>
+            <div class="roof-preview-contract roof-adv" id="roof-preview-contract"><strong>ROOF FRAMING CANDIDATE + SECTION INPUT</strong><p id="roof-section-summary">อะเส · ขื่อ · อกไก่/ตะเข้ · จันทัน · แป · ดั้ง เป็นค่าที่ผู้ใช้ระบุเท่านั้น</p><p id="roof-member-hold">ไม่ยืนยัน support, reaction, load path, connection หรือกำลังรับแรง</p></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="importmap">{"imports":{"three":"/vendor/three/three.module.js"}}</script>
+  <script src="./examples/on-nuch-p1-drawing-sample.js"></script>
+  <script src="./new-building-v2-stair-preview.js"></script>
+  <script type="module">
+    // Shared drawing geometry (React uses the same module). A module script
+    // runs before the iframe load event, and P5/P7 draw only after the parent
+    // posts the brain state, so the classic script below reads it at render
+    // time; the main workbench script itself stays a classic script.
+    import * as publicStatus from './new-building-v2-user-status.mjs';
+    import { getNewBuildingV2SdmSwitchMessage, NEW_BUILDING_V2_SDM_ONLY_PARTS } from './new-building-v2-method-policy.mjs';
+    window.NBV2UserStatus = publicStatus;
+    import * as detailGeometry from './new-building-v2-detail-geometry.mjs';
+    window.NBV2DetailGeometry = detailGeometry;
+    import * as floorLoads from './new-building-v2-floor-loads.mjs';
+    window.NBV2FloorLoads = floorLoads;
+    import('./new-building-v2-footing-detail-path.mjs?api=1').then(footingDetail => {
+      window.NBV2FootingDetailPath = footingDetail;
+      window.dispatchEvent(new Event('nbv2-rebar-path3d-ready'));
+    }).catch(() => { /* Keep explicit footing development HOLD. */ });
+    import('./new-building-v2-slab-detail-path.mjs?api=1').then(slabDetail => {
+      window.NBV2SlabDetailPath = slabDetail;
+      window.dispatchEvent(new Event('nbv2-rebar-path3d-ready'));
+    }).catch(() => { /* Keep explicit slab placement HOLD. */ });
+    // Independent dynamic import: a missing drawing port must not prevent the
+    // existing detail/station module from loading or turn the classic app ESM.
+    import('./new-building-v2-rebar-rendering.mjs?api=1').then(rendering => {
+      if (rendering.REBAR_RENDERING_API !== 1) return;
+      window.NBV2RebarRendering = rendering;
+      window.dispatchEvent(new Event('nbv2-rebar-path3d-ready'));
+    }).catch(() => { /* Existing drawing remains available. */ });
+    import('./new-building-v2-beam-joint-visibility.mjs').then(jointVisibility => {
+      window.NBV2BeamJointVisibility = jointVisibility;
+      window.dispatchEvent(new Event('nbv2-rebar-path3d-ready'));
+    }).catch(() => { /* Existing drawing remains available. */ });
+    import('./new-building-v2-rebar-path3d.mjs?api=5').then(rebarPath3D => {
+      // Versioned URL bypasses an old cached copy; an unexpected older module
+      // is still refused (straight cage) rather than drawn with old rules.
+      if (!(Number(rebarPath3D.REBAR_PATH3D_API) >= 5)) return;
+      window.NBV2RebarPath3D = rebarPath3D;
+      // A view built before this resolved keeps straight ties: redraw it.
+      window.dispatchEvent(new Event('nbv2-rebar-path3d-ready'));
+    }).catch(() => { /* Keep today's straight drawing. */ });
+    window.dispatchEvent(new Event('nbv2-user-status-ready'));
+  </script>
+  <script src="./guided-plan-workbench-mockup.7f0ccee2ca.js"></script>
+</body>
+</html>

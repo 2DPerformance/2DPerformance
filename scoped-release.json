@@ -1,0 +1,20 @@
+{
+    "schema":  "ncy-committed-release/1",
+    "sourceCommit":  "29b70e0afcb1babf40c946c6a6d57067ed55f3f2",
+    "baseline":  "53f1525a232042786f8673246669c71f1daa395e",
+    "groups":  {
+                   "BQ-01":  [
+                                 "src/features/boqBuilding/recoveredProjectAdapter.mjs",
+                                 "src/features/boqBuilding/nativeBeamTemplatePlacement.test.mjs",
+                                 "docs/boq-rc-building/S3_NATIVE_TEMPLATE_PLACEMENT_AUDIT_TH.md",
+                                 "shared/platformCatalog.mjs",
+                                 "shared/platformCatalog.test.mjs",
+                                 "docs/releases/boq-native-fixed-beam-20261017/SPEC_TH.md",
+                                 "docs/releases/boq-native-fixed-beam-20261017/manifest.json"
+                             ],
+                   "deployment":  [
+                                      "Deploy-Boq.ps1"
+                                  ]
+               },
+    "excludedWipCount":  210
+}

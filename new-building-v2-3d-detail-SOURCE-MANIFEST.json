@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SV-20261011-04",
+  "scope": "NBV2 Phase A drawing only; local WIP, no commit or deployment",
+  "authorization": "Owner 2026-10-11: ให้ดึงการเสริมเหล็กและโมเดลฐานราก/คาน/พื้น/เสาจาก BOQ งานอาคาร V2 มาใช้ใน 3D",
+  "verifiedAt": "2026-10-12",
+  "referencePolicy": "Read-only untrusted reference data. No legacy file executed, imported, served or modified. Logic reimplemented in NBV2 modules; current native Card/projection values govern every drawing.",
+  "sourceRoot": "D:/changkid-engapp-FULL-SOURCE-20260927/changkid-engapp.com/boq-building-v2",
+  "prettyReferenceRoot": "D:/changkid-engapp-FULL-SOURCE-20260927/_pretty/boq-building-v2",
+  "files": [
+    {
+      "path": "engine/rebar-engine.js",
+      "sha256": "0d8eb8c9e7bfdc839f86ea6a45e445cfca993fd4dc7791fff744338493de5487",
+      "prettySha256": "126e2d0510d9912c942ae9fd55b448ef1384e02546748d2f0d64521bd1c67b11",
+      "referenceLines": "57-69,165-210,367-392,416-437,595-729,1313-1374",
+      "portedLogic": "Bend centreline geometry, sampled arcs, alternating closed135 ties; source-backed footing/slab drawing paths. Legacy lengths/default bars are excluded.",
+      "targets": ["public/new-building-v2-rebar-path3d.mjs", "public/new-building-v2-footing-detail-path.mjs", "public/new-building-v2-slab-detail-path.mjs", "src/features/plan/beamRebar3DGeometry.js", "src/features/plan/newBuildingV2SketchUpDaeExport.js"]
+    },
+    {
+      "path": "ui/objects3d.js",
+      "sha256": "145f7e4b58e3d25127578cf20b4fb27f5ef42affecf33107eb00c3774124d62b",
+      "prettySha256": "094a88b8abbb99a57d3ab46943f930efac4fbdb6871838fd08c9887d7cb62f6d",
+      "referenceLines": "195-200,2186-2215",
+      "portedLogic": "Parallel-transport tubes with cumulative-length UVs and optional stored-DB-only procedural normal texture. Rendering and picking retain native Card paths; browser performance remains unmeasured.",
+      "targets": ["public/new-building-v2-rebar-path3d.mjs", "public/new-building-v2-rebar-rendering.mjs", "public/guided-plan-workbench-mockup.html", "src/features/plan/NewBuildingV2WholeModel3D.jsx"]
+    },
+    {
+      "path": "ui/viewer3d.js",
+      "sha256": "aa8c3fff484401a235c10e11c899ec8ea3d6b834559a29bee793edfa07095e26",
+      "prettySha256": "0784e35ba36d02ee4ea4f0895fc0697c175168ad5e828716b4e32d870db4e111",
+      "referenceLines": "4-33,201-204,743-796",
+      "portedLogic": "Material/radius batching, exact translated-tie instancing and >9000-path line base with tube detail within 7m of controls.target (maximum 80 members, selected member retained). All source paths and picking receipts survive display LOD; demand frames and owned resources remain bounded.",
+      "targets": ["public/new-building-v2-rebar-rendering.mjs", "public/guided-plan-workbench-mockup.html", "src/features/plan/NewBuildingV2WholeModel3D.jsx"]
+    }
+  ],
+  "nativeValueAuthority": {
+    "columns": "Current Column Card reinforcement positions, main/tie diameter and stored stations; no legacy zone generation",
+    "footings": "Current Footing Card mat and SV-12 dowel rows bound to the reaction stack base Column Card; stored P1 extras/sections only",
+    "slabs": "Current Slab Card and the same readSlabSectionLayout used by SlabSectionEvidence; physical outline/openings and current partition evidence",
+    "beam": "Current beam projection detailing/stations and the established native corner-nesting presentation; DAE uses the same drawn bar/tie positions without mutating Card layouts"
+  },
+  "excluded": ["Legacy TH lap table (36d) was NOT adopted", "New ld/lap/cut-off calculations", "Legacy automatic bar/zone/default section generation", "Construction or engineering approval"],
+  "phaseBDecision": "NBV2 Phase B uses ACI Class B lap = 1.3ld; not implemented in Phase A",
+  "constructionAuthorized": false,
+  "documentation": "docs/NBV2_3D_DETAIL_PORT_TH.md"
+}

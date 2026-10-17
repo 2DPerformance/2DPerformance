@@ -1,0 +1,24 @@
+.corbel-trial-note{font:600 12px/1.55 Sarabun,sans-serif;color:var(--ink);margin:12px 0 8px}
+.corbel-cad-drawing{color:#20252b;background:#fff;padding:0;width:100%;min-width:0;text-align:left}
+.corbel-vertical-detail>summary{min-height:44px;box-sizing:border-box;padding:12px 8px;cursor:pointer}
+.corbel-vertical-detail>.choice{min-height:44px}
+.corbel-cad-title{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:14px 8px;border-bottom:1px solid #626971;font:13px/1.5 Sarabun,sans-serif}
+.corbel-cad-title span{font-size:11px}
+.corbel-cad-drawing>svg{width:100%;max-height:none!important;height:auto;display:block;margin:16px 0}
+.corbel-cad-ledger{padding:12px;font:13px/1.6 Sarabun,sans-serif}
+.corbel-cad-ledger h4{font-size:14px;margin:14px 0 8px}
+.corbel-cad-ledger table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.corbel-cad-ledger td,.corbel-cad-ledger th{padding:7px 10px;border:1px solid #c3c8ce;text-align:left}
+.corbel-cad-ledger td:last-child{width:35%}
+.corbel-cad-ledger p{margin:9px 0;line-height:1.6}
+body[data-active-step="3"] .workspace{grid-template-columns:300px minmax(0,1fr)}
+body[data-active-step="3"] .right{display:none}
+body[data-active-step="3"] .section-view:not([hidden]){position:relative;inset:auto;overflow:visible}
+body[data-active-step="3"] .section-sheet{width:min(1100px,100%)}
+body[data-active-step="3"] .section-drawing{display:block;min-height:0;border:0}
+@media(max-width:820px){
+  body[data-active-step="3"] .workspace{display:block}
+  body[data-active-step="3"] .section-drawing{overflow:auto}
+  .corbel-cad-drawing>svg{min-width:650px}
+  .corbel-cad-ledger{font-size:13px}
+}
