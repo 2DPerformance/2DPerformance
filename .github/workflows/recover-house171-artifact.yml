@@ -1,0 +1,107 @@
+name: Recover house171 original Pages artifact
+
+on:
+  push:
+    branches: [gh-pages]
+    paths: [.github/workflows/recover-house171-artifact.yml]
+
+permissions:
+  contents: read
+  actions: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: house171-original-artifact-recovery
+  cancel-in-progress: false
+
+jobs:
+  deploy-existing-artifact:
+    if: github.repository == '2DPerformance/2DPerformance' && github.ref == 'refs/heads/gh-pages' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: https://naichangyai.com/
+    steps:
+      - name: Deploy the immutable original artifact without checkout, upload, build or tests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64, json, os, sys, time, urllib.error, urllib.request
+          repo = '2DPerformance/2DPerformance'
+          api_root = 'https://api.github.com/repos/' + repo
+          pages_commit = 'bdc87e220a40bd1153fa47ea940caae7745bb6bf'
+          source = '748434d9299c0c9ef9d7b08c0e7f0feb25e708c1'
+          old_source = 'dee54354c23a6c98dc01b1f4dad7e9a3172271f0'
+          artifact_id = 12200725872
+          artifact_digest = 'sha256:262d6f90488b8134e2d1c725e2c55f25276ccb0e72da57a01a655ddda6954cd1'
+          original_run = 39280185653
+          workflow_path = '.github/workflows/recover-house171-artifact.yml'
+          headers = {'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'}
+          oidc_token = ''
+          def call(path, data=None):
+              request = urllib.request.Request(api_root + path, headers=headers, data=None if data is None else json.dumps(data).encode(), method='GET' if data is None else 'POST')
+              try:
+                  with urllib.request.urlopen(request, timeout=25) as response:
+                      return json.load(response)
+              except urllib.error.HTTPError as error:
+                  message = error.read().decode('utf-8', errors='replace')
+                  for secret in [os.environ['GH_TOKEN'], oidc_token]:
+                      if secret: message = message.replace(secret, '[REDACTED]')
+                  raise RuntimeError('GitHub HTTP ' + str(error.code) + ': ' + message) from None
+          def require(condition, message):
+              if not condition: raise RuntimeError(message)
+          def read_live():
+              request = urllib.request.Request('https://naichangyai.com/website-release.json?house171-recovery=' + str(time.time_ns()), headers={'Cache-Control': 'no-cache'})
+              with urllib.request.urlopen(request, timeout=25) as response:
+                  return json.load(response)
+          require(os.environ['GITHUB_REPOSITORY'] == repo and os.environ['GITHUB_REF'] == 'refs/heads/gh-pages', 'Wrong recovery repository/ref')
+          require(os.environ['GITHUB_RUN_ATTEMPT'] == '1', 'Recovery does not rerun automatically')
+          require(call('/git/ref/heads/main')['object']['sha'] == pages_commit, 'Pages main advanced; refuse stale publication')
+          require(call('/git/ref/heads/gh-pages')['object']['sha'] == os.environ['GITHUB_SHA'], 'Control branch advanced')
+          change = call('/compare/' + pages_commit + '...' + os.environ['GITHUB_SHA'])
+          require(change['total_commits'] == 1 and len(change['files']) == 1 and change['files'][0]['filename'] == workflow_path and change['files'][0]['status'] == 'added', 'Recovery changes must contain only this one workflow')
+          settings = call('/pages')
+          require(settings['build_type'] == 'legacy' and settings['source'] == {'branch': 'main', 'path': '/'} and settings['cname'] == 'naichangyai.com' and settings['https_enforced'], 'Pages settings changed')
+          rules = call('/environments/github-pages/deployment-branch-policies')['branch_policies']
+          require(any(rule['name'] == 'gh-pages' and rule['type'] == 'branch' for rule in rules), 'Existing environment policy does not allow control branch')
+          artifact = call('/actions/artifacts/' + str(artifact_id))
+          require(artifact['name'] == 'github-pages' and not artifact['expired'] and artifact['digest'] == artifact_digest and artifact['size_in_bytes'] == 79497747, 'Original immutable artifact pin mismatch')
+          require(artifact['workflow_run']['id'] == original_run and artifact['workflow_run']['head_sha'] == pages_commit, 'Artifact provenance mismatch')
+          old_jobs = call('/actions/runs/' + str(original_run) + '/jobs?filter=all&per_page=100')['jobs']
+          require(len(old_jobs) == 3 and all(job['status'] == 'completed' for job in old_jobs), 'Original jobs are not all terminal')
+          require(any(job['id'] == 118153224241 and job['conclusion'] == 'cancelled' for job in old_jobs), 'Original cancelled deploy changed')
+          for state in ['queued', 'in_progress', 'waiting', 'pending', 'requested']:
+              active = call('/actions/runs?status=' + state + '&per_page=100')['workflow_runs']
+              require(all(run['id'] in [original_run, int(os.environ['GITHUB_RUN_ID'])] for run in active), 'Another workflow is active; refuse competing deployment')
+          encoded = call('/contents/website-release.json?ref=' + pages_commit)
+          target = json.loads(base64.b64decode(encoded['content']))
+          require(target['sourceCommit'] == source and target['catalogVersion'] == '2026.10.19.18' and target['latestRelease']['id'] == 'boq-house171-open-20261019', 'Accepted release metadata mismatch')
+          live = read_live()
+          if live['sourceCommit'] == source and live['catalogVersion'] == '2026.10.19.18':
+              print('Exact target already live; no deployment request made')
+              sys.exit(0)
+          require(live['sourceCommit'] == old_source and live['catalogVersion'] == '2026.10.19.17', 'Live site changed; refuse old artifact over newer release')
+          request = urllib.request.Request(os.environ['ACTIONS_ID_TOKEN_REQUEST_URL'], headers={'Authorization': 'Bearer ' + os.environ['ACTIONS_ID_TOKEN_REQUEST_TOKEN']})
+          with urllib.request.urlopen(request, timeout=25) as response:
+              oidc_token = json.load(response)['value']
+          print('::add-mask::' + oidc_token, flush=True)
+          require(call('/git/ref/heads/main')['object']['sha'] == pages_commit, 'Pages main changed immediately before deployment')
+          print('All original source/artifact/environment pins match; requesting one Pages deployment', flush=True)
+          deployment = call('/pages/deployments', {'artifact_id': artifact_id, 'pages_build_version': pages_commit, 'environment': 'github-pages', 'oidc_token': oidc_token})
+          print('Pages accepted original artifact: ' + str(deployment['id']), flush=True)
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write('Original artifact ' + str(artifact_id) + ' / ' + artifact_digest + '\n\nTarget source ' + source + ' / catalog 2026.10.19.18. No checkout, upload, build, tests or model commands.\n')
+          for observation in range(40):
+              status = call('/pages/deployments/' + str(deployment['id']))['status']
+              print('Pages deployment status: ' + status, flush=True)
+              if status == 'succeed':
+                  print('Deployment complete; exact live-source verification remains required')
+                  sys.exit(0)
+              require(status not in ['deployment_failed', 'deployment_cancelled', 'deployment_lost', 'failed', 'cancelled'], 'Pages deployment ended: ' + status)
+              time.sleep(10)
+          raise RuntimeError('Bounded Pages observation ended; do not send a second deployment')
+          PY
