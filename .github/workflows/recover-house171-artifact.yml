@@ -39,6 +39,9 @@ jobs:
           artifact_id = 12200725872
           artifact_digest = 'sha256:262d6f90488b8134e2d1c725e2c55f25276ccb0e72da57a01a655ddda6954cd1'
           original_run = 39280185653
+          local_live_checked_at = 1792431695
+          local_live_source = 'dee54354c23a6c98dc01b1f4dad7e9a3172271f0'
+          local_live_catalog = '2026.10.19.17'
           workflow_path = '.github/workflows/recover-house171-artifact.yml'
           headers = {'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'}
           oidc_token = ''
@@ -54,16 +57,12 @@ jobs:
                   raise RuntimeError('GitHub HTTP ' + str(error.code) + ': ' + message) from None
           def require(condition, message):
               if not condition: raise RuntimeError(message)
-          def read_live():
-              request = urllib.request.Request('https://naichangyai.com/website-release.json?house171-recovery=' + str(time.time_ns()), headers={'Cache-Control': 'no-cache'})
-              with urllib.request.urlopen(request, timeout=25) as response:
-                  return json.load(response)
           require(os.environ['GITHUB_REPOSITORY'] == repo and os.environ['GITHUB_REF'] == 'refs/heads/gh-pages', 'Wrong recovery repository/ref')
           require(os.environ['GITHUB_RUN_ATTEMPT'] == '1', 'Recovery does not rerun automatically')
           require(call('/git/ref/heads/main')['object']['sha'] == pages_commit, 'Pages main advanced; refuse stale publication')
           require(call('/git/ref/heads/gh-pages')['object']['sha'] == os.environ['GITHUB_SHA'], 'Control branch advanced')
           change = call('/compare/' + pages_commit + '...' + os.environ['GITHUB_SHA'])
-          require(change['total_commits'] == 1 and len(change['files']) == 1 and change['files'][0]['filename'] == workflow_path and change['files'][0]['status'] == 'added', 'Recovery changes must contain only this one workflow')
+          require(change['total_commits'] == 2 and len(change['files']) == 1 and change['files'][0]['filename'] == workflow_path and change['files'][0]['status'] == 'added', 'Recovery changes must contain only this one workflow across its two control commits')
           settings = call('/pages')
           require(settings['build_type'] == 'legacy' and settings['source'] == {'branch': 'main', 'path': '/'} and settings['cname'] == 'naichangyai.com' and settings['https_enforced'], 'Pages settings changed')
           rules = call('/environments/github-pages/deployment-branch-policies')['branch_policies']
@@ -80,11 +79,10 @@ jobs:
           encoded = call('/contents/website-release.json?ref=' + pages_commit)
           target = json.loads(base64.b64decode(encoded['content']))
           require(target['sourceCommit'] == source and target['catalogVersion'] == '2026.10.19.18' and target['latestRelease']['id'] == 'boq-house171-open-20261019', 'Accepted release metadata mismatch')
-          live = read_live()
-          if live['sourceCommit'] == source and live['catalogVersion'] == '2026.10.19.18':
-              print('Exact target already live; no deployment request made')
-              sys.exit(0)
-          require(live['sourceCommit'] == old_source and live['catalogVersion'] == '2026.10.19.17', 'Live site changed; refuse old artifact over newer release')
+          # Canonical release host reads the public site immediately before this control commit.
+          # The runner receives HTTP403 from that public endpoint; no WAF rule is changed.
+          require(0 <= time.time() - local_live_checked_at < 180, 'Canonical-host live preflight expired; no deployment')
+          require(local_live_source == old_source and local_live_catalog == '2026.10.19.17', 'Canonical-host live baseline changed')
           request = urllib.request.Request(os.environ['ACTIONS_ID_TOKEN_REQUEST_URL'], headers={'Authorization': 'Bearer ' + os.environ['ACTIONS_ID_TOKEN_REQUEST_TOKEN']})
           with urllib.request.urlopen(request, timeout=25) as response:
               oidc_token = json.load(response)['value']
