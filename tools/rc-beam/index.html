@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="description" content="คู่มือโปรแกรมออกแบบคานคอนกรีตออนไลน์ ตรวจ FBD, SFD, BMD, ดัด, เฉือน, เหล็กเสริม 3D และรายงาน A4 จาก Calculation Snapshot เดียวกัน" />
+    <link rel="canonical" href="https://naichangyai.com/tools/rc-beam/" />
+    <link rel="alternate" hreflang="th-TH" href="https://naichangyai.com/tools/rc-beam/" />
+    <link rel="alternate" hreflang="x-default" href="https://naichangyai.com/tools/rc-beam/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-2d.png" />
+    <link rel="stylesheet" href="/tools/seo-pages.css?v=20260726" />
+    <meta name="theme-color" content="#073476" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="นายช่างใหญ่ Civil Apps" />
+    <meta property="og:title" content="โปรแกรมออกแบบคานคอนกรีต FBD SFD BMD และ 3D Rebar" />
+    <meta property="og:description" content="ดู workflow คานคอนกรีตจาก Input, Run Analysis, Calculation Snapshot ถึงรายงาน A4 พร้อมขอบเขตที่ต้องตรวจ" />
+    <meta property="og:url" content="https://naichangyai.com/tools/rc-beam/" />
+    <meta property="og:image" content="https://naichangyai.com/social-share-home-20260802.jpg" />
+    <meta property="og:locale" content="th_TH" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>โปรแกรมออกแบบคานคอนกรีต FBD SFD BMD และ 3D Rebar | นายช่างใหญ่</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://naichangyai.com/tools/rc-beam/#webpage",
+            "url": "https://naichangyai.com/tools/rc-beam/",
+            "name": "โปรแกรมออกแบบคานคอนกรีต FBD SFD BMD และ 3D Rebar",
+            "description": "คู่มือเครื่องมือคานคอนกรีตสำหรับตรวจแรงภายใน กำลัง เหล็ก และรายงานจาก Calculation Snapshot",
+            "isPartOf": { "@id": "https://naichangyai.com/#website" },
+            "inLanguage": "th-TH",
+            "dateModified": "2026-08-01"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "หน้าแรก", "item": "https://naichangyai.com/" },
+              { "@type": "ListItem", "position": 2, "name": "คู่มือเครื่องมือ", "item": "https://naichangyai.com/tools/" },
+              { "@type": "ListItem", "position": 3, "name": "คานคอนกรีต", "item": "https://naichangyai.com/tools/rc-beam/" }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">ข้ามไปเนื้อหาหลัก</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="นายช่างใหญ่ Civil Apps หน้าแรก">
+          <img src="/brand/ncy-mark.svg" width="52" height="40" alt="" />
+          <span><strong>นายช่างใหญ่ Civil Apps</strong><small>ENGINEERING WORKSPACE</small></span>
+        </a>
+        <nav class="top-nav" aria-label="เมนูหลัก">
+          <a href="/#apps">เปิดหน้าเครื่องมือ</a>
+          <a href="/tools/" aria-current="page">คู่มือเครื่องมือ</a>
+          <a href="/engineering-evidence/">หลักฐานผลคำนวณ</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="page-shell">
+      <nav class="breadcrumb" aria-label="เส้นทางหน้า">
+        <a href="/">หน้าแรก</a><span aria-hidden="true">/</span><a href="/tools/">คู่มือเครื่องมือ</a><span aria-hidden="true">/</span><span>คานคอนกรีต</span>
+      </nav>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">BM-01 · RC BEAM WORKBENCH</p>
+          <h1>โปรแกรมออกแบบคานคอนกรีตที่ตามผลจากแรงไปถึงเหล็กและรายงาน</h1>
+          <p class="lead">Concrete Beam Workbench รับ geometry, support และ material แล้วให้เลือกกรอกน้ำหนักบนคาน หรือกรอก Design envelope จากโมเดลวิเคราะห์ เมื่อ Run Analysis ระบบยึดผล Demand, Capacity, Section/Rebar และ A4 ไว้ใน Calculation Snapshot ชุดเดียว</p>
+          <div class="hero-actions">
+            <a class="button" href="/#apps">เปิดการ์ดคานคอนกรีต</a>
+            <a class="button secondary" href="#workflow">ดู workflow</a>
+          </div>
+        </div>
+        <figure class="hero-visual">
+          <img src="/PIC/app-concrete-beam-ref.svg" width="512" height="512" alt="ภาพอ้างอิงคานคอนกรีต แผนภาพแรง และการจัดเหล็กเสริมสามมิติ" />
+        </figure>
+      </section>
+
+      <dl class="proof-strip" aria-label="ผลลัพธ์หลัก">
+        <div><dt>Analysis evidence</dt><dd>FBD · SFD · BMD</dd></div>
+        <div><dt>Design evidence</dt><dd>Flexure · Shear · Rebar</dd></div>
+        <div><dt>Output boundary</dt><dd>Immutable Snapshot · A4</dd></div>
+      </dl>
+
+      <section class="section" id="workflow">
+        <h2>ลำดับการทำงานของเครื่องมือคาน</h2>
+        <p class="section-intro">หน้าจอจัดลำดับให้ผู้ใช้ตัดสินใจ input ต้นทางก่อน แล้วจึงสร้างผลที่อ่านร่วมกันทุกมุมมอง การแก้ input หลัง Run ทำให้ผลเก่าเป็น stale และต้องวิเคราะห์ใหม่</p>
+        <div class="workflow">
+          <article><h3>Input</h3><p>กำหนดหน้าตัด ช่วงคาน support และวัสดุ แล้วเลือกกรอกน้ำหนัก หรือกรอกแรงจาก Analysis ที่รวม load combination มาแล้ว</p></article>
+          <article><h3>Run Analysis</h3><p>โหมดกรอกน้ำหนักวิเคราะห์ reaction และแรงภายใน ส่วน Direct mode ใช้ envelope ที่ผู้ใช้รับรองโดยไม่คูณ combination ซ้ำ</p></article>
+          <article><h3>Snapshot</h3><p>ผลดัด เฉือน demand/capacity หน้าตัด เหล็ก และ trace ถูกตรึงใน snapshot เดียว</p></article>
+          <article><h3>A4 Evidence</h3><p>รายงานสรุป analysis, strength, detailing, serviceability, limitations และ fingerprint สำหรับย้อนตรวจ</p></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>ผลที่ใช้ตรวจพฤติกรรมคาน</h2>
+        <div class="scope-grid">
+          <article>
+            <h3>แรงและแผนภาพ</h3>
+            <p>โหมดที่มี load model ครบจะแสดง Free Body Diagram, reaction, Shear Force Diagram และ Bending Moment Diagram ให้เห็นทิศทางและตำแหน่ง governing</p>
+          </article>
+          <article>
+            <h3>กำลังดัดและแรงเฉือน</h3>
+            <p>แสดง Demand, Capacity, อัตราส่วนการใช้งาน และ verdict พร้อม operands ที่นำไปสู่ผล ไม่ใช้สีเพียงอย่างเดียว</p>
+          </article>
+          <article>
+            <h3>หน้าตัดและเหล็ก 3D</h3>
+            <p>ภาพหน้าตัด เหล็กหลัก และเหล็กปลอกอ่านจาก arrangement เดียวกับที่เครื่องมือตรวจ เพื่อหลีกเลี่ยงภาพสวยที่ไม่ตรงกับผลคำนวณ</p>
+          </article>
+          <article data-kind="boundary">
+            <h3>Direct mode ไม่สร้างหลักฐานเกิน input</h3>
+            <p>เมื่อผู้ใช้ป้อนแรงภายในโดยตรง ระบบไม่ควรสร้าง FBD หรือรูปโก่งจากสมมติฐานที่ไม่มีในข้อมูลต้นทาง</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>กรอกน้ำหนักกับกรอกแรงจาก Analysis ต่างกันอย่างไร</h2>
+        <table class="comparison">
+          <thead><tr><th>โหมด</th><th>เหมาะกับ</th><th>สิ่งที่ผู้ใช้ต้องยืนยัน</th></tr></thead>
+          <tbody>
+            <tr><td>กรอกน้ำหนัก</td><td>เริ่มจาก Dead load, Live load และแรงจุดที่รองรับ เพื่อให้ระบบรวมแรงและสร้าง reaction, FBD, SFD และ BMD</td><td>load path, support, ตำแหน่งแรง, design method และหน่วย</td></tr>
+            <tr><td>กรอกแรงจาก Analysis</td><td>รับโมเมนต์บวก โมเมนต์ลบ และแรงเฉือนจาก design envelope ของโมเดลวิเคราะห์ภายนอก</td><td>load combination ถูกใช้มาแล้ว ค่าครอบคลุม governing cases และไม่ต้องให้ระบบสร้างแผนภาพแรงสมมติ</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>ขอบเขตที่ต้องอ่านก่อนใช้รายงาน</h2>
+        <ul class="plain-list boundary">
+          <li>เลือกวิธีคำนวณและหน่วยให้ตรงกับ basis ของโครงการ</li>
+          <li>ตรวจว่า Snapshot เป็นผลล่าสุดและไม่อยู่ในสถานะ running หรือ stale</li>
+          <li>อ่านข้อความ NOT EVALUATED และ limitations ใน A4 ให้ครบ</li>
+          <li>ผล FAIL หรือ REVIEW ใช้เปิดหลักฐานเพื่อแก้ input ไม่ใช่ยืนยันแบบก่อสร้าง</li>
+          <li>การพัฒนาเหล็ก รอยต่อ สภาวะหน้างาน และแบบก่อสร้างยังต้องผ่านการตรวจของผู้รับผิดชอบ</li>
+        </ul>
+        <div class="callout">
+          <strong>รายงาน A4 คือหลักฐานสรุป ไม่ใช่ใบรับรอง</strong>
+          รายงานช่วยให้ย้อนจาก verdict ไปยัง Demand, Capacity, operands และ fingerprint ได้ แต่สิทธิ์เปิดเครื่องมือหรือสถานะ PASS ในโมดูลไม่แทนการอนุมัติแบบก่อสร้าง
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>คู่มือที่เกี่ยวข้อง</h2>
+        <nav class="guide-nav" aria-label="คู่มือที่เกี่ยวข้อง">
+          <a href="/tools/">เลือกโปรแกรมโครงสร้าง</a>
+          <a href="/tools/rc-column/">ออกแบบเสาคอนกรีต</a>
+          <a href="/tools/foundation/">ออกแบบฐานราก</a>
+          <a href="/engineering-evidence/">Calculation Snapshot และ A4</a>
+        </nav>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p>ข้อมูลหน้านี้อธิบายขอบเขตของ Concrete Beam Workbench ตามสถานะที่เผยแพร่ ผลคำนวณต้องผ่านการตรวจโดยผู้รับผิดชอบก่อนนำไปใช้กับงานจริง</p>
+        <nav aria-label="ลิงก์ท้ายหน้า"><a href="/">หน้าแรก</a><a href="/#apps">เครื่องมือทั้งหมด</a><a href="https://www.facebook.com/NaichangyaiCivilAppsTH">ข่าวสาร</a></nav>
+      </div>
+    </footer>
+  </body>
+</html>

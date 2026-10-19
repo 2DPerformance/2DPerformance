@@ -1,0 +1,92 @@
+/* SV-20261006-02. Paper metrics are identical in preview and print. */
+@font-face{font-family:NCYReportSarabun;src:url('/fonts/sarabun-ttf/Sarabun-Regular.ttf') format('truetype');font-weight:400;font-display:block}
+@font-face{font-family:NCYReportSarabun;src:url('/fonts/sarabun-ttf/Sarabun-SemiBold.ttf') format('truetype');font-weight:600;font-display:block}
+@font-face{font-family:NCYReportSarabun;src:url('/fonts/sarabun-ttf/Sarabun-Bold.ttf') format('truetype');font-weight:700 900;font-display:block}
+.ncy-a4-book{--paper-navy:#16324f;--paper-gray:#cad2db;--paper-blue:#edf2f7;--paper-orange:#e58b34;display:block!important;width:210mm!important;min-width:210mm!important;margin:0 auto;color:#172b40}
+.ncy-a4-page,.ncy-a4-page *{box-sizing:border-box;font-family:NCYReportSarabun,Sarabun,sans-serif!important;letter-spacing:normal!important}
+.ncy-a4-page{width:210mm!important;height:297mm!important;min-height:297mm!important;padding:9mm!important;margin:0 0 7mm!important;background:#fff!important;color:#172b40!important;font-size:8.5pt!important;line-height:1.38!important;display:flex!important;flex-direction:column!important;box-shadow:0 2px 10px #16324f1c}
+.ncy-a4-head{flex:none;display:grid;grid-template-columns:minmax(0,1fr) 54mm;gap:4mm;border-bottom:.6mm solid var(--paper-navy);padding:0 0 2mm;position:relative;margin-bottom:3mm}
+.ncy-a4-head:after{content:'';position:absolute;bottom:-.6mm;left:0;width:26mm;height:.6mm;background:var(--paper-orange)}
+.ncy-a4-brand{font-size:9pt;font-weight:700;color:var(--paper-navy)}
+.ncy-a4-title{font-size:15pt!important;line-height:1.3!important;font-weight:700!important;margin:.6mm 0!important;color:var(--paper-navy)!important}
+.ncy-a4-sub{font-size:8pt;line-height:1.35;color:#526477}
+.ncy-a4-head-right{text-align:right;font-size:8pt;line-height:1.45;overflow-wrap:anywhere}
+.ncy-a4-head-right b{display:block;color:var(--paper-navy)}
+.ncy-a4-status{font-weight:700;color:#946115}
+.ncy-a4-content{flex:1;min-height:0;display:flex;flex-direction:column;gap:2.4mm}
+.ncy-a4-foot{flex:none;border-top:.2mm solid var(--paper-gray);margin-top:3mm;padding-top:1.5mm;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1mm 3mm;font-size:8pt;line-height:1.3;color:#526477;overflow-wrap:anywhere}
+.ncy-a4-foot .ncy-a4-authority{grid-column:1/-1;color:#946115;font-size:8pt}
+.ncy-a4-project{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--paper-gray);font-size:8.5pt}
+.ncy-a4-project>div{display:grid;grid-template-columns:25mm minmax(0,1fr);padding:1.2mm 2mm;border-bottom:1px solid #e1e6eb;gap:1.5mm;overflow-wrap:anywhere}
+.ncy-a4-project>div:nth-child(odd){border-right:1px solid #e1e6eb}
+.ncy-a4-project span{color:#596a7a;font-size:8pt}.ncy-a4-project b{font-weight:600}
+.ncy-a4-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--paper-gray);background:var(--paper-blue);gap:0}
+.ncy-a4-summary>div{padding:2mm;border-right:1px solid var(--paper-gray);overflow-wrap:anywhere}
+.ncy-a4-summary span{display:block;font-size:8pt;color:#526477}.ncy-a4-summary b{font-size:10pt;color:var(--paper-navy)}
+.ncy-a4-block{flex:none;min-width:0;border:1px solid var(--paper-gray);padding:2mm;background:#fff;color:#172b40;overflow-wrap:anywhere}
+.ncy-a4-block>h3,.ncy-a4-block-title{font-size:9pt!important;font-weight:700!important;margin:-2mm -2mm 2mm!important;padding:1.4mm 2mm!important;background:var(--paper-blue)!important;color:var(--paper-navy)!important;border-bottom:1px solid var(--paper-gray)!important;line-height:1.35!important}
+.ncy-a4-block-title i{display:inline-block;background:var(--paper-navy)!important;color:#fff!important;padding:0 1.4mm;margin-right:1.5mm;font-style:normal}
+.ncy-a4-row{display:grid;grid-template-columns:1fr 1fr;gap:2.4mm;align-items:start;flex:none;min-width:0}
+.ncy-a4-row>*{min-width:0}.ncy-a4-page p{margin:1mm 0!important;line-height:1.38!important;font-size:8.5pt!important}
+.ncy-a4-page table{width:100%;border-collapse:collapse;table-layout:auto;font-size:8.5pt!important;margin:0!important}
+.ncy-a4-page td,.ncy-a4-page th{font-size:8.5pt!important;padding:1.1mm 1.5mm!important;border:1px solid var(--paper-gray)!important;line-height:1.35!important;white-space:normal!important;overflow-wrap:anywhere}
+.ncy-a4-page th{background:var(--paper-blue)!important;color:var(--paper-navy)!important;text-align:left;font-weight:700}
+.ncy-a4-page small,.ncy-a4-note{font-size:8pt!important;line-height:1.4!important;color:#526477}
+.ncy-a4-page .num{text-align:right;font-variant-numeric:tabular-nums}
+.ncy-a4-page svg{max-width:100%;height:auto;display:block;overflow:visible}
+.ncy-a4-page svg text{font-family:NCYReportSarabun,Sarabun,sans-serif!important}
+.ncy-a4-page .rep-signatures{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8mm!important;margin:4mm 0 0!important;padding:5mm 0 0!important;font-size:8.5pt!important}
+.ncy-a4-page .rep-signatures>div{border-top:1px solid #8b9baa;padding-top:1mm;min-height:10mm}.ncy-a4-page .rep-signatures b{display:block;font-size:8pt!important}
+.ncy-a4-page .report-section-mount{border:0!important;padding:0!important}.ncy-a4-page .report-section-mount svg{width:100%!important;height:auto!important;max-height:100mm!important}
+.ncy-a4-page .report-formula{font-size:8.5pt!important;line-height:1.45!important;padding:0!important;border:0!important;background:#fff!important}
+.ncy-a4-page .report-warning{font-size:8.5pt;line-height:1.4;color:#946115;background:#fff7e8;border:1px solid #dac395;padding:1.5mm;margin:0}
+.ncy-a4-page .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.ncy-a4-page .report-table td:last-child{text-align:left}
+.ncy-a4-page .state-pass,.ncy-a4-page .ok{color:#166534!important;font-weight:700}.ncy-a4-page .state-fail,.ncy-a4-page .bad{color:#a51b1b!important;font-weight:700}
+.ncy-a4-page .state-review,.ncy-a4-page .warn,.ncy-a4-page .na{color:#946115!important;font-weight:700}
+.ncy-a4-page .ncy-a4-equation{margin:1mm 0;font-size:8.5pt;line-height:1.45;overflow-wrap:anywhere}.ncy-a4-page .ncy-a4-equation b{font-weight:700}
+#reportShell .ncy-a4-book{margin:0 auto!important}#reportShell .report-body{overflow:auto!important;padding:8mm!important;max-height:calc(100vh - 85px)!important;display:block!important}
+@media print{
+  @page{size:A4 portrait;margin:0}
+  .ncy-a4-book{margin:0!important;width:210mm!important;min-width:210mm!important}
+  .ncy-a4-page{margin:0!important;box-shadow:none!important;break-after:page!important;page-break-after:always!important;break-inside:avoid!important;print-color-adjust:exact!important;-webkit-print-color-adjust:exact!important}
+  .ncy-a4-page:last-child{break-after:auto!important;page-break-after:auto!important}
+  .ncy-a4-page *{print-color-adjust:exact!important;-webkit-print-color-adjust:exact!important}
+  #reportShell .report-body{padding:0!important;max-height:none!important;overflow:visible!important;display:block!important}
+  #reportShell .report-page.ncy-report-source{display:none!important}
+  #reportShell{position:static!important;padding:0!important;overflow:visible!important;display:block!important;background:#fff!important}
+  #reportShell[hidden]{display:none!important}
+}
+
+.ncy-a4-page .ncy-check-ledger{table-layout:fixed}
+.ncy-a4-page .ncy-check-ledger th:nth-child(1){width:53%}
+.ncy-a4-page .ncy-check-ledger th:nth-child(2){width:27%}
+.ncy-a4-page .ncy-check-ledger th:nth-child(3),.ncy-a4-page .ncy-check-ledger th:nth-child(4){width:10%}
+.ncy-a4-page .ncy-check-ledger td:nth-child(3),.ncy-a4-page .ncy-check-ledger td:nth-child(4){white-space:nowrap!important;overflow-wrap:normal}
+
+.ncy-a4-page .report-section-mount svg[data-corbel-detail]{max-height:160mm!important;max-width:100%;height:auto!important;width:100%!important}
+.ncy-a4-page svg[data-cad-view]{width:100%!important;height:auto!important;max-height:none!important}
+.ncy-a4-page .corbel-cad-ledger h4{font-size:9pt;margin:2mm 0 1mm}
+.ncy-a4-page .corbel-cad-ledger p{font-size:8pt!important}
+
+/* SV-20261007-03: related native sections share physical A4 space. */
+.ncy-a4-cad-figure{margin:0;min-width:0;flex:none;border:1px solid var(--paper-gray);padding:1mm;background:#fff}
+.ncy-a4-cad-caption{display:flex;justify-content:space-between;gap:1mm;align-items:baseline;border-bottom:.2mm solid #d6dbe1;padding:0 0 .6mm;margin:0 0 .7mm;font-size:9pt;line-height:1.25;color:#16324f}
+.ncy-a4-cad-caption>span{font-size:8pt;white-space:nowrap}
+.ncy-a4-cad-figure svg{display:block;width:100%!important;height:auto!important;margin:0!important}
+.ncy-a4-cad-notes{margin-top:.7mm;font-size:8pt;line-height:1.25}
+.ncy-a4-cad-notes p{font-size:8pt!important;line-height:1.25!important;margin:.4mm 0!important}
+.ncy-a4-cad-position{font-weight:700}
+.ncy-a4-cut-row{display:grid;grid-template-columns:repeat(var(--cut-columns,3),minmax(0,1fr));gap:1.4mm;align-items:start}
+.ncy-a4-cut-row .ncy-a4-cad-caption{display:block;min-height:8mm}
+.ncy-a4-cut-row .ncy-a4-cad-caption>span{display:block;font-size:8pt}
+.ncy-a4-cad-key{font-size:8pt;line-height:1.25;margin-top:.8mm}
+.ncy-a4-cad-key-entry{margin:.6mm 0}.ncy-a4-cad-key-entry b,.ncy-a4-cad-key-entry span{display:block}
+.ncy-a4-sections-sheet{display:flex;flex-direction:column;gap:1.5mm;flex:none;min-width:0}
+
+.ncy-a4-overview-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5mm;align-items:start;flex:none;min-width:0}
+.ncy-a4-overview-row .ncy-a4-cad-caption{display:block;min-height:8mm}.ncy-a4-overview-row .ncy-a4-cad-caption>span{display:block}
+.ncy-a4-cut-row{flex:none}
+
+.ncy-a4-page .ncy-a4-cad-figure[data-compact-view="section-map"] svg{width:140mm!important;max-width:100%!important;margin:0 auto!important}
+.ncy-a4-cut-notes{font-size:8pt;line-height:1.25}.ncy-a4-cut-notes p{font-size:8pt!important;line-height:1.25!important;margin:.5mm 0!important}

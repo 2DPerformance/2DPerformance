@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-HOb051pRvUoMlruOX8bTVZaqf01OWU6/sfpiygki2YM=' 'sha256-K1eIB7IPNItyp8LHs/fEKZQ4vN4LuERE+bGu5jSzW1k='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>นายช่างใหญ่ | Scaffold Overview · Controller Projection</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">{"imports":{"three":"../../vendor/three/three.module.js"}}</script>
+</head>
+<body>
+  <a class="skip" href="#workarea">ข้ามไปพื้นที่ทำงาน</a>
+  <div class="prototype-banner"><span id="prototypeBannerText"><b>UI MOCKUP</b> ข้อมูลตัวอย่าง · ไม่ใช่ผลคำนวณหรือแบบก่อสร้าง</span><button id="resetSample" type="button"><i data-icon="reset"></i><span id="resetLabel">คืนตัวอย่าง</span></button></div>
+  <header class="app-header">
+    <div class="brand"><img src="../../brand/ncy-mark.svg" alt="NCY"><div><strong>นายช่าง<span>ใหญ่</span></strong><small>CIVIL APPS</small></div></div>
+    <div class="product"><span class="product-code">SH-01</span><div><strong>งานค้ำยันพื้น</strong><small>Scaffold workspace</small></div></div>
+    <div class="project-heading"><i data-icon="folder"></i><div><strong id="projectHeading">โครงการตัวอย่าง</strong><span id="projectZone">พื้นชั้น 2 · Zone A</span></div></div>
+    <button class="existing-link embed-close" id="closeEmbed" type="button" hidden>กลับ Workbench<i data-icon="back"></i></button>
+    <a class="existing-link" id="existingLink" href="../../floor-pour-scaffolding-workbench.html?qa=1" target="_blank" rel="noopener">เปิดรุ่นใช้งานปัจจุบัน<i data-icon="external"></i></a>
+  </header>
+  <nav class="main-tabs" aria-label="ส่วนงานเดิม เก็บไว้ครบในแนวคิดนี้" role="tablist">
+    <button id="tab-overview" class="main-tab" data-tab="overview" role="tab" aria-selected="true" aria-controls="workarea"><i data-icon="grid"></i>ภาพรวม</button>
+    <button id="tab-plan" class="main-tab" data-tab="plan" role="tab" aria-selected="false" aria-controls="workarea" tabindex="-1"><i data-icon="plan"></i>แปลน 2D</button>
+    <button id="tab-model" class="main-tab" data-tab="model" role="tab" aria-selected="false" aria-controls="workarea" tabindex="-1"><i data-icon="cube"></i>โมเดล 3D</button>
+    <button id="tab-formulas" class="main-tab" data-tab="formulas" role="tab" aria-selected="false" aria-controls="workarea" tabindex="-1"><i data-icon="formula"></i>สูตรและแทนค่า</button>
+    <button id="tab-profiles" class="main-tab" data-tab="profiles" role="tab" aria-selected="false" aria-controls="workarea" tabindex="-1"><i data-icon="steel"></i>เหล็กในท้องตลาด</button>
+    <button id="tab-boq" class="main-tab" data-tab="boq" role="tab" aria-selected="false" aria-controls="workarea" tabindex="-1"><i data-icon="box"></i>วัสดุที่ต้องสั่งซื้อ</button>
+    <button id="tab-reports" class="main-tab" data-tab="reports" role="tab" aria-selected="false" aria-controls="workarea" tabindex="-1"><i data-icon="file"></i>รายงาน/แบบ</button>
+    <button id="tab-reference" class="main-tab" data-tab="reference" role="tab" aria-selected="false" aria-controls="workarea" tabindex="-1"><i data-icon="book"></i>เกณฑ์อ้างอิง</button>
+    <button id="tab-qa" class="main-tab" data-tab="qa" role="tab" aria-selected="false" aria-controls="workarea" tabindex="-1"><i data-icon="shield"></i>QA / Self-Test</button>
+  </nav>
+  <main id="workarea" tabindex="-1" role="tabpanel" aria-labelledby="tab-overview">
+    <div class="page-heading"><div><h1>มองเห็นงาน ก่อนตัดสินใจ</h1><p>ข้อมูลหลัก · โมเดล · สิ่งที่ต้องจัดการ อยู่ในหน้าเดียว</p></div><div class="draft-status" id="draftStatus" data-phase="sample"><span class="status-dot"></span><span>ตัวอย่างหน้าจอ ยังไม่รัน Engine</span></div></div>
+    <section class="engine-kpis" id="engineKpis" aria-label="ค่าหลักจากผล Engine ปัจจุบัน" hidden>
+      <article><span>พื้นที่</span><strong id="engineArea">—</strong><small>ตร.ม.</small></article>
+      <article><span>จุดค้ำในผล</span><strong id="enginePosts">—</strong><small>จุด</small></article>
+      <article><span>แรงสูงสุดต่อขา</span><strong id="engineMaxPost">—</strong><small id="engineMaxPostUnit">—</small></article>
+      <article><span>น้ำหนักพื้นที่</span><strong id="enginePressure">—</strong><small id="enginePressureUnit">—</small></article>
+      <article class="witness"><span>CONTROLLER WITNESS</span><strong id="engineWitness">—</strong><small>ตรวจข้อมูลและโหมดหน้าจอ · ไม่ใช่ลายเซ็น</small></article>
+    </section>
+    <details class="governing-evidence" id="governingEvidence" hidden>
+      <summary aria-describedby="evidenceStatusAnnouncement">
+        <span class="evidence-icon"><i data-icon="target"></i></span>
+        <span class="evidence-context"><small>หลักฐานจุดควบคุม</small><strong id="evidencePost">—</strong><span id="evidenceCoordinates">—</span></span>
+        <span class="evidence-equation-summary"><small>REACTION TRACE · RAW RESULT</small><code id="evidenceReaction">—</code></span>
+        <span class="evidence-result-summary"><small>ผลที่ Engine เก็บไว้</small><strong id="evidenceResult">—</strong><span id="evidenceUtilization">—</span></span>
+        <span class="evidence-status-summary"><small>ผลตัวเลข / อำนาจ</small><strong id="evidenceEngineStatus">—</strong><span id="evidenceAuthorityStatus">—</span></span>
+        <i data-icon="chevron"></i>
+      </summary>
+      <div class="evidence-detail-grid">
+        <article class="evidence-formula-card">
+          <header><span>สูตรจาก Engine</span><b id="evidenceServiceTitle">—</b></header>
+          <p class="evidence-math" id="evidenceServiceEquation">—</p>
+          <p class="evidence-substitution" id="evidenceServiceSubstitution">—</p>
+          <strong class="evidence-formula-result" id="evidenceServiceResult">—</strong>
+          <small id="evidenceServiceNote">—</small>
+        </article>
+        <article class="evidence-formula-card">
+          <header><span>พื้นที่อิทธิพลขาควบคุม</span><b id="evidenceTributaryTitle">—</b></header>
+          <p class="evidence-math" id="evidenceTributaryEquation">—</p>
+          <p class="evidence-substitution" id="evidenceTributarySubstitution">—</p>
+          <strong class="evidence-formula-result" id="evidenceTributaryResult">—</strong>
+          <small id="evidenceTributaryNote">—</small>
+        </article>
+        <article class="evidence-formula-card">
+          <header><span>กำลังขา / SWL</span><b id="evidencePostCheckTitle">—</b></header>
+          <p class="evidence-math" id="evidencePostCheckEquation">—</p>
+          <p class="evidence-substitution" id="evidencePostCheckSubstitution">—</p>
+          <strong class="evidence-formula-result" id="evidencePostCheckResult">—</strong>
+          <small id="evidencePostCheckNote">—</small>
+        </article>
+        <article class="evidence-source-card">
+          <header><span>ค่าสูงสุดใน Engine ledger</span><b id="evidenceCheckName">—</b></header>
+          <p><strong id="evidenceCheckValue">—</strong><span id="evidenceCheckDescription">—</span></p>
+          <dl>
+            <div><dt>ข้อมูลผู้ผลิต</dt><dd id="evidenceManufacturer">—</dd></div>
+            <div><dt>พื้นรองรับ</dt><dd id="evidenceSupport">—</dd></div>
+            <div><dt>ขาที่ถอด</dt><dd id="evidenceRemovedPosts">—</dd></div>
+            <div><dt>ที่มา</dt><dd id="evidenceSource">—</dd></div>
+          </dl>
+        </article>
+      </div>
+      <div class="evidence-actions">
+        <p>ข้อความสูตรเป็นค่าปัดเศษจากการ์ดสูตรเดิม; ตัวเลข Reaction ด้านบนอ่านจาก raw result โดยตรง ไม่ใช่การคำนวณรอบใหม่</p>
+        <button type="button" class="secondary-button" data-controller-tab="plan"><i data-icon="plan"></i>เปิดแปลน 2D</button>
+        <button type="button" class="secondary-button" data-controller-tab="model3d"><i data-icon="cube"></i>โมเดล 3D ตามแปลน</button>
+        <button type="button" class="fix-button" data-controller-tab="calculations"><i data-icon="formula"></i>ดูสูตรเต็ม</button>
+      </div>
+      <span id="evidenceStatusAnnouncement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></span>
+    </details>
+    <section class="evidence-boundary" id="evidenceBoundary" role="status" aria-live="polite" aria-atomic="true" hidden>
+      <span class="evidence-boundary-icon"><i data-icon="alert"></i></span>
+      <div><strong id="evidenceBoundaryTitle"></strong><p id="evidenceBoundaryDetail"></p></div>
+      <button type="button" class="fix-button" data-controller-tab="plan"><i data-icon="plan"></i>เปิดแปลน 2D เพื่อแก้ไข</button>
+    </section>
+    <div class="workspace">
+      <aside class="input-rail" aria-labelledby="inputTitle">
+        <div class="rail-heading"><span class="section-no">01</span><div><h2 id="inputTitle">ข้อมูลหน้างาน</h2><p>กรอกเฉพาะสิ่งที่ใช้ตัดสินใจ</p></div></div>
+        <form id="sampleForm" autocomplete="off">
+          <details class="project-details"><summary><i data-icon="folder"></i>ข้อมูลโครงการ<i data-icon="chevron"></i></summary><div class="details-body"><label for="projectName">ชื่อโครงการ</label><input id="projectName" name="projectName" value="โครงการตัวอย่าง" maxlength="80"><small id="projectFieldHelp">แก้เฉพาะชื่อใน Mockup ไม่บันทึกลงโครงการจริง</small></div></details>
+          <section class="input-section"><h3>พื้นที่และความสูง</h3><div class="field-grid">
+            <label class="field" for="width"><span>กว้าง X</span><span class="number-wrap"><input id="width" name="width" type="number" min="2" max="12" step="0.1" value="8" required><span>ม.</span></span></label>
+            <label class="field" for="length"><span>ยาว Y</span><span class="number-wrap"><input id="length" name="length" type="number" min="2" max="12" step="0.1" value="6" required><span>ม.</span></span></label>
+            <label class="field" for="height"><span>ระดับพื้นเป้าหมายจากฐาน</span><span class="number-wrap"><input id="height" name="height" type="number" min="1.5" max="6" step="0.1" value="3.5" required><span>ม.</span></span></label>
+            <div class="field"><span>พื้นหนา <small>จาก controller</small></span><div class="read-value"><b id="slabThickness">12</b><span>ซม.</span></div></div>
+          </div><p class="field-note" id="dimensionFieldHelp">ขนาดที่แก้ใช้ปรับภาพประกอบเท่านั้น</p></section>
+          <section class="input-section"><h3>ระบบค้ำยัน</h3><div class="system-choice"><i data-icon="frame"></i><div><strong id="scaffoldTypeLabel">เฟรม 1.219 × 1.700 ม.</strong><span>ภาพ 3D ใช้มิติ nominal จากแคตตาล็อก ไม่ใช่รุ่นสินค้าจาก Engine</span></div></div>
+            <label class="field module-layers" for="layers"><span>จำนวนชั้นเฟรม <small>เลือกเพื่อดูโมเดล</small></span><select id="layers" name="layers" required aria-describedby="layerHelp"><option value="1">1 ชั้น × 1.70 ม.</option><option value="2">2 ชั้น × 1.70 ม.</option><option value="3">3 ชั้น × 1.70 ม.</option></select></label><small id="layerHelp" class="field-note">ไม่ใช่การเลือกชุดที่รับรองว่าประกอบได้</small>
+            <label class="field spacing-field" for="joistSpacing"><span>ระยะตง <small>Joist spacing</small></span><span class="number-wrap"><input id="joistSpacing" name="joistSpacing" type="number" min="0.2" max="0.8" step="0.05" value="0.5" required aria-describedby="spacingHelp"><span>ม.</span></span></label><small id="spacingHelp" class="field-note">ยังไม่ใช่ระยะที่ผ่านการออกแบบ</small>
+          </section>
+          <details class="advanced"><summary><i data-icon="sliders"></i>วัสดุและค่าขั้นสูง<i data-icon="chevron"></i></summary><div class="details-body"><dl><div><dt>ตงเหล็กกล่อง</dt><dd id="joistProfileLabel">75 × 38 × 2.3 มม.</dd></div><div><dt>คานหลัก</dt><dd id="bearerProfileLabel">100 × 50 × 3.2 มม.</dd></div><div><dt>ไม้อัด</dt><dd id="plywoodThicknessLabel">15 มม.</dd></div></dl><p class="field-note" id="advancedFieldHelp">รายการตัวอย่าง อ่านอย่างเดียว<br>ค่าจริงต้องเลือกใน Workbench เดิม</p></div></details>
+        </form>
+        <div class="calculate-area"><p id="inputError" class="input-error" role="alert" hidden></p><button id="calculateBtn" class="primary-button" type="button"><i data-icon="calculator"></i><span id="calculateLabel">ตรวจแบบ</span><i data-icon="arrow"></i></button><small id="calculateHelp">สาธิตตำแหน่งคำสั่ง ไม่รัน Engine</small></div>
+      </aside>
+
+      <section class="visual-panel" aria-labelledby="visualTitle">
+        <header class="visual-heading"><div><h2 id="visualTitle">โมเดลพื้นที่ทำงาน</h2><span id="dimensionLabel">8.00 × 6.00 ม. · เป้าหมาย 3.50 ม.</span></div><div class="view-switch" role="group" aria-label="มุมมองภาพประกอบ"><button data-view="2d" aria-pressed="false" type="button">2D</button><button data-view="3d" aria-pressed="true" type="button">3D</button></div></header>
+        <div class="viewport-shell" id="viewportShell">
+          <div class="model-toolbar">
+            <div class="inspection-toolbar" role="group" aria-label="ขอบเขตการแสดงโมเดลสามมิติ">
+              <span class="toolbar-label">ขอบเขต</span>
+              <button id="inspectAssembly" type="button" data-inspection="assembly" aria-pressed="true" title="แสดงผังนั่งร้านตัวอย่างทั้งพื้นที่"><i data-icon="grid"></i>ทั้งผัง</button>
+              <button id="inspectBay" type="button" data-inspection="bay" aria-pressed="false" title="แยกตรวจหนึ่งช่วง: ต่อชั้นมีสองเฟรม มีสี่แนวขา และแสดงอุปกรณ์บางส่วน"><i data-icon="cube"></i>1 ช่วง · HOLD</button>
+              <button id="inspectFrame" type="button" data-inspection="frame" aria-pressed="false" title="แยกตรวจเฟรมหนึ่งตัว มีสองขา โดยไม่เปลี่ยนผัง"><i data-icon="frame"></i>1 เฟรม</button>
+            </div>
+            <div class="layer-toolbar" role="group" aria-label="ส่วนประกอบที่แสดงในผัง"><span class="toolbar-label">ส่วนแสดง</span><button type="button" data-layer="all" aria-pressed="true">ทั้งหมด</button><button type="button" data-layer="frame" aria-pressed="false">โครงค้ำ</button><button type="button" data-layer="form" aria-pressed="false">แบบหล่อ</button></div>
+          </div>
+          <div class="camera-controls" role="group" aria-label="ควบคุมกล้องโมเดล 3D">
+            <button id="zoomInCamera" class="icon-button" type="button" title="ซูมเข้า" aria-label="ซูมเข้าโมเดล 3D" aria-controls="modelStage" disabled><i data-icon="plus"></i></button>
+            <button id="zoomOutCamera" class="icon-button" type="button" title="ซูมออก" aria-label="ซูมออกโมเดล 3D" aria-controls="modelStage" disabled><i data-icon="minus"></i></button>
+            <button id="resetCamera" class="camera-reset icon-button" type="button" title="คืนมุมมองเริ่มต้น" aria-label="คืนมุมมองเริ่มต้น" aria-controls="modelStage"><i data-icon="reset"></i></button>
+          </div>
+          <div id="controllerVisualHold" class="controller-visual-hold" role="status" aria-live="polite" hidden><i data-icon="shield"></i><div><strong id="controllerVisualHoldTitle">พักภาพจากผลรอบก่อน</strong><span id="controllerVisualHoldDetail">อ่าน Controller ใหม่ให้ได้สถานะ current ก่อน</span><button type="button" id="controllerVisualModelBtn" class="fix-button" data-controller-tab="model3d" hidden><i data-icon="cube"></i>เปิดโมเดล 3D ตามแปลน</button></div></div>
+          <div id="modelStage" tabindex="0" role="region" aria-label="ภาพประกอบผังนั่งร้านตัวอย่างทั้งพื้นที่ ใช้ล้อเมาส์ บีบนิ้ว หรือปุ่มบวกและลบเพื่อซูม กด 2 หรือ 3 เพื่อเปลี่ยนมุมมอง และ Home เพื่อคืนมุมมอง ไม่ใช่แบบจัดวางที่ตรวจแล้ว"><div class="scene-loading">กำลังเตรียมภาพประกอบ 3D…</div></div>
+          <span id="modelModeStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true">กำลังแสดงผังนั่งร้านตัวอย่างทั้งพื้นที่</span>
+          <div class="model-watermark"><span class="sample-tag">NOMINAL VISUAL STUDY · NOT RESULT GEOMETRY</span><span id="modelLegend">เส้นสีเหลือง = ระดับพื้นเป้าหมาย · ไม่ใช่แบบก่อสร้าง</span></div>
+          <div class="orientation" hidden><span>Y</span><i></i><b>X</b></div>
+        </div>
+        <section class="assembly-summary" aria-label="ตรวจมิติประกอบตัวอย่าง">
+          <div class="assembly-status" role="status"><i data-icon="alert"></i><div><strong id="assemblyTitle">HOLD · รอตรวจมิติประกอบ</strong><span id="assemblyHeight">กำลังอ่านโมดูลตัวอย่าง</span></div></div>
+          <div class="assembly-metrics"><span id="moduleSummary">เฟรม 1.219 × 1.700 ม. · Bay 1.829 ม.</span><span id="accessorySummary"></span><span id="edgeSummary"></span><span id="procurementSummary">จัดซื้อ / BOQ: ยังไม่คำนวณ · ไม่ใช่จำนวนชุดขายจากผู้ผลิต</span></div>
+          <details class="assembly-evidence"><summary>ที่มามิติและข้อจำกัด<i data-icon="chevron"></i></summary><div>
+            <a href="https://www.futuresign.co.th/CatalogFS2023.pdf#page=5" target="_blank" rel="noopener">Future Sign 2023 · หน้า PDF 5 / หน้าเล่ม 4</a>
+            <p>มิติเฟรม 1,219 × 1,700 มม. · ช่วง Bay 1,829 มม. · ระยะหมุดกากบาทแนวดิ่ง 1,219 มม. · กากบาท nominal 2,198 มม.</p>
+            <p>รูปทรงค้ำด้านในอิงภาพเฟรม แต่สัดส่วนซี่เชื่อมและรัศมีดัดยังเป็นภาพประมาณ ไม่ใช่แบบผลิต ส่วนอื่นที่ยังประมาณ: OD ท่อ 42.7 มม., ระยะต่อเสียบ, ระยะชั้น, ฐาน +0.20 ม., หัว +0.15 ม. และช่องระหว่างแนว 0.15 ม. ยังไม่ยืนยันความหนา/ระยะยืดแจ็ค/การประกอบจริง</p>
+            <p>โหมด 1 ช่วงแสดงต่อชั้น 2 เฟรม, 4 แนวขา, กากบาทสองด้าน, หมุด/ปลอกล็อกในภาพ, ฐาน 4 จุด และหัวปรับ 4 จุด เพื่ออธิบายการประกอบเท่านั้น ไม่ใช่จำนวนจัดซื้อ</p>
+            <p>ยังไม่แสดง horizontal frame/cover, bracing แนวนอน และ ties ที่ยืนยันว่าเข้ากับระบบเดียวกัน จึงไม่ใช่ชุดครบระบบและยัง HOLD</p>
+            <p>โมเดลใช้ 1.219 ม. เป็นระยะแกนขา ยังไม่ยืนยันนิยามมิติภายนอกกับผู้ผลิต · ขอบว่างวัดถึงแกนขา ไม่ใช่ระยะยื่นที่อนุมัติ · จำนวนชิ้นในภาพไม่ใช่ BOQ · แม้ระดับตรงกันก็ยัง HOLD จนตรวจคู่มือ กำลัง และพื้นรองรับ</p>
+          </div></details>
+        </section>
+        <div class="selection-strip"><i data-icon="cursor"></i><div><strong id="selectionTitle">เลือกชิ้นส่วนบนโมเดล</strong><span id="selectionDetail">ดูตำแหน่งที่เกี่ยวข้อง โดยไม่ต้องสลับหน้า</span></div><span class="view-hint" id="viewHint">ลากเพื่อหมุน · ล้อ/บีบ หรือ +/− เพื่อซูม</span></div>
+        <section class="auxiliary-panel" id="auxiliaryPanel" hidden tabindex="-1"><span class="sample-tag">ตำแหน่งเมนูเดิม</span><h2 id="auxiliaryTitle"></h2><p id="auxiliaryDescription"></p><p class="auxiliary-note">Mockup รอบนี้ออกแบบเฉพาะหน้า Overview ยังไม่ย้ายข้อมูลหรือเปลี่ยน Flow ของระบบจริง</p><button type="button" id="backOverview" class="secondary-button">กลับไปดูภาพรวม<i data-icon="back"></i></button></section>
+      </section>
+
+      <aside class="action-rail" aria-labelledby="actionTitle">
+        <div class="rail-heading"><span class="section-no">02</span><div><h2 id="actionTitle">สิ่งที่ต้องจัดการ</h2><p id="actionSubtitle">ตัวอย่างการรวมคำแนะนำไว้จุดเดียว</p></div></div>
+        <div class="queue-label"><span id="queueLabel">ตัวอย่างรายการตรวจ</span><span id="queueCount">3 รายการ</span></div>
+        <div class="action-list" id="actionList">
+          <details class="action-item" data-issue="joist" open><summary><span class="issue-icon issue-fail"><i data-icon="alert"></i></span><span><b>ทบทวนระยะตง</b><small>ตัวอย่างรายการที่ต้องแก้</small></span><i data-icon="chevron"></i></summary><div class="action-body"><p>ตัวอย่างกรณีระยะตงห่างเกินไป ทำให้แผ่นแบบโก่งตัวมาก</p><div id="sampleAdvice"><div class="value-comparison"><div><span>ปัจจุบันในตัวอย่าง</span><strong>0.50 <small>ม.</small></strong></div><i data-icon="arrow"></i><div><span>ตัวอย่างค่าทดลอง</span><strong>0.35 <small>ม.</small></strong></div></div><p class="example-disclaimer">ตัวเลขสาธิต UI ไม่ใช่ค่าแนะนำของโครงการนี้ และยังไม่ได้คำนวณใหม่</p><button type="button" class="fix-button" id="focusSpacing">ไปที่ช่องระยะตง<i data-icon="input"></i></button></div><div class="stale-advice" id="staleAdvice" hidden><i data-icon="clock"></i><strong>ข้อมูลเปลี่ยนแล้ว</strong><p>ซ่อนค่าตัวอย่างเดิมไว้จนกว่าจะคืนตัวอย่าง หน้าจอจริงต้องให้ Engine ตรวจใหม่ก่อนแนะนำ</p></div><button class="text-button" type="button" data-open-tab="formulas">ดูตำแหน่งสูตรและแทนค่า<i data-icon="arrow"></i></button></div></details>
+          <details class="action-item" data-issue="support"><summary><span class="issue-icon issue-hold"><i data-icon="file"></i></span><span><b>หลักฐานพื้นรองรับ</b><small>รอข้อมูล · HOLD</small></span><i data-icon="chevron"></i></summary><div class="action-body"><p>ต้องทราบกำลังพื้นหรือฐานรองรับจากข้อมูลจริง ไม่เพิ่มค่ากำลังเพื่อให้ผลแสดงว่าผ่าน</p><div class="evidence-note"><i data-icon="shield"></i><span>ต้องตรวจแบบ / หลักฐานกำลัง / สภาพหน้างาน</span></div><button type="button" class="secondary-button" data-focus-model="support">ดูตำแหน่งฐานรอง<i data-icon="target"></i></button></div></details>
+          <details class="action-item" data-issue="manufacturer"><summary><span class="issue-icon issue-hold"><i data-icon="book"></i></span><span><b>คู่มือระบบนั่งร้าน</b><small>รอข้อมูล · HOLD</small></span><i data-icon="chevron"></i></summary><div class="action-body"><p>ยืนยันรุ่น ความสูงใช้งาน การค้ำยึด และกำลังจากผู้ผลิต ไม่ใช้ค่าทั่วไปแทน Load Table จริง</p><button type="button" class="secondary-button" data-focus-model="frame">ดูระบบโครงค้ำ<i data-icon="target"></i></button></div></details>
+        </div>
+        <div class="review-boundary"><i data-icon="shield"></i><p>ผลตรวจและหลักฐานเป็นคนละเรื่อง<br><strong>ไม่มีปุ่มข้าม HOLD หรือยืนยันผ่านอัตโนมัติ</strong></p></div>
+      </aside>
+    </div>
+    <div class="inline-notice" id="inlineNotice" role="status" hidden><i data-icon="info"></i><p id="noticeText"></p><button type="button" id="closeNotice" class="icon-button" aria-label="ปิดข้อความ"><i data-icon="close"></i></button></div>
+  </main>
+  <footer class="app-footer"><span><span class="status-dot"></span><b id="footerState">ต้นแบบแยกจากโปรแกรมจริง</b></span><span id="footerBoundary">ข้อมูลไม่ถูกบันทึก · Engine / Flow เดิมไม่เปลี่ยน</span><span>OVERVIEW STAGE 1</span></footer>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

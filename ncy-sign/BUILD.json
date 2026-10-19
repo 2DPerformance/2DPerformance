@@ -1,0 +1,11 @@
+{
+  "task": "SV-20261008-R69c",
+  "product": "BB-01 NCY SIGN",
+  "signBranch": "claude/sign-r67-permit-package",
+  "signCommit": "5af72a3672b9afc69de9182606f97ae1f286f1ab",
+  "builtAtUtc": "2026-10-08T04:23:11.000Z",
+  "files": 45,
+  "sourceBuildJsonSha256": "ea8d5fd0dc313f6e0c905c8a32431d15c34f30d69c534fd2cccbbe2f3d9abb1e",
+  "status": "REVIEW / NOT FOR CONSTRUCTION",
+  "accessGateTask": "SV-20261002-98"
+}

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>ST-01 · หน้าพิมพ์รายงาน</title>
+<style>
+body{margin:0;font:14px/1.5 Tahoma,sans-serif;background:#eef3f7;color:#153b5e}
+.st-print-status{max-width:560px;margin:48px auto;padding:24px;background:white;border:1px solid #c3d2df}
+.st-print-actions{padding:12px;text-align:center;font:14px/1.5 Tahoma,sans-serif}
+.st-print-actions button{padding:9px 18px;cursor:pointer;background:#153b5e;border:1px solid #153b5e;color:white}
+@media print{.st-print-actions,.st-print-status{display:none!important}}
+</style>
+</head>
+<body><main class="st-print-status" role="status">กำลังเปิดรายงานที่เลือกจากโปรแกรมบันได…</main>
+<script>
+(function(){
+'use strict';
+const nonce=location.hash.slice(1),source=window.opener,origin=location.origin;
+let used=false;
+const status=document.querySelector('.st-print-status');
+function fail(message){used=true;status.textContent=message;window.removeEventListener('message',receive);}
+function receive(event){
+ if(used||event.origin!==origin||event.source!==source||event.data?.type!=='st01:print-document'||event.data?.nonce!==nonce)return;
+ if(event.data.error){fail(event.data.error);return;}
+ const p=event.data.document;
+ if(!p||typeof p.html!=='string'||!p.html.trim()||typeof p.css!=='string'
+  ||typeof p.bodyClass!=='string'||!p.bodyClass.split(/\s+/).includes('report-preview')
+  ||p.html.length+p.css.length>32*1024*1024){fail('รายงานไม่สมบูรณ์ — เปิดจากปุ่มพิมพ์ในโปรแกรมบันได');return;}
+ used=true;window.removeEventListener('message',receive);
+ const parsed=new DOMParser().parseFromString(p.html,'text/html');
+ parsed.querySelectorAll('script,iframe,object,embed,link,meta,base').forEach(e=>e.remove());
+ parsed.querySelectorAll('*').forEach(e=>Array.from(e.attributes).forEach(a=>{
+  if(/^on/i.test(a.name)||(/^(href|src|xlink:href)$/i.test(a.name)&&/^\s*javascript:/i.test(a.value)))e.removeAttribute(a.name);
+ }));
+ const style=document.createElement('style');style.textContent=p.css;document.head.append(style);
+ document.title=String(p.title||'ST-01')+' · รายงานสำหรับพิมพ์';
+ document.body.className=p.bodyClass;
+ const bar=document.createElement('div');bar.className='st-print-actions';
+ const button=document.createElement('button');button.type='button';button.textContent='พิมพ์ / บันทึกเป็น PDF';button.addEventListener('click',()=>window.print());
+ bar.append(button,document.createTextNode(' · แบบตรวจ / NOT FOR CONSTRUCTION'));
+ const report=document.createElement('div');report.id='report';report.append(...parsed.body.childNodes);
+ document.body.replaceChildren(bar,report);
+ document.body.dataset.stPrintVersion=String(p.version||'');
+ try{window.opener=null;}catch(_){}
+}
+if(!source||!/^[a-f0-9-]{36}$/i.test(nonce)){fail('เปิดรายงานจากปุ่มพิมพ์ในโปรแกรมบันไดเท่านั้น');return;}
+window.addEventListener('message',receive);
+source.postMessage({type:'st01:print-ready',nonce},origin);
+setTimeout(()=>{if(!used)fail('ยังไม่ได้รับรายงาน — กลับไปกดพิมพ์ในโปรแกรมบันไดอีกครั้ง');},20000);
+})();
+</script></body></html>

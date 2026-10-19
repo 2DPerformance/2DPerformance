@@ -1,0 +1,41 @@
+/* Calculation-first, compact disclosures; no native engine-state styling changes. */
+#resultsPanel .sc01-result-overview {padding:16px;border:1px solid #c5d5e4;border-radius:8px;background:#f4f8fc;color:#173956;line-height:1.6;margin-bottom:14px;}
+#resultsPanel .sc01-result-overview[data-has-failure=true] {background:#fff7f4;border-color:#e4b7ac;}
+#resultsPanel .sc01-result-overview h3 {margin:0 0 6px;font-size:19px;line-height:1.4;}
+#resultsPanel .sc01-result-overview p {margin:0 0 10px;font-size:14px;}
+#resultsPanel .sc01-result-overview div {display:flex;gap:12px;justify-content:space-between;font-size:14px;}
+#resultsPanel .sc01-result-overview div b {font-size:21px;font-variant-numeric:tabular-nums;}
+#resultsPanel .sc01-result-overview small {display:block;font-size:12px;margin-top:7px;}
+#sc01NumericResults {min-width:0;font-size:14px;line-height:1.6;overflow-wrap:anywhere;}
+#sc01NumericResults .sc01-result-failure {border:1px solid #d7aea6;border-radius:8px;background:#fffaf8;padding:14px;margin:0 0 12px;}
+#sc01NumericResults h3 {font-size:16px;line-height:1.5;margin:0 0 6px;}
+#sc01NumericResults header>span {font-size:13px;color:#a23021;font-weight:700;}
+#sc01NumericResults p {font-size:14px;line-height:1.65;margin:8px 0 12px;}
+#sc01NumericResults .sc01-result-value {margin:10px 0;font-size:15px;}
+#sc01NumericResults .sc01-result-value b {font-size:22px;font-variant-numeric:tabular-nums;}
+#sc01NumericResults .sc01-result-value small {display:block;font-size:12px;}
+#sc01NumericResults .sc01-result-actions {display:flex;gap:8px;flex-wrap:wrap;}
+#sc01NumericResults button {font-size:14px;line-height:1.5;min-height:44px;white-space:normal;max-width:100%;}
+#sc01NumericResults .sc01-result-disclosure {margin:12px 0;border:1px solid #c5d5e4;border-radius:7px;background:#fff;}
+#sc01NumericResults summary {padding:12px;font-size:14px;font-weight:700;min-height:44px;cursor:pointer;}
+#sc01NumericResults .sc01-result-disclosure>p,#sc01NumericResults .sc01-result-disclosure>button {margin:8px 12px 12px;}
+#sc01NumericResults .sc01-result-disclosure article {margin:12px;border-top:1px solid #dbe4ed;padding-top:12px;}
+#sc01NumericResults .sc01-result-disclosure h4 {font-size:14px;margin:0;}
+#sc01NumericResults .sc01-result-unknown {border-color:#d9c393;background:#fffdf6;}
+#sc01NumericResults ul {margin:0;padding:0 12px;list-style:none;}
+#sc01NumericResults li {margin:0;border-top:1px solid #dbe4ed;}
+#sc01NumericResults .sc01-result-table button {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;width:100%;text-align:left;background:none;border:0;border-radius:0;box-shadow:none;padding:12px 0;color:#173956;}
+#sc01NumericResults .sc01-result-table small {grid-column:1/-1;font-size:12px;}
+#sc01NumericResults .sc01-result-reference button {text-align:left;background:none;border:0;box-shadow:none;padding:10px 0;color:#173956;}
+#sc01NumericResults .sc01-result-clear {color:#1d6046;}
+#sc01NumericResults :focus-visible {outline:3px solid #247ac5;outline-offset:2px;}
+#sc01NumericResults button:hover,#sc01NumericResults summary:hover {background-color:#edf4fb;}
+body[data-sc01-results-review=r23] .ncy670-count[hidden] {display:none!important;}
+body[data-sc01-results-review=r23] #resultsPanel .simple-hidden-note {display:none!important;}
+body[data-sc01-results-review=r23]:has(#sc01NumericResults .sc01-result-unknown) #sc01-material-capacity-notice {display:none!important;}
+#sc01ResultForces {margin:12px 0;border:1px solid #c5d5e4;border-radius:7px;background:#fff;}
+#sc01ResultForces summary {padding:12px;font-size:14px;font-weight:700;min-height:44px;cursor:pointer;}
+#sc01ResultForces #forceMetrics {padding:0 12px 12px;}
+#sc01ResultForces :focus-visible {outline:3px solid #247ac5;outline-offset:2px;}
+body[data-sc01-results-review=r23] #legalStatusCard[hidden],body[data-sc01-results-review=r23] #gates[hidden],body[data-sc01-results-review=r23] #gates+.scope-footnote {display:none!important;}
+@media(max-width:600px) {#sc01NumericResults .sc01-result-actions {flex-direction:column;} #sc01NumericResults .sc01-result-actions>button {width:100%;}}

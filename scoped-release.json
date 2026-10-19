@@ -1,0 +1,20 @@
+{
+    "schema":  "ncy-committed-release/1",
+    "sourceCommit":  "748434d9299c0c9ef9d7b08c0e7f0feb25e708c1",
+    "baseline":  "66432e480f1e7c82156e1db5e7facf8843fc3c23",
+    "groups":  {
+                   "BQ-01":  [
+                                 "src/features/boqBuilding/projectCommands.mjs",
+                                 "src/features/boqBuilding/projectCommands.test.mjs",
+                                 "src/features/boqBuilding/projectContract.mjs",
+                                 "src/features/boqBuilding/recoveredWizardFrame.mjs",
+                                 "docs/releases/boq-house171-open-20261019/SPEC_TH.md"
+                             ],
+                   "deployment":  [
+                                      "shared/platformCatalog.mjs",
+                                      "shared/platformCatalog.test.mjs",
+                                      "docs/releases/boq-house171-open-20261019/manifest.json"
+                                  ]
+               },
+    "excludedWipCount":  391
+}
