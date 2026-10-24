@@ -1,0 +1,30 @@
+{
+  "schema": "ncy-committed-release/1",
+  "sourceCommit": "1cdcd041b019e0ab96bc8a52a7c96dbefd7ba1e5",
+  "baseline": "bbb9e767ff7af0c45aaa623c1b015150d77eefcd",
+  "groups": {
+    "deployment": [
+      "docs/FEM_BASEPLATES_A1_STATUS_TH.md",
+      "docs/FEM_PT_SLAB_REFERENCES_TH.md",
+      "docs/releases/column-pm-oneway-20261022/SPEC_TH.md",
+      "docs/releases/column-pm-oneway-20261022/manifest.json",
+      "prototypes/fem-workbench/design/bundle320.mjs",
+      "prototypes/fem-workbench/design/entry320.mjs",
+      "prototypes/fem-workbench/lib/steelConcrete320.cjs",
+      "prototypes/fem-workbench/lib/steelConcreteBook320.cjs",
+      "prototypes/fem-workbench/lib/steelConcreteFem320.cjs",
+      "prototypes/fem-workbench/source/script_036.js",
+      "prototypes/fem-workbench/source/script_259.js",
+      "prototypes/fem-workbench/source/script_307.js",
+      "prototypes/fem-workbench/source/script_320.js",
+      "prototypes/fem-workbench/source/script_321.js",
+      "prototypes/fem-workbench/source/shell.html",
+      "prototypes/fem-workbench/source_map.json",
+      "prototypes/fem-workbench/tests/test_steel_concrete_320.cjs",
+      "prototypes/fem-workbench/tests/test_steel_concrete_fem_320.cjs",
+      "shared/platformCatalog.mjs",
+      "shared/platformCatalog.test.mjs"
+    ]
+  },
+  "excludedWipCount": 0
+}
