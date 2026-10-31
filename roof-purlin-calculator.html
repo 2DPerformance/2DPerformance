@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive,noimageindex,nosnippet">
+<script>(function(){var t=!1;try{t=window.parent!==window.self&&window.parent.location.origin===window.location.origin}catch{t=!1}if(!t){try{document.documentElement.style.visibility="hidden"}catch{}try{window.stop()}catch{}location.replace("/card-locked.html")}})();
+</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mini Calculator แป-จันทัน</title>
+  <script>new URLSearchParams(window.location.search).get("embed")==="1"&&document.documentElement.classList.add("embed");
+</script>
+  <style>:root{--bg: #f4f6f7;--panel: #ffffff;--ink: #172027;--muted: #65727f;--line: #d9e0e5;--red: #d62828;--green: #13a538;--blue: #2563eb;--amber: #b7791f;--ok: #137a35;--bad: #b42318;--soft-red: #fff1f0;--soft-green: #edf9f0;--soft-blue: #eef4ff;--shadow: 0 18px 45px rgba(23, 32, 39, .1);font-family:Segoe UI,Tahoma,Arial,sans-serif}*{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--ink);background:linear-gradient(180deg,#edf2f5 0,var(--bg) 280px),var(--bg)}.embed body{min-height:auto;background:transparent}.embed header{display:none}.embed .app{width:100%;padding:0}.embed .panel{box-shadow:none}.app{width:min(1440px,calc(100% - 32px));margin:0 auto;padding:14px 0 18px}header{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:10px}h1{margin:0;font-size:clamp(24px,3vw,34px);line-height:1.08;letter-spacing:0}.subtitle{margin:4px 0 0;color:var(--muted);font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}button{min-height:34px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);padding:6px 12px;font:inherit;cursor:pointer}button.primary{border-color:#1f57cf;background:var(--blue);color:#fff}.workspace{display:grid;grid-template-columns:minmax(300px,372px) minmax(0,1fr);gap:12px;align-items:start;min-width:0}.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);min-width:0}.controls{padding:12px;position:sticky;top:10px;min-width:0}.control-section{padding:10px 0;border-top:1px solid var(--line)}.control-section:first-child{padding-top:0;border-top:0}.control-title{margin:0 0 7px;font-weight:700;font-size:15px}.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.span-2{grid-column:span 2}label{display:grid;gap:5px;color:var(--muted);font-size:11.5px;line-height:1.3}input,select{width:100%;min-height:34px;border:1px solid #cfd8df;border-radius:8px;background:#fbfcfd;color:var(--ink);padding:6px 8px;font:inherit;font-size:14px}input[readonly]{color:#4d5964;background:#eef2f4}.choice{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid #cfd8df;border-radius:8px;overflow:hidden}.choice label{display:block;color:var(--ink);font-size:13px;text-align:center;padding:8px 6px;cursor:pointer;background:#fbfcfd}.choice input{position:absolute;opacity:0;pointer-events:none}.choice label:has(input:checked){background:var(--soft-blue);color:#1746a2;font-weight:700}.check-row{display:flex;align-items:center;gap:8px;margin-top:8px;color:var(--ink);font-size:13px}.check-row input{width:18px;min-height:18px;accent-color:var(--blue)}.main{display:grid;gap:12px;min-width:0}.diagram-panel{padding:10px}.diagram-wrap{width:100%;aspect-ratio:1.6 / 1;min-height:270px;border:1px solid #ccd5dc;border-radius:8px;background:#1f2932;overflow:hidden}svg{display:block;width:100%;height:100%}.results{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:10px;min-width:0}.metric{border:1px solid var(--line);border-radius:8px;padding:9px 10px;min-height:86px;display:grid;align-content:space-between;gap:5px;background:#fbfcfd;min-width:0}.metric.wide{grid-column:span 2}.metric.full{grid-column:1 / -1}.metric.ok{background:var(--soft-green);border-color:#bfe8ca}.metric.bad{background:var(--soft-red);border-color:#f1b7b1}.metric.blue{background:var(--soft-blue);border-color:#c8dafc}.kicker{color:var(--muted);font-size:11.5px;line-height:1.3}.value{font-size:clamp(20px,2.4vw,27px);font-weight:800;line-height:1.05;overflow-wrap:anywhere}.value.small{font-size:17px}.badge{display:inline-flex;align-items:center;justify-content:center;min-height:30px;width:fit-content;border-radius:8px;padding:3px 9px;font-weight:800;color:#fff;background:var(--bad)}.badge.ok{background:var(--ok)}.detail-table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}.detail-table th,.detail-table td{border-top:1px solid var(--line);padding:6px 5px;text-align:right;vertical-align:top;overflow-wrap:anywhere}.detail-table th:first-child,.detail-table td:first-child{text-align:left;color:var(--muted);width:46%}.bars{display:grid;gap:7px}.bar-row{display:grid;gap:4px}.bar-label{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--muted)}.bar{height:10px;border-radius:999px;overflow:hidden;background:#e4e9ed}.fill{height:100%;width:0%;background:var(--ok);border-radius:inherit}.fill.warn{background:var(--amber)}.fill.bad{background:var(--bad)}.note{color:var(--muted);font-size:11.5px;line-height:1.45;padding:0 10px 10px}@media(max-width:1080px){.workspace{grid-template-columns:minmax(0,1fr)}.controls{position:static}.results{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:640px){.app{width:min(100% - 20px,1440px);padding-top:14px}header{display:grid;align-items:start}.grid-2,.grid-3,.results{grid-template-columns:1fr}.metric.wide,.metric.full,.span-2{grid-column:auto}.diagram-wrap{min-height:240px}}@media print{body{background:#fff}.app{width:100%}button{display:none}.panel{box-shadow:none}.workspace{grid-template-columns:350px 1fr}}
+</style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <h1>Mini Calculator แป-จันทัน</h1>
+        <p class="subtitle">แปสีแดงรับหลังคาเมทัลชีท พาดระหว่างจันทันสีเขียว</p>
+      </div>
+      <div class="actions">
+        <button id="resetBtn" type="button">ค่าเริ่มต้น</button>
+        <button id="printBtn" class="primary" type="button">พิมพ์ผล</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="panel controls">
+        <section class="control-section">
+          <p class="control-title">รูปทรงตามภาพ</p>
+          <div class="grid-2">
+            <label>Span แปสีแดง (m)
+              <input id="purlinSpan" type="number" min="0.1" step="0.01" value="2.00">
+            </label>
+            <label>ช่วงตามจันทันสีเขียว (m)
+              <input id="rafterLength" type="number" min="0.1" step="0.01" value="1.61">
+            </label>
+            <label>จำนวนแปสีแดง
+              <input id="purlinCount" type="number" min="1" step="1" value="3">
+            </label>
+            <label>ระยะรับน้ำหนักของแป (m)
+              <input id="tribWidth" type="number" min="0.01" step="0.001" value="0.805" readonly>
+            </label>
+          </div>
+          <label class="check-row">
+            <input id="customTrib" type="checkbox">
+            ใส่ระยะรับน้ำหนักเอง
+          </label>
+          <label class="check-row">
+            <input id="enableHiddenRafter" type="checkbox">
+            ใช้จันทันพรางเป็นจุดรองรับแป
+          </label>
+          <div class="grid-2">
+            <label>จำนวนจันทันพราง
+              <input id="hiddenRafterCount" type="number" min="0" step="1" value="1">
+            </label>
+            <label>ช่วงแปที่ใช้คำนวณ (m)
+              <input id="designSpanInput" type="number" min="0.01" step="0.001" value="2.000" readonly>
+            </label>
+          </div>
+        </section>
+
+        <section class="control-section">
+          <p class="control-title">หน้าตัดเหล็กกล่องแป</p>
+          <label>เลือกขนาดเหล็กกล่อง
+            <select id="sectionPreset">
+              <option value="custom">กำหนดเอง</option>
+              <option value="50x25x2.3" selected>RHS 50 x 25 x 2.3 mm</option>
+              <option value="50x25x3.2">RHS 50 x 25 x 3.2 mm</option>
+              <option value="50x50x2.3">SHS 50 x 50 x 2.3 mm</option>
+              <option value="50x50x3.2">SHS 50 x 50 x 3.2 mm</option>
+              <option value="75x45x2.3">RHS 75 x 45 x 2.3 mm</option>
+              <option value="75x45x3.2">RHS 75 x 45 x 3.2 mm</option>
+              <option value="75x50x2.3">RHS 75 x 50 x 2.3 mm</option>
+              <option value="75x50x3.2">RHS 75 x 50 x 3.2 mm</option>
+              <option value="100x50x2.3">RHS 100 x 50 x 2.3 mm</option>
+              <option value="100x50x3.2">RHS 100 x 50 x 3.2 mm</option>
+              <option value="100x50x4.0">RHS 100 x 50 x 4.0 mm</option>
+              <option value="100x100x3.2">SHS 100 x 100 x 3.2 mm</option>
+            </select>
+          </label>
+          <div style="height:10px"></div>
+          <div class="grid-3">
+            <label>ด้านยาว (mm)
+              <input id="longSide" type="number" min="1" step="0.1" value="50">
+            </label>
+            <label>ด้านสั้น (mm)
+              <input id="shortSide" type="number" min="1" step="0.1" value="25">
+            </label>
+            <label>หนา (mm)
+              <input id="thickness" type="number" min="0.1" step="0.1" value="2.3">
+            </label>
+          </div>
+          <div style="height:10px"></div>
+          <div class="choice" role="group" aria-label="การวางหน้าตัด">
+            <label><input name="orientation" type="radio" value="flat" checked> วางแบน</label>
+            <label><input name="orientation" type="radio" value="strong"> วางตั้ง</label>
+          </div>
+        </section>
+
+        <section class="control-section">
+          <p class="control-title">น้ำหนักและเกณฑ์</p>
+          <div class="grid-2">
+            <label>วัสดุเมทัลชีท
+              <select id="metalSheetPreset">
+                <option value="custom">กำหนด DL เอง</option>
+                <option value="0.35">BMT 0.35 mm ≈ 3.56 kg/m²</option>
+                <option value="0.38">BMT 0.38 mm ≈ 3.84 kg/m²</option>
+                <option value="0.42" selected>BMT 0.42 mm ≈ 4.23 kg/m²</option>
+                <option value="0.45">BMT 0.45 mm ≈ 4.51 kg/m²</option>
+                <option value="0.48">BMT 0.48 mm ≈ 4.80 kg/m²</option>
+                <option value="0.55">BMT 0.55 mm ≈ 5.47 kg/m²</option>
+              </select>
+            </label>
+            <label>DL รวมที่ใช้ (kg/m²)
+              <input id="deadLoad" type="number" min="0" step="0.1" value="4.23" readonly>
+            </label>
+            <label>DL อื่น ๆ ถ้ามี (kg/m²)
+              <input id="extraDeadLoad" type="number" min="0" step="0.1" value="0">
+            </label>
+            <label>LL preset
+              <select id="liveLoadPreset">
+                <option value="law-roof" selected>กฎหมาย: หลังคา 50 kg/m²</option>
+                <option value="custom">กำหนดเอง</option>
+              </select>
+            </label>
+            <label>LL (kg/m²)
+              <input id="liveLoad" type="number" min="0" step="1" value="50">
+            </label>
+            <label>Fy เหล็ก (MPa)
+              <input id="fy" type="number" min="1" step="5" value="240">
+            </label>
+            <label>Limit แอ่นตัว L/
+              <input id="defRatio" type="number" min="60" step="10" value="240">
+            </label>
+          </div>
+          <label class="check-row">
+            <input id="autoDeadLoad" type="checkbox" checked>
+            คำนวณ DL รวมจากเมทัลชีท + DL อื่น
+          </label>
+          <label class="check-row">
+            <input id="includeSelf" type="checkbox" checked>
+            รวม self-weight ของแป
+          </label>
+        </section>
+
+        <section class="control-section">
+          <p class="control-title">แรงลมกระทำต่อหลังคา</p>
+          <label class="check-row">
+            <input id="enableWind" type="checkbox" checked>
+            ตรวจแรงลมตาม preset กฎหมาย
+          </label>
+          <div class="grid-2">
+            <label class="span-2">Wind preset
+              <select id="windPreset">
+                <option value="urban-10" selected>เมือง/ชานเมือง สูง ≤ 10 m: 60 kg/m²</option>
+                <option value="urban-20">เมือง/ชานเมือง 10-20 m: 80 kg/m²</option>
+                <option value="urban-40">เมือง/ชานเมือง 20-40 m: 120 kg/m²</option>
+                <option value="open-10">โล่ง/ชายฝั่ง สูง ≤ 10 m: 100 kg/m²</option>
+                <option value="open-20">โล่ง/ชายฝั่ง 10-20 m: 120 kg/m²</option>
+                <option value="open-40">โล่ง/ชายฝั่ง 20-40 m: 160 kg/m²</option>
+                <option value="custom">กำหนดเอง</option>
+              </select>
+            </label>
+            <label>แรงลม W (kg/m²)
+              <input id="windLoad" type="number" min="0" step="1" value="60">
+            </label>
+            <label>อาคารสาธารณะ ≥ 1,000 m²
+              <select id="publicWindFactor">
+                <option value="1" selected>ไม่ใช่</option>
+                <option value="1.15">ใช่ เพิ่ม 15%</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="control-section">
+          <p class="control-title">เหล็กกันแอ่น</p>
+          <label class="check-row">
+            <input id="enableSag" type="checkbox" checked>
+            คำนวณ sag rod ตามแรงขนานแนวลาด
+          </label>
+          <div class="grid-2">
+            <label>จำนวนแนวต่อช่วงแป
+              <input id="sagRows" type="number" min="1" step="1" value="1">
+            </label>
+            <label>ขนาดเหล็กเส้น Ø (mm)
+              <input id="sagDia" type="number" min="1" step="1" value="9">
+            </label>
+            <label class="span-2">Slope หลังคา (องศา)
+              <input id="sagSlope" type="number" min="0" max="85" step="0.1" value="10">
+            </label>
+            <label>Fu เหล็กเส้น (MPa)
+              <input id="sagFu" type="number" min="1" step="10" value="400">
+            </label>
+            <label>ระยะรับแรงต่อแนว (m)
+              <input id="sagTribOut" type="number" min="0.01" step="0.001" value="1.000" readonly>
+            </label>
+          </div>
+        </section>
+      </aside>
+
+      <main class="main">
+        <section class="panel diagram-panel">
+          <div class="diagram-wrap">
+            <svg id="frameSvg" viewBox="0 0 640 400" aria-label="ผังแปและจันทัน">
+              <defs>
+                <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                  <path d="M0,0 L8,4 L0,8 Z" fill="#ff3333"></path>
+                </marker>
+                <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                  <path d="M0,0 L8,4 L0,8 Z" fill="#3cff66"></path>
+                </marker>
+              </defs>
+              <rect x="0" y="0" width="640" height="400" fill="#1f2932"></rect>
+              <g id="svgDynamic"></g>
+            </svg>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="results">
+            <div id="statusMetric" class="metric">
+              <div class="kicker">ผลรวม</div>
+              <div id="statusBadge" class="badge">กำลังคำนวณ</div>
+              <div id="statusText" class="kicker">-</div>
+            </div>
+            <div class="metric blue">
+              <div class="kicker">ระยะรับน้ำหนักที่ใช้</div>
+              <div id="tribOut" class="value">-</div>
+              <div class="kicker">เมตร</div>
+            </div>
+            <div class="metric blue">
+              <div class="kicker">ช่วงแปที่ใช้คำนวณ</div>
+              <div id="designSpanOut" class="value">-</div>
+              <div id="designSpanText" class="kicker">-</div>
+            </div>
+            <div class="metric">
+              <div class="kicker">Line load บนแป</div>
+              <div id="lineLoadOut" class="value">-</div>
+              <div class="kicker">kg/m</div>
+            </div>
+            <div class="metric blue">
+              <div class="kicker">Load case ที่คุม</div>
+              <div id="governingCaseOut" class="value small">-</div>
+              <div id="governingCaseText" class="kicker">-</div>
+            </div>
+            <div class="metric">
+              <div class="kicker">Self-weight แป</div>
+              <div id="selfWeightOut" class="value">-</div>
+              <div class="kicker">kg/m</div>
+            </div>
+            <div class="metric blue wide">
+              <div class="kicker">Section หน้าตัดเหล็ก</div>
+              <div id="sectionOut" class="value small">-</div>
+              <div id="sectionText" class="kicker">-</div>
+            </div>
+
+            <div id="stressMetric" class="metric wide">
+              <div class="kicker">กำลังดัด</div>
+              <div id="stressOut" class="value">-</div>
+              <div class="bars">
+                <div class="bar-row">
+                  <div class="bar-label"><span>Utilization</span><span id="stressURText">-</span></div>
+                  <div class="bar"><div id="stressBar" class="fill"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div id="defMetric" class="metric wide">
+              <div class="kicker">การแอ่นตัว</div>
+              <div id="defOut" class="value">-</div>
+              <div class="bars">
+                <div class="bar-row">
+                  <div class="bar-label"><span>เทียบเกณฑ์</span><span id="defURText">-</span></div>
+                  <div class="bar"><div id="defBar" class="fill"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="metric blue wide">
+              <div class="kicker">ระยะแปสูงสุดที่แนะนำจากหน้าตัดนี้</div>
+              <div id="spacingOut" class="value">-</div>
+              <div id="spacingText" class="kicker">-</div>
+            </div>
+
+            <div class="metric wide">
+              <div class="kicker">แรงลงจันทันหลัก/พราง</div>
+              <div id="reactionOut" class="value">-</div>
+              <div id="reactionText" class="kicker">-</div>
+            </div>
+
+            <div id="sagRodMetric" class="metric wide">
+              <div class="kicker">เหล็กกันแอ่น</div>
+              <div id="sagRodOut" class="value">-</div>
+              <div id="sagRodText" class="kicker">-</div>
+              <div class="bars">
+                <div class="bar-row">
+                  <div class="bar-label"><span>แรงดึง / กำลังรับแรง</span><span id="sagRodURText">-</span></div>
+                  <div class="bar"><div id="sagRodBar" class="fill"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="metric full">
+              <div class="kicker">รายละเอียดคำนวณ</div>
+              <table class="detail-table">
+                <tbody id="detailRows"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="note">
+            ใช้เป็นการคำนวณเบื้องต้นแบบคานรองรับง่าย รับน้ำหนักสม่ำเสมอ ค่า LL หลังคาและแรงลมเป็น preset จากกฎหมายแบบย่อ ส่วนแรงลมในโปรแกรมคิดเป็นแรงกด/แรงยกสุทธิต่อพื้นที่หลังคา ยังไม่แทนการคำนวณค่าสัมประสิทธิ์แรงดัน โซนขอบหลังคา จุดยึด ความต่อเนื่องของคาน การโก่งเดาะเฉพาะที่ การกัดกร่อน และเงื่อนไขหน้างาน
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>const g=9.80665,densitySteel=7850,E=2e5,ids=["purlinSpan","rafterLength","purlinCount","tribWidth","customTrib","enableHiddenRafter","hiddenRafterCount","designSpanInput","sectionPreset","longSide","shortSide","thickness","deadLoad","liveLoad","fy","defRatio","metalSheetPreset","extraDeadLoad","liveLoadPreset","autoDeadLoad","includeSelf","enableWind","windPreset","windLoad","publicWindFactor","enableSag","sagRows","sagDia","sagSlope","sagFu","sagTribOut","resetBtn","printBtn","svgDynamic","statusMetric","statusBadge","statusText","tribOut","designSpanOut","designSpanText","lineLoadOut","governingCaseOut","governingCaseText","selfWeightOut","sectionOut","sectionText","stressMetric","stressOut","stressURText","stressBar","defMetric","defOut","defURText","defBar","spacingOut","spacingText","reactionOut","reactionText","sagRodMetric","sagRodOut","sagRodText","sagRodURText","sagRodBar","detailRows"],el=Object.fromEntries(ids.map(t=>[t,document.getElementById(t)])),sectionPresets={"50x25x2.3":[50,25,2.3],"50x25x3.2":[50,25,3.2],"50x50x2.3":[50,50,2.3],"50x50x3.2":[50,50,3.2],"75x45x2.3":[75,45,2.3],"75x45x3.2":[75,45,3.2],"75x50x2.3":[75,50,2.3],"75x50x3.2":[75,50,3.2],"100x50x2.3":[100,50,2.3],"100x50x3.2":[100,50,3.2],"100x50x4.0":[100,50,4],"100x100x3.2":[100,100,3.2]},metalSheetWeights={"0.35":3.56,"0.38":3.84,"0.42":4.23,"0.45":4.51,"0.48":4.8,"0.55":5.47},windPresets={"urban-10":60,"urban-20":80,"urban-40":120,"open-10":100,"open-20":120,"open-40":160},defaults={purlinSpan:2,rafterLength:1.61,purlinCount:3,tribWidth:.805,customTrib:!1,enableHiddenRafter:!1,hiddenRafterCount:1,sectionPreset:"50x25x2.3",longSide:50,shortSide:25,thickness:2.3,deadLoad:4.23,metalSheetPreset:"0.42",extraDeadLoad:0,autoDeadLoad:!0,liveLoad:50,liveLoadPreset:"law-roof",fy:240,defRatio:240,includeSelf:!0,enableWind:!0,windPreset:"urban-10",windLoad:60,publicWindFactor:"1",enableSag:!0,sagRows:1,sagDia:9,sagSlope:"10",sagFu:400,orientation:"flat"};function num(t,e=0){const n=Number.parseFloat(el[t].value);return Number.isFinite(n)?n:e}function fmt(t,e=2){return Number.isFinite(t)?t.toLocaleString("th-TH",{minimumFractionDigits:e,maximumFractionDigits:e}):"-"}function fmtSize(t){return Number.isFinite(t)?Math.abs(t-Math.round(t))<.001?String(Math.round(t)):fmt(t,1):"-"}function setFill(t,e){const n=Math.max(0,Math.min(100,e*100));t.style.width=`${n}%`,t.classList.toggle("bad",e>1),t.classList.toggle("warn",e>.85&&e<=1)}function setMetricState(t,e){t.classList.toggle("ok",e),t.classList.toggle("bad",!e)}function clearMetricState(t){t.classList.remove("ok","bad")}function currentOrientation(){return document.querySelector('input[name="orientation"]:checked').value}function applySectionPreset(){const t=sectionPresets[el.sectionPreset.value];t&&(el.longSide.value=t[0],el.shortSide.value=t[1],el.thickness.value=t[2])}function applyDeadLoadPreset(){const t=el.autoDeadLoad.checked&&el.metalSheetPreset.value!=="custom";if(el.deadLoad.readOnly=t,el.extraDeadLoad.disabled=!t,!t)return;const e=metalSheetWeights[el.metalSheetPreset.value];if(!Number.isFinite(e))return;const n=Math.max(0,num("extraDeadLoad",defaults.extraDeadLoad));el.deadLoad.value=(e+n).toFixed(2)}function applyLiveLoadPreset(){el.liveLoadPreset.value==="law-roof"&&(el.liveLoad.value=50)}function applyWindPreset(){const t=windPresets[el.windPreset.value];if(!Number.isFinite(t))return;const e=Math.max(0,num("publicWindFactor",1));el.windLoad.value=(t*e).toFixed(0)}function sectionProperties(t,e,n,s){const a=s==="strong"?e:t,o=s==="strong"?t:e,u=a-2*n,i=o-2*n,x=a>0&&o>0&&n>0&&u>0&&i>0;if(!x)return{valid:x,B:a,H:o,area:NaN,i:NaN,z:NaN,selfKgM:NaN};const d=a*o-u*i,l=(a*o**3-u*i**3)/12,f=l/(o/2),$=d*7850*1e-6;return{valid:x,B:a,H:o,area:d,i:l,z:f,selfKgM:$}}function autoTributary(t,e){return e<=1?t:t/(e-1)}function tributaries(t,e,n,s){if(e<=1)return[s?n:t];if(s)return Array.from({length:e},()=>n);const a=t/(e-1);return Array.from({length:e},(o,u)=>u===0||u===e-1?a/2:a)}function parseSlope(t){const e=String(t||"").trim().toLowerCase(),n=e.replace(/,/g,"").replace(/องศา/g,"deg").replace(/°/g,"deg").replace(/\s+/g,"");let s=NaN,a=e||"-",o=NaN;if(n.includes(":")){const i=n.split(":").map(Number);s=i.length===2&&i[1]!==0?i[0]/i[1]:NaN}else if(n.includes("/")){const i=n.split("/").map(Number);s=i.length===2&&i[1]!==0?i[0]/i[1]:NaN}else n.endsWith("%")?s=Number(n.slice(0,-1))/100:n.endsWith("deg")?(o=Number(n.slice(0,-3)),s=Math.tan(o*Math.PI/180)):(o=Number(n),Number.isFinite(o)&&(s=Math.tan(o*Math.PI/180),a=`${fmt(o,1)}°`));(!Number.isFinite(s)||s<0)&&(s=0,a="0");const u=s>0?1/s:1/0;return o=Number.isFinite(o)?o:Math.atan(s)*180/Math.PI,{ratio:s,runPerRise:u,angleDeg:o,label:a}}function sagRodResult(t){const e=Math.max(0,t.slope.ratio),n=Math.hypot(1,e),s=n>0?e/n:0,a=n>0?1/n:1,o=t.purlinSpan/(t.sagRows+1),u=t.totalAreaKg*t.rafterLength*o,i=t.includeSelf&&t.props.valid?t.props.selfKgM*t.purlinCount*o:0,x=(u+i)*s,d=a>.001?1/a:NaN,l=Number.isFinite(d)?x*d:NaN,f=Math.PI*t.sagDia**2/4,$=.33*t.sagFu,b=$>0?$*f/9.80665:NaN,R=$>0?l*9.80665/$:NaN,S=l/b;return{braceTrib:o,sinTheta:s,cosTheta:a,roofWeightKg:u,purlinWeightKg:i,downslopeKg:x,maxTensionKg:l,rodAreaMm2:f,requiredAreaMm2:R,capacityKg:b,utilization:S,ok:Number.isFinite(S)&&S<=1}}function drawDiagram(t){const i=Math.max(1,Math.round(t.purlinCount)),x=i<=1?0:254/(i-1),d="#ff3333",l="#3cff66",f="#38d5ff";let $="";const b=t.enableHiddenRafter?Math.max(0,Math.round(t.hiddenRafterCount)):0;for(let p=1;p<=b;p+=1){const m=120+440*p/(b+1);$+=`
+          <line x1="${m}" y1="76" x2="${m}" y2="330" stroke="${l}" stroke-width="3.5" stroke-dasharray="4 5" />
+          <rect x="${m-4}" y="72" width="8" height="8" fill="${l}" />
+          <rect x="${m-4}" y="326" width="8" height="8" fill="${l}" />
+        `}let R="";for(let p=0;p<i;p+=1){const m=i<=1?203:76+p*x;R+=`
+          <line x1="120" y1="${m}" x2="560" y2="${m}" stroke="${d}" stroke-width="4" />
+          <circle cx="120" cy="${m}" r="4.5" fill="${d}" />
+          <circle cx="560" cy="${m}" r="4.5" fill="${d}" />
+        `}let S="";if(t.enableSag){const p=Math.max(1,Math.round(t.sagRows));for(let m=1;m<=p;m+=1){const h=120+440*m/(p+1);S+=`
+            <line x1="${h}" y1="76" x2="${h}" y2="330" stroke="${f}" stroke-width="3" stroke-dasharray="10 8" />
+            <circle cx="${h}" cy="76" r="4" fill="${f}" />
+            <circle cx="${h}" cy="330" r="4" fill="${f}" />
+          `}}el.svgDynamic.innerHTML=`
+        <line x1="120" y1="76" x2="120" y2="330" stroke="${l}" stroke-width="5" />
+        <line x1="560" y1="76" x2="560" y2="330" stroke="${l}" stroke-width="5" />
+        ${$}
+        ${R}
+        ${S}
+
+        <line x1="120" y1="42" x2="560" y2="42" stroke="${d}" stroke-width="1.5" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)" />
+        <line x1="120" y1="32" x2="120" y2="58" stroke="${d}" stroke-width="1.5" />
+        <line x1="560" y1="32" x2="560" y2="58" stroke="${d}" stroke-width="1.5" />
+        <text x="${680/2}" y="33" fill="${l}" font-size="25" text-anchor="middle">${fmt(t.purlinSpan,2)} m</text>
+
+        <line x1="62" y1="76" x2="62" y2="330" stroke="${d}" stroke-width="1.5" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)" />
+        <line x1="48" y1="76" x2="112" y2="76" stroke="${d}" stroke-width="1.5" />
+        <line x1="48" y1="330" x2="112" y2="330" stroke="${d}" stroke-width="1.5" />
+        <text x="47" y="${406/2}" fill="${l}" font-size="25" text-anchor="middle" transform="rotate(-90 47 ${406/2})">${fmt(t.rafterLength,2)} m</text>
+
+        <text x="120" y="368" fill="${d}" font-size="17">แป ${i} เส้น</text>
+        <text x="560" y="368" fill="${l}" font-size="17" text-anchor="end">จันทัน 2 เส้น</text>
+        ${b>0?`<text x="${680/2}" y="348" fill="${l}" font-size="16" text-anchor="middle">จันทันพราง ${b} แนว</text>`:""}
+        ${t.enableSag?`<text x="${680/2}" y="368" fill="${f}" font-size="17" text-anchor="middle">กันแอ่น ${Math.max(1,Math.round(t.sagRows))} แนว</text>`:""}
+      `}function update(){const t=Math.max(.01,num("purlinSpan",defaults.purlinSpan)),e=Math.max(.01,num("rafterLength",defaults.rafterLength)),n=Math.max(1,Math.round(num("purlinCount",defaults.purlinCount)));el.purlinCount.value=n;const s=el.enableHiddenRafter.checked,a=s?Math.max(0,Math.round(num("hiddenRafterCount",defaults.hiddenRafterCount))):0;s&&(el.hiddenRafterCount.value=a),el.hiddenRafterCount.disabled=!s;const o=t/(a+1);el.designSpanInput.value=o.toFixed(3);const u=el.customTrib.checked;el.tribWidth.readOnly=!u,u||(el.tribWidth.value=autoTributary(e,n).toFixed(3));const i=Math.max(.001,num("tribWidth",defaults.tribWidth)),x=Math.max(.1,num("longSide",defaults.longSide)),d=Math.max(.1,num("shortSide",defaults.shortSide)),l=Math.max(.01,num("thickness",defaults.thickness));applyDeadLoadPreset(),applyLiveLoadPreset(),applyWindPreset();const f=Math.max(0,num("deadLoad",defaults.deadLoad)),$=Math.max(0,num("liveLoad",defaults.liveLoad)),b=el.enableWind.checked,R=b?Math.max(0,num("windLoad",defaults.windLoad)):0,S=Math.max(1,num("fy",defaults.fy)),p=Math.max(1,num("defRatio",defaults.defRatio)),m=el.includeSelf.checked,h=el.enableSag.checked,C=Math.max(1,Math.round(num("sagRows",defaults.sagRows)));el.sagRows.value=C;const q=Math.max(.1,num("sagDia",defaults.sagDia)),N=parseSlope(el.sagSlope.value),st=Math.max(1,num("sagFu",defaults.sagFu)),D=currentOrientation(),r=sectionProperties(x,d,l,D),j=`${Math.abs(x-d)<.001?"SHS":"RHS"} ${fmtSize(x)} x ${fmtSize(d)} x ${fmtSize(l)} mm`,y=f+$,P=y*9.80665,V=f*9.80665,Z=R*9.80665,M=m&&r.valid?r.selfKgM*9.80665:0,_=P*i+M,rt=(V+Z)*i+M,dt=(V-Z)*i+M,K=[{name:"DL+LL",signedNpm:_},...b?[{name:"DL+ลมกด",signedNpm:rt},{name:"ลมยก-DL",signedNpm:dt}]:[]].map(c=>({...c,absNpm:Math.abs(c.signedNpm),direction:c.signedNpm<0?"ขึ้น":"ลง"})),T=K.reduce((c,v)=>v.absNpm>c.absNpm?v:c,K[0]),A=T.absNpm,G=A/9.80665,k=o,F=k*1e3,J=A*k**2/8,B=.6*S,Q=r.valid?J*1e3/r.z:NaN,H=Q/B,O=r.valid?5*(A/1e3)*F**4/(384*2e5*r.i):NaN,z=F/p,I=O/z,X=r.valid&&H<=1,Y=r.valid&&I<=1;let w=X&&Y;const ct=8*(r.valid?B*r.z/1e3:NaN)/k**2,lt=r.valid?z*384*2e5*r.i/(5*F**4)*1e3:NaN,tt=y>0?(ct-M)/P:NaN,et=y>0?(lt-M)/P:NaN,ut=Math.max(0,Math.min(tt,et)),nt=tributaries(e,n,i,u),gt=nt.map(c=>(P*c+M)*k/2/9.80665),at=_/9.80665,ot=at*k/2,W=gt.reduce((c,v)=>c+v,0),mt=W/e,ht=nt.map(c=>(P*c+M)*k/9.80665),ft=at*k,U=ht.reduce((c,v)=>c+v,0),kt=U/e,L=sagRodResult({purlinSpan:t,rafterLength:e,purlinCount:n,totalAreaKg:y,includeSelf:m,props:r,sagRows:C,sagDia:q,slope:N,sagFu:st});el.sagTribOut.value=L.braceTrib.toFixed(3);const xt=!h||L.ok;w=w&&xt,drawDiagram({purlinSpan:t,rafterLength:e,purlinCount:n,enableHiddenRafter:s,hiddenRafterCount:a,enableSag:h,sagRows:C}),el.tribOut.textContent=fmt(i,3),el.designSpanOut.textContent=`${fmt(o,3)} m`,el.designSpanText.textContent=a>0?`แบ่ง ${a+1} ช่วงจาก ${fmt(t,2)} m`:"ไม่มีจันทันพราง",el.lineLoadOut.textContent=fmt(G,1),el.governingCaseOut.textContent=T.name,el.governingCaseText.textContent=`${fmt(G,1)} kg/m ทิศ${T.direction}`,el.selfWeightOut.textContent=r.valid?fmt(r.selfKgM,2):"-",el.sectionOut.textContent=j,el.sectionText.textContent=`${D==="strong"?"วางตั้ง":"วางแบน"} | ${fmt(r.B,1)} กว้าง x ${fmt(r.H,1)} สูง`,el.statusBadge.textContent=w?"ผ่าน":"ไม่ผ่าน",el.statusBadge.classList.toggle("ok",w),el.statusText.textContent=r.valid?w?h?"ผ่านกำลังดัด แอ่นตัว และเหล็กกันแอ่น":"ผ่านทั้งกำลังดัดและแอ่นตัว":"ดูรายการที่เป็นสีแดงด้านล่าง":"หน้าตัดไม่ถูกต้อง",setMetricState(el.statusMetric,w),el.stressOut.textContent=`${fmt(Q,1)} / ${fmt(B,0)} MPa`,el.stressURText.textContent=`${fmt(H*100,0)}%`,setFill(el.stressBar,H),setMetricState(el.stressMetric,X),el.defOut.textContent=`${fmt(O,1)} / ${fmt(z,1)} mm`,el.defURText.textContent=`${fmt(I*100,0)}%`,setFill(el.defBar,I),setMetricState(el.defMetric,Y),el.spacingOut.textContent=`${fmt(ut,2)} m`,el.spacingText.textContent=`จาก DL+LL: ดัด ${fmt(Math.max(0,tt),2)} m | แอ่นตัว ${fmt(Math.max(0,et),2)} m`,a>0?(el.reactionOut.textContent=`${fmt(W,1)} / ${fmt(U,1)} kgf`,el.reactionText.textContent=`หลักต่อเส้น / พรางต่อแนว | ต่อแป ${fmt(ot,1)} / ${fmt(ft,1)} kgf`):(el.reactionOut.textContent=`${fmt(W,1)} kgf`,el.reactionText.textContent=`ต่อแปหนึ่งเส้นประมาณ ${fmt(ot,1)} kgf ที่ปลายแต่ละด้าน | เฉลี่ยบนจันทัน ${fmt(mt,1)} kg/m`),h?(el.sagRodOut.textContent=`${fmt(L.maxTensionKg,1)} / ${fmt(L.capacityKg,0)} kgf`,el.sagRodText.textContent=`ต้องการ A ${fmt(L.requiredAreaMm2,1)} mm² | ให้ A ${fmt(L.rodAreaMm2,1)} mm² | slope ${fmt(N.angleDeg,1)}°`,el.sagRodURText.textContent=`${fmt(L.utilization*100,0)}%`,setFill(el.sagRodBar,L.utilization),setMetricState(el.sagRodMetric,L.ok)):(el.sagRodOut.textContent="ปิด",el.sagRodText.textContent="ไม่รวมผลเหล็กกันแอ่นในผลรวม",el.sagRodURText.textContent="-",el.sagRodBar.style.width="0%",el.sagRodBar.classList.remove("bad","warn"),clearMetricState(el.sagRodMetric));const $t=D==="strong"?`${fmt(r.B,1)} กว้าง x ${fmt(r.H,1)} สูง`:`${fmt(r.B,1)} กว้าง x ${fmt(r.H,1)} สูง`,pt=el.sectionPreset.value==="custom"?"กำหนดเอง":el.sectionPreset.options[el.sectionPreset.selectedIndex].textContent.trim(),it=metalSheetWeights[el.metalSheetPreset.value],Lt=Number.isFinite(it)?`${el.metalSheetPreset.value} mm = ${fmt(it,2)} kg/m²`:"กำหนดเอง",bt=K.map(c=>`${c.name} ${fmt(c.absNpm/9.80665,1)} kg/m ${c.direction}`).join(" | "),St=[["Section เหล็ก",j,pt],["การวางหน้าตัด",D==="strong"?"วางตั้ง":"วางแบน",$t],["พื้นที่หน้าตัด A",fmt(r.area,1),"mm²"],["โมเมนต์ความเฉื่อย I",fmt(r.i,0),"mm⁴"],["Section modulus Z",fmt(r.z,0),"mm³"],["DL เมทัลชีท",Lt,""],["DL / LL / W",`${fmt(f,1)} / ${fmt($,1)} / ${fmt(R,1)}`,"kg/m²"],["น้ำหนักรวม DL+LL",fmt(y,1),"kg/m²"],["Load cases",bt,""],["Moment max",fmt(J/1e3,3),`kN-m (${T.name})`],["Deflection ratio จริง",O>0?`L/${fmt(F/O,0)}`:"-",""],["Span แปหลัก / ช่วงคำนวณ",`${fmt(t,2)} / ${fmt(o,3)}`,"m"],["จันทันพราง",a>0?`${a} แนว`:"ไม่มี",a>0?`แบ่ง ${a+1} ช่วง`:""],["แรงลงจันทันหลัก",fmt(W,1),"kgf/เส้น"],["แรงลงจันทันพราง",a>0?fmt(U,1):"-",a>0?"kgf/แนว":""],["จำนวนแปในผัง",String(n),"เส้น"],["เหล็กกันแอ่น",h?`Ø${fmt(q,0)} mm`:"ปิด",h?`${C} แนว`:""],["Slope สำหรับ sag rod",h?`${fmt(N.angleDeg,1)}° = ${fmt(N.ratio*100,1)}%`:"-",h?`ประมาณ 1:${fmt(N.runPerRise,2)}`:""],["แรงดึง sag rod สูงสุด",h?fmt(L.maxTensionKg,1):"-","kgf"],["A req / A provided",h?`${fmt(L.requiredAreaMm2,1)} / ${fmt(L.rodAreaMm2,1)}`:"-","mm²"]];el.detailRows.innerHTML=St.map(([c,v,vt])=>`
+        <tr>
+          <td>${c}</td>
+          <td>${v}</td>
+          <td>${vt}</td>
+        </tr>
+      `).join("")}function resetValues(){el.purlinSpan.value=defaults.purlinSpan.toFixed(2),el.rafterLength.value=defaults.rafterLength.toFixed(2),el.purlinCount.value=defaults.purlinCount,el.tribWidth.value=defaults.tribWidth.toFixed(3),el.customTrib.checked=defaults.customTrib,el.enableHiddenRafter.checked=defaults.enableHiddenRafter,el.hiddenRafterCount.value=defaults.hiddenRafterCount,el.sectionPreset.value=defaults.sectionPreset,el.longSide.value=defaults.longSide,el.shortSide.value=defaults.shortSide,el.thickness.value=defaults.thickness,el.metalSheetPreset.value=defaults.metalSheetPreset,el.extraDeadLoad.value=defaults.extraDeadLoad,el.autoDeadLoad.checked=defaults.autoDeadLoad,el.deadLoad.value=defaults.deadLoad,el.liveLoadPreset.value=defaults.liveLoadPreset,el.liveLoad.value=defaults.liveLoad,el.fy.value=defaults.fy,el.defRatio.value=defaults.defRatio,el.includeSelf.checked=defaults.includeSelf,el.enableWind.checked=defaults.enableWind,el.windPreset.value=defaults.windPreset,el.windLoad.value=defaults.windLoad,el.publicWindFactor.value=defaults.publicWindFactor,el.enableSag.checked=defaults.enableSag,el.sagRows.value=defaults.sagRows,el.sagDia.value=defaults.sagDia,el.sagSlope.value=defaults.sagSlope,el.sagFu.value=defaults.sagFu,document.querySelector(`input[name="orientation"][value="${defaults.orientation}"]`).checked=!0,update()}document.querySelectorAll("input").forEach(t=>{t.addEventListener("input",()=>{["longSide","shortSide","thickness"].includes(t.id)&&(el.sectionPreset.value="custom"),t.id==="deadLoad"&&(el.autoDeadLoad.checked=!1,el.metalSheetPreset.value="custom"),t.id==="liveLoad"&&(el.liveLoadPreset.value="custom"),t.id==="windLoad"&&(el.windPreset.value="custom"),update()}),t.addEventListener("change",()=>{["longSide","shortSide","thickness"].includes(t.id)&&(el.sectionPreset.value="custom"),t.id==="deadLoad"&&(el.autoDeadLoad.checked=!1,el.metalSheetPreset.value="custom"),t.id==="liveLoad"&&(el.liveLoadPreset.value="custom"),t.id==="windLoad"&&(el.windPreset.value="custom"),update()})}),el.sectionPreset.addEventListener("change",()=>{applySectionPreset(),update()}),el.metalSheetPreset.addEventListener("change",()=>{el.autoDeadLoad.checked=el.metalSheetPreset.value!=="custom",applyDeadLoadPreset(),update()}),el.extraDeadLoad.addEventListener("input",()=>{el.metalSheetPreset.value!=="custom"&&(el.autoDeadLoad.checked=!0),update()}),el.liveLoadPreset.addEventListener("change",()=>{applyLiveLoadPreset(),update()}),el.windPreset.addEventListener("change",()=>{applyWindPreset(),update()}),el.publicWindFactor.addEventListener("change",()=>{applyWindPreset(),update()}),el.resetBtn.addEventListener("click",resetValues),el.printBtn.addEventListener("click",()=>window.print()),update();
+</script>
+</body>
+</html>

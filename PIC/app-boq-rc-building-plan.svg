@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640" fill="none">
+  <rect width="960" height="640" fill="#edf2f7"/>
+  <rect x="24" y="24" width="912" height="592" rx="14" fill="#fff" stroke="#ced9e6"/>
+  <path d="M24 78H936" stroke="#ced9e6"/>
+  <g font-family="Arial,sans-serif">
+    <text x="48" y="59" fill="#16334f" font-size="22" font-weight="700">BQ-01 / BUILDING TAKEOFF</text>
+    <rect x="750" y="39" width="161" height="25" rx="5" fill="#fff0e0"/>
+    <text x="765" y="56" fill="#925015" font-size="12" font-weight="700">DEVELOPMENT PLAN</text>
+    <text x="54" y="118" fill="#63778e" font-size="13" font-weight="700">MODEL / 3D</text>
+    <text x="670" y="118" fill="#63778e" font-size="13" font-weight="700">QUANTITY / BOQ</text>
+    <text x="670" y="155" fill="#16334f" font-size="22" font-weight="700">From model to quantities</text>
+  </g>
+  <path d="M640 96V524" stroke="#d8e1eb"/>
+  <!-- Illustrative isometric concrete frame; no project measurements or results. -->
+  <g stroke="#bccbd9" stroke-dasharray="6 7" stroke-width="1.5">
+    <path d="M71 410 348 545M126 382 403 517M181 354 458 489M236 326 513 461M291 298 568 433"/>
+    <path d="M71 410 291 298M126 437 346 325M181 464 401 352M236 491 456 379M291 518 511 406M348 545 568 433"/>
+  </g>
+  <g stroke="#8ba0b3" stroke-width="1.5" stroke-linejoin="round">
+    <path d="m123 391 30-15 30 15-30 15-30-15Z" fill="#e2e8ef"/>
+    <path d="m123 391 30 15v13l-30-15v-13Z" fill="#a9b8c7"/>
+    <path d="m153 406 30-15v13l-30 15v-13Z" fill="#c1cdd9"/>
+    <path d="m310 484 30-15 30 15-30 15-30-15Z" fill="#e2e8ef"/>
+    <path d="m310 484 30 15v13l-30-15v-13Z" fill="#a9b8c7"/>
+    <path d="m340 499 30-15v13l-30 15v-13Z" fill="#c1cdd9"/>
+    <path d="m295 305 30-15 30 15-30 15-30-15Z" fill="#e2e8ef"/>
+    <path d="m295 305 30 15v13l-30-15v-13Z" fill="#a9b8c7"/>
+    <path d="m325 320 30-15v13l-30 15v-13Z" fill="#c1cdd9"/>
+    <path d="m482 398 30-15 30 15-30 15-30-15Z" fill="#e2e8ef"/>
+    <path d="m482 398 30 15v13l-30-15v-13Z" fill="#a9b8c7"/>
+    <path d="m512 413 30-15v13l-30 15v-13Z" fill="#c1cdd9"/>
+    <path d="m143 220 10 5v174l-10-5V220Z" fill="#a9b8c7"/>
+    <path d="m153 225 10-5v174l-10 5V225Z" fill="#d9e3ec"/>
+    <path d="m315 134 10 5v174l-10-5V134Z" fill="#a9b8c7"/>
+    <path d="m325 139 10-5v174l-10 5V139Z" fill="#d9e3ec"/>
+    <path d="m502 227 10 5v174l-10-5V227Z" fill="#a9b8c7"/>
+    <path d="m512 232 10-5v174l-10 5V232Z" fill="#d9e3ec"/>
+    <path d="m330 313 10 5v174l-10-5V313Z" fill="#a9b8c7"/>
+    <path d="m340 318 10-5v174l-10 5V318Z" fill="#d9e3ec"/>
+    <path d="m140 212 185-93 200 99-185 94-200-100Z" fill="#edf1f4"/>
+    <path d="m140 212 200 100v18L140 230v-18Z" fill="#acbbc9"/>
+    <path d="m340 312 185-94v18l-185 94v-18Z" fill="#c8d4df"/>
+  </g>
+  <!-- Selected model member and rebar detail hint. -->
+  <path d="m340 315 185-94v18l-185 94v-18Z" fill="#dcebf7" stroke="#24688f" stroke-width="2"/>
+  <g stroke="#e0782b" stroke-width="2">
+    <path d="M358 312 502 239M358 324 502 251"/>
+    <path d="m376 301 0 20m26-33v20m26-33v20m26-33v20m26-33v20"/>
+  </g>
+  <circle cx="153" cy="397" r="5" fill="#e0782b"/>
+  <path d="M590 330h31m-9-9 10 9-10 9" stroke="#24688f" stroke-width="2.5" stroke-linecap="round"/>
+  <g font-family="Arial,sans-serif" font-size="17" fill="#233e59">
+    <rect x="667" y="179" width="239" height="58" rx="6" fill="#f4f7fa"/>
+    <rect x="667" y="249" width="239" height="58" rx="6" fill="#f4f7fa"/>
+    <rect x="667" y="319" width="239" height="58" rx="6" fill="#f4f7fa"/>
+    <rect x="667" y="389" width="239" height="58" rx="6" fill="#f4f7fa"/>
+    <text x="687" y="215">Concrete</text>
+    <text x="687" y="285">Rebar</text>
+    <text x="687" y="355">Formwork</text>
+    <text x="687" y="425">Building works</text>
+    <text x="866" y="215" fill="#657e96">m³</text>
+    <text x="866" y="285" fill="#657e96">kg</text>
+    <text x="866" y="355" fill="#657e96">m²</text>
+    <text x="866" y="425" fill="#657e96">…</text>
+    <text x="669" y="488" fill="#63778e" font-size="14">BOQ → Schedule → Payments</text>
+  </g>
+  <path d="M48 546H912" stroke="#d8e1eb"/>
+  <g font-family="Arial,sans-serif" font-size="14" fill="#526b83">
+    <text x="54" y="584">2D GRID + SNAP</text>
+    <text x="268" y="584">3D MATERIAL VIEW</text>
+    <text x="515" y="584">EDIT REBAR DETAILS</text>
+    <text x="788" y="584" fill="#925015">CONCEPT ONLY</text>
+  </g>
+</svg>

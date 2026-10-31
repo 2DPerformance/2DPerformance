@@ -1,0 +1,43 @@
+{
+  "schema": "ncy-committed-release/1",
+  "sourceCommit": "e654c08a64e69380cb9a493b4d55e233430237c8",
+  "baseline": "4e65c84a6b1a698c21a69677f320b56388b2bea7",
+  "groups": {
+    "deployment": [
+      "docs/releases/column-pm-oneway-20261022/SPEC_TH.md",
+      "docs/releases/column-pm-oneway-20261022/manifest.json",
+      "prototypes/fem-workbench/source/script_036.js",
+      "prototypes/fem-workbench/source/script_158.js",
+      "prototypes/fem-workbench/source/script_166.js",
+      "prototypes/fem-workbench/source/script_298.js",
+      "prototypes/fem-workbench/source/script_303.js",
+      "prototypes/fem-workbench/source/script_307.js",
+      "prototypes/fem-workbench/source/script_370.js",
+      "prototypes/fem-workbench/source/script_371.js",
+      "prototypes/fem-workbench/source/script_372.js",
+      "prototypes/fem-workbench/source/script_373.js",
+      "prototypes/fem-workbench/source/script_374.js",
+      "prototypes/fem-workbench/source_map.json",
+      "prototypes/fem-workbench/tests/test_ngen_analysis_37x.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_boundary_37x.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_define_37x.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_draw_373.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_house_37x.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_language_370.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_loads_37x.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_metrics_37x.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_model_374.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_model_37x.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_overlay_37x.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_results_371.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_results_37x.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_shell_370.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_status_37x.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_windows_37x.cjs",
+      "prototypes/fem-workbench/tests/test_ngen_windows_browser_37x.cjs",
+      "shared/platformCatalog.mjs",
+      "shared/platformCatalog.test.mjs"
+    ]
+  },
+  "excludedWipCount": 0
+}
