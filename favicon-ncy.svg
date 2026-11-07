@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">นายช่างใหญ่ Civil Apps</title>
+  <desc id="desc">ตรา NCY สีน้ำเงินและสีส้ม</desc>
+  <rect width="64" height="64" rx="13" fill="#f7f9fc"/>
+  <path fill="#073476" d="M4 16h5v32H4zM9 16h5l9 15V16h5v32h-5L14 33v15H9zM44 16h-9c-9 0-14 6-14 16s5 16 14 16h9v-6h-8c-6 0-9-3-9-10s3-10 9-10h8z"/>
+  <path fill="#ff4b0b" d="M42 16h7l5 8 5-8h6l-8 14v18h-6V30z"/>
+</svg>
