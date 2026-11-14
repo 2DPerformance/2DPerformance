@@ -1,0 +1,773 @@
+<!doctype html>
+    <html lang="th"><head>
+    <meta name="robots" content="noindex, nofollow, noarchive" /><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ออกแบบคานอะเสเหล็ก</title>
+    <link rel="stylesheet" href="/fonts/sarabun/sarabun.css">
+    <link rel="stylesheet" href="../print-preview.css">
+    <style>@font-face{font-family:THSarabunPSK-web;font-weight:400;src:url(../THSarabun.ttf) format("truetype")}@font-face{font-family:THSarabunPSK-web;font-weight:700;src:url(../THSarabun-Bold.ttf) format("truetype")}:root{--zoom:1}body{margin:0;background:#e9ebee;font-family:Sarabun,sans-serif}.bar{position:sticky;top:0;z-index:5;display:flex;gap:8px;align-items:center;padding:6px 12px;background:#2f5b8a;color:#fff;font-size:13px}.bar b{font-weight:600}.bar span{opacity:.85}.bar button{font:inherit;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;border-radius:3px;padding:1px 8px;cursor:pointer}.bar button[aria-pressed=true]{background:#fff;color:#2f5b8a}.wrap{padding:16px;overflow:auto}.pages{display:flex;gap:12pt;align-items:flex-start;width:max-content;margin:0 auto;zoom:var(--zoom)}.stack .pages{flex-direction:column}.sheet{position:relative;flex:0 0 auto;width:638.28pt;background:#fff;box-shadow:0 1px 4px #00000040;overflow:visible}.sheet>*,.part2>*{position:absolute;box-sizing:border-box}.t{display:flex;padding:0 1.5pt;overflow:visible;line-height:1.05}.t>span{display:block;flex-shrink:0}.t sub{font-size:70%;vertical-align:-.15em;line-height:0}.h,.v{pointer-events:none}.in input{width:100%;height:100%;border:0;padding:0;margin:0;background:transparent;font:inherit;color:inherit;text-align:inherit}.in input:focus{outline:2px solid #2F5B8A;outline-offset:-2px;background:#fff}.dd{font:9pt Sarabun,sans-serif;border:1px solid #7a7a7a;background:#fff;padding:0 2px}.s{pointer-events:none;object-fit:contain}.cellsel{width:100%;height:100%;border:1px solid #9a9a9a;background:#fff;font:inherit;color:inherit;padding:0 1px}.ctl{display:flex;align-items:center;gap:3px;font:9pt Sarabun,sans-serif;white-space:nowrap}.ctl input{margin:0}.embed .bar{display:none}.embed{background:#fff}.embed{background:#e9ebee}.embed .wrap{padding:8px}.embed .pages{margin:0 auto}.bar a{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.5);border-radius:3px;padding:1px 8px}.settings{width:max-content;margin:0 auto 10pt;zoom:var(--zoom)}.settings-head{font:600 12px Sarabun,sans-serif;color:#2f5b8a;margin:0 0 4px}.settings-head span{font-weight:400;color:#5b6b80;margin-left:6px}.settings-sheet{outline:1px solid #b9cbe0;overflow:hidden}@media print{.settings{display:none!important}}
+</style></head><body>
+    <div class="bar"><a href="../workbook.html#ADT-08">← ทั้ง 14 โปรแกรม</a><b>ออกแบบคานอะเสเหล็ก</b><span>คำนวณทันทีเมื่อแก้ค่า</span>
+    <button type="button" style="margin-left:auto" onclick="window.print()">พิมพ์</button><span>ซูม</span><button type="button" data-z="1" aria-pressed="true">100%</button><button type="button" data-z="1.3" aria-pressed="false">130%</button></div>
+    <div class="wrap"><div class="form-col"><section class="settings" aria-label="ข้อมูลตั้งค่า" style="zoom:calc(var(--zoom) * 0.876)"><div class="settings-head">ข้อมูลตั้งค่า <span>ค่าที่อยู่นอกหน้ารายการคำนวณใน Excel · ไม่พิมพ์</span><span>ค่าจากแท็บ แปเหล็ก, จันทัน, อกไก่ ใช้ร่วมกันเหมือนใน Excel</span></div><div class="sheet settings-sheet" style="width:728.46pt;height:134.40pt"><div class="f" style="left:0.00pt;top:0.00pt;width:58.32pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:58.32pt;top:0.00pt;width:58.32pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:116.64pt;top:0.00pt;width:42.12pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:158.76pt;top:0.00pt;width:42.12pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:200.88pt;top:0.00pt;width:81.00pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:281.88pt;top:0.00pt;width:55.62pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:337.50pt;top:0.00pt;width:81.00pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:418.50pt;top:0.00pt;width:63.18pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:481.68pt;top:0.00pt;width:72.90pt;height:19.20pt;background:#CADDF1"></div>
+<div class="f" style="left:554.58pt;top:0.00pt;width:58.32pt;height:19.20pt;background:#CADDF1"></div>
+<div class="f" style="left:612.90pt;top:0.00pt;width:57.78pt;height:19.20pt;background:#CADDF1"></div>
+<div class="f" style="left:0.00pt;top:19.20pt;width:58.32pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:58.32pt;top:19.20pt;width:58.32pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:158.76pt;top:19.20pt;width:42.12pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:200.88pt;top:19.20pt;width:81.00pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:281.88pt;top:19.20pt;width:55.62pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:418.50pt;top:19.20pt;width:63.18pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:481.68pt;top:19.20pt;width:131.22pt;height:19.20pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:38.40pt;width:58.32pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:58.32pt;top:38.40pt;width:58.32pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:158.76pt;top:38.40pt;width:42.12pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:200.88pt;top:38.40pt;width:81.00pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:281.88pt;top:38.40pt;width:55.62pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:418.50pt;top:38.40pt;width:63.18pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:481.68pt;top:38.40pt;width:131.22pt;height:19.20pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:57.60pt;width:58.32pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:58.32pt;top:57.60pt;width:58.32pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:158.76pt;top:57.60pt;width:42.12pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:200.88pt;top:57.60pt;width:81.00pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:281.88pt;top:57.60pt;width:55.62pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:337.50pt;top:57.60pt;width:81.00pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:418.50pt;top:57.60pt;width:63.18pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:481.68pt;top:57.60pt;width:131.22pt;height:19.20pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:76.80pt;width:58.32pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:58.32pt;top:76.80pt;width:58.32pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:116.64pt;top:76.80pt;width:42.12pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:76.80pt;width:42.12pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:200.88pt;top:76.80pt;width:81.00pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:481.68pt;top:76.80pt;width:131.22pt;height:19.20pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:96.00pt;width:58.32pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:58.32pt;top:96.00pt;width:58.32pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:116.64pt;top:96.00pt;width:42.12pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:96.00pt;width:42.12pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:200.88pt;top:96.00pt;width:81.00pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:281.88pt;top:96.00pt;width:55.62pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:418.50pt;top:96.00pt;width:63.18pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:481.68pt;top:96.00pt;width:131.22pt;height:19.20pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:115.20pt;width:58.32pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:58.32pt;top:115.20pt;width:58.32pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:116.64pt;top:115.20pt;width:42.12pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:115.20pt;width:42.12pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:200.88pt;top:115.20pt;width:81.00pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:281.88pt;top:115.20pt;width:55.62pt;height:19.20pt;background:#B9D1EC"></div>
+<div class="f" style="left:481.68pt;top:115.20pt;width:131.22pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:612.90pt;top:115.20pt;width:115.56pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="h" style="left:670.68pt;top:calc(0.00pt - 0.5px);width:57.78pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:670.68pt;top:calc(19.20pt - 0.5px);width:57.78pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:116.64pt;top:calc(19.20pt - 0.5px);width:42.12pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:116.64pt;top:calc(38.40pt - 0.5px);width:42.12pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:337.50pt;top:calc(19.20pt - 0.5px);width:81.00pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:337.50pt;top:calc(38.40pt - 0.5px);width:81.00pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:612.90pt;top:calc(19.20pt - 0.5px);width:57.78pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:612.90pt;top:calc(38.40pt - 0.5px);width:57.78pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:670.68pt;top:calc(38.40pt - 0.5px);width:57.78pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:116.64pt;top:calc(57.60pt - 0.5px);width:42.12pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:337.50pt;top:calc(57.60pt - 0.5px);width:81.00pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:612.90pt;top:calc(57.60pt - 0.5px);width:57.78pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:670.68pt;top:calc(57.60pt - 0.5px);width:57.78pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:281.88pt;top:calc(76.80pt - 0.5px);width:55.62pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:281.88pt;top:calc(96.00pt - 0.5px);width:55.62pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:337.50pt;top:calc(76.80pt - 0.5px);width:81.00pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:337.50pt;top:calc(96.00pt - 0.5px);width:81.00pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:418.50pt;top:calc(76.80pt - 0.5px);width:63.18pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:418.50pt;top:calc(96.00pt - 0.5px);width:63.18pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:337.50pt;top:calc(115.20pt - 0.5px);width:81.00pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:337.50pt;top:calc(134.40pt - 0.5px);width:81.00pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:418.50pt;top:calc(115.20pt - 0.5px);width:63.18pt;border-top:1px dotted #808080"></div>
+<div class="h" style="left:418.50pt;top:calc(134.40pt - 0.5px);width:63.18pt;border-top:1px dotted #808080"></div>
+<div class="v" style="top:0.00pt;left:calc(670.68pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:0.00pt;left:calc(728.46pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:19.20pt;left:calc(116.64pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:19.20pt;left:calc(158.76pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:19.20pt;left:calc(337.50pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:19.20pt;left:calc(418.50pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:19.20pt;left:calc(612.90pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:19.20pt;left:calc(728.46pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:38.40pt;left:calc(116.64pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:38.40pt;left:calc(158.76pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:38.40pt;left:calc(337.50pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:38.40pt;left:calc(418.50pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:38.40pt;left:calc(612.90pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:38.40pt;left:calc(728.46pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:76.80pt;left:calc(281.88pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:76.80pt;left:calc(481.68pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:96.00pt;left:calc(337.50pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:96.00pt;left:calc(418.50pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:115.20pt;left:calc(337.50pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="v" style="top:115.20pt;left:calc(481.68pt - 0.5px);height:19.20pt;border-left:1px dotted #808080"></div>
+<div class="t" style="left:0.00pt;top:0.00pt;width:58.32pt;height:19.20pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>กำหนดข้อมูลจุดรองคานอะเส / Support of Beam Bottom Chord</span></div>
+<div class="t" style="left:554.58pt;top:0.00pt;width:58.32pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>จำนวน LAOD  ที่กระทำกับคานอะเส</span></div>
+<div class="t" style="left:670.68pt;top:0.00pt;width:57.78pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="12,29" data-c0="#000000" data-f="0.00"><span>5.00</span></div>
+<div class="t" style="left:58.32pt;top:19.20pt;width:58.32pt;height:19.20pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000"><span>จำนวน Span คานอะเส =</span></div>
+<label class="t in" style="left:116.64pt;top:19.20pt;width:42.12pt;height:19.20pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><select class="cellsel" aria-label="T13" data-cell="T13" data-k="13,20"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></label>
+<div class="t" style="left:158.76pt;top:19.20pt;width:42.12pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000"><span>Span</span></div>
+<div class="t" style="left:281.88pt;top:19.20pt;width:55.62pt;height:19.20pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000"><span>กรณีมี Span ยื่นฝั่งซ้าย =</span></div>
+<label class="t in" style="left:337.50pt;top:19.20pt;width:81.00pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="X13" data-cell="X13" data-k="13,24" data-f="General" value="1"></label>
+<div class="t" style="left:418.50pt;top:19.20pt;width:63.18pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000"><span>m.</span></div>
+<div class="t" style="left:481.68pt;top:19.20pt;width:131.22pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>POINT LOAD 1 (P1) =</span></div>
+<div class="t" style="left:612.90pt;top:19.20pt;width:115.56pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="13,28" data-c0="#000000" data-f="#,##0.00"><span>642.52</span></div>
+<div class="t" style="left:58.32pt;top:38.40pt;width:58.32pt;height:19.20pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000"><span>ระยะห่าง Span ที่ 1 =</span></div>
+<label class="t in" style="left:116.64pt;top:38.40pt;width:42.12pt;height:19.20pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="T14" data-cell="T14" data-k="14,20" data-f="General" value="3"></label>
+<div class="t" style="left:158.76pt;top:38.40pt;width:42.12pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000"><span>m.</span></div>
+<div class="t" style="left:281.88pt;top:38.40pt;width:55.62pt;height:19.20pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000"><span>กรณีมี Span ยื่นฝั่งขวา =</span></div>
+<label class="t in" style="left:337.50pt;top:38.40pt;width:81.00pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="X14" data-cell="X14" data-k="14,24" data-f="General" value="1"></label>
+<div class="t" style="left:418.50pt;top:38.40pt;width:63.18pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000"><span>m.</span></div>
+<div class="t" style="left:481.68pt;top:38.40pt;width:131.22pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>POINT LOAD 2 (P2) =</span></div>
+<div class="t" style="left:612.90pt;top:38.40pt;width:115.56pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="14,28" data-c0="#000000" data-f="#,##0.00"><span>1,278.78</span></div>
+<div class="t" style="left:58.32pt;top:57.60pt;width:58.32pt;height:19.20pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000;color:#000000;font-weight:400" data-k="15,19" data-c0="#000000" data-f="General"><span>ระยะห่าง Span ที่ 2 =</span></div>
+<label class="t in" style="left:116.64pt;top:57.60pt;width:42.12pt;height:19.20pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#FFFFCC;color:#0000FF;font-weight:700" data-c0="#FFFFCC"><input aria-label="T15" data-cell="T15" data-k="15,20" data-f="General" value="3"></label>
+<div class="t" style="left:158.76pt;top:57.60pt;width:42.12pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000;color:#000000;font-weight:400" data-k="15,21" data-c0="#000000" data-f="General"><span>m.</span></div>
+<div class="t" style="left:200.88pt;top:57.60pt;width:81.00pt;height:19.20pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>ความยาวคานอะเส/Length of Beam Bottom Chord</span></div>
+<div class="t" style="left:481.68pt;top:57.60pt;width:131.22pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000;color:#000000;font-weight:700" data-k="15,26" data-c0="#000000" data-f="General"><span>POINT LOAD 3 (P3) =</span></div>
+<div class="t" style="left:612.90pt;top:57.60pt;width:115.56pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000;color:#000000;font-weight:700" data-k="15,28" data-c0="#000000" data-f="#,##0.00"><span>1,278.78</span></div>
+<div class="t" style="left:58.32pt;top:76.80pt;width:58.32pt;height:19.20pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000;color:#000000;font-weight:400" data-k="16,19" data-c0="#000000" data-f="General"><span></span></div>
+<label class="t in" style="left:116.64pt;top:76.80pt;width:42.12pt;height:19.20pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#FFFFCC;color:#FFFFCC;font-weight:700" data-c0="#FFFFCC"><input aria-label="T16" data-cell="T16" data-k="16,20" data-f="General" value="3.283"></label>
+<div class="t" style="left:158.76pt;top:76.80pt;width:42.12pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000;color:#000000;font-weight:400" data-k="16,21" data-c0="#000000" data-f="General"><span></span></div>
+<div class="t" style="left:200.88pt;top:76.80pt;width:81.00pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Beam Lengrh =</span></div>
+<div class="t" style="left:281.88pt;top:76.80pt;width:136.62pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="16,23" data-c0="#000000" data-f="General"><span>   3 + 3.28+1+1</span></div>
+<div class="t" style="left:418.50pt;top:76.80pt;width:63.18pt;height:19.20pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="16,25" data-c0="#000000" data-f="General"><span>=    8 m.</span></div>
+<div class="t" style="left:481.68pt;top:76.80pt;width:131.22pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000;color:#000000;font-weight:700" data-k="16,26" data-c0="#000000" data-f="General"><span>POINT LOAD 4 (P4) =</span></div>
+<div class="t" style="left:612.90pt;top:76.80pt;width:115.56pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000;color:#000000;font-weight:700" data-k="16,28" data-c0="#000000" data-f="#,##0.00"><span>1,278.78</span></div>
+<div class="t" style="left:58.32pt;top:96.00pt;width:58.32pt;height:19.20pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000;color:#000000;font-weight:400" data-k="17,19" data-c0="#000000" data-f="General"><span></span></div>
+<label class="t in" style="left:116.64pt;top:96.00pt;width:42.12pt;height:19.20pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#FFFFCC;color:#FFFFCC;font-weight:700" data-c0="#FFFFCC"><input aria-label="T17" data-cell="T17" data-k="17,20" data-f="General" value="3.283"></label>
+<div class="t" style="left:158.76pt;top:96.00pt;width:42.12pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000;color:#000000;font-weight:400" data-k="17,21" data-c0="#000000" data-f="General"><span></span></div>
+<div class="t" style="left:281.88pt;top:96.00pt;width:55.62pt;height:19.20pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Beam Inner  Span  Re - Check   =</span></div>
+<div class="t" style="left:337.50pt;top:96.00pt;width:81.00pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="17,24" data-c0="#000000" data-f="General"><span>8 m &gt; 8 m.</span></div>
+<div class="t" style="left:418.50pt;top:96.00pt;width:63.18pt;height:19.20pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'Segoe UI Symbol',sans-serif;font-size:24.0pt;color:#000000;color:#00B050;font-weight:400" data-k="17,25" data-c0="#000000" data-f="General" data-w="1"><span>✔</span></div>
+<div class="t" style="left:481.68pt;top:96.00pt;width:131.22pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000;color:#000000;font-weight:700" data-k="17,26" data-c0="#000000" data-f="General"><span>POINT LOAD 5 (P5) =</span></div>
+<div class="t" style="left:612.90pt;top:96.00pt;width:115.56pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000;color:#000000;font-weight:700" data-k="17,28" data-c0="#000000" data-f="#,##0.00"><span>642.52</span></div>
+<div class="t" style="left:58.32pt;top:115.20pt;width:58.32pt;height:19.20pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000;color:#000000;font-weight:400" data-k="18,19" data-c0="#000000" data-f="General"><span></span></div>
+<label class="t in" style="left:116.64pt;top:115.20pt;width:42.12pt;height:19.20pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#FFFFCC;color:#FFFFCC;font-weight:700" data-c0="#FFFFCC"><input aria-label="T18" data-cell="T18" data-k="18,20" data-f="General" value="4.5"></label>
+<div class="t" style="left:158.76pt;top:115.20pt;width:42.12pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000;color:#000000;font-weight:400" data-k="18,21" data-c0="#000000" data-f="General"><span></span></div>
+<div class="t" style="left:281.88pt;top:115.20pt;width:55.62pt;height:19.20pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>หน้าตัดเสาคอนกรีตที่รับคานอะเส   =</span></div>
+<label class="t in" style="left:337.50pt;top:115.20pt;width:81.00pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="X18" data-cell="X18" data-k="18,24" data-f="0.00&quot;m.&quot;" value="0.25m."></label>
+<div class="t" style="left:418.50pt;top:115.20pt;width:63.18pt;height:19.20pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="18,25" data-c0="#000000" data-f="General"><span>X  0.25 m.</span></div>
+<div class="t" style="left:481.68pt;top:115.20pt;width:131.22pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000;color:#000000;font-weight:700" data-k="18,26" data-c0="#000000" data-f="General"><span></span></div>
+<div class="t" style="left:612.90pt;top:115.20pt;width:115.56pt;height:19.20pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000;color:#000000;font-weight:700" data-k="18,28" data-c0="#000000" data-f="#,##0.00"><span></span></div>
+<div class="h" style="left:337.50pt;top:calc(134.40pt - 0.5px);width:81.00pt;border-top:1px dotted #808080"></div><div class="h" style="left:418.50pt;top:calc(134.40pt - 0.5px);width:63.18pt;border-top:1px dotted #808080"></div></div></section><div class="pages" data-w="638.28" data-h="771.36" data-cuts="0.00" data-live="1" data-sheet="ADT-08"><div class="sheet" style="height:771.36pt" aria-label="หน้า 1"><div class="f" style="left:56.16pt;top:0.00pt;width:304.02pt;height:19.68pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:0.00pt;width:145.26pt;height:19.68pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:19.68pt;width:304.02pt;height:19.68pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:19.68pt;width:145.26pt;height:19.68pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:39.36pt;width:329.40pt;height:20.16pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:39.36pt;width:145.26pt;height:20.16pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:84.00pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:84.00pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:84.00pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:84.00pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:84.00pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:84.00pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:84.00pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:84.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:84.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:84.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:84.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:84.00pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:84.00pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:103.20pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:103.20pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:103.20pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:103.20pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:103.20pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:103.20pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:103.20pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:103.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:103.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:103.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:103.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:103.20pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:103.20pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:122.40pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:122.40pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:122.40pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:122.40pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:122.40pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:122.40pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:122.40pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:122.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:122.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:122.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:122.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:122.40pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:122.40pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:141.60pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:141.60pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:141.60pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:141.60pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:141.60pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:141.60pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:141.60pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:141.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:141.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:141.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:141.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:141.60pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:141.60pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:160.80pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:160.80pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:160.80pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:160.80pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:160.80pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:160.80pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:160.80pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:160.80pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:160.80pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:160.80pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:160.80pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:160.80pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:160.80pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:180.00pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:180.00pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:180.00pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:180.00pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:180.00pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:180.00pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:180.00pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:180.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:180.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:180.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:180.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:180.00pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:180.00pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:199.20pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:199.20pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:199.20pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:199.20pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:199.20pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:199.20pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:199.20pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:199.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:199.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:199.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:199.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:199.20pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:199.20pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:218.40pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:218.40pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:218.40pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:218.40pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:218.40pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:218.40pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:218.40pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:218.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:218.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:218.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:218.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:218.40pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:218.40pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:237.60pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:237.60pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:237.60pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:237.60pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:237.60pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:237.60pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:237.60pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:237.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:237.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:237.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:237.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:237.60pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:237.60pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:256.80pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:256.80pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:256.80pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:256.80pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:256.80pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:256.80pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:256.80pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:256.80pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:256.80pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:256.80pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:256.80pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:256.80pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:256.80pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:276.00pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:276.00pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:276.00pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:276.00pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:276.00pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:276.00pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:276.00pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:276.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:276.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:276.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:276.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:276.00pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:276.00pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:295.20pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:295.20pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:295.20pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:295.20pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:295.20pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:295.20pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:295.20pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:295.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:295.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:295.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:295.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:295.20pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:295.20pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:314.40pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:314.40pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:314.40pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:314.40pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:314.40pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:314.40pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:314.40pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:314.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:314.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:314.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:314.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:314.40pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:314.40pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:333.60pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:333.60pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:333.60pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:333.60pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:333.60pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:333.60pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:333.60pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:333.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:333.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:333.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:333.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:333.60pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:333.60pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:352.80pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:352.80pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:352.80pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:352.80pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:352.80pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:352.80pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:352.80pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:352.80pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:352.80pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:352.80pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:352.80pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:352.80pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:352.80pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:372.00pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:372.00pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:372.00pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:372.00pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:372.00pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:372.00pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:372.00pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:372.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:372.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:372.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:372.00pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:372.00pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:372.00pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:391.20pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:391.20pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:391.20pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:391.20pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:391.20pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:391.20pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:391.20pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:391.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:391.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:391.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:391.20pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:391.20pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:391.20pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:410.40pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:410.40pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:410.40pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:410.40pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:410.40pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:410.40pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:410.40pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:410.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:410.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:410.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:410.40pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:410.40pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:410.40pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:429.60pt;width:56.16pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:56.16pt;top:429.60pt;width:35.64pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:91.80pt;top:429.60pt;width:27.54pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:119.34pt;top:429.60pt;width:61.02pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:180.36pt;top:429.60pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:429.60pt;width:68.58pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:319.14pt;top:429.60pt;width:41.04pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:429.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:404.46pt;top:429.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:448.74pt;top:429.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:429.60pt;width:44.28pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:537.30pt;top:429.60pt;width:70.20pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:607.50pt;top:429.60pt;width:30.78pt;height:19.20pt;background:#EEF4FB"></div>
+<div class="f" style="left:250.56pt;top:494.88pt;width:109.62pt;height:23.04pt;background:#EEF4FB"></div>
+<div class="f" style="left:360.18pt;top:494.88pt;width:132.84pt;height:23.04pt;background:#DDE9F6"></div>
+<div class="f" style="left:493.02pt;top:494.88pt;width:145.26pt;height:23.04pt;background:#CADDF1"></div>
+<div class="f" style="left:360.18pt;top:517.92pt;width:44.28pt;height:23.04pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:517.92pt;width:44.28pt;height:23.04pt;background:#E2EDF8"></div>
+<div class="f" style="left:360.18pt;top:540.96pt;width:44.28pt;height:23.04pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:540.96pt;width:44.28pt;height:23.04pt;background:#E2EDF8"></div>
+<div class="f" style="left:360.18pt;top:587.04pt;width:132.84pt;height:23.04pt;background:#DDE9F6"></div>
+<div class="f" style="left:493.02pt;top:587.04pt;width:145.26pt;height:23.04pt;background:#CADDF1"></div>
+<div class="f" style="left:360.18pt;top:610.08pt;width:44.28pt;height:23.04pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:610.08pt;width:44.28pt;height:23.04pt;background:#E2EDF8"></div>
+<div class="f" style="left:360.18pt;top:633.12pt;width:44.28pt;height:23.04pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:633.12pt;width:44.28pt;height:23.04pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:679.20pt;width:180.36pt;height:23.04pt;background:#DDE9F6"></div>
+<div class="f" style="left:180.36pt;top:679.20pt;width:179.82pt;height:23.04pt;background:#CADDF1"></div>
+<div class="f" style="left:360.18pt;top:679.20pt;width:132.84pt;height:23.04pt;background:#DDE9F6"></div>
+<div class="f" style="left:493.02pt;top:679.20pt;width:145.26pt;height:23.04pt;background:#CADDF1"></div>
+<div class="f" style="left:360.18pt;top:702.24pt;width:44.28pt;height:23.04pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:702.24pt;width:44.28pt;height:23.04pt;background:#E2EDF8"></div>
+<div class="f" style="left:360.18pt;top:725.28pt;width:44.28pt;height:23.04pt;background:#EEF4FB"></div>
+<div class="f" style="left:493.02pt;top:725.28pt;width:44.28pt;height:23.04pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:748.32pt;width:638.28pt;height:23.04pt;background:#D9D9D9"></div>
+<div class="h" style="left:56.16pt;top:calc(19.68pt - 0.5px);width:35.64pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(19.68pt - 0.5px);width:27.54pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(19.68pt - 0.5px);width:61.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(19.68pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(19.68pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(19.68pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(19.68pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(19.68pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(19.68pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:56.16pt;top:calc(39.36pt - 0.5px);width:35.64pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(39.36pt - 0.5px);width:27.54pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(39.36pt - 0.5px);width:61.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(39.36pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(39.36pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(39.36pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(39.36pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(39.36pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(39.36pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(59.52pt - 1.5px);width:27.54pt;border-top:3px double #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(59.52pt - 1.5px);width:61.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(59.52pt - 1.5px);width:70.20pt;border-top:3px double #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(59.52pt - 1.5px);width:68.58pt;border-top:3px double #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(59.52pt - 1.5px);width:41.04pt;border-top:3px double #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(59.52pt - 1.5px);width:44.28pt;border-top:3px double #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(59.52pt - 1.5px);width:44.28pt;border-top:3px double #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(59.52pt - 1.5px);width:44.28pt;border-top:3px double #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(59.52pt - 1.5px);width:70.20pt;border-top:3px double #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(59.52pt - 1.5px);width:30.78pt;border-top:3px double #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(59.52pt - 1.5px);width:56.16pt;border-top:3px double #000000"></div>
+<div class="h" style="left:56.16pt;top:calc(59.52pt - 1.5px);width:35.64pt;border-top:3px double #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(59.52pt - 1.5px);width:44.28pt;border-top:3px double #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(84.00pt - 1.5px);width:56.16pt;border-top:3px double #000000"></div>
+<div class="h" style="left:56.16pt;top:calc(84.00pt - 1.5px);width:35.64pt;border-top:3px double #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(84.00pt - 1.5px);width:27.54pt;border-top:3px double #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(84.00pt - 1.5px);width:61.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(84.00pt - 1.5px);width:70.20pt;border-top:3px double #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(84.00pt - 1.5px);width:68.58pt;border-top:3px double #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(84.00pt - 1.5px);width:41.04pt;border-top:3px double #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(84.00pt - 1.5px);width:44.28pt;border-top:3px double #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(84.00pt - 1.5px);width:44.28pt;border-top:3px double #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(84.00pt - 1.5px);width:44.28pt;border-top:3px double #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(84.00pt - 1.5px);width:44.28pt;border-top:3px double #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(84.00pt - 1.5px);width:70.20pt;border-top:3px double #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(84.00pt - 1.5px);width:30.78pt;border-top:3px double #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(448.80pt - 0.5px);width:56.16pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(471.84pt - 0.5px);width:56.16pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:56.16pt;top:calc(448.80pt - 0.5px);width:35.64pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:56.16pt;top:calc(471.84pt - 0.5px);width:35.64pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(448.80pt - 0.5px);width:27.54pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(471.84pt - 0.5px);width:27.54pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(448.80pt - 0.5px);width:61.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(471.84pt - 0.5px);width:61.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(448.80pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(471.84pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(448.80pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(471.84pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(448.80pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(471.84pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(448.80pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(471.84pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(448.80pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(471.84pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(448.80pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(471.84pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(448.80pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(471.84pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(448.80pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(471.84pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(448.80pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(471.84pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(494.88pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(494.88pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(517.92pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(517.92pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(494.88pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(517.92pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(494.88pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(517.92pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(494.88pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(517.92pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(494.88pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(517.92pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(494.88pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(517.92pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(494.88pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(517.92pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(540.96pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(540.96pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(564.00pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(564.00pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(564.00pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(564.00pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(564.00pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(564.00pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(564.00pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(564.00pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(587.04pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(587.04pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(610.08pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(610.08pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(587.04pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(610.08pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(587.04pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(610.08pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(587.04pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(610.08pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(587.04pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(610.08pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(587.04pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(610.08pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(587.04pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(610.08pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(610.08pt - 0.5px);width:56.16pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(633.12pt - 0.5px);width:56.16pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:56.16pt;top:calc(610.08pt - 0.5px);width:35.64pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:56.16pt;top:calc(633.12pt - 0.5px);width:35.64pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(610.08pt - 0.5px);width:27.54pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(633.12pt - 0.5px);width:27.54pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(610.08pt - 0.5px);width:61.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(633.12pt - 0.5px);width:61.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(610.08pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(633.12pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(633.12pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(633.12pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(656.16pt - 0.5px);width:56.16pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:56.16pt;top:calc(656.16pt - 0.5px);width:35.64pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(656.16pt - 0.5px);width:27.54pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(656.16pt - 0.5px);width:61.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(656.16pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(656.16pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(656.16pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(656.16pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(656.16pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(656.16pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(656.16pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(656.16pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(656.16pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(679.20pt - 0.5px);width:56.16pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(702.24pt - 0.5px);width:56.16pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:56.16pt;top:calc(679.20pt - 0.5px);width:35.64pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:56.16pt;top:calc(702.24pt - 0.5px);width:35.64pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(679.20pt - 0.5px);width:27.54pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(702.24pt - 0.5px);width:27.54pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(679.20pt - 0.5px);width:61.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(702.24pt - 0.5px);width:61.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(679.20pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(702.24pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(679.20pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(702.24pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(679.20pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(702.24pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(679.20pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(702.24pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(679.20pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(702.24pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(679.20pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(702.24pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(679.20pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(702.24pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(679.20pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(702.24pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(679.20pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(702.24pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(748.32pt - 0.5px);width:56.16pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:56.16pt;top:calc(748.32pt - 0.5px);width:35.64pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(748.32pt - 0.5px);width:27.54pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(748.32pt - 0.5px);width:61.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(748.32pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(771.36pt - 0.5px);width:56.16pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:56.16pt;top:calc(771.36pt - 0.5px);width:35.64pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:91.80pt;top:calc(771.36pt - 0.5px);width:27.54pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:119.34pt;top:calc(771.36pt - 0.5px);width:61.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(748.32pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:180.36pt;top:calc(771.36pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(748.32pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:250.56pt;top:calc(771.36pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(748.32pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:319.14pt;top:calc(771.36pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(748.32pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:360.18pt;top:calc(771.36pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(748.32pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:404.46pt;top:calc(771.36pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(748.32pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:448.74pt;top:calc(771.36pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(748.32pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:493.02pt;top:calc(771.36pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(748.32pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:537.30pt;top:calc(771.36pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:607.50pt;top:calc(771.36pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div>
+<div class="v" style="top:448.80pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:448.80pt;left:calc(250.56pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:448.80pt;left:calc(360.18pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:448.80pt;left:calc(537.30pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:448.80pt;left:calc(638.28pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:471.84pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:471.84pt;left:calc(250.56pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:471.84pt;left:calc(360.18pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:494.88pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:494.88pt;left:calc(250.56pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:494.88pt;left:calc(360.18pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:494.88pt;left:calc(493.02pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:494.88pt;left:calc(638.28pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:517.92pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:517.92pt;left:calc(250.56pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:517.92pt;left:calc(360.18pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:517.92pt;left:calc(493.02pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:517.92pt;left:calc(638.28pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:540.96pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:540.96pt;left:calc(250.56pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:540.96pt;left:calc(360.18pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:540.96pt;left:calc(493.02pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:540.96pt;left:calc(638.28pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:564.00pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:564.00pt;left:calc(250.56pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:564.00pt;left:calc(360.18pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:587.04pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:587.04pt;left:calc(250.56pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:587.04pt;left:calc(360.18pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:587.04pt;left:calc(493.02pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:587.04pt;left:calc(638.28pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:610.08pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:610.08pt;left:calc(250.56pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:610.08pt;left:calc(360.18pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:610.08pt;left:calc(493.02pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:610.08pt;left:calc(638.28pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:633.12pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:633.12pt;left:calc(250.56pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:633.12pt;left:calc(360.18pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:633.12pt;left:calc(493.02pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:633.12pt;left:calc(638.28pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:679.20pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:679.20pt;left:calc(180.36pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:679.20pt;left:calc(360.18pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:679.20pt;left:calc(493.02pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:679.20pt;left:calc(638.28pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:702.24pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:702.24pt;left:calc(180.36pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:702.24pt;left:calc(360.18pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:702.24pt;left:calc(493.02pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:702.24pt;left:calc(638.28pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:725.28pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:725.28pt;left:calc(180.36pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:725.28pt;left:calc(360.18pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:725.28pt;left:calc(493.02pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:725.28pt;left:calc(638.28pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:748.32pt;left:calc(0.00pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:748.32pt;left:calc(638.28pt - 0.5px);height:23.04pt;border-left:1px solid #000000"></div>
+<div class="t" style="left:0.00pt;top:0.00pt;width:56.16pt;height:19.68pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Project :</span></div>
+<label class="t in" style="left:56.16pt;top:0.00pt;width:304.02pt;height:19.68pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000" data-c0="#000000"><input aria-label="C1" data-cell="C1" value=""></label>
+<div class="t" style="left:448.74pt;top:0.00pt;width:44.28pt;height:19.68pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Engineering Design :</span></div>
+<label class="t in" style="left:493.02pt;top:0.00pt;width:145.26pt;height:19.68pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-c0="#000000"><input aria-label="L1" data-cell="L1" value=""></label>
+<div class="t" style="left:0.00pt;top:19.68pt;width:56.16pt;height:19.68pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Owner :</span></div>
+<label class="t in" style="left:56.16pt;top:19.68pt;width:304.02pt;height:19.68pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000" data-c0="#000000"><input aria-label="C2" data-cell="C2" value=""></label>
+<div class="t" style="left:448.74pt;top:19.68pt;width:44.28pt;height:19.68pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Design Description :</span></div>
+<label class="t in" style="left:493.02pt;top:19.68pt;width:145.26pt;height:19.68pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000" data-c0="#000000"><input aria-label="L2" data-cell="L2" value=""></label>
+<div class="t" style="left:0.00pt;top:39.36pt;width:56.16pt;height:20.16pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Project location :</span></div>
+<label class="t in" style="left:91.80pt;top:39.36pt;width:27.54pt;height:20.16pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000" data-c0="#000000"><input aria-label="D3" data-cell="D3" value=""></label>
+<label class="t in" style="left:119.34pt;top:39.36pt;width:329.40pt;height:20.16pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000" data-c0="#000000"><input aria-label="E3" data-cell="E3" value=""></label>
+<div class="t" style="left:448.74pt;top:39.36pt;width:44.28pt;height:20.16pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Date :</span></div>
+<label class="t in" style="left:493.02pt;top:39.36pt;width:145.26pt;height:20.16pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000" data-c0="#000000"><input aria-label="L3" data-cell="L3" value=""></label>
+<div class="t" style="left:0.00pt;top:59.52pt;width:638.28pt;height:24.48pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>รายการคำนวณออกแบบคานอะเสเหล็ก  ·  Steel beam bottom chord design</span></div>
+<label class="t in" style="left:537.30pt;top:122.40pt;width:70.20pt;height:19.20pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="M8" data-cell="M8" value=""></label>
+<label class="t in" style="left:607.50pt;top:122.40pt;width:30.78pt;height:19.20pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="N8" data-cell="N8" value=""></label>
+<div class="t" style="left:56.16pt;top:448.80pt;width:194.40pt;height:23.04pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Yield strength : Fy  =</span></div>
+<label class="t in" style="left:250.56pt;top:448.80pt;width:109.62pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="G25" data-cell="G25" data-k="25,7" data-f="0.00\ &quot;ksc.&quot;" value="2400.00 ksc."></label>
+<div class="t" style="left:493.02pt;top:448.80pt;width:44.28pt;height:23.04pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Modulus of elasticsity : E =</span></div>
+<div class="t" style="left:537.30pt;top:448.80pt;width:100.98pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#0000FF" data-k="25,13" data-c0="#0000FF" data-f="0.00\ &quot;ksc.&quot;"><span>2100000.00 ksc.</span></div>
+<label class="t in" style="left:56.16pt;top:471.84pt;width:35.64pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;color:#000000" data-c0="#000000"><input aria-label="C26" data-cell="C26" data-k="26,3" data-f="General" value="19"></label>
+<div class="t" style="left:250.56pt;top:471.84pt;width:109.62pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span> NO.OF STEEL </span></div>
+<div class="t" style="left:360.18pt;top:471.84pt;width:44.28pt;height:23.04pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>3.  ตรวจสอบโมดูลัสหน้าตัด / Re-check Section Modolus</span></div>
+<label class="t in" style="left:250.56pt;top:494.88pt;width:109.62pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#0000FF"><select class="cellsel" aria-label="G27" data-cell="G27" data-k="27,7"><option selected>1</option><option>2</option></select></label>
+<div class="t" style="left:360.18pt;top:494.88pt;width:132.84pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Section Modulus Required</span></div>
+<div class="t" style="left:493.02pt;top:494.88pt;width:145.26pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Section Modolus Selection</span></div>
+<div class="t" style="left:250.56pt;top:517.92pt;width:68.58pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>A (mm)=</span></div>
+<div class="t" style="left:319.14pt;top:517.92pt;width:41.04pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="28,8" data-c0="#000000" data-f="#,##0"><span>125</span></div>
+<div class="t" style="left:360.18pt;top:517.92pt;width:44.28pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Sx<span style="font-weight:700;font-size:14pt;color:#000000"><sub>req</sub></span></span></div>
+<div class="t" style="left:404.46pt;top:517.92pt;width:88.56pt;height:46.08pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="28,10" data-c0="#000000" data-f="0.00"><span>192.41</span></div>
+<div class="t" style="left:493.02pt;top:517.92pt;width:44.28pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Sx<span style="font-weight:700;font-size:14pt;color:#000000"><sub>sel</sub></span></span></div>
+<div class="t" style="left:537.30pt;top:517.92pt;width:70.20pt;height:46.08pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="28,13" data-c0="#000000" data-f="0.00"><span>61.72</span></div>
+<div class="t" style="left:607.50pt;top:517.92pt;width:30.78pt;height:46.08pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'Segoe UI Symbol',sans-serif;font-size:28.0pt;color:#000000;color:#FF0000;font-weight:400" data-k="28,14" data-c0="#000000" data-f="General" data-w="1"><span>✘</span></div>
+<div class="t" style="left:250.56pt;top:540.96pt;width:68.58pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>B (mm) =</span></div>
+<div class="t" style="left:319.14pt;top:540.96pt;width:41.04pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="29,8" data-c0="#000000" data-f="#,##0"><span>125</span></div>
+<div class="t" style="left:360.18pt;top:540.96pt;width:44.28pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>cm<span style="font-weight:700;font-size:14pt;color:#000000"><sup>3</sup></span></span></div>
+<div class="t" style="left:493.02pt;top:540.96pt;width:44.28pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>cm<span style="font-weight:700;font-size:14pt;color:#000000"><sup>3</sup></span></span></div>
+<div class="t" style="left:250.56pt;top:564.00pt;width:68.58pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>C (mm) =</span></div>
+<div class="t" style="left:319.14pt;top:564.00pt;width:41.04pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="30,8" data-c0="#000000" data-f="#,##0"><span>20</span></div>
+<div class="t" style="left:360.18pt;top:564.00pt;width:44.28pt;height:23.04pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>4.  ตรวจสอบการรับแรงดัด / Re-check of Bending Stress</span></div>
+<div class="t" style="left:250.56pt;top:587.04pt;width:68.58pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>t (mm) =</span></div>
+<div class="t" style="left:319.14pt;top:587.04pt;width:41.04pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="31,8" data-c0="#000000" data-f="#,##0.00"><span>3.20</span></div>
+<div class="t" style="left:360.18pt;top:587.04pt;width:132.84pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Allowable Bending Stress</span></div>
+<div class="t" style="left:493.02pt;top:587.04pt;width:145.26pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Actual Bending Stress</span></div>
+<div class="t" style="left:0.00pt;top:610.08pt;width:56.16pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Sx(cm<span style="font-weight:700;font-size:14pt"><sup>3</sup></span><span style="font-weight:700;font-size:14pt">) =</span></span></div>
+<div class="t" style="left:56.16pt;top:610.08pt;width:63.18pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="32,3" data-c0="#000000" data-f="0.000"><span>61.719</span></div>
+<div class="t" style="left:119.34pt;top:610.08pt;width:61.02pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Sy(cm<span style="font-weight:700;font-size:14pt;color:#000000"><sup>3</sup></span><span style="font-weight:700;font-size:14pt;color:#000000">) =</span></span></div>
+<div class="t" style="left:180.36pt;top:610.08pt;width:70.20pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="32,6" data-c0="#000000" data-f="0.000"><span>61.719</span></div>
+<div class="t" style="left:250.56pt;top:610.08pt;width:68.58pt;height:23.04pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Weight (kg)=</span></div>
+<div class="t" style="left:319.14pt;top:610.08pt;width:41.04pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="32,8" data-c0="#000000" data-f="#,##0.00"><span>6.13</span></div>
+<div class="t" style="left:360.18pt;top:610.08pt;width:44.28pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Fb =0.6fy</span></div>
+<div class="t" style="left:404.46pt;top:610.08pt;width:88.56pt;height:46.08pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="32,10" data-c0="#000000" data-f="0.00"><span>1440.00</span></div>
+<div class="t" style="left:493.02pt;top:610.08pt;width:44.28pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>My / I</span></div>
+<div class="t" style="left:537.30pt;top:610.08pt;width:70.20pt;height:46.08pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="32,13" data-c0="#000000" data-f="0.00"><span>718.28</span></div>
+<div class="t" style="left:607.50pt;top:610.08pt;width:30.78pt;height:46.08pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'Segoe UI Symbol',sans-serif;font-size:28.0pt;color:#000000;color:#00B050;font-weight:400" data-k="32,14" data-c0="#000000" data-f="General" data-w="1"><span>✔</span></div>
+<div class="t" style="left:0.00pt;top:633.12pt;width:56.16pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Ix(cm<span style="font-weight:700;font-size:14pt;color:#000000"><sup>4</sup></span><span style="font-weight:700;font-size:14pt;color:#000000">) =</span></span></div>
+<div class="t" style="left:56.16pt;top:633.12pt;width:63.18pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="33,3" data-c0="#000000" data-f="0.000"><span>385.745</span></div>
+<div class="t" style="left:119.34pt;top:633.12pt;width:61.02pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Iy(cm<span style="font-weight:700;font-size:14pt;color:#000000"><sup>4</sup></span><span style="font-weight:700;font-size:14pt;color:#000000">) =</span></span></div>
+<div class="t" style="left:180.36pt;top:633.12pt;width:70.20pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="33,6" data-c0="#000000" data-f="0.000"><span>1896.475</span></div>
+<div class="t" style="left:250.56pt;top:633.12pt;width:68.58pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Ag (cm2) =</span></div>
+<div class="t" style="left:319.14pt;top:633.12pt;width:41.04pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="33,8" data-c0="#000000" data-f="#,##0.00"><span>7.81</span></div>
+<div class="t" style="left:360.18pt;top:633.12pt;width:44.28pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>ksc.</span></div>
+<div class="t" style="left:493.02pt;top:633.12pt;width:44.28pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>ksc.</span></div>
+<div class="t" style="left:0.00pt;top:656.16pt;width:56.16pt;height:23.04pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>5.  ตรวจสอบการแอ่นตัว / Re-check of Deflection</span></div>
+<div class="t" style="left:360.18pt;top:656.16pt;width:44.28pt;height:23.04pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>6. ตรวจสอบการรับแรงเฉือน / Re-Check Shear Stress</span></div>
+<div class="t" style="left:0.00pt;top:679.20pt;width:180.36pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Allowable Deflection</span></div>
+<div class="t" style="left:180.36pt;top:679.20pt;width:179.82pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Actual Deflection </span></div>
+<div class="t" style="left:360.18pt;top:679.20pt;width:132.84pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Allowable Shear Stress</span></div>
+<div class="t" style="left:493.02pt;top:679.20pt;width:145.26pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>Actual Shear Stress</span></div>
+<label class="t in" style="left:0.00pt;top:702.24pt;width:91.80pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><select class="cellsel" aria-label="B36" data-cell="B36" data-k="36,2"><option selected>L1/360   =</option><option>L1/240   =</option><option>L1/180   =</option></select></label>
+<div class="t" style="left:91.80pt;top:702.24pt;width:88.56pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="36,4" data-c0="#000000" data-f="0.0000\ &quot;cm.&quot;"><span>0.2778 cm.</span></div>
+<div class="t" style="left:180.36pt;top:702.24pt;width:70.20pt;height:23.04pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>PL<span style="font-weight:700;font-size:14pt;color:#000000"><sup>2</sup></span><span style="font-weight:700;font-size:14pt;color:#000000">/2EI  =</span></span></div>
+<div class="t" style="left:319.14pt;top:702.24pt;width:41.04pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'Segoe UI Symbol',sans-serif;font-size:24.0pt;color:#000000;color:#000000;font-weight:400" data-k="36,8" data-c0="#000000" data-f="General" data-w="1"><span></span></div>
+<div class="t" style="left:404.46pt;top:702.24pt;width:88.56pt;height:46.08pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="36,10" data-c0="#000000" data-f="0.00"><span>720.00</span></div>
+<div class="t" style="left:537.30pt;top:702.24pt;width:70.20pt;height:46.08pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="36,13" data-c0="#000000" data-f="0.00"><span>136.74</span></div>
+<div class="t" style="left:607.50pt;top:702.24pt;width:30.78pt;height:46.08pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'Segoe UI Symbol',sans-serif;font-size:28.0pt;color:#000000;color:#00B050;font-weight:400" data-k="36,14" data-c0="#000000" data-f="General" data-w="1"><span>✔</span></div>
+<label class="t in" style="left:0.00pt;top:725.28pt;width:91.80pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><select class="cellsel" aria-label="B37" data-cell="B37" data-k="37,2"><option selected>L2/360   =</option><option>L2/240   =</option><option>L3/180   =</option></select></label>
+<div class="t" style="left:91.80pt;top:725.28pt;width:88.56pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="37,4" data-c0="#000000" data-f="0.0000\ &quot;cm.&quot;"><span>0.8333 cm.</span></div>
+<div class="t" style="left:180.36pt;top:725.28pt;width:70.20pt;height:23.04pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span><span style="font-weight:700;font-size:14pt;color:#000000">∑</span><span style="font-weight:700;font-size:14pt;color:#000000">PL</span><span style="font-weight:700;font-size:14pt;color:#000000"><sup>3</sup></span><span style="font-weight:700;font-size:14pt;color:#000000">/48EI =</span></span></div>
+<div class="t" style="left:250.56pt;top:725.28pt;width:68.58pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="37,7" data-c0="#000000" data-f="0.00&quot;cm.&quot;"><span>1.78cm.</span></div>
+<div class="t" style="left:319.14pt;top:725.28pt;width:41.04pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'Segoe UI Symbol',sans-serif;font-size:24.0pt;color:#000000;color:#FF0000;font-weight:400" data-k="37,8" data-c0="#000000" data-f="General" data-w="1"><span>✘</span></div>
+<div class="t" style="left:360.18pt;top:725.28pt;width:44.28pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>kg.</span></div>
+<div class="t" style="left:493.02pt;top:725.28pt;width:44.28pt;height:23.04pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>kg.</span></div>
+<div class="t" style="left:0.00pt;top:748.32pt;width:638.28pt;height:23.04pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="38,2" data-c0="#000000" data-f="General"><span>สามารถเลือกใช้ 1  C -125 x 50 x 20 หนา 3.2mm - 6.13 kg/m เป็นคานเหล็กอะเส</span></div>
+<select class="dd" aria-label="Drop Down 1" style="left:0.23pt;top:474.58pt;width:247.47pt;height:18.72pt" data-link="26,3"><option>C -250 x 75 x 25 หนา 4.5mm - 14.9 kg/m</option><option>C -200 x 75 x 20 หนา 4.5mm - 13.1 kg/m</option><option>C -200 x 75 x 20 หนา 4mm - 11.7 kg/m</option><option>C -200 x 75 x 20 หนา 3.2mm - 9.52 kg/m</option><option>C -200 x 75 x 20 หนา 4.5mm - 12.7 kg/m</option><option>C -200 x 75 x 20 หนา 4mm - 11.4 kg/m</option><option>C -200 x 75 x 20 หนา 3.2mm - 9.27 kg/m</option><option>C -150 x 75 x 25 หนา 4.5mm - 11.3 kg/m</option><option>C -150 x 75 x 25 หนา 4mm - 10.2 kg/m</option><option>C -150 x 75 x 25 หนา 3.2mm - 8.27 kg/m</option><option>C -150 x 65 x 20 หนา 4mm - 9.22 kg/m</option><option>C -150 x 65 x 20 หนา 3.2mm - 7.51 kg/m</option><option>C -150 x 65 x 20 หนา 2.3mm - 5.5 kg/m</option><option>C -150 x 50 x 20 หนา 4.5mm - 9.2 kg/m</option><option>C -150 x 50 x 20 หนา 3.2mm - 6.76 kg/m</option><option>C -150 x 50 x 20 หนา 2.3mm - 4.96 kg/m</option><option>C -125 x 50 x 20 หนา 4.5mm - 8.32 kg/m</option><option>C -125 x 50 x 20 หนา 4mm - 7.5 kg/m</option><option selected>C -125 x 50 x 20 หนา 3.2mm - 6.13 kg/m</option><option>C -125 x 50 x 20 หนา 2.3mm - 4.51 kg/m</option><option>C -120 x 60 x 25 หนา 4.5mm - 9.2 kg/m</option><option>C -120 x 60 x 20 หนา 3.2mm - 6.51 kg/m</option><option>C -120 x 60 x 20 หนา 2.3mm - 4.78 kg/m</option><option>C -120 x 40 x 20 หนา 3.2mm - 5.5 kg/m</option><option>C -100 x 50 x 20 หนา 4.5mm - 7.43 kg/m</option><option>C -100 x 50 x 20 หนา 4mm - 6.71 kg/m</option><option>C -100 x 50 x 20 หนา 3.2mm - 5.5 kg/m</option><option>C -100 x 50 x 20 หนา 2.8mm - 4.87 kg/m</option><option>C -100 x 50 x 20 หนา 2.3mm - 4.06 kg/m</option><option>C -100 x 50 x 20 หนา 2mm - 3.56 kg/m</option><option>C -100 x 50 x 20 หนา 1.6mm - 2.88 kg/m</option><option>C -90 x 45 x 20 หนา 3.2mm - 5 kg/m</option><option>C -90 x 45 x 20 หนา 2.3mm - 3.7 kg/m</option><option>C -90 x 45 x 20 หนา 1.6mm - 2.63 kg/m</option><option>C -75 x 45 x 15 หนา 2.3mm - 3.25 kg/m</option><option>C -75 x 35 x 15 หนา 2.3mm - 2.89 kg/m</option><option>C -70 x 40 x 25 หนา 1.6mm - 2.38 kg/m</option><option>C -60 x 30 x 10 หนา 2.3mm - 2.25 kg/m</option><option>C -60 x 30 x 10 หนา 2mm - 1.99 kg/m</option><option>C -60 x 30 x 10 หนา 1.6mm - 1.63 kg/m</option><option>---------------------------------------------</option><option>S -25 x 25 หนา 2mm - 1.36 kg/m</option><option>S -25 x 25 หนา 2.3mm - 1.53 kg/m</option><option>S -25 x 25 หนา 2.6mm - 1.65 kg/m</option><option>S -25 x 25 หนา 3.2mm - 1.91 kg/m</option><option>S -32 x 32 หนา 2.3mm - 2.04 kg/m</option><option>S -32 x 32 หนา 3.2mm - 2.69 kg/m</option><option>S -38 x 38 หนา 2.3mm - 2.47 kg/m</option><option>S -38 x 38 หนา 3.2mm - 3.29 kg/m</option><option>S -50 x 50 หนา 1.6mm - 2.38 kg/m</option><option>S -50 x 50 หนา 2mm - 2.91 kg/m</option><option>S -50 x 50 หนา 2.3mm - 3.34 kg/m</option><option>S -50 x 50 หนา 3.2mm - 4.5 kg/m</option><option>S -50 x 50 หนา 3.6mm - 4.9 kg/m</option><option>S -50 x 50 หนา 4mm - 5.35 kg/m</option><option>S -50 x 50 หนา 5mm - 6.39 kg/m</option><option>S -75 x 75 หนา 2.3mm - 5.14 kg/m</option><option>S -75 x 75 หนา 3.2mm - 7.01 kg/m</option><option>S -75 x 75 หนา 4mm - 8.59 kg/m</option><option>S -75 x 75 หนา 4.5mm - 9.55 kg/m</option><option>S -100 x 100 หนา 2.3mm - 6.95 kg/m</option><option>S -100 x 100 หนา 3.2mm - 9.52 kg/m</option><option>S -100 x 100 หนา 4mm - 11.7 kg/m</option><option>S -100 x 100 หนา 4.5mm - 13.1 kg/m</option><option>S -100 x 100 หนา 6mm - 17 kg/m</option><option>S -125 x 125 หนา 3.2mm - 12 kg/m</option><option>S -125 x 125 หนา 4.5mm - 16.6 kg/m</option><option>S -125 x 125 หนา 5mm - 18.3 kg/m</option><option>S -125 x 125 หนา 6mm - 21.7 kg/m</option><option>S -150 x 150 หนา 4.5mm - 20.1 kg/m</option><option>S -150 x 150 หนา 5mm - 22.3 kg/m</option><option>S -150 x 150 หนา 6mm - 26.4 kg/m</option><option>S -150 x 150 หนา 6.3mm - 27.4 kg/m</option><option>---------------------------------------------</option><option>R -50 x 25 หนา 2mm - 2.12 kg/m</option><option>R -50 x 25 หนา 2.3mm - 2.44 kg/m</option><option>R -50 x 25 หนา 3.2mm - 3.24 kg/m</option><option>R -50 x 25 หนา 3.6mm - 3.48 kg/m</option><option>R -75 x 38 หนา 2.3mm - 3.81 kg/m</option><option>R -75 x 38 หนา 3.2mm - 5.15 kg/m</option><option>R -75 x 45 หนา 1.6mm - 2.88 kg/m</option><option>R -75 x 45 หนา 2.3mm - 4.06 kg/m</option><option>R -75 x 45 หนา 3.2mm - 5.5 kg/m</option><option>R -100 x 50 หนา 2mm - 4.48 kg/m</option><option>R -100 x 50 หนา 2.3mm - 5.14 kg/m</option><option>R -100 x 50 หนา 3.2mm - 7.01 kg/m</option><option>R -100 x 50 หนา 3.6mm - 7.72 kg/m</option><option>R -100 x 50 หนา 4mm - 8.59 kg/m</option><option>R -100 x 50 หนา 4.5mm - 9.55 kg/m</option><option>R -125 x 75 หนา 2.3mm - 6.95 kg/m</option><option>R -125 x 75 หนา 3.2mm - 9.52 kg/m</option><option>R -125 x 75 หนา 4mm - 11.7 kg/m</option><option>R -125 x 75 หนา 4.5mm - 13.1 kg/m</option><option>R -125 x 75 หนา 6mm - 17 kg/m</option><option>R -150 x 50 หนา 3.2mm - 9.63 kg/m</option><option>R -150 x 50 หนา 4.5mm - 13.5 kg/m</option><option>R -150 x 50 หนา 6.3mm - 18.77 kg/m</option><option>R -200 x 50 หนา 4.5mm - 20.1 kg/m</option><option>R -200 x 50 หนา 6mm - 26.4 kg/m</option><option>R -200 x 50 หนา 6.3mm - 27.4 kg/m</option><option>---------------------------------------------</option></select>
+<img class="s" alt="" src="shape-4.png" style="left:1.03pt;top:85.25pt;width:636.44pt;height:129.30pt" data-chart="Chart 15">
+<img class="s" alt="" src="shape-5.png" style="left:2.26pt;top:319.75pt;width:635.06pt;height:129.13pt" data-chart="Chart 3">
+<img class="s" alt="" src="shape-6.png" style="left:2.93pt;top:199.75pt;width:634.31pt;height:138.00pt" data-chart="Chart 4">
+<img class="s" alt="" src="shape-10.png" style="left:5.78pt;top:495.98pt;width:230.45pt;height:115.45pt" data-chart="Chart 5"><div class="h" style="left:0.00pt;top:calc(771.36pt - 0.5px);width:56.16pt;border-top:1px solid #000000"></div><div class="h" style="left:56.16pt;top:calc(771.36pt - 0.5px);width:35.64pt;border-top:1px solid #000000"></div><div class="h" style="left:91.80pt;top:calc(771.36pt - 0.5px);width:27.54pt;border-top:1px solid #000000"></div><div class="h" style="left:119.34pt;top:calc(771.36pt - 0.5px);width:61.02pt;border-top:1px solid #000000"></div><div class="h" style="left:180.36pt;top:calc(771.36pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div><div class="h" style="left:250.56pt;top:calc(771.36pt - 0.5px);width:68.58pt;border-top:1px solid #000000"></div><div class="h" style="left:319.14pt;top:calc(771.36pt - 0.5px);width:41.04pt;border-top:1px solid #000000"></div><div class="h" style="left:360.18pt;top:calc(771.36pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div><div class="h" style="left:404.46pt;top:calc(771.36pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div><div class="h" style="left:448.74pt;top:calc(771.36pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div><div class="h" style="left:493.02pt;top:calc(771.36pt - 0.5px);width:44.28pt;border-top:1px solid #000000"></div><div class="h" style="left:537.30pt;top:calc(771.36pt - 0.5px);width:70.20pt;border-top:1px solid #000000"></div><div class="h" style="left:607.50pt;top:calc(771.36pt - 0.5px);width:30.78pt;border-top:1px solid #000000"></div></div></div></div>
+    <aside class="preview-col" aria-label="ตัวอย่างก่อนพิมพ์"><div class="preview-head"><b>ตัวอย่างก่อนพิมพ์ A4</b><span id="pageCount">1 หน้า</span><button type="button" id="printBtn">พิมพ์ / PDF</button></div><div class="preview" id="preview"></div></aside></div>
+    <script type="module" src="../engine/calc.js"></script><script src="../print-preview.js"></script>
+    <script>const params=new URLSearchParams(location.search);params.has("embed")&&document.body.classList.add("embed"),params.get("plan")!=="member"&&document.body.classList.add("free"),document.querySelectorAll(".bar button").forEach(e=>e.addEventListener("click",()=>{document.documentElement.style.setProperty("--zoom",e.dataset.z),document.querySelectorAll(".bar button").forEach(t=>t.setAttribute("aria-pressed",String(t===e)))}));
+</script>
+    </body></html>

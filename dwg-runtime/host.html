@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="th">
+<head>
+    <meta name="robots" content="noindex, nofollow, noarchive" /><meta charset="utf-8"><title>DWG converter</title></head>
+<body>
+<script>
+// Same-origin host for the DXF to DWG runtime. Talks only to the page that embedded it.
+(() => {
+  'use strict';
+  const reply = (id, payload, transfer) => parent.postMessage({ source: 'dwg-runtime', id, ...payload }, location.origin, transfer || []);
+  let booted = null;
+  async function boot() {
+    const root = new URL('./', location.href);
+    const manifest = await (await fetch(new URL('runtime-manifest.json', root))).json();
+    const imports = {};
+    for (const [key, value] of Object.entries(manifest.imports)) imports[new URL(key, root).href] = new URL(value, root).href;
+    const map = document.createElement('script');
+    map.type = 'importmap';
+    map.textContent = JSON.stringify({ imports });
+    document.head.append(map);
+    await new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = new URL(manifest.blazor, root).href;
+      script.setAttribute('autostart', 'false');
+      script.onload = resolve;
+      script.onerror = () => reject(new Error('โหลดเครื่องมือสร้าง DWG ไม่สำเร็จ'));
+      document.head.append(script);
+    });
+    await Blazor.start({
+      loadBootResource: (type, name) => new URL(manifest.files[name] || `_framework/${name}`, root).href,
+    });
+  }
+  addEventListener('message', async (event) => {
+    if (event.origin !== location.origin || event.source !== parent || event.data?.source !== 'dwg-client') return;
+    const { id, type, text } = event.data;
+    try {
+      if (!booted) booted = boot();
+      await booted;
+      if (type === 'boot') { reply(id, { ready: true }); return; }
+      const bytes = await DotNet.invokeMethodAsync('cad-browser', 'ConvertDxf', text);
+      reply(id, { bytes }, [bytes.buffer]);
+    } catch (error) {
+      if (type === 'boot') booted = null;
+      reply(id, { error: String(error?.message || error).slice(0, 300) });
+    }
+  });
+})();
+</script>
+</body>
+</html>

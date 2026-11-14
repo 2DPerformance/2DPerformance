@@ -1,0 +1,3743 @@
+{
+ "sheet": "ADT-06",
+ "charts": [
+  {
+   "name": "Chart 1",
+   "part": "xl/charts/chart7.xml",
+   "box": {
+    "left": 370.6926696777344,
+    "top": 358.1971740722656,
+    "width": 146.5714111328125,
+    "height": 177.85716247558594
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.0,
+    "y": 0.0,
+    "w": 1.0,
+    "h": 1.0
+   },
+   "style": "lineMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": false,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": 5.0,
+     "grid": true,
+     "gridLine": {
+      "color": "#FFFFFF",
+      "width": 0.25,
+      "dash": "sysDot"
+     },
+     "line": {
+      "none": true
+     },
+     "numFmt": "#,##0",
+     "tickLabels": "low",
+     "text": {
+      "rot": -1000.0,
+      "size": 12.0,
+      "color": "#000000"
+     }
+    },
+    {
+     "pos": "l",
+     "deleted": false,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": 5.0,
+     "grid": true,
+     "gridLine": {
+      "color": "#FFFFFF",
+      "width": 0.25,
+      "dash": "sysDot"
+     },
+     "line": {
+      "none": true
+     },
+     "numFmt": "#,##0",
+     "tickLabels": "low",
+     "text": {
+      "rot": -1000.0,
+      "size": 12.0,
+      "color": "#000000"
+     }
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "6,74"
+      ]
+     },
+     "x": [
+      "8,74",
+      "9,74",
+      "10,74",
+      "11,74",
+      "12,74",
+      "13,74",
+      "14,74",
+      "15,74",
+      "16,74",
+      "17,74",
+      "18,74",
+      "19,74",
+      "20,74",
+      "21,74",
+      "22,74",
+      "23,74",
+      "24,74"
+     ],
+     "y": [
+      "8,75",
+      "9,75",
+      "10,75",
+      "11,75",
+      "12,75",
+      "13,75",
+      "14,75",
+      "15,75",
+      "16,75",
+      "17,75",
+      "18,75",
+      "19,75",
+      "20,75",
+      "21,75",
+      "22,75",
+      "23,75",
+      "24,75"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.0,
+      "dash": "solid"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "5,81"
+      ]
+     },
+     "x": [
+      "8,82",
+      "9,82",
+      "10,82",
+      "11,82",
+      "12,82"
+     ],
+     "y": [
+      "8,81",
+      "9,81",
+      "10,81",
+      "11,81",
+      "12,81"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 0.75
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "5,81"
+      ]
+     },
+     "x": [
+      "13,82",
+      "14,82",
+      "15,82",
+      "16,82",
+      "17,82"
+     ],
+     "y": [
+      "13,81",
+      "14,81",
+      "15,81",
+      "16,81",
+      "17,81"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 0.75
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "13,71"
+      ]
+     },
+     "x": [
+      "14,71",
+      "15,71"
+     ],
+     "y": [
+      "14,72",
+      "15,72"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "14,72"
+      ]
+     },
+     "x": [
+      "14,72"
+     ],
+     "y": [
+      "15,72"
+     ],
+     "line": null,
+     "marker": {
+      "symbol": "plus",
+      "size": 8,
+      "fill": null,
+      "line": "#FF0000",
+      "noFill": true
+     },
+     "labels": null,
+     "smooth": false,
+     "order": 4
+    }
+   ],
+   "plotFill": null,
+   "chartFill": null,
+   "font": {},
+   "excel": {
+    "chartW": 141.57141732283463,
+    "chartH": 172.8571653543307,
+    "insideLeft": 20.779212598425197,
+    "insideTop": 4.31748031496063,
+    "insideWidth": 111.41724409448818,
+    "insideHeight": 144.22133858267716,
+    "x": {
+     "min": -10.0,
+     "max": 10.0,
+     "major": 5.0
+    },
+    "y": {
+     "min": -10.0,
+     "max": 10.0,
+     "major": 5.0
+    }
+   }
+  },
+  {
+   "name": "Chart 3",
+   "part": "xl/charts/chart8.xml",
+   "box": {
+    "left": 0.8481109619140597,
+    "top": 139.68283081054688,
+    "width": 353.218505859375,
+    "height": 200.7100067138672
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.0,
+    "y": 0.0,
+    "w": 1.0,
+    "h": 0.8742618335887969
+   },
+   "style": "lineMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": true,
+     "min": -0.15000000000000002,
+     "max": null,
+     "reverse": false,
+     "major": 0.05000000000000001,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "0.00",
+     "tickLabels": "nextTo",
+     "text": {}
+    },
+    {
+     "pos": "l",
+     "deleted": true,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": null,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "0.00",
+     "tickLabels": "nextTo",
+     "text": {}
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "6,58"
+      ]
+     },
+     "x": [
+      "7,58",
+      "8,58",
+      "9,58",
+      "10,58",
+      "11,58",
+      "12,58",
+      "13,58"
+     ],
+     "y": [
+      "7,59",
+      "8,59",
+      "9,59",
+      "10,59",
+      "11,59",
+      "12,59",
+      "13,59"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "6,60"
+      ]
+     },
+     "x": [
+      "7,60",
+      "8,60",
+      "9,60",
+      "10,60",
+      "11,60"
+     ],
+     "y": [
+      "7,61",
+      "8,61",
+      "9,61",
+      "10,61",
+      "11,61"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "15,58"
+      ]
+     },
+     "x": [
+      "16,58",
+      "17,58",
+      "18,58",
+      "19,58",
+      "20,58",
+      "21,58"
+     ],
+     "y": [
+      "16,59",
+      "17,59",
+      "18,59",
+      "19,59",
+      "20,59",
+      "21,59"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "15,60"
+      ]
+     },
+     "x": [
+      "16,60",
+      "17,60",
+      "18,60",
+      "19,60",
+      "20,60",
+      "21,60"
+     ],
+     "y": [
+      "16,61",
+      "17,61",
+      "18,61",
+      "19,61",
+      "20,61",
+      "21,61"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "23,58"
+      ]
+     },
+     "x": [
+      "24,58",
+      "25,58"
+     ],
+     "y": [
+      "24,59",
+      "25,59"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 4
+    },
+    {
+     "name": {
+      "ref": [
+       "23,60"
+      ]
+     },
+     "x": [
+      "24,60",
+      "25,60"
+     ],
+     "y": [
+      "24,61",
+      "25,61"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 5
+    },
+    {
+     "name": {
+      "ref": [
+       "23,62"
+      ]
+     },
+     "x": [
+      "24,62",
+      "25,62"
+     ],
+     "y": [
+      "24,63",
+      "25,63"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 6
+    },
+    {
+     "name": {
+      "ref": [
+       "23,64"
+      ]
+     },
+     "x": [
+      "24,64",
+      "25,64"
+     ],
+     "y": [
+      "24,65",
+      "25,65"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 7
+    },
+    {
+     "name": {
+      "ref": [
+       "23,64"
+      ]
+     },
+     "x": [
+      "24,66",
+      "25,66"
+     ],
+     "y": [
+      "24,65",
+      "25,65"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 8
+    },
+    {
+     "name": {
+      "ref": [
+       "23,65"
+      ]
+     },
+     "x": [
+      "22,65"
+     ],
+     "y": [
+      "24,65"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": "#FFFFFF",
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "t"
+       }
+      }
+     },
+     "smooth": false,
+     "order": 9
+    },
+    {
+     "name": {
+      "ref": [
+       "23,66"
+      ]
+     },
+     "x": [
+      "22,66"
+     ],
+     "y": [
+      "24,65"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 10
+    },
+    {
+     "name": {
+      "ref": [
+       "12,61"
+      ]
+     },
+     "x": [
+      "12,60"
+     ],
+     "y": [
+      "13,60"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 11
+    },
+    {
+     "name": {
+      "ref": [
+       "27,58"
+      ]
+     },
+     "x": [
+      "28,58",
+      "29,58"
+     ],
+     "y": [
+      "28,59",
+      "29,59"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 12
+    },
+    {
+     "name": {
+      "ref": [
+       "27,60"
+      ]
+     },
+     "x": [
+      "28,60",
+      "29,60"
+     ],
+     "y": [
+      "28,61",
+      "29,61"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 13
+    },
+    {
+     "name": {
+      "ref": [
+       "27,62"
+      ]
+     },
+     "x": [
+      "28,62",
+      "29,62"
+     ],
+     "y": [
+      "28,63",
+      "29,63"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 14
+    },
+    {
+     "name": {
+      "ref": [
+       "15,62"
+      ]
+     },
+     "x": [
+      "16,62",
+      "17,62",
+      "18,62",
+      "19,62",
+      "20,62",
+      "21,62"
+     ],
+     "y": [
+      "16,63",
+      "17,63",
+      "18,63",
+      "19,63",
+      "20,63",
+      "21,63"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 15
+    },
+    {
+     "name": {
+      "ref": [
+       "15,64"
+      ]
+     },
+     "x": [
+      "16,64",
+      "17,64",
+      "18,64",
+      "19,64",
+      "20,64",
+      "21,64"
+     ],
+     "y": [
+      "16,65",
+      "17,65",
+      "18,65",
+      "19,65",
+      "20,65",
+      "21,65"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 16
+    },
+    {
+     "name": {
+      "ref": [
+       "15,66"
+      ]
+     },
+     "x": [
+      "16,66",
+      "17,66",
+      "18,66",
+      "19,66",
+      "20,66",
+      "21,66"
+     ],
+     "y": [
+      "16,67",
+      "17,67",
+      "18,67",
+      "19,67",
+      "20,67",
+      "21,67"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 17
+    },
+    {
+     "name": {
+      "ref": [
+       "24,67"
+      ]
+     },
+     "x": [
+      "24,67",
+      "25,67"
+     ],
+     "y": [
+      "24,65",
+      "25,65"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 18
+    },
+    {
+     "name": {
+      "ref": [
+       "24,68"
+      ]
+     },
+     "x": [
+      "24,68",
+      "25,68"
+     ],
+     "y": [
+      "24,65",
+      "25,65"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 19
+    },
+    {
+     "name": {
+      "ref": [
+       "24,69"
+      ]
+     },
+     "x": [
+      "24,69",
+      "25,69"
+     ],
+     "y": [
+      "24,65",
+      "25,65"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 20
+    },
+    {
+     "name": {
+      "ref": [
+       "23,67"
+      ]
+     },
+     "x": [
+      "30,60"
+     ],
+     "y": [
+      "24,65"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 21
+    },
+    {
+     "name": {
+      "ref": [
+       "23,68"
+      ]
+     },
+     "x": [
+      "30,62"
+     ],
+     "y": [
+      "24,65"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 22
+    },
+    {
+     "name": {
+      "ref": [
+       "23,69"
+      ]
+     },
+     "x": [
+      "30,64"
+     ],
+     "y": [
+      "24,65"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 23
+    },
+    {
+     "name": {
+      "ref": [
+       "28,181"
+      ]
+     },
+     "x": [
+      "28,182"
+     ],
+     "y": [
+      "28,183"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 24
+    },
+    {
+     "name": {
+      "ref": [
+       "29,181"
+      ]
+     },
+     "x": [
+      "29,182"
+     ],
+     "y": [
+      "29,183"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 25
+    },
+    {
+     "name": {
+      "ref": [
+       "30,181"
+      ]
+     },
+     "x": [
+      "30,182"
+     ],
+     "y": [
+      "30,183"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 26
+    },
+    {
+     "name": {
+      "ref": [
+       "31,181"
+      ]
+     },
+     "x": [
+      "31,182"
+     ],
+     "y": [
+      "31,183"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 27
+    },
+    {
+     "name": {
+      "ref": [
+       "32,181"
+      ]
+     },
+     "x": [
+      "32,182"
+     ],
+     "y": [
+      "32,183"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 28
+    }
+   ],
+   "plotFill": null,
+   "chartFill": null,
+   "font": {},
+   "excel": {
+    "chartW": 348.2185039370079,
+    "chartH": 195.71,
+    "insideLeft": -4.0,
+    "insideTop": -4.0,
+    "insideWidth": 353.2185039370079,
+    "insideHeight": 175.47307086614174,
+    "x": {
+     "min": -0.15000000000000002,
+     "max": 4.300000000000001,
+     "major": 0.05000000000000001
+    },
+    "y": {
+     "min": -0.4,
+     "max": 0.5,
+     "major": 0.1
+    }
+   }
+  },
+  {
+   "name": "Chart 14",
+   "part": "xl/charts/chart9.xml",
+   "box": {
+    "left": 0.5085693359375227,
+    "top": -18.2348032951355,
+    "width": 465.76898193359375,
+    "height": 267.43487548828125
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.001517577978686936,
+    "y": 0.0,
+    "w": 0.9283341405679042,
+    "h": 0.9007626546681666
+   },
+   "style": "lineMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": true,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": 0.25,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "General",
+     "tickLabels": "nextTo",
+     "text": {}
+    },
+    {
+     "pos": "l",
+     "deleted": true,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": 0.25,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "General",
+     "tickLabels": "nextTo",
+     "text": {}
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "55,63"
+      ]
+     },
+     "x": [
+      "57,63",
+      "58,63",
+      "59,63",
+      "60,63",
+      "61,63"
+     ],
+     "y": [
+      "57,64",
+      "58,64",
+      "59,64",
+      "60,64",
+      "61,64"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "55,65"
+      ]
+     },
+     "x": [
+      "57,65",
+      "58,65",
+      "59,65",
+      "60,65",
+      "61,65"
+     ],
+     "y": [
+      "57,66",
+      "58,66",
+      "59,66",
+      "60,66",
+      "61,66"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "55,68"
+      ]
+     },
+     "x": [
+      "57,68",
+      "58,68",
+      "59,68",
+      "60,68",
+      "61,68",
+      "62,68",
+      "63,68"
+     ],
+     "y": [
+      "57,69",
+      "58,69",
+      "59,69",
+      "60,69",
+      "61,69",
+      "62,69",
+      "63,69"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.75
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "39,75"
+      ]
+     },
+     "x": [
+      "41,75",
+      "42,75"
+     ],
+     "y": [
+      "41,76",
+      "42,76"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "39,75"
+      ]
+     },
+     "x": [
+      "43,75",
+      "44,75"
+     ],
+     "y": [
+      "43,76",
+      "44,76"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 4
+    },
+    {
+     "name": {
+      "ref": [
+       "39,75"
+      ]
+     },
+     "x": [
+      "45,75",
+      "46,75"
+     ],
+     "y": [
+      "45,76",
+      "46,76"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 5
+    },
+    {
+     "name": {
+      "ref": [
+       "39,77"
+      ]
+     },
+     "x": [
+      "41,77",
+      "42,77"
+     ],
+     "y": [
+      "41,78",
+      "42,78"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 6
+    },
+    {
+     "name": {
+      "ref": [
+       "45,78"
+      ]
+     },
+     "x": [
+      "45,77"
+     ],
+     "y": [
+      "43,79"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "bold": true,
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 7
+    },
+    {
+     "name": {
+      "ref": [
+       "46,78"
+      ]
+     },
+     "x": [
+      "46,77"
+     ],
+     "y": [
+      "44,79"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "bold": true,
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 8
+    },
+    {
+     "name": {
+      "ref": [
+       "39,77"
+      ]
+     },
+     "x": [
+      "43,77",
+      "44,77"
+     ],
+     "y": [
+      "43,78",
+      "44,78"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 9
+    },
+    {
+     "name": {
+      "ref": [
+       "45,80"
+      ]
+     },
+     "x": [
+      "45,79"
+     ],
+     "y": [
+      "46,79"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "ctr",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 10
+    },
+    {
+     "name": {
+      "ref": [
+       "55,73"
+      ]
+     },
+     "x": [
+      "57,73",
+      "58,73"
+     ],
+     "y": [
+      "57,74",
+      "58,74"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 11
+    },
+    {
+     "name": {
+      "ref": [
+       "55,73"
+      ]
+     },
+     "x": [
+      "59,73",
+      "60,73"
+     ],
+     "y": [
+      "59,74",
+      "60,74"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 12
+    },
+    {
+     "name": {
+      "ref": [
+       "55,73"
+      ]
+     },
+     "x": [
+      "61,73",
+      "62,73"
+     ],
+     "y": [
+      "61,74",
+      "62,74"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 13
+    },
+    {
+     "name": {
+      "ref": [
+       "57,75"
+      ]
+     },
+     "x": [
+      "57,75",
+      "58,75"
+     ],
+     "y": [
+      "57,76",
+      "58,76"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 14
+    },
+    {
+     "name": {
+      "ref": [
+       "58,75"
+      ]
+     },
+     "x": [
+      "58,75",
+      "59,75"
+     ],
+     "y": [
+      "58,76",
+      "59,76"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 15
+    },
+    {
+     "name": {
+      "ref": [
+       "63,73"
+      ]
+     },
+     "x": [
+      "65,73",
+      "66,73"
+     ],
+     "y": [
+      "65,74",
+      "66,74"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 16
+    },
+    {
+     "name": {
+      "ref": [
+       "63,73"
+      ]
+     },
+     "x": [
+      "65,73",
+      "66,73"
+     ],
+     "y": [
+      "65,75",
+      "66,75"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 17
+    },
+    {
+     "name": {
+      "ref": [
+       "63,73"
+      ]
+     },
+     "x": [
+      "67,73",
+      "68,73"
+     ],
+     "y": [
+      "66,74",
+      "66,75"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 18
+    },
+    {
+     "name": {
+      "ref": [
+       "67,74"
+      ]
+     },
+     "x": [
+      "68,73"
+     ],
+     "y": [
+      "68,74"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "ctr",
+      "cells": [],
+      "text": {
+       "bold": true,
+       "size": 10
+      },
+      "fill": "#EEF4FB",
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "r",
+        "dx": -0.06316732608578861,
+        "dy": 0.0
+       }
+      }
+     },
+     "smooth": false,
+     "order": 19
+    },
+    {
+     "name": {
+      "ref": [
+       "58,78"
+      ]
+     },
+     "x": [
+      "65,77"
+     ],
+     "y": [
+      "65,78"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "r",
+      "cells": [],
+      "text": {
+       "bold": true,
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 20
+    },
+    {
+     "name": {
+      "ref": [
+       "58,80"
+      ]
+     },
+     "x": [
+      "65,80"
+     ],
+     "y": [
+      "65,81"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "r",
+      "cells": [],
+      "text": {
+       "bold": true,
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 21
+    },
+    {
+     "name": {
+      "ref": [
+       "54,84"
+      ]
+     },
+     "x": [
+      "56,84",
+      "57,84",
+      "58,84",
+      "59,84"
+     ],
+     "y": [
+      "56,85",
+      "57,85",
+      "58,85",
+      "59,85"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 22
+    },
+    {
+     "name": {
+      "ref": [
+       "54,87"
+      ]
+     },
+     "x": [
+      "56,86",
+      "57,86",
+      "58,86",
+      "59,86"
+     ],
+     "y": [
+      "56,87",
+      "57,87",
+      "58,87",
+      "59,87"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 23
+    },
+    {
+     "name": {
+      "ref": [
+       "54,88"
+      ]
+     },
+     "x": [
+      "56,88",
+      "57,88",
+      "58,88",
+      "59,88"
+     ],
+     "y": [
+      "56,89",
+      "57,89",
+      "58,89",
+      "59,89"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 24
+    }
+   ],
+   "plotFill": "#EEF4FB",
+   "chartFill": "#EEF4FB",
+   "font": {
+    "size": 10.0,
+    "color": "#000000"
+   },
+   "region": "settings",
+   "excel": {
+    "chartW": 460.76897637795275,
+    "chartH": 262.4348818897638,
+    "insideLeft": -3.2931496062992127,
+    "insideTop": -4.0,
+    "insideWidth": 432.3892125984252,
+    "insideHeight": 240.89535433070867,
+    "x": {
+     "min": -1.0,
+     "max": 4.5,
+     "major": 0.25
+    },
+    "y": {
+     "min": -0.25,
+     "max": 1.0,
+     "major": 0.25
+    }
+   }
+  },
+  {
+   "name": "Chart 6",
+   "part": "xl/charts/chart11.xml",
+   "box": {
+    "left": -0.3427574157714872,
+    "top": 379.71417236328125,
+    "width": 353.5715026855469,
+    "height": 219.2645721435547
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.0,
+    "y": 0.10483641101117365,
+    "w": 1.0,
+    "h": 0.7656597871514942
+   },
+   "style": "lineMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": true,
+     "min": -0.15000000000000002,
+     "max": null,
+     "reverse": false,
+     "major": 0.05000000000000001,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "tickLabels": "nextTo",
+     "text": {}
+    },
+    {
+     "pos": "l",
+     "deleted": true,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": null,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"???_);_(@_)",
+     "tickLabels": "nextTo",
+     "text": {}
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "15,189"
+      ]
+     },
+     "x": [
+      "15,191",
+      "16,191",
+      "17,191",
+      "18,191",
+      "19,191",
+      "20,191",
+      "21,191",
+      "22,191",
+      "23,191",
+      "24,191"
+     ],
+     "y": [
+      "15,195",
+      "16,195",
+      "17,195",
+      "18,195",
+      "19,195",
+      "20,195",
+      "21,195",
+      "22,195",
+      "23,195",
+      "24,195"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "25,189"
+      ]
+     },
+     "x": [
+      "24,191",
+      "25,191"
+     ],
+     "y": [
+      "24,195",
+      "25,195"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "25,189"
+      ]
+     },
+     "x": [
+      "25,191",
+      "26,191",
+      "27,191",
+      "28,191",
+      "29,191",
+      "30,191",
+      "31,191",
+      "32,191",
+      "33,191",
+      "34,191"
+     ],
+     "y": [
+      "25,195",
+      "26,195",
+      "27,195",
+      "28,195",
+      "29,195",
+      "30,195",
+      "31,195",
+      "32,195",
+      "33,195",
+      "34,195"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "35,189"
+      ]
+     },
+     "x": [
+      "34,191",
+      "35,191"
+     ],
+     "y": [
+      "34,195",
+      "35,195"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "35,189"
+      ]
+     },
+     "x": [
+      "35,191",
+      "36,191",
+      "37,191",
+      "38,191",
+      "39,191",
+      "40,191",
+      "41,191",
+      "42,191",
+      "43,191",
+      "44,191"
+     ],
+     "y": [
+      "35,195",
+      "36,195",
+      "37,195",
+      "38,195",
+      "39,195",
+      "40,195",
+      "41,195",
+      "42,195",
+      "43,195",
+      "44,195"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 4
+    },
+    {
+     "name": {
+      "ref": [
+       "45,189"
+      ]
+     },
+     "x": [
+      "44,191",
+      "45,191"
+     ],
+     "y": [
+      "44,195",
+      "45,195"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 5
+    },
+    {
+     "name": {
+      "ref": [
+       "45,189"
+      ]
+     },
+     "x": [
+      "45,191",
+      "46,191",
+      "47,191",
+      "48,191",
+      "49,191",
+      "50,191",
+      "51,191",
+      "52,191",
+      "53,191",
+      "54,191"
+     ],
+     "y": [
+      "45,195",
+      "46,195",
+      "47,195",
+      "48,195",
+      "49,195",
+      "50,195",
+      "51,195",
+      "52,195",
+      "53,195",
+      "54,195"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 6
+    },
+    {
+     "name": {
+      "ref": [
+       "55,189"
+      ]
+     },
+     "x": [
+      "54,191",
+      "55,191"
+     ],
+     "y": [
+      "54,195",
+      "55,195"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 7
+    },
+    {
+     "name": {
+      "ref": [
+       "55,189"
+      ]
+     },
+     "x": [
+      "55,191",
+      "56,191",
+      "57,191",
+      "58,191",
+      "59,191",
+      "60,191",
+      "61,191",
+      "62,191",
+      "63,191",
+      "64,191"
+     ],
+     "y": [
+      "55,195",
+      "56,195",
+      "57,195",
+      "58,195",
+      "59,195",
+      "60,195",
+      "61,195",
+      "62,195",
+      "63,195",
+      "64,195"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 8
+    },
+    {
+     "name": {
+      "ref": [
+       "55,189"
+      ]
+     },
+     "x": [
+      "64,191",
+      "65,191"
+     ],
+     "y": [
+      "64,195",
+      "65,195"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 9
+    },
+    {
+     "name": {
+      "ref": [
+       "65,189"
+      ]
+     },
+     "x": [
+      "65,191",
+      "66,191"
+     ],
+     "y": [
+      "65,195",
+      "66,195"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.25
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 10
+    },
+    {
+     "name": {
+      "ref": [
+       "24,196"
+      ]
+     },
+     "x": [
+      "24,191"
+     ],
+     "y": [
+      "24,195"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 11
+    },
+    {
+     "name": {
+      "ref": [
+       "25,196"
+      ]
+     },
+     "x": [
+      "25,191"
+     ],
+     "y": [
+      "25,195"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 12
+    },
+    {
+     "name": {
+      "ref": [
+       "34,196"
+      ]
+     },
+     "x": [
+      "34,191"
+     ],
+     "y": [
+      "34,195"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 13
+    },
+    {
+     "name": {
+      "ref": [
+       "35,196"
+      ]
+     },
+     "x": [
+      "35,191"
+     ],
+     "y": [
+      "35,195"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 14
+    },
+    {
+     "name": {
+      "ref": [
+       "44,196"
+      ]
+     },
+     "x": [
+      "44,191"
+     ],
+     "y": [
+      "44,195"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 15
+    },
+    {
+     "name": {
+      "ref": [
+       "45,196"
+      ]
+     },
+     "x": [
+      "45,191"
+     ],
+     "y": [
+      "45,195"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 16
+    },
+    {
+     "name": {
+      "ref": [
+       "54,196"
+      ]
+     },
+     "x": [
+      "54,191"
+     ],
+     "y": [
+      "54,195"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 17
+    },
+    {
+     "name": {
+      "ref": [
+       "55,196"
+      ]
+     },
+     "x": [
+      "55,191"
+     ],
+     "y": [
+      "55,195"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 18
+    },
+    {
+     "name": {
+      "ref": [
+       "64,196"
+      ]
+     },
+     "x": [
+      "64,191"
+     ],
+     "y": [
+      "64,195"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 19
+    }
+   ],
+   "plotFill": null,
+   "chartFill": "#EEF4FB",
+   "font": {},
+   "excel": {
+    "chartW": 348.57149606299214,
+    "chartH": 214.26456692913385,
+    "insideLeft": -4.0,
+    "insideTop": 18.98692913385827,
+    "insideWidth": 353.57149606299214,
+    "insideHeight": 167.88204724409448,
+    "x": {
+     "min": -0.15000000000000002,
+     "max": 4.250000000000001,
+     "major": 0.05000000000000001
+    },
+    "y": {
+     "min": -400.0,
+     "max": 400.0,
+     "major": 100.0
+    }
+   }
+  },
+  {
+   "name": "Chart 20",
+   "part": "xl/charts/chart15.xml",
+   "box": {
+    "left": 0.5394485473632784,
+    "top": 647.294189453125,
+    "width": 353.5715637207031,
+    "height": 198.4285888671875
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.001488027883649935,
+    "y": 0.13641264407166492,
+    "w": 0.9985119721163501,
+    "h": 0.7847600136939406
+   },
+   "style": "smoothMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": true,
+     "min": -0.15000000000000002,
+     "max": null,
+     "reverse": false,
+     "major": 0.05000000000000001,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "tickLabels": "nextTo",
+     "text": {}
+    },
+    {
+     "pos": "l",
+     "deleted": true,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": null,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"???_);_(@_)",
+     "tickLabels": "nextTo",
+     "text": {}
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "12,199"
+      ]
+     },
+     "x": [
+      "15,199",
+      "16,199",
+      "17,199",
+      "18,199",
+      "19,199",
+      "20,199",
+      "21,199",
+      "22,199",
+      "23,199",
+      "24,199"
+     ],
+     "y": [
+      "15,200",
+      "16,200",
+      "17,200",
+      "18,200",
+      "19,200",
+      "20,200",
+      "21,200",
+      "22,200",
+      "23,200",
+      "24,200"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "12,202"
+      ]
+     },
+     "x": [
+      "15,203",
+      "16,203",
+      "17,203",
+      "18,203",
+      "19,203",
+      "20,203",
+      "21,203",
+      "22,203",
+      "23,203",
+      "24,203"
+     ],
+     "y": [
+      "15,205",
+      "16,205",
+      "17,205",
+      "18,205",
+      "19,205",
+      "20,205",
+      "21,205",
+      "22,205",
+      "23,205",
+      "24,205"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "12,207"
+      ]
+     },
+     "x": [
+      "15,208",
+      "16,208",
+      "17,208",
+      "18,208",
+      "19,208",
+      "20,208",
+      "21,208",
+      "22,208",
+      "23,208",
+      "24,208"
+     ],
+     "y": [
+      "15,209",
+      "16,209",
+      "17,209",
+      "18,209",
+      "19,209",
+      "20,209",
+      "21,209",
+      "22,209",
+      "23,209",
+      "24,209"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "12,211"
+      ]
+     },
+     "x": [
+      "15,212",
+      "16,212",
+      "17,212",
+      "18,212",
+      "19,212",
+      "20,212",
+      "21,212",
+      "22,212",
+      "23,212",
+      "24,212"
+     ],
+     "y": [
+      "15,214",
+      "16,214",
+      "17,214",
+      "18,214",
+      "19,214",
+      "20,214",
+      "21,214",
+      "22,214",
+      "23,214",
+      "24,214"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "12,216"
+      ]
+     },
+     "x": [
+      "15,217",
+      "16,217",
+      "17,217",
+      "18,217",
+      "19,217",
+      "20,217",
+      "21,217",
+      "22,217",
+      "23,217",
+      "24,217"
+     ],
+     "y": [
+      "15,218",
+      "16,218",
+      "17,218",
+      "18,218",
+      "19,218",
+      "20,218",
+      "21,218",
+      "22,218",
+      "23,218",
+      "24,218"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 4
+    },
+    {
+     "name": {
+      "ref": [
+       "12,220"
+      ]
+     },
+     "x": [
+      "15,221",
+      "16,221",
+      "17,221",
+      "18,221",
+      "19,221",
+      "20,221",
+      "21,221",
+      "22,221",
+      "23,221",
+      "24,221"
+     ],
+     "y": [
+      "15,223",
+      "16,223",
+      "17,223",
+      "18,223",
+      "19,223",
+      "20,223",
+      "21,223",
+      "22,223",
+      "23,223",
+      "24,223"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 5
+    },
+    {
+     "name": {
+      "ref": [
+       "12,225"
+      ]
+     },
+     "x": [
+      "15,226",
+      "16,226",
+      "17,226",
+      "18,226",
+      "19,226",
+      "20,226",
+      "21,226",
+      "22,226",
+      "23,226",
+      "24,226"
+     ],
+     "y": [
+      "15,227",
+      "16,227",
+      "17,227",
+      "18,227",
+      "19,227",
+      "20,227",
+      "21,227",
+      "22,227",
+      "23,227",
+      "24,227"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 6
+    },
+    {
+     "name": {
+      "ref": [
+       "12,229"
+      ]
+     },
+     "x": [
+      "15,230",
+      "16,230",
+      "17,230",
+      "18,230",
+      "19,230",
+      "20,230",
+      "21,230",
+      "22,230",
+      "23,230",
+      "24,230"
+     ],
+     "y": [
+      "15,232",
+      "16,232",
+      "17,232",
+      "18,232",
+      "19,232",
+      "20,232",
+      "21,232",
+      "22,232",
+      "23,232",
+      "24,232"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 7
+    },
+    {
+     "name": {
+      "ref": [
+       "12,234"
+      ]
+     },
+     "x": [
+      "15,235",
+      "16,235",
+      "17,235",
+      "18,235",
+      "19,235",
+      "20,235",
+      "21,235",
+      "22,235",
+      "23,235",
+      "24,235"
+     ],
+     "y": [
+      "15,236",
+      "16,236",
+      "17,236",
+      "18,236",
+      "19,236",
+      "20,236",
+      "21,236",
+      "22,236",
+      "23,236",
+      "24,236"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 8
+    },
+    {
+     "name": {
+      "ref": [
+       "65,189"
+      ]
+     },
+     "x": [
+      "65,191",
+      "66,191"
+     ],
+     "y": [
+      "65,195",
+      "66,195"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 9
+    },
+    {
+     "name": {
+      "ref": [
+       "25,200"
+      ]
+     },
+     "x": [
+      "24,199"
+     ],
+     "y": [
+      "24,200"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "b"
+       }
+      }
+     },
+     "smooth": false,
+     "order": 10
+    },
+    {
+     "name": {
+      "ref": [
+       "25,205"
+      ]
+     },
+     "x": [
+      "24,203"
+     ],
+     "y": [
+      "24,205"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 11
+    },
+    {
+     "name": {
+      "ref": [
+       "25,209"
+      ]
+     },
+     "x": [
+      "24,208"
+     ],
+     "y": [
+      "24,209"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 12
+    },
+    {
+     "name": {
+      "ref": [
+       "25,214"
+      ]
+     },
+     "x": [
+      "24,212"
+     ],
+     "y": [
+      "24,214"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 13
+    },
+    {
+     "name": {
+      "ref": [
+       "25,218"
+      ]
+     },
+     "x": [
+      "24,217"
+     ],
+     "y": [
+      "24,218"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 14
+    },
+    {
+     "name": {
+      "ref": [
+       "25,223"
+      ]
+     },
+     "x": [
+      "24,221"
+     ],
+     "y": [
+      "24,223"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 15
+    },
+    {
+     "name": {
+      "ref": [
+       "25,227"
+      ]
+     },
+     "x": [
+      "24,226"
+     ],
+     "y": [
+      "24,227"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 16
+    },
+    {
+     "name": {
+      "ref": [
+       "25,232"
+      ]
+     },
+     "x": [
+      "24,230"
+     ],
+     "y": [
+      "24,232"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 17
+    },
+    {
+     "name": {
+      "ref": [
+       "29,207"
+      ]
+     },
+     "x": [
+      "29,209",
+      "29,210"
+     ],
+     "y": [
+      "29,211",
+      "29,212"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 18
+    },
+    {
+     "name": {
+      "ref": [
+       "30,207"
+      ]
+     },
+     "x": [
+      "30,209",
+      "30,210"
+     ],
+     "y": [
+      "30,211",
+      "30,212"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 19
+    },
+    {
+     "name": {
+      "ref": [
+       "31,207"
+      ]
+     },
+     "x": [
+      "31,209",
+      "31,210"
+     ],
+     "y": [
+      "31,211",
+      "31,212"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 20
+    },
+    {
+     "name": {
+      "ref": [
+       "32,207"
+      ]
+     },
+     "x": [
+      "32,209",
+      "32,210"
+     ],
+     "y": [
+      "32,211",
+      "32,212"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 21
+    },
+    {
+     "name": {
+      "ref": [
+       "35,207"
+      ]
+     },
+     "x": [
+      "35,209",
+      "35,210"
+     ],
+     "y": [
+      "35,211",
+      "35,212"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 22
+    },
+    {
+     "name": {
+      "ref": [
+       "36,207"
+      ]
+     },
+     "x": [
+      "36,209",
+      "36,210"
+     ],
+     "y": [
+      "36,211",
+      "36,212"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 23
+    },
+    {
+     "name": {
+      "ref": [
+       "37,207"
+      ]
+     },
+     "x": [
+      "37,209",
+      "37,210"
+     ],
+     "y": [
+      "37,211",
+      "37,212"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 24
+    },
+    {
+     "name": {
+      "ref": [
+       "38,207"
+      ]
+     },
+     "x": [
+      "38,209",
+      "38,210"
+     ],
+     "y": [
+      "38,211",
+      "38,212"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 25
+    }
+   ],
+   "plotFill": null,
+   "chartFill": "#EEF4FB",
+   "font": {},
+   "excel": {
+    "chartW": 348.5715748031496,
+    "chartH": 193.42858267716537,
+    "insideLeft": -3.4738582677165355,
+    "insideTop": 23.068188976377954,
+    "insideWidth": 353.0454330708661,
+    "insideHeight": 155.7188188976378,
+    "x": {
+     "min": -0.15000000000000002,
+     "max": 4.250000000000001,
+     "major": 0.05000000000000001
+    },
+    "y": {
+     "min": 0.0,
+     "max": 350.0,
+     "major": 50.0
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
+<title id="title">Checklist งานก่อสร้าง</title><desc id="desc">ภาพตัวอย่างรายการตรวจงาน สถานะและหมายเหตุ Local Beta แบบตรวจ 97 แบบ บันทึกในเครื่องและส่งออก JPG PDF</desc>
+<rect width="960" height="640" fill="#eef1f5"/><rect x="60" y="55" width="840" height="530" rx="18" fill="#fafbfd" stroke="#c6ced9"/>
+<path d="M78 55h804a18 18 0 0 1 18 18v83H60V73a18 18 0 0 1 18-18" fill="#20334c"/>
+<g font-family="Sarabun, Tahoma, sans-serif"><text x="95" y="96" fill="#aab9cc" font-size="17" letter-spacing="2">CK-01  /  SITE INSPECTION</text><text x="95" y="132" fill="#f1f4f8" font-size="27" font-weight="700">Checklist งานก่อสร้าง</text>
+<text x="96" y="201" fill="#20334c" font-size="22" font-weight="700">รายการตรวจหน้างาน</text><text x="96" y="232" fill="#586a80" font-size="17">97 แบบตรวจ · บันทึกผลในเครื่อง</text>
+<rect x="95" y="264" width="770" height="58" rx="8" fill="#e5ecf4"/><text x="118" y="301" fill="#20334c" font-size="21">งานสถาปัตย์</text>
+<rect x="114" y="346" width="26" height="26" rx="5" fill="#dbe8e0" stroke="#688673"/><path d="m120 358 5 5 10-12" fill="none" stroke="#355b44" stroke-width="3"/><text x="158" y="368" fill="#37475c" font-size="20">ผนัง พื้น และงานตกแต่ง</text><text x="716" y="368" fill="#355b44" font-size="18">ตรวจแล้ว</text>
+<path d="M95 394h770" stroke="#d9e0e8"/><rect x="114" y="419" width="26" height="26" rx="5" fill="#fafbfd" stroke="#8796aa"/><text x="158" y="441" fill="#37475c" font-size="20">งานโครงสร้างและเอกสารอ้างอิง</text><text x="716" y="441" fill="#76572a" font-size="18">ยังไม่ตรวจ</text>
+<path d="M95 469h770" stroke="#d9e0e8"/><text x="97" y="522" fill="#5d6c80" font-size="16">ภาพตัวอย่าง · A4 แนวนอน · JPG / PDF</text><rect x="674" y="492" width="190" height="48" rx="7" fill="#c86a2b"/><text x="705" y="524" fill="#faf4ef" font-size="18" font-weight="700">เปิด Checklist</text></g></svg>

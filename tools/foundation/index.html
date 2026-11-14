@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="description" content="คู่มือเลือกโปรแกรมออกแบบฐานรากเยื้องศูนย์และฐานรากหนึ่งเสาเข็ม อธิบาย Safe Load, reaction, punching, D-region, dowel, 2D/3D และรายงาน" />
+    <link rel="canonical" href="https://naichangyai.com/tools/foundation/" />
+    <link rel="alternate" hreflang="th-TH" href="https://naichangyai.com/tools/foundation/" />
+    <link rel="alternate" hreflang="x-default" href="https://naichangyai.com/tools/foundation/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-2d.png" />
+    <link rel="stylesheet" href="/tools/seo-pages.css?v=20260726" />
+    <meta name="theme-color" content="#073476" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="นายช่างใหญ่ Civil Apps" />
+    <meta property="og:title" content="โปรแกรมออกแบบฐานรากเยื้องศูนย์และฐานรากหนึ่งเสาเข็ม" />
+    <meta property="og:description" content="เปรียบเทียบ input, checks และหลักฐานของเครื่องมือฐานรากสองชนิด โดยไม่เหมารวมว่าใช้แทนกันได้" />
+    <meta property="og:url" content="https://naichangyai.com/tools/foundation/" />
+    <meta property="og:image" content="https://naichangyai.com/social-share-home-20260802.jpg" />
+    <meta property="og:locale" content="th_TH" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>โปรแกรมออกแบบฐานรากเยื้องศูนย์และหนึ่งเสาเข็ม | นายช่างใหญ่</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://naichangyai.com/tools/foundation/#webpage",
+            "url": "https://naichangyai.com/tools/foundation/",
+            "name": "โปรแกรมออกแบบฐานรากเยื้องศูนย์และฐานรากหนึ่งเสาเข็ม",
+            "description": "คู่มือเลือกเครื่องมือฐานรากตาม topology, input, checks และหลักฐานที่ออกจริง",
+            "isPartOf": { "@id": "https://naichangyai.com/#website" },
+            "inLanguage": "th-TH",
+            "dateModified": "2026-08-01"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "หน้าแรก", "item": "https://naichangyai.com/" },
+              { "@type": "ListItem", "position": 2, "name": "คู่มือเครื่องมือ", "item": "https://naichangyai.com/tools/" },
+              { "@type": "ListItem", "position": 3, "name": "ฐานราก", "item": "https://naichangyai.com/tools/foundation/" }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">ข้ามไปเนื้อหาหลัก</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="นายช่างใหญ่ Civil Apps หน้าแรก">
+          <img src="/brand/ncy-mark.svg" width="52" height="40" alt="" />
+          <span><strong>นายช่างใหญ่ Civil Apps</strong><small>ENGINEERING WORKSPACE</small></span>
+        </a>
+        <nav class="top-nav" aria-label="เมนูหลัก">
+          <a href="/#apps">เปิดหน้าเครื่องมือ</a>
+          <a href="/tools/" aria-current="page">คู่มือเครื่องมือ</a>
+          <a href="/engineering-evidence/">หลักฐานผลคำนวณ</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="page-shell">
+      <nav class="breadcrumb" aria-label="เส้นทางหน้า">
+        <a href="/">หน้าแรก</a><span aria-hidden="true">/</span><a href="/tools/">คู่มือเครื่องมือ</a><span aria-hidden="true">/</span><span>ฐานราก</span>
+      </nav>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">FOUNDATION DESIGN TOOLS</p>
+          <h1>เลือกโปรแกรมออกแบบฐานรากจาก load path และรูปแบบฐานจริง</h1>
+          <p class="lead">นายช่างใหญ่มีเครื่องมือฐานรากที่เผยแพร่สองรูปแบบ ได้แก่ ฐานรากเยื้องศูนย์และฐานรากหนึ่งเสาเข็ม ทั้งสองใช้ input, topology และชุดตรวจต่างกัน จึงไม่ควรนำผลจากเครื่องมือหนึ่งไปแทนอีกเครื่องมือหนึ่ง</p>
+          <div class="hero-actions">
+            <a class="button" href="/#apps">ดูการ์ดฐานราก</a>
+            <a class="button secondary" href="#compare">เปรียบเทียบสองเครื่องมือ</a>
+          </div>
+        </div>
+        <figure class="hero-visual">
+          <img src="/PIC/app-footing-one-pile-full-ref.svg" width="512" height="512" alt="ภาพอ้างอิงฐานรากหนึ่งเสาเข็ม แปลน รูปตัด เหล็กเสริม และโมเดลสามมิติ" />
+        </figure>
+      </section>
+
+      <dl class="proof-strip" aria-label="เครื่องมือฐานราก">
+        <div><dt>FT-01</dt><dd>Offset Foundation</dd></div>
+        <div><dt>FT-02</dt><dd>One-Pile Full Design</dd></div>
+        <div><dt>หลักฐาน</dt><dd>Trace · 2D/3D · Report</dd></div>
+      </dl>
+
+      <section class="section" id="compare">
+        <h2>ฐานรากสองชนิดตอบคำถามต่างกัน</h2>
+        <table class="comparison">
+          <thead><tr><th>เครื่องมือ</th><th>เหมาะกับ</th><th>หลักฐานที่เด่น</th></tr></thead>
+          <tbody>
+            <tr><td>ฐานรากเยื้องศูนย์</td><td>กรณีที่ตำแหน่งเสา แนวแรง หรือ geometry ทำให้เกิด eccentricity และต้องติดตาม reaction กับ moment</td><td>Pile reaction trace, punching, beam shear, plan, section และ report ตามขอบเขตโมดูล</td></tr>
+            <tr><td>ฐานรากหนึ่งเสาเข็ม</td><td>ฐานหัวเสาเข็มเดี่ยวที่ต้องตรวจ load ต่อเสาเข็มและกลไกภายใน pile cap</td><td>Safe Load, punching, D-region, dowel, reinforcement, แบบ 2D/3D และรายงาน</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>ลำดับข้อมูลที่ควรเตรียม</h2>
+        <div class="workflow">
+          <article><h3>Geometry</h3><p>ตำแหน่งเสา ฐาน เสาเข็ม ขนาดหน้าตัด ระยะขอบ ระยะเยื้อง และระดับที่เกี่ยวข้อง</p></article>
+          <article><h3>Material</h3><p>กำลังคอนกรีต เหล็กเสริม ขนาดเสาเข็ม และค่าที่มาจากข้อมูลผลิตภัณฑ์หรือผลทดสอบ</p></article>
+          <article><h3>Demand</h3><p>แรงอัด โมเมนต์ แรงเฉือน และ load combination ที่มีที่มาชัดเจนจากโครงการ</p></article>
+          <article><h3>Evidence</h3><p>ตรวจ reaction, capacity, D/C, geometry, reinforcement, limitation และรายงานจากผลล่าสุด</p></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>หลักฐานสำคัญของฐานรากหนึ่งเสาเข็ม</h2>
+        <div class="scope-grid">
+          <article>
+            <h3>Safe Load</h3>
+            <p>เปรียบเทียบ demand กับค่ารับน้ำหนักที่ผู้ใช้กำหนดจากข้อมูลเสาเข็ม การเลือกค่าต้องมีแหล่งอ้างอิงที่เหมาะกับหน้างาน</p>
+          </article>
+          <article>
+            <h3>Punching และ D-region</h3>
+            <p>แยกกลไกที่ต้องตรวจภายใน pile cap พร้อม operands และสถานะ ไม่สรุปจากภาพ 3D เพียงอย่างเดียว</p>
+          </article>
+          <article>
+            <h3>Dowel และเหล็กเสริม</h3>
+            <p>แสดงรายละเอียดที่ engine ออกและ geometry ที่สอดคล้องกับผล เพื่อให้ย้อนตรวจจากตารางไปยังรูปได้</p>
+          </article>
+          <article data-kind="boundary">
+            <h3>ข้อมูลดินและเสาเข็มยังเป็นความรับผิดชอบของโครงการ</h3>
+            <p>ค่า Safe Load, settlement, installation condition และข้อมูลชั้นดินไม่ควรถูกเดาจากประเภทฐานรากหรือภาพประกอบ</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>สิ่งที่เครื่องมือฐานรากไม่ควรถูกใช้กล่าวอ้าง</h2>
+        <ul class="plain-list boundary">
+          <li>ไม่ควรเรียกว่าออกแบบฐานรากทุกชนิด เพราะฐานรากแผ่และรูปแบบอื่นมี lifecycle และ engine ต่างกัน</li>
+          <li>ไม่ควรใช้ค่า Safe Load ที่ไม่มีผลทดสอบหรือข้อมูลผู้ผลิตรองรับ</li>
+          <li>ไม่ควรตีความภาพ 2D/3D เป็นแบบก่อสร้างที่อนุมัติแล้ว</li>
+          <li>ไม่ควรซ่อนรายการที่ไม่ได้ประเมิน เช่น settlement, group effect หรือรายละเอียดหน้างาน</li>
+          <li>ผลต้องถูกตรวจร่วมกับ load path ของเสา คานคอดิน ดิน และวิธีติดตั้งเสาเข็ม</li>
+        </ul>
+        <div class="callout">
+          <strong>เริ่มจาก topology ไม่ใช่เริ่มจากชื่อฐาน</strong>
+          ถ้า geometry และ load path ไม่ตรงกับเครื่องมือ ให้กลับไปเลือก workflow ที่รองรับแทนการปรับ input เพื่อบังคับให้ได้ผล
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>คู่มือที่เกี่ยวข้อง</h2>
+        <nav class="guide-nav" aria-label="คู่มือที่เกี่ยวข้อง">
+          <a href="/tools/">เลือกโปรแกรมโครงสร้าง</a>
+          <a href="/tools/rc-beam/">ออกแบบคานคอนกรีต</a>
+          <a href="/tools/rc-column/">ออกแบบเสาคอนกรีต</a>
+          <a href="/engineering-evidence/">Calculation Snapshot และ A4</a>
+        </nav>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p>ข้อมูลหน้านี้อธิบายเครื่องมือฐานรากสองชนิดที่เผยแพร่ใน Marketplace ไม่ใช่การรับรองฐานรากทุกประเภทหรือการแทนข้อมูลสำรวจดิน</p>
+        <nav aria-label="ลิงก์ท้ายหน้า"><a href="/">หน้าแรก</a><a href="/#apps">เครื่องมือทั้งหมด</a><a href="https://www.facebook.com/NaichangyaiCivilAppsTH">ข่าวสาร</a></nav>
+      </div>
+    </footer>
+  </body>
+</html>

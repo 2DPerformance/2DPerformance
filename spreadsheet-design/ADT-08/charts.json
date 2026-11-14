@@ -1,0 +1,5494 @@
+{
+ "sheet": "ADT-08",
+ "charts": [
+  {
+   "name": "Chart 15",
+   "part": "xl/charts/chart26.xml",
+   "box": {
+    "left": 1.1396059036254886,
+    "top": 137.16827392578125,
+    "width": 707.1519165039062,
+    "height": 161.6188201904297
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.02439321868520551,
+    "y": 0.09312141755823122,
+    "w": 0.9756067813147945,
+    "h": 0.6639787319185999
+   },
+   "style": "lineMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": true,
+     "min": -0.5,
+     "max": null,
+     "reverse": false,
+     "major": 0.5,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "General",
+     "tickLabels": "nextTo",
+     "text": {}
+    },
+    {
+     "pos": "l",
+     "deleted": true,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": 0.5,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "General",
+     "tickLabels": "nextTo",
+     "text": {}
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "6,114"
+      ]
+     },
+     "x": [
+      "8,114",
+      "9,114",
+      "10,114",
+      "11,114",
+      "12,114",
+      "13,114",
+      "14,114"
+     ],
+     "y": [
+      "8,115",
+      "9,115",
+      "10,115",
+      "11,115",
+      "12,115",
+      "13,115",
+      "14,115"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "22,114"
+      ]
+     },
+     "x": [
+      "23,114",
+      "24,114",
+      "25,114",
+      "26,114"
+     ],
+     "y": [
+      "23,113",
+      "24,113",
+      "25,113",
+      "26,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "22,124"
+      ]
+     },
+     "x": [
+      "23,124",
+      "24,124",
+      "25,124",
+      "26,124"
+     ],
+     "y": [
+      "23,113",
+      "24,113",
+      "25,113",
+      "26,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "13,117"
+      ]
+     },
+     "x": [
+      "19,117",
+      "20,117"
+     ],
+     "y": [
+      "14,117",
+      "15,117"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75,
+      "tailEnd": {
+       "type": "triangle",
+       "w": "lg",
+       "len": "lg"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "13,118"
+      ]
+     },
+     "x": [
+      "19,118",
+      "20,118"
+     ],
+     "y": [
+      "14,118",
+      "15,118"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75,
+      "tailEnd": {
+       "type": "triangle",
+       "w": "lg",
+       "len": "lg"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 4
+    },
+    {
+     "name": {
+      "ref": [
+       "13,119"
+      ]
+     },
+     "x": [
+      "19,119",
+      "20,119"
+     ],
+     "y": [
+      "14,119",
+      "15,119"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75,
+      "tailEnd": {
+       "type": "triangle",
+       "w": "lg",
+       "len": "lg"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 5
+    },
+    {
+     "name": {
+      "ref": [
+       "13,120"
+      ]
+     },
+     "x": [
+      "19,120",
+      "20,120"
+     ],
+     "y": [
+      "14,120",
+      "15,120"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75,
+      "tailEnd": {
+       "type": "triangle",
+       "w": "lg",
+       "len": "lg"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 6
+    },
+    {
+     "name": {
+      "ref": [
+       "13,121"
+      ]
+     },
+     "x": [
+      "19,121",
+      "20,121"
+     ],
+     "y": [
+      "14,121",
+      "15,121"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75,
+      "tailEnd": {
+       "type": "triangle",
+       "w": "lg",
+       "len": "lg"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 7
+    },
+    {
+     "name": {
+      "ref": [
+       "13,122"
+      ]
+     },
+     "x": [
+      "19,122",
+      "20,122"
+     ],
+     "y": [
+      "14,122",
+      "15,122"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 0.75,
+      "tailEnd": {
+       "type": "triangle",
+       "w": "lg",
+       "len": "lg"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 8
+    },
+    {
+     "name": {
+      "ref": [
+       "22,116"
+      ]
+     },
+     "x": [
+      "23,116",
+      "24,116",
+      "25,116",
+      "26,116"
+     ],
+     "y": [
+      "23,113",
+      "24,113",
+      "25,113",
+      "26,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 9
+    },
+    {
+     "name": {
+      "ref": [
+       "22,118"
+      ]
+     },
+     "x": [
+      "23,118",
+      "24,118",
+      "25,118",
+      "26,118"
+     ],
+     "y": [
+      "23,113",
+      "24,113",
+      "25,113",
+      "26,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 10
+    },
+    {
+     "name": {
+      "ref": [
+       "16,117"
+      ]
+     },
+     "x": [
+      "19,117"
+     ],
+     "y": [
+      "14,116"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 11
+    },
+    {
+     "name": {
+      "ref": [
+       "16,118"
+      ]
+     },
+     "x": [
+      "19,118"
+     ],
+     "y": [
+      "14,116"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 12
+    },
+    {
+     "name": {
+      "ref": [
+       "16,119"
+      ]
+     },
+     "x": [
+      "19,119"
+     ],
+     "y": [
+      "14,116"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 13
+    },
+    {
+     "name": {
+      "ref": [
+       "16,120"
+      ]
+     },
+     "x": [
+      "19,120"
+     ],
+     "y": [
+      "14,116"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 14
+    },
+    {
+     "name": {
+      "ref": [
+       "16,121"
+      ]
+     },
+     "x": [
+      "19,121"
+     ],
+     "y": [
+      "14,116"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 15
+    },
+    {
+     "name": {
+      "ref": [
+       "16,122"
+      ]
+     },
+     "x": [
+      "19,122"
+     ],
+     "y": [
+      "14,116"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 16
+    },
+    {
+     "name": {
+      "ref": [
+       "22,120"
+      ]
+     },
+     "x": [
+      "23,120",
+      "24,120",
+      "25,120",
+      "26,120"
+     ],
+     "y": [
+      "23,113",
+      "24,113",
+      "25,113",
+      "26,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 17
+    },
+    {
+     "name": {
+      "ref": [
+       "22,122"
+      ]
+     },
+     "x": [
+      "23,122",
+      "24,122",
+      "25,122",
+      "26,122"
+     ],
+     "y": [
+      "23,113",
+      "24,113",
+      "25,113",
+      "26,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 18
+    },
+    {
+     "name": {
+      "ref": [
+       "29,115"
+      ]
+     },
+     "x": [
+      "30,115",
+      "31,115"
+     ],
+     "y": [
+      "30,114",
+      "31,114"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 19
+    },
+    {
+     "name": {
+      "ref": [
+       "29,116"
+      ]
+     },
+     "x": [
+      "30,116",
+      "31,116"
+     ],
+     "y": [
+      "30,114",
+      "31,114"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 20
+    },
+    {
+     "name": {
+      "ref": [
+       "29,117"
+      ]
+     },
+     "x": [
+      "30,117",
+      "31,117"
+     ],
+     "y": [
+      "30,114",
+      "31,114"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 21
+    },
+    {
+     "name": {
+      "ref": [
+       "29,118"
+      ]
+     },
+     "x": [
+      "30,118",
+      "31,118"
+     ],
+     "y": [
+      "30,114",
+      "31,114"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 22
+    },
+    {
+     "name": {
+      "ref": [
+       "29,119"
+      ]
+     },
+     "x": [
+      "30,119",
+      "31,119"
+     ],
+     "y": [
+      "30,114",
+      "31,114"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 23
+    },
+    {
+     "name": {
+      "ref": [
+       "33,115"
+      ]
+     },
+     "x": [
+      "32,115"
+     ],
+     "y": [
+      "30,114"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "ctr",
+      "cells": [],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": "#EEF4FB",
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 24
+    },
+    {
+     "name": {
+      "ref": [
+       "33,116"
+      ]
+     },
+     "x": [
+      "32,116"
+     ],
+     "y": [
+      "30,114"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "ctr",
+      "cells": [],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": "#EEF4FB",
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 25
+    },
+    {
+     "name": {
+      "ref": [
+       "33,117"
+      ]
+     },
+     "x": [
+      "32,117"
+     ],
+     "y": [
+      "30,114"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "ctr",
+      "cells": [],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": "#EEF4FB",
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 26
+    },
+    {
+     "name": {
+      "ref": [
+       "33,118"
+      ]
+     },
+     "x": [
+      "32,118"
+     ],
+     "y": [
+      "30,114"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "ctr",
+      "cells": [],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": "#EEF4FB",
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 27
+    },
+    {
+     "name": {
+      "ref": [
+       "33,119"
+      ]
+     },
+     "x": [
+      "32,119"
+     ],
+     "y": [
+      "30,114"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "ctr",
+      "cells": [],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": "#EEF4FB",
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 28
+    },
+    {
+     "name": {
+      "ref": [
+       "29,121"
+      ]
+     },
+     "x": [
+      "31,121",
+      "32,121"
+     ],
+     "y": [
+      "37,113",
+      "38,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 29
+    },
+    {
+     "name": {
+      "ref": [
+       "29,123"
+      ]
+     },
+     "x": [
+      "31,123",
+      "32,123"
+     ],
+     "y": [
+      "37,113",
+      "38,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 2.0,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 30
+    },
+    {
+     "name": {
+      "ref": [
+       "33,121"
+      ]
+     },
+     "x": [
+      "34,121"
+     ],
+     "y": [
+      "37,113"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 12.0,
+       "bold": true
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 31
+    },
+    {
+     "name": {
+      "ref": [
+       "36,115"
+      ]
+     },
+     "x": [
+      "37,115",
+      "38,115"
+     ],
+     "y": [
+      "37,113",
+      "38,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 32
+    },
+    {
+     "name": {
+      "ref": [
+       "36,116"
+      ]
+     },
+     "x": [
+      "37,116",
+      "38,116"
+     ],
+     "y": [
+      "37,113",
+      "38,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 33
+    },
+    {
+     "name": {
+      "ref": [
+       "36,117"
+      ]
+     },
+     "x": [
+      "37,117",
+      "38,117"
+     ],
+     "y": [
+      "37,113",
+      "38,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 34
+    },
+    {
+     "name": {
+      "ref": [
+       "36,118"
+      ]
+     },
+     "x": [
+      "37,118",
+      "38,118"
+     ],
+     "y": [
+      "37,113",
+      "38,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 35
+    },
+    {
+     "name": {
+      "ref": [
+       "36,119"
+      ]
+     },
+     "x": [
+      "37,119",
+      "38,119"
+     ],
+     "y": [
+      "37,113",
+      "38,113"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 1.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 36
+    },
+    {
+     "name": {
+      "ref": [
+       "36,120"
+      ]
+     },
+     "x": [
+      "37,120",
+      "38,120"
+     ],
+     "y": [
+      "37,114",
+      "38,114"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.0,
+      "headEnd": {
+       "type": "arrow",
+       "w": "lg",
+       "len": "med"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "lg",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 37
+    },
+    {
+     "name": {
+      "ref": [
+       "35,114"
+      ]
+     },
+     "x": [
+      "40,116",
+      "41,116",
+      "42,116",
+      "43,116",
+      "44,116"
+     ],
+     "y": [
+      "40,117",
+      "41,117",
+      "42,117",
+      "43,117",
+      "44,117"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": false,
+      "pos": "ctr",
+      "cells": [
+       "40,115",
+       "41,115",
+       "42,115",
+       "43,115",
+       "44,115"
+      ],
+      "text": {
+       "size": 12.0,
+       "bold": true
+      },
+      "fill": null,
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "ctr",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "1": {
+        "pos": "ctr",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "2": {
+        "pos": "ctr",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "3": {
+        "pos": "ctr",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "4": {
+        "pos": "ctr",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       }
+      }
+     },
+     "smooth": false,
+     "order": 38
+    },
+    {
+     "name": {
+      "ref": [
+       "33,124"
+      ]
+     },
+     "x": [
+      "34,123"
+     ],
+     "y": [
+      "37,113"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 12.0,
+       "bold": true
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 39
+    },
+    {
+     "name": {
+      "ref": [
+       "47,116"
+      ]
+     },
+     "x": [
+      "52,116",
+      "53,116"
+     ],
+     "y": [
+      "55,116",
+      "56,116"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 40
+    },
+    {
+     "name": {
+      "ref": [
+       "47,117"
+      ]
+     },
+     "x": [
+      "52,117",
+      "53,117"
+     ],
+     "y": [
+      "55,117",
+      "56,117"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 41
+    },
+    {
+     "name": {
+      "ref": [
+       "47,118"
+      ]
+     },
+     "x": [
+      "52,118",
+      "53,118"
+     ],
+     "y": [
+      "55,118",
+      "56,118"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 42
+    },
+    {
+     "name": {
+      "ref": [
+       "47,119"
+      ]
+     },
+     "x": [
+      "52,119",
+      "53,119"
+     ],
+     "y": [
+      "55,119",
+      "56,119"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 43
+    },
+    {
+     "name": {
+      "ref": [
+       "47,120"
+      ]
+     },
+     "x": [
+      "52,120",
+      "53,120"
+     ],
+     "y": [
+      "55,120",
+      "56,120"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 44
+    },
+    {
+     "name": {
+      "ref": [
+       "47,121"
+      ]
+     },
+     "x": [
+      "52,121",
+      "53,121"
+     ],
+     "y": [
+      "55,121",
+      "56,121"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 45
+    },
+    {
+     "name": {
+      "ref": [
+       "50,115"
+      ]
+     },
+     "x": [
+      "53,116",
+      "53,117",
+      "53,118",
+      "53,119",
+      "53,120",
+      "53,121"
+     ],
+     "y": [
+      "57,116",
+      "57,117",
+      "57,118",
+      "57,119",
+      "57,120",
+      "57,121"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": false,
+      "pos": "b",
+      "cells": [
+       "49,116",
+       "49,117",
+       "49,118",
+       "49,119",
+       "49,120",
+       "49,121"
+      ],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": null,
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "1": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "2": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "3": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "4": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "5": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       }
+      }
+     },
+     "smooth": false,
+     "order": 46
+    }
+   ],
+   "plotFill": null,
+   "chartFill": null,
+   "font": {
+    "size": 10.0,
+    "color": "#000000"
+   },
+   "excel": {
+    "chartW": 702.1518897637795,
+    "chartH": 156.6188188976378,
+    "insideLeft": 13.249685039370078,
+    "insideTop": 11.05015748031496,
+    "insideWidth": 689.9022047244094,
+    "insideHeight": 107.31149606299212,
+    "x": {
+     "min": -0.5,
+     "max": 8.5,
+     "major": 0.5
+    },
+    "y": {
+     "min": -1.0,
+     "max": 1.5,
+     "major": 0.5
+    }
+   }
+  },
+  {
+   "name": "Chart 3",
+   "part": "xl/charts/chart27.xml",
+   "box": {
+    "left": 2.507165336608887,
+    "top": 430.2857360839844,
+    "width": 705.6232299804688,
+    "height": 161.4186553955078
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.01759709461771298,
+    "y": 0.17667928063297017,
+    "w": 0.9824028997804203,
+    "h": 0.7566512863064063
+   },
+   "style": "lineMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": true,
+     "min": -0.5,
+     "max": null,
+     "reverse": false,
+     "major": 0.5,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "General",
+     "tickLabels": "nextTo",
+     "text": {}
+    },
+    {
+     "pos": "l",
+     "deleted": true,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": null,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "General",
+     "tickLabels": "nextTo",
+     "text": {}
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "5,56"
+      ]
+     },
+     "x": [
+      "7,56",
+      "8,56",
+      "9,56",
+      "10,56",
+      "11,56",
+      "12,56",
+      "13,56",
+      "14,56",
+      "15,56",
+      "16,56",
+      "17,56",
+      "18,56",
+      "19,56",
+      "20,56",
+      "21,56",
+      "22,56",
+      "23,56",
+      "24,56",
+      "25,56",
+      "26,56",
+      "27,56",
+      "28,56",
+      "29,56",
+      "30,56",
+      "31,56",
+      "32,56",
+      "33,56",
+      "34,56",
+      "35,56",
+      "36,56",
+      "37,56",
+      "38,56",
+      "39,56",
+      "40,56",
+      "41,56",
+      "42,56",
+      "43,56",
+      "44,56",
+      "45,56",
+      "46,56",
+      "47,56",
+      "48,56",
+      "49,56",
+      "50,56",
+      "51,56",
+      "52,56",
+      "53,56",
+      "54,56",
+      "55,56"
+     ],
+     "y": [
+      "7,63",
+      "8,63",
+      "9,63",
+      "10,63",
+      "11,63",
+      "12,63",
+      "13,63",
+      "14,63",
+      "15,63",
+      "16,63",
+      "17,63",
+      "18,63",
+      "19,63",
+      "20,63",
+      "21,63",
+      "22,63",
+      "23,63",
+      "24,63",
+      "25,63",
+      "26,63",
+      "27,63",
+      "28,63",
+      "29,63",
+      "30,63",
+      "31,63",
+      "32,63",
+      "33,63",
+      "34,63",
+      "35,63",
+      "36,63",
+      "37,63",
+      "38,63",
+      "39,63",
+      "40,63",
+      "41,63",
+      "42,63",
+      "43,63",
+      "44,63",
+      "45,63",
+      "46,63",
+      "47,63",
+      "48,63",
+      "49,63",
+      "50,63",
+      "51,63",
+      "52,63",
+      "53,63",
+      "54,63",
+      "55,63"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "5,59"
+      ]
+     },
+     "x": [
+      "6,57",
+      "7,57",
+      "8,57",
+      "9,57",
+      "10,57",
+      "11,57",
+      "12,57",
+      "13,57",
+      "14,57",
+      "15,57",
+      "16,57",
+      "17,57",
+      "18,57",
+      "19,57",
+      "20,57",
+      "21,57",
+      "22,57",
+      "23,57",
+      "24,57",
+      "25,57",
+      "26,57",
+      "27,57",
+      "28,57",
+      "29,57",
+      "30,57",
+      "31,57",
+      "32,57",
+      "33,57",
+      "34,57",
+      "35,57",
+      "36,57",
+      "37,57",
+      "38,57",
+      "39,57",
+      "40,57",
+      "41,57",
+      "42,57",
+      "43,57",
+      "44,57",
+      "45,57",
+      "46,57",
+      "47,57",
+      "48,57",
+      "49,57",
+      "50,57",
+      "51,57",
+      "52,57",
+      "53,57",
+      "54,57",
+      "55,57",
+      "56,57"
+     ],
+     "y": [
+      "6,59",
+      "7,59",
+      "8,59",
+      "9,59",
+      "10,59",
+      "11,59",
+      "12,59",
+      "13,59",
+      "14,59",
+      "15,59",
+      "16,59",
+      "17,59",
+      "18,59",
+      "19,59",
+      "20,59",
+      "21,59",
+      "22,59",
+      "23,59",
+      "24,59",
+      "25,59",
+      "26,59",
+      "27,59",
+      "28,59",
+      "29,59",
+      "30,59",
+      "31,59",
+      "32,59",
+      "33,59",
+      "34,59",
+      "35,59",
+      "36,59",
+      "37,59",
+      "38,59",
+      "39,59",
+      "40,59",
+      "41,59",
+      "42,59",
+      "43,59",
+      "44,59",
+      "45,59",
+      "46,59",
+      "47,59",
+      "48,59",
+      "49,59",
+      "50,59",
+      "51,59",
+      "52,59",
+      "53,59",
+      "54,59",
+      "55,59",
+      "56,59"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.0
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": null,
+     "smooth": false,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "6,65"
+      ]
+     },
+     "x": [
+      "7,62",
+      "8,62",
+      "9,62",
+      "10,62",
+      "11,62",
+      "12,62",
+      "13,62",
+      "14,62",
+      "15,62",
+      "16,62",
+      "17,62",
+      "18,62",
+      "19,62",
+      "20,62",
+      "21,62",
+      "22,62",
+      "23,62",
+      "24,62",
+      "25,62",
+      "26,62",
+      "27,62",
+      "28,62",
+      "29,62",
+      "30,62",
+      "31,62",
+      "32,62",
+      "33,62",
+      "34,62",
+      "35,62",
+      "36,62",
+      "37,62",
+      "38,62",
+      "39,62",
+      "40,62",
+      "41,62",
+      "42,62",
+      "43,62",
+      "44,62",
+      "45,62",
+      "46,62",
+      "47,62",
+      "48,62",
+      "49,62",
+      "50,62",
+      "51,62",
+      "52,62",
+      "53,62",
+      "54,62"
+     ],
+     "y": [
+      "7,64",
+      "8,64",
+      "9,64",
+      "10,64",
+      "11,64",
+      "12,64",
+      "13,64",
+      "14,64",
+      "15,64",
+      "16,64",
+      "17,64",
+      "18,64",
+      "19,64",
+      "20,64",
+      "21,64",
+      "22,64",
+      "23,64",
+      "24,64",
+      "25,64",
+      "26,64",
+      "27,64",
+      "28,64",
+      "29,64",
+      "30,64",
+      "31,64",
+      "32,64",
+      "33,64",
+      "34,64",
+      "35,64",
+      "36,64",
+      "37,64",
+      "38,64",
+      "39,64",
+      "40,64",
+      "41,64",
+      "42,64",
+      "43,64",
+      "44,64",
+      "45,64",
+      "46,64",
+      "47,64",
+      "48,64",
+      "49,64",
+      "50,64",
+      "51,64",
+      "52,64",
+      "53,64",
+      "54,64"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": false,
+      "pos": "t",
+      "cells": [
+       "7,65",
+       "8,65",
+       "9,65",
+       "10,65",
+       "11,65",
+       "12,65",
+       "13,65",
+       "14,65",
+       "15,65",
+       "16,65",
+       "17,65",
+       "18,65",
+       "19,65",
+       "20,65",
+       "21,65",
+       "22,65",
+       "23,65",
+       "24,65",
+       "25,65",
+       "26,65",
+       "27,65",
+       "28,65",
+       "29,65",
+       "30,65",
+       "31,65",
+       "32,65",
+       "33,65",
+       "34,65",
+       "35,65",
+       "36,65",
+       "37,65",
+       "38,65",
+       "39,65",
+       "40,65",
+       "41,65",
+       "42,65",
+       "43,65",
+       "44,65",
+       "45,65",
+       "46,65",
+       "47,65",
+       "48,65",
+       "49,65",
+       "50,65",
+       "51,65",
+       "52,65",
+       "53,65",
+       "54,65"
+      ],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": null,
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "1": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "2": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "3": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "4": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "5": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "6": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "7": {
+        "pos": "t",
+        "rich": []
+       },
+       "8": {
+        "pos": "t",
+        "rich": []
+       },
+       "9": {
+        "pos": "t",
+        "rich": []
+       },
+       "10": {
+        "pos": "t",
+        "rich": []
+       },
+       "11": {
+        "pos": "t",
+        "rich": []
+       },
+       "12": {
+        "pos": "t",
+        "rich": []
+       },
+       "13": {
+        "pos": "t",
+        "rich": []
+       },
+       "14": {
+        "pos": "t",
+        "rich": []
+       },
+       "15": {
+        "pos": "t",
+        "rich": []
+       },
+       "16": {
+        "pos": "t",
+        "rich": []
+       },
+       "17": {
+        "pos": "t",
+        "rich": []
+       },
+       "18": {
+        "pos": "t",
+        "rich": []
+       },
+       "19": {
+        "pos": "t",
+        "rich": []
+       },
+       "20": {
+        "pos": "t",
+        "rich": []
+       },
+       "21": {
+        "pos": "t",
+        "rich": []
+       },
+       "22": {
+        "pos": "t",
+        "rich": []
+       },
+       "23": {
+        "pos": "t",
+        "rich": []
+       },
+       "24": {
+        "pos": "t",
+        "rich": []
+       },
+       "25": {
+        "pos": "t",
+        "rich": []
+       },
+       "26": {
+        "pos": "t",
+        "rich": []
+       },
+       "27": {
+        "pos": "t",
+        "rich": []
+       },
+       "28": {
+        "pos": "t",
+        "rich": []
+       },
+       "29": {
+        "pos": "t",
+        "rich": []
+       },
+       "30": {
+        "pos": "t",
+        "rich": []
+       },
+       "31": {
+        "pos": "t",
+        "rich": []
+       },
+       "32": {
+        "pos": "t",
+        "rich": []
+       },
+       "33": {
+        "pos": "t",
+        "rich": []
+       },
+       "34": {
+        "pos": "t",
+        "rich": []
+       },
+       "35": {
+        "pos": "t",
+        "rich": []
+       },
+       "36": {
+        "pos": "t",
+        "rich": []
+       },
+       "37": {
+        "pos": "t",
+        "rich": []
+       },
+       "38": {
+        "pos": "t",
+        "rich": []
+       },
+       "39": {
+        "pos": "t",
+        "rich": []
+       },
+       "40": {
+        "pos": "t",
+        "rich": []
+       },
+       "41": {
+        "pos": "t",
+        "rich": []
+       },
+       "42": {
+        "pos": "t",
+        "rich": []
+       },
+       "43": {
+        "pos": "t",
+        "rich": []
+       },
+       "44": {
+        "pos": "t",
+        "rich": []
+       },
+       "45": {
+        "pos": "t",
+        "rich": []
+       },
+       "46": {
+        "pos": "t",
+        "rich": []
+       },
+       "47": {
+        "pos": "t",
+        "rich": []
+       }
+      }
+     },
+     "smooth": false,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "6,66"
+      ]
+     },
+     "x": [
+      "7,62",
+      "8,62",
+      "9,62",
+      "10,62",
+      "11,62",
+      "12,62",
+      "13,62",
+      "14,62",
+      "15,62",
+      "16,62",
+      "17,62",
+      "18,62",
+      "19,62",
+      "20,62",
+      "21,62",
+      "22,62",
+      "23,62",
+      "24,62",
+      "25,62",
+      "26,62",
+      "27,62",
+      "28,62",
+      "29,62",
+      "30,62",
+      "31,62",
+      "32,62",
+      "33,62",
+      "34,62",
+      "35,62",
+      "36,62",
+      "37,62",
+      "38,62",
+      "39,62",
+      "40,62",
+      "41,62",
+      "42,62",
+      "43,62",
+      "44,62",
+      "45,62",
+      "46,62",
+      "47,62",
+      "48,62",
+      "49,62",
+      "50,62",
+      "51,62",
+      "52,62",
+      "53,62",
+      "54,62"
+     ],
+     "y": [
+      "7,64",
+      "8,64",
+      "9,64",
+      "10,64",
+      "11,64",
+      "12,64",
+      "13,64",
+      "14,64",
+      "15,64",
+      "16,64",
+      "17,64",
+      "18,64",
+      "19,64",
+      "20,64",
+      "21,64",
+      "22,64",
+      "23,64",
+      "24,64",
+      "25,64",
+      "26,64",
+      "27,64",
+      "28,64",
+      "29,64",
+      "30,64",
+      "31,64",
+      "32,64",
+      "33,64",
+      "34,64",
+      "35,64",
+      "36,64",
+      "37,64",
+      "38,64",
+      "39,64",
+      "40,64",
+      "41,64",
+      "42,64",
+      "43,64",
+      "44,64",
+      "45,64",
+      "46,64",
+      "47,64",
+      "48,64",
+      "49,64",
+      "50,64",
+      "51,64",
+      "52,64",
+      "53,64",
+      "54,64"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": false,
+      "pos": "b",
+      "cells": [
+       "7,66",
+       "8,66",
+       "9,66",
+       "10,66",
+       "11,66",
+       "12,66",
+       "13,66",
+       "14,66",
+       "15,66",
+       "16,66",
+       "17,66",
+       "18,66",
+       "19,66",
+       "20,66",
+       "21,66",
+       "22,66",
+       "23,66",
+       "24,66",
+       "25,66",
+       "26,66",
+       "27,66",
+       "28,66",
+       "29,66",
+       "30,66",
+       "31,66",
+       "32,66",
+       "33,66",
+       "34,66",
+       "35,66",
+       "36,66",
+       "37,66",
+       "38,66",
+       "39,66",
+       "40,66",
+       "41,66",
+       "42,66",
+       "43,66",
+       "44,66",
+       "45,66",
+       "46,66",
+       "47,66",
+       "48,66",
+       "49,66",
+       "50,66",
+       "51,66",
+       "52,66",
+       "53,66",
+       "54,66"
+      ],
+      "text": {
+       "size": 11.0,
+       "bold": true,
+       "color": "#FF0000"
+      },
+      "fill": null,
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "1": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "2": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "3": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "4": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "5": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "6": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "7": {
+        "pos": "b",
+        "rich": []
+       },
+       "8": {
+        "pos": "b",
+        "rich": []
+       },
+       "9": {
+        "pos": "b",
+        "rich": []
+       },
+       "10": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "11": {
+        "pos": "b",
+        "rich": []
+       },
+       "12": {
+        "pos": "b",
+        "rich": []
+       },
+       "13": {
+        "pos": "b",
+        "rich": []
+       },
+       "14": {
+        "pos": "b",
+        "rich": []
+       },
+       "15": {
+        "pos": "b",
+        "rich": []
+       },
+       "16": {
+        "pos": "b",
+        "rich": []
+       },
+       "17": {
+        "pos": "b",
+        "rich": []
+       },
+       "18": {
+        "pos": "b",
+        "rich": []
+       },
+       "19": {
+        "pos": "b",
+        "rich": []
+       },
+       "20": {
+        "pos": "b",
+        "rich": []
+       },
+       "21": {
+        "pos": "b",
+        "rich": []
+       },
+       "22": {
+        "pos": "b",
+        "rich": []
+       },
+       "23": {
+        "pos": "b",
+        "rich": []
+       },
+       "24": {
+        "pos": "b",
+        "rich": []
+       },
+       "25": {
+        "pos": "b",
+        "rich": []
+       },
+       "26": {
+        "pos": "b",
+        "rich": []
+       },
+       "27": {
+        "pos": "b",
+        "rich": []
+       },
+       "28": {
+        "pos": "b",
+        "rich": []
+       },
+       "29": {
+        "pos": "b",
+        "rich": []
+       },
+       "30": {
+        "pos": "b",
+        "rich": []
+       },
+       "31": {
+        "pos": "b",
+        "rich": []
+       },
+       "32": {
+        "pos": "b",
+        "rich": []
+       },
+       "33": {
+        "pos": "b",
+        "rich": []
+       },
+       "34": {
+        "pos": "b",
+        "rich": []
+       },
+       "35": {
+        "pos": "b",
+        "rich": []
+       },
+       "36": {
+        "pos": "b",
+        "rich": []
+       },
+       "37": {
+        "pos": "b",
+        "rich": []
+       },
+       "38": {
+        "pos": "b",
+        "rich": []
+       },
+       "39": {
+        "pos": "b",
+        "rich": []
+       },
+       "40": {
+        "pos": "b",
+        "rich": []
+       },
+       "41": {
+        "pos": "b",
+        "rich": []
+       },
+       "42": {
+        "pos": "b",
+        "rich": []
+       },
+       "43": {
+        "pos": "b",
+        "rich": []
+       },
+       "44": {
+        "pos": "b",
+        "rich": []
+       },
+       "45": {
+        "pos": "b",
+        "rich": []
+       },
+       "46": {
+        "pos": "b",
+        "rich": []
+       },
+       "47": {
+        "pos": "b",
+        "rich": []
+       }
+      }
+     },
+     "smooth": false,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "60,51"
+      ]
+     },
+     "x": [
+      "60,53"
+     ],
+     "y": [
+      "60,52"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 8,
+      "fill": null,
+      "line": "#FF0000",
+      "noFill": true
+     },
+     "labels": null,
+     "smooth": false,
+     "order": 4
+    },
+    {
+     "name": {
+      "ref": [
+       "61,51"
+      ]
+     },
+     "x": [
+      "61,53"
+     ],
+     "y": [
+      "61,52"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 8,
+      "fill": null,
+      "line": "#FF0000",
+      "noFill": true
+     },
+     "labels": null,
+     "smooth": false,
+     "order": 5
+    }
+   ],
+   "plotFill": null,
+   "chartFill": "#EEF4FB",
+   "font": {},
+   "excel": {
+    "chartW": 700.6232283464567,
+    "chartH": 156.41866141732282,
+    "insideLeft": 8.416929133858268,
+    "insideTop": 24.519370078740156,
+    "insideWidth": 693.2062992125984,
+    "insideHeight": 122.1376377952756,
+    "x": {
+     "min": -0.5,
+     "max": 8.5,
+     "major": 0.5
+    },
+    "y": {
+     "min": -1000.0,
+     "max": 3000.0,
+     "major": 500.0
+    }
+   }
+  },
+  {
+   "name": "Chart 4",
+   "part": "xl/charts/chart28.xml",
+   "box": {
+    "left": 3.257165336608887,
+    "top": 280.2857360839844,
+    "width": 704.7942504882812,
+    "height": 172.4999237060547
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.017597125938936236,
+    "y": 0.07144227543111996,
+    "w": 0.9824028997804203,
+    "h": 0.7086247671458483
+   },
+   "style": "lineMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": true,
+     "min": -0.5,
+     "max": null,
+     "reverse": false,
+     "major": 0.5,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "#,##0.00",
+     "tickLabels": "nextTo",
+     "text": {}
+    },
+    {
+     "pos": "l",
+     "deleted": true,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": null,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "General",
+     "tickLabels": "nextTo",
+     "text": {}
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "12,85"
+      ]
+     },
+     "x": [
+      "10,86",
+      "10,87",
+      "10,88",
+      "10,89",
+      "10,90",
+      "10,91",
+      "10,92",
+      "10,93",
+      "10,94",
+      "10,95",
+      "10,96",
+      "10,97",
+      "10,98",
+      "10,99",
+      "10,100"
+     ],
+     "y": [
+      "12,86",
+      "12,87",
+      "12,88",
+      "12,89",
+      "12,90",
+      "12,91",
+      "12,92",
+      "12,93",
+      "12,94",
+      "12,95",
+      "12,96",
+      "12,97",
+      "12,98",
+      "12,99",
+      "12,100"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "8,85"
+      ]
+     },
+     "x": [
+      "10,86",
+      "10,87",
+      "10,88",
+      "10,89",
+      "10,90",
+      "10,91",
+      "10,92",
+      "10,93",
+      "10,94",
+      "10,95",
+      "10,96",
+      "10,97",
+      "10,98",
+      "10,99",
+      "10,100"
+     ],
+     "y": [
+      "11,86",
+      "11,87",
+      "11,88",
+      "11,89",
+      "11,90",
+      "11,91",
+      "11,92",
+      "11,93",
+      "11,94",
+      "11,95",
+      "11,96",
+      "11,97",
+      "11,98",
+      "11,99",
+      "11,100"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "17,85"
+      ]
+     },
+     "x": [
+      "15,86",
+      "15,87",
+      "15,88",
+      "15,89",
+      "15,90",
+      "15,91",
+      "15,92",
+      "15,93",
+      "15,94",
+      "15,95",
+      "15,96",
+      "15,97",
+      "15,98",
+      "15,99",
+      "15,100"
+     ],
+     "y": [
+      "17,86",
+      "17,87",
+      "17,88",
+      "17,89",
+      "17,90",
+      "17,91",
+      "17,92",
+      "17,93",
+      "17,94",
+      "17,95",
+      "17,96",
+      "17,97",
+      "17,98",
+      "17,99",
+      "17,100"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "13,85"
+      ]
+     },
+     "x": [
+      "15,86",
+      "15,87",
+      "15,88",
+      "15,89",
+      "15,90",
+      "15,91",
+      "15,92",
+      "15,93",
+      "15,94",
+      "15,95",
+      "15,96",
+      "15,97",
+      "15,98",
+      "15,99",
+      "15,100"
+     ],
+     "y": [
+      "16,86",
+      "16,87",
+      "16,88",
+      "16,89",
+      "16,90",
+      "16,91",
+      "16,92",
+      "16,93",
+      "16,94",
+      "16,95",
+      "16,96",
+      "16,97",
+      "16,98",
+      "16,99",
+      "16,100"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "24,85"
+      ]
+     },
+     "x": [
+      "22,86",
+      "22,87",
+      "22,88",
+      "22,89",
+      "22,90",
+      "22,91",
+      "22,92",
+      "22,93",
+      "22,94",
+      "22,95",
+      "22,96",
+      "22,97",
+      "22,98",
+      "22,99",
+      "22,100"
+     ],
+     "y": [
+      "24,86",
+      "24,87",
+      "24,88",
+      "24,89",
+      "24,90",
+      "24,91",
+      "24,92",
+      "24,93",
+      "24,94",
+      "24,95",
+      "24,96",
+      "24,97",
+      "24,98",
+      "24,99",
+      "24,100"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 4
+    },
+    {
+     "name": {
+      "ref": [
+       "20,85"
+      ]
+     },
+     "x": [
+      "22,86",
+      "22,87",
+      "22,88",
+      "22,89",
+      "22,90",
+      "22,91",
+      "22,92",
+      "22,93",
+      "22,94",
+      "22,95",
+      "22,96",
+      "22,97",
+      "22,98",
+      "22,99",
+      "22,100"
+     ],
+     "y": [
+      "23,86",
+      "23,87",
+      "23,88",
+      "23,89",
+      "23,90",
+      "23,91",
+      "23,92",
+      "23,93",
+      "23,94",
+      "23,95",
+      "23,96",
+      "23,97",
+      "23,98",
+      "23,99",
+      "23,100"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 5
+    },
+    {
+     "name": {
+      "ref": [
+       "31,85"
+      ]
+     },
+     "x": [
+      "29,86",
+      "29,87",
+      "29,88",
+      "29,89",
+      "29,90",
+      "29,91",
+      "29,92",
+      "29,93",
+      "29,94",
+      "29,95",
+      "29,96",
+      "29,97",
+      "29,98",
+      "29,99",
+      "29,100"
+     ],
+     "y": [
+      "31,86",
+      "31,87",
+      "31,88",
+      "31,89",
+      "31,90",
+      "31,91",
+      "31,92",
+      "31,93",
+      "31,94",
+      "31,95",
+      "31,96",
+      "31,97",
+      "31,98",
+      "31,99",
+      "31,100"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 6
+    },
+    {
+     "name": {
+      "ref": [
+       "27,85"
+      ]
+     },
+     "x": [
+      "29,86",
+      "29,87",
+      "29,88",
+      "29,89",
+      "29,90",
+      "29,91",
+      "29,92",
+      "29,93",
+      "29,94",
+      "29,95",
+      "29,96",
+      "29,97",
+      "29,98",
+      "29,99",
+      "29,100"
+     ],
+     "y": [
+      "30,86",
+      "30,87",
+      "30,88",
+      "30,89",
+      "30,90",
+      "30,91",
+      "30,92",
+      "30,93",
+      "30,94",
+      "30,95",
+      "30,96",
+      "30,97",
+      "30,98",
+      "30,99",
+      "30,100"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 7
+    },
+    {
+     "name": {
+      "ref": [
+       "38,85"
+      ]
+     },
+     "x": [
+      "36,86",
+      "36,87",
+      "36,88",
+      "36,89",
+      "36,90",
+      "36,91",
+      "36,92",
+      "36,93",
+      "36,94",
+      "36,95",
+      "36,96",
+      "36,97",
+      "36,98",
+      "36,99",
+      "36,100"
+     ],
+     "y": [
+      "38,86",
+      "38,87",
+      "38,88",
+      "38,89",
+      "38,90",
+      "38,91",
+      "38,92",
+      "38,93",
+      "38,94",
+      "38,95",
+      "38,96",
+      "38,97",
+      "38,98",
+      "38,99",
+      "38,100"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 8
+    },
+    {
+     "name": {
+      "ref": [
+       "34,85"
+      ]
+     },
+     "x": [
+      "36,86",
+      "36,87",
+      "36,88",
+      "36,89",
+      "36,90",
+      "36,91",
+      "36,92",
+      "36,93",
+      "36,94",
+      "36,95",
+      "36,96",
+      "36,97",
+      "36,98",
+      "36,99",
+      "36,100"
+     ],
+     "y": [
+      "37,86",
+      "37,87",
+      "37,88",
+      "37,89",
+      "37,90",
+      "37,91",
+      "37,92",
+      "37,93",
+      "37,94",
+      "37,95",
+      "37,96",
+      "37,97",
+      "37,98",
+      "37,99",
+      "37,100"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 9
+    },
+    {
+     "name": {
+      "ref": [
+       "45,85"
+      ]
+     },
+     "x": [
+      "43,86",
+      "43,87",
+      "43,88",
+      "43,89",
+      "43,90",
+      "43,91",
+      "43,92",
+      "43,93",
+      "43,94",
+      "43,95",
+      "43,96",
+      "43,97",
+      "43,98",
+      "43,99",
+      "43,100"
+     ],
+     "y": [
+      "45,86",
+      "45,87",
+      "45,88",
+      "45,89",
+      "45,90",
+      "45,91",
+      "45,92",
+      "45,93",
+      "45,94",
+      "45,95",
+      "45,96",
+      "45,97",
+      "45,98",
+      "45,99",
+      "45,100"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 10
+    },
+    {
+     "name": {
+      "ref": [
+       "41,85"
+      ]
+     },
+     "x": [
+      "43,86",
+      "43,87",
+      "43,88",
+      "43,89",
+      "43,90",
+      "43,91",
+      "43,92",
+      "43,93",
+      "43,94",
+      "43,95",
+      "43,96",
+      "43,97",
+      "43,98",
+      "43,99",
+      "43,100"
+     ],
+     "y": [
+      "44,86",
+      "44,87",
+      "44,88",
+      "44,89",
+      "44,90",
+      "44,91",
+      "44,92",
+      "44,93",
+      "44,94",
+      "44,95",
+      "44,96",
+      "44,97",
+      "44,98",
+      "44,99",
+      "44,100"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 11
+    },
+    {
+     "name": {
+      "ref": [
+       "52,85"
+      ]
+     },
+     "x": [
+      "50,86",
+      "50,87",
+      "50,88",
+      "50,89",
+      "50,90",
+      "50,91",
+      "50,92",
+      "50,93",
+      "50,94",
+      "50,95",
+      "50,96",
+      "50,97",
+      "50,98",
+      "50,99",
+      "50,100"
+     ],
+     "y": [
+      "52,86",
+      "52,87",
+      "52,88",
+      "52,89",
+      "52,90",
+      "52,91",
+      "52,92",
+      "52,93",
+      "52,94",
+      "52,95",
+      "52,96",
+      "52,97",
+      "52,98",
+      "52,99",
+      "52,100"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 12
+    },
+    {
+     "name": {
+      "ref": [
+       "48,85"
+      ]
+     },
+     "x": [
+      "50,86",
+      "50,87",
+      "50,88",
+      "50,89",
+      "50,90",
+      "50,91",
+      "50,92",
+      "50,93",
+      "50,94",
+      "50,95",
+      "50,96",
+      "50,97",
+      "50,98",
+      "50,99",
+      "50,100"
+     ],
+     "y": [
+      "51,86",
+      "51,87",
+      "51,88",
+      "51,89",
+      "51,90",
+      "51,91",
+      "51,92",
+      "51,93",
+      "51,94",
+      "51,95",
+      "51,96",
+      "51,97",
+      "51,98",
+      "51,99",
+      "51,100"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 2.0
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 13
+    },
+    {
+     "name": {
+      "ref": [
+       "6,69"
+      ]
+     },
+     "x": [
+      "8,69",
+      "9,69",
+      "10,69",
+      "11,69",
+      "12,69",
+      "13,69",
+      "14,69",
+      "15,69",
+      "16,69",
+      "17,69",
+      "18,69",
+      "19,69",
+      "20,69",
+      "21,69",
+      "22,69",
+      "23,69",
+      "24,69",
+      "25,69",
+      "26,69",
+      "27,69",
+      "28,69",
+      "29,69",
+      "30,69",
+      "31,69",
+      "32,69",
+      "33,69",
+      "34,69",
+      "35,69",
+      "36,69",
+      "37,69",
+      "38,69",
+      "39,69",
+      "40,69",
+      "41,69",
+      "42,69",
+      "43,69",
+      "44,69",
+      "45,69",
+      "46,69",
+      "47,69",
+      "48,69",
+      "49,69",
+      "50,69",
+      "51,69",
+      "52,69",
+      "53,69",
+      "54,69"
+     ],
+     "y": [
+      "8,68",
+      "9,68",
+      "10,68",
+      "11,68",
+      "12,68",
+      "13,68",
+      "14,68",
+      "15,68",
+      "16,68",
+      "17,68",
+      "18,68",
+      "19,68",
+      "20,68",
+      "21,68",
+      "22,68",
+      "23,68",
+      "24,68",
+      "25,68",
+      "26,68",
+      "27,68",
+      "28,68",
+      "29,68",
+      "30,68",
+      "31,68",
+      "32,68",
+      "33,68",
+      "34,68",
+      "35,68",
+      "36,68",
+      "37,68",
+      "38,68",
+      "39,68",
+      "40,68",
+      "41,68",
+      "42,68",
+      "43,68",
+      "44,68",
+      "45,68",
+      "46,68",
+      "47,68",
+      "48,68",
+      "49,68",
+      "50,68",
+      "51,68",
+      "52,68",
+      "53,68",
+      "54,68"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": "#0000FF",
+      "line": "#0000FF",
+      "noFill": false
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": false,
+      "pos": "t",
+      "cells": [
+       "8,70",
+       "9,70",
+       "10,70",
+       "11,70",
+       "12,70",
+       "13,70",
+       "14,70",
+       "15,70",
+       "16,70",
+       "17,70",
+       "18,70",
+       "19,70",
+       "20,70",
+       "21,70",
+       "22,70",
+       "23,70",
+       "24,70",
+       "25,70",
+       "26,70",
+       "27,70",
+       "28,70",
+       "29,70",
+       "30,70",
+       "31,70",
+       "32,70",
+       "33,70",
+       "34,70",
+       "35,70",
+       "36,70",
+       "37,70",
+       "38,70",
+       "39,70",
+       "40,70",
+       "41,70",
+       "42,70",
+       "43,70",
+       "44,70",
+       "45,70",
+       "46,70",
+       "47,70",
+       "48,70",
+       "49,70",
+       "50,70",
+       "51,70",
+       "52,70",
+       "53,70",
+       "54,70"
+      ],
+      "text": {
+       "size": 11.0,
+       "bold": true
+      },
+      "fill": null,
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "1": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "2": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "3": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "4": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "5": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "6": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "7": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "8": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "9": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "10": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "11": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "12": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "13": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "14": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "15": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "16": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "17": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "18": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "19": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "20": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "21": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "22": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "23": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "24": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "25": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "26": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "27": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "28": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "29": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "30": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "31": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "32": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "33": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "34": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "35": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "36": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "37": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "38": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "39": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "40": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "41": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "42": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "43": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "44": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "45": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "46": {
+        "pos": "t",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       }
+      }
+     },
+     "smooth": false,
+     "order": 14
+    },
+    {
+     "name": {
+      "ref": [
+       "6,71"
+      ]
+     },
+     "x": [
+      "8,69",
+      "9,69",
+      "10,69",
+      "11,69",
+      "12,69",
+      "13,69",
+      "14,69",
+      "15,69",
+      "16,69",
+      "17,69",
+      "18,69",
+      "19,69",
+      "20,69",
+      "21,69",
+      "22,69",
+      "23,69",
+      "24,69",
+      "25,69",
+      "26,69",
+      "27,69",
+      "28,69",
+      "29,69",
+      "30,69",
+      "31,69",
+      "32,69",
+      "33,69",
+      "34,69",
+      "35,69",
+      "36,69",
+      "37,69",
+      "38,69",
+      "39,69",
+      "40,69",
+      "41,69",
+      "42,69",
+      "43,69",
+      "44,69",
+      "45,69",
+      "46,69",
+      "47,69",
+      "48,69",
+      "49,69",
+      "50,69",
+      "51,69",
+      "52,69",
+      "53,69",
+      "54,69"
+     ],
+     "y": [
+      "8,68",
+      "9,68",
+      "10,68",
+      "11,68",
+      "12,68",
+      "13,68",
+      "14,68",
+      "15,68",
+      "16,68",
+      "17,68",
+      "18,68",
+      "19,68",
+      "20,68",
+      "21,68",
+      "22,68",
+      "23,68",
+      "24,68",
+      "25,68",
+      "26,68",
+      "27,68",
+      "28,68",
+      "29,68",
+      "30,68",
+      "31,68",
+      "32,68",
+      "33,68",
+      "34,68",
+      "35,68",
+      "36,68",
+      "37,68",
+      "38,68",
+      "39,68",
+      "40,68",
+      "41,68",
+      "42,68",
+      "43,68",
+      "44,68",
+      "45,68",
+      "46,68",
+      "47,68",
+      "48,68",
+      "49,68",
+      "50,68",
+      "51,68",
+      "52,68",
+      "53,68",
+      "54,68"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": false,
+      "pos": "b",
+      "cells": [
+       "8,71",
+       "9,71",
+       "10,71",
+       "11,71",
+       "12,71",
+       "13,71",
+       "14,71",
+       "15,71",
+       "16,71",
+       "17,71",
+       "18,71",
+       "19,71",
+       "20,71",
+       "21,71",
+       "22,71",
+       "23,71",
+       "24,71",
+       "25,71",
+       "26,71",
+       "27,71",
+       "28,71",
+       "29,71",
+       "30,71",
+       "31,71",
+       "32,71",
+       "33,71",
+       "34,71",
+       "35,71",
+       "36,71",
+       "37,71",
+       "38,71",
+       "39,71",
+       "40,71",
+       "41,71",
+       "42,71",
+       "43,71",
+       "44,71",
+       "45,71",
+       "46,71",
+       "47,71",
+       "48,71",
+       "49,71",
+       "50,71",
+       "51,71",
+       "52,71",
+       "53,71",
+       "54,71"
+      ],
+      "text": {
+       "size": 11.0,
+       "bold": true,
+       "color": "#FF0000"
+      },
+      "fill": null,
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "1": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "2": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "3": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "4": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "5": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "6": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "7": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "8": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "9": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "10": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "11": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "12": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "13": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "14": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "15": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "16": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "17": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "18": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "19": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "20": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "21": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "22": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "23": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "24": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "25": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "26": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "27": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "28": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "29": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "30": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "31": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "32": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "33": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "34": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "35": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "36": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "37": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "38": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "39": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "40": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "41": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "42": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "43": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "44": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "45": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       },
+       "46": {
+        "pos": "b",
+        "rich": [
+         {
+          "cellrange": true
+         },
+         {
+          "t": "[CELLRANGE]"
+         }
+        ]
+       }
+      }
+     },
+     "smooth": false,
+     "order": 15
+    }
+   ],
+   "plotFill": null,
+   "chartFill": null,
+   "font": {},
+   "excel": {
+    "chartW": 699.7942519685039,
+    "chartH": 167.49992125984252,
+    "insideLeft": 8.40236220472441,
+    "insideTop": 8.323779527559054,
+    "insideWidth": 692.3918897637795,
+    "insideHeight": 122.23771653543307,
+    "x": {
+     "min": -0.5,
+     "max": 8.5,
+     "major": 0.5
+    },
+    "y": {
+     "min": -1000.0,
+     "max": 1500.0,
+     "major": 500.0
+    }
+   }
+  },
+  {
+   "name": "Chart 5",
+   "part": "xl/charts/chart32.xml",
+   "box": {
+    "left": 6.421654129028321,
+    "top": 650.5714111328125,
+    "width": 256.05078125,
+    "height": 144.31118774414062
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.15706312307094233,
+    "y": 0.0,
+    "w": 0.7119511282849765,
+    "h": 0.8174646365232829
+   },
+   "style": "lineMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": false,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": null,
+     "grid": false,
+     "gridLine": null,
+     "line": {
+      "none": true
+     },
+     "numFmt": "0.00;[Red]0.00",
+     "tickLabels": "low",
+     "text": {}
+    },
+    {
+     "pos": "l",
+     "deleted": false,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": null,
+     "grid": false,
+     "gridLine": null,
+     "line": {
+      "none": true
+     },
+     "numFmt": "0.00;[Red]0.00",
+     "tickLabels": "low",
+     "text": {}
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "25,239"
+      ]
+     },
+     "x": [
+      "28,243",
+      "29,243",
+      "30,243",
+      "31,243",
+      "32,243",
+      "33,243",
+      "34,243",
+      "35,243",
+      "36,243",
+      "37,243",
+      "38,243",
+      "39,243",
+      "40,243",
+      "41,243"
+     ],
+     "y": [
+      "28,244",
+      "29,244",
+      "30,244",
+      "31,244",
+      "32,244",
+      "33,244",
+      "34,244",
+      "35,244",
+      "36,244",
+      "37,244",
+      "38,244",
+      "39,244",
+      "40,244",
+      "41,244"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "31,236"
+      ]
+     },
+     "x": [
+      "33,236",
+      "34,236",
+      "35,236",
+      "36,236",
+      "37,236"
+     ],
+     "y": [
+      "33,237",
+      "34,237",
+      "35,237",
+      "36,237",
+      "37,237"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "25,240"
+      ]
+     },
+     "x": [
+      "28,245",
+      "29,245",
+      "30,245",
+      "31,245",
+      "32,245",
+      "33,245",
+      "34,245",
+      "35,245",
+      "36,245",
+      "37,245",
+      "38,245",
+      "39,245",
+      "40,245"
+     ],
+     "y": [
+      "28,247",
+      "29,247",
+      "30,247",
+      "31,247",
+      "32,247",
+      "33,247",
+      "34,247",
+      "35,247",
+      "36,247",
+      "37,247",
+      "38,247",
+      "39,247",
+      "40,247"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "25,240"
+      ]
+     },
+     "x": [
+      "28,246",
+      "29,246",
+      "30,246",
+      "31,246",
+      "32,246",
+      "33,246",
+      "34,246",
+      "35,246",
+      "36,246",
+      "37,246",
+      "38,246",
+      "39,246",
+      "40,246"
+     ],
+     "y": [
+      "28,247",
+      "29,247",
+      "30,247",
+      "31,247",
+      "32,247",
+      "33,247",
+      "34,247",
+      "35,247",
+      "36,247",
+      "37,247",
+      "38,247",
+      "39,247",
+      "40,247"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "25,253"
+      ]
+     },
+     "x": [
+      "28,256",
+      "29,256",
+      "30,256",
+      "31,256",
+      "32,256"
+     ],
+     "y": [
+      "28,257",
+      "29,257",
+      "30,257",
+      "31,257",
+      "32,257"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 4
+    },
+    {
+     "name": {
+      "ref": [
+       "25,253"
+      ]
+     },
+     "x": [
+      "33,256",
+      "34,256",
+      "35,256",
+      "36,256",
+      "37,256"
+     ],
+     "y": [
+      "33,257",
+      "34,257",
+      "35,257",
+      "36,257",
+      "37,257"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 5
+    },
+    {
+     "name": {
+      "ref": [
+       "25,259"
+      ]
+     },
+     "x": [
+      "28,259",
+      "29,259",
+      "30,259",
+      "31,259",
+      "32,259"
+     ],
+     "y": [
+      "28,260",
+      "29,260",
+      "30,260",
+      "31,260",
+      "32,260"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 6
+    },
+    {
+     "name": {
+      "ref": [
+       "25,259"
+      ]
+     },
+     "x": [
+      "33,259",
+      "34,259",
+      "35,259",
+      "36,259",
+      "37,259"
+     ],
+     "y": [
+      "33,260",
+      "34,260",
+      "35,260",
+      "36,260",
+      "37,260"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 7
+    },
+    {
+     "name": {
+      "ref": [
+       "25,259"
+      ]
+     },
+     "x": [
+      "28,265",
+      "29,265",
+      "30,265",
+      "31,265",
+      "32,265",
+      "33,265",
+      "34,265",
+      "35,265",
+      "36,265",
+      "37,265"
+     ],
+     "y": [
+      "28,267",
+      "29,267",
+      "30,267",
+      "31,267",
+      "32,267",
+      "33,267",
+      "34,267",
+      "35,267",
+      "36,267",
+      "37,267"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 8
+    },
+    {
+     "name": {
+      "ref": [
+       "25,259"
+      ]
+     },
+     "x": [
+      "28,266",
+      "29,266",
+      "30,266",
+      "31,266",
+      "32,266",
+      "33,266",
+      "34,266",
+      "35,266",
+      "36,266",
+      "37,266"
+     ],
+     "y": [
+      "28,267",
+      "29,267",
+      "30,267",
+      "31,267",
+      "32,267",
+      "33,267",
+      "34,267",
+      "35,267",
+      "36,267",
+      "37,267"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 9
+    },
+    {
+     "name": {
+      "text": "CENTER"
+     },
+     "x": [
+      "26,241"
+     ],
+     "y": [
+      "26,242"
+     ],
+     "line": null,
+     "marker": {
+      "symbol": "plus",
+      "size": 15,
+      "fill": null,
+      "line": "#FF0000",
+      "noFill": false
+     },
+     "labels": null,
+     "smooth": false,
+     "order": 10
+    }
+   ],
+   "plotFill": null,
+   "chartFill": null,
+   "font": {},
+   "excel": {
+    "chartW": 251.05078740157478,
+    "chartH": 139.3111811023622,
+    "insideLeft": 36.21614173228347,
+    "insideTop": 2.10251968503937,
+    "insideWidth": 182.29566929133858,
+    "insideHeight": 117.96929133858268,
+    "x": {
+     "min": -10.0,
+     "max": 10.0,
+     "major": 5.0
+    },
+    "y": {
+     "min": -8.0,
+     "max": 8.0,
+     "major": 2.0
+    }
+   }
+  }
+ ]
+}
