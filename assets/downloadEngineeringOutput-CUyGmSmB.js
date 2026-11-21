@@ -1,0 +1,1 @@
+function r(o,n){if(!(o instanceof Blob))throw new TypeError("Expected Blob");const t=URL.createObjectURL(o),e=document.createElement("a");e.href=t,e.download=n,e.rel="noopener",document.body.appendChild(e),e.click(),e.remove(),window.setTimeout(()=>URL.revokeObjectURL(t),1e3)}function c(o,n){return new Blob([String(o)],{type:n})}export{r as downloadEngineeringBlob,c as textBlob};

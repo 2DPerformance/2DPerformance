@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
+  <title id="title">Spread Footing Calculation Workbench</title>
+  <desc id="desc">Isometric spread footing with column, two-direction reinforcement, soil pressure arrows and calculation snapshot evidence</desc>
+  <defs>
+    <linearGradient id="bg" x1="68" y1="24" x2="892" y2="616" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f8fbff"/>
+      <stop offset=".55" stop-color="#eef4fb"/>
+      <stop offset="1" stop-color="#fff4ea"/>
+    </linearGradient>
+    <linearGradient id="top" x1="255" y1="186" x2="710" y2="388" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#d8e3ef"/>
+    </linearGradient>
+    <linearGradient id="front" x1="272" y1="345" x2="540" y2="478" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9eb4cb"/>
+      <stop offset="1" stop-color="#6f8da9"/>
+    </linearGradient>
+    <linearGradient id="side" x1="540" y1="350" x2="736" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7898b5"/>
+      <stop offset="1" stop-color="#456885"/>
+    </linearGradient>
+    <linearGradient id="column" x1="392" y1="98" x2="560" y2="306" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f7fafc"/>
+      <stop offset="1" stop-color="#a9bdcf"/>
+    </linearGradient>
+    <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#ffe5bb"/>
+      <stop offset="1" stop-color="#eabf7f"/>
+    </linearGradient>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M36 0H0V36" fill="none" stroke="#b8c9da" stroke-width="1"/>
+    </pattern>
+    <filter id="shadow" x="-30%" y="-30%" width="170%" height="190%">
+      <feDropShadow dx="0" dy="24" stdDeviation="22" flood-color="#0b2745" flood-opacity=".2"/>
+    </filter>
+    <clipPath id="footing-top">
+      <polygon points="220,236 522,166 745,288 437,366"/>
+    </clipPath>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10Z" fill="#2366b1"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="640" rx="36" fill="url(#bg)"/>
+  <rect x="30" y="28" width="900" height="584" rx="28" fill="url(#grid)" opacity=".45"/>
+  <path d="M64 498C255 430 700 431 894 506" fill="none" stroke="#b9c9d8" stroke-width="2" stroke-dasharray="8 10"/>
+  <ellipse cx="485" cy="492" rx="310" ry="62" fill="#234a70" opacity=".12"/>
+
+  <g filter="url(#shadow)">
+    <polygon points="236,397 544,321 744,428 434,514" fill="url(#soil)" stroke="#a67232" stroke-width="5"/>
+    <polygon points="220,236 437,366 437,459 220,326" fill="url(#front)" stroke="#153c61" stroke-width="7" stroke-linejoin="round"/>
+    <polygon points="437,366 745,288 745,379 437,459" fill="url(#side)" stroke="#153c61" stroke-width="7" stroke-linejoin="round"/>
+    <polygon points="220,236 522,166 745,288 437,366" fill="url(#top)" stroke="#153c61" stroke-width="8" stroke-linejoin="round"/>
+    <g clip-path="url(#footing-top)" fill="none" stroke-linecap="round">
+      <g stroke="#c94810" stroke-width="6">
+        <path d="m206 252 216 130M240 241l216 130M274 231l216 130M308 220l216 130M342 210l216 130M376 199l216 130M410 189l216 130M444 179l216 130M478 168l216 130M512 158l216 130"/>
+      </g>
+      <g stroke="#117c76" stroke-width="6">
+        <path d="m183 293 362-90M209 310l362-90M235 327l362-90M261 344l362-90M287 361l362-90M313 378l362-90M339 395l362-90"/>
+      </g>
+    </g>
+    <path d="m251 352 188 112 273-72" fill="none" stroke="#c94810" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <g stroke="#153c61" stroke-width="7" stroke-linejoin="round">
+      <polygon points="400,137 506,111 572,148 465,176" fill="#f9fbfd"/>
+      <polygon points="400,137 465,176 465,316 400,276" fill="url(#column)"/>
+      <polygon points="465,176 572,148 572,288 465,316" fill="#89a5bb"/>
+    </g>
+    <g fill="none" stroke="#7547d8" stroke-width="5" stroke-dasharray="11 8">
+      <polygon points="373,279 465,256 600,331 507,357"/>
+      <path d="M465 256V176M507 357V316"/>
+    </g>
+  </g>
+
+  <g fill="none" stroke="#2366b1" stroke-width="5" marker-end="url(#arrow-blue)">
+    <path d="M286 486v-48"/>
+    <path d="M365 513v-49"/>
+    <path d="M447 532v-48"/>
+    <path d="M535 513v-49"/>
+    <path d="M622 488v-49"/>
+  </g>
+
+  <g font-family="Sarabun,Arial,sans-serif">
+    <g transform="translate(58 58)">
+      <rect width="278" height="76" rx="15" fill="#102f52"/>
+      <text x="22" y="29" fill="#ff8a37" font-size="16" font-weight="800" letter-spacing="1.1">FT-03 · SPREAD FOOTING</text>
+      <text x="22" y="57" fill="#fff" font-size="22" font-weight="700">CALCULATION SNAPSHOT</text>
+    </g>
+    <g transform="translate(650 56)">
+      <rect width="244" height="120" rx="17" fill="#f9fbfd" stroke="#9db3c9" stroke-width="3"/>
+      <text x="20" y="30" fill="#143a60" font-size="15" font-weight="800">ENGINEERING EVIDENCE</text>
+      <g fill="#365975" font-size="14" font-weight="700">
+        <text x="20" y="59">PRESSURE · D/C</text>
+        <text x="20" y="84">SECTION · REBAR · 3D</text>
+        <text x="20" y="109">A4 · CALCULATION BOOK</text>
+      </g>
+    </g>
+    <g transform="translate(58 541)">
+      <rect width="836" height="58" rx="16" fill="#f8fbff" stroke="#9db3c9" stroke-width="3"/>
+      <g transform="translate(18 12)">
+        <path d="M15 0 30 6v12c0 11-7 19-15 23C7 37 0 29 0 18V6Z" fill="#b78a2f"/>
+        <path d="m8 19 5 5 10-12" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+      <text x="67" y="25" fill="#153c61" font-size="14" font-weight="800">OWNER-REVIEWED PRESENTATION</text>
+      <text x="67" y="46" fill="#496983" font-size="14" font-weight="700">TRACEABLE INPUT → SNAPSHOT → FLOW 01–08</text>
+      <text x="805" y="36" text-anchor="end" fill="#c94810" font-size="16" font-weight="800">1:1 MASTER</text>
+    </g>
+  </g>
+</svg>

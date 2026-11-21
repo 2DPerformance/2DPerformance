@@ -1,0 +1,1422 @@
+{
+ "sheet": "ADT-05",
+ "charts": [
+  {
+   "name": "Chart 2",
+   "part": "xl/charts/chart2.xml",
+   "box": {
+    "left": 305.5498474121094,
+    "top": 328.454345703125,
+    "width": 147.60000610351562,
+    "height": 155.39999389648438
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.0,
+    "y": 0.0,
+    "w": 1.0,
+    "h": 1.0
+   },
+   "style": "lineMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": false,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": 5.0,
+     "grid": true,
+     "gridLine": {
+      "color": "#FFFFFF",
+      "width": 0.25,
+      "dash": "sysDot"
+     },
+     "line": {
+      "none": true
+     },
+     "numFmt": "#,##0",
+     "tickLabels": "low",
+     "text": {
+      "rot": -1000.0,
+      "size": 12.0,
+      "color": "#000000"
+     }
+    },
+    {
+     "pos": "l",
+     "deleted": false,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": 5.0,
+     "grid": true,
+     "gridLine": {
+      "color": "#FFFFFF",
+      "width": 0.25,
+      "dash": "sysDot"
+     },
+     "line": {
+      "none": true
+     },
+     "numFmt": "#,##0",
+     "tickLabels": "low",
+     "text": {
+      "rot": -1000.0,
+      "size": 12.0,
+      "color": "#000000"
+     }
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "6,74"
+      ]
+     },
+     "x": [
+      "8,74",
+      "9,74",
+      "10,74",
+      "11,74",
+      "12,74",
+      "13,74",
+      "14,74",
+      "15,74",
+      "16,74",
+      "17,74",
+      "18,74",
+      "19,74",
+      "20,74",
+      "21,74",
+      "22,74",
+      "23,74",
+      "24,74"
+     ],
+     "y": [
+      "8,75",
+      "9,75",
+      "10,75",
+      "11,75",
+      "12,75",
+      "13,75",
+      "14,75",
+      "15,75",
+      "16,75",
+      "17,75",
+      "18,75",
+      "19,75",
+      "20,75",
+      "21,75",
+      "22,75",
+      "23,75",
+      "24,75"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.0,
+      "dash": "solid"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "5,81"
+      ]
+     },
+     "x": [
+      "8,82",
+      "9,82",
+      "10,82",
+      "11,82",
+      "12,82"
+     ],
+     "y": [
+      "8,81",
+      "9,81",
+      "10,81",
+      "11,81",
+      "12,81"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 0.75
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "5,81"
+      ]
+     },
+     "x": [
+      "13,82",
+      "14,82",
+      "15,82",
+      "16,82",
+      "17,82"
+     ],
+     "y": [
+      "13,81",
+      "14,81",
+      "15,81",
+      "16,81",
+      "17,81"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 0.75
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "13,71"
+      ]
+     },
+     "x": [
+      "14,71",
+      "15,71"
+     ],
+     "y": [
+      "14,72",
+      "15,72"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "14,72"
+      ]
+     },
+     "x": [
+      "14,72"
+     ],
+     "y": [
+      "15,72"
+     ],
+     "line": null,
+     "marker": {
+      "symbol": "plus",
+      "size": 8,
+      "fill": null,
+      "line": "#FF0000",
+      "noFill": true
+     },
+     "labels": null,
+     "smooth": false,
+     "order": 4
+    }
+   ],
+   "plotFill": null,
+   "chartFill": null,
+   "font": {},
+   "excel": {
+    "chartW": 142.6,
+    "chartH": 150.4,
+    "insideLeft": 16.40417322834646,
+    "insideTop": 4.31748031496063,
+    "insideWidth": 119.00834645669292,
+    "insideHeight": 121.76417322834645,
+    "x": {
+     "min": -5.0,
+     "max": 5.0,
+     "major": 5.0
+    },
+    "y": {
+     "min": -5.0,
+     "max": 5.0,
+     "major": 5.0
+    }
+   }
+  },
+  {
+   "name": "Chart 4",
+   "part": "xl/charts/chart3.xml",
+   "box": {
+    "left": 2.249920654296872,
+    "top": 151.35000610351562,
+    "width": 300.6000671386719,
+    "height": 147.0074005126953
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.0,
+    "y": 0.0,
+    "w": 1.0,
+    "h": 1.0
+   },
+   "style": "lineMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": true,
+     "min": -0.15000000000000002,
+     "max": null,
+     "reverse": false,
+     "major": 0.05000000000000001,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "0.00",
+     "tickLabels": "nextTo",
+     "text": {}
+    },
+    {
+     "pos": "l",
+     "deleted": true,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": null,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "0.00",
+     "tickLabels": "nextTo",
+     "text": {}
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "6,58"
+      ]
+     },
+     "x": [
+      "7,58",
+      "8,58",
+      "9,58",
+      "10,58",
+      "11,58",
+      "12,58",
+      "13,58"
+     ],
+     "y": [
+      "7,59",
+      "8,59",
+      "9,59",
+      "10,59",
+      "11,59",
+      "12,59",
+      "13,59"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "6,60"
+      ]
+     },
+     "x": [
+      "7,60",
+      "8,60",
+      "9,60",
+      "10,60",
+      "11,60"
+     ],
+     "y": [
+      "7,61",
+      "8,61",
+      "9,61",
+      "10,61",
+      "11,61"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "15,58"
+      ]
+     },
+     "x": [
+      "16,58",
+      "17,58",
+      "18,58",
+      "19,58",
+      "20,58",
+      "21,58"
+     ],
+     "y": [
+      "16,59",
+      "17,59",
+      "18,59",
+      "19,59",
+      "20,59",
+      "21,59"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.25
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "15,60"
+      ]
+     },
+     "x": [
+      "16,60",
+      "17,60",
+      "18,60",
+      "19,60",
+      "20,60",
+      "21,60"
+     ],
+     "y": [
+      "16,61",
+      "17,61",
+      "18,61",
+      "19,61",
+      "20,61",
+      "21,61"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.25
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "23,58"
+      ]
+     },
+     "x": [
+      "24,58",
+      "25,58"
+     ],
+     "y": [
+      "24,59",
+      "25,59"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 4
+    },
+    {
+     "name": {
+      "ref": [
+       "23,60"
+      ]
+     },
+     "x": [
+      "24,60",
+      "25,60"
+     ],
+     "y": [
+      "24,61",
+      "25,61"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.5,
+      "headEnd": {
+       "type": "arrow",
+       "w": "med",
+       "len": "med"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 5
+    },
+    {
+     "name": {
+      "ref": [
+       "23,62"
+      ]
+     },
+     "x": [
+      "24,62",
+      "25,62"
+     ],
+     "y": [
+      "24,63",
+      "25,63"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "dash": "lgDash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 6
+    },
+    {
+     "name": {
+      "ref": [
+       "23,64"
+      ]
+     },
+     "x": [
+      "24,64",
+      "25,64"
+     ],
+     "y": [
+      "24,65",
+      "25,65"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 7
+    },
+    {
+     "name": {
+      "ref": [
+       "23,64"
+      ]
+     },
+     "x": [
+      "24,66",
+      "25,66"
+     ],
+     "y": [
+      "24,65",
+      "25,65"
+     ],
+     "line": {
+      "color": "#000000",
+      "width": 0.75,
+      "headEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "sm"
+      },
+      "tailEnd": {
+       "type": "arrow",
+       "w": "sm",
+       "len": "sm"
+      }
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 8
+    },
+    {
+     "name": {
+      "ref": [
+       "23,65"
+      ]
+     },
+     "x": [
+      "22,65"
+     ],
+     "y": [
+      "24,65"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "ctr",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": "#FFFFFF",
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 9
+    },
+    {
+     "name": {
+      "ref": [
+       "23,66"
+      ]
+     },
+     "x": [
+      "22,66"
+     ],
+     "y": [
+      "24,65"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "ctr",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": "#FFFFFF",
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 10
+    },
+    {
+     "name": {
+      "ref": [
+       "12,61"
+      ]
+     },
+     "x": [
+      "12,60"
+     ],
+     "y": [
+      "13,60"
+     ],
+     "line": null,
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "ctr",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 11
+    },
+    {
+     "name": {
+      "ref": [
+       "9,66"
+      ]
+     },
+     "x": [
+      "10,58"
+     ],
+     "y": [
+      "9,63"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "ctr",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "ctr"
+       }
+      }
+     },
+     "smooth": false,
+     "order": 12
+    },
+    {
+     "name": {
+      "ref": [
+       "10,66"
+      ]
+     },
+     "x": [
+      "8,58"
+     ],
+     "y": [
+      "9,63"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": null,
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "ctr",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "ctr"
+       }
+      }
+     },
+     "smooth": false,
+     "order": 13
+    }
+   ],
+   "plotFill": null,
+   "chartFill": null,
+   "font": {},
+   "excel": {
+    "chartW": 295.60007874015747,
+    "chartH": 142.00740157480314,
+    "insideLeft": -4.0,
+    "insideTop": -4.0,
+    "insideWidth": 300.60007874015747,
+    "insideHeight": 147.00740157480314,
+    "x": {
+     "min": -0.15000000000000002,
+     "max": 1.1,
+     "major": 0.05000000000000001
+    },
+    "y": {
+     "min": -0.30000000000000004,
+     "max": 0.30000000000000004,
+     "major": 0.1
+    }
+   }
+  },
+  {
+   "name": "Chart 5",
+   "part": "xl/charts/chart4.xml",
+   "box": {
+    "left": 2.2500007629394503,
+    "top": 349.5000915527344,
+    "width": 300.6000671386719,
+    "height": 195.0074005126953
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.0,
+    "y": 0.10483641101117365,
+    "w": 1.0,
+    "h": 0.7656597871514942
+   },
+   "style": "lineMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": true,
+     "min": -0.15000000000000002,
+     "max": null,
+     "reverse": false,
+     "major": 0.05000000000000001,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "0.00",
+     "tickLabels": "nextTo",
+     "text": {}
+    },
+    {
+     "pos": "l",
+     "deleted": true,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": null,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "0.00",
+     "tickLabels": "nextTo",
+     "text": {}
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "6,41"
+      ]
+     },
+     "x": [
+      "7,41",
+      "8,41"
+     ],
+     "y": [
+      "7,42",
+      "8,42"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "6,41"
+      ]
+     },
+     "x": [
+      "11,41",
+      "12,41"
+     ],
+     "y": [
+      "11,42",
+      "12,42"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "6,41"
+      ]
+     },
+     "x": [
+      "9,41",
+      "10,41"
+     ],
+     "y": [
+      "9,42",
+      "10,42"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "6,41"
+      ]
+     },
+     "x": [
+      "10,41",
+      "11,41"
+     ],
+     "y": [
+      "10,42",
+      "11,42"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "6,41"
+      ]
+     },
+     "x": [
+      "8,41",
+      "9,41"
+     ],
+     "y": [
+      "8,42",
+      "9,42"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 4
+    },
+    {
+     "name": {
+      "ref": [
+       "8,43"
+      ]
+     },
+     "x": [
+      "8,41"
+     ],
+     "y": [
+      "8,42"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": null,
+      "line": "#FF0000",
+      "noFill": true
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 5
+    },
+    {
+     "name": {
+      "ref": [
+       "9,43"
+      ]
+     },
+     "x": [
+      "9,41"
+     ],
+     "y": [
+      "9,42"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": null,
+      "line": "#FF0000",
+      "noFill": true
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 6
+    },
+    {
+     "name": {
+      "ref": [
+       "10,43"
+      ]
+     },
+     "x": [
+      "10,41"
+     ],
+     "y": [
+      "10,42"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": null,
+      "line": "#FF0000",
+      "noFill": true
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {}
+     },
+     "smooth": false,
+     "order": 7
+    }
+   ],
+   "plotFill": null,
+   "chartFill": null,
+   "font": {},
+   "excel": {
+    "chartW": 295.60007874015747,
+    "chartH": 190.00740157480314,
+    "insideLeft": -4.0,
+    "insideTop": 16.443858267716536,
+    "insideWidth": 300.60007874015747,
+    "insideHeight": 149.30929133858268,
+    "x": {
+     "min": -0.15000000000000002,
+     "max": 1.1,
+     "major": 0.05000000000000001
+    },
+    "y": {
+     "min": -100.0,
+     "max": 100.0,
+     "major": 20.0
+    }
+   }
+  },
+  {
+   "name": "Chart 6",
+   "part": "xl/charts/chart5.xml",
+   "box": {
+    "left": 2.2500007629394503,
+    "top": 573.300048828125,
+    "width": 300.6000671386719,
+    "height": 180.60000610351562
+   },
+   "inner": {
+    "target": "inner",
+    "x": 0.001488027883649935,
+    "y": 0.13641264407166492,
+    "w": 0.9985119721163501,
+    "h": 0.7847600136939406
+   },
+   "style": "smoothMarker",
+   "axes": [
+    {
+     "pos": "b",
+     "deleted": true,
+     "min": -0.15000000000000002,
+     "max": null,
+     "reverse": false,
+     "major": 0.05000000000000001,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "General",
+     "tickLabels": "nextTo",
+     "text": {}
+    },
+    {
+     "pos": "l",
+     "deleted": true,
+     "min": null,
+     "max": null,
+     "reverse": false,
+     "major": null,
+     "grid": false,
+     "gridLine": null,
+     "line": null,
+     "numFmt": "General",
+     "tickLabels": "nextTo",
+     "text": {}
+    }
+   ],
+   "series": [
+    {
+     "name": {
+      "ref": [
+       "15,41"
+      ]
+     },
+     "x": [
+      "19,41",
+      "20,41",
+      "21,41",
+      "22,41",
+      "23,41",
+      "24,41",
+      "25,41",
+      "26,41",
+      "27,41",
+      "28,41"
+     ],
+     "y": [
+      "19,43",
+      "20,43",
+      "21,43",
+      "22,43",
+      "23,43",
+      "24,43",
+      "25,43",
+      "26,43",
+      "27,43",
+      "28,43"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 0
+    },
+    {
+     "name": {
+      "ref": [
+       "18,48"
+      ]
+     },
+     "x": [
+      "19,45",
+      "20,45",
+      "21,45",
+      "22,45",
+      "23,45",
+      "24,45",
+      "25,45",
+      "26,45",
+      "27,45",
+      "28,45"
+     ],
+     "y": [
+      "19,48",
+      "20,48",
+      "21,48",
+      "22,48",
+      "23,48",
+      "24,48",
+      "25,48",
+      "26,48",
+      "27,48",
+      "28,48"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 1
+    },
+    {
+     "name": {
+      "ref": [
+       "18,53"
+      ]
+     },
+     "x": [
+      "19,50",
+      "20,50",
+      "21,50",
+      "22,50",
+      "23,50",
+      "24,50",
+      "25,50",
+      "26,50",
+      "27,50",
+      "28,50"
+     ],
+     "y": [
+      "19,53",
+      "20,53",
+      "21,53",
+      "22,53",
+      "23,53",
+      "24,53",
+      "25,53",
+      "26,53",
+      "27,53",
+      "28,53"
+     ],
+     "line": {
+      "color": "#0000FF",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 2
+    },
+    {
+     "name": {
+      "ref": [
+       "30,43"
+      ]
+     },
+     "x": [
+      "30,41"
+     ],
+     "y": [
+      "31,42"
+     ],
+     "line": null,
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": null,
+      "line": "#FF0000",
+      "noFill": true
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "b",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "b"
+       }
+      }
+     },
+     "smooth": true,
+     "order": 3
+    },
+    {
+     "name": {
+      "ref": [
+       "29,42"
+      ]
+     },
+     "x": [
+      "30,41",
+      "31,41"
+     ],
+     "y": [
+      "30,42",
+      "31,42"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.0,
+      "dash": "dash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 4
+    },
+    {
+     "name": {
+      "ref": [
+       "29,47"
+      ]
+     },
+     "x": [
+      "30,45",
+      "31,45"
+     ],
+     "y": [
+      "30,46",
+      "31,46"
+     ],
+     "line": {
+      "color": "#FF0000",
+      "width": 1.0,
+      "dash": "dash"
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": true,
+     "order": 5
+    },
+    {
+     "name": {
+      "ref": [
+       "6,41"
+      ]
+     },
+     "x": [
+      "11,41",
+      "12,41"
+     ],
+     "y": [
+      "11,42",
+      "12,42"
+     ],
+     "line": {
+      "color": "#00B050",
+      "width": 1.5
+     },
+     "marker": null,
+     "labels": null,
+     "smooth": false,
+     "order": 6
+    },
+    {
+     "name": {
+      "ref": [
+       "30,48"
+      ]
+     },
+     "x": [
+      "30,45"
+     ],
+     "y": [
+      "28,48"
+     ],
+     "line": {
+      "none": true
+     },
+     "marker": {
+      "symbol": "circle",
+      "size": 5,
+      "fill": null,
+      "line": "#FF0000",
+      "noFill": true
+     },
+     "labels": {
+      "showVal": false,
+      "showX": false,
+      "showY": false,
+      "showSer": true,
+      "pos": "t",
+      "cells": [],
+      "text": {
+       "size": 10
+      },
+      "fill": null,
+      "border": null,
+      "points": {
+       "0": {
+        "pos": "t"
+       }
+      }
+     },
+     "smooth": false,
+     "order": 7
+    }
+   ],
+   "plotFill": null,
+   "chartFill": null,
+   "font": {},
+   "excel": {
+    "chartW": 295.60007874015747,
+    "chartH": 175.6,
+    "insideLeft": -3.5526771653543308,
+    "insideTop": 20.636141732283466,
+    "insideWidth": 300.1527559055118,
+    "insideHeight": 141.7276377952756,
+    "x": {
+     "min": -0.15000000000000002,
+     "max": 1.1,
+     "major": 0.05000000000000001
+    },
+    "y": {
+     "min": 0.0,
+     "max": 20.0,
+     "major": 2.0
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">One Pile Footing Full Design Workbench</title>
+  <desc id="desc">ฐานหัวเข็มหนึ่งต้นในโทนมินต์สเลต พร้อมเสา เหล็กเสริม และภาพหน้าตัด</desc>
+  <defs>
+    <linearGradient id="pile-bg" x1="36" y1="32" x2="474" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F4ED"/>
+      <stop offset=".56" stop-color="#E6EEEB"/>
+      <stop offset="1" stop-color="#C7D7D3"/>
+    </linearGradient>
+    <linearGradient id="cap-top" x1="98" y1="184" x2="410" y2="291" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F7F1"/>
+      <stop offset="1" stop-color="#CAD8D5"/>
+    </linearGradient>
+    <linearGradient id="cap-front" x1="91" y1="225" x2="184" y2="365" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A9BEBA"/>
+      <stop offset="1" stop-color="#557A78"/>
+    </linearGradient>
+    <linearGradient id="cap-side" x1="184" y1="249" x2="425" y2="344" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#789996"/>
+      <stop offset="1" stop-color="#385C62"/>
+    </linearGradient>
+    <filter id="pile-shadow" x="-30%" y="-25%" width="170%" height="175%">
+      <feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#385C62" flood-opacity=".2"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#pile-bg)"/>
+  <path d="M0 126C97 70 190 57 282 72c91 15 159-3 230-46V0H0Z" fill="#FCFAF6" opacity=".72"/>
+  <circle cx="428" cy="91" r="54" fill="#E3B49F" opacity=".5"/>
+  <path d="M50 105h104M50 126h64" stroke="#53777A" stroke-width="5" stroke-linecap="round" opacity=".3"/>
+  <g filter="url(#pile-shadow)" stroke="#385C62" stroke-width="8" stroke-linejoin="round">
+    <path d="m231 278 55-14 34 20-2 91-56 18-33-24Z" fill="#789996"/>
+    <path d="m89 222 247-60 91 57-249 66Z" fill="url(#cap-top)"/>
+    <path d="m89 222 89 63v82l-89-67Z" fill="url(#cap-front)"/>
+    <path d="m178 285 249-66v78l-249 70Z" fill="url(#cap-side)"/>
+  </g>
+  <g fill="none" stroke="#C86750" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m120 225 231-56M145 243l231-56M170 260l231-56" stroke-width="6"/>
+    <path d="m153 207 92 62M206 194l91 62M259 181l90 62M312 169l90 62" stroke-width="6" opacity=".93"/>
+  </g>
+  <g stroke="#385C62" stroke-width="8" stroke-linejoin="round">
+    <path d="m191 109 92-28 55 33-94 30Z" fill="#F7F4EE"/>
+    <path d="m191 109 53 35v104l-53-36Z" fill="#D8E1DE"/>
+    <path d="m244 144 94-30v106l-94 28Z" fill="#91AAA7"/>
+  </g>
+  <g fill="none" stroke="#C86750" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M207 111v101M233 129v102M297 84v120M322 100v112" stroke-width="9"/>
+    <path d="m204 139 36 23 83-27M204 169l36 23 83-27M204 199l36 23 83-27" stroke-width="6"/>
+  </g>
+  <g fill="#385C62" stroke="#F8F4ED" stroke-width="4">
+    <circle cx="207" cy="111" r="8"/><circle cx="233" cy="129" r="8"/>
+    <circle cx="297" cy="84" r="8"/><circle cx="322" cy="100" r="8"/>
+  </g>
+  <g transform="translate(52 392)">
+    <rect width="408" height="72" rx="25" fill="#F8F6F1" stroke="#BDD0CC" stroke-width="3"/>
+    <g transform="translate(32 11)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0 25 66 6l69 31-69 20Z" fill="#D6E1DE" stroke="#668886" stroke-width="4"/>
+      <path d="m20 19 66 30M49 11l66 30M27 40 85-25M51 51l82-25" stroke="#C86750" stroke-width="3"/>
+      <path d="m62 26 23-7 23 11-24 7Z" fill="#F8F6F1" stroke="#385C62" stroke-width="4"/>
+    </g>
+    <g transform="translate(220 11)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 49h142M77 49V3" stroke="#8BA4A1" stroke-width="3"/>
+      <path d="M36 19h82l14 30H22Z" fill="#D8E3E0" stroke="#5B7F7D" stroke-width="5"/>
+      <path d="M61 19V3h32v16M66 49v9h22v-9" stroke="#C86750" stroke-width="5"/>
+    </g>
+  </g>
+</svg>

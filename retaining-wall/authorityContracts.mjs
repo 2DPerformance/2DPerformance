@@ -1,0 +1,1 @@
+export const RW_REBAR_GEOMETRY_HOLD=Object.freeze({status:"ENGINE_SHARED_TRANSVERSE_LAYOUT",constructionAuthority:!1,marks:Object.freeze(["⑧"]),label:"REBAR ⑧ · SHARED ENGINE LAYOUT · NOT FOR CONSTRUCTION",reason:"มาร์ค ⑧ ใช้ centerline เดียวจาก Engine; ตรวจชั้นเหล็ก ระยะหุ้ม ความยาว จำนวน และระยะพัฒนากำลังร่วมกับ D/C"});

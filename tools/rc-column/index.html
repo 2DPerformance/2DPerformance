@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="description" content="คู่มือโปรแกรมออกแบบเสาคอนกรีตออนไลน์ ตรวจ P-M แกน X/Y, biaxial interaction, หน้าตัด เหล็กปลอก 3D cage และรายงาน A4 จาก Snapshot เดียว" />
+    <link rel="canonical" href="https://naichangyai.com/tools/rc-column/" />
+    <link rel="alternate" hreflang="th-TH" href="https://naichangyai.com/tools/rc-column/" />
+    <link rel="alternate" hreflang="x-default" href="https://naichangyai.com/tools/rc-column/" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-2d.png" />
+    <link rel="stylesheet" href="/tools/seo-pages.css?v=20260726" />
+    <meta name="theme-color" content="#073476" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="นายช่างใหญ่ Civil Apps" />
+    <meta property="og:title" content="โปรแกรมออกแบบเสาคอนกรีต P-M Interaction และ 3D Cage" />
+    <meta property="og:description" content="ดู workflow เสาคอนกรีตจาก Input, P-M X/Y, biaxial interaction, Section/Rebar ถึง A4 พร้อมข้อจำกัดที่ต้องตรวจ" />
+    <meta property="og:url" content="https://naichangyai.com/tools/rc-column/" />
+    <meta property="og:image" content="https://naichangyai.com/social-share-home-20260802.jpg" />
+    <meta property="og:locale" content="th_TH" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>โปรแกรมออกแบบเสาคอนกรีต P-M Interaction และ 3D Cage | นายช่างใหญ่</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://naichangyai.com/tools/rc-column/#webpage",
+            "url": "https://naichangyai.com/tools/rc-column/",
+            "name": "โปรแกรมออกแบบเสาคอนกรีต P-M Interaction และ 3D Cage",
+            "description": "คู่มือเครื่องมือเสาคอนกรีตสำหรับตรวจแรงอัด โมเมนต์สองแกน interaction หน้าตัด เหล็ก และรายงานจาก Snapshot",
+            "isPartOf": { "@id": "https://naichangyai.com/#website" },
+            "inLanguage": "th-TH",
+            "dateModified": "2026-08-01"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "หน้าแรก", "item": "https://naichangyai.com/" },
+              { "@type": "ListItem", "position": 2, "name": "คู่มือเครื่องมือ", "item": "https://naichangyai.com/tools/" },
+              { "@type": "ListItem", "position": 3, "name": "เสาคอนกรีต", "item": "https://naichangyai.com/tools/rc-column/" }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">ข้ามไปเนื้อหาหลัก</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="นายช่างใหญ่ Civil Apps หน้าแรก">
+          <img src="/brand/ncy-mark.svg" width="52" height="40" alt="" />
+          <span><strong>นายช่างใหญ่ Civil Apps</strong><small>ENGINEERING WORKSPACE</small></span>
+        </a>
+        <nav class="top-nav" aria-label="เมนูหลัก">
+          <a href="/#apps">เปิดหน้าเครื่องมือ</a>
+          <a href="/tools/" aria-current="page">คู่มือเครื่องมือ</a>
+          <a href="/engineering-evidence/">หลักฐานผลคำนวณ</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="page-shell">
+      <nav class="breadcrumb" aria-label="เส้นทางหน้า">
+        <a href="/">หน้าแรก</a><span aria-hidden="true">/</span><a href="/tools/">คู่มือเครื่องมือ</a><span aria-hidden="true">/</span><span>เสาคอนกรีต</span>
+      </nav>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">CL-01 · RC COLUMN P-M-M WORKBENCH</p>
+          <h1>โปรแกรมออกแบบเสาคอนกรีตที่แยกแรงสองแกนและหลักฐานของหน้าตัดจริง</h1>
+          <p class="lead">Concrete Column Workbench รองรับ Quick Design และ Check Existing สำหรับแรงอัดร่วมกับโมเมนต์ ระบบแสดง P-M แยกแกน X/Y, biaxial interaction, geometry ของ Section/Rebar และ 3D cage จาก Calculation Snapshot เดียวกับ verdict และรายงาน A4</p>
+          <div class="hero-actions">
+            <a class="button" href="/#apps">เปิดการ์ดเสาคอนกรีต</a>
+            <a class="button secondary" href="#workflow">ดู workflow</a>
+          </div>
+        </div>
+        <figure class="hero-visual">
+          <img src="/PIC/app-concrete-column-ref.svg" width="512" height="512" alt="ภาพอ้างอิงเสาคอนกรีต กราฟ P-M หน้าตัดและโครงเหล็กสามมิติ" />
+        </figure>
+      </section>
+
+      <dl class="proof-strip" aria-label="ผลลัพธ์หลัก">
+        <div><dt>Interaction evidence</dt><dd>P-M X / Y · Biaxial</dd></div>
+        <div><dt>Section evidence</dt><dd>Longitudinal bar · Tie · 3D</dd></div>
+        <div><dt>Output boundary</dt><dd>Immutable Snapshot · A4</dd></div>
+      </dl>
+
+      <section class="section" id="workflow">
+        <h2>ลำดับการตรวจเสาคอนกรีต</h2>
+        <p class="section-intro">เครื่องมือแยกข้อมูลต้นทางออกจากผล interaction และรายงานอย่างชัดเจน เพื่อให้ผู้ใช้เห็นว่าค่าใดเป็น input ค่าใดเป็นผลจาก engine และค่าใดเป็นเพียงข้อมูลอ้างอิง</p>
+        <div class="workflow">
+          <article><h3>Input</h3><p>กำหนดขนาดเสา ความยาว วัสดุ reinforcement arrangement และแรง Pu, Mx, My ตามกรณีที่ต้องตรวจ</p></article>
+          <article><h3>Run P-M-M</h3><p>ระบบคำนวณ interaction ตาม method ที่รองรับ และเก็บผลแกน X/Y กับ biaxial utilization</p></article>
+          <article><h3>Snapshot</h3><p>verdict, D/C, curves, Section/Rebar, slenderness screen และ trace ถูกตรึงในหลักฐานชุดเดียว</p></article>
+          <article><h3>A4 Evidence</h3><p>รายงานรวม P-M สองแกน หน้าตัด เหล็ก กำลัง ขอบเขต และ fingerprint สำหรับ review</p></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>หน้าจอช่วยตอบคำถามอะไร</h2>
+        <div class="scope-grid">
+          <article>
+            <h3>แรงอัดร่วมกับโมเมนต์</h3>
+            <p>ผู้ใช้เห็นตำแหน่ง demand เทียบกับ interaction evidence แยกแกน X/Y และผล biaxial ที่ engine ออกจริง</p>
+          </article>
+          <article>
+            <h3>หน้าตัดและการจัดเหล็ก</h3>
+            <p>จำนวนและตำแหน่งเหล็กหลัก เหล็กปลอก และ 3D cage ใช้ geometry จาก snapshot เพื่อให้ภาพตรงกับ arrangement ที่ตรวจ</p>
+          </article>
+          <article>
+            <h3>Quick Design หรือ Check Existing</h3>
+            <p>Quick Design ใช้ catalog ที่ควบคุมได้ ส่วน Check Existing เหมาะกับการป้อนหน้าตัดและเหล็กที่มีอยู่เพื่อดูผลภายในขอบเขตโมดูล</p>
+          </article>
+          <article data-kind="boundary">
+            <h3>Strength กับ slenderness ไม่ใช่ค่าเดียวกัน</h3>
+            <p>รายงานแยก Strength D/C ออกจาก conservative slenderness screen และไม่เปลี่ยนข้อมูลอ้างอิงให้เป็น PASS โดยอัตโนมัติ</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>หลักฐาน P-M ที่ควรอ่านให้ครบ</h2>
+        <table class="comparison">
+          <thead><tr><th>หลักฐาน</th><th>ใช้ตอบคำถาม</th><th>ข้อควรระวัง</th></tr></thead>
+          <tbody>
+            <tr><td>P-M แกน X/Y</td><td>ดูความสัมพันธ์กำลังรับแรงอัดและโมเมนต์ในแต่ละแกน</td><td>sampled curve เป็นหลักฐานอ้างอิงตาม snapshot ไม่ควรถูกใช้แทน exact fiber analysis ที่ engine ไม่ได้ออก</td></tr>
+            <tr><td>Biaxial interaction</td><td>ดู utilization เมื่อแรงกระทำสองแกนพร้อมกัน</td><td>method reciprocal และ contour มีชนิดหลักฐานต่างกัน ต้องอ่าน scalar capacity ตามที่ snapshot มีจริง</td></tr>
+            <tr><td>Section/Rebar</td><td>ยืนยัน geometry และ arrangement ที่ถูกตรวจ</td><td>ภาพ geometry ไม่ได้ยืนยัน anchorage, splice, joint หรือ seismic detailing หากโมดูลไม่ได้ประเมิน</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>รายการที่รายงานต้องไม่ทำให้เข้าใจว่าได้รับการประเมินแล้ว</h2>
+        <ul class="plain-list boundary">
+          <li>ที่มาของ load combination และ minimum eccentricity เมื่อไม่มีหลักฐานจาก engine</li>
+          <li>second-order effect, sway, P-Δ, P-δ หรือ magnification ที่โมดูลยังไม่รองรับครบ</li>
+          <li>exact coordinate/fiber P-M และ clause applicability ที่ไม่ได้ออกใน Snapshot</li>
+          <li>development, splice, hook, joint, seismic และ durability detailing</li>
+          <li>crosstie หรือรายละเอียดก่อสร้างที่ยังระบุว่าไม่ได้ประเมิน</li>
+        </ul>
+        <div class="callout">
+          <strong>รายงานใช้เพื่อ review ภายในขอบเขตของ Snapshot</strong>
+          ค่า PASS ใน strength check ไม่ได้เลื่อนรายการที่ยังไม่ได้ประเมินให้เป็น OK และไม่เปลี่ยนรายงานเป็นแบบพร้อมก่อสร้าง
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>คู่มือที่เกี่ยวข้อง</h2>
+        <nav class="guide-nav" aria-label="คู่มือที่เกี่ยวข้อง">
+          <a href="/tools/">เลือกโปรแกรมโครงสร้าง</a>
+          <a href="/tools/rc-beam/">ออกแบบคานคอนกรีต</a>
+          <a href="/tools/foundation/">ออกแบบฐานราก</a>
+          <a href="/engineering-evidence/">Calculation Snapshot และ A4</a>
+        </nav>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p>ข้อมูลหน้านี้อธิบายขอบเขตของ Concrete Column Workbench ตามสถานะที่เผยแพร่ ผลคำนวณต้องผ่านการตรวจโดยผู้รับผิดชอบก่อนนำไปใช้กับงานจริง</p>
+        <nav aria-label="ลิงก์ท้ายหน้า"><a href="/">หน้าแรก</a><a href="/#apps">เครื่องมือทั้งหมด</a><a href="https://www.facebook.com/NaichangyaiCivilAppsTH">ข่าวสาร</a></nav>
+      </div>
+    </footer>
+  </body>
+</html>

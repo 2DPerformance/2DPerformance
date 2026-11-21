@@ -1,0 +1,22 @@
+{
+  "schema": "ncy-committed-release/1",
+  "sourceCommit": "46bb8eab5e542fec8c016a5621b124ab4fccce72",
+  "baseline": "531b00ba65450ea73f579dd2490fe9d3ac18e999",
+  "groups": {
+    "deployment": [
+      "docs/releases/column-pm-oneway-20261022/SPEC_TH.md",
+      "docs/releases/column-pm-oneway-20261022/manifest.json",
+      "prototypes/fem-workbench/source/script_250.js",
+      "prototypes/fem-workbench/source/script_391.js",
+      "prototypes/fem-workbench/source/script_392.js",
+      "prototypes/fem-workbench/source/script_443.js",
+      "prototypes/fem-workbench/source_map.json",
+      "prototypes/fem-workbench/tests/test_collapse_view_sync_443.cjs",
+      "prototypes/fem-workbench/tests/test_grid_generator_250.cjs",
+      "prototypes/fem-workbench/tests/test_numeric_select_on_focus_m1.cjs",
+      "shared/platformCatalog.mjs",
+      "shared/platformCatalog.test.mjs"
+    ]
+  },
+  "excludedWipCount": 0
+}

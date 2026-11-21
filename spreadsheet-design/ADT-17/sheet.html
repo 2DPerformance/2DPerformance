@@ -1,0 +1,1099 @@
+<!doctype html>
+    <html lang="th"><head>
+    <meta name="robots" content="noindex, nofollow, noarchive" /><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ออกแบบฐานรากเสาเข็ม</title>
+    <link rel="stylesheet" href="/fonts/sarabun/sarabun.css">
+    <link rel="stylesheet" href="../print-preview.css">
+    <style>@font-face{font-family:THSarabunPSK-web;font-weight:400;src:url(../THSarabun.ttf) format("truetype")}@font-face{font-family:THSarabunPSK-web;font-weight:700;src:url(../THSarabun-Bold.ttf) format("truetype")}:root{--zoom:1}body{margin:0;background:#e9ebee;font-family:Sarabun,sans-serif}.bar{position:sticky;top:0;z-index:5;display:flex;gap:8px;align-items:center;padding:6px 12px;background:#2f5b8a;color:#fff;font-size:13px}.bar b{font-weight:600}.bar span{opacity:.85}.bar button{font:inherit;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;border-radius:3px;padding:1px 8px;cursor:pointer}.bar button[aria-pressed=true]{background:#fff;color:#2f5b8a}.wrap{padding:16px;overflow:auto}.pages{display:flex;gap:12pt;align-items:flex-start;width:max-content;margin:0 auto;zoom:var(--zoom)}.stack .pages{flex-direction:column}.sheet{position:relative;flex:0 0 auto;width:544.32pt;background:#fff;box-shadow:0 1px 4px #00000040;overflow:visible}.sheet>*,.part2>*{position:absolute;box-sizing:border-box}.t{display:flex;padding:0 1.5pt;overflow:visible;line-height:1.05}.t>span{display:block;flex-shrink:0}.t sub{font-size:70%;vertical-align:-.15em;line-height:0}.h,.v{pointer-events:none}.in input{width:100%;height:100%;border:0;padding:0;margin:0;background:transparent;font:inherit;color:inherit;text-align:inherit}.in input:focus{outline:2px solid #2F5B8A;outline-offset:-2px;background:#fff}.dd{font:9pt Sarabun,sans-serif;border:1px solid #7a7a7a;background:#fff;padding:0 2px}.s{pointer-events:none;object-fit:contain}.cellsel{width:100%;height:100%;border:1px solid #9a9a9a;background:#fff;font:inherit;color:inherit;padding:0 1px}.ctl{display:flex;align-items:center;gap:3px;font:9pt Sarabun,sans-serif;white-space:nowrap}.ctl input{margin:0}.embed .bar{display:none}.embed{background:#fff}.embed{background:#e9ebee}.embed .wrap{padding:8px}.embed .pages{margin:0 auto}.bar a{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.5);border-radius:3px;padding:1px 8px}.settings{width:max-content;margin:0 auto 10pt;zoom:var(--zoom)}.settings-head{font:600 12px Sarabun,sans-serif;color:#2f5b8a;margin:0 0 4px}.settings-head span{font-weight:400;color:#5b6b80;margin-left:6px}.settings-sheet{outline:1px solid #b9cbe0;overflow:hidden}@media print{.settings{display:none!important}}
+</style></head><body>
+    <div class="bar"><a href="../workbook.html#ADT-17">← ทั้ง 14 โปรแกรม</a><b>ออกแบบฐานรากเสาเข็ม</b><span>คำนวณทันทีเมื่อแก้ค่า</span>
+    <button type="button" style="margin-left:auto" onclick="window.print()">พิมพ์</button><span>ซูม</span><button type="button" data-z="1" aria-pressed="true">100%</button><button type="button" data-z="1.3" aria-pressed="false">130%</button></div>
+    <div class="wrap"><div class="form-col"><section class="settings" aria-label="ข้อมูลตั้งค่า" style="zoom:calc(var(--zoom) * 0.975)"><div class="settings-head">ข้อมูลตั้งค่า <span>ค่าที่อยู่นอกหน้ารายการคำนวณใน Excel · ไม่พิมพ์</span></div><div class="sheet settings-sheet" style="width:558.36pt;height:201.26pt"><div class="f" style="left:0.00pt;top:0.00pt;width:158.76pt;height:18.00pt;background:#B9D1EC"></div>
+<div class="f" style="left:158.76pt;top:0.00pt;width:11.88pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.64pt;top:0.00pt;width:46.44pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:217.08pt;top:0.00pt;width:51.84pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:0.00pt;width:53.46pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:0.00pt;width:57.78pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:0.00pt;width:51.84pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:0.00pt;width:42.12pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:0.00pt;width:42.12pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:0.00pt;width:42.12pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:18.00pt;width:42.12pt;height:18.00pt;background:#B9D1EC"></div>
+<div class="f" style="left:42.12pt;top:18.00pt;width:57.78pt;height:18.00pt;background:#B9D1EC"></div>
+<div class="f" style="left:99.90pt;top:18.00pt;width:58.86pt;height:18.00pt;background:#B9D1EC"></div>
+<div class="f" style="left:158.76pt;top:18.00pt;width:11.88pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.64pt;top:18.00pt;width:46.44pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:217.08pt;top:18.00pt;width:51.84pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:18.00pt;width:53.46pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:18.00pt;width:57.78pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:18.00pt;width:51.84pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:18.00pt;width:42.12pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:18.00pt;width:42.12pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:18.00pt;width:42.12pt;height:18.00pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:36.00pt;width:42.12pt;height:14.40pt;background:#B9D1EC"></div>
+<div class="f" style="left:42.12pt;top:36.00pt;width:57.78pt;height:14.40pt;background:#B9D1EC"></div>
+<div class="f" style="left:99.90pt;top:36.00pt;width:58.86pt;height:14.40pt;background:#B9D1EC"></div>
+<div class="f" style="left:158.76pt;top:36.00pt;width:11.88pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.64pt;top:36.00pt;width:46.44pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:217.08pt;top:36.00pt;width:51.84pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:36.00pt;width:53.46pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:36.00pt;width:57.78pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:36.00pt;width:51.84pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:36.00pt;width:42.12pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:36.00pt;width:42.12pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:36.00pt;width:42.12pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:50.40pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:42.12pt;top:50.40pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:99.90pt;top:50.40pt;width:58.86pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:50.40pt;width:11.88pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.64pt;top:50.40pt;width:98.28pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:50.40pt;width:53.46pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:50.40pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:50.40pt;width:51.84pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:50.40pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:50.40pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:50.40pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:65.32pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:42.12pt;top:65.32pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:99.90pt;top:65.32pt;width:58.86pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:65.32pt;width:11.88pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.64pt;top:65.32pt;width:98.28pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:65.32pt;width:53.46pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:65.32pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:65.32pt;width:51.84pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:65.32pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:65.32pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:65.32pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:80.24pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:42.12pt;top:80.24pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:99.90pt;top:80.24pt;width:58.86pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:80.24pt;width:11.88pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:80.24pt;width:53.46pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:80.24pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:80.24pt;width:51.84pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:80.24pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:80.24pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:80.24pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:95.16pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:42.12pt;top:95.16pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:99.90pt;top:95.16pt;width:58.86pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:95.16pt;width:11.88pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.64pt;top:95.16pt;width:98.28pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:95.16pt;width:53.46pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:95.16pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:95.16pt;width:51.84pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:95.16pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:95.16pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:95.16pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:110.08pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:42.12pt;top:110.08pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:99.90pt;top:110.08pt;width:58.86pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:110.08pt;width:11.88pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.64pt;top:110.08pt;width:98.28pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:110.08pt;width:53.46pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:110.08pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:110.08pt;width:51.84pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:110.08pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:110.08pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:110.08pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:125.00pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:42.12pt;top:125.00pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:99.90pt;top:125.00pt;width:58.86pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:125.00pt;width:11.88pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.64pt;top:125.00pt;width:98.28pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:125.00pt;width:53.46pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:125.00pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:125.00pt;width:51.84pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:125.00pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:125.00pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:125.00pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:139.92pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:42.12pt;top:139.92pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:99.90pt;top:139.92pt;width:58.86pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:139.92pt;width:11.88pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.64pt;top:139.92pt;width:98.28pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:139.92pt;width:53.46pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:139.92pt;width:57.78pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:139.92pt;width:51.84pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:139.92pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:139.92pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:139.92pt;width:42.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:154.84pt;width:42.12pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:42.12pt;top:154.84pt;width:57.78pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:99.90pt;top:154.84pt;width:58.86pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:154.84pt;width:11.88pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.64pt;top:154.84pt;width:46.44pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:217.08pt;top:154.84pt;width:51.84pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:154.84pt;width:53.46pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:154.84pt;width:57.78pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:154.84pt;width:51.84pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:154.84pt;width:42.12pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:154.84pt;width:42.12pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:154.84pt;width:42.12pt;height:14.40pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:169.24pt;width:42.12pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:42.12pt;top:169.24pt;width:57.78pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:99.90pt;top:169.24pt;width:58.86pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:169.24pt;width:11.88pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.64pt;top:169.24pt;width:46.44pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:217.08pt;top:169.24pt;width:51.84pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:169.24pt;width:53.46pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:169.24pt;width:57.78pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:169.24pt;width:51.84pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:169.24pt;width:42.12pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:169.24pt;width:42.12pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:169.24pt;width:42.12pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:182.68pt;width:42.12pt;height:18.58pt;background:#EEF4FB"></div>
+<div class="f" style="left:42.12pt;top:182.68pt;width:57.78pt;height:18.58pt;background:#EEF4FB"></div>
+<div class="f" style="left:99.90pt;top:182.68pt;width:58.86pt;height:18.58pt;background:#EEF4FB"></div>
+<div class="f" style="left:158.76pt;top:182.68pt;width:11.88pt;height:18.58pt;background:#EEF4FB"></div>
+<div class="f" style="left:268.92pt;top:182.68pt;width:53.46pt;height:18.58pt;background:#EEF4FB"></div>
+<div class="f" style="left:322.38pt;top:182.68pt;width:57.78pt;height:18.58pt;background:#EEF4FB"></div>
+<div class="f" style="left:380.16pt;top:182.68pt;width:51.84pt;height:18.58pt;background:#EEF4FB"></div>
+<div class="f" style="left:432.00pt;top:182.68pt;width:42.12pt;height:18.58pt;background:#EEF4FB"></div>
+<div class="f" style="left:474.12pt;top:182.68pt;width:42.12pt;height:18.58pt;background:#EEF4FB"></div>
+<div class="f" style="left:516.24pt;top:182.68pt;width:42.12pt;height:18.58pt;background:#EEF4FB"></div>
+<div class="h" style="left:0.00pt;top:calc(0.00pt - 0.5px);width:42.12pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:42.12pt;top:calc(0.00pt - 0.5px);width:57.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:99.90pt;top:calc(0.00pt - 0.5px);width:58.86pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(50.40pt - 0.5px);width:42.12pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:42.12pt;top:calc(50.40pt - 0.5px);width:57.78pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:99.90pt;top:calc(50.40pt - 0.5px);width:58.86pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:170.64pt;top:calc(50.40pt - 0.5px);width:46.44pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:170.64pt;top:calc(65.32pt - 0.5px);width:46.44pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:217.08pt;top:calc(50.40pt - 0.5px);width:51.84pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:217.08pt;top:calc(65.32pt - 0.5px);width:51.84pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:170.64pt;top:calc(80.24pt - 0.5px);width:46.44pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:217.08pt;top:calc(80.24pt - 0.5px);width:51.84pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:170.64pt;top:calc(95.16pt - 0.5px);width:46.44pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:217.08pt;top:calc(95.16pt - 0.5px);width:51.84pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:170.64pt;top:calc(110.08pt - 0.5px);width:46.44pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:217.08pt;top:calc(110.08pt - 0.5px);width:51.84pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:170.64pt;top:calc(125.00pt - 0.5px);width:46.44pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:217.08pt;top:calc(125.00pt - 0.5px);width:51.84pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:170.64pt;top:calc(139.92pt - 0.5px);width:46.44pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:217.08pt;top:calc(139.92pt - 0.5px);width:51.84pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:170.64pt;top:calc(154.84pt - 0.5px);width:46.44pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:217.08pt;top:calc(154.84pt - 0.5px);width:51.84pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:170.64pt;top:calc(182.68pt - 0.5px);width:46.44pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:170.64pt;top:calc(201.26pt - 0.5px);width:46.44pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:217.08pt;top:calc(182.68pt - 0.5px);width:51.84pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:217.08pt;top:calc(201.26pt - 0.5px);width:51.84pt;border-top:1px dotted #BFBFBF"></div>
+<div class="v" style="top:0.00pt;left:calc(0.00pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:0.00pt;left:calc(158.76pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:18.00pt;left:calc(0.00pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:18.00pt;left:calc(158.76pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:36.00pt;left:calc(0.00pt - 0.5px);height:14.40pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:36.00pt;left:calc(158.76pt - 0.5px);height:14.40pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:50.40pt;left:calc(170.64pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:50.40pt;left:calc(268.92pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:65.32pt;left:calc(170.64pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:65.32pt;left:calc(268.92pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:80.24pt;left:calc(170.64pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:80.24pt;left:calc(268.92pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:95.16pt;left:calc(170.64pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:95.16pt;left:calc(268.92pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:110.08pt;left:calc(170.64pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:110.08pt;left:calc(268.92pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:125.00pt;left:calc(170.64pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:125.00pt;left:calc(268.92pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:139.92pt;left:calc(170.64pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:139.92pt;left:calc(268.92pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:182.68pt;left:calc(170.64pt - 0.5px);height:18.58pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:182.68pt;left:calc(268.92pt - 0.5px);height:18.58pt;border-left:1px dotted #BFBFBF"></div>
+<div class="t" style="left:0.00pt;top:0.00pt;width:158.76pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;text-decoration:underline;color:#000000"><span>CALCULATION CASE</span></div>
+<div class="t" style="left:268.92pt;top:0.00pt;width:53.46pt;height:18.00pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;text-decoration:underline;color:#000000"><span>  CONCRETE PILE SELECTION</span></div>
+<label class="t in" style="left:42.12pt;top:18.00pt;width:57.78pt;height:18.00pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="U10" data-cell="U10" data-k="10,21" data-f="#,##0.00" value="1.00"></label>
+<label class="t in" style="left:268.92pt;top:18.00pt;width:53.46pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-c0="#000000"><input aria-label="Z10" data-cell="Z10" data-k="10,26" data-f="General" value="1"></label>
+<label class="t in" style="left:380.16pt;top:18.00pt;width:51.84pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-c0="#000000"><input aria-label="AB10" data-cell="AB10" data-k="10,28" data-f="General" value="5"></label>
+<label class="t in" style="left:474.12pt;top:18.00pt;width:42.12pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-c0="#000000"><input aria-label="AD10" data-cell="AD10" data-k="10,30" data-f="General" value="5"></label>
+<div class="t" style="left:99.90pt;top:50.40pt;width:58.86pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>WIDTH: B =</span></div>
+<div class="t" style="left:170.64pt;top:50.40pt;width:98.28pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="12,24" data-c0="#000000" data-f="#,##0.00"><span>35.00</span></div>
+<div class="t" style="left:268.92pt;top:50.40pt;width:53.46pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>cm.</span></div>
+<div class="t" style="left:99.90pt;top:65.32pt;width:58.86pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>DEPTH: H =</span></div>
+<div class="t" style="left:170.64pt;top:65.32pt;width:98.28pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="13,24" data-c0="#000000" data-f="#,##0.00"><span>35.00</span></div>
+<div class="t" style="left:268.92pt;top:65.32pt;width:53.46pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>cm.</span></div>
+<div class="t" style="left:99.90pt;top:80.24pt;width:58.86pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>PILE DIMETER : D =</span></div>
+<label class="t in" style="left:170.64pt;top:80.24pt;width:98.28pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="X14" data-cell="X14" data-k="14,24" data-f="#,##0.00" value="35.00"></label>
+<div class="t" style="left:268.92pt;top:80.24pt;width:53.46pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>cm.</span></div>
+<div class="t" style="left:99.90pt;top:95.16pt;width:58.86pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>PERIMETER : P =</span></div>
+<div class="t" style="left:170.64pt;top:95.16pt;width:98.28pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="15,24" data-c0="#000000" data-f="#,##0.00"><span>109.96</span></div>
+<div class="t" style="left:268.92pt;top:95.16pt;width:53.46pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>cm.</span></div>
+<div class="t" style="left:99.90pt;top:110.08pt;width:58.86pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>SECTION AREA : Ag =</span></div>
+<div class="t" style="left:170.64pt;top:110.08pt;width:98.28pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="16,24" data-c0="#000000" data-f="#,##0.00"><span>962.11</span></div>
+<div class="t" style="left:268.92pt;top:110.08pt;width:53.46pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>cm<span style="font-weight:700;font-size:11pt;color:#000000"><sup>2</sup></span></span></div>
+<div class="t" style="left:99.90pt;top:125.00pt;width:58.86pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>SECTION MODULUS : S<span style="font-weight:700;font-size:11pt;color:#000000"><sub>X</sub></span><span style="font-weight:700;font-size:11pt;color:#000000"> =</span></span></div>
+<div class="t" style="left:170.64pt;top:125.00pt;width:98.28pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="17,24" data-c0="#000000" data-f="#,##0.00"><span></span></div>
+<div class="t" style="left:268.92pt;top:125.00pt;width:53.46pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>cm<span style="font-weight:700;font-size:11pt;color:#000000"><sup>3</sup></span></span></div>
+<div class="t" style="left:99.90pt;top:139.92pt;width:58.86pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>MOMENT OF INIERTIA : I =</span></div>
+<div class="t" style="left:170.64pt;top:139.92pt;width:98.28pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="18,24" data-c0="#000000" data-f="#,##0.00"><span></span></div>
+<div class="t" style="left:268.92pt;top:139.92pt;width:53.46pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>cm<span style="font-weight:700;font-size:11pt;color:#000000"><sup>4</sup></span></span></div>
+<div class="t" style="left:99.90pt;top:182.68pt;width:58.86pt;height:18.58pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>CONCRETE PILE SAFE LOAD <span style="font-weight:700;font-size:11pt;color:#000000"><sub> </sub></span><span style="font-weight:700;font-size:11pt;color:#000000">=</span></span></div>
+<label class="t in" style="left:170.64pt;top:182.68pt;width:98.28pt;height:18.58pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#FF0000" data-c0="#FF0000"><input aria-label="X21" data-cell="X21" data-k="21,24" data-f="#,##0.00" value="30,000.00"></label>
+<div class="t" style="left:268.92pt;top:182.68pt;width:53.46pt;height:18.58pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>kg./Pile</span></div>
+<select class="dd" aria-label="Drop Down 12" style="left:230.36pt;top:22.06pt;width:89.35pt;height:18.63pt" data-link="10,26"><option selected>เสาเข็มกลม</option><option>เสาเข็มไอ</option><option>เสาเข็มสี่เหลี่ยมจัตุรัส</option></select>
+<select class="dd" aria-label="Drop Down 13" style="left:355.80pt;top:20.86pt;width:83.45pt;height:18.87pt" data-link="10,28"><option>I-Pile 18 x 18</option><option>I-Pile 22 x 22</option><option>I-Pile 26 x 26</option><option>I-Pile 30 x 30</option><option selected>I-Pile 35 x 35</option><option>I-Pile 40 x 40</option><option>I-Pile 45 x 45</option></select>
+<select class="dd" aria-label="Drop Down 14" style="left:468.94pt;top:22.06pt;width:79.00pt;height:19.11pt" data-link="10,30"><option>S - 18 x 18</option><option>S - 22 x 22</option><option>S - 26 x 26</option><option>S - 30 x 30</option><option selected>S - 35 x 35</option><option>S - 40 x 40</option><option>S - 45 x 45</option></select>
+<select class="dd" aria-label="Drop Down 39" style="left:6.07pt;top:19.06pt;width:154.28pt;height:20.19pt" data-link="10,21"><option selected>1.  SYMMETRICAL PILE CALCULATION</option><option>2.  ECCENTRICITY PILE CALCULATION</option></select><div class="h" style="left:170.64pt;top:calc(201.26pt - 0.5px);width:46.44pt;border-top:1px dotted #BFBFBF"></div><div class="h" style="left:217.08pt;top:calc(201.26pt - 0.5px);width:51.84pt;border-top:1px dotted #BFBFBF"></div></div></section><div class="pages" data-w="544.32" data-h="715.10" data-cuts="0.00" data-live="1" data-sheet="ADT-17"><div class="sheet" style="height:715.10pt" aria-label="หน้า 1"><div class="f" style="left:68.04pt;top:0.00pt;width:204.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:374.22pt;top:0.00pt;width:170.10pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:14.92pt;width:204.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:374.22pt;top:14.92pt;width:170.10pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:29.84pt;width:204.12pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:374.22pt;top:29.84pt;width:170.10pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:340.20pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:374.22pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:408.24pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:442.26pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:476.28pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:510.30pt;top:76.78pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:0.00pt;top:91.70pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:91.70pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:91.70pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:91.70pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:91.70pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:91.70pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:91.70pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:91.70pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:91.70pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:91.70pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:374.22pt;top:91.70pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:442.26pt;top:91.70pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:476.28pt;top:91.70pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:340.20pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:374.22pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:408.24pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:442.26pt;top:106.62pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:340.20pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:374.22pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:408.24pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:442.26pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:476.28pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:510.30pt;top:121.54pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:0.00pt;top:136.46pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:136.46pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:136.46pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:136.46pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:136.46pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:136.46pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:136.46pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:136.46pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:136.46pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:374.22pt;top:136.46pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:442.26pt;top:136.46pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:476.28pt;top:136.46pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:151.38pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:151.38pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:151.38pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:151.38pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:151.38pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:151.38pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:151.38pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:151.38pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:151.38pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:151.38pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:340.20pt;top:151.38pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:374.22pt;top:151.38pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:408.24pt;top:151.38pt;width:136.08pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:0.00pt;top:166.30pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:166.30pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:166.30pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:166.30pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:166.30pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:166.30pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:166.30pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:166.30pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:166.30pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:166.30pt;width:170.10pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:476.28pt;top:166.30pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:340.20pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:374.22pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:408.24pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:442.26pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:476.28pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:510.30pt;top:181.22pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:340.20pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:374.22pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:408.24pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:442.26pt;top:196.14pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:476.28pt;top:196.14pt;width:68.04pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:340.20pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:374.22pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:408.24pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:442.26pt;top:211.06pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:476.28pt;top:211.06pt;width:68.04pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:340.20pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:374.22pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:408.24pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:442.26pt;top:225.98pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:476.28pt;top:225.98pt;width:68.04pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:340.20pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:374.22pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:408.24pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:442.26pt;top:240.90pt;width:34.02pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:476.28pt;top:240.90pt;width:68.04pt;height:14.92pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:340.20pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:374.22pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:408.24pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:442.26pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:476.28pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:510.30pt;top:255.82pt;width:34.02pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#E2EDF8"></div>
+<div class="f" style="left:340.20pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#E2EDF8"></div>
+<div class="f" style="left:374.22pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#E2EDF8"></div>
+<div class="f" style="left:408.24pt;top:270.74pt;width:34.02pt;height:18.24pt;background:#E2EDF8"></div>
+<div class="f" style="left:442.26pt;top:270.74pt;width:68.04pt;height:18.24pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:306.18pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:340.20pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:374.22pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:408.24pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:442.26pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:476.28pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:510.30pt;top:288.98pt;width:34.02pt;height:18.24pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:307.22pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:307.22pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:307.22pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:307.22pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:307.22pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:307.22pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:307.22pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:307.22pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:272.16pt;top:307.22pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:320.66pt;width:34.02pt;height:13.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:320.66pt;width:34.02pt;height:13.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:320.66pt;width:34.02pt;height:13.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:320.66pt;width:34.02pt;height:13.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:320.66pt;width:34.02pt;height:13.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:320.66pt;width:34.02pt;height:13.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:320.66pt;width:34.02pt;height:13.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:334.58pt;width:34.02pt;height:15.36pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:334.58pt;width:34.02pt;height:15.36pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:334.58pt;width:34.02pt;height:15.36pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:334.58pt;width:34.02pt;height:15.36pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:334.58pt;width:34.02pt;height:15.36pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:334.58pt;width:34.02pt;height:15.36pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:334.58pt;width:34.02pt;height:15.36pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:349.94pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:349.94pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:349.94pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:349.94pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:349.94pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:349.94pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:349.94pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:363.38pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:363.38pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:363.38pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:363.38pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:363.38pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:363.38pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:363.38pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:0.00pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:272.16pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:306.18pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:340.20pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:374.22pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:408.24pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:442.26pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:476.28pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:510.30pt;top:376.82pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:0.00pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:34.02pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:68.04pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:102.06pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:136.08pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:170.10pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:204.12pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:272.16pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:306.18pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:340.20pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:374.22pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:408.24pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:442.26pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:476.28pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:510.30pt;top:390.26pt;width:34.02pt;height:13.44pt;background:#E2EDF8"></div>
+<div class="f" style="left:238.14pt;top:403.70pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:272.16pt;top:403.70pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:306.18pt;top:403.70pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:340.20pt;top:403.70pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:374.22pt;top:403.70pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:408.24pt;top:403.70pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:442.26pt;top:403.70pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:476.28pt;top:403.70pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:510.30pt;top:403.70pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:340.20pt;top:418.62pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:476.28pt;top:418.62pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:340.20pt;top:433.54pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:476.28pt;top:433.54pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:340.20pt;top:448.46pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:476.28pt;top:448.46pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:340.20pt;top:463.38pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:476.28pt;top:463.38pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:340.20pt;top:478.30pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:476.28pt;top:478.30pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:340.20pt;top:493.22pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:476.28pt;top:493.22pt;width:68.04pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:508.14pt;width:34.02pt;height:14.92pt;background:#CADDF1"></div>
+<div class="f" style="left:272.16pt;top:508.14pt;width:34.02pt;height:14.92pt;background:#CADDF1"></div>
+<div class="f" style="left:306.18pt;top:508.14pt;width:34.02pt;height:14.92pt;background:#CADDF1"></div>
+<div class="f" style="left:340.20pt;top:508.14pt;width:34.02pt;height:14.92pt;background:#CADDF1"></div>
+<div class="f" style="left:374.22pt;top:508.14pt;width:34.02pt;height:14.92pt;background:#CADDF1"></div>
+<div class="f" style="left:408.24pt;top:508.14pt;width:34.02pt;height:14.92pt;background:#CADDF1"></div>
+<div class="f" style="left:442.26pt;top:508.14pt;width:34.02pt;height:14.92pt;background:#CADDF1"></div>
+<div class="f" style="left:476.28pt;top:508.14pt;width:34.02pt;height:14.92pt;background:#CADDF1"></div>
+<div class="f" style="left:510.30pt;top:508.14pt;width:34.02pt;height:14.92pt;background:#CADDF1"></div>
+<div class="f" style="left:238.14pt;top:539.86pt;width:170.10pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:408.24pt;top:539.86pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:442.26pt;top:539.86pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:476.28pt;top:539.86pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:510.30pt;top:539.86pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:238.14pt;top:554.78pt;width:34.02pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:272.16pt;top:554.78pt;width:68.04pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:340.20pt;top:554.78pt;width:68.04pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:408.24pt;top:554.78pt;width:136.08pt;height:14.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:238.14pt;top:569.70pt;width:34.02pt;height:31.72pt;background:#DDE9F6"></div>
+<div class="f" style="left:408.24pt;top:586.50pt;width:136.08pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:601.42pt;width:34.02pt;height:32.92pt;background:#DDE9F6"></div>
+<div class="f" style="left:408.24pt;top:619.42pt;width:136.08pt;height:14.92pt;background:#EEF4FB"></div>
+<div class="f" style="left:238.14pt;top:649.26pt;width:102.06pt;height:14.92pt;background:#B9D1EC"></div>
+<div class="f" style="left:340.20pt;top:649.26pt;width:68.04pt;height:14.92pt;background:#B9D1EC"></div>
+<div class="f" style="left:408.24pt;top:649.26pt;width:68.04pt;height:14.92pt;background:#B9D1EC"></div>
+<div class="f" style="left:476.28pt;top:649.26pt;width:68.04pt;height:14.92pt;background:#B9D1EC"></div>
+<div class="f" style="left:238.14pt;top:682.18pt;width:34.02pt;height:14.92pt;background:#B9D1EC"></div>
+<div class="f" style="left:272.16pt;top:682.18pt;width:34.02pt;height:14.92pt;background:#B9D1EC"></div>
+<div class="f" style="left:306.18pt;top:682.18pt;width:34.02pt;height:14.92pt;background:#B9D1EC"></div>
+<div class="f" style="left:340.20pt;top:682.18pt;width:68.04pt;height:14.92pt;background:#B9D1EC"></div>
+<div class="f" style="left:408.24pt;top:682.18pt;width:68.04pt;height:14.92pt;background:#B9D1EC"></div>
+<div class="f" style="left:476.28pt;top:682.18pt;width:68.04pt;height:14.92pt;background:#B9D1EC"></div>
+<div class="h" style="left:68.04pt;top:calc(14.92pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:102.06pt;top:calc(14.92pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:136.08pt;top:calc(14.92pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:170.10pt;top:calc(14.92pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:204.12pt;top:calc(14.92pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(14.92pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(14.92pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(14.92pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(14.92pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(14.92pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(14.92pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:68.04pt;top:calc(29.84pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:102.06pt;top:calc(29.84pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:136.08pt;top:calc(29.84pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:170.10pt;top:calc(29.84pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:204.12pt;top:calc(29.84pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(29.84pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(29.84pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(29.84pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(29.84pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(29.84pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(29.84pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:68.04pt;top:calc(44.76pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:102.06pt;top:calc(44.76pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:136.08pt;top:calc(44.76pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:170.10pt;top:calc(44.76pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:204.12pt;top:calc(44.76pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(44.76pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(44.76pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(44.76pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(44.76pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(44.76pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(44.76pt - 0.5px);width:34.02pt;border-top:1px dashed #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:34.02pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:68.04pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:102.06pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:136.08pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:170.10pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:204.12pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(48.60pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:0.00pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:34.02pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:68.04pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:102.06pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:136.08pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:170.10pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:204.12pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(76.78pt - 1.5px);width:34.02pt;border-top:3px double #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(91.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(106.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(91.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(106.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(91.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(106.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(91.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(106.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(91.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(106.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(91.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(106.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(91.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(106.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(121.54pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(121.54pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(121.54pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(121.54pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(121.54pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(121.54pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(121.54pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(136.46pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(136.46pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(136.46pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(136.46pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(136.46pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(136.46pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(136.46pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(151.38pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(151.38pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(151.38pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(151.38pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(151.38pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(151.38pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(151.38pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(181.22pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(181.22pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(181.22pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(181.22pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(181.22pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(181.22pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(181.22pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(196.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(196.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(196.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(196.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(196.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(196.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(196.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(255.82pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(255.82pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(255.82pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(255.82pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(255.82pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(255.82pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(255.82pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(270.74pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(288.98pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(270.74pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(288.98pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(270.74pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(288.98pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(270.74pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(288.98pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(270.74pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(288.98pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(270.74pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(288.98pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(270.74pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(288.98pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(403.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(418.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(403.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(418.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(403.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(418.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(403.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(418.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(403.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(418.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(403.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(418.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(403.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(418.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(403.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(418.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(403.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(418.62pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(433.54pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:374.22pt;top:calc(433.54pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:476.28pt;top:calc(433.54pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:510.30pt;top:calc(433.54pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:340.20pt;top:calc(448.46pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:374.22pt;top:calc(448.46pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:476.28pt;top:calc(448.46pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:510.30pt;top:calc(448.46pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:340.20pt;top:calc(463.38pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:374.22pt;top:calc(463.38pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:476.28pt;top:calc(463.38pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:510.30pt;top:calc(463.38pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:340.20pt;top:calc(478.30pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:374.22pt;top:calc(478.30pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:476.28pt;top:calc(478.30pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:510.30pt;top:calc(478.30pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:340.20pt;top:calc(493.22pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:374.22pt;top:calc(493.22pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:476.28pt;top:calc(493.22pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:510.30pt;top:calc(493.22pt - 0.5px);width:34.02pt;border-top:1px dotted #BFBFBF"></div>
+<div class="h" style="left:238.14pt;top:calc(508.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(508.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(508.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(508.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(508.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(508.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(508.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(508.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(508.14pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(539.86pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(539.86pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(539.86pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(539.86pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(539.86pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(539.86pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(539.86pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(539.86pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(539.86pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(554.78pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(554.78pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(554.78pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(554.78pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(554.78pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(554.78pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(554.78pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(554.78pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(554.78pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(569.70pt - 0.5px);width:34.02pt;border-top:1px dotted #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(569.70pt - 0.5px);width:34.02pt;border-top:1px dotted #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(569.70pt - 0.5px);width:34.02pt;border-top:1px dotted #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(569.70pt - 0.5px);width:34.02pt;border-top:1px dotted #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(569.70pt - 0.5px);width:34.02pt;border-top:1px dotted #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(569.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(569.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(569.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(569.70pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(586.50pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(601.42pt - 0.5px);width:34.02pt;border-top:1px dotted #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(601.42pt - 0.5px);width:34.02pt;border-top:1px dotted #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(601.42pt - 0.5px);width:34.02pt;border-top:1px dotted #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(586.50pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(601.42pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(586.50pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(601.42pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(601.42pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(586.50pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(601.42pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(601.42pt - 0.5px);width:34.02pt;border-top:1px dotted #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(601.42pt - 0.5px);width:34.02pt;border-top:1px dotted #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(619.42pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(634.34pt - 0.5px);width:34.02pt;border-top:1px dotted #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(634.34pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(634.34pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(634.34pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(634.34pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(619.42pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(634.34pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(619.42pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(634.34pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(634.34pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(619.42pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(634.34pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(649.26pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(649.26pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(649.26pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(649.26pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(649.26pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(649.26pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(649.26pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(649.26pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(649.26pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(682.18pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(682.18pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(682.18pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(682.18pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(682.18pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(682.18pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(682.18pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(682.18pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(682.18pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:238.14pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:272.16pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:306.18pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:340.20pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:374.22pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:408.24pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:442.26pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:476.28pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="h" style="left:510.30pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div>
+<div class="v" style="top:76.78pt;left:calc(306.18pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:76.78pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:91.70pt;left:calc(306.18pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:91.70pt;left:calc(374.22pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:91.70pt;left:calc(442.26pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:91.70pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:106.62pt;left:calc(306.18pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:106.62pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:121.54pt;left:calc(306.18pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:121.54pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:136.46pt;left:calc(306.18pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:136.46pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:151.38pt;left:calc(306.18pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:151.38pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:166.30pt;left:calc(306.18pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:166.30pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:196.14pt;left:calc(306.18pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:196.14pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:211.06pt;left:calc(306.18pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:211.06pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:225.98pt;left:calc(306.18pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:225.98pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:240.90pt;left:calc(306.18pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:240.90pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:270.74pt;left:calc(306.18pt - 0.5px);height:18.24pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:270.74pt;left:calc(374.22pt - 0.5px);height:18.24pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:270.74pt;left:calc(442.26pt - 0.5px);height:18.24pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:270.74pt;left:calc(544.32pt - 0.5px);height:18.24pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:403.70pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:403.70pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:418.62pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:418.62pt;left:calc(340.20pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:418.62pt;left:calc(408.24pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:418.62pt;left:calc(476.28pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:418.62pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:433.54pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:433.54pt;left:calc(340.20pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:433.54pt;left:calc(408.24pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:433.54pt;left:calc(476.28pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:433.54pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:448.46pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:448.46pt;left:calc(340.20pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:448.46pt;left:calc(408.24pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:448.46pt;left:calc(476.28pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:448.46pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:463.38pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:463.38pt;left:calc(340.20pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:463.38pt;left:calc(408.24pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:463.38pt;left:calc(476.28pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:463.38pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:478.30pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:478.30pt;left:calc(340.20pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:478.30pt;left:calc(408.24pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:478.30pt;left:calc(476.28pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:478.30pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:493.22pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:493.22pt;left:calc(340.20pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:493.22pt;left:calc(408.24pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:493.22pt;left:calc(476.28pt - 0.5px);height:14.92pt;border-left:1px dotted #BFBFBF"></div>
+<div class="v" style="top:493.22pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:508.14pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:508.14pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:523.06pt;left:calc(238.14pt - 0.5px);height:16.80pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:523.06pt;left:calc(544.32pt - 0.5px);height:16.80pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:539.86pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:539.86pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:554.78pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:554.78pt;left:calc(272.16pt - 0.5px);height:14.92pt;border-left:1px dotted #000000"></div>
+<div class="v" style="top:554.78pt;left:calc(340.20pt - 0.5px);height:14.92pt;border-left:1px dotted #000000"></div>
+<div class="v" style="top:554.78pt;left:calc(408.24pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:554.78pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:569.70pt;left:calc(238.14pt - 0.5px);height:16.80pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:569.70pt;left:calc(272.16pt - 0.5px);height:16.80pt;border-left:1px dotted #000000"></div>
+<div class="v" style="top:569.70pt;left:calc(340.20pt - 0.5px);height:16.80pt;border-left:1px dotted #000000"></div>
+<div class="v" style="top:569.70pt;left:calc(408.24pt - 0.5px);height:16.80pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:569.70pt;left:calc(476.28pt - 0.5px);height:16.80pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:569.70pt;left:calc(510.30pt - 0.5px);height:16.80pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:569.70pt;left:calc(544.32pt - 0.5px);height:16.80pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:586.50pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:586.50pt;left:calc(272.16pt - 0.5px);height:14.92pt;border-left:1px dotted #000000"></div>
+<div class="v" style="top:586.50pt;left:calc(340.20pt - 0.5px);height:14.92pt;border-left:1px dotted #000000"></div>
+<div class="v" style="top:586.50pt;left:calc(408.24pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:586.50pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:601.42pt;left:calc(238.14pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:601.42pt;left:calc(272.16pt - 0.5px);height:18.00pt;border-left:1px dotted #000000"></div>
+<div class="v" style="top:601.42pt;left:calc(340.20pt - 0.5px);height:18.00pt;border-left:1px dotted #000000"></div>
+<div class="v" style="top:601.42pt;left:calc(408.24pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:601.42pt;left:calc(476.28pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:601.42pt;left:calc(510.30pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:601.42pt;left:calc(544.32pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:619.42pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:619.42pt;left:calc(272.16pt - 0.5px);height:14.92pt;border-left:1px dotted #000000"></div>
+<div class="v" style="top:619.42pt;left:calc(340.20pt - 0.5px);height:14.92pt;border-left:1px dotted #000000"></div>
+<div class="v" style="top:619.42pt;left:calc(408.24pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:619.42pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:649.26pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:649.26pt;left:calc(340.20pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:649.26pt;left:calc(408.24pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:649.26pt;left:calc(476.28pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:649.26pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:664.18pt;left:calc(238.14pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:664.18pt;left:calc(340.20pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:664.18pt;left:calc(408.24pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:664.18pt;left:calc(476.28pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:664.18pt;left:calc(544.32pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:682.18pt;left:calc(238.14pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:682.18pt;left:calc(340.20pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:682.18pt;left:calc(408.24pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:682.18pt;left:calc(476.28pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:682.18pt;left:calc(544.32pt - 0.5px);height:14.92pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:697.10pt;left:calc(238.14pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:697.10pt;left:calc(340.20pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:697.10pt;left:calc(408.24pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:697.10pt;left:calc(476.28pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="v" style="top:697.10pt;left:calc(544.32pt - 0.5px);height:18.00pt;border-left:1px solid #000000"></div>
+<div class="t" style="left:34.02pt;top:0.00pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>Project :</span></div>
+<label class="t in" style="left:68.04pt;top:0.00pt;width:204.12pt;height:14.92pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-c0="#000000"><input aria-label="D1" data-cell="D1" value=""></label>
+<div class="t" style="left:340.20pt;top:0.00pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>Engineering Design :</span></div>
+<label class="t in" style="left:374.22pt;top:0.00pt;width:170.10pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="M1" data-cell="M1" value=""></label>
+<div class="t" style="left:34.02pt;top:14.92pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>Owner :</span></div>
+<label class="t in" style="left:68.04pt;top:14.92pt;width:204.12pt;height:14.92pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-c0="#000000"><input aria-label="D2" data-cell="D2" value=""></label>
+<div class="t" style="left:340.20pt;top:14.92pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>Pile Footing No :</span></div>
+<label class="t in" style="left:374.22pt;top:14.92pt;width:170.10pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="M2" data-cell="M2" value=""></label>
+<div class="t" style="left:34.02pt;top:29.84pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>Location :</span></div>
+<label class="t in" style="left:68.04pt;top:29.84pt;width:204.12pt;height:14.92pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-c0="#000000"><input aria-label="D3" data-cell="D3" value=""></label>
+<div class="t" style="left:340.20pt;top:29.84pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>Date :</span></div>
+<label class="t in" style="left:374.22pt;top:29.84pt;width:170.10pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-c0="#000000"><input aria-label="M3" data-cell="M3" value=""></label>
+<div class="t" style="left:0.00pt;top:48.60pt;width:544.32pt;height:18.58pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000"><span>FOUNDATION DESIGN  ·  CONCRETE PILE FOUNDATION/ฐานรากเสาเข็ม</span></div>
+<div class="t" style="left:306.18pt;top:76.78pt;width:34.02pt;height:14.92pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>1  CONCRETE PIER DIMENSION</span></div>
+<div class="t" style="left:306.18pt;top:91.70pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>WIDTH:B =</span></div>
+<label class="t in" style="left:340.20pt;top:91.70pt;width:34.02pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="L9" data-cell="L9" data-k="9,12" data-f="0.000\ &quot;m.&quot;" value="0.250 m."></label>
+<div class="t" style="left:374.22pt;top:91.70pt;width:34.02pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>DEPTH:H =</span></div>
+<label class="t in" style="left:408.24pt;top:91.70pt;width:34.02pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="N9" data-cell="N9" data-k="9,14" data-f="0.000\ &quot;m.&quot;" value="0.250 m."></label>
+<div class="t" style="left:442.26pt;top:91.70pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>AREA:Ag =</span></div>
+<div class="t" style="left:476.28pt;top:91.70pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="9,16" data-c0="#000000" data-f="0.000\ &quot;sq.m.&quot;"><span>0.500 sq.m.</span></div>
+<div class="t" style="left:442.26pt;top:106.62pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>ELAVATION OF TOP FOOTING =</span></div>
+<label class="t in" style="left:476.28pt;top:106.62pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="P10" data-cell="P10" data-k="10,16" data-f="&quot;EL -&quot;0.00\ &quot;m.&quot;" value="EL -0.40 m."></label>
+<div class="t" style="left:306.18pt;top:121.54pt;width:34.02pt;height:14.92pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>2  LOAD DESIGN FROM PIER :  LOAD INPUT + WEIGHT OF PIER</span></div>
+<label class="t in" style="left:306.18pt;top:136.46pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="K12" data-cell="K12" data-k="12,11" data-f="#,###\ &quot;kg&quot;" value="40,000 kg"></label>
+<div class="t" style="left:374.22pt;top:136.46pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="12,13" data-c0="#000000" data-f="General"><span>+ (0.5 x 2,400 x 0.4)</span></div>
+<div class="t" style="left:442.26pt;top:136.46pt;width:34.02pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>=</span></div>
+<div class="t" style="left:476.28pt;top:136.46pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="12,16" data-c0="#000000" data-f="#,###\ &quot;kg&quot;"><span>40,480 kg</span></div>
+<div class="t" style="left:306.18pt;top:151.38pt;width:34.02pt;height:14.92pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>3  CONCRETE PILE TYPE</span></div>
+<div class="t" style="left:408.24pt;top:151.38pt;width:136.08pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF" data-k="13,14" data-c0="#0000FF" data-f="0.00&quot;m.&quot;"><span>CONCRETE PILE CIRCLE R.35 m.</span></div>
+<div class="t" style="left:306.18pt;top:166.30pt;width:170.10pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="14,11" data-c0="#000000" data-f="General"><span>BARING CAPACITY OF CONCRETE PILE CIRCLE R.35 m. =</span></div>
+<div class="t" style="left:476.28pt;top:166.30pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="14,16" data-c0="#000000" data-f="0.00\ &quot;kg/sq.cm.&quot;"><span>30000.00 kg/sq.cm.</span></div>
+<div class="t" style="left:306.18pt;top:181.22pt;width:34.02pt;height:14.92pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;text-decoration:underline;color:#000000"><span>4. RE-CHEECK TYPE OF FOOTING</span></div>
+<div class="t" style="left:306.18pt;top:196.14pt;width:34.02pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>4.1</span></div>
+<div class="t" style="left:442.26pt;top:196.14pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>SELF WEIGHT OF FOOTING  =</span></div>
+<div class="t" style="left:476.28pt;top:196.14pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="16,16" data-c0="#000000" data-f="0.00\ &quot;kg&quot;"><span>4048.00 kg</span></div>
+<div class="t" style="left:306.18pt;top:211.06pt;width:34.02pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>4.2</span></div>
+<div class="t" style="left:442.26pt;top:211.06pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="17,15" data-c0="#000000" data-f="General"><span>  LOAD ON FOOTING =  40480 + 4048 =</span></div>
+<div class="t" style="left:476.28pt;top:211.06pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="17,16" data-c0="#000000" data-f="#,###\ &quot;kg&quot;"><span>44,528 kg</span></div>
+<div class="t" style="left:306.18pt;top:225.98pt;width:34.02pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>4.3</span></div>
+<div class="t" style="left:442.26pt;top:225.98pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>TOTAL LOAD ON CONCRETE PILE : P =</span></div>
+<div class="t" style="left:476.28pt;top:225.98pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="18,16" data-c0="#000000" data-f="#,###\ &quot;kg&quot;"><span>22,264 kg</span></div>
+<div class="t" style="left:306.18pt;top:240.90pt;width:34.02pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>4.4</span></div>
+<div class="t" style="left:442.26pt;top:240.90pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="19,15" data-c0="#000000" data-f="General"><span>TYPE OF FOOTING = 44528 / 30000 =</span></div>
+<div class="t" style="left:476.28pt;top:240.90pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="19,16" data-c0="#000000" data-f="0.00"><span>FOOTING F2</span></div>
+<div class="t" style="left:306.18pt;top:255.82pt;width:34.02pt;height:14.92pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;text-decoration:underline;color:#000000"><span>5. DAIMENSION OF FOOTING</span></div>
+<div class="t" style="left:306.18pt;top:270.74pt;width:34.02pt;height:18.24pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>WIDTH:B =</span></div>
+<div class="t" style="left:340.20pt;top:270.74pt;width:34.02pt;height:18.24pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="21,12" data-c0="#000000" data-f="0.00&quot;m.&quot;"><span>0.52m.</span></div>
+<div class="t" style="left:374.22pt;top:270.74pt;width:34.02pt;height:18.24pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>DEPTH:H =</span></div>
+<div class="t" style="left:408.24pt;top:270.74pt;width:34.02pt;height:18.24pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="21,14" data-c0="#000000" data-f="0.00&quot;m.&quot;"><span>1.32m.</span></div>
+<div class="t" style="left:442.26pt;top:270.74pt;width:68.04pt;height:18.24pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>THICKNESS :t =</span></div>
+<label class="t in" style="left:510.30pt;top:270.74pt;width:34.02pt;height:18.24pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="Q21" data-cell="Q21" data-k="21,17" data-f="0.00&quot;m.&quot;" value="0.50m."></label>
+<div class="t" style="left:238.14pt;top:403.70pt;width:34.02pt;height:14.92pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>PARAMITER DESIGN</span></div>
+<label class="t in" style="left:442.26pt;top:403.70pt;width:34.02pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-c0="#000000"><input aria-label="O30" data-cell="O30" data-k="30,15" data-f="General" value="3"></label>
+<div class="t" style="left:306.18pt;top:418.62pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span> ALLOWABLE STRESS: fs =</span></div>
+<div class="t" style="left:340.20pt;top:418.62pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>1,700. ksc</span></div>
+<div class="t" style="left:442.26pt;top:418.62pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>EC =</span></div>
+<div class="t" style="left:476.28pt;top:418.62pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="31,16" data-c0="#000000" data-f="#,###.##\ &quot;ksc&quot;"><span>235,632.31 ksc</span></div>
+<div class="t" style="left:306.18pt;top:433.54pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>-  YEILD STRESS : fy =</span></div>
+<div class="t" style="left:340.20pt;top:433.54pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="32,12" data-c0="#000000" data-f="#,###.##\ &quot;ksc&quot;"><span>4,000. ksc</span></div>
+<div class="t" style="left:442.26pt;top:433.54pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>n = Es / Ec =</span></div>
+<div class="t" style="left:476.28pt;top:433.54pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="32,16" data-c0="#000000" data-f="#,##0.000"><span>8.658</span></div>
+<div class="t" style="left:204.12pt;top:448.46pt;width:34.02pt;height:14.92pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>- </span></div>
+<div class="t" style="left:306.18pt;top:448.46pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span> CONCRETE DENSITY =</span></div>
+<label class="t in" style="left:340.20pt;top:448.46pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="L33" data-cell="L33" data-k="33,12" data-f="#,###.##\ &quot;ksc&quot;" value="2,400. ksc"></label>
+<div class="t" style="left:442.26pt;top:448.46pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>k = 1/(1+fs/(n x fc) =</span></div>
+<div class="t" style="left:476.28pt;top:448.46pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="33,16" data-c0="#000000" data-f="#,##0.000"><span>0.355</span></div>
+<div class="t" style="left:238.14pt;top:463.38pt;width:102.06pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>-  CONCRETE COMP.STRESS: fc&#x27; =</span></div>
+<label class="t in" style="left:340.20pt;top:463.38pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="L34" data-cell="L34" data-k="34,12" data-f="#,###.##\ &quot;ksm&quot;" value="240. ksm"></label>
+<div class="t" style="left:442.26pt;top:463.38pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>j = 1- k/3 =</span></div>
+<div class="t" style="left:476.28pt;top:463.38pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="34,16" data-c0="#000000" data-f="#,##0.000"><span>0.882</span></div>
+<div class="t" style="left:306.18pt;top:478.30pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:flex-end;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>fc  =  0.45 x fc&#x27; =</span></div>
+<div class="t" style="left:340.20pt;top:478.30pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="35,12" data-c0="#000000" data-f="#,###.##\ &quot;ksc&quot;"><span>108. ksc</span></div>
+<div class="t" style="left:442.26pt;top:478.30pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>R = 0.5 x fc x k x j =</span></div>
+<div class="t" style="left:476.28pt;top:478.30pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="35,16" data-c0="#000000" data-f="#,##0.000"><span>16.895</span></div>
+<div class="t" style="left:306.18pt;top:493.22pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span> ES  =</span></div>
+<div class="t" style="left:340.20pt;top:493.22pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>2,040,000. ksc</span></div>
+<div class="t" style="left:442.26pt;top:493.22pt;width:34.02pt;height:14.92pt;justify-content:flex-end;align-items:center;white-space:nowrap;text-align:right;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span> COVERING    =</span></div>
+<label class="t in" style="left:476.28pt;top:493.22pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF" data-c0="#0000FF"><input aria-label="P36" data-cell="P36" data-k="36,16" data-f="0.00\ &quot;cm.&quot;" value="7.50 cm."></label>
+<div class="t" style="left:238.14pt;top:508.14pt;width:34.02pt;height:14.92pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>7. RE-CHECK DEPTH OF FOOTING : Mc = Rbd<span style="font-weight:700;font-size:11pt;color:#000000"><sup>2</sup></span></span></div>
+<div class="t" style="left:238.14pt;top:523.06pt;width:34.02pt;height:16.80pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>d =</span></div>
+<div class="t" style="left:272.16pt;top:523.06pt;width:136.08pt;height:16.80pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="38,10" data-c0="#000000" data-f="General"><span>Sqrt((6122.6x100 ) / (16.895 x 52 ) =</span></div>
+<div class="t" style="left:408.24pt;top:523.06pt;width:34.02pt;height:16.80pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="38,14" data-c0="#000000" data-f="0.00\ &quot;cm.&quot;"><span>26.40 cm.</span></div>
+<div class="t" style="left:442.26pt;top:523.06pt;width:34.02pt;height:16.80pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="38,15" data-c0="#000000" data-f="General"><span>&gt;</span></div>
+<div class="t" style="left:476.28pt;top:523.06pt;width:34.02pt;height:16.80pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="38,16" data-c0="#000000" data-f="General"><span>t =50cm</span></div>
+<div class="t" style="left:510.30pt;top:523.06pt;width:34.02pt;height:16.80pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'Segoe UI Symbol',sans-serif;font-size:12.0pt;font-weight:700;color:#000000;color:#00FF99;font-weight:700" data-k="38,17" data-c0="#000000" data-f="General" data-w="1"><span>✔</span></div>
+<div class="t" style="left:238.14pt;top:539.86pt;width:170.10pt;height:14.92pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>8. RE-CHECK BOTTOM  REINFORCEMENT  FOOTING</span></div>
+<div class="t" style="left:238.14pt;top:554.78pt;width:34.02pt;height:14.92pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>LAYER</span></div>
+<div class="t" style="left:272.16pt;top:554.78pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>REQUIRED</span></div>
+<div class="t" style="left:340.20pt;top:554.78pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>PROVIDED</span></div>
+<div class="t" style="left:408.24pt;top:554.78pt;width:136.08pt;height:14.92pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>เลือกหน้าตัดเหล็กเสริมล่าง Bottom layer</span></div>
+<div class="t" style="left:238.14pt;top:569.70pt;width:34.02pt;height:31.72pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>1st.</span></div>
+<div class="t" style="left:272.16pt;top:569.70pt;width:68.04pt;height:31.72pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="41,10" data-c0="#000000" data-f="0.00"><span>9.84</span></div>
+<div class="t" style="left:340.20pt;top:569.70pt;width:34.02pt;height:31.72pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="41,12" data-c0="#000000" data-f="0.00"><span>28.26</span></div>
+<div class="t" style="left:374.22pt;top:569.70pt;width:34.02pt;height:31.72pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'Segoe UI Symbol',sans-serif;font-size:24.0pt;font-weight:700;color:#000000;color:#00FF99;font-weight:700" data-k="41,13" data-c0="#000000" data-f="General" data-w="1"><span>✔</span></div>
+<label class="t in" style="left:408.24pt;top:569.70pt;width:34.02pt;height:16.80pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-c0="#000000"><input aria-label="N41" data-cell="N41" data-k="41,14" data-f="General" value="6"></label>
+<div class="t" style="left:476.28pt;top:569.70pt;width:34.02pt;height:16.80pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF"><span>9</span></div>
+<div class="t" style="left:510.30pt;top:569.70pt;width:34.02pt;height:16.80pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>เส้น</span></div>
+<div class="t" style="left:408.24pt;top:586.50pt;width:136.08pt;height:14.92pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="42,14" data-c0="#000000" data-f="General"><span>USE DB20 @ 0.041 m ( 1 Layer )</span></div>
+<div class="t" style="left:238.14pt;top:601.42pt;width:34.02pt;height:32.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>2nd.</span></div>
+<div class="t" style="left:272.16pt;top:601.42pt;width:68.04pt;height:32.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="43,10" data-c0="#000000" data-f="0.00"><span>30.00</span></div>
+<div class="t" style="left:340.20pt;top:601.42pt;width:34.02pt;height:32.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:14pt;font-weight:700;color:#000000" data-k="43,12" data-c0="#000000" data-f="0.00"><span>37.68</span></div>
+<div class="t" style="left:374.22pt;top:601.42pt;width:34.02pt;height:32.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'Segoe UI Symbol',sans-serif;font-size:24.0pt;font-weight:700;color:#000000;color:#00FF99;font-weight:700" data-k="43,13" data-c0="#000000" data-f="General" data-w="1"><span>✔</span></div>
+<label class="t in" style="left:408.24pt;top:601.42pt;width:34.02pt;height:18.00pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-c0="#000000"><input aria-label="N43" data-cell="N43" data-k="43,14" data-f="General" value="6"></label>
+<div class="t" style="left:476.28pt;top:601.42pt;width:34.02pt;height:18.00pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#0000FF"><span>12</span></div>
+<div class="t" style="left:510.30pt;top:601.42pt;width:34.02pt;height:18.00pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000"><span>เส้น</span></div>
+<div class="t" style="left:408.24pt;top:619.42pt;width:136.08pt;height:14.92pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000" data-k="44,14" data-c0="#000000" data-f="General"><span>USE DB20 @ 0.097 m ( 1 Layer )</span></div>
+<div class="t" style="left:238.14pt;top:634.34pt;width:34.02pt;height:14.92pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>9.  RE-CHECK  BEAM SHEAR AND PUNCHING SHEAR</span></div>
+<div class="t" style="left:238.14pt;top:649.26pt;width:102.06pt;height:14.92pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>Allowable Beam shear: Vc<span style="font-weight:700;font-size:11pt;color:#000000"><sub>b</sub></span></span></div>
+<div class="t" style="left:340.20pt;top:649.26pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>P&#x27; = (P/30) (x + 15)</span></div>
+<div class="t" style="left:408.24pt;top:649.26pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>Beam Shear Line 1</span></div>
+<div class="t" style="left:476.28pt;top:649.26pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>Beam Shear Line 2</span></div>
+<div class="t" style="left:238.14pt;top:664.18pt;width:34.02pt;height:18.00pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="47,9" data-c0="#000000" data-f="General" data-g="1"><span>0.29 x sqrt (240 )    =</span></div>
+<div class="t" style="left:306.18pt;top:664.18pt;width:34.02pt;height:18.00pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="47,11" data-c0="#000000" data-f="#,###.##\ &quot;ksc.&quot;" data-g="1"><span>4.49 ksc.</span></div>
+<div class="t" style="left:340.20pt;top:664.18pt;width:68.04pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="47,12" data-c0="#000000" data-f="#,###.##\ &quot;ksc.&quot;"><span>742.13 ksc.</span></div>
+<div class="t" style="left:408.24pt;top:664.18pt;width:34.02pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="47,14" data-c0="#000000" data-f="0.00\ &quot;ksc.&quot;"><span>0.34 ksc.</span></div>
+<div class="t" style="left:442.26pt;top:664.18pt;width:34.02pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'Segoe UI Symbol',sans-serif;font-size:16.0pt;font-weight:700;color:#000000;color:#00FF99;font-weight:700" data-k="47,15" data-c0="#000000" data-f="General" data-w="1"><span>✔</span></div>
+<div class="t" style="left:476.28pt;top:664.18pt;width:34.02pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="47,16" data-c0="#000000" data-f="0.00\ &quot;ksc.&quot;"><span>0.34 ksc.</span></div>
+<div class="t" style="left:510.30pt;top:664.18pt;width:34.02pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'Segoe UI Symbol',sans-serif;font-size:16.0pt;font-weight:700;color:#000000;color:#00FF99;font-weight:700" data-k="47,17" data-c0="#000000" data-f="General" data-w="1"><span>✔</span></div>
+<div class="t" style="left:238.14pt;top:682.18pt;width:34.02pt;height:14.92pt;justify-content:flex-start;align-items:flex-end;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>Allowable punching shear:Vc<span style="font-weight:700;font-size:11pt;color:#000000"><sub>p</sub></span></span></div>
+<div class="t" style="left:340.20pt;top:682.18pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>P&#x27; = (P/30) (x + 15)</span></div>
+<div class="t" style="left:408.24pt;top:682.18pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>V =<span style="font-size:9pt;color:#000000">∑</span><span style="font-weight:700;font-size:11pt;color:#000000"> (n x P&#x27;)</span></span></div>
+<div class="t" style="left:476.28pt;top:682.18pt;width:68.04pt;height:14.92pt;justify-content:center;align-items:flex-end;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;font-weight:700;color:#000000"><span>Punching shear</span></div>
+<div class="t" style="left:238.14pt;top:697.10pt;width:34.02pt;height:18.00pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="49,9" data-c0="#000000" data-f="General" data-g="1"><span>0.53x sqrt (240 )     =</span></div>
+<div class="t" style="left:306.18pt;top:697.10pt;width:34.02pt;height:18.00pt;justify-content:flex-start;align-items:center;white-space:nowrap;text-align:left;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="49,11" data-c0="#000000" data-f="#,###.##\ &quot;ksc.&quot;" data-g="1"><span>8.21 ksc.</span></div>
+<div class="t" style="left:340.20pt;top:697.10pt;width:68.04pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="49,12" data-c0="#000000" data-f="#,###.##\ &quot;ksc.&quot;"><span>16,141.4 ksc.</span></div>
+<div class="t" style="left:408.24pt;top:697.10pt;width:68.04pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="49,14" data-c0="#000000" data-f="#,###.##\ &quot;ksc.&quot;"><span>32,282.8 ksc.</span></div>
+<div class="t" style="left:476.28pt;top:697.10pt;width:34.02pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'THSarabunPSK-web','Sarabun',sans-serif;font-size:11pt;color:#000000" data-k="49,16" data-c0="#000000" data-f="0.00\ &quot;ksc.&quot;"><span>7.48 ksc.</span></div>
+<div class="t" style="left:510.30pt;top:697.10pt;width:34.02pt;height:18.00pt;justify-content:center;align-items:center;white-space:nowrap;text-align:center;font-family:'Segoe UI Symbol',sans-serif;font-size:16.0pt;font-weight:700;color:#000000;color:#00FF99;font-weight:700" data-k="49,17" data-c0="#000000" data-f="General" data-w="1"><span>✔</span></div>
+<img class="s" alt="" src="shape-1.png" style="left:31.69pt;top:79.23pt;width:221.92pt;height:230.76pt" data-chart="Chart 1">
+<img class="s" alt="" src="shape-6.png" style="left:0.56pt;top:296.25pt;width:182.14pt;height:109.53pt" data-chart="Chart 2">
+<select class="dd" aria-label="Drop Down 23" style="left:413.26pt;top:579.37pt;width:62.93pt;height:11.99pt" data-link="41,14"><option>SR-24  RB6</option><option>SR-24  RB9</option><option>SD-40  DB12</option><option>SD-40  DB16</option><option>SD-40  DB19</option><option selected>SD-40  DB20</option><option>SD-40  DB25</option></select>
+<select class="dd" aria-label="Drop Down 27" style="left:413.80pt;top:409.84pt;width:132.62pt;height:13.32pt" data-link="30,15"><option>เหล็กเส้นกลม - SR-24</option><option>เหล็กเส้นข้ออ้อย -SD-30</option><option selected>เหล็กเส้นข้ออ้อย -SD-40</option><option>เหล็กเส้นข้ออ้อย -SD-50</option></select>
+<img class="s" alt="" src="shape-9.png" style="left:182.65pt;top:296.77pt;width:182.14pt;height:109.59pt" data-chart="Chart 3">
+<img class="s" alt="" src="shape-10.png" style="left:8.74pt;top:550.20pt;width:240.82pt;height:171.72pt" data-chart="Chart 4">
+<img class="s" alt="" src="shape-11.png" style="left:364.74pt;top:296.25pt;width:182.14pt;height:109.53pt" data-chart="Chart 5">
+<select class="dd" aria-label="Drop Down 34" style="left:413.26pt;top:610.77pt;width:64.01pt;height:11.92pt" data-link="43,14"><option>SR-24  RB6</option><option>SR-24  RB9</option><option>SD-40  DB12</option><option>SD-40  DB16</option><option>SD-40  DB19</option><option selected>SD-40  DB20</option><option>SD-40  DB25</option></select>
+<img class="s" alt="" src="shape-22.png" style="left:4.69pt;top:410.24pt;width:236.09pt;height:186.97pt" data-chart="Chart 11"><div class="h" style="left:238.14pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div><div class="h" style="left:272.16pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div><div class="h" style="left:306.18pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div><div class="h" style="left:340.20pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div><div class="h" style="left:374.22pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div><div class="h" style="left:408.24pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div><div class="h" style="left:442.26pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div><div class="h" style="left:476.28pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div><div class="h" style="left:510.30pt;top:calc(715.10pt - 0.5px);width:34.02pt;border-top:1px solid #000000"></div></div></div></div>
+    <aside class="preview-col" aria-label="ตัวอย่างก่อนพิมพ์"><div class="preview-head"><b>ตัวอย่างก่อนพิมพ์ A4</b><span id="pageCount">1 หน้า</span><button type="button" id="printBtn">พิมพ์ / PDF</button></div><div class="preview" id="preview"></div></aside></div>
+    <script type="module" src="../engine/calc.js"></script><script src="../print-preview.js"></script>
+    <script>const params=new URLSearchParams(location.search);params.has("embed")&&document.body.classList.add("embed"),params.get("plan")!=="member"&&document.body.classList.add("free"),document.querySelectorAll(".bar button").forEach(e=>e.addEventListener("click",()=>{document.documentElement.style.setProperty("--zoom",e.dataset.z),document.querySelectorAll(".bar button").forEach(t=>t.setAttribute("aria-pressed",String(t===e)))}));
+</script>
+    </body></html>
